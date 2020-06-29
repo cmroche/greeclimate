@@ -4,9 +4,13 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setuptools.setup(
     name="greeclimate",
     version="0.1.0",
+    install_requires=requirements,
     author="Clifford Roche",
     author_email="",
     description="Discover, connect and control Gree based minisplit systems",
