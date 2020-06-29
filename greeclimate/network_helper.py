@@ -5,7 +5,6 @@ import logging
 import socket
 
 from Crypto.Cipher import AES
-from functools import reduce
 from ipaddress import IPv4Network
 
 from greeclimate.device_info import DeviceInfo
@@ -14,7 +13,6 @@ GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
 
 
 def _get_broadcast_addresses():
-    import ipaddress
     import netifaces
 
     broadcastAddrs = []
@@ -36,8 +34,7 @@ async def _search_on_interface(bcast, timeout):
     logger = logging.getLogger("gree_climate")
     logger.debug("Listening for devices on %s", bcast)
 
-    s = socket.socket(type=socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
-    s.settimeout(timeout)
+    s = create_socket(timeout)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
     payload = {'t': 'scan'}
@@ -50,9 +47,9 @@ async def _search_on_interface(bcast, timeout):
             if (len(d)) == 0:
                 continue
 
-            logger.debug("Received response from device search\n%s", d)
             response = json.loads(d)
             pack = decrypt_payload(response['pack'])
+            logger.debug("Received response from device search\n%s", pack)
             devices.append(DeviceInfo(
                 addr[0], addr[1], pack['cid'], pack['name']))
         except socket.timeout:
@@ -69,9 +66,6 @@ async def _search_on_interface(bcast, timeout):
 
 
 async def search_devices(timeout=10, broadcastAddrs=None):
-    logger = logging.getLogger("gree_climate")
-    logger.info("Starting Gree device discovery process")
-
     if not broadcastAddrs:
         broadcastAddrs = _get_broadcast_addresses()
 
@@ -88,6 +82,27 @@ async def search_devices(timeout=10, broadcastAddrs=None):
     return devices
 
 
+async def bind_device(device_info):
+    payload = {
+        "cid": "app",
+        "i": "1",
+        "t": "pack",
+        "uid": 0,
+        "tcid": device_info.mac,
+        "pack": {
+            "mac": device_info.mac,
+            "t": "bind",
+            "uid": 0
+        }
+    }
+
+    s = create_socket()
+    send_data(s, device_info.ip, device_info.port, payload)
+    r = receive_data(s)
+    if r["pack"]["t"] == "bindok":
+        return r["pack"]["key"]
+
+
 def decrypt_payload(payload, key=GENERIC_KEY):
     cipher = AES.new(key.encode(), AES.MODE_ECB)
     decoded = base64.b64decode(payload)
@@ -97,7 +112,30 @@ def decrypt_payload(payload, key=GENERIC_KEY):
 
 
 def encrypt_payload(payload, key=GENERIC_KEY):
+    def pad(s):
+        bs = 16
+        return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
+
     cipher = AES.new(key.encode(), AES.MODE_ECB)
-    encrypted = cipher.encrypt(json.dumps(payload)).encode()
-    encoded = base64.encode(encrypted).decode()
+    encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
+    encoded = base64.b64encode(encrypted).decode()
     return encoded
+
+
+def create_socket(timeout=60):
+    s = socket.socket(type=socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
+    s.settimeout(timeout)
+    return s
+
+
+def send_data(socket, ip, port, payload, key=GENERIC_KEY):
+    payload["pack"] = encrypt_payload(payload["pack"], key)
+    d = json.dumps(payload).encode()
+    socket.sendto(d, (ip, int(port)))
+
+
+def receive_data(socket, key=GENERIC_KEY):
+    d = socket.recv(2048)
+    payload = json.loads(d)
+    payload["pack"] = decrypt_payload(payload["pack"], key)
+    return payload

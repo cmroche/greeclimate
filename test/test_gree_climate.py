@@ -1,28 +1,30 @@
 import unittest
 
 from greeclimate.gree_climate import GreeClimate
+from greeclimate.device_info import DeviceInfo
+from unittest.mock import patch
 
 
 class GreeClimateTestCase(unittest.IsolatedAsyncioTestCase):
 
-    async def testShouldListDevicesWhenSearched(self):
+    @patch("greeclimate.network_helper.search_devices")
+    async def testShouldListDevicesWhenSearched(self, mock_search_devices):
         gree = GreeClimate()
+        mock_search_devices.return_value = [
+            DeviceInfo("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
+        ]
 
         devices = await gree.search_devices()
 
         self.assertIsNotNone(devices)
         self.assertGreater(len(devices), 0, "No devices were discovered")
 
-    # async def testShouldReturnKeyWhenBoundToDevice(self):
-    #     gree = GreeClimate()
+    @patch("greeclimate.network_helper.search_devices")
+    async def testShouldReturnEmptyListDevicesWhenNoDevicesFound(self, mock_search_devices):
+        gree = GreeClimate()
+        mock_search_devices.return_value = []
 
-    #     device = gree.bind_device(""" some kind of device id """)
+        devices = await gree.search_devices()
 
-    #     self.assertIsNotNone(device)
-
-    # async def testShouldReturnDeviceWhenRequested(self):
-    #     gree = GreeClimate()
-
-    #     device = gree.get_device(""" some kind of device id """)
-
-    #     self.assertIsNotNone(device)
+        self.assertIsNotNone(devices)
+        self.assertEquals(len(devices), 0)
