@@ -3,6 +3,7 @@ import base64
 import json
 import logging
 import socket
+import enum
 
 from Crypto.Cipher import AES
 from ipaddress import IPv4Network
@@ -10,6 +11,27 @@ from ipaddress import IPv4Network
 from greeclimate.device_info import DeviceInfo
 
 GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
+
+
+class Props(enum.Enum):
+    POWER = "Pow"
+    MODE = "Mod"
+    TEMP_SET = "SetTem"
+    TEMP_UNIT = "TemUn"
+    TEMP_BIT = "TemRec"
+    WIND_SPEED = "WdSpd"
+    FRESH_AIR = "Air"
+    XFAN = "Blo"
+    ANION = "Health"
+    SLEEP = "SwhSlp"
+    LIGHT = "Lig"
+    SWING_HORIZ = "SwingLfRig"
+    SWING_VERT = "SwUpDn"
+    QUIET = "Quiet"
+    TURBO = "Tur"
+    STEADY_HEAT = "StHt"
+    POWER_SAVE = "SvSt"
+    UNKNOWN_HEATCOOLTYPE = "HeatCoolType"
 
 
 def _get_broadcast_addresses():
@@ -97,10 +119,50 @@ async def bind_device(device_info):
     }
 
     s = create_socket()
-    send_data(s, device_info.ip, device_info.port, payload)
-    r = receive_data(s)
+    try:
+        send_data(s, device_info.ip, device_info.port, payload)
+        r = receive_data(s)
+    except Exception as e:
+        raise e
+    finally:
+        s.close()
+
     if r["pack"]["t"] == "bindok":
         return r["pack"]["key"]
+
+
+async def send_state(device_state, device_info, key=GENERIC_KEY):
+    pass
+
+
+async def request_state(properties, device_info, key=GENERIC_KEY):
+    payload = {
+        "cid": "app",
+        "i": 0,
+        "t": "pack",
+        "uid": 0,
+        "tcid": device_info.mac,
+        "pack": {
+            "mac": device_info.mac,
+            "t": "status",
+            "cols": []
+        }
+    }
+
+    payload["pack"]["cols"] = list(properties)
+
+    s = create_socket()
+    try:
+        send_data(s, device_info.ip, device_info.port, payload, key=key)
+        r = receive_data(s, key=key)
+    except Exception as e:
+        raise e
+    finally:
+        s.close()
+
+    cols = r["pack"]["cols"]
+    dat = r["pack"]["dat"]
+    return dict(zip(cols, dat))
 
 
 def decrypt_payload(payload, key=GENERIC_KEY):
