@@ -19,7 +19,7 @@ class Props(enum.Enum):
     TEMP_SET = "SetTem"
     TEMP_UNIT = "TemUn"
     TEMP_BIT = "TemRec"
-    WIND_SPEED = "WdSpd"
+    FAN_SPEED = "WdSpd"
     FRESH_AIR = "Air"
     XFAN = "Blo"
     ANION = "Health"
@@ -131,11 +131,35 @@ async def bind_device(device_info):
         return r["pack"]["key"]
 
 
-async def send_state(device_state, device_info, key=GENERIC_KEY):
-    pass
+def send_state(property_values, device_info, key=GENERIC_KEY):
+    payload = {
+        "cid": "app",
+        "i": 0,
+        "t": "pack",
+        "uid": 0,
+        "tcid": device_info.mac,
+        "pack": {
+            "opt": list(property_values.keys()),
+            "p": list(property_values.values()),
+            "t": "cmd"
+        }
+    }
+
+    s = create_socket()
+    try:
+        send_data(s, device_info.ip, device_info.port, payload, key=key)
+        r = receive_data(s, key=key)
+    except Exception as e:
+        raise e
+    finally:
+        s.close()
+
+    cols = r["pack"]["opt"]
+    dat = r["pack"]["val"]
+    return dict(zip(cols, dat))
 
 
-async def request_state(properties, device_info, key=GENERIC_KEY):
+def request_state(properties, device_info, key=GENERIC_KEY):
     payload = {
         "cid": "app",
         "i": 0,
@@ -145,11 +169,9 @@ async def request_state(properties, device_info, key=GENERIC_KEY):
         "pack": {
             "mac": device_info.mac,
             "t": "status",
-            "cols": []
+            "cols": list(properties)
         }
     }
-
-    payload["pack"]["cols"] = list(properties)
 
     s = create_socket()
     try:
