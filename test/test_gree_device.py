@@ -115,4 +115,3 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
             if p not in (Props.TEMP_BIT, Props.UNKNOWN_HEATCOOLTYPE):
                 self.assertIsNotNone(self._device.get_property(p), f"Property {p} was unexpectedly None")
                 self.assertEquals(self._device.get_property(p), self.getMockStateOn()[p.value])
-

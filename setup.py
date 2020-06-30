@@ -10,6 +10,7 @@ with open('requirements.txt') as f:
 setuptools.setup(
     name="greeclimate",
     version="0.1.0",
+    python_requires='>=3.8',
     install_requires=requirements,
     author="Clifford Roche",
     author_email="",
@@ -23,4 +24,4 @@ setuptools.setup(
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
     ],
-) 
+)

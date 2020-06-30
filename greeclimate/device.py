@@ -1,11 +1,9 @@
-import asyncio
 import logging
 import greeclimate.network_helper as nethelper
 
 from enum import IntEnum, unique
 from greeclimate.exceptions import DeviceNotBoundError
 from greeclimate.network_helper import Props
-from greeclimate.device_info import DeviceInfo
 
 
 @unique
@@ -58,6 +56,7 @@ class VerticalSwing(IntEnum):
     SwingMiddle = 9
     SwingLowerMiddle = 10
     SwingLower = 11
+
 
 class Device:
     """Class representing a physical device, it's state and properties.
