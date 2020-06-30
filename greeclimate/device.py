@@ -88,7 +88,7 @@ class Device:
     """
     def __init__(self, device_info):
         self._device_info = device_info
-        self._logger = logging.getLogger("gree_climate")
+        self._logger = logging.getLogger(__name__)
 
         self.device_key = None
 

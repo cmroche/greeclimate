@@ -53,7 +53,7 @@ def _get_broadcast_addresses():
 
 
 async def _search_on_interface(bcast, timeout):
-    logger = logging.getLogger("gree_climate")
+    logger = logging.getLogger(__name__)
     logger.debug("Listening for devices on %s", bcast)
 
     s = create_socket(timeout)

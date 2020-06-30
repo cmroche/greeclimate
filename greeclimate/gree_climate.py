@@ -7,21 +7,7 @@ class GreeClimate:
     _logger = None
 
     def __init__(self):
-        self._logger = logging.getLogger('gree_climate')
-        self._logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-        """ FOR NOW - We'll remove this a bit later on """
-        fh = logging.FileHandler('gree_climate.log')
-        fh.setLevel(logging.DEBUG)
-        fh.setFormatter(formatter)
-        self._logger.addHandler(fh)
-
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.DEBUG)
-        ch.setFormatter(formatter)
-        self._logger.addHandler(ch)
+        self._logger = logging.getLogger(__name__)
 
     async def search_devices(self):
         """ Sends a discovery broadcast packet on each network interface to
