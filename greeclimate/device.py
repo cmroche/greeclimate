@@ -1,14 +1,92 @@
 import asyncio
 import logging
-
 import greeclimate.network_helper as nethelper
+
+from enum import IntEnum, unique
 from greeclimate.exceptions import DeviceNotBoundError
 from greeclimate.network_helper import Props
 from greeclimate.device_info import DeviceInfo
 
 
-class Device:
+@unique
+class TemperatureUnits(IntEnum):
+    C = 0
+    F = 1
 
+
+@unique
+class Mode(IntEnum):
+    Auto = 0
+    Cool = 1
+    Dry = 2
+    Fan = 3
+    Heat = 4
+
+
+@unique
+class FanSpeed(IntEnum):
+    Auto = 0
+    Low = 1
+    MediumLow = 2
+    Medium = 3
+    MediumHigh = 4
+    High = 5
+
+
+@unique
+class HorizontalSwing(IntEnum):
+    Default = 0
+    FullSwing = 1
+    Left = 2
+    LeftCenter = 3
+    Center = 4
+    RightCenter = 5
+    Right = 6
+
+
+@unique
+class VerticalSwing(IntEnum):
+    Default = 0
+    FullSwing = 1
+    FixedUpper = 2
+    FixedUpperMiddle = 3
+    FixedMiddle = 4
+    FixedLowerMiddle = 5
+    FixedLower = 6
+    SwingUpper = 7
+    SwingUpperMiddle = 8
+    SwingMiddle = 9
+    SwingLowerMiddle = 10
+    SwingLower = 11
+
+class Device:
+    """Class representing a physical device, it's state and properties.
+
+    Devices must be bound, either by discovering their presence, or supplying a persistent
+    device key which is then used for communication (and encryption) with the unit. See the
+    `bind` function for more details on how to do this.
+
+    Once a device is bound occasionally call `update_state` to request and update state from
+    the HVAC, as it is possible that it changes state from other sources.
+
+    Attributes:
+        power: A boolean indicating if the unit is on or off
+        mode: An int indicating operating mode, see `Mode` enum for possible values
+        target_temperature: The target temperature, ignore if in Auto, Fan or Steady Heat mode
+        temperature_units: An int indicating unit of measurement, see `TemperatureUnits` enum for possible values
+        fan_speed: An int indicating fan speed, see `FanSpeed` enum for possible values
+        fresh_air: A boolean indicating if fresh air valve is open, if present
+        xfan: A boolean to enable the fan to dry the coil, only used for cool and dry modes
+        anion: A boolean to enable the ozone generator, if present
+        sleep: A boolean to enable sleep mode, which adjusts temperature over time
+        light: A boolean to enable the light on the unit, if present
+        horizontal_swing: An int to control the horizontal blade position, see `HorizontalSwing` enum for possible values
+        vertical_swing: An int to control the vertical blade position, see `VerticalSwing` enum for possible values
+        quiet: A boolean to enable quiet operation
+        turbo: A boolean to enable turbo operation (heat or cool faster initially)
+        steady_heat: When enabled unit will maintain a target temperature of 8 degrees C
+        power_save: A boolen to enable power save operation
+    """
     def __init__(self, device_info):
         self._device_info = device_info
         self._logger = logging.getLogger("gree_climate")
