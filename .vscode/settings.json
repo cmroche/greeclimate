@@ -1,7 +1,7 @@
 {
     "python.linting.enabled": true,
     "python.linting.lintOnSave": true,
-    "python.linting.flake8Enabled": true
+    "python.linting.flake8Enabled": true,
     "python.pythonPath": "/Users/cliffordroche/Projects/HomeAssistant/greeclimate/venv/bin/python3",
     "python.testing.unittestArgs": [
         "-v",
