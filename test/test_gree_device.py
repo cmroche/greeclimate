@@ -28,7 +28,7 @@ class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
         await device.bind()
 
         self.assertIsNotNone(device)
-        self.assertEquals(device.device_key, "St8Vw1Yz4Bc7Ef0H")
+        self.assertEqual(device.device_key, "St8Vw1Yz4Bc7Ef0H")
 
     @patch("greeclimate.network_helper.search_devices")
     @patch("greeclimate.network_helper.bind_device")
@@ -86,7 +86,7 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
 
         for p in Props:
             self.assertIsNotNone(self._device.get_property(p), f"Property {p} was unexpectedly None")
-            self.assertEquals(self._device.get_property(p), self.getMockState()[p.value])
+            self.assertEqual(self._device.get_property(p), self.getMockState()[p.value])
 
     @patch("greeclimate.network_helper.send_state")
     async def testShouldUpdatePropertiesWhenSet(self, mock_request):
@@ -114,4 +114,4 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
         for p in Props:
             if p not in (Props.TEMP_BIT, Props.UNKNOWN_HEATCOOLTYPE):
                 self.assertIsNotNone(self._device.get_property(p), f"Property {p} was unexpectedly None")
-                self.assertEquals(self._device.get_property(p), self.getMockStateOn()[p.value])
+                self.assertEqual(self._device.get_property(p), self.getMockStateOn()[p.value])

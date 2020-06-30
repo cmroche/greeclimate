@@ -27,4 +27,4 @@ class GreeClimateTestCase(unittest.IsolatedAsyncioTestCase):
         devices = await gree.search_devices()
 
         self.assertIsNotNone(devices)
-        self.assertEquals(len(devices), 0)
+        self.assertEqual(len(devices), 0)
