@@ -1,7 +1,14 @@
 
 
 class DeviceInfo:
+    """Device information class, used to identify and connect
 
+    Attributes
+        ip: IP address (ipv4 only) of the physical device
+        port: Usually this will always be 7000
+        mac: mac address, in the format 'aabbcc112233'
+        name: Name of unit, if available
+    """
     ip = None
     port = None
     mac = None

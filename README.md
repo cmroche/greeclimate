@@ -18,3 +18,7 @@ The easiest way to grab __greeclimate__ is through PyPI
 ## Use Gree Climate
 
 ....
+
+WIP, more details will come once testing is completed
+
+....
