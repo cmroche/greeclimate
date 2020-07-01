@@ -171,3 +171,25 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(
                     self._device.get_property(p), self.getMockStateOn()[p.value]
                 )
+
+    async def testShouldReturnPropertyValuesWhenNotInitialized(self):
+
+        for p in Props:
+            self.assertIsNone(self._device.get_property(p))
+
+        self.assertFalse(self._device.power)
+        self.assertIsNone(self._device.mode)
+        self.assertIsNone(self._device.target_temperature)
+        self.assertIsNone(self._device.temperature_units)
+        self.assertIsNone(self._device.fan_speed)
+        self.assertFalse(self._device.fresh_air)
+        self.assertFalse(self._device.xfan)
+        self.assertFalse(self._device.anion)
+        self.assertFalse(self._device.sleep)
+        self.assertFalse(self._device.light)
+        self.assertIsNone(self._device.horizontal_swing)
+        self.assertIsNone(self._device.vertical_swing)
+        self.assertFalse(self._device.quiet)
+        self.assertFalse(self._device.turbo)
+        self.assertFalse(self._device.steady_heat)
+        self.assertFalse(self._device.power_save)

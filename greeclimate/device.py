@@ -168,7 +168,7 @@ class Device:
 
     @property
     def mode(self) -> int:
-        return int(self.get_property(Props.MODE))
+        return self.get_property(Props.MODE)
 
     @mode.setter
     def mode(self, value: int):
@@ -176,7 +176,7 @@ class Device:
 
     @property
     def target_temperature(self) -> int:
-        return int(self.get_property(Props.TEMP_SET))
+        return self.get_property(Props.TEMP_SET)
 
     @target_temperature.setter
     def target_temperature(self, value: int):
@@ -184,7 +184,7 @@ class Device:
 
     @property
     def temperature_units(self) -> int:
-        return int(self.get_property(Props.TEMP_UNIT))
+        return self.get_property(Props.TEMP_UNIT)
 
     @temperature_units.setter
     def temperature_units(self, value: int):
@@ -192,7 +192,7 @@ class Device:
 
     @property
     def fan_speed(self) -> int:
-        return int(self.get_property(Props.FAN_SPEED))
+        return self.get_property(Props.FAN_SPEED)
 
     @fan_speed.setter
     def fan_speed(self, value: int):
@@ -240,7 +240,7 @@ class Device:
 
     @property
     def horizontal_swing(self) -> int:
-        return int(self.get_property(Props.SWING_HORIZ))
+        return self.get_property(Props.SWING_HORIZ)
 
     @horizontal_swing.setter
     def horizontal_swing(self, value: int):
@@ -248,7 +248,7 @@ class Device:
 
     @property
     def vertical_swing(self) -> int:
-        return int(self.get_property(Props.SWING_VERT))
+        return self.get_property(Props.SWING_VERT)
 
     @vertical_swing.setter
     def vertical_swing(self, value: int):
@@ -256,7 +256,7 @@ class Device:
 
     @property
     def quiet(self) -> bool:
-        return bool(self.get_property(Props.QUIET))
+        return self.get_property(Props.QUIET)
 
     @quiet.setter
     def quiet(self, value: bool):
