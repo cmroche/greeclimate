@@ -163,7 +163,7 @@ class Device:
         return bool(self.get_property(Props.POWER))
 
     @power.setter
-    def power(self, value):
+    def power(self, value: int):
         self.set_property(Props.POWER, int(value))
 
     @property
@@ -171,7 +171,7 @@ class Device:
         return int(self.get_property(Props.MODE))
 
     @mode.setter
-    def mode(self, value):
+    def mode(self, value: int):
         self.set_property(Props.MODE, int(value))
 
     @property
@@ -179,7 +179,7 @@ class Device:
         return int(self.get_property(Props.TEMP_SET))
 
     @target_temperature.setter
-    def target_temperature(self, value):
+    def target_temperature(self, value: int):
         self.set_property(Props.TEMP_SET, int(value))
 
     @property
@@ -187,7 +187,7 @@ class Device:
         return int(self.get_property(Props.TEMP_UNIT))
 
     @temperature_units.setter
-    def temperature_units(self, value):
+    def temperature_units(self, value: int):
         self.set_property(Props.TEMP_UNIT, int(value))
 
     @property
@@ -195,7 +195,7 @@ class Device:
         return int(self.get_property(Props.FAN_SPEED))
 
     @fan_speed.setter
-    def fan_speed(self, value):
+    def fan_speed(self, value: int):
         self.set_property(Props.FAN_SPEED, int(value))
 
     @property
@@ -203,7 +203,7 @@ class Device:
         return bool(self.get_property(Props.FRESH_AIR))
 
     @fresh_air.setter
-    def fresh_air(self, value):
+    def fresh_air(self, value: bool):
         self.set_property(Props.FRESH_AIR, int(value))
 
     @property
@@ -211,7 +211,7 @@ class Device:
         return bool(self.get_property(Props.XFAN))
 
     @xfan.setter
-    def xfan(self, value):
+    def xfan(self, value: bool):
         self.set_property(Props.XFAN, int(value))
 
     @property
@@ -219,7 +219,7 @@ class Device:
         return bool(self.get_property(Props.ANION))
 
     @anion.setter
-    def anion(self, value):
+    def anion(self, value: bool):
         self.set_property(Props.ANION, int(value))
 
     @property
@@ -227,7 +227,7 @@ class Device:
         return bool(self.get_property(Props.SLEEP))
 
     @sleep.setter
-    def sleep(self, value):
+    def sleep(self, value: bool):
         self.set_property(Props.SLEEP, int(value))
 
     @property
@@ -235,7 +235,7 @@ class Device:
         return bool(self.get_property(Props.LIGHT))
 
     @light.setter
-    def light(self, value):
+    def light(self, value: bool):
         self.set_property(Props.LIGHT, int(value))
 
     @property
@@ -243,7 +243,7 @@ class Device:
         return int(self.get_property(Props.SWING_HORIZ))
 
     @horizontal_swing.setter
-    def horizontal_swing(self, value):
+    def horizontal_swing(self, value: int):
         self.set_property(Props.SWING_HORIZ, int(value))
 
     @property
@@ -251,7 +251,7 @@ class Device:
         return int(self.get_property(Props.SWING_VERT))
 
     @vertical_swing.setter
-    def vertical_swing(self, value):
+    def vertical_swing(self, value: int):
         self.set_property(Props.SWING_VERT, int(value))
 
     @property
@@ -259,7 +259,7 @@ class Device:
         return bool(self.get_property(Props.QUIET))
 
     @quiet.setter
-    def quiet(self, value):
+    def quiet(self, value: bool):
         self.set_property(Props.QUIET, int(value))
 
     @property
@@ -267,7 +267,7 @@ class Device:
         return bool(self.get_property(Props.TURBO))
 
     @turbo.setter
-    def turbo(self, value):
+    def turbo(self, value: bool):
         self.set_property(Props.TURBO, int(value))
 
     @property
@@ -275,7 +275,7 @@ class Device:
         return bool(self.get_property(Props.STEADY_HEAT))
 
     @steady_heat.setter
-    def steady_heat(self, value):
+    def steady_heat(self, value: bool):
         self.set_property(Props.STEADY_HEAT, int(value))
 
     @property
@@ -283,6 +283,6 @@ class Device:
         return bool(self.get_property(Props.POWER_SAVE))
 
     @power_save.setter
-    def power_save(self, value):
+    def power_save(self, value: bool):
         self.set_property(Props.POWER_SAVE, int(value))
 

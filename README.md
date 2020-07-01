@@ -19,7 +19,7 @@ The easiest way to grab **greeclimate** is through PyPI
 
 ## Use Gree Climate
 
-### Findind and binding to devices
+### Finding and binding to devices
 
 Scan the network for devices, select a device and immediately bind. See the notes below for caveats.
 
@@ -45,3 +45,33 @@ except Exception:
 Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.
 
 Binding is incredibly finnicky, if you do not have the device key you must first scan and re-bind. The device will not responding to binding requests immediately proceeding a scan.
+
+### Update device state
+
+It's possible for devices to be updated from external sources, to update the `Device` internal state with the physical device call `Device.update_state()`
+
+### Properties
+
+There are several properties representing the state of the HVAC. Setting these properties will command the HVAC to change state.
+
+Not all properties are supported on each device, in the event a property isn't supported commands to the HVAC will simply be ignored.
+
+```python
+device = Device(...)
+device.power = True
+device.mode = Mode.Auto
+device.target_temperature = 25
+device.temperature_units = TemperatureUnits.C
+device.fan_speed = FanSpeed.Auto
+device.fresh_air = True
+device.xfan = True
+device.anion = True
+device.sleep = True
+device.light = True
+device.horizontal_swing = HorizontalSwing.FullSwing
+device.vertical_swing = VerticalSwing.FullSwing
+device.quiet = True
+device.turbo = True
+device.steady_heat = True
+device.power_save = True
+```
