@@ -1,16 +1,15 @@
-
 import setuptools
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-with open('requirements.txt') as f:
+with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
 setuptools.setup(
     name="greeclimate",
-    version="0.2.0",
-    python_requires='>=3.6',
+    version="0.3.0",
+    python_requires=">=3.6",
     install_requires=requirements,
     author="Clifford Roche",
     author_email="",
