@@ -1,5 +1,3 @@
-
-
 class DeviceInfo:
     """Device information class, used to identify and connect
 
@@ -9,6 +7,7 @@ class DeviceInfo:
         mac: mac address, in the format 'aabbcc112233'
         name: Name of unit, if available
     """
+
     ip = None
     port = None
     mac = None
