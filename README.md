@@ -21,7 +21,7 @@ The easiest way to grab **greeclimate** is through PyPI
 
 ### Findind and binding to devices
 
-Scan the network for devices, select a decive and immediately bind. See the notes below for caveats.
+Scan the network for devices, select a device and immediately bind. See the notes below for caveats.
 
 ```python
 try:
