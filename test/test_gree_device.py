@@ -163,6 +163,10 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
         self._device.steady_heat = True
         self._device.power_save = True
 
+        await self._device.push_state_update()
+
+        mock_request.assert_called_once()
+
         for p in Props:
             if p not in (Props.TEMP_BIT, Props.UNKNOWN_HEATCOOLTYPE):
                 self.assertIsNotNone(

@@ -149,7 +149,7 @@ class Device:
 
         props = {}
         for name in self._dirty:
-            value = self._properties.get(p)
+            value = self._properties.get(name)
             self._logger.debug("Sending remote state update %s -> %s", name, value)
             props[name] = value
 
