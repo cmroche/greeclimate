@@ -12,6 +12,8 @@ from greeclimate.device_info import DeviceInfo
 
 GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
 
+_LOGGER = logging.getLogger(__name__)
+
 
 class Props(enum.Enum):
     POWER = "Pow"
@@ -204,6 +206,7 @@ def create_socket(timeout=60):
 
 
 def send_data(socket, ip, port, payload, key=GENERIC_KEY):
+    _LOGGER.debug("Sending packet:\n%s", json.dumps(payload))
     payload["pack"] = encrypt_payload(payload["pack"], key)
     d = json.dumps(payload).encode()
     socket.sendto(d, (ip, int(port)))
@@ -213,4 +216,5 @@ def receive_data(socket, key=GENERIC_KEY):
     d = socket.recv(2048)
     payload = json.loads(d)
     payload["pack"] = decrypt_payload(payload["pack"], key)
+    _LOGGER.debug("Recived packet:\n%s", json.dumps(payload))
     return payload
