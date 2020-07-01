@@ -86,6 +86,7 @@ class Device:
         steady_heat: When enabled unit will maintain a target temperature of 8 degrees C
         power_save: A boolen to enable power save operation
     """
+
     def __init__(self, device_info):
         self._device_info = device_info
         self._logger = logging.getLogger(__name__)
@@ -96,16 +97,20 @@ class Device:
         self._properties = None
 
     async def bind(self, key=None):
-        """ Run the binding procedure. Binding happens two ways:
+        """ Run the binding procedure.
+        
+        Binding is a finnicky procedure, and happens in 1 of 2 ways:
             1 - Without the key, binding must pass the device info structure immediately following
                 the search devices procedure. There is only a small window to complete registration.
             2 - With a key, binding is implicit and no further action is required
 
             Both approaches result in a device_key which is used as like a persitent session id.
+
+        Raises:
+            socket.timeout: If binding was unsuccessful (the device didn't respond.)
         """
 
-        self._logger.info(
-            "Starting device binding to %s", str(self._device_info))
+        self._logger.info("Starting device binding to %s", str(self._device_info))
 
         if key:
             self.device_key = key
@@ -113,18 +118,21 @@ class Device:
             self.device_key = await nethelper.bind_device(self._device_info)
 
         if self.device_key:
-            self._logger.info(
-                "Bound to device using key %s", self.device_key)
+            self._logger.info("Bound to device using key %s", self.device_key)
 
     async def update_state(self):
         """ Update the internal state of the device structure of the physical device """
         if not self.device_key:
             raise DeviceNotBoundError
 
-        self._logger.debug("Updating device properties for (%s)", str(self._device_info))
+        self._logger.debug(
+            "Updating device properties for (%s)", str(self._device_info)
+        )
 
         props = [x.value for x in Props]
-        self._properties = nethelper.request_state(props, self._device_info, self.device_key)
+        self._properties = nethelper.request_state(
+            props, self._device_info, self.device_key
+        )
 
     def get_property(self, name):
         """ Generic lookup of properties tracked from the physical device """
@@ -143,100 +151,135 @@ class Device:
             self._properties[name.value] = value
 
         self._logger.debug("Sending remote state update %s -> %s", name, value)
-        nethelper.send_state({name.value: value}, self._device_info, key=self.device_key)
+        nethelper.send_state(
+            {name.value: value}, self._device_info, key=self.device_key
+        )
 
     @property
-    def power(self) -> bool: return bool(self.get_property(Props.POWER))
+    def power(self) -> bool:
+        return bool(self.get_property(Props.POWER))
 
     @power.setter
-    def power(self, value): self.set_property(Props.POWER, int(value))
+    def power(self, value):
+        self.set_property(Props.POWER, int(value))
 
     @property
-    def mode(self) -> int: return int(self.get_property(Props.MODE))
+    def mode(self) -> int:
+        return int(self.get_property(Props.MODE))
 
     @mode.setter
-    def mode(self, value): self.set_property(Props.MODE, int(value))
+    def mode(self, value):
+        self.set_property(Props.MODE, int(value))
 
     @property
-    def target_temperature(self) -> int: return int(self.get_property(Props.TEMP_SET))
+    def target_temperature(self) -> int:
+        return int(self.get_property(Props.TEMP_SET))
 
     @target_temperature.setter
-    def target_temperature(self, value): self.set_property(Props.TEMP_SET, int(value))
+    def target_temperature(self, value):
+        self.set_property(Props.TEMP_SET, int(value))
 
     @property
-    def temperature_units(self) -> int: return int(self.get_property(Props.TEMP_UNIT))
+    def temperature_units(self) -> int:
+        return int(self.get_property(Props.TEMP_UNIT))
 
     @temperature_units.setter
-    def temperature_units(self, value): self.set_property(Props.TEMP_UNIT, int(value))
+    def temperature_units(self, value):
+        self.set_property(Props.TEMP_UNIT, int(value))
 
     @property
-    def fan_speed(self) -> int: return int(self.get_property(Props.FAN_SPEED))
+    def fan_speed(self) -> int:
+        return int(self.get_property(Props.FAN_SPEED))
 
     @fan_speed.setter
-    def fan_speed(self, value): self.set_property(Props.FAN_SPEED, int(value))
+    def fan_speed(self, value):
+        self.set_property(Props.FAN_SPEED, int(value))
 
     @property
-    def fresh_air(self) -> bool: return bool(self.get_property(Props.FRESH_AIR))
+    def fresh_air(self) -> bool:
+        return bool(self.get_property(Props.FRESH_AIR))
 
     @fresh_air.setter
-    def fresh_air(self, value): self.set_property(Props.FRESH_AIR, int(value))
+    def fresh_air(self, value):
+        self.set_property(Props.FRESH_AIR, int(value))
 
     @property
-    def xfan(self) -> bool: return bool(self.get_property(Props.XFAN))
+    def xfan(self) -> bool:
+        return bool(self.get_property(Props.XFAN))
 
     @xfan.setter
-    def xfan(self, value): self.set_property(Props.XFAN, int(value))
+    def xfan(self, value):
+        self.set_property(Props.XFAN, int(value))
 
     @property
-    def anion(self) -> bool: return bool(self.get_property(Props.ANION))
+    def anion(self) -> bool:
+        return bool(self.get_property(Props.ANION))
 
     @anion.setter
-    def anion(self, value): self.set_property(Props.ANION, int(value))
+    def anion(self, value):
+        self.set_property(Props.ANION, int(value))
 
     @property
-    def sleep(self) -> bool: return bool(self.get_property(Props.SLEEP))
+    def sleep(self) -> bool:
+        return bool(self.get_property(Props.SLEEP))
 
     @sleep.setter
-    def sleep(self, value): self.set_property(Props.SLEEP, int(value))
+    def sleep(self, value):
+        self.set_property(Props.SLEEP, int(value))
 
     @property
-    def light(self) -> bool: return bool(self.get_property(Props.LIGHT))
+    def light(self) -> bool:
+        return bool(self.get_property(Props.LIGHT))
 
     @light.setter
-    def light(self, value): self.set_property(Props.LIGHT, int(value))
+    def light(self, value):
+        self.set_property(Props.LIGHT, int(value))
 
     @property
-    def horizontal_swing(self) -> int: return int(self.get_property(Props.SWING_HORIZ))
+    def horizontal_swing(self) -> int:
+        return int(self.get_property(Props.SWING_HORIZ))
 
     @horizontal_swing.setter
-    def horizontal_swing(self, value): self.set_property(Props.SWING_HORIZ, int(value))
+    def horizontal_swing(self, value):
+        self.set_property(Props.SWING_HORIZ, int(value))
 
     @property
-    def vertical_swing(self) -> int: return int(self.get_property(Props.SWING_VERT))
+    def vertical_swing(self) -> int:
+        return int(self.get_property(Props.SWING_VERT))
 
     @vertical_swing.setter
-    def vertical_swing(self, value): self.set_property(Props.SWING_VERT, int(value))
+    def vertical_swing(self, value):
+        self.set_property(Props.SWING_VERT, int(value))
 
     @property
-    def quiet(self) -> bool: return bool(self.get_property(Props.QUIET))
+    def quiet(self) -> bool:
+        return bool(self.get_property(Props.QUIET))
 
     @quiet.setter
-    def quiet(self, value): self.set_property(Props.QUIET, int(value))
+    def quiet(self, value):
+        self.set_property(Props.QUIET, int(value))
 
     @property
-    def turbo(self) -> bool: return bool(self.get_property(Props.TURBO))
+    def turbo(self) -> bool:
+        return bool(self.get_property(Props.TURBO))
 
     @turbo.setter
-    def turbo(self, value): self.set_property(Props.TURBO, int(value))
+    def turbo(self, value):
+        self.set_property(Props.TURBO, int(value))
 
     @property
-    def steady_heat(self) -> bool: return bool(self.get_property(Props.STEADY_HEAT))
+    def steady_heat(self) -> bool:
+        return bool(self.get_property(Props.STEADY_HEAT))
 
     @steady_heat.setter
-    def steady_heat(self, value): self.set_property(Props.STEADY_HEAT, int(value))
+    def steady_heat(self, value):
+        self.set_property(Props.STEADY_HEAT, int(value))
 
     @property
-    def power_save(self) -> bool: return bool(self.get_property(Props.POWER_SAVE))
+    def power_save(self) -> bool:
+        return bool(self.get_property(Props.POWER_SAVE))
 
     @power_save.setter
-    def power_save(self, value): self.set_property(Props.POWER_SAVE, int(value))
+    def power_save(self, value):
+        self.set_property(Props.POWER_SAVE, int(value))
+
