@@ -96,6 +96,7 @@ class Device:
 
         """ Device properties """
         self._properties = None
+        self._dirty = []
 
     async def bind(self, key=None):
         """ Run the binding procedure.
@@ -139,6 +140,22 @@ class Device:
             props, self.device_info, self.device_key
         )
 
+    async def push_state_update(self):
+        """ Push any pending state updates to the unit """
+        if not self._dirty:
+            return
+
+        self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
+
+        props = {}
+        for name in self._dirty:
+            value = self._properties.get(p)
+            self._logger.debug("Sending remote state update %s -> %s", name, value)
+            props[name] = value
+
+        self._dirty.clear()
+        nethelper.send_state(props, self.device_info, key=self.device_key)
+
     def get_property(self, name):
         """ Generic lookup of properties tracked from the physical device """
         if self._properties:
@@ -154,9 +171,8 @@ class Device:
             return
         else:
             self._properties[name.value] = value
-
-        self._logger.debug("Sending remote state update %s -> %s", name, value)
-        nethelper.send_state({name.value: value}, self.device_info, key=self.device_key)
+            if name.value not in self._dirty:
+                self._dirty.append(name.value)
 
     @property
     def power(self) -> bool:

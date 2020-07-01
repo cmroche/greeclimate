@@ -58,6 +58,8 @@ There are several properties representing the state of the HVAC. Setting these p
 
 Not all properties are supported on each device, in the event a property isn't supported commands to the HVAC will simply be ignored.
 
+When setting a value it is cached but not pushed to the device until `Device.push_state_update()` is called.
+
 ```python
 device = Device(...)
 device.power = True
@@ -76,4 +78,7 @@ device.quiet = True
 device.turbo = True
 device.steady_heat = True
 device.power_save = True
+
+# Send the state update to the HVAC
+await device.push_state_update()
 ```
