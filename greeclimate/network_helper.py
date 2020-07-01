@@ -59,7 +59,7 @@ async def _search_on_interface(bcast, timeout):
     s = create_socket(timeout)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-    payload = {'t': 'scan'}
+    payload = {"t": "scan"}
     s.sendto(json.dumps(payload).encode(), (bcast, 7000))
 
     devices = []
@@ -70,30 +70,29 @@ async def _search_on_interface(bcast, timeout):
                 continue
 
             response = json.loads(d)
-            pack = decrypt_payload(response['pack'])
+            pack = decrypt_payload(response["pack"])
             logger.debug("Received response from device search\n%s", pack)
-            devices.append(DeviceInfo(
-                addr[0], addr[1], pack['cid'], pack['name']))
+            devices.append(DeviceInfo(addr[0], addr[1], pack["cid"], pack["name"]))
         except socket.timeout:
             """ Intentionally unprocessed exception """
             break
         except json.JSONDecodeError:
             logger.debug("Unable to decode device search response payload")
         except Exception as e:
-            logging.error(
-                "Unable to search devices due to an exception %s", str(e))
+            logging.error("Unable to search devices due to an exception %s", str(e))
 
     s.close()
     return devices
 
 
-async def search_devices(timeout=10, broadcastAddrs=None):
+async def search_devices(timeout=2, broadcastAddrs=None):
     if not broadcastAddrs:
         broadcastAddrs = _get_broadcast_addresses()
 
     broadcastAddrs = list(broadcastAddrs)
     done, pending = await asyncio.wait(
-        [_search_on_interface(b, timeout=timeout) for b in broadcastAddrs])
+        [_search_on_interface(b, timeout=timeout) for b in broadcastAddrs]
+    )
 
     devices = []
     for task in done:
@@ -111,11 +110,7 @@ async def bind_device(device_info):
         "t": "pack",
         "uid": 0,
         "tcid": device_info.mac,
-        "pack": {
-            "mac": device_info.mac,
-            "t": "bind",
-            "uid": 0
-        }
+        "pack": {"mac": device_info.mac, "t": "bind", "uid": 0},
     }
 
     s = create_socket()
@@ -141,8 +136,8 @@ def send_state(property_values, device_info, key=GENERIC_KEY):
         "pack": {
             "opt": list(property_values.keys()),
             "p": list(property_values.values()),
-            "t": "cmd"
-        }
+            "t": "cmd",
+        },
     }
 
     s = create_socket()
@@ -166,11 +161,7 @@ def request_state(properties, device_info, key=GENERIC_KEY):
         "t": "pack",
         "uid": 0,
         "tcid": device_info.mac,
-        "pack": {
-            "mac": device_info.mac,
-            "t": "status",
-            "cols": list(properties)
-        }
+        "pack": {"mac": device_info.mac, "t": "status", "cols": list(properties)},
     }
 
     s = create_socket()
@@ -191,7 +182,7 @@ def decrypt_payload(payload, key=GENERIC_KEY):
     cipher = AES.new(key.encode(), AES.MODE_ECB)
     decoded = base64.b64decode(payload)
     decrypted = cipher.decrypt(decoded).decode()
-    t = decrypted.replace(decrypted[decrypted.rindex('}')+1:], '')
+    t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
     return json.loads(t)
 
 
