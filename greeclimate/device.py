@@ -88,9 +88,9 @@ class Device:
     """
 
     def __init__(self, device_info):
-        self._device_info = device_info
         self._logger = logging.getLogger(__name__)
 
+        self.device_info = device_info
         self.device_key = None
 
         """ Device properties """
@@ -110,12 +110,12 @@ class Device:
             socket.timeout: If binding was unsuccessful (the device didn't respond.)
         """
 
-        self._logger.info("Starting device binding to %s", str(self._device_info))
+        self._logger.info("Starting device binding to %s", str(self.device_info))
 
         if key:
             self.device_key = key
         else:
-            self.device_key = await nethelper.bind_device(self._device_info)
+            self.device_key = await nethelper.bind_device(self.device_info)
 
         if self.device_key:
             self._logger.info("Bound to device using key %s", self.device_key)
@@ -125,13 +125,11 @@ class Device:
         if not self.device_key:
             raise DeviceNotBoundError
 
-        self._logger.debug(
-            "Updating device properties for (%s)", str(self._device_info)
-        )
+        self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
         props = [x.value for x in Props]
         self._properties = nethelper.request_state(
-            props, self._device_info, self.device_key
+            props, self.device_info, self.device_key
         )
 
     def get_property(self, name):
@@ -151,9 +149,7 @@ class Device:
             self._properties[name.value] = value
 
         self._logger.debug("Sending remote state update %s -> %s", name, value)
-        nethelper.send_state(
-            {name.value: value}, self._device_info, key=self.device_key
-        )
+        nethelper.send_state({name.value: value}, self.device_info, key=self.device_key)
 
     @property
     def power(self) -> bool:
