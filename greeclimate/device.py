@@ -1,4 +1,5 @@
 import logging
+import socket
 import greeclimate.network_helper as nethelper
 
 from enum import IntEnum, unique
@@ -107,18 +108,24 @@ class Device:
             Both approaches result in a device_key which is used as like a persitent session id.
 
         Raises:
-            socket.timeout: If binding was unsuccessful (the device didn't respond.)
+            DeviceNotBoundError: If binding was unsuccessful (the device didn't respond.)
         """
+
+        if not self.device_info:
+            raise DeviceNotBoundError
 
         self._logger.info("Starting device binding to %s", str(self.device_info))
 
-        if key:
-            self.device_key = key
-        else:
-            self.device_key = await nethelper.bind_device(self.device_info)
+        try:
+            if key:
+                self.device_key = key
+            else:
+                self.device_key = await nethelper.bind_device(self.device_info)
 
-        if self.device_key:
-            self._logger.info("Bound to device using key %s", self.device_key)
+            if self.device_key:
+                self._logger.info("Bound to device using key %s", self.device_key)
+        except socket.timeout:
+            raise DeviceNotBoundError
 
     async def update_state(self):
         """ Update the internal state of the device structure of the physical device """

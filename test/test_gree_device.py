@@ -4,12 +4,12 @@ import socket
 from greeclimate.gree_climate import GreeClimate
 from greeclimate.device import Device
 from greeclimate.device_info import DeviceInfo
+from greeclimate.exceptions import DeviceNotBoundError
 from greeclimate.network_helper import Props
 from unittest.mock import patch
 
 
 class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
-
     @patch("greeclimate.network_helper.search_devices")
     @patch("greeclimate.network_helper.bind_device")
     async def testShouldReturnKeyWhenBoundToDevice(self, mock_bind, mock_search):
@@ -45,7 +45,7 @@ class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
         devices = await gree.search_devices()
         device = Device(devices[0])
 
-        with self.assertRaises(socket.timeout):
+        with self.assertRaises(DeviceNotBoundError):
             await device.bind()
 
         self.assertIsNotNone(device)
@@ -54,26 +54,76 @@ class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
 
 class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
-        self._device = Device(DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
+        self._device = Device(
+            DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
+        )
         await self._device.bind(key="St8Vw1Yz4Bc7Ef0H")
 
     def getMockState(self):
-        return {"Pow": 1, "Mod": 3, "SetTem": 25, "TemUn": 0, "WdSpd": 0,
-                "Air": 0, "Blo": 0, "Health": 0, "SwhSlp": 0, "Lig": 1,
-                "SwingLfRig": 1, "SwUpDn": 1, "Quiet": 0, "Tur": 0,
-                "StHt": 0, "SvSt": 0, "TemRec": 0, "HeatCoolType": 0}
+        return {
+            "Pow": 1,
+            "Mod": 3,
+            "SetTem": 25,
+            "TemUn": 0,
+            "WdSpd": 0,
+            "Air": 0,
+            "Blo": 0,
+            "Health": 0,
+            "SwhSlp": 0,
+            "Lig": 1,
+            "SwingLfRig": 1,
+            "SwUpDn": 1,
+            "Quiet": 0,
+            "Tur": 0,
+            "StHt": 0,
+            "SvSt": 0,
+            "TemRec": 0,
+            "HeatCoolType": 0,
+        }
 
     def getMockStateOff(self):
-        return {"Pow": 0, "Mod": 0, "SetTem": 0, "TemUn": 0, "WdSpd": 0,
-                "Air": 0, "Blo": 0, "Health": 0, "SwhSlp": 0, "Lig": 0,
-                "SwingLfRig": 0, "SwUpDn": 0, "Quiet": 0, "Tur": 0,
-                "StHt": 0, "SvSt": 0, "TemRec": 0, "HeatCoolType": 0}
+        return {
+            "Pow": 0,
+            "Mod": 0,
+            "SetTem": 0,
+            "TemUn": 0,
+            "WdSpd": 0,
+            "Air": 0,
+            "Blo": 0,
+            "Health": 0,
+            "SwhSlp": 0,
+            "Lig": 0,
+            "SwingLfRig": 0,
+            "SwUpDn": 0,
+            "Quiet": 0,
+            "Tur": 0,
+            "StHt": 0,
+            "SvSt": 0,
+            "TemRec": 0,
+            "HeatCoolType": 0,
+        }
 
     def getMockStateOn(self):
-        return {"Pow": 1, "Mod": 1, "SetTem": 1, "TemUn": 1, "WdSpd": 1,
-                "Air": 1, "Blo": 1, "Health": 1, "SwhSlp": 1, "Lig": 1,
-                "SwingLfRig": 1, "SwUpDn": 1, "Quiet": 1, "Tur": 1,
-                "StHt": 1, "SvSt": 1, "TemRec": 0, "HeatCoolType": 0}
+        return {
+            "Pow": 1,
+            "Mod": 1,
+            "SetTem": 1,
+            "TemUn": 1,
+            "WdSpd": 1,
+            "Air": 1,
+            "Blo": 1,
+            "Health": 1,
+            "SwhSlp": 1,
+            "Lig": 1,
+            "SwingLfRig": 1,
+            "SwUpDn": 1,
+            "Quiet": 1,
+            "Tur": 1,
+            "StHt": 1,
+            "SvSt": 1,
+            "TemRec": 0,
+            "HeatCoolType": 0,
+        }
 
     @patch("greeclimate.network_helper.request_state")
     async def testShouldUpdatePropertiesWhenRequested(self, mock_request):
@@ -85,7 +135,9 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
         await self._device.update_state()
 
         for p in Props:
-            self.assertIsNotNone(self._device.get_property(p), f"Property {p} was unexpectedly None")
+            self.assertIsNotNone(
+                self._device.get_property(p), f"Property {p} was unexpectedly None"
+            )
             self.assertEqual(self._device.get_property(p), self.getMockState()[p.value])
 
     @patch("greeclimate.network_helper.send_state")
@@ -113,5 +165,9 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
 
         for p in Props:
             if p not in (Props.TEMP_BIT, Props.UNKNOWN_HEATCOOLTYPE):
-                self.assertIsNotNone(self._device.get_property(p), f"Property {p} was unexpectedly None")
-                self.assertEqual(self._device.get_property(p), self.getMockStateOn()[p.value])
+                self.assertIsNotNone(
+                    self._device.get_property(p), f"Property {p} was unexpectedly None"
+                )
+                self.assertEqual(
+                    self._device.get_property(p), self.getMockStateOn()[p.value]
+                )
