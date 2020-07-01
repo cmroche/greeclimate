@@ -1,3 +1,5 @@
+![Python package](https://github.com/cmroche/greeclimate/workflows/Python%20package/badge.svg)
+
 ## Gree Climate
 
 Discover, connect and control Gree based mini-split systems.
