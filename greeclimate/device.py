@@ -3,7 +3,7 @@ import socket
 import greeclimate.network_helper as nethelper
 
 from enum import IntEnum, unique
-from greeclimate.exceptions import DeviceNotBoundError
+from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network_helper import Props
 
 
@@ -125,7 +125,7 @@ class Device:
 
             if self.device_key:
                 self._logger.info("Bound to device using key %s", self.device_key)
-        except socket.timeout:
+        except socket.error:
             raise DeviceNotBoundError
 
     async def update_state(self):
@@ -135,10 +135,15 @@ class Device:
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
+
         props = [x.value for x in Props]
-        self._properties = nethelper.request_state(
-            props, self.device_info, self.device_key
-        )
+
+        try:
+            self._properties = nethelper.request_state(
+                props, self.device_info, self.device_key
+            )
+        except socket.error:
+            raise DeviceTimeoutError
 
     async def push_state_update(self):
         """ Push any pending state updates to the unit """
@@ -154,7 +159,11 @@ class Device:
             props[name] = value
 
         self._dirty.clear()
-        nethelper.send_state(props, self.device_info, key=self.device_key)
+
+        try:
+            nethelper.send_state(props, self.device_info, key=self.device_key)
+        except socket.error:
+            raise DeviceTimeoutError
 
     def get_property(self, name):
         """ Generic lookup of properties tracked from the physical device """

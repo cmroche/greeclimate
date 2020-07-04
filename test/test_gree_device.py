@@ -4,7 +4,7 @@ import socket
 from greeclimate.gree_climate import GreeClimate
 from greeclimate.device import Device
 from greeclimate.device_info import DeviceInfo
-from greeclimate.exceptions import DeviceNotBoundError
+from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network_helper import Props
 from unittest.mock import patch
 
@@ -140,6 +140,16 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
             )
             self.assertEqual(self._device.get_property(p), self.getMockState()[p.value])
 
+    @patch("greeclimate.network_helper.request_state", side_effect=socket.timeout)
+    async def testShouldTimeoutOnRequestUpdateConnetionFailure(self, mock_request):
+        mock_request.return_value = self.getMockState()
+
+        for p in Props:
+            self.assertIsNone(self._device.get_property(p))
+
+        with self.assertRaises(DeviceTimeoutError):
+            await self._device.update_state()
+
     @patch("greeclimate.network_helper.send_state")
     async def testShouldUpdatePropertiesWhenSet(self, mock_request):
 
@@ -175,6 +185,33 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(
                     self._device.get_property(p), self.getMockStateOn()[p.value]
                 )
+
+    @patch("greeclimate.network_helper.send_state", side_effect=socket.timeout)
+    async def testShouldTimeoutOnSendUpdateConnectionFailure(self, mock_request):
+
+        for p in Props:
+            self.assertIsNone(self._device.get_property(p))
+
+        self._device.power = True
+        self._device.mode = 1
+        self._device.target_temperature = 1
+        self._device.temperature_units = 1
+        self._device.fan_speed = 1
+        self._device.fresh_air = True
+        self._device.xfan = True
+        self._device.anion = True
+        self._device.sleep = True
+        self._device.light = True
+        self._device.horizontal_swing = 1
+        self._device.vertical_swing = 1
+        self._device.quiet = True
+        self._device.turbo = True
+        self._device.steady_heat = True
+        self._device.power_save = True
+
+        with self.assertRaises(DeviceTimeoutError):
+            await self._device.push_state_update()
+
 
     async def testShouldReturnPropertyValuesWhenNotInitialized(self):
 
