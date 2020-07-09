@@ -1,29 +1,30 @@
-import unittest
+import enum
 import socket
+import unittest
 
-from greeclimate.gree_climate import GreeClimate
-from greeclimate.device import Device
-from greeclimate.device_info import DeviceInfo
+from greeclimate.discovery import Discovery
+from greeclimate.device import Device, DeviceInfo
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network_helper import Props
 from unittest.mock import patch
 
+class FakeProps(enum.Enum):
+    FAKE = "fake"
 
 class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
     @patch("greeclimate.network_helper.search_devices")
     @patch("greeclimate.network_helper.bind_device")
-    async def testShouldReturnKeyWhenBoundToDevice(self, mock_bind, mock_search):
+    async def test_get_device_key(self, mock_bind, mock_search):
         # DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
 
         mock_search.return_value = [
-            DeviceInfo("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
+            ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
         ]
         mock_bind.return_value = "St8Vw1Yz4Bc7Ef0H"
 
         """ The only way to get the key through binding is by scanning first
         """
-        gree = GreeClimate()
-        devices = await gree.search_devices()
+        devices = await Discovery.search_devices()
         device = Device(devices[0])
         await device.bind()
 
@@ -32,17 +33,16 @@ class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
 
     @patch("greeclimate.network_helper.search_devices")
     @patch("greeclimate.network_helper.bind_device")
-    async def testShouldTimeoutWhenNoResponse(self, mock_bind, mock_search):
+    async def test_get_device_key_timeout(self, mock_bind, mock_search):
 
         mock_search.return_value = [
-            DeviceInfo("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
+            ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
         ]
         mock_bind.side_effect = socket.timeout
 
         """ The only way to get the key through binding is by scanning first
         """
-        gree = GreeClimate()
-        devices = await gree.search_devices()
+        devices = await Discovery.search_devices()
         device = Device(devices[0])
 
         with self.assertRaises(DeviceNotBoundError):
@@ -55,7 +55,7 @@ class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
 class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self._device = Device(
-            DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
+            ("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
         )
         await self._device.bind(key="St8Vw1Yz4Bc7Ef0H")
 
@@ -126,7 +126,7 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
         }
 
     @patch("greeclimate.network_helper.request_state")
-    async def testShouldUpdatePropertiesWhenRequested(self, mock_request):
+    async def test_update_properties(self, mock_request):
         mock_request.return_value = self.getMockState()
 
         for p in Props:
@@ -141,7 +141,7 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(self._device.get_property(p), self.getMockState()[p.value])
 
     @patch("greeclimate.network_helper.request_state", side_effect=socket.timeout)
-    async def testShouldTimeoutOnRequestUpdateConnetionFailure(self, mock_request):
+    async def test_update_properties_timeout(self, mock_request):
         mock_request.return_value = self.getMockState()
 
         for p in Props:
@@ -151,7 +151,7 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
             await self._device.update_state()
 
     @patch("greeclimate.network_helper.send_state")
-    async def testShouldUpdatePropertiesWhenSet(self, mock_request):
+    async def test_set_properties(self, mock_request):
 
         for p in Props:
             self.assertIsNone(self._device.get_property(p))
@@ -187,7 +187,7 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
                 )
 
     @patch("greeclimate.network_helper.send_state", side_effect=socket.timeout)
-    async def testShouldTimeoutOnSendUpdateConnectionFailure(self, mock_request):
+    async def test_set_properties_timeout(self, mock_request):
 
         for p in Props:
             self.assertIsNone(self._device.get_property(p))
@@ -213,7 +213,7 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
             await self._device.push_state_update()
 
 
-    async def testShouldReturnPropertyValuesWhenNotInitialized(self):
+    async def test_uninitialized_properties(self):
 
         for p in Props:
             self.assertIsNone(self._device.get_property(p))
@@ -234,3 +234,5 @@ class GreeDeviceStateTestCase(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(self._device.turbo)
         self.assertFalse(self._device.steady_heat)
         self.assertFalse(self._device.power_save)
+
+
