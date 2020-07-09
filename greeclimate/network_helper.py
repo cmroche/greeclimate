@@ -8,8 +8,6 @@ import enum
 from Crypto.Cipher import AES
 from ipaddress import IPv4Network
 
-from greeclimate.device_info import DeviceInfo
-
 GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
 
 _LOGGER = logging.getLogger(__name__)
@@ -74,7 +72,7 @@ async def _search_on_interface(bcast, timeout):
             response = json.loads(d)
             pack = decrypt_payload(response["pack"])
             logger.debug("Received response from device search\n%s", pack)
-            devices.append(DeviceInfo(addr[0], addr[1], pack["cid"], pack["name"]))
+            devices.append((addr[0], addr[1], pack["cid"], pack["name"]))
         except socket.timeout:
             """ Intentionally unprocessed exception """
             break

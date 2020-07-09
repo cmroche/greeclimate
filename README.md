@@ -27,9 +27,8 @@ Scan the network for devices, select a device and immediately bind. See the note
 
 ```python
 try:
-    gree = GreeClimate()
     if not self._device_key:
-        devices = await gree.search_devices()
+        devices = await Discovery.search_devices()
         if self._mac:
             deviceinfo = next((d for d in devices if d.mac == self._mac), None)
         else:
