@@ -72,7 +72,7 @@ async def _search_on_interface(bcast, timeout):
             response = json.loads(d)
             pack = decrypt_payload(response["pack"])
             logger.debug("Received response from device search\n%s", pack)
-            devices.append((addr[0], addr[1], pack["cid"], pack["name"]))
+            devices.append((addr[0], addr[1], pack["cid"], pack.get("name"), pack.get("brand"), pack.get("model"), pack.get("ver")))
         except socket.timeout:
             """ Intentionally unprocessed exception """
             break

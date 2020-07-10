@@ -71,16 +71,22 @@ class DeviceInfo:
     ip = None
     port = None
     mac = None
-    name = "<Unknown>"
+    name = "<No Name>"
+    brand = None
+    model = None
+    version = None
 
-    def __init__(self, ip, port, mac, name):
+    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None):
         self.ip = ip
         self.port = port
         self.mac = mac
         self.name = name if name else self.name
+        self.brand = brand
+        self.model = model
+        self.version = version
 
     def __str__(self):
-        return f"Device: {self.name}, {self.ip}:{self.port} ({self.mac})"
+        return f"Device: {self.name} @ {self.ip}:{self.port} (mac: {self.mac})"
 
 class Device:
     """Class representing a physical device, it's state and properties.

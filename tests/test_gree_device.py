@@ -14,12 +14,11 @@ class FakeProps(enum.Enum):
 class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
     @patch("greeclimate.network_helper.search_devices")
     @patch("greeclimate.network_helper.bind_device")
-    async def test_get_device_key(self, mock_bind, mock_search):
+    async def test_get_device_info(self, mock_bind, mock_search):
         # DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
 
-        mock_search.return_value = [
-            ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
-        ]
+        mock_info = ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1", "MockBrand", "MockModel", "0.0.1-fake")
+        mock_search.return_value = [mock_info]
         mock_bind.return_value = "St8Vw1Yz4Bc7Ef0H"
 
         """ The only way to get the key through binding is by scanning first
@@ -27,6 +26,16 @@ class GreeDeviceTestCase(unittest.IsolatedAsyncioTestCase):
         devices = await Discovery.search_devices()
         device = Device(devices[0])
         await device.bind()
+
+        self.assertIsNotNone(devices)
+        self.assertEqual(len(devices), 1)
+        self.assertEqual(devices[0].ip, mock_info[0])
+        self.assertEqual(devices[0].port, mock_info[1])
+        self.assertEqual(devices[0].mac, mock_info[2])
+        self.assertEqual(devices[0].name, mock_info[3])
+        self.assertEqual(devices[0].brand, mock_info[4])
+        self.assertEqual(devices[0].model, mock_info[5])
+        self.assertEqual(devices[0].version, mock_info[6])
 
         self.assertIsNotNone(device)
         self.assertEqual(device.device_key, "St8Vw1Yz4Bc7Ef0H")
