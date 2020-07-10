@@ -24,7 +24,7 @@ class Discovery:
         _LOGGER.info("Starting Gree device discovery process")
 
         results = await nethelper.search_devices()
-        devices = [DeviceInfo(d[0], d[1], d[2], d[3]) for d in results]
+        devices = [DeviceInfo(*d) for d in results]
         for d in devices:
             _LOGGER.info("Found %s", str(d))
 
