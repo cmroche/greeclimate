@@ -45,7 +45,7 @@ except Exception:
 
 Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.
 
-Binding is incredibly finnicky, if you do not have the device key you must first scan and re-bind. The device will not responding to binding requests immediately proceeding a scan.
+Binding is incredibly finnicky, if you do not have the device key you must first scan and re-bind. The device will only respond to binding requests immediately proceeding a scan.
 
 ### Update device state
 
