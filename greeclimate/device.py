@@ -58,6 +58,7 @@ class VerticalSwing(IntEnum):
     SwingLowerMiddle = 10
     SwingLower = 11
 
+
 class DeviceInfo:
     """Device information class, used to identify and connect
 
@@ -87,6 +88,7 @@ class DeviceInfo:
 
     def __str__(self):
         return f"Device: {self.name} @ {self.ip}:{self.port} (mac: {self.mac})"
+
 
 class Device:
     """Class representing a physical device, it's state and properties.
@@ -163,7 +165,6 @@ class Device:
             raise DeviceNotBoundError
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
-
 
         props = [x.value for x in Props]
 
