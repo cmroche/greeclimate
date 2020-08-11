@@ -1,10 +1,30 @@
+import enum
 import logging
 import socket
 import greeclimate.network_helper as nethelper
 
 from enum import IntEnum, unique
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
-from greeclimate.network_helper import Props
+
+class Props(enum.Enum):
+    POWER = "Pow"
+    MODE = "Mod"
+    TEMP_SET = "SetTem"
+    TEMP_UNIT = "TemUn"
+    TEMP_BIT = "TemRec"
+    FAN_SPEED = "WdSpd"
+    FRESH_AIR = "Air"
+    XFAN = "Blo"
+    ANION = "Health"
+    SLEEP = "SwhSlp"
+    LIGHT = "Lig"
+    SWING_HORIZ = "SwingLfRig"
+    SWING_VERT = "SwUpDn"
+    QUIET = "Quiet"
+    TURBO = "Tur"
+    STEADY_HEAT = "StHt"
+    POWER_SAVE = "SvSt"
+    UNKNOWN_HEATCOOLTYPE = "HeatCoolType"
 
 
 @unique

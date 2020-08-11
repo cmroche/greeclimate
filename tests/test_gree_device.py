@@ -1,12 +1,11 @@
 import enum
 import pytest
 import socket
+from unittest.mock import patch
 
 from greeclimate.discovery import Discovery
-from greeclimate.device import Device, DeviceInfo
+from greeclimate.device import Device, DeviceInfo, Props
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
-from greeclimate.network_helper import Props
-from unittest.mock import patch
 
 class FakeProps(enum.Enum):
     FAKE = "fake"

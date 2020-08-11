@@ -3,7 +3,6 @@ import base64
 import json
 import logging
 import socket
-import enum
 
 from Crypto.Cipher import AES
 from ipaddress import IPv4Network
@@ -11,28 +10,6 @@ from ipaddress import IPv4Network
 GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
 
 _LOGGER = logging.getLogger(__name__)
-
-
-class Props(enum.Enum):
-    POWER = "Pow"
-    MODE = "Mod"
-    TEMP_SET = "SetTem"
-    TEMP_UNIT = "TemUn"
-    TEMP_BIT = "TemRec"
-    FAN_SPEED = "WdSpd"
-    FRESH_AIR = "Air"
-    XFAN = "Blo"
-    ANION = "Health"
-    SLEEP = "SwhSlp"
-    LIGHT = "Lig"
-    SWING_HORIZ = "SwingLfRig"
-    SWING_VERT = "SwUpDn"
-    QUIET = "Quiet"
-    TURBO = "Tur"
-    STEADY_HEAT = "StHt"
-    POWER_SAVE = "SvSt"
-    UNKNOWN_HEATCOOLTYPE = "HeatCoolType"
-
 
 def _get_broadcast_addresses():
     import netifaces
