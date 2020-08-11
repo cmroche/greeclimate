@@ -43,11 +43,12 @@ def _get_broadcast_addresses():
     for iface in interfaces:
         addr = netifaces.ifaddresses(iface)
         if netifaces.AF_INET in addr:
-            netmask = addr[netifaces.AF_INET][0]["netmask"]
-            ipaddr = addr[netifaces.AF_INET][0]["addr"]
-            net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
-            if net.broadcast_address and not net.is_loopback:
-                broadcastAddrs.append(str(net.broadcast_address))
+            netmask = addr[netifaces.AF_INET][0].get("netmask")
+            ipaddr = addr[netifaces.AF_INET][0].get("addr")
+            if netmask and addr:
+                net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
+                if net.broadcast_address and not net.is_loopback:
+                    broadcastAddrs.append(str(net.broadcast_address))
 
     return broadcastAddrs
 
@@ -80,6 +81,7 @@ async def _search_on_interface(bcast, timeout):
             logger.debug("Unable to decode device search response payload")
         except Exception as e:
             logging.error("Unable to search devices due to an exception %s", str(e))
+            break
 
     s.close()
     return devices
