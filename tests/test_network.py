@@ -2,11 +2,11 @@ import asyncio
 import json
 import socket
 from threading import Thread
-from unittest.mock import create_autospec
+from unittest.mock import create_autospec, patch, MagicMock
 
 import pytest
 
-from greeclimate.network import BroadcastListenerProtocol, DatagramStream
+from greeclimate.network import BroadcastListenerProtocol, DatagramStream, get_broadcast_addresses
 
 DISCOVERY_REQUEST = {"t": "scan"}
 DISCOVERY_RESPONSE = {
@@ -26,6 +26,22 @@ def mock_socket():
     s.type = socket.SOCK_DGRAM
 
     return s
+
+
+MOCK_INTERFACES = ['lo']
+MOCK_LO_IFACE = {2: [{'addr': '10.0.0.1', 'netmask': '255.0.0.0', 'peer': '10.255.255.255'}]}
+
+
+@patch("netifaces.interfaces", return_value=MOCK_INTERFACES)
+@patch("netifaces.ifaddresses", return_value=MOCK_LO_IFACE)
+def test_get_interfaces(mock_interfaces, mock_ifaddresses):
+    """Query available interfaces, should be returned in a list."""
+    ifaces = get_broadcast_addresses()
+
+    assert ifaces
+    assert len(ifaces) > 0
+    assert ifaces[0].ip_address == "10.0.0.1"
+    assert ifaces[0].bcast_address == "10.255.255.255"
 
 
 @pytest.mark.asyncio
