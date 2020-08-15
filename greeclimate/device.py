@@ -1,7 +1,7 @@
 import enum
 import logging
 import socket
-import greeclimate.network_helper as nethelper
+import greeclimate.network as nethelper
 
 from enum import IntEnum, unique
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError

@@ -1,7 +1,7 @@
 import logging
 
 from greeclimate.device import DeviceInfo
-import greeclimate.network_helper as nethelper
+import greeclimate.network as nethelper
 from typing import List
 
 _LOGGER = logging.getLogger(__name__)
