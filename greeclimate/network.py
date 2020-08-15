@@ -3,15 +3,112 @@ import base64
 import json
 import logging
 import socket
+import time
+from dataclasses import dataclass
+from ipaddress import IPv4Network
+from typing import List, Text, Tuple, Union
 
 from Crypto.Cipher import AES
-from ipaddress import IPv4Network
 
 GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
 
 _LOGGER = logging.getLogger(__name__)
 
-def _get_broadcast_addresses():
+
+IPAddr = Tuple[str, int]
+
+
+@dataclass
+class IPInterface:
+    ip_address: str
+    bcast_address: str
+
+
+class BroadcastListenerProtocol(asyncio.DatagramProtocol):
+
+    def __init__(self, recvq: asyncio.Queue, excq: asyncio.Queue, drained: asyncio.Queue) -> None:
+        self._loop = asyncio.get_event_loop()
+
+        self._recvq = recvq
+        self._excq = excq
+        self._drained = drained
+
+        self._drained.set()
+
+        # Transports are connected at the time a connection is made.
+        self._transport = None
+
+    def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
+
+        self._transport = transport
+        sock = transport.get_extra_info("socket")  # type: socket.socket
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+    def datagram_received(self, data: Union[bytes, Text], addr: IPAddr) -> None:
+        self._recvq.put_nowait((data, addr))
+
+    def connection_lost(self, exc) -> None:
+        if exc is not None:
+            self._excq.put_nowait(exc)
+
+        if self._transport is not None:
+            self._transport.close()
+            self._transport = None
+
+    def error_received(self, exc) -> None:
+        self._excq.put_nowait(exc)
+
+    def pause_writing(self) -> None:
+        self._drained.clear()
+        super().pause_writing()
+
+    def resume_writing(self) -> None:
+        self._drained.set()
+        super().resume_writing()
+
+
+# Concepts and code here were taken from https://github.com/jsbronder/asyncio-dgram
+class DatagramStream:
+    def __init__(self, transport, recvq, excq, drained):
+        self._transport = transport
+        self._recvq = recvq
+        self._excq = excq
+        self._drained = drained
+
+    def __del__(self):
+        try:
+            self._transport.close()
+        except RuntimeError:
+            pass
+
+    @property
+    def exception(self):
+        try:
+            exc = self._excq.get_nowait()
+            raise exc
+        except asyncio.queues.QueueEmpty:
+            pass
+
+    @property
+    def socket(self):
+        return self._transport.get_extra_info("socket")
+
+    def close(self):
+        self._transport.close()
+
+    async def send(self, data, addr=None):
+        _ = self.exception
+        self._transport.sendto(data, addr)
+        await self._drained.wait()
+
+    async def recv(self):
+        _ = self.exception
+        data, addr = await self._recvq.get()
+        return data, addr
+
+
+def get_broadcast_addresses() -> List[IPInterface]:
+    """ Return a list of broadcast addresses for each discovered interface"""
     import netifaces
 
     broadcastAddrs = []
@@ -25,25 +122,36 @@ def _get_broadcast_addresses():
             if netmask and addr:
                 net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
                 if net.broadcast_address and not net.is_loopback:
-                    broadcastAddrs.append(str(net.broadcast_address))
+                    broadcastAddrs.append(IPInterface(str(ipaddr), str(net.broadcast_address)))
 
     return broadcastAddrs
 
 
-async def _search_on_interface(bcast, timeout):
+async def search_on_interface(bcast_iface: IPInterface, timeout: int):
     logger = logging.getLogger(__name__)
-    logger.debug("Listening for devices on %s", bcast)
+    logger.debug("Listening for devices on %s", bcast_iface.ip_address)
 
-    s = create_socket(timeout)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    loop = asyncio.get_event_loop()
+    recvq = asyncio.Queue()
+    excq = asyncio.Queue()
+    drained = asyncio.Event()
 
-    payload = {"t": "scan"}
-    s.sendto(json.dumps(payload).encode(), (bcast, 7000))
+    bcast = (bcast_iface.bcast_address, 7000)
+    local_addr = (bcast_iface.ip_address, 0)
+
+    transport, _ = await loop.create_datagram_endpoint(
+        lambda: BroadcastListenerProtocol(recvq, excq, drained), local_addr=local_addr,
+    )
+    stream = DatagramStream(transport, recvq, excq, drained)
+
+    data = json.dumps({"t": "scan"}).encode()
+    await stream.send(data, bcast)
 
     devices = []
-    while True:
+    start_ts = time.time()
+    while start_ts + timeout > time.time():
         try:
-            (d, addr) = s.recvfrom(2048)
+            (d, addr) = await stream.recv()
             if (len(d)) == 0:
                 continue
 
@@ -51,26 +159,23 @@ async def _search_on_interface(bcast, timeout):
             pack = decrypt_payload(response["pack"])
             logger.debug("Received response from device search\n%s", pack)
             devices.append((addr[0], addr[1], pack["cid"], pack.get("name"), pack.get("brand"), pack.get("model"), pack.get("ver")))
-        except socket.timeout:
-            """ Intentionally unprocessed exception """
-            break
         except json.JSONDecodeError:
             logger.debug("Unable to decode device search response payload")
         except Exception as e:
             logging.error("Unable to search devices due to an exception %s", str(e))
             break
 
-    s.close()
+    stream.close()
     return devices
 
 
-async def search_devices(timeout=2, broadcastAddrs=None):
+async def search_devices(timeout: int = 2, broadcastAddrs: str = None):
     if not broadcastAddrs:
-        broadcastAddrs = _get_broadcast_addresses()
+        broadcastAddrs = get_broadcast_addresses()
 
     broadcastAddrs = list(broadcastAddrs)
-    done, pending = await asyncio.wait(
-        [_search_on_interface(b, timeout=timeout) for b in broadcastAddrs]
+    done, _ = await asyncio.wait(
+        [search_on_interface(b, timeout=timeout) for b in broadcastAddrs]
     )
 
     devices = []
@@ -161,7 +266,7 @@ def decrypt_payload(payload, key=GENERIC_KEY):
     cipher = AES.new(key.encode(), AES.MODE_ECB)
     decoded = base64.b64decode(payload)
     decrypted = cipher.decrypt(decoded).decode()
-    t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
+    t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
     return json.loads(t)
 
 

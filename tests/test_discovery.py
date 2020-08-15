@@ -1,8 +1,9 @@
+from unittest.mock import patch
+
 import pytest
 
 from greeclimate.discovery import Discovery
-from greeclimate.device import DeviceInfo
-from unittest.mock import patch
+
 
 @pytest.mark.asyncio
 @patch("greeclimate.network.search_devices")
@@ -15,6 +16,7 @@ async def test_discover_device(mock_search_devices):
 
     assert devices is not None
     assert len(devices) > 0
+
 
 @pytest.mark.asyncio
 @patch("greeclimate.network.search_devices")

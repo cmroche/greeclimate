@@ -1,10 +1,11 @@
 import logging
-
-from greeclimate.device import DeviceInfo
-import greeclimate.network as nethelper
 from typing import List
 
+import greeclimate.network as nethelper
+from greeclimate.device import DeviceInfo
+
 _LOGGER = logging.getLogger(__name__)
+
 
 class Discovery:
     """Interact with gree devices on the network

@@ -1,10 +1,11 @@
 import enum
 import logging
 import socket
-import greeclimate.network as nethelper
-
 from enum import IntEnum, unique
+
+import greeclimate.network as nethelper
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+
 
 class Props(enum.Enum):
     POWER = "Pow"
@@ -151,7 +152,7 @@ class Device:
 
     async def bind(self, key=None):
         """ Run the binding procedure.
-        
+
         Binding is a finnicky procedure, and happens in 1 of 2 ways:
             1 - Without the key, binding must pass the device info structure immediately following
                 the search devices procedure. There is only a small window to complete registration.
@@ -360,4 +361,3 @@ class Device:
     @power_save.setter
     def power_save(self, value: bool):
         self.set_property(Props.POWER_SAVE, int(value))
-
