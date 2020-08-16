@@ -24,7 +24,7 @@ class IPInterface:
     bcast_address: str
 
 
-class BroadcastListenerProtocol(asyncio.DatagramProtocol):
+class DeviceProtocol(asyncio.DatagramProtocol):
 
     def __init__(self, recvq: asyncio.Queue, excq: asyncio.Queue, drained: asyncio.Queue) -> None:
         self._loop = asyncio.get_event_loop()
@@ -41,8 +41,6 @@ class BroadcastListenerProtocol(asyncio.DatagramProtocol):
     def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
 
         self._transport = transport
-        sock = transport.get_extra_info("socket")  # type: socket.socket
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
     def datagram_received(self, data: Union[bytes, Text], addr: IPAddr) -> None:
         self._recvq.put_nowait((data, addr))
@@ -67,19 +65,27 @@ class BroadcastListenerProtocol(asyncio.DatagramProtocol):
         super().resume_writing()
 
 
+class BroadcastListenerProtocol(DeviceProtocol):
+
+    def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
+
+        super().connection_made(transport)
+
+        sock = transport.get_extra_info("socket")  # type: socket.socket
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+
 # Concepts and code here were taken from https://github.com/jsbronder/asyncio-dgram
 class DatagramStream:
-    def __init__(self, transport, recvq, excq, drained):
+    def __init__(self, transport, recvq, excq, drained, timeout: int = 120):
         self._transport = transport
         self._recvq = recvq
         self._excq = excq
         self._drained = drained
+        self._timeout = timeout
 
     def __del__(self):
-        try:
-            self._transport.close()
-        except RuntimeError:
-            pass
+        self.close()
 
     @property
     def exception(self):
@@ -94,17 +100,71 @@ class DatagramStream:
         return self._transport.get_extra_info("socket")
 
     def close(self):
-        self._transport.close()
+        try:
+            self._transport.close()
+        except RuntimeError:
+            pass
 
-    async def send(self, data, addr=None):
+    async def send(self, data, addr=None) -> None:
         _ = self.exception
         self._transport.sendto(data, addr)
-        await self._drained.wait()
+
+        task = asyncio.create_task(self._drained.wait())
+        await asyncio.wait_for(task, self._timeout)
+
+    async def send_device_data(self, data, key=GENERIC_KEY) -> None:
+        """Send a formatted request to the device."""
+        _LOGGER.debug("Sending packet:\n%s", json.dumps(data))
+
+        if "pack" in data:
+            data["pack"] = DatagramStream.encrypt_payload(data["pack"], key)
+
+        data_bytes = json.dumps(data).encode()
+        await self.send(data_bytes)
+
+    async def recv_ready(self):
+        _ = self.exception
+        return not await self._recvq.empty()
 
     async def recv(self):
         _ = self.exception
-        data, addr = await self._recvq.get()
-        return data, addr
+
+        task = asyncio.create_task(self._recvq.get())
+        await asyncio.wait_for(task, self._timeout)
+        return task.result()
+
+    async def recv_device_data(self, key=GENERIC_KEY):
+        """Receive a formatted request from the device."""
+        (data_bytes, addr) = await self.recv()
+        if len(data_bytes) == 0:
+            return
+
+        data = json.loads(data_bytes)
+
+        if "pack" in data:
+            data["pack"] = DatagramStream.decrypt_payload(data["pack"], key)
+
+        _LOGGER.debug("Recived packet:\n%s", json.dumps(data))
+        return (data, addr)
+
+    @staticmethod
+    def decrypt_payload(payload, key=GENERIC_KEY):
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        decoded = base64.b64decode(payload)
+        decrypted = cipher.decrypt(decoded).decode()
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
+        return json.loads(t)
+
+    @staticmethod
+    def encrypt_payload(payload, key=GENERIC_KEY):
+        def pad(s):
+            bs = 16
+            return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
+
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
+        encoded = base64.b64encode(encrypted).decode()
+        return encoded
 
 
 def get_broadcast_addresses() -> List[IPInterface]:
@@ -122,7 +182,8 @@ def get_broadcast_addresses() -> List[IPInterface]:
             if netmask and addr:
                 net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
                 if net.broadcast_address and not net.is_loopback:
-                    broadcastAddrs.append(IPInterface(str(ipaddr), str(net.broadcast_address)))
+                    broadcastAddrs.append(IPInterface(
+                        str(ipaddr), str(net.broadcast_address)))
 
     return broadcastAddrs
 
@@ -142,27 +203,27 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
     transport, _ = await loop.create_datagram_endpoint(
         lambda: BroadcastListenerProtocol(recvq, excq, drained), local_addr=local_addr,
     )
-    stream = DatagramStream(transport, recvq, excq, drained)
+    stream = DatagramStream(transport, recvq, excq, drained, timeout)
 
     data = json.dumps({"t": "scan"}).encode()
     await stream.send(data, bcast)
 
     devices = []
     start_ts = time.time()
-    while start_ts + timeout > time.time():
+    while start_ts + timeout > time.time() or await stream.recv_ready():
         try:
-            (d, addr) = await stream.recv()
-            if (len(d)) == 0:
-                continue
-
-            response = json.loads(d)
-            pack = decrypt_payload(response["pack"])
+            (response, addr) = await stream.recv_device_data()
+            pack = response["pack"]
             logger.debug("Received response from device search\n%s", pack)
-            devices.append((addr[0], addr[1], pack["cid"], pack.get("name"), pack.get("brand"), pack.get("model"), pack.get("ver")))
+            devices.append((addr[0], addr[1], pack["cid"], pack.get(
+                "name"), pack.get("brand"), pack.get("model"), pack.get("ver")))
+        except asyncio.TimeoutError:
+            break
         except json.JSONDecodeError:
             logger.debug("Unable to decode device search response payload")
         except Exception as e:
-            logging.error("Unable to search devices due to an exception %s", str(e))
+            logging.error(
+                "Unable to search devices due to an exception %s", str(e))
             break
 
     stream.close()
@@ -187,6 +248,18 @@ async def search_devices(timeout: int = 2, broadcastAddrs: str = None):
     return devices
 
 
+async def create_datagram_stream(target: IPAddr) -> DatagramStream:
+    loop = asyncio.get_event_loop()
+    recvq = asyncio.Queue()
+    excq = asyncio.Queue()
+    drained = asyncio.Event()
+
+    transport, _ = await loop.create_datagram_endpoint(
+        lambda: DeviceProtocol(recvq, excq, drained), remote_addr=target
+    )
+    return DatagramStream(transport, recvq, excq, drained, timeout=10)
+
+
 async def bind_device(device_info):
     payload = {
         "cid": "app",
@@ -197,20 +270,22 @@ async def bind_device(device_info):
         "pack": {"mac": device_info.mac, "t": "bind", "uid": 0},
     }
 
-    s = create_socket()
+    remote_addr = (device_info.ip, device_info.port)
+    stream = await create_datagram_stream(remote_addr)
     try:
-        send_data(s, device_info.ip, device_info.port, payload)
-        r = receive_data(s)
+        # Binding uses the generic key only
+        await stream.send_device_data(payload)
+        (r, _) = await stream.recv_device_data()
     except Exception as e:
         raise e
     finally:
-        s.close()
+        stream.close()
 
     if r["pack"]["t"] == "bindok":
         return r["pack"]["key"]
 
 
-def send_state(property_values, device_info, key=GENERIC_KEY):
+async def send_state(property_values, device_info, key=GENERIC_KEY):
     payload = {
         "cid": "app",
         "i": 0,
@@ -224,21 +299,22 @@ def send_state(property_values, device_info, key=GENERIC_KEY):
         },
     }
 
-    s = create_socket()
+    remote_addr = (device_info.ip, device_info.port)
+    stream = await create_datagram_stream(remote_addr)
     try:
-        send_data(s, device_info.ip, device_info.port, payload, key=key)
-        r = receive_data(s, key=key)
+        await stream.send_device_data(payload, key)
+        (r, _) = await stream.recv_device_data(key)
     except Exception as e:
         raise e
     finally:
-        s.close()
+        stream.close()
 
     cols = r["pack"]["opt"]
     dat = r["pack"]["val"]
     return dict(zip(cols, dat))
 
 
-def request_state(properties, device_info, key=GENERIC_KEY):
+async def request_state(properties, device_info, key=GENERIC_KEY):
     payload = {
         "cid": "app",
         "i": 0,
@@ -248,55 +324,16 @@ def request_state(properties, device_info, key=GENERIC_KEY):
         "pack": {"mac": device_info.mac, "t": "status", "cols": list(properties)},
     }
 
-    s = create_socket()
+    remote_addr = (device_info.ip, device_info.port)
+    stream = await create_datagram_stream(remote_addr)
     try:
-        send_data(s, device_info.ip, device_info.port, payload, key=key)
-        r = receive_data(s, key=key)
+        await stream.send_device_data(payload, key)
+        (r, _) = await stream.recv_device_data(key)
     except Exception as e:
         raise e
     finally:
-        s.close()
+        stream.close()
 
     cols = r["pack"]["cols"]
     dat = r["pack"]["dat"]
     return dict(zip(cols, dat))
-
-
-def decrypt_payload(payload, key=GENERIC_KEY):
-    cipher = AES.new(key.encode(), AES.MODE_ECB)
-    decoded = base64.b64decode(payload)
-    decrypted = cipher.decrypt(decoded).decode()
-    t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
-    return json.loads(t)
-
-
-def encrypt_payload(payload, key=GENERIC_KEY):
-    def pad(s):
-        bs = 16
-        return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
-
-    cipher = AES.new(key.encode(), AES.MODE_ECB)
-    encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
-    encoded = base64.b64encode(encrypted).decode()
-    return encoded
-
-
-def create_socket(timeout=60):
-    s = socket.socket(type=socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
-    s.settimeout(timeout)
-    return s
-
-
-def send_data(socket, ip, port, payload, key=GENERIC_KEY):
-    _LOGGER.debug("Sending packet:\n%s", json.dumps(payload))
-    payload["pack"] = encrypt_payload(payload["pack"], key)
-    d = json.dumps(payload).encode()
-    socket.sendto(d, (ip, int(port)))
-
-
-def receive_data(socket, key=GENERIC_KEY):
-    d = socket.recv(2048)
-    payload = json.loads(d)
-    payload["pack"] = decrypt_payload(payload["pack"], key)
-    _LOGGER.debug("Recived packet:\n%s", json.dumps(payload))
-    return payload

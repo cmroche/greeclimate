@@ -1,3 +1,4 @@
+import asyncio
 import enum
 import socket
 from unittest.mock import patch
@@ -96,7 +97,8 @@ async def generate_device_mock_async():
 async def test_get_device_info(mock_bind, mock_search):
     # DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
 
-    mock_info = ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1", "MockBrand", "MockModel", "0.0.1-fake")
+    mock_info = ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1",
+                 "MockBrand", "MockModel", "0.0.1-fake")
     mock_search.return_value = [mock_info]
     mock_bind.return_value = "St8Vw1Yz4Bc7Ef0H"
 
@@ -129,7 +131,7 @@ async def test_get_device_key_timeout(mock_bind, mock_search):
     mock_search.return_value = [
         ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
     ]
-    mock_bind.side_effect = socket.timeout
+    mock_bind.side_effect = asyncio.TimeoutError
 
     """ The only way to get the key through binding is by scanning first
     """
@@ -160,7 +162,7 @@ async def test_update_properties(mock_request):
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state", side_effect=socket.timeout)
+@patch("greeclimate.network.request_state", side_effect=asyncio.TimeoutError)
 async def test_update_properties_timeout(mock_request):
     mock_request.return_value = get_mock_state()
     device = await generate_device_mock_async()
@@ -208,7 +210,7 @@ async def test_set_properties(mock_request):
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.send_state", side_effect=socket.timeout)
+@patch("greeclimate.network.send_state", side_effect=asyncio.TimeoutError)
 async def test_set_properties_timeout(mock_request):
     device = await generate_device_mock_async()
 

@@ -1,9 +1,10 @@
+import asyncio
 import enum
 import logging
 import socket
 from enum import IntEnum, unique
 
-import greeclimate.network as nethelper
+import greeclimate.network as network
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 
 
@@ -167,17 +168,19 @@ class Device:
         if not self.device_info:
             raise DeviceNotBoundError
 
-        self._logger.info("Starting device binding to %s", str(self.device_info))
+        self._logger.info("Starting device binding to %s",
+                          str(self.device_info))
 
         try:
             if key:
                 self.device_key = key
             else:
-                self.device_key = await nethelper.bind_device(self.device_info)
+                self.device_key = await network.bind_device(self.device_info)
 
             if self.device_key:
-                self._logger.info("Bound to device using key %s", self.device_key)
-        except socket.error:
+                self._logger.info(
+                    "Bound to device using key %s", self.device_key)
+        except asyncio.TimeoutError:
             raise DeviceNotBoundError
 
     async def update_state(self):
@@ -185,15 +188,16 @@ class Device:
         if not self.device_key:
             raise DeviceNotBoundError
 
-        self._logger.debug("Updating device properties for (%s)", str(self.device_info))
+        self._logger.debug(
+            "Updating device properties for (%s)", str(self.device_info))
 
         props = [x.value for x in Props]
 
         try:
-            self._properties = nethelper.request_state(
+            self._properties = await network.request_state(
                 props, self.device_info, self.device_key
             )
-        except socket.error:
+        except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
     async def push_state_update(self):
@@ -201,19 +205,21 @@ class Device:
         if not self._dirty:
             return
 
-        self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
+        self._logger.debug("Pushing state updates to (%s)",
+                           str(self.device_info))
 
         props = {}
         for name in self._dirty:
             value = self._properties.get(name)
-            self._logger.debug("Sending remote state update %s -> %s", name, value)
+            self._logger.debug(
+                "Sending remote state update %s -> %s", name, value)
             props[name] = value
 
         self._dirty.clear()
 
         try:
-            nethelper.send_state(props, self.device_info, key=self.device_key)
-        except socket.error:
+            await network.send_state(props, self.device_info, key=self.device_key)
+        except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
     def get_property(self, name):
