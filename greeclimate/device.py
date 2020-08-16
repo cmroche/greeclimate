@@ -1,7 +1,6 @@
 import asyncio
 import enum
 import logging
-import socket
 from enum import IntEnum, unique
 
 import greeclimate.network as network
@@ -168,8 +167,7 @@ class Device:
         if not self.device_info:
             raise DeviceNotBoundError
 
-        self._logger.info("Starting device binding to %s",
-                          str(self.device_info))
+        self._logger.info("Starting device binding to %s", str(self.device_info))
 
         try:
             if key:
@@ -178,8 +176,7 @@ class Device:
                 self.device_key = await network.bind_device(self.device_info)
 
             if self.device_key:
-                self._logger.info(
-                    "Bound to device using key %s", self.device_key)
+                self._logger.info("Bound to device using key %s", self.device_key)
         except asyncio.TimeoutError:
             raise DeviceNotBoundError
 
@@ -188,8 +185,7 @@ class Device:
         if not self.device_key:
             raise DeviceNotBoundError
 
-        self._logger.debug(
-            "Updating device properties for (%s)", str(self.device_info))
+        self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
         props = [x.value for x in Props]
 
@@ -205,14 +201,12 @@ class Device:
         if not self._dirty:
             return
 
-        self._logger.debug("Pushing state updates to (%s)",
-                           str(self.device_info))
+        self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
 
         props = {}
         for name in self._dirty:
             value = self._properties.get(name)
-            self._logger.debug(
-                "Sending remote state update %s -> %s", name, value)
+            self._logger.debug("Sending remote state update %s -> %s", name, value)
             props[name] = value
 
         self._dirty.clear()

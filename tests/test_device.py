@@ -1,6 +1,5 @@
 import asyncio
 import enum
-import socket
 from unittest.mock import patch
 
 import pytest
@@ -84,9 +83,7 @@ def get_mock_state_on():
 
 
 async def generate_device_mock_async():
-    d = Device(
-        ("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
-    )
+    d = Device(("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
     await d.bind(key="St8Vw1Yz4Bc7Ef0H")
     return d
 
@@ -97,8 +94,15 @@ async def generate_device_mock_async():
 async def test_get_device_info(mock_bind, mock_search):
     # DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
 
-    mock_info = ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1",
-                 "MockBrand", "MockModel", "0.0.1-fake")
+    mock_info = (
+        "1.1.1.0",
+        "7000",
+        "aabbcc001122",
+        "MockDevice1",
+        "MockBrand",
+        "MockModel",
+        "0.0.1-fake",
+    )
     mock_search.return_value = [mock_info]
     mock_bind.return_value = "St8Vw1Yz4Bc7Ef0H"
 
@@ -128,9 +132,7 @@ async def test_get_device_info(mock_bind, mock_search):
 @patch("greeclimate.network.bind_device")
 async def test_get_device_key_timeout(mock_bind, mock_search):
 
-    mock_search.return_value = [
-        ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
-    ]
+    mock_search.return_value = [("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")]
     mock_bind.side_effect = asyncio.TimeoutError
 
     """ The only way to get the key through binding is by scanning first

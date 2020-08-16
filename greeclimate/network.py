@@ -25,8 +25,9 @@ class IPInterface:
 
 
 class DeviceProtocol(asyncio.DatagramProtocol):
-
-    def __init__(self, recvq: asyncio.Queue, excq: asyncio.Queue, drained: asyncio.Queue) -> None:
+    def __init__(
+        self, recvq: asyncio.Queue, excq: asyncio.Queue, drained: asyncio.Queue
+    ) -> None:
         self._loop = asyncio.get_event_loop()
 
         self._recvq = recvq
@@ -66,7 +67,6 @@ class DeviceProtocol(asyncio.DatagramProtocol):
 
 
 class BroadcastListenerProtocol(DeviceProtocol):
-
     def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
 
         super().connection_made(transport)
@@ -152,7 +152,7 @@ class DatagramStream:
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         decoded = base64.b64decode(payload)
         decrypted = cipher.decrypt(decoded).decode()
-        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
         return json.loads(t)
 
     @staticmethod
@@ -182,8 +182,9 @@ def get_broadcast_addresses() -> List[IPInterface]:
             if netmask and addr:
                 net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
                 if net.broadcast_address and not net.is_loopback:
-                    broadcastAddrs.append(IPInterface(
-                        str(ipaddr), str(net.broadcast_address)))
+                    broadcastAddrs.append(
+                        IPInterface(str(ipaddr), str(net.broadcast_address))
+                    )
 
     return broadcastAddrs
 
@@ -215,15 +216,23 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
             (response, addr) = await stream.recv_device_data()
             pack = response["pack"]
             logger.debug("Received response from device search\n%s", pack)
-            devices.append((addr[0], addr[1], pack["cid"], pack.get(
-                "name"), pack.get("brand"), pack.get("model"), pack.get("ver")))
+            devices.append(
+                (
+                    addr[0],
+                    addr[1],
+                    pack["cid"],
+                    pack.get("name"),
+                    pack.get("brand"),
+                    pack.get("model"),
+                    pack.get("ver"),
+                )
+            )
         except asyncio.TimeoutError:
             break
         except json.JSONDecodeError:
             logger.debug("Unable to decode device search response payload")
         except Exception as e:
-            logging.error(
-                "Unable to search devices due to an exception %s", str(e))
+            logging.error("Unable to search devices due to an exception %s", str(e))
             break
 
     stream.close()

@@ -6,11 +6,18 @@ from unittest.mock import Mock, create_autospec, patch
 
 import pytest
 
-from greeclimate.network import (BroadcastListenerProtocol, DatagramStream,
-                                 DeviceProtocol, IPInterface, bind_device,
-                                 create_datagram_stream,
-                                 get_broadcast_addresses, request_state,
-                                 search_on_interface, send_state)
+from greeclimate.network import (
+    BroadcastListenerProtocol,
+    DatagramStream,
+    DeviceProtocol,
+    IPInterface,
+    bind_device,
+    create_datagram_stream,
+    get_broadcast_addresses,
+    request_state,
+    search_on_interface,
+    send_state,
+)
 
 DEFAULT_TIMEOUT = 5
 DISCOVERY_REQUEST = {"t": "scan"}
@@ -33,8 +40,8 @@ DISCOVERY_RESPONSE = {
         "series": "gree",
         "vender": "1",
         "ver": "V1.1.13",
-        "lock": 0
-    }
+        "lock": 0,
+    },
 }
 DEFAULT_RESPONSE = {
     "t": "pack",
@@ -42,7 +49,7 @@ DEFAULT_RESPONSE = {
     "uid": 0,
     "cid": "aabbcc112233",
     "tcid": "",
-    "pack": {}
+    "pack": {},
 }
 
 
@@ -54,7 +61,8 @@ def get_mock_device_info():
         mac="aabbcc112233",
         brand="gree",
         model="gree",
-        version="1.1.13")
+        version="1.1.13",
+    )
 
 
 @pytest.fixture
@@ -66,9 +74,10 @@ def mock_socket():
     return s
 
 
-MOCK_INTERFACES = ['lo']
+MOCK_INTERFACES = ["lo"]
 MOCK_LO_IFACE = {
-    2: [{'addr': '10.0.0.1', 'netmask': '255.0.0.0', 'peer': '10.255.255.255'}]}
+    2: [{"addr": "10.0.0.1", "netmask": "255.0.0.0", "peer": "10.255.255.255"}]
+}
 
 
 @patch("netifaces.interfaces", return_value=MOCK_INTERFACES)
@@ -85,17 +94,14 @@ def test_get_interfaces(mock_interfaces, mock_ifaddresses):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family",
-    [
-        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)
-    ]
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
 async def test_broadcast_recv(addr, bcast, family):
     """Create a socket broadcast responder, an async broadcast listener, test discovery responses."""
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -118,7 +124,8 @@ async def test_broadcast_recv(addr, bcast, family):
         local_addr = (addr[0], 0)
 
         transport, _ = await loop.create_datagram_endpoint(
-            lambda: BroadcastListenerProtocol(recvq, excq, drained), local_addr=local_addr,
+            lambda: BroadcastListenerProtocol(recvq, excq, drained),
+            local_addr=local_addr,
         )
         stream = DatagramStream(transport, recvq, excq, drained)
 
@@ -140,10 +147,7 @@ async def test_broadcast_recv(addr, bcast, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family",
-    [
-        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)
-    ]
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
 async def test_broadcast_timeout(addr, bcast, family):
     """Create an async broadcast listener, test discovery responses."""
@@ -160,8 +164,7 @@ async def test_broadcast_timeout(addr, bcast, family):
     transport, _ = await loop.create_datagram_endpoint(
         lambda: BroadcastListenerProtocol(recvq, excq, drained), local_addr=local_addr,
     )
-    stream = DatagramStream(transport, recvq, excq,
-                            drained, timeout=DEFAULT_TIMEOUT)
+    stream = DatagramStream(transport, recvq, excq, drained, timeout=DEFAULT_TIMEOUT)
 
     # Send the scan command
     data = json.dumps(DISCOVERY_REQUEST).encode()
@@ -174,17 +177,14 @@ async def test_broadcast_timeout(addr, bcast, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family",
-    [
-        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)
-    ]
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
 async def test_search_on_interface(addr, bcast, family):
     """Create a socket broadcast responder, an async broadcast listener, test discovery responses."""
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -200,28 +200,28 @@ async def test_search_on_interface(addr, bcast, family):
         serv.start()
 
         # Run the listener portion now
-        response = await search_on_interface(IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT)
+        response = await search_on_interface(
+            IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT
+        )
 
         assert response
         assert response == [
-            ('127.0.0.1', 7000, 'aabbcc112233', 'fake unit', 'gree', 'gree', 'V1.1.13')]
+            ("127.0.0.1", 7000, "aabbcc112233", "fake unit", "gree", "gree", "V1.1.13")
+        ]
 
         serv.join(timeout=DEFAULT_TIMEOUT)
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family",
-    [
-        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)
-    ]
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
 async def test_search_on_interface_bad_data(addr, bcast, family):
     """Create a socket broadcast responder, an async broadcast listener, test discovery responses."""
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -234,7 +234,9 @@ async def test_search_on_interface_bad_data(addr, bcast, family):
         serv.start()
 
         # Run the listener portion now
-        response = await search_on_interface(IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT)
+        response = await search_on_interface(
+            IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT
+        )
 
         assert response is not None
         assert len(response) == 0
@@ -244,31 +246,25 @@ async def test_search_on_interface_bad_data(addr, bcast, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family",
-    [
-        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)
-    ]
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
 async def test_search_on_interface_timeout(addr, bcast, family):
     """Create an async broadcast listener, test discovery responses."""
     # Run the listener portion now
-    response = await search_on_interface(IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT)
+    response = await search_on_interface(
+        IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT
+    )
 
     assert response is not None
     assert len(response) == 0
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,family",
-    [
-        (("127.0.0.1", 7000), socket.AF_INET)
-    ]
-)
+@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_datagram_connect(addr, family):
     """Create a socket responder, an async connection, test send and recv."""
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -311,16 +307,11 @@ async def test_datagram_connect(addr, family):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,family",
-    [
-        (("127.0.0.1", 7000), socket.AF_INET)
-    ]
-)
+@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_create_stream(addr, family):
     """Create a socket responder, a network stream, test send and recv."""
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -363,16 +354,11 @@ def test_encrypt_decrypt_payload():
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,family",
-    [
-        (("127.0.0.1", 7000), socket.AF_INET)
-    ]
-)
+@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_send_receive_device_data(addr, family):
     """Create a socket responder, a network stream, test send and recv."""
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -404,16 +390,11 @@ async def test_send_receive_device_data(addr, family):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,family",
-    [
-        (("127.0.0.1", 7000), socket.AF_INET)
-    ]
-)
+@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_bind_device(addr, family):
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -421,7 +402,8 @@ async def test_bind_device(addr, family):
 
             r = DEFAULT_RESPONSE
             r["pack"] = DatagramStream.encrypt_payload(
-                {"t": "bindok", "key": "acbd1234"})
+                {"t": "bindok", "key": "acbd1234"}
+            )
             p = json.dumps(r)
             s.sendto(p.encode(), addr)
 
@@ -438,16 +420,11 @@ async def test_bind_device(addr, family):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,family",
-    [
-        (("127.0.0.1", 7000), socket.AF_INET)
-    ]
-)
+@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_send_and_update_device_status(addr, family):
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -455,7 +432,8 @@ async def test_send_and_update_device_status(addr, family):
 
             r = DEFAULT_RESPONSE
             r["pack"] = DatagramStream.encrypt_payload(
-                {"opt": ["prop-a", "prop-b"], "val": ["val-a", "val-b"]})
+                {"opt": ["prop-a", "prop-b"], "val": ["val-a", "val-b"]}
+            )
             p = json.dumps(r)
             s.sendto(p.encode(), addr)
 
@@ -473,16 +451,11 @@ async def test_send_and_update_device_status(addr, family):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,family",
-    [
-        (("127.0.0.1", 7000), socket.AF_INET)
-    ]
-)
+@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_request_device_status(addr, family):
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(('', addr[1]))
+        sock.bind(("", addr[1]))
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -490,7 +463,8 @@ async def test_request_device_status(addr, family):
 
             r = DEFAULT_RESPONSE
             r["pack"] = DatagramStream.encrypt_payload(
-                {"cols": ["prop-a", "prop-b"], "dat": ["val-a", "val-b"]})
+                {"cols": ["prop-a", "prop-b"], "dat": ["val-a", "val-b"]}
+            )
             p = json.dumps(r)
             s.sendto(p.encode(), addr)
 
