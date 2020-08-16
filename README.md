@@ -4,7 +4,7 @@
 
 Discover, connect and control Gree based mini-split systems.
 
-**greenclimat** is a Python3 based package for controll Gree mini-split ACs and heat pumps. Gree is a common brand for minisplit systems and is licensed and resold under many product names. This module may (or may not) work for any of those system, but has been tested on
+**greenclimat** is a ***fully async*** Python3 based package for controlling Gree based ACs and heat pumps. Gree is a common brand for mini-split systems and is licensed and resold under many product names. This module should work for any device that also works with the Gree+ app, but has been tested on
 
 - Trane mini-split heat pump (4TXK38)
 
