@@ -1,14 +1,17 @@
+import asyncio
 import enum
-import pytest
-import socket
 from unittest.mock import patch
 
+import pytest
+
+from greeclimate.device import Device, Props
 from greeclimate.discovery import Discovery
-from greeclimate.device import Device, DeviceInfo, Props
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+
 
 class FakeProps(enum.Enum):
     FAKE = "fake"
+
 
 def get_mock_state():
     return {
@@ -32,6 +35,7 @@ def get_mock_state():
         "HeatCoolType": 0,
     }
 
+
 def get_mock_state_off():
     return {
         "Pow": 0,
@@ -53,6 +57,7 @@ def get_mock_state_off():
         "TemRec": 0,
         "HeatCoolType": 0,
     }
+
 
 def get_mock_state_on():
     return {
@@ -76,20 +81,28 @@ def get_mock_state_on():
         "HeatCoolType": 0,
     }
 
+
 async def generate_device_mock_async():
-    d = Device(
-        ("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
-    )
+    d = Device(("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
     await d.bind(key="St8Vw1Yz4Bc7Ef0H")
     return d
 
+
 @pytest.mark.asyncio
-@patch("greeclimate.network_helper.search_devices")
-@patch("greeclimate.network_helper.bind_device")
+@patch("greeclimate.network.search_devices")
+@patch("greeclimate.network.bind_device")
 async def test_get_device_info(mock_bind, mock_search):
     # DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
 
-    mock_info = ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1", "MockBrand", "MockModel", "0.0.1-fake")
+    mock_info = (
+        "1.1.1.0",
+        "7000",
+        "aabbcc001122",
+        "MockDevice1",
+        "MockBrand",
+        "MockModel",
+        "0.0.1-fake",
+    )
     mock_search.return_value = [mock_info]
     mock_bind.return_value = "St8Vw1Yz4Bc7Ef0H"
 
@@ -101,27 +114,26 @@ async def test_get_device_info(mock_bind, mock_search):
 
     assert devices is not None
     assert len(devices) == 1
-    
-    assert devices[0].ip ==  mock_info[0]
-    assert devices[0].port ==  mock_info[1]
-    assert devices[0].mac ==  mock_info[2]
-    assert devices[0].name ==  mock_info[3]
-    assert devices[0].brand ==  mock_info[4]
-    assert devices[0].model ==  mock_info[5]
-    assert devices[0].version ==  mock_info[6]
+
+    assert devices[0].ip == mock_info[0]
+    assert devices[0].port == mock_info[1]
+    assert devices[0].mac == mock_info[2]
+    assert devices[0].name == mock_info[3]
+    assert devices[0].brand == mock_info[4]
+    assert devices[0].model == mock_info[5]
+    assert devices[0].version == mock_info[6]
 
     assert device is not None
-    assert device.device_key ==  "St8Vw1Yz4Bc7Ef0H"
+    assert device.device_key == "St8Vw1Yz4Bc7Ef0H"
+
 
 @pytest.mark.asyncio
-@patch("greeclimate.network_helper.search_devices")
-@patch("greeclimate.network_helper.bind_device")
+@patch("greeclimate.network.search_devices")
+@patch("greeclimate.network.bind_device")
 async def test_get_device_key_timeout(mock_bind, mock_search):
 
-    mock_search.return_value = [
-        ("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")
-    ]
-    mock_bind.side_effect = socket.timeout
+    mock_search.return_value = [("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")]
+    mock_bind.side_effect = asyncio.TimeoutError
 
     """ The only way to get the key through binding is by scanning first
     """
@@ -134,8 +146,9 @@ async def test_get_device_key_timeout(mock_bind, mock_search):
     assert device is not None
     assert device.device_key is None
 
+
 @pytest.mark.asyncio
-@patch("greeclimate.network_helper.request_state")
+@patch("greeclimate.network.request_state")
 async def test_update_properties(mock_request):
     mock_request.return_value = get_mock_state()
     device = await generate_device_mock_async()
@@ -149,8 +162,9 @@ async def test_update_properties(mock_request):
         assert device.get_property(p) is not None
         assert device.get_property(p) == get_mock_state()[p.value]
 
+
 @pytest.mark.asyncio
-@patch("greeclimate.network_helper.request_state", side_effect=socket.timeout)
+@patch("greeclimate.network.request_state", side_effect=asyncio.TimeoutError)
 async def test_update_properties_timeout(mock_request):
     mock_request.return_value = get_mock_state()
     device = await generate_device_mock_async()
@@ -161,8 +175,9 @@ async def test_update_properties_timeout(mock_request):
     with pytest.raises(DeviceTimeoutError):
         await device.update_state()
 
+
 @pytest.mark.asyncio
-@patch("greeclimate.network_helper.send_state")
+@patch("greeclimate.network.send_state")
 async def test_set_properties(mock_request):
     device = await generate_device_mock_async()
 
@@ -195,8 +210,9 @@ async def test_set_properties(mock_request):
             assert device.get_property(p) is not None
             assert device.get_property(p) == get_mock_state_on()[p.value]
 
+
 @pytest.mark.asyncio
-@patch("greeclimate.network_helper.send_state", side_effect=socket.timeout)
+@patch("greeclimate.network.send_state", side_effect=asyncio.TimeoutError)
 async def test_set_properties_timeout(mock_request):
     device = await generate_device_mock_async()
 
@@ -223,6 +239,7 @@ async def test_set_properties_timeout(mock_request):
     with pytest.raises(DeviceTimeoutError):
         await device.push_state_update()
 
+
 @pytest.mark.asyncio
 async def test_uninitialized_properties():
     device = await generate_device_mock_async()
@@ -246,5 +263,3 @@ async def test_uninitialized_properties():
     assert not device.turbo
     assert not device.steady_heat
     assert not device.power_save
-
-

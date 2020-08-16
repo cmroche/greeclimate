@@ -1,10 +1,11 @@
+import asyncio
 import enum
 import logging
-import socket
-import greeclimate.network_helper as nethelper
-
 from enum import IntEnum, unique
+
+import greeclimate.network as network
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+
 
 class Props(enum.Enum):
     POWER = "Pow"
@@ -151,7 +152,7 @@ class Device:
 
     async def bind(self, key=None):
         """ Run the binding procedure.
-        
+
         Binding is a finnicky procedure, and happens in 1 of 2 ways:
             1 - Without the key, binding must pass the device info structure immediately following
                 the search devices procedure. There is only a small window to complete registration.
@@ -172,11 +173,11 @@ class Device:
             if key:
                 self.device_key = key
             else:
-                self.device_key = await nethelper.bind_device(self.device_info)
+                self.device_key = await network.bind_device(self.device_info)
 
             if self.device_key:
                 self._logger.info("Bound to device using key %s", self.device_key)
-        except socket.error:
+        except asyncio.TimeoutError:
             raise DeviceNotBoundError
 
     async def update_state(self):
@@ -189,10 +190,10 @@ class Device:
         props = [x.value for x in Props]
 
         try:
-            self._properties = nethelper.request_state(
+            self._properties = await network.request_state(
                 props, self.device_info, self.device_key
             )
-        except socket.error:
+        except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
     async def push_state_update(self):
@@ -211,8 +212,8 @@ class Device:
         self._dirty.clear()
 
         try:
-            nethelper.send_state(props, self.device_info, key=self.device_key)
-        except socket.error:
+            await network.send_state(props, self.device_info, key=self.device_key)
+        except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
     def get_property(self, name):
@@ -360,4 +361,3 @@ class Device:
     @power_save.setter
     def power_save(self, value: bool):
         self.set_property(Props.POWER_SAVE, int(value))
-
