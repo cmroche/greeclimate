@@ -2,7 +2,7 @@
     "python.linting.enabled": true,
     "python.linting.lintOnSave": true,
     "python.linting.flake8Enabled": true,
-    "python.pythonPath": "/usr/local/bin/python",
+    "python.pythonPath": "venv/bin/python",
     "python.testing.unittestArgs": [
         "-v",
         "-s",
