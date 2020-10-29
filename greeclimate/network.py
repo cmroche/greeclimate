@@ -122,9 +122,9 @@ class DatagramStream:
         data_bytes = json.dumps(data).encode()
         await self.send(data_bytes)
 
-    async def recv_ready(self):
+    def recv_ready(self):
         _ = self.exception
-        return not await self._recvq.empty()
+        return not self._recvq.empty()
 
     async def recv(self):
         _ = self.exception
@@ -211,7 +211,7 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
 
     devices = []
     start_ts = time.time()
-    while start_ts + timeout > time.time() or await stream.recv_ready():
+    while start_ts + timeout > time.time() or stream.recv_ready():
         try:
             (response, addr) = await stream.recv_device_data()
             pack = response["pack"]
