@@ -198,11 +198,12 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
     excq = asyncio.Queue()
     drained = asyncio.Event()
 
-    bcast = (bcast_iface.bcast_address, 7000)
+    bcast = ("255.255.255.255", 7000)
     local_addr = (bcast_iface.ip_address, 0)
 
     transport, _ = await loop.create_datagram_endpoint(
-        lambda: BroadcastListenerProtocol(recvq, excq, drained), local_addr=local_addr,
+        lambda: BroadcastListenerProtocol(recvq, excq, drained),
+        local_addr=local_addr,
     )
     stream = DatagramStream(transport, recvq, excq, drained, timeout)
 

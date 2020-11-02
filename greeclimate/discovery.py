@@ -16,7 +16,7 @@ class Discovery:
 
     @staticmethod
     async def search_devices() -> List[DeviceInfo]:
-        """ Sends a discovery broadcast packet on each network interface to
+        """Sends a discovery broadcast packet on each network interface to
             locate Gree units on the network
 
         Returns:

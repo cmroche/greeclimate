@@ -151,7 +151,7 @@ class Device:
         self._dirty = []
 
     async def bind(self, key=None):
-        """ Run the binding procedure.
+        """Run the binding procedure.
 
         Binding is a finnicky procedure, and happens in 1 of 2 ways:
             1 - Without the key, binding must pass the device info structure immediately following
