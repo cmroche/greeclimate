@@ -89,8 +89,7 @@ async def generate_device_mock_async():
 
 
 def test_device_info_equality():
-    """ The only way to get the key through binding is by scanning first
-    """
+    """The only way to get the key through binding is by scanning first"""
 
     props = [
         "1.1.1.0",
@@ -106,11 +105,11 @@ def test_device_info_equality():
     assert DeviceInfo(*props) == DeviceInfo(*props)
 
     # When any property differs the device info is not the same
-    for i in range(props):
+    for i in range(len(props)):
         new_props = props.copy()
         new_props[i] = "modified_prop"
         assert DeviceInfo(*new_props) != DeviceInfo(*props)
-    
+
 
 @pytest.mark.asyncio
 @patch("greeclimate.network.search_devices")

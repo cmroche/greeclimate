@@ -110,6 +110,24 @@ class DeviceInfo:
     def __str__(self):
         return f"Device: {self.name} @ {self.ip}:{self.port} (mac: {self.mac})"
 
+    def __eq__(self, other):
+        """Check equality based on Device Info properties"""
+        if isinstance(other, DeviceInfo):
+            return (
+                self.ip == other.ip
+                and self.port == other.port
+                and self.mac == other.mac
+                and self.name == other.name
+                and self.brand == other.brand
+                and self.model == other.model
+                and self.version == other.version
+            )
+        return False
+
+    def __ne__(self, other):
+        """Check inequality based on Device Info properties"""
+        return not self.__eq__(other)
+
 
 class Device:
     """Class representing a physical device, it's state and properties.
