@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
-from greeclimate.device import Device, Props
+from greeclimate.device import Device, DeviceInfo, Props
 from greeclimate.discovery import Discovery
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 
@@ -87,6 +87,30 @@ async def generate_device_mock_async():
     await d.bind(key="St8Vw1Yz4Bc7Ef0H")
     return d
 
+
+def test_device_info_equality():
+    """ The only way to get the key through binding is by scanning first
+    """
+
+    props = [
+        "1.1.1.0",
+        "7000",
+        "aabbcc001122",
+        "MockDevice1",
+        "MockBrand",
+        "MockModel",
+        "0.0.1-fake",
+    ]
+
+    # When all properties match the device info is the same
+    assert DeviceInfo(*props) == DeviceInfo(*props)
+
+    # When any property differs the device info is not the same
+    for i in range(props):
+        new_props = props.copy()
+        new_props[i] = "modified_prop"
+        assert DeviceInfo(*new_props) != DeviceInfo(*props)
+    
 
 @pytest.mark.asyncio
 @patch("greeclimate.network.search_devices")
