@@ -147,7 +147,11 @@ async def test_broadcast_recv(addr, bcast, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,bcast,family",
+    [
+        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET),
+        (("127.0.0.1", 7000), "255.255.255.255", socket.AF_INET),
+    ],
 )
 async def test_broadcast_timeout(addr, bcast, family):
     """Create an async broadcast listener, test discovery responses."""
@@ -162,7 +166,8 @@ async def test_broadcast_timeout(addr, bcast, family):
     local_addr = (addr[0], 0)
 
     transport, _ = await loop.create_datagram_endpoint(
-        lambda: BroadcastListenerProtocol(recvq, excq, drained), local_addr=local_addr,
+        lambda: BroadcastListenerProtocol(recvq, excq, drained),
+        local_addr=local_addr,
     )
     stream = DatagramStream(transport, recvq, excq, drained, timeout=DEFAULT_TIMEOUT)
 
