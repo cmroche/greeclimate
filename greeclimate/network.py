@@ -221,7 +221,7 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
                 (
                     addr[0],
                     addr[1],
-                    pack["cid"],
+                    pack.get("mac") or pack.get("cid"),
                     pack.get("name"),
                     pack.get("brand"),
                     pack.get("model"),

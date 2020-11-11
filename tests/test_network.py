@@ -43,6 +43,28 @@ DISCOVERY_RESPONSE = {
         "lock": 0,
     },
 }
+DISCOVERY_RESPONSE_NO_CID = {
+    "t": "pack",
+    "i": 1,
+    "uid": 0,
+    "cid": "",
+    "tcid": "",
+    "pack": {
+        "t": "dev",
+        "cid": "",
+        "bc": "gree",
+        "brand": "gree",
+        "catalog": "gree",
+        "mac": "aabbcc112233",
+        "mid": "10001",
+        "model": "gree",
+        "name": "fake unit",
+        "series": "gree",
+        "vender": "1",
+        "ver": "V1.1.13",
+        "lock": 0,
+    },
+}
 DEFAULT_RESPONSE = {
     "t": "pack",
     "i": 1,
@@ -182,9 +204,18 @@ async def test_broadcast_timeout(addr, bcast, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,bcast,family,dresp",
+    [
+        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET, DISCOVERY_RESPONSE),
+        (
+            ("127.0.0.1", 7000),
+            "127.255.255.255",
+            socket.AF_INET,
+            DISCOVERY_RESPONSE_NO_CID,
+        ),
+    ],
 )
-async def test_search_on_interface(addr, bcast, family):
+async def test_search_on_interface(addr, bcast, family, dresp):
     """Create a socket broadcast responder, an async broadcast listener, test discovery responses."""
     with socket.socket(family, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -196,7 +227,7 @@ async def test_search_on_interface(addr, bcast, family):
             p = json.loads(d)
             assert p == DISCOVERY_REQUEST
 
-            r = DISCOVERY_RESPONSE
+            r = dresp
             r["pack"] = DatagramStream.encrypt_payload(r["pack"])
             p = json.dumps(r)
             s.sendto(p.encode(), addr)
