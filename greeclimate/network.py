@@ -291,7 +291,7 @@ async def bind_device(device_info):
         raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error trying to bind device")
-        _LOGGER.exception(e)
+        _LOGGER.debug(str(e))
         raise e
     finally:
         stream.close()
@@ -323,7 +323,7 @@ async def send_state(property_values, device_info, key=GENERIC_KEY):
         raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error sending state to device")
-        _LOGGER.exception(e)
+        _LOGGER.debug(str(e))
         raise e
     finally:
         stream.close()
@@ -352,7 +352,7 @@ async def request_state(properties, device_info, key=GENERIC_KEY):
         raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error requesting update from device")
-        _LOGGER.exception(e)
+        _LOGGER.debug(str(e))
         raise e
     finally:
         stream.close()
