@@ -296,8 +296,7 @@ async def bind_device(device_info):
     finally:
         stream.close()
 
-    if r["pack"]["t"] == "bindok":
-        return r["pack"]["key"]
+    return r["pack"].get("key")
 
 
 async def send_state(property_values, device_info, key=GENERIC_KEY):
