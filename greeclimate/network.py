@@ -141,10 +141,12 @@ class DatagramStream:
 
         data = json.loads(data_bytes)
 
+        _LOGGER.debug("Received packet:\n%s", json.dumps(data))
+
         if "pack" in data:
             data["pack"] = DatagramStream.decrypt_payload(data["pack"], key)
+            _LOGGER.debug("Decrypted packet:\n%s", json.dumps(data))
 
-        _LOGGER.debug("Recived packet:\n%s", json.dumps(data))
         return (data, addr)
 
     @staticmethod
@@ -287,6 +289,8 @@ async def bind_device(device_info):
         await stream.send_device_data(payload)
         (r, _) = await stream.recv_device_data()
     except Exception as e:
+        _LOGGER.debug("Encountered an error trying to bind device %s")
+        _LOGGER.exception(e)
         raise e
     finally:
         stream.close()
