@@ -144,7 +144,7 @@ class DatagramStream:
         if "pack" in data:
             data["pack"] = DatagramStream.decrypt_payload(data["pack"], key)
 
-        _LOGGER.debug("Recived packet:\n%s", json.dumps(data))
+        _LOGGER.debug("Received packet:\n%s", json.dumps(data))
         return (data, addr)
 
     @staticmethod
@@ -286,7 +286,12 @@ async def bind_device(device_info):
         # Binding uses the generic key only
         await stream.send_device_data(payload)
         (r, _) = await stream.recv_device_data()
+    except asyncio.TimeoutError as e:
+        _LOGGER.debug("Timeout trying to bind device")
+        raise e
     except Exception as e:
+        _LOGGER.debug("Encountered an error trying to bind device")
+        _LOGGER.exception(e)
         raise e
     finally:
         stream.close()
@@ -314,7 +319,11 @@ async def send_state(property_values, device_info, key=GENERIC_KEY):
     try:
         await stream.send_device_data(payload, key)
         (r, _) = await stream.recv_device_data(key)
+    except asyncio.TimeoutError as e:
+        raise e
     except Exception as e:
+        _LOGGER.debug("Encountered an error sending state to device")
+        _LOGGER.exception(e)
         raise e
     finally:
         stream.close()
@@ -339,7 +348,11 @@ async def request_state(properties, device_info, key=GENERIC_KEY):
     try:
         await stream.send_device_data(payload, key)
         (r, _) = await stream.recv_device_data(key)
+    except asyncio.TimeoutError as e:
+        raise e
     except Exception as e:
+        _LOGGER.debug("Encountered an error requesting update from device")
+        _LOGGER.exception(e)
         raise e
     finally:
         stream.close()
