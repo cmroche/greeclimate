@@ -1,0 +1,109 @@
+2020-11-08 11:39:37 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:39:37 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+
+2020-11-08 11:39:39 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:39:39 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+
+2020-11-08 11:39:41 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": "1", "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "bind", "uid": 0}}
+2020-11-08 11:39:41 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "bindok", "mac": "f4911e7aca59", "key": "St8Vw1Yz4Bc7Ef0H", "r": 200}}
+2020-11-08 11:40:34 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:40:34 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+2020-11-08 11:40:36 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:40:36 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+
+2020-11-08 11:40:38 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": "1", "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "bind", "uid": 0}}
+2020-11-08 11:40:38 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "bindok", "mac": "f4911e7aca59", "key": "St8Vw1Yz4Bc7Ef0H", "r": 200}}
+2020-11-08 11:46:13 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:46:13 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+2020-11-08 11:46:15 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:46:15 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+2020-11-08 11:46:17 INFO (MainThread) [greeclimate.discovery] Found Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59)
+
+2020-11-08 11:46:17 INFO (MainThread) [greeclimate.device] Starting device binding to Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59)
+2020-11-08 11:46:17 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": "1", "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "bind", "uid": 0}}
+2020-11-08 11:46:17 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "bindok", "mac": "f4911e7aca59", "key": "St8Vw1Yz4Bc7Ef0H", "r": 200}}
+2020-11-08 11:50:22 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:50:22 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+2020-11-08 11:50:24 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dev", "cid": "f4911e7aca59", "bc": "", "brand": "gree", "catalog": "gree", "mac": "f4911e7aca59", "mid": "10001", "model": "gree", "name": "1e7aca59", "series": "gree", "vender": "1", "ver": "V1.2.1", "lock": 0}}
+2020-11-08 11:50:24 DEBUG (MainThread) [greeclimate.network] Received response from device search
+{'t': 'dev', 'cid': 'f4911e7aca59', 'bc': '', 'brand': 'gree', 'catalog': 'gree', 'mac': 'f4911e7aca59', 'mid': '10001', 'model': 'gree', 'name': '1e7aca59', 'series': 'gree', 'vender': '1', 'ver': 'V1.2.1', 'lock': 0}
+
+2020-11-08 11:50:26 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": "1", "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "bind", "uid": 0}}
+2020-11-08 11:50:26 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 1, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "bindok", "mac": "f4911e7aca59", "key": "St8Vw1Yz4Bc7Ef0H", "r": 200}}
+
+2020-11-08 11:50:26 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "status", "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"]}}
+2020-11-08 11:50:26 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dat", "mac": "f4911e7aca59", "r": 200, "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"], "dat": [1, 4, 23, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]}}
+
+2020-11-08 11:50:44 DEBUG (MainThread) [greeclimate.device] Pushing state updates to (Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59))
+2020-11-08 11:50:44 DEBUG (MainThread) [greeclimate.device] Sending remote state update Lig -> 0
+2020-11-08 11:50:44 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"opt": ["Lig"], "p": [0], "t": "cmd"}}
+2020-11-08 11:50:44 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "res", "mac": "f4911e7aca59", "r": 200, "opt": ["Lig"], "p": [0], "val": [0]}}
+
+2020-11-08 11:51:25 DEBUG (MainThread) [greeclimate.device] Updating device properties for (Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59))
+2020-11-08 11:51:26 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "status", "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"]}}
+2020-11-08 11:51:26 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dat", "mac": "f4911e7aca59", "r": 200, "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"], "dat": [1, 4, 23, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0]}}
+2020-11-08 11:51:26 DEBUG (MainThread) [homeassistant.components.gree.bridge] Finished fetching gree-1e7aca59 data in 0.019 seconds
+
+2020-11-08 11:52:26 DEBUG (MainThread) [greeclimate.device] Updating device properties for (Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59))
+2020-11-08 11:52:26 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "status", "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"]}}
+2020-11-08 11:52:26 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dat", "mac": "f4911e7aca59", "r": 200, "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"], "dat": [1, 4, 23, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0]}}
+2020-11-08 11:52:26 DEBUG (MainThread) [homeassistant.components.gree.bridge] Finished fetching gree-1e7aca59 data in 0.030 seconds
+
+2020-11-08 11:52:45 DEBUG (MainThread) [greeclimate.device] Pushing state updates to (Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59))
+2020-11-08 11:52:45 DEBUG (MainThread) [greeclimate.device] Sending remote state update Lig -> 1
+2020-11-08 11:52:45 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"opt": ["Lig"], "p": [1], "t": "cmd"}}
+2020-11-08 11:52:45 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "res", "mac": "f4911e7aca59", "r": 200, "opt": ["Lig"], "p": [1], "val": [1]}}
+
+2020-11-08 11:52:57 DEBUG (MainThread) [greeclimate.device] Pushing state updates to (Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59))
+2020-11-08 11:52:57 DEBUG (MainThread) [greeclimate.device] Sending remote state update WdSpd -> 5
+2020-11-08 11:52:57 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"opt": ["WdSpd"], "p": [5], "t": "cmd"}}
+2020-11-08 11:52:57 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "res", "mac": "f4911e7aca59", "r": 200, "opt": ["WdSpd"], "p": [5], "val": [5]}}
+
+2020-11-08 11:53:01 DEBUG (MainThread) [greeclimate.device] Pushing state updates to (Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59))
+2020-11-08 11:53:01 DEBUG (MainThread) [greeclimate.device] Sending remote state update WdSpd -> 0
+2020-11-08 11:53:01 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"opt": ["WdSpd"], "p": [0], "t": "cmd"}}
+2020-11-08 11:53:01 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "res", "mac": "f4911e7aca59", "r": 200, "opt": ["WdSpd"], "p": [0], "val": [0]}}
+
+2020-11-08 11:53:25 DEBUG (MainThread) [greeclimate.device] Updating device properties for (Device: 1e7aca59 @ 192.168.1.29:7000 (mac: f4911e7aca59))
+2020-11-08 11:53:26 DEBUG (MainThread) [greeclimate.network] Sending packet:
+{"cid": "app", "i": 0, "t": "pack", "uid": 0, "tcid": "f4911e7aca59", "pack": {"mac": "f4911e7aca59", "t": "status", "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"]}}
+2020-11-08 11:53:26 DEBUG (MainThread) [greeclimate.network] Recived packet:
+{"t": "pack", "i": 0, "uid": 0, "cid": "f4911e7aca59", "tcid": "", "pack": {"t": "dat", "mac": "f4911e7aca59", "r": 200, "cols": ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType"], "dat": [1, 4, 23, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]}}
+2020-11-08 11:53:26 DEBUG (MainThread) [homeassistant.components.gree.bridge] Finished fetching gree-1e7aca59 data in 0.023 seconds
