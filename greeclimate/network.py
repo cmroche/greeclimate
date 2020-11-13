@@ -322,8 +322,6 @@ async def send_state(property_values, device_info, key=GENERIC_KEY):
     try:
         await stream.send_device_data(payload, key)
         (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error sending state to device")
         _LOGGER.debug(str(e))
@@ -351,8 +349,6 @@ async def request_state(properties, device_info, key=GENERIC_KEY):
     try:
         await stream.send_device_data(payload, key)
         (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error requesting update from device")
         _LOGGER.debug(str(e))
