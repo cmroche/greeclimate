@@ -10,6 +10,7 @@ from typing import List, Text, Tuple, Union
 
 from Crypto.Cipher import AES
 
+NETWORK_TIMEOUT = 10
 GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
 
 _LOGGER = logging.getLogger(__name__)
@@ -152,7 +153,7 @@ class DatagramStream:
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         decoded = base64.b64decode(payload)
         decrypted = cipher.decrypt(decoded).decode()
-        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
         return json.loads(t)
 
     @staticmethod
@@ -240,7 +241,7 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
     return devices
 
 
-async def search_devices(timeout: int = 2, broadcastAddrs: str = None):
+async def search_devices(timeout: int = NETWORK_TIMEOUT, broadcastAddrs: str = None):
     if not broadcastAddrs:
         broadcastAddrs = get_broadcast_addresses()
 
@@ -267,10 +268,10 @@ async def create_datagram_stream(target: IPAddr) -> DatagramStream:
     transport, _ = await loop.create_datagram_endpoint(
         lambda: DeviceProtocol(recvq, excq, drained), remote_addr=target
     )
-    return DatagramStream(transport, recvq, excq, drained, timeout=10)
+    return DatagramStream(transport, recvq, excq, drained, timeout=NETWORK_TIMEOUT)
 
 
-async def bind_device(device_info):
+async def bind_device(device_info, announce=False):
     payload = {
         "cid": "app",
         "i": "1",
@@ -284,6 +285,9 @@ async def bind_device(device_info):
     stream = await create_datagram_stream(remote_addr)
     try:
         # Binding uses the generic key only
+        if announce:
+            await stream.send_device_data({"t": "scan"})
+            await stream.recv_device_data()
         await stream.send_device_data(payload)
         (r, _) = await stream.recv_device_data()
     except asyncio.TimeoutError as e:
@@ -318,8 +322,6 @@ async def send_state(property_values, device_info, key=GENERIC_KEY):
     try:
         await stream.send_device_data(payload, key)
         (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error sending state to device")
         _LOGGER.debug(str(e))
@@ -347,8 +349,6 @@ async def request_state(properties, device_info, key=GENERIC_KEY):
     try:
         await stream.send_device_data(payload, key)
         (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error requesting update from device")
         _LOGGER.debug(str(e))
