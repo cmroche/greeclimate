@@ -27,19 +27,20 @@ The easiest way to grab **greeclimate** is through PyPI
 Scan the network for devices, select a device and immediately bind. See the notes below for caveats.
 
 ```python
-try:
-    if not self._device_key:
-        devices = await Discovery.search_devices()
-        if self._mac:
-            deviceinfo = next((d for d in devices if d.mac == self._mac), None)
-        else:
-            deviceinfo = next((d for d in devices if d.ip == self._ip), None)
-    else:
-        deviceinfo = DeviceInfo(self._ip, self._port, self._mac, self._name)
-    device = Device(deviceinfo)
-    await device.bind(key=self._device_key)
-except Exception:
-    raise CannotConnect
+for device_info in await Discovery.search_devices():
+    try:
+        device = Device(device_info)
+        await device.bind() # Device will auto bind on update if you omit this step
+    except CannotConnect:
+        _LOGGER.error("Unable to bind to gree device: %s", device_info)
+        continue
+
+    _LOGGER.debug(
+        "Adding Gree device at %s:%i (%s)",
+        device.device_info.ip,
+        device.device_info.port,
+        device.device_info.name,
+    )
 ```
 
 #### Caveats

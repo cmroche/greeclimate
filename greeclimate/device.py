@@ -191,17 +191,22 @@ class Device:
             if key:
                 self.device_key = key
             else:
-                self.device_key = await network.bind_device(self.device_info, announce=True)
+                self.device_key = await network.bind_device(
+                    self.device_info, announce=True
+                )
 
             if self.device_key:
                 self._logger.info("Bound to device using key %s", self.device_key)
         except asyncio.TimeoutError:
+            pass
+
+        if not self.device_key:
             raise DeviceNotBoundError
 
     async def update_state(self):
         """ Update the internal state of the device structure of the physical device """
         if not self.device_key:
-            raise DeviceNotBoundError
+            self.bind()
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
@@ -218,6 +223,9 @@ class Device:
         """ Push any pending state updates to the unit """
         if not self._dirty:
             return
+
+        if not self.device_key:
+            self.bind()
 
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
 

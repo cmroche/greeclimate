@@ -10,6 +10,7 @@ from typing import List, Text, Tuple, Union
 
 from Crypto.Cipher import AES
 
+NETWORK_TIMEOUT = 10
 GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
 
 _LOGGER = logging.getLogger(__name__)
@@ -240,7 +241,7 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
     return devices
 
 
-async def search_devices(timeout: int = 2, broadcastAddrs: str = None):
+async def search_devices(timeout: int = NETWORK_TIMEOUT, broadcastAddrs: str = None):
     if not broadcastAddrs:
         broadcastAddrs = get_broadcast_addresses()
 
@@ -267,7 +268,7 @@ async def create_datagram_stream(target: IPAddr) -> DatagramStream:
     transport, _ = await loop.create_datagram_endpoint(
         lambda: DeviceProtocol(recvq, excq, drained), remote_addr=target
     )
-    return DatagramStream(transport, recvq, excq, drained, timeout=10)
+    return DatagramStream(transport, recvq, excq, drained, timeout=NETWORK_TIMEOUT)
 
 
 async def bind_device(device_info, announce=False):
