@@ -293,8 +293,7 @@ async def bind_device(device_info, announce=False):
     except asyncio.TimeoutError as e:
         raise e
     except Exception as e:
-        _LOGGER.debug("Encountered an error trying to bind device")
-        _LOGGER.debug(e)
+        _LOGGER.exception("Encountered an error trying to bind device")
         raise e
     finally:
         stream.close()
@@ -324,8 +323,7 @@ async def send_state(property_values, device_info, key=GENERIC_KEY):
     except asyncio.TimeoutError as e:
         raise e
     except Exception as e:
-        _LOGGER.debug("Encountered an error sending state to device")
-        _LOGGER.debug(e)
+        _LOGGER.exception("Encountered an error sending state to device")
         raise e
     finally:
         stream.close()
@@ -354,8 +352,7 @@ async def request_state(properties, device_info, key=GENERIC_KEY):
         _LOGGER.debug("Timeout trying to bind device")
         raise e
     except Exception as e:
-        _LOGGER.debug("Encountered an error requesting update from device")
-        _LOGGER.debug(str(e))
+        _LOGGER.exception("Encountered an error requesting update from device")
         raise e
     finally:
         stream.close()
