@@ -152,7 +152,7 @@ class DatagramStream:
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         decoded = base64.b64decode(payload)
         decrypted = cipher.decrypt(decoded).decode()
-        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
         return json.loads(t)
 
     @staticmethod
@@ -270,7 +270,7 @@ async def create_datagram_stream(target: IPAddr) -> DatagramStream:
     return DatagramStream(transport, recvq, excq, drained, timeout=10)
 
 
-async def bind_device(device_info):
+async def bind_device(device_info, announce=False):
     payload = {
         "cid": "app",
         "i": "1",
@@ -284,6 +284,9 @@ async def bind_device(device_info):
     stream = await create_datagram_stream(remote_addr)
     try:
         # Binding uses the generic key only
+        if announce:
+            await stream.send_device_data({"t": "scan"})
+            await stream.recv_device_data()
         await stream.send_device_data(payload)
         (r, _) = await stream.recv_device_data()
     except asyncio.TimeoutError as e:

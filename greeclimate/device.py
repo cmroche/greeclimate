@@ -191,7 +191,7 @@ class Device:
             if key:
                 self.device_key = key
             else:
-                self.device_key = await network.bind_device(self.device_info)
+                self.device_key = await network.bind_device(self.device_info, announce=True)
 
             if self.device_key:
                 self._logger.info("Bound to device using key %s", self.device_key)
