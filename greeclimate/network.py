@@ -234,7 +234,7 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
         except json.JSONDecodeError:
             logger.debug("Unable to decode device search response payload")
         except Exception as e:
-            logging.error("Unable to search devices due to an exception %s", str(e))
+            logging.error("Unable to search devices due to an exception %s", e)
             break
 
     stream.close()
@@ -295,7 +295,7 @@ async def bind_device(device_info, announce=False):
         raise e
     except Exception as e:
         _LOGGER.debug("Encountered an error trying to bind device")
-        _LOGGER.debug(str(e))
+        _LOGGER.debug(e)
         raise e
     finally:
         stream.close()
@@ -324,7 +324,7 @@ async def send_state(property_values, device_info, key=GENERIC_KEY):
         (r, _) = await stream.recv_device_data(key)
     except Exception as e:
         _LOGGER.debug("Encountered an error sending state to device")
-        _LOGGER.debug(str(e))
+        _LOGGER.debug(e)
         raise e
     finally:
         stream.close()
