@@ -192,7 +192,7 @@ class Device:
                 self.device_key = key
             else:
                 self.device_key = await network.bind_device(
-                    self.device_info, announce=True
+                    self.device_info, announce=False
                 )
 
             if self.device_key:
