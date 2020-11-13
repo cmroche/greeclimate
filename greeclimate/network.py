@@ -349,7 +349,6 @@ async def request_state(properties, device_info, key=GENERIC_KEY):
         await stream.send_device_data(payload, key)
         (r, _) = await stream.recv_device_data(key)
     except asyncio.TimeoutError as e:
-        _LOGGER.debug("Timeout trying to bind device")
         raise e
     except Exception as e:
         _LOGGER.exception("Encountered an error requesting update from device")
