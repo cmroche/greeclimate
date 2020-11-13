@@ -274,7 +274,7 @@ async def create_datagram_stream(target: IPAddr) -> DatagramStream:
 async def bind_device(device_info, announce=False):
     payload = {
         "cid": "app",
-        "i": "1",
+        "i": 1,
         "t": "pack",
         "uid": 0,
         "tcid": device_info.mac,
