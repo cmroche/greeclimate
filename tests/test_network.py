@@ -2,7 +2,7 @@ import asyncio
 import json
 import socket
 from threading import Thread
-from unittest.mock import Mock, create_autospec, patch
+from unittest.mock import create_autospec
 
 import pytest
 
@@ -10,81 +10,19 @@ from greeclimate.network import (
     BroadcastListenerProtocol,
     DatagramStream,
     DeviceProtocol,
-    IPInterface,
     bind_device,
     create_datagram_stream,
-    get_broadcast_addresses,
     request_state,
-    search_on_interface,
     send_state,
 )
 
-DEFAULT_TIMEOUT = 5
-DISCOVERY_REQUEST = {"t": "scan"}
-DISCOVERY_RESPONSE = {
-    "t": "pack",
-    "i": 1,
-    "uid": 0,
-    "cid": "aabbcc112233",
-    "tcid": "",
-    "pack": {
-        "t": "dev",
-        "cid": "aabbcc112233",
-        "bc": "gree",
-        "brand": "gree",
-        "catalog": "gree",
-        "mac": "aabbcc112233",
-        "mid": "10001",
-        "model": "gree",
-        "name": "fake unit",
-        "series": "gree",
-        "vender": "1",
-        "ver": "V1.1.13",
-        "lock": 0,
-    },
-}
-DISCOVERY_RESPONSE_NO_CID = {
-    "t": "pack",
-    "i": 1,
-    "uid": 0,
-    "cid": "",
-    "tcid": "",
-    "pack": {
-        "t": "dev",
-        "cid": "",
-        "bc": "gree",
-        "brand": "gree",
-        "catalog": "gree",
-        "mac": "aabbcc112233",
-        "mid": "10001",
-        "model": "gree",
-        "name": "fake unit",
-        "series": "gree",
-        "vender": "1",
-        "ver": "V1.1.13",
-        "lock": 0,
-    },
-}
-DEFAULT_RESPONSE = {
-    "t": "pack",
-    "i": 1,
-    "uid": 0,
-    "cid": "aabbcc112233",
-    "tcid": "",
-    "pack": {},
-}
-
-
-def get_mock_device_info():
-    return Mock(
-        name="device-info",
-        ip="127.0.0.1",
-        port="7000",
-        mac="aabbcc112233",
-        brand="gree",
-        model="gree",
-        version="1.1.13",
-    )
+from .common import (
+    DEFAULT_TIMEOUT,
+    DEFAULT_RESPONSE,
+    DISCOVERY_REQUEST,
+    DISCOVERY_RESPONSE,
+    get_mock_device_info,
+)
 
 
 @pytest.fixture
@@ -94,24 +32,6 @@ def mock_socket():
     s.type = socket.SOCK_DGRAM
 
     return s
-
-
-MOCK_INTERFACES = ["lo"]
-MOCK_LO_IFACE = {
-    2: [{"addr": "10.0.0.1", "netmask": "255.0.0.0", "peer": "10.255.255.255"}]
-}
-
-
-@patch("netifaces.interfaces", return_value=MOCK_INTERFACES)
-@patch("netifaces.ifaddresses", return_value=MOCK_LO_IFACE)
-def test_get_interfaces(mock_interfaces, mock_ifaddresses):
-    """Query available interfaces, should be returned in a list."""
-    ifaces = get_broadcast_addresses()
-
-    assert ifaces
-    assert len(ifaces) > 0
-    assert ifaces[0].ip_address == "10.0.0.1"
-    assert ifaces[0].bcast_address == "10.255.255.255"
 
 
 @pytest.mark.asyncio
@@ -200,99 +120,6 @@ async def test_broadcast_timeout(addr, bcast, family):
     # Wait on the scan response
     with pytest.raises(asyncio.TimeoutError):
         await stream.recv()
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast,family,dresp",
-    [
-        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET, DISCOVERY_RESPONSE),
-        (
-            ("127.0.0.1", 7000),
-            "127.255.255.255",
-            socket.AF_INET,
-            DISCOVERY_RESPONSE_NO_CID,
-        ),
-    ],
-)
-async def test_search_on_interface(addr, bcast, family, dresp):
-    """Create a socket broadcast responder, an async broadcast listener, test discovery responses."""
-    with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(("", addr[1]))
-
-        def responder(s):
-            (d, addr) = s.recvfrom(2048)
-            p = json.loads(d)
-            assert p == DISCOVERY_REQUEST
-
-            r = dresp
-            r["pack"] = DatagramStream.encrypt_payload(r["pack"])
-            p = json.dumps(r)
-            s.sendto(p.encode(), addr)
-
-        serv = Thread(target=responder, args=(sock,))
-        serv.start()
-
-        # Run the listener portion now
-        response = await search_on_interface(
-            IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT
-        )
-
-        assert response
-        assert response == [
-            ("127.0.0.1", 7000, "aabbcc112233", "fake unit", "gree", "gree", "V1.1.13")
-        ]
-
-        serv.join(timeout=DEFAULT_TIMEOUT)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
-)
-async def test_search_on_interface_bad_data(addr, bcast, family):
-    """Create a socket broadcast responder, an async broadcast listener, test discovery responses."""
-    with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(("", addr[1]))
-
-        def responder(s):
-            (d, addr) = s.recvfrom(2048)
-            p = json.loads(d)
-            assert p == DISCOVERY_REQUEST
-
-            s.sendto("garbage data".encode(), addr)
-
-        serv = Thread(target=responder, args=(sock,))
-        serv.start()
-
-        # Run the listener portion now
-        response = await search_on_interface(
-            IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT
-        )
-
-        assert response is not None
-        assert len(response) == 0
-
-        serv.join(timeout=DEFAULT_TIMEOUT)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
-)
-async def test_search_on_interface_timeout(addr, bcast, family):
-    """Create an async broadcast listener, test discovery responses."""
-    # Run the listener portion now
-    response = await search_on_interface(
-        IPInterface(addr[0], bcast), timeout=DEFAULT_TIMEOUT
-    )
-
-    assert response is not None
-    assert len(response) == 0
 
 
 @pytest.mark.asyncio

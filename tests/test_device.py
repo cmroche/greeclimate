@@ -112,9 +112,8 @@ def test_device_info_equality():
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.search_devices")
 @patch("greeclimate.network.bind_device")
-async def test_get_device_info(mock_bind, mock_search):
+async def test_get_device_info(mock_bind, search_devices):
     # DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
 
     mock_info = (
@@ -126,12 +125,14 @@ async def test_get_device_info(mock_bind, mock_search):
         "MockModel",
         "0.0.1-fake",
     )
-    mock_search.return_value = [mock_info]
+
+    search_devices.return_value = [mock_info]
     mock_bind.return_value = "St8Vw1Yz4Bc7Ef0H"
 
     """ The only way to get the key through binding is by scanning first
     """
-    devices = await Discovery.search_devices()
+    discovery = Discovery(allow_loopback=True)
+    devices = await discovery.search_devices()
     device = Device(devices[0])
     await device.bind()
 
@@ -151,16 +152,16 @@ async def test_get_device_info(mock_bind, mock_search):
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.search_devices")
 @patch("greeclimate.network.bind_device")
-async def test_get_device_key_timeout(mock_bind, mock_search):
+async def test_get_device_key_timeout(mock_bind, search_devices):
 
-    mock_search.return_value = [("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")]
+    search_devices.return_value = [("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")]
     mock_bind.side_effect = asyncio.TimeoutError
 
     """ The only way to get the key through binding is by scanning first
     """
-    devices = await Discovery.search_devices()
+    discovery = Discovery(allow_loopback=True)
+    devices = await discovery.search_devices()
     device = Device(devices[0])
 
     with pytest.raises(DeviceNotBoundError):

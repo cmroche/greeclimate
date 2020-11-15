@@ -178,6 +178,10 @@ class Device:
 
             Both approaches result in a device_key which is used as like a persitent session id.
 
+        Args:
+            key (str): The device key, when provided binding is a NOOP, if None binding will
+                       attempt to negatiate the key with the device.
+
         Raises:
             DeviceNotBoundError: If binding was unsuccessful (the device didn't respond.)
         """

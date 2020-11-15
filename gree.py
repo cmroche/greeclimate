@@ -11,27 +11,31 @@ logging.basicConfig(
 _LOGGER = logging.getLogger(__name__)
 
 
-async def run_discovery():
+async def run_discovery(bind=False):
     devices = []
     _LOGGER.debug("Scanning network for Gree devices")
+    print(bind)
 
-    for device_info in await Discovery.search_devices():
-        device = Device(device_info)
+    async def _bind(di):
+        device = Device(di)
+        devices.append(device)
         await device.bind()
 
-        _LOGGER.debug(
-            "Adding Gree device at %s:%i (%s)",
-            device.device_info.ip,
-            device.device_info.port,
-            device.device_info.name,
-        )
-        devices.append(device)
+    discovery = Discovery()
+
+    if bind:
+        await discovery.search_devices(async_callback=_bind)
+    else:
+        await discovery.search_devices(async_callback=None)
+
+    _LOGGER.info("Done discovering devices")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Gree command line utility.")
-    parser.add_argument("--discovery", action="store_true", default=False)
+    parser.add_argument("--discovery", default=False, action="store_true")
+    parser.add_argument("--bind", default=False, action="store_true")
     args = parser.parse_args()
 
     if args.discovery:
-        asyncio.run(run_discovery())
-        
+        asyncio.run(run_discovery(args.bind))

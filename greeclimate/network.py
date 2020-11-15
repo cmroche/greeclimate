@@ -3,10 +3,8 @@ import base64
 import json
 import logging
 import socket
-import time
 from dataclasses import dataclass
-from ipaddress import IPv4Network
-from typing import List, Text, Tuple, Union
+from typing import Text, Tuple, Union
 
 from Crypto.Cipher import AES
 
@@ -44,7 +42,7 @@ class DeviceProtocol(asyncio.DatagramProtocol):
 
         self._transport = transport
 
-    def datagram_received(self, data: Union[bytes, Text], addr: IPAddr) -> None:
+    def datagram_received(self, data, addr: IPAddr) -> None:
         self._recvq.put_nowait((data, addr))
 
     def connection_lost(self, exc) -> None:
@@ -153,7 +151,7 @@ class DatagramStream:
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         decoded = base64.b64decode(payload)
         decrypted = cipher.decrypt(decoded).decode()
-        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
         return json.loads(t)
 
     @staticmethod
@@ -166,105 +164,6 @@ class DatagramStream:
         encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
         encoded = base64.b64encode(encrypted).decode()
         return encoded
-
-
-def get_broadcast_addresses() -> List[IPInterface]:
-    """ Return a list of broadcast addresses for each discovered interface"""
-    import netifaces
-
-    broadcastAddrs = []
-
-    interfaces = netifaces.interfaces()
-    for iface in interfaces:
-        addr = netifaces.ifaddresses(iface)
-        if netifaces.AF_INET in addr:
-            netmask = addr[netifaces.AF_INET][0].get("netmask")
-            ipaddr = addr[netifaces.AF_INET][0].get("addr")
-            if netmask and addr:
-                net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
-                if net.broadcast_address and not net.is_loopback:
-                    broadcastAddrs.append(
-                        IPInterface(str(ipaddr), str(net.broadcast_address))
-                    )
-
-    return broadcastAddrs
-
-
-async def search_on_interface(bcast_iface: IPInterface, timeout: int):
-    logger = logging.getLogger(__name__)
-    logger.debug("Listening for devices on %s", bcast_iface.ip_address)
-
-    loop = asyncio.get_event_loop()
-    recvq = asyncio.Queue()
-    excq = asyncio.Queue()
-    drained = asyncio.Event()
-
-    bcast = ("255.255.255.255", 7000)
-    local_addr = (bcast_iface.ip_address, 0)
-
-    transport, _ = await loop.create_datagram_endpoint(
-        lambda: BroadcastListenerProtocol(recvq, excq, drained),
-        local_addr=local_addr,
-        allow_broadcast=True,
-    )
-    stream = DatagramStream(transport, recvq, excq, drained, timeout)
-
-    data = json.dumps({"t": "scan"}).encode()
-    await stream.send(data, bcast)
-
-    devices = []
-    start_ts = time.time()
-    loop_ts = start_ts + timeout
-    while loop_ts > time.time() or stream.recv_ready():
-        if not stream.recv_ready():
-            dt = loop_ts - time.time()
-            dt = min(dt, 1)
-            await asyncio.sleep(dt)
-            continue
-
-        try:
-            (response, addr) = await stream.recv_device_data()
-            pack = response["pack"]
-            logger.debug("Received response from device search\n%s", pack)
-            devices.append(
-                (
-                    addr[0],
-                    addr[1],
-                    pack.get("mac") or pack.get("cid"),
-                    pack.get("name"),
-                    pack.get("brand"),
-                    pack.get("model"),
-                    pack.get("ver"),
-                )
-            )
-        except asyncio.TimeoutError:
-            break
-        except json.JSONDecodeError:
-            logger.debug("Unable to decode device search response payload")
-        except Exception as e:
-            logging.error("Unable to search devices due to an exception %s", e)
-            break
-
-    stream.close()
-    return devices
-
-
-async def search_devices(timeout: int = NETWORK_TIMEOUT, broadcastAddrs: str = None):
-    if not broadcastAddrs:
-        broadcastAddrs = get_broadcast_addresses()
-
-    broadcastAddrs = list(broadcastAddrs)
-    done, _ = await asyncio.wait(
-        [search_on_interface(b, timeout=timeout) for b in broadcastAddrs]
-    )
-
-    devices = []
-    for task in done:
-        results = task.result()
-        for result in results:
-            devices.append(result)
-
-    return devices
 
 
 async def create_datagram_stream(target: IPAddr) -> DatagramStream:
