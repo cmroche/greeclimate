@@ -213,7 +213,14 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
 
     devices = []
     start_ts = time.time()
-    while start_ts + timeout > time.time() or stream.recv_ready():
+    loop_ts = start_ts + timeout
+    while loop_ts > time.time() or stream.recv_ready():
+        if not stream.recv_ready():
+            dt = loop_ts - time.time()
+            dt = min(dt, 1)
+            await asyncio.sleep(dt)
+            continue
+
         try:
             (response, addr) = await stream.recv_device_data()
             pack = response["pack"]
