@@ -83,3 +83,39 @@ device.power_save = True
 # Send the state update to the HVAC
 await device.push_state_update()
 ```
+
+## Debugging
+
+Maybe the reason you're here is that you're working with Home Assistant and your device isn't being detected.
+
+There are a few tools to help investigate the various compatibility problems that Gree based devices present.
+
+Below is a series of tests, please run them and use their output in issue reports. Additionally using [Wireshark](https://www.wireshark.org) or tcpdump to capture the network traffic can greatly assist in investigations.
+
+### Setup
+
+This presumes you have python installed
+
+```bash
+pip install -r requirements.txt
+```
+
+### Getting some basic information about your network
+#### Linux / OSX
+```bash
+sudo route -n
+sudo ifconfig
+```
+#### Windows command line
+```
+route print -4
+ipconfig
+```
+
+### Running the discovery tests
+
+First test is to check the response of devices when trying to discovery them, writes the results to **discovery_results.txt**. Use [Wireshark](https://www.wireshark.org) here if you can.
+
+```bash
+python gree.py --discovery > discovery_results.txt
+```
