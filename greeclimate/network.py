@@ -205,6 +205,7 @@ async def search_on_interface(bcast_iface: IPInterface, timeout: int):
     transport, _ = await loop.create_datagram_endpoint(
         lambda: BroadcastListenerProtocol(recvq, excq, drained),
         local_addr=local_addr,
+        allow_broadcast=True,
     )
     stream = DatagramStream(transport, recvq, excq, drained, timeout)
 
