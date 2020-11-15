@@ -15,7 +15,7 @@ class Discovery:
     """
 
     @staticmethod
-    async def search_devices() -> List[DeviceInfo]:
+    async def search_devices(timeout=10) -> List[DeviceInfo]:
         """Sends a discovery broadcast packet on each network interface to
             locate Gree units on the network
 
@@ -24,7 +24,7 @@ class Discovery:
         """
         _LOGGER.info("Starting Gree device discovery process")
 
-        results = await nethelper.search_devices(timeout=10)
+        results = await nethelper.search_devices(timeout=timeout)
         devices = [DeviceInfo(*d) for d in list(set(results))]
         for d in devices:
             _LOGGER.info("Found %s", str(d))
