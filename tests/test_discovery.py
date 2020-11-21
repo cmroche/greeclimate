@@ -32,7 +32,7 @@ async def test_discover_device(netifaces, search_devices):
     search_devices.return_value = [("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")]
 
     discovery = discovery = Discovery(allow_loopback=True)
-    devices = await discovery.search_devices()
+    devices, _ = await discovery.search_devices()
 
     assert devices is not None
     assert len(devices) > 0
@@ -43,7 +43,7 @@ async def test_discover_no_devices(netifaces, search_devices):
     search_devices.return_value = []
 
     discovery = discovery = Discovery(allow_loopback=True)
-    devices = await discovery.search_devices()
+    devices, _ = await discovery.search_devices()
 
     assert devices is not None
     assert len(devices) == 0
@@ -58,7 +58,7 @@ async def test_discover_deduplicate_multiple_discoveries(netifaces, search_devic
     ]
 
     discovery = discovery = Discovery(allow_loopback=True)
-    devices = await discovery.search_devices()
+    devices, _ = await discovery.search_devices()
 
     assert devices is not None
     assert len(devices) == 2
@@ -99,7 +99,7 @@ async def test_discovery_callback(netifaces, addr, bcast, family):
             assert device_info is not None
 
         discovery = discovery = Discovery(allow_loopback=True)
-        devices = await discovery.search_devices(async_callback=cb)
+        devices, _ = await discovery.search_devices(async_callback=cb)
         done, _ = await asyncio.wait([fut], timeout=12)
 
         assert devices is not None
@@ -150,7 +150,7 @@ async def test_search_devices(netifaces, addr, bcast, family, dresp):
 
         # Run the listener portion now
         discovery = discovery = Discovery(allow_loopback=True)
-        response = await discovery.search_devices()
+        response, _ = await discovery.search_devices()
 
         assert response
         assert len(response) == 1
@@ -188,7 +188,7 @@ async def test_search_devices_bad_data(netifaces, addr, bcast, family):
 
         # Run the listener portion now
         discovery = discovery = Discovery(allow_loopback=True)
-        response = await discovery.search_devices()
+        response, _ = await discovery.search_devices()
 
         assert response is not None
         assert len(response) == 0
@@ -208,7 +208,7 @@ async def test_search_devices_timeout(netifaces, addr, bcast, family):
 
     # Run the listener portion now
     discovery = discovery = Discovery(allow_loopback=True)
-    response = await discovery.search_devices()
+    response, _ = await discovery.search_devices()
 
     assert response is not None
     assert len(response) == 0

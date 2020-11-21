@@ -183,7 +183,8 @@ class Device:
                        attempt to negatiate the key with the device.
 
         Raises:
-            DeviceNotBoundError: If binding was unsuccessful (the device didn't respond.)
+            DeviceNotBoundError: If binding was unsuccessful and no key returned
+            DeviceTimeoutError: The device didn't respond
         """
 
         if not self.device_info:
@@ -198,14 +199,13 @@ class Device:
                 self.device_key = await network.bind_device(
                     self.device_info, announce=False
                 )
-
-            if self.device_key:
-                self._logger.info("Bound to device using key %s", self.device_key)
         except asyncio.TimeoutError:
-            pass
+            raise DeviceTimeoutError
 
         if not self.device_key:
             raise DeviceNotBoundError
+        else:
+            self._logger.info("Bound to device using key %s", self.device_key)
 
     async def update_state(self):
         """ Update the internal state of the device structure of the physical device """

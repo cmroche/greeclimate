@@ -132,7 +132,7 @@ async def test_get_device_info(mock_bind, search_devices):
     """ The only way to get the key through binding is by scanning first
     """
     discovery = Discovery(allow_loopback=True)
-    devices = await discovery.search_devices()
+    devices, _ = await discovery.search_devices()
     device = Device(devices[0])
     await device.bind()
 
@@ -164,7 +164,7 @@ async def test_get_device_key_timeout(mock_bind, search_devices):
     devices = await discovery.search_devices()
     device = Device(devices[0])
 
-    with pytest.raises(DeviceNotBoundError):
+    with pytest.raises(DeviceTimeoutError):
         await device.bind()
 
     assert device is not None

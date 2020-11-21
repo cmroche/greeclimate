@@ -4,7 +4,7 @@ import logging
 import time
 
 from ipaddress import IPv4Network
-from typing import Coroutine, List
+from typing import Coroutine, List, Tuple
 
 from greeclimate.network import BroadcastListenerProtocol, DatagramStream, IPInterface
 from greeclimate.device import DeviceInfo
@@ -28,10 +28,11 @@ class Discovery:
         self._timeout = timeout
         self._allow_loopback = allow_loopback
         self._iface_streams = {}
+        self._cbs = []
 
     async def search_devices(
         self, async_callback: Coroutine = None
-    ) -> List[DeviceInfo]:
+    ) -> Tuple[List[DeviceInfo], List[Coroutine]]:
         """Sends a discovery broadcast packet on each network interface to
             locate Gree units on the network
 
@@ -40,13 +41,15 @@ class Discovery:
 
         Returns:
             List[DeviceInfo]: List of device informations for each device found
+            List[Coroutine]: List of callback tasks
         """
         _LOGGER.info("Locating Gree devices ...")
 
+        self._cbs = []
         results = await self._search_devices(async_callback=async_callback)
         devices = [DeviceInfo(*d) for d in list(set(results))]
 
-        return devices
+        return devices, self._cbs
 
     def _get_broadcast_addresses(self) -> List[IPInterface]:
         """ Return a list of broadcast addresses for each discovered interface"""
@@ -94,7 +97,7 @@ class Discovery:
 
         stream = self._iface_streams[bcast_iface.ip_address]
         data = json.dumps({"t": "scan"}).encode()
-        await stream.send(data, ("255.255.255.255", 7000))
+        await stream.send(data, (bcast_iface.bcast_address, 7000))
 
         devices = []
 
@@ -122,7 +125,9 @@ class Discovery:
                 )
 
                 if async_callback:
-                    asyncio.create_task(async_callback(DeviceInfo(*device)))
+                    self._cbs.append(
+                        asyncio.create_task(async_callback(DeviceInfo(*device)))
+                    )
 
                 _LOGGER.info("Found %s", str(DeviceInfo(*device)))
                 devices.append(device)
