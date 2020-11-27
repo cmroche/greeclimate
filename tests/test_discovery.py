@@ -1,161 +1,113 @@
 import asyncio
 import json
-import pytest
 import socket
-
+from asyncio.tasks import wait_for
 from threading import Thread
-from unittest.mock import create_autospec
+from unittest.mock import MagicMock, PropertyMock, create_autospec, patch
 
-from greeclimate.discovery import Discovery
+import pytest
+
 from greeclimate.device import DeviceInfo
-from greeclimate.network import DatagramStream
+from greeclimate.discovery import Discovery, Listener
+from greeclimate.network import DatagramStream, DeviceProtocol2
 
-from .common import (
-    DEFAULT_TIMEOUT,
-    DISCOVERY_REQUEST,
-    DISCOVERY_RESPONSE,
-    DISCOVERY_RESPONSE_NO_CID,
+from .common import (DEFAULT_TIMEOUT, DISCOVERY_REQUEST, DISCOVERY_RESPONSE,
+                     DISCOVERY_RESPONSE_NO_CID, Responder, encrypt_payload,
+                     get_mock_device_info)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
+async def test_discover_devices(netifaces, addr, bcast, family):
+    netifaces.return_value = {
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
+    }
 
+    devices = [
+        {"cid": "aabbcc001122", "mac": "aabbcc001122", "name": "MockDevice1"},
+        {"cid": "aabbcc001123", "mac": "aabbcc001123", "name": "MockDevice2"},
+        {"cid": "", "mac": "aabbcc001124", "name": "MockDevice3"},
+    ]
 
-@pytest.fixture
-def mock_socket():
-    s = create_autospec(socket.socket)
-    s.family = socket.AF_INET
-    s.type = socket.SOCK_DGRAM
+    with Responder(family, addr[1]) as sock:
 
-    return s
+        def responder(s):
+            (d, addr) = s.recvfrom(2048)
+            p = json.loads(d)
+            assert p == DISCOVERY_REQUEST
+
+            for d in devices:
+                r = DISCOVERY_RESPONSE.copy()
+                r["pack"].update(d)
+                p = json.dumps(encrypt_payload(r))
+                s.sendto(p.encode(), addr)
+
+        serv = Thread(target=responder, args=(sock,))
+        serv.start()
+
+        discovery = Discovery(allow_loopback=True)
+        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
+        assert devices is not None
+        assert len(devices) == 3
+
+        sock.close()
+        serv.join(timeout=DEFAULT_TIMEOUT)
 
 
 @pytest.mark.asyncio
-async def test_discover_device(netifaces, search_devices):
-    search_devices.return_value = [("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")]
+async def test_discover_no_devices(netifaces):
+    netifaces.return_value = {
+        2: [{"addr": "127.0.0.1", "netmask": "255.0.0.0", "peer": "127.255.255.255"}]
+    }
 
-    discovery = discovery = Discovery(allow_loopback=True)
-    devices, _ = await discovery.search_devices()
-
-    assert devices is not None
-    assert len(devices) > 0
-
-
-@pytest.mark.asyncio
-async def test_discover_no_devices(netifaces, search_devices):
-    search_devices.return_value = []
-
-    discovery = discovery = Discovery(allow_loopback=True)
-    devices, _ = await discovery.search_devices()
+    discovery = Discovery(allow_loopback=True)
+    devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
 
     assert devices is not None
     assert len(devices) == 0
 
 
 @pytest.mark.asyncio
-async def test_discover_deduplicate_multiple_discoveries(netifaces, search_devices):
-    search_devices.return_value = [
-        ("1.1.1.1", "7000", "aabbcc001122", "MockDevice1"),
-        ("1.1.1.1", "7000", "aabbcc001122", "MockDevice1"),
-        ("1.1.1.2", "7000", "aabbcc001123", "MockDevice2"),
+@pytest.mark.parametrize(
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+)
+async def test_discover_deduplicate_multiple_discoveries(
+    netifaces, addr, bcast, family
+):
+    netifaces.return_value = {
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
+    }
+
+    devices = [
+        {"cid": "aabbcc001122", "mac": "aabbcc001122", "name": "MockDevice1"},
+        {"cid": "aabbcc001123", "mac": "aabbcc001123", "name": "MockDevice2"},
+        {"cid": "aabbcc001123", "mac": "aabbcc001123", "name": "MockDevice2"},
     ]
 
-    discovery = discovery = Discovery(allow_loopback=True)
-    devices, _ = await discovery.search_devices()
-
-    assert devices is not None
-    assert len(devices) == 2
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
-)
-async def test_discovery_callback(netifaces, addr, bcast, family):
-    netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
-    }
-
-    with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(("", addr[1]))
+    with Responder(family, addr[1]) as sock:
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
             p = json.loads(d)
             assert p == DISCOVERY_REQUEST
 
-            r = DISCOVERY_RESPONSE
-            r["pack"] = DatagramStream.encrypt_payload(r["pack"])
-            p = json.dumps(r)
-            s.sendto(p.encode(), addr)
+            for d in devices:
+                r = DISCOVERY_RESPONSE.copy()
+                r["pack"].update(d)
+                p = json.dumps(encrypt_payload(r))
+                s.sendto(p.encode(), addr)
 
         serv = Thread(target=responder, args=(sock,))
         serv.start()
 
-        loop = asyncio.get_running_loop()
-        fut = loop.create_future()
-
-        async def cb(device_info: DeviceInfo):
-            fut.set_result(True)
-            assert device_info is not None
-
-        discovery = discovery = Discovery(allow_loopback=True)
-        devices, _ = await discovery.search_devices(async_callback=cb)
-        done, _ = await asyncio.wait([fut], timeout=12)
-
+        discovery = Discovery(allow_loopback=True)
+        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
         assert devices is not None
-        assert done is not None
-        assert len(devices) > 0
-        assert len(done) == len(devices)
+        assert len(devices) == 2
 
-        serv.join(timeout=DEFAULT_TIMEOUT)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast,family,dresp",
-    [
-        (
-            ("127.0.0.1", 7000),
-            "127.255.255.255",
-            socket.AF_INET,
-            DISCOVERY_RESPONSE_NO_CID,
-        ),
-    ],
-)
-async def test_search_devices(netifaces, addr, bcast, family, dresp):
-    """Create a socket broadcast responder, an async broadcast listener, test
-    discovery responses.
-    """
-    netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
-    }
-
-    with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(("", addr[1]))
-
-        def responder(s):
-            (d, addr) = s.recvfrom(2048)
-            p = json.loads(d)
-            assert p == DISCOVERY_REQUEST
-
-            r = dresp
-            r["pack"] = DatagramStream.encrypt_payload(r["pack"])
-            p = json.dumps(r)
-            s.sendto(p.encode(), addr)
-
-        serv = Thread(target=responder, args=(sock,))
-        serv.start()
-
-        # Run the listener portion now
-        discovery = discovery = Discovery(allow_loopback=True)
-        response, _ = await discovery.search_devices()
-
-        assert response
-        assert len(response) == 1
-        assert response[0].ip == "127.0.0.1"
-
+        sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
 
 
@@ -163,7 +115,40 @@ async def test_search_devices(netifaces, addr, bcast, family, dresp):
 @pytest.mark.parametrize(
     "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
-async def test_search_devices_bad_data(netifaces, addr, bcast, family):
+async def test_discovery_events(netifaces, addr, bcast, family):
+    netifaces.return_value = {
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
+    }
+
+    with Responder(family, addr[1]) as sock:
+
+        def responder(s):
+            (d, addr) = s.recvfrom(2048)
+            p = json.loads(d)
+            assert p == DISCOVERY_REQUEST
+
+            p = json.dumps(encrypt_payload(DISCOVERY_RESPONSE))
+            s.sendto(p.encode(), addr)
+
+        serv = Thread(target=responder, args=(sock,))
+        serv.start()
+
+        with patch.object(Discovery, "packet_received", return_value=None) as mock:
+            discovery = Discovery(allow_loopback=True)
+            await discovery.scan()
+            await asyncio.sleep(DEFAULT_TIMEOUT)
+
+            assert mock.call_count == 1
+
+        sock.close()
+        serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+)
+async def test_discover_devices_bad_data(netifaces, addr, bcast, family):
     """Create a socket broadcast responder, an async broadcast listener,
     test discovery responses.
     """
@@ -171,10 +156,7 @@ async def test_search_devices_bad_data(netifaces, addr, bcast, family):
         2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
     }
 
-    with socket.socket(family, socket.SOCK_DGRAM) as sock:
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.bind(("", addr[1]))
+    with Responder(family, addr[1]) as sock:
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
@@ -187,28 +169,59 @@ async def test_search_devices_bad_data(netifaces, addr, bcast, family):
         serv.start()
 
         # Run the listener portion now
-        discovery = discovery = Discovery(allow_loopback=True)
-        response, _ = await discovery.search_devices()
+        discovery = Discovery(allow_loopback=True)
+        response = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
 
         assert response is not None
         assert len(response) == 0
 
+        sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
-)
-async def test_search_devices_timeout(netifaces, addr, bcast, family):
-    """Create an async broadcast listener, test discovery responses."""
-    netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
-    }
+async def test_add_new_listener():
+    """Register a listener, test that is registered."""
 
-    # Run the listener portion now
-    discovery = discovery = Discovery(allow_loopback=True)
-    response, _ = await discovery.search_devices()
+    listener = MagicMock(spec_set=Listener)
+    discovery = Discovery()
 
-    assert response is not None
-    assert len(response) == 0
+    result = discovery.add_listener(listener)
+    assert result is not None
+
+    result = discovery.add_listener(listener)
+    assert result is None
+
+
+@pytest.mark.asyncio
+async def test_add_new_listener_with_devices():
+    """Register a listener, test that is registered."""
+
+    with patch.object(Discovery, "devices", new_callable=PropertyMock) as mock:
+        mock.return_value = [get_mock_device_info()]
+        listener = MagicMock(spec_set=Listener)
+        discovery = Discovery()
+
+        result = discovery.add_listener(listener)
+        await asyncio.gather(*discovery.tasks)
+
+        assert result is not None
+        assert len(result) == 1
+        assert listener.device_found.call_count == 1
+
+
+@pytest.mark.asyncio
+async def test_remove_listener():
+    """Register, remove listener, test results."""
+
+    listener = MagicMock(spec_set=Listener)
+    discovery = Discovery()
+
+    result = discovery.add_listener(listener)
+    assert result is not None
+
+    result = discovery.remove_listener(listener)
+    assert result is True
+
+    result = discovery.remove_listener(listener)
+    assert result is False

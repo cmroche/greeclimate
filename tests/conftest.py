@@ -1,6 +1,7 @@
 """Pytest module configuration."""
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 MOCK_INTERFACES = ["lo"]
 MOCK_LO_IFACE = {
@@ -15,10 +16,3 @@ def netifaces_fixture():
         "netifaces.ifaddresses", return_value=MOCK_LO_IFACE
     ) as ifaddr_mock:
         yield ifaddr_mock
-
-
-@pytest.fixture(name="search_devices")
-def search_devices_fixture():
-    """Patch search_on_interface."""
-    with patch("greeclimate.discovery.Discovery._search_devices") as mock:
-        yield mock

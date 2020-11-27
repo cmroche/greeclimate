@@ -90,14 +90,6 @@ class DeviceInfo:
         name: Name of unit, if available
     """
 
-    ip = None
-    port = None
-    mac = None
-    name = "<No Name>"
-    brand = None
-    model = None
-    version = None
-
     def __init__(self, ip, port, mac, name, brand=None, model=None, version=None):
         self.ip = ip
         self.port = port
@@ -210,7 +202,7 @@ class Device:
     async def update_state(self):
         """ Update the internal state of the device structure of the physical device """
         if not self.device_key:
-            self.bind()
+            await self.bind()
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
@@ -229,7 +221,7 @@ class Device:
             return
 
         if not self.device_key:
-            self.bind()
+            await self.bind()
 
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
 

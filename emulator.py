@@ -3,12 +3,12 @@ Micropython device emulator, intended to run on 8266 mcus
 """
 
 import json
-import machine
-import network
 import socket
 import time
-import ubinascii
 
+import machine
+import network
+import ubinascii
 from ucryptolib import aes
 
 device_id = ubinascii.hexlify(network.WLAN().config("mac")).decode()

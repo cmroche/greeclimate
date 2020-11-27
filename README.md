@@ -27,7 +27,8 @@ The easiest way to grab **greeclimate** is through PyPI
 Scan the network for devices, select a device and immediately bind. See the notes below for caveats.
 
 ```python
-for device_info, _ in await Discovery.search_devices():
+discovery = Discovery()
+for device_info in await discovery.scan(wait_for=5):
     try:
         device = Device(device_info)
         await device.bind() # Device will auto bind on update if you omit this step
