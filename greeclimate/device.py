@@ -11,6 +11,7 @@ class Props(enum.Enum):
     POWER = "Pow"
     MODE = "Mod"
     TEMP_SET = "SetTem"
+    TEMP_SENSOR = "TemSen"
     TEMP_UNIT = "TemUn"
     TEMP_BIT = "TemRec"
     FAN_SPEED = "WdSpd"
@@ -134,6 +135,7 @@ class Device:
         mode: An int indicating operating mode, see `Mode` enum for possible values
         target_temperature: The target temperature, ignore if in Auto, Fan or Steady Heat mode
         temperature_units: An int indicating unit of measurement, see `TemperatureUnits` enum for possible values
+        current_temperature: The current temperature
         fan_speed: An int indicating fan speed, see `FanSpeed` enum for possible values
         fresh_air: A boolean indicating if fresh air valve is open, if present
         xfan: A boolean to enable the fan to dry the coil, only used for cool and dry modes
@@ -285,6 +287,10 @@ class Device:
     @temperature_units.setter
     def temperature_units(self, value: int):
         self.set_property(Props.TEMP_UNIT, int(value))
+
+    @property
+    def current_temperature(self) -> int:
+        return self.get_property(Props.TEMP_SENSOR)
 
     @property
     def fan_speed(self) -> int:
