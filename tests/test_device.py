@@ -18,6 +18,7 @@ def get_mock_state():
         "Pow": 1,
         "Mod": 3,
         "SetTem": 25,
+        "TemSen": 29,
         "TemUn": 0,
         "WdSpd": 0,
         "Air": 0,
@@ -41,6 +42,7 @@ def get_mock_state_off():
         "Pow": 0,
         "Mod": 0,
         "SetTem": 0,
+        "TemSen": 0,
         "TemUn": 0,
         "WdSpd": 0,
         "Air": 0,
@@ -64,6 +66,7 @@ def get_mock_state_on():
         "Pow": 1,
         "Mod": 1,
         "SetTem": 1,
+        "TemSen": 1,
         "TemUn": 1,
         "WdSpd": 1,
         "Air": 1,
@@ -210,6 +213,7 @@ async def test_set_properties(mock_request):
     device.power = True
     device.mode = 1
     device.target_temperature = 1
+    device.current_temperature = 1
     device.temperature_units = 1
     device.fan_speed = 1
     device.fresh_air = True
@@ -245,6 +249,7 @@ async def test_set_properties_timeout(mock_request):
     device.power = True
     device.mode = 1
     device.target_temperature = 1
+    device.current_temperature = 1
     device.temperature_units = 1
     device.fan_speed = 1
     device.fresh_air = True
@@ -273,6 +278,7 @@ async def test_uninitialized_properties():
     assert not device.power
     assert device.mode is None
     assert device.target_temperature is None
+    assert device.current_temperature is None
     assert device.temperature_units is None
     assert device.fan_speed is None
     assert not device.fresh_air
