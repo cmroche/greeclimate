@@ -2,8 +2,8 @@ import argparse
 import asyncio
 import logging
 
-from greeclimate.device import Device
-from greeclimate.discovery import Discovery
+from greeclimate.device import Device, DeviceInfo
+from greeclimate.discovery import Discovery, Listener
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(name)s - %(levelname)s - %(message)s"
@@ -11,27 +11,39 @@ logging.basicConfig(
 _LOGGER = logging.getLogger(__name__)
 
 
-async def run_discovery():
-    devices = []
+class DiscoveryListener(Listener):
+
+    def __init__(self, bind):
+        """Initialize the event handler."""
+        super().__init__()
+        self.bind = bind
+
+    """Class to handle incoming device discovery events."""
+    async def device_found(self, device_info: DeviceInfo) -> None:
+        """A new device was found on the network."""
+        if self.bind:
+            device = Device(device_info)
+            await device.bind()
+
+
+async def run_discovery(bind=False):
+    """Run the device discovery process."""
     _LOGGER.debug("Scanning network for Gree devices")
 
-    for device_info in await Discovery.search_devices():
-        device = Device(device_info)
-        await device.bind()
+    discovery = Discovery()
+    listener = DiscoveryListener(bind)
+    discovery.add_listener(listener)
 
-        _LOGGER.debug(
-            "Adding Gree device at %s:%i (%s)",
-            device.device_info.ip,
-            device.device_info.port,
-            device.device_info.name,
-        )
-        devices.append(device)
+    await discovery.scan(wait_for=10)
+
+    _LOGGER.info("Done discovering devices")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Gree command line utility.")
-    parser.add_argument("--discovery", action="store_true", default=False)
+    parser.add_argument("--discovery", default=False, action="store_true")
+    parser.add_argument("--bind", default=False, action="store_true")
     args = parser.parse_args()
 
     if args.discovery:
-        asyncio.run(run_discovery())
-        
+        asyncio.run(run_discovery(args.bind))
