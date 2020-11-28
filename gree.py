@@ -12,13 +12,13 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class DiscoveryListener(Listener):
-
     def __init__(self, bind):
         """Initialize the event handler."""
         super().__init__()
         self.bind = bind
 
     """Class to handle incoming device discovery events."""
+
     async def device_found(self, device_info: DeviceInfo) -> None:
         """A new device was found on the network."""
         if self.bind:

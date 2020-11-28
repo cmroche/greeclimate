@@ -1,6 +1,7 @@
 import asyncio
 import enum
 import logging
+import re
 from enum import IntEnum, unique
 
 import greeclimate.network as network
@@ -157,6 +158,8 @@ class Device:
         self.device_key = None
 
         """ Device properties """
+        self._hid = None
+        self._version = None
         self._properties = None
         self._dirty = []
 
@@ -199,6 +202,16 @@ class Device:
         else:
             self._logger.info("Bound to device using key %s", self.device_key)
 
+    async def request_version(self) -> None:
+        """Request the firmware version from the device."""
+        ret = await network.request_state(["hid"], self.device_info, self.device_key)
+        self._hid = ret.get("hid")
+
+        # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
+        if self._hid:
+            match = re.search(r"(?<=V)([\d.]+)\.bin$", self._hid)
+            self._version = match and match.group(1)
+
     async def update_state(self):
         """ Update the internal state of the device structure of the physical device """
         if not self.device_key:
@@ -209,6 +222,9 @@ class Device:
         props = [x.value for x in Props]
 
         try:
+            if not self._hid:
+                await self.request_version()
+
             self._properties = await network.request_state(
                 props, self.device_info, self.device_key
             )
@@ -291,7 +307,14 @@ class Device:
     @property
     def current_temperature(self) -> int:
         prop = self.get_property(Props.TEMP_SENSOR)
-        return prop or self.target_temperature
+        if prop:
+            v = self._version and int(self._version.split(".")[0])
+            if v == 4:
+                return prop
+
+            return prop - 40
+
+        return self.target_temperature
 
     @property
     def fan_speed(self) -> int:

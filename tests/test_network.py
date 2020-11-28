@@ -39,7 +39,7 @@ async def test_close_connection(addr, bcast, family):
     bcast = (bcast, 7000)
     local_addr = (addr[0], 0)
 
-    with patch.object(DeviceProtocol2, 'connection_lost') as mock:
+    with patch.object(DeviceProtocol2, "connection_lost") as mock:
         dp2 = FakeDiscovery()
         await loop.create_datagram_endpoint(
             lambda: dp2,
@@ -69,20 +69,17 @@ async def test_set_get_key():
     assert dp2.device_key == key
 
 
-
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")]
-)
+@pytest.mark.parametrize("addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")])
 async def test_connection_error(addr, bcast):
     """Test the encryption key property."""
     dp2 = DeviceProtocol2()
 
     loop = asyncio.get_event_loop()
     transport, _ = await loop.create_datagram_endpoint(
-            lambda: dp2,
-            local_addr=addr,
-        )
+        lambda: dp2,
+        local_addr=addr,
+    )
 
     # Send the scan command
     data = DISCOVERY_REQUEST
@@ -92,9 +89,7 @@ async def test_connection_error(addr, bcast):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")]
-)
+@pytest.mark.parametrize("addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")])
 async def test_pause_resume(addr, bcast):
     """Test the encryption key property."""
     event = asyncio.Event()
@@ -102,9 +97,9 @@ async def test_pause_resume(addr, bcast):
 
     loop = asyncio.get_event_loop()
     transport, _ = await loop.create_datagram_endpoint(
-            lambda: dp2,
-            local_addr=addr,
-        )
+        lambda: dp2,
+        local_addr=addr,
+    )
 
     dp2.pause_writing()
     assert not event.is_set()
