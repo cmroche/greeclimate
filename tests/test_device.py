@@ -96,6 +96,28 @@ def get_mock_state_on():
         "HeatCoolType": 0,
     }
 
+def get_mock_state_no_temperature():
+    return {
+        "Pow": 1,
+        "Mod": 3,
+        "SetTem": 25,
+        "TemUn": 0,
+        "WdSpd": 0,
+        "Air": 0,
+        "Blo": 0,
+        "Health": 0,
+        "SwhSlp": 0,
+        "Lig": 1,
+        "SwingLfRig": 1,
+        "SwUpDn": 1,
+        "Quiet": 0,
+        "Tur": 0,
+        "StHt": 0,
+        "SvSt": 0,
+        "TemRec": 0,
+        "HeatCoolType": 0,
+    }
+
 
 async def generate_device_mock_async():
     d = Device(("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
@@ -352,3 +374,19 @@ async def test_uninitialized_properties():
     assert not device.turbo
     assert not device.steady_heat
     assert not device.power_save
+
+
+@pytest.mark.asyncio
+@patch("greeclimate.network.request_state")
+async def test_update_current_temp_unsupported(mock_request):
+    """Check that properties can be updates."""
+    mock_request.return_value = get_mock_state_no_temperature()
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    await device.update_state()
+
+    assert device.get_property(Props.TEMP_SENSOR) is None
+    assert device.current_temperature == device.target_temperature

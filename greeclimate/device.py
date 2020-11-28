@@ -290,7 +290,8 @@ class Device:
 
     @property
     def current_temperature(self) -> int:
-        return self.get_property(Props.TEMP_SENSOR)
+        prop = self.get_property(Props.TEMP_SENSOR)
+        return prop or self.target_temperature
 
     @property
     def fan_speed(self) -> int:
