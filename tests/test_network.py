@@ -2,7 +2,7 @@ import asyncio
 import json
 import socket
 from threading import Thread
-from unittest.mock import create_autospec
+from unittest.mock import create_autospec, patch
 
 import pytest
 
@@ -25,6 +25,95 @@ class FakeDiscovery(BroadcastListenerProtocol):
 
     def packet_received(self, obj, addr: IPAddr) -> None:
         self.packets.append(obj)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+)
+async def test_close_connection(addr, bcast, family):
+    """Test closing the connection."""
+    # Run the listener portion now
+    loop = asyncio.get_event_loop()
+
+    bcast = (bcast, 7000)
+    local_addr = (addr[0], 0)
+
+    with patch.object(DeviceProtocol2, 'connection_lost') as mock:
+        dp2 = FakeDiscovery()
+        await loop.create_datagram_endpoint(
+            lambda: dp2,
+            local_addr=local_addr,
+        )
+
+        # Send the scan command
+        data = DISCOVERY_REQUEST
+        await dp2.send(data, bcast)
+        dp2.close()
+
+        # Wait on the scan response
+        await asyncio.sleep(DEFAULT_TIMEOUT)
+        response = dp2.packets
+
+        assert not response
+        assert len(response) == 0
+        assert mock.call_count == 1
+
+
+@pytest.mark.asyncio
+async def test_set_get_key():
+    """Test the encryption key property."""
+    key = "faketestkey"
+    dp2 = DeviceProtocol2()
+    dp2.device_key = key
+    assert dp2.device_key == key
+
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")]
+)
+async def test_connection_error(addr, bcast):
+    """Test the encryption key property."""
+    dp2 = DeviceProtocol2()
+
+    loop = asyncio.get_event_loop()
+    transport, _ = await loop.create_datagram_endpoint(
+            lambda: dp2,
+            local_addr=addr,
+        )
+
+    # Send the scan command
+    data = DISCOVERY_REQUEST
+    await dp2.send(data, bcast)
+    dp2.connection_lost(RuntimeError())
+    assert transport.is_closing()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")]
+)
+async def test_pause_resume(addr, bcast):
+    """Test the encryption key property."""
+    event = asyncio.Event()
+    dp2 = DeviceProtocol2(drained=event)
+
+    loop = asyncio.get_event_loop()
+    transport, _ = await loop.create_datagram_endpoint(
+            lambda: dp2,
+            local_addr=addr,
+        )
+
+    dp2.pause_writing()
+    assert not event.is_set()
+
+    dp2.resume_writing()
+    assert event.is_set()
+
+    dp2.close()
+    assert transport.is_closing()
 
 
 @pytest.mark.asyncio
