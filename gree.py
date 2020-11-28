@@ -2,8 +2,8 @@ import argparse
 import asyncio
 import logging
 
-from greeclimate.device import Device
-from greeclimate.discovery import Discovery
+from greeclimate.device import Device, DeviceInfo
+from greeclimate.discovery import Discovery, Listener
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(name)s - %(levelname)s - %(message)s"
@@ -11,22 +11,30 @@ logging.basicConfig(
 _LOGGER = logging.getLogger(__name__)
 
 
-async def run_discovery(bind=False):
-    devices = []
-    _LOGGER.debug("Scanning network for Gree devices")
-    print(bind)
+class DiscoveryListener(Listener):
 
-    async def _bind(di):
-        device = Device(di)
-        devices.append(device)
-        await device.bind()
+    def __init__(self, bind):
+        """Initialize the event handler."""
+        super().__init__()
+        self.bind = bind
+
+    """Class to handle incoming device discovery events."""
+    async def device_found(self, device_info: DeviceInfo) -> None:
+        """A new device was found on the network."""
+        if self.bind:
+            device = Device(device_info)
+            await device.bind()
+
+
+async def run_discovery(bind=False):
+    """Run the device discovery process."""
+    _LOGGER.debug("Scanning network for Gree devices")
 
     discovery = Discovery()
+    listener = DiscoveryListener(bind)
+    discovery.add_listener(listener)
 
-    if bind:
-        await discovery.search_devices(async_callback=_bind)
-    else:
-        await discovery.search_devices(async_callback=None)
+    await discovery.scan(wait_for=10)
 
     _LOGGER.info("Done discovering devices")
 
