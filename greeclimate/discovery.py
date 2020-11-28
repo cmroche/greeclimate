@@ -162,6 +162,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
         await self.search_devices()
         if wait_for:
             await asyncio.sleep(wait_for)
+            await asyncio.gather(*self.tasks, return_exceptions=True)
 
         return self._device_infos
 
