@@ -117,7 +117,7 @@ def test_device_info_equality():
     assert DeviceInfo(*props) == DeviceInfo(*props)
 
     # When any property differs the device info is not the same
-    for i in range(len(props)):
+    for i in range(2, len(props)):
         new_props = props.copy()
         new_props[i] = "modified_prop"
         assert DeviceInfo(*new_props) != DeviceInfo(*props)
