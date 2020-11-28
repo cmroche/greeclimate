@@ -114,9 +114,7 @@ class DeviceInfo:
         """Check equality based on Device Info properties"""
         if isinstance(other, DeviceInfo):
             return (
-                self.ip == other.ip
-                and self.port == other.port
-                and self.mac == other.mac
+                self.mac == other.mac
                 and self.name == other.name
                 and self.brand == other.brand
                 and self.model == other.model
