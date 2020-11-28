@@ -3,10 +3,8 @@ import base64
 import json
 import logging
 import socket
-import time
 from dataclasses import dataclass
-from ipaddress import IPv4Network
-from typing import List, Text, Tuple, Union
+from typing import Any, Dict, Text, Tuple, Union
 
 from Crypto.Cipher import AES
 
@@ -23,6 +21,138 @@ IPAddr = Tuple[str, int]
 class IPInterface:
     ip_address: str
     bcast_address: str
+
+
+class DeviceProtocol2(asyncio.DatagramProtocol):
+    """Event driven device protocol class."""
+
+    def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
+        """Initialize the device protocol object.
+
+        Args:
+            timeout (int): Packet send timeout
+            drained (asyncio.Event): Packet send drain event signal
+        """
+        self._timeout = timeout
+        self._drained = drained or asyncio.Event()
+        self._drained.set()
+        self._transport = None
+        self._key = GENERIC_KEY
+
+    # This event need to be implement to handle incoming requests
+    def packet_received(self, obj, addr: IPAddr) -> None:
+        """Event called when a packet is received and decoded.
+
+        Args:
+            obj (JSON): Json object with decoded UDP data
+            addr (IPAddr): Endpoint address of the sender
+        """
+        raise NotImplementedError(self)
+
+    @property
+    def device_key(self) -> str:
+        """Sets the encryption key used for device data."""
+        return self._key
+
+    @device_key.setter
+    def device_key(self, value: str):
+        """Gets the encryption key used for device data."""
+        self._key = value
+
+    def close(self) -> None:
+        """Close the UDP transport."""
+        try:
+            self._transport.close()
+        except RuntimeError:
+            pass
+
+    def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
+        """Called when the Datagram protocol handler is initialized."""
+        self._transport = transport
+
+    def connection_lost(self, exc: Exception) -> None:
+        """Handle a closed socket."""
+
+        # In this case the connection was closed unexpectedly
+        if exc is not None:
+            _LOGGER.exception("Connection was closed unexpectedly", exc_info=exc)
+
+        if self._transport is not None:
+            self._transport.close()
+            self._transport = None
+
+    def error_received(self, exc: Exception) -> None:
+        """Handle error while sending/receiving datagrams."""
+        raise exc
+
+    def pause_writing(self) -> None:
+        """Stop writing additional data to the transport."""
+        self._drained.clear()
+        super().pause_writing()
+
+    def resume_writing(self) -> None:
+        """Resume writing data to the transport."""
+        self._drained.set()
+        super().resume_writing()
+
+    def datagram_received(self, data: bytes, addr: IPAddr) -> None:
+        """Handle an incoming datagram."""
+        if len(data) == 0:
+            return
+
+        obj = json.loads(data)
+        key = GENERIC_KEY if obj.get("i") == 1 else self._key
+
+        if obj.get("pack"):
+            obj["pack"] = DeviceProtocol2.decrypt_payload(obj["pack"], key)
+
+        _LOGGER.debug("Received packet from %s:\n%s", addr[0], json.dumps(obj))
+
+        self.packet_received(obj, addr)
+
+    async def send(self, obj, addr: IPAddr = None) -> None:
+        """Send encode and send JSON command to the device."""
+        _LOGGER.debug("Sending packet:\n%s", json.dumps(obj))
+
+        if obj.get("pack"):
+            key = GENERIC_KEY if obj.get("i") == 1 else self._key
+            obj["pack"] = DeviceProtocol2.encrypt_payload(obj["pack"], key)
+
+        data_bytes = json.dumps(obj).encode()
+        self._transport.sendto(data_bytes, addr)
+
+        task = asyncio.create_task(self._drained.wait())
+        await asyncio.wait_for(task, self._timeout)
+
+    @staticmethod
+    def decrypt_payload(payload, key=GENERIC_KEY):
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        decoded = base64.b64decode(payload)
+        decrypted = cipher.decrypt(decoded).decode()
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
+        return json.loads(t)
+
+    @staticmethod
+    def encrypt_payload(payload, key=GENERIC_KEY):
+        def pad(s):
+            bs = 16
+            return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
+
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
+        encoded = base64.b64encode(encrypted).decode()
+        return encoded
+
+
+class BroadcastListenerProtocol(DeviceProtocol2):
+    """Special protocol handler for when broadcast is needed."""
+
+    def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
+        """Called when the Datagram protocol handler is initialized."""
+        super().connection_made(transport)
+
+        sock = transport.get_extra_info("socket")  # type: socket.socket
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 
 class DeviceProtocol(asyncio.DatagramProtocol):
@@ -44,7 +174,7 @@ class DeviceProtocol(asyncio.DatagramProtocol):
 
         self._transport = transport
 
-    def datagram_received(self, data: Union[bytes, Text], addr: IPAddr) -> None:
+    def datagram_received(self, data, addr: IPAddr) -> None:
         self._recvq.put_nowait((data, addr))
 
     def connection_lost(self, exc) -> None:
@@ -65,15 +195,6 @@ class DeviceProtocol(asyncio.DatagramProtocol):
     def resume_writing(self) -> None:
         self._drained.set()
         super().resume_writing()
-
-
-class BroadcastListenerProtocol(DeviceProtocol):
-    def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
-
-        super().connection_made(transport)
-
-        sock = transport.get_extra_info("socket")  # type: socket.socket
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 
 # Concepts and code here were taken from https://github.com/jsbronder/asyncio-dgram
@@ -153,7 +274,7 @@ class DatagramStream:
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         decoded = base64.b64decode(payload)
         decrypted = cipher.decrypt(decoded).decode()
-        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1:], "")
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
         return json.loads(t)
 
     @staticmethod
@@ -166,105 +287,6 @@ class DatagramStream:
         encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
         encoded = base64.b64encode(encrypted).decode()
         return encoded
-
-
-def get_broadcast_addresses() -> List[IPInterface]:
-    """ Return a list of broadcast addresses for each discovered interface"""
-    import netifaces
-
-    broadcastAddrs = []
-
-    interfaces = netifaces.interfaces()
-    for iface in interfaces:
-        addr = netifaces.ifaddresses(iface)
-        if netifaces.AF_INET in addr:
-            netmask = addr[netifaces.AF_INET][0].get("netmask")
-            ipaddr = addr[netifaces.AF_INET][0].get("addr")
-            if netmask and addr:
-                net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
-                if net.broadcast_address and not net.is_loopback:
-                    broadcastAddrs.append(
-                        IPInterface(str(ipaddr), str(net.broadcast_address))
-                    )
-
-    return broadcastAddrs
-
-
-async def search_on_interface(bcast_iface: IPInterface, timeout: int):
-    logger = logging.getLogger(__name__)
-    logger.debug("Listening for devices on %s", bcast_iface.ip_address)
-
-    loop = asyncio.get_event_loop()
-    recvq = asyncio.Queue()
-    excq = asyncio.Queue()
-    drained = asyncio.Event()
-
-    bcast = ("255.255.255.255", 7000)
-    local_addr = (bcast_iface.ip_address, 0)
-
-    transport, _ = await loop.create_datagram_endpoint(
-        lambda: BroadcastListenerProtocol(recvq, excq, drained),
-        local_addr=local_addr,
-        allow_broadcast=True,
-    )
-    stream = DatagramStream(transport, recvq, excq, drained, timeout)
-
-    data = json.dumps({"t": "scan"}).encode()
-    await stream.send(data, bcast)
-
-    devices = []
-    start_ts = time.time()
-    loop_ts = start_ts + timeout
-    while loop_ts > time.time() or stream.recv_ready():
-        if not stream.recv_ready():
-            dt = loop_ts - time.time()
-            dt = min(dt, 1)
-            await asyncio.sleep(dt)
-            continue
-
-        try:
-            (response, addr) = await stream.recv_device_data()
-            pack = response["pack"]
-            logger.debug("Received response from device search\n%s", pack)
-            devices.append(
-                (
-                    addr[0],
-                    addr[1],
-                    pack.get("mac") or pack.get("cid"),
-                    pack.get("name"),
-                    pack.get("brand"),
-                    pack.get("model"),
-                    pack.get("ver"),
-                )
-            )
-        except asyncio.TimeoutError:
-            break
-        except json.JSONDecodeError:
-            logger.debug("Unable to decode device search response payload")
-        except Exception as e:
-            logging.error("Unable to search devices due to an exception %s", e)
-            break
-
-    stream.close()
-    return devices
-
-
-async def search_devices(timeout: int = NETWORK_TIMEOUT, broadcastAddrs: str = None):
-    if not broadcastAddrs:
-        broadcastAddrs = get_broadcast_addresses()
-
-    broadcastAddrs = list(broadcastAddrs)
-    done, _ = await asyncio.wait(
-        [search_on_interface(b, timeout=timeout) for b in broadcastAddrs]
-    )
-
-    devices = []
-    for task in done:
-        results = task.result()
-        for result in results:
-            devices.append(result)
-
-    return devices
 
 
 async def create_datagram_stream(target: IPAddr) -> DatagramStream:

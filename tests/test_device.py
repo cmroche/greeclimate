@@ -13,6 +13,18 @@ class FakeProps(enum.Enum):
     FAKE = "fake"
 
 
+def get_mock_info():
+    return (
+        "1.1.1.0",
+        "7000",
+        "aabbcc001122",
+        "MockDevice1",
+        "MockBrand",
+        "MockModel",
+        "0.0.1-fake",
+    )
+
+
 def get_mock_state():
     return {
         "Pow": 1,
@@ -112,67 +124,102 @@ def test_device_info_equality():
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.search_devices")
 @patch("greeclimate.network.bind_device")
-async def test_get_device_info(mock_bind, mock_search):
-    # DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59")
+async def test_get_device_info(mock_bind):
+    """Initialize device, check properties."""
 
-    mock_info = (
-        "1.1.1.0",
-        "7000",
-        "aabbcc001122",
-        "MockDevice1",
-        "MockBrand",
-        "MockModel",
-        "0.0.1-fake",
-    )
-    mock_search.return_value = [mock_info]
-    mock_bind.return_value = "St8Vw1Yz4Bc7Ef0H"
+    info = DeviceInfo(*get_mock_info())
+    device = Device(info)
 
-    """ The only way to get the key through binding is by scanning first
-    """
-    devices = await Discovery.search_devices()
-    device = Device(devices[0])
-    await device.bind()
+    assert device.device_info == info
 
-    assert devices is not None
-    assert len(devices) == 1
+    fake_key = "abcdefgh12345678"
+    await device.bind(key=fake_key)
 
-    assert devices[0].ip == mock_info[0]
-    assert devices[0].port == mock_info[1]
-    assert devices[0].mac == mock_info[2]
-    assert devices[0].name == mock_info[3]
-    assert devices[0].brand == mock_info[4]
-    assert devices[0].model == mock_info[5]
-    assert devices[0].version == mock_info[6]
-
-    assert device is not None
-    assert device.device_key == "St8Vw1Yz4Bc7Ef0H"
+    assert device.device_key == fake_key
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.search_devices")
 @patch("greeclimate.network.bind_device")
-async def test_get_device_key_timeout(mock_bind, mock_search):
+async def test_device_bind(mock_bind):
+    """Check that the device returns a device key when binding."""
 
-    mock_search.return_value = [("1.1.1.0", "7000", "aabbcc001122", "MockDevice1")]
+    info = DeviceInfo(*get_mock_info())
+    device = Device(info)
+
+    assert device.device_info == info
+
+    fake_key = "abcdefgh12345678"
+    mock_bind.return_value = fake_key
+    await device.bind()
+
+    assert device.device_key == fake_key
+
+
+@pytest.mark.asyncio
+@patch("greeclimate.network.bind_device")
+async def test_device_bind_timeout(mock_bind):
+    """Check that the device handles timeout errors when binding."""
+
+    info = DeviceInfo(*get_mock_info())
+    device = Device(info)
+
+    assert device.device_info == info
+
     mock_bind.side_effect = asyncio.TimeoutError
 
-    """ The only way to get the key through binding is by scanning first
-    """
-    devices = await Discovery.search_devices()
-    device = Device(devices[0])
+    with pytest.raises(DeviceTimeoutError):
+        await device.bind()
+
+    assert device.device_key is None
+
+
+@pytest.mark.asyncio
+@patch("greeclimate.network.bind_device")
+async def test_device_bind_none(mock_bind):
+    """Check that the device handles bad binding sequences."""
+
+    info = DeviceInfo(*get_mock_info())
+    device = Device(info)
+
+    assert device.device_info == info
+
+    mock_bind.return_value = None
 
     with pytest.raises(DeviceNotBoundError):
         await device.bind()
 
-    assert device is not None
     assert device.device_key is None
+
+
+@pytest.mark.asyncio
+@patch("greeclimate.network.bind_device")
+@patch("greeclimate.network.request_state")
+@patch("greeclimate.network.send_state")
+async def test_device_late_bind(mock_push, mock_update, mock_bind):
+    """Check that the device handles late binding sequences."""
+    fake_key = "abcdefgh12345678"
+    mock_bind.return_value = fake_key
+    mock_update.return_value = []
+    mock_push.return_value = []
+
+    info = DeviceInfo(*get_mock_info())
+    device = Device(info)
+    assert device.device_info == info
+
+    await device.update_state()
+    assert device.device_key == fake_key
+
+    device.device_key = None
+    device.power = True
+    await device.push_state_update()
+    assert device.device_key == fake_key
 
 
 @pytest.mark.asyncio
 @patch("greeclimate.network.request_state")
 async def test_update_properties(mock_request):
+    """Check that properties can be updates."""
     mock_request.return_value = get_mock_state()
     device = await generate_device_mock_async()
 
@@ -189,6 +236,7 @@ async def test_update_properties(mock_request):
 @pytest.mark.asyncio
 @patch("greeclimate.network.request_state", side_effect=asyncio.TimeoutError)
 async def test_update_properties_timeout(mock_request):
+    """Check that timeouts are handled when properties are updates."""
     mock_request.return_value = get_mock_state()
     device = await generate_device_mock_async()
 
@@ -201,7 +249,19 @@ async def test_update_properties_timeout(mock_request):
 
 @pytest.mark.asyncio
 @patch("greeclimate.network.send_state")
+async def test_set_properties_not_dirty(mock_request):
+    """Check that teh state isn't pushed when properties unchanged."""
+    device = await generate_device_mock_async()
+
+    await device.push_state_update()
+
+    assert mock_request.call_count == 0
+
+
+@pytest.mark.asyncio
+@patch("greeclimate.network.send_state")
 async def test_set_properties(mock_request):
+    """Check that state is pushed when properties are updated."""
     device = await generate_device_mock_async()
 
     for p in Props:
@@ -237,6 +297,7 @@ async def test_set_properties(mock_request):
 @pytest.mark.asyncio
 @patch("greeclimate.network.send_state", side_effect=asyncio.TimeoutError)
 async def test_set_properties_timeout(mock_request):
+    """Check timeout handling when pushing state changes."""
     device = await generate_device_mock_async()
 
     for p in Props:
@@ -265,6 +326,7 @@ async def test_set_properties_timeout(mock_request):
 
 @pytest.mark.asyncio
 async def test_uninitialized_properties():
+    """Check uninitialized property handling."""
     device = await generate_device_mock_async()
 
     for p in Props:
