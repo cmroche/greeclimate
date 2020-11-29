@@ -73,6 +73,7 @@ state_cols = [
     "SetTem",
     "TemUn",
     "TemRec",
+    "TemSen",
     "WdSpd",
     "Air",
     "Blo",
@@ -86,8 +87,9 @@ state_cols = [
     "StHt",
     "SvSt",
     "HeatCoolType",
+    "hid",
 ]
-state_dat = [1, 4, 23, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]
+state_dat = [1, 4, 23, 0, 0, 25, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, "V4.0.0"]
 
 
 def cmd_response(addr, opt, p):
