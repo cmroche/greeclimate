@@ -133,6 +133,10 @@ def get_mock_state_bad_temp():
     return {"TemSen": 69, "hid": "362001060297+U-CS532AF(MTK).bin"}
 
 
+def get_mock_state_0c_temp():
+    return {"TemSen": 0, "hid": "362001000762+U-CS532AE(LT)V4.bin"}
+
+
 async def generate_device_mock_async():
     d = Device(("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
     await d.bind(key="St8Vw1Yz4Bc7Ef0H")
@@ -451,3 +455,18 @@ async def test_update_current_temp_bad(mock_request):
     await device.update_state()
 
     assert device.current_temperature == get_mock_state_bad_temp()["TemSen"] - 40
+
+
+@pytest.mark.asyncio
+@patch("greeclimate.network.request_state")
+async def test_update_current_temp_0C(mock_request):
+    """Check that properties can be updates."""
+    mock_request.return_value = get_mock_state_0c_temp()
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    await device.update_state()
+
+    assert device.current_temperature == get_mock_state_0c_temp()["TemSen"]

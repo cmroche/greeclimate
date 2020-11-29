@@ -307,7 +307,7 @@ class Device:
     @property
     def current_temperature(self) -> int:
         prop = self.get_property(Props.TEMP_SENSOR)
-        if prop:
+        if prop is not None:
             v = self._version and int(self._version.split(".")[0])
             if v == 4:
                 return prop
