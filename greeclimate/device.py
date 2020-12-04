@@ -20,6 +20,7 @@ class Props(enum.Enum):
     XFAN = "Blo"
     ANION = "Health"
     SLEEP = "SwhSlp"
+    SLEEP_MODE = "SlpMod"
     LIGHT = "Lig"
     SWING_HORIZ = "SwingLfRig"
     SWING_VERT = "SwUpDn"
@@ -355,6 +356,7 @@ class Device:
     @sleep.setter
     def sleep(self, value: bool):
         self.set_property(Props.SLEEP, int(value))
+        self.set_property(Props.SLEEP_MODE, int(value))
 
     @property
     def light(self) -> bool:

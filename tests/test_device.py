@@ -37,6 +37,7 @@ def get_mock_state():
         "Blo": 0,
         "Health": 0,
         "SwhSlp": 0,
+        "SlpMod": 0, 
         "Lig": 1,
         "SwingLfRig": 1,
         "SwUpDn": 1,
@@ -62,6 +63,7 @@ def get_mock_state_off():
         "Blo": 0,
         "Health": 0,
         "SwhSlp": 0,
+        "SlpMod": 0,
         "Lig": 0,
         "SwingLfRig": 0,
         "SwUpDn": 0,
@@ -86,6 +88,7 @@ def get_mock_state_on():
         "Blo": 1,
         "Health": 1,
         "SwhSlp": 1,
+        "SlpMod": 1,
         "Lig": 1,
         "SwingLfRig": 1,
         "SwUpDn": 1,
@@ -109,6 +112,7 @@ def get_mock_state_no_temperature():
         "Blo": 0,
         "Health": 0,
         "SwhSlp": 0,
+        "SlpMod": 0,
         "Lig": 1,
         "SwingLfRig": 1,
         "SwUpDn": 1,
@@ -470,3 +474,25 @@ async def test_update_current_temp_0C(mock_request):
     await device.update_state()
 
     assert device.current_temperature == get_mock_state_0c_temp()["TemSen"]
+
+
+@pytest.mark.asyncio
+@patch("greeclimate.network.send_state")
+async def test_enable_disable_sleep_mode(mock_request):
+    """Check that properties can be updates."""
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.sleep = True
+    await device.push_state_update()
+
+    assert device.get_property(Props.SLEEP) == 1
+    assert device.get_property(Props.SLEEP_MODE) == 1
+
+    device.sleep = False
+    await device.push_state_update()
+
+    assert device.get_property(Props.SLEEP) == 0
+    assert device.get_property(Props.SLEEP_MODE) == 0
