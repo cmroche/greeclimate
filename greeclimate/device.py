@@ -312,8 +312,8 @@ class Device:
             v = self._version and int(self._version.split(".")[0])
             if v == 4:
                 return prop
-
-            return prop - 40
+            elif prop != 0:
+                return prop - 40
 
         return self.target_temperature
 
