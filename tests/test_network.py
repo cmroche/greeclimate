@@ -6,14 +6,27 @@ from unittest.mock import create_autospec, patch
 
 import pytest
 
-from greeclimate.network import (BroadcastListenerProtocol, DatagramStream,
-                                 DeviceProtocol, DeviceProtocol2, IPAddr,
-                                 bind_device, create_datagram_stream,
-                                 request_state, send_state)
+from greeclimate.network import (
+    BroadcastListenerProtocol,
+    DatagramStream,
+    DeviceProtocol,
+    DeviceProtocol2,
+    IPAddr,
+    bind_device,
+    create_datagram_stream,
+    request_state,
+    send_state,
+)
 
-from .common import (DEFAULT_RESPONSE, DEFAULT_TIMEOUT, DISCOVERY_REQUEST,
-                     DISCOVERY_RESPONSE, Responder, encrypt_payload,
-                     get_mock_device_info)
+from .common import (
+    DEFAULT_RESPONSE,
+    DEFAULT_TIMEOUT,
+    DISCOVERY_REQUEST,
+    DISCOVERY_RESPONSE,
+    Responder,
+    encrypt_payload,
+    get_mock_device_info,
+)
 
 
 class FakeDiscovery(BroadcastListenerProtocol):

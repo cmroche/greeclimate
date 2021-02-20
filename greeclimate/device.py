@@ -213,6 +213,10 @@ class Device:
             match = re.search(r"(?<=V)([\d.]+)\.bin$", self._hid)
             self._version = match and match.group(1)
 
+            # Special case firmwares ...
+            if self._hid.endswith("_JDV1.bin"):
+                self._version = "4.0"
+
     async def update_state(self):
         """ Update the internal state of the device structure of the physical device """
         if not self.device_key:

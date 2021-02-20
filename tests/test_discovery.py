@@ -11,9 +11,15 @@ from greeclimate.device import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
 from greeclimate.network import DatagramStream, DeviceProtocol2
 
-from .common import (DEFAULT_TIMEOUT, DISCOVERY_REQUEST, DISCOVERY_RESPONSE,
-                     DISCOVERY_RESPONSE_NO_CID, Responder, encrypt_payload,
-                     get_mock_device_info)
+from .common import (
+    DEFAULT_TIMEOUT,
+    DISCOVERY_REQUEST,
+    DISCOVERY_RESPONSE,
+    DISCOVERY_RESPONSE_NO_CID,
+    Responder,
+    encrypt_payload,
+    get_mock_device_info,
+)
 
 
 @pytest.mark.asyncio

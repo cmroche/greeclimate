@@ -37,7 +37,7 @@ def get_mock_state():
         "Blo": 0,
         "Health": 0,
         "SwhSlp": 0,
-        "SlpMod": 0, 
+        "SlpMod": 0,
         "Lig": 1,
         "SwingLfRig": 1,
         "SwUpDn": 1,
@@ -125,20 +125,13 @@ def get_mock_state_no_temperature():
     }
 
 
-def get_mock_state_v3_temp():
-    return {"TemSen": 69, "hid": "362001000762+U-CS532AE(LT)V3.31.bin"}
-
-
-def get_mock_state_v4_temp():
-    return {"TemSen": 29, "hid": "362001060297+U-CS532AF(MTK)V4.bin"}
-
-
 def get_mock_state_bad_temp():
     return {"TemSen": 69, "hid": "362001060297+U-CS532AF(MTK).bin"}
 
 
 def get_mock_state_0c_v4_temp():
     return {"TemSen": 0, "hid": "362001000762+U-CS532AE(LT)V4.bin"}
+
 
 def get_mock_state_0c_v3_temp():
     return {"TemSen": 0, "hid": "362001000762+U-CS532AE(LT)V3.31.bin"}
@@ -418,10 +411,11 @@ async def test_update_current_temp_unsupported(mock_request):
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("temsen,hid", [(69, "362001000762+U-CS532AE(LT)V3.31.bin")])
 @patch("greeclimate.network.request_state")
-async def test_update_current_temp_v3(mock_request):
+async def test_update_current_temp_v3(mock_request, temsen, hid):
     """Check that properties can be updates."""
-    mock_request.return_value = get_mock_state_v3_temp()
+    mock_request.return_value = {"TemSen": temsen, "hid": hid}
     device = await generate_device_mock_async()
 
     for p in Props:
@@ -430,14 +424,18 @@ async def test_update_current_temp_v3(mock_request):
     await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is not None
-    assert device.current_temperature == get_mock_state_v3_temp()["TemSen"] - 40
+    assert device.current_temperature == temsen - 40
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "temsen,hid",
+    [(21, "362001060297+U-CS532AF(MTK)V4.bin"), (22, "362001061383+U-BL3332_JDV1.bin")],
+)
 @patch("greeclimate.network.request_state")
-async def test_update_current_temp_v4(mock_request):
+async def test_update_current_temp_v4(mock_request, temsen, hid):
     """Check that properties can be updates."""
-    mock_request.return_value = get_mock_state_v4_temp()
+    mock_request.return_value = {"TemSen": temsen, "hid": hid}
     device = await generate_device_mock_async()
 
     for p in Props:
@@ -446,7 +444,7 @@ async def test_update_current_temp_v4(mock_request):
     await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is not None
-    assert device.current_temperature == get_mock_state_v4_temp()["TemSen"]
+    assert device.current_temperature == temsen
 
 
 @pytest.mark.asyncio
