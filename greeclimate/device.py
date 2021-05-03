@@ -83,6 +83,19 @@ class VerticalSwing(IntEnum):
     SwingLower = 11
 
 
+def generate_temperature_record(temp_f):
+    temSet = round((temp_f - 32.0) * 5.0 / 9.0)
+    temRec = (int)((((temp_f - 32.0) * 5.0 / 9.0) - temSet) > 0)
+    return {"f": temp_f, "temSet": temSet, "temRec": temRec}
+
+
+TEMP_MIN = 16
+TEMP_MAX = 30
+TEMP_MIN_F = 60
+TEMP_MAX_F = 86
+TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_F, TEMP_MAX_F + 1)]
+
+
 class DeviceInfo:
     """Device information class, used to identify and connect
 
@@ -251,6 +264,11 @@ class Device:
             value = self._properties.get(name)
             self._logger.debug("Sending remote state update %s -> %s", name, value)
             props[name] = value
+            if name == Props.TEMP_SET.value:
+                props[Props.TEMP_BIT.value] = self._properties.get(Props.TEMP_BIT.value)
+                props[Props.TEMP_UNIT.value] = self._properties.get(
+                    Props.TEMP_UNIT.value
+                )
 
         self._dirty.clear()
 
@@ -293,13 +311,33 @@ class Device:
     def mode(self, value: int):
         self.set_property(Props.MODE, int(value))
 
+    def _convert_to_units(self, value, bit):
+        if self.temperature_units != TemperatureUnits.F:
+            return value
+
+        f = next(t for t in TEMP_TABLE if t["temSet"] == value and t["temRec"] == bit)
+        return f["f"]
+
     @property
     def target_temperature(self) -> int:
-        return self.get_property(Props.TEMP_SET)
+        temSet = self.get_property(Props.TEMP_SET)
+        temRec = self.get_property(Props.TEMP_BIT)
+        return self._convert_to_units(temSet, temRec)
 
     @target_temperature.setter
     def target_temperature(self, value: int):
-        self.set_property(Props.TEMP_SET, int(value))
+        def validate(val):
+            if val > TEMP_MAX or val < TEMP_MIN:
+                raise ValueError("Specified temperature is out of range.")
+
+        if self.temperature_units == 1:
+            rec = generate_temperature_record(value)
+            validate(rec["temSet"])
+            self.set_property(Props.TEMP_SET, rec["temSet"])
+            self.set_property(Props.TEMP_BIT, rec["temRec"])
+        else:
+            validate(value)
+            self.set_property(Props.TEMP_SET, int(value))
 
     @property
     def temperature_units(self) -> int:
@@ -312,12 +350,13 @@ class Device:
     @property
     def current_temperature(self) -> int:
         prop = self.get_property(Props.TEMP_SENSOR)
+        bit = self.get_property(Props.TEMP_BIT)
         if prop is not None:
             v = self._version and int(self._version.split(".")[0])
             if v == 4:
-                return prop
+                return self._convert_to_units(prop, bit)
             elif prop != 0:
-                return prop - 40
+                return self._convert_to_units(prop - 40, bit)
 
         return self.target_temperature
 
