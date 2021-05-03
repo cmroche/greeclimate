@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
-from greeclimate.device import Device, DeviceInfo, Props
+from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
 from greeclimate.discovery import Discovery
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 
@@ -312,7 +312,6 @@ async def test_set_properties(mock_request):
 
     device.power = True
     device.mode = 1
-    device.target_temperature = 1
     device.temperature_units = 1
     device.fan_speed = 1
     device.fresh_air = True
@@ -332,7 +331,12 @@ async def test_set_properties(mock_request):
     mock_request.assert_called_once()
 
     for p in Props:
-        if p not in (Props.TEMP_SENSOR, Props.TEMP_BIT, Props.UNKNOWN_HEATCOOLTYPE):
+        if p not in (
+            Props.TEMP_SENSOR,
+            Props.TEMP_SET,
+            Props.TEMP_BIT,
+            Props.UNKNOWN_HEATCOOLTYPE,
+        ):
             assert device.get_property(p) is not None
             assert device.get_property(p) == get_mock_state_on()[p.value]
 
@@ -348,7 +352,6 @@ async def test_set_properties_timeout(mock_request):
 
     device.power = True
     device.mode = 1
-    device.target_temperature = 1
     device.temperature_units = 1
     device.fan_speed = 1
     device.fresh_air = True
@@ -490,6 +493,97 @@ async def test_update_current_temp_0C_v3(mock_request):
     await device.update_state()
 
     assert device.current_temperature == device.target_temperature
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("temperature", [18, 19, 20, 21, 22])
+@patch("greeclimate.network.send_state")
+@patch("greeclimate.network.request_state")
+async def test_send_temperature_celsius(mock_request, mock_push, temperature):
+    """Check that temperature is set and read properly in C."""
+    state = get_mock_state()
+    state["TemSen"] = temperature + 40
+    mock_request.return_value = state
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.temperature_units = TemperatureUnits.C
+    device.target_temperature = temperature
+    await device.push_state_update()
+    await device.update_state()
+
+    assert device.current_temperature == temperature
+    assert mock_push.call_count == 1
+    assert mock_push.call_args.args[0] == {
+        "SetTem": temperature,
+        "TemRec": None,
+        "TemUn": 0,
+    }
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "temperature", [60, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 86]
+)
+@patch("greeclimate.network.send_state")
+@patch("greeclimate.network.request_state")
+async def test_send_temperature_farenheit(mock_request, mock_push, temperature):
+    """Check that temperature is set and read properly in F."""
+    temSet = round((temperature - 32.0) * 5.0 / 9.0)
+    temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
+
+    state = get_mock_state()
+    state["TemSen"] = temSet + 40
+    state["TemRec"] = temRec
+    state["TemUn"] = 1
+    mock_request.return_value = state
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.temperature_units = TemperatureUnits.F
+    device.target_temperature = temperature
+    await device.push_state_update()
+    await device.update_state()
+
+    assert device.current_temperature == temperature
+    assert mock_push.call_count == 1
+    assert mock_push.call_args.args[0] == {
+        "SetTem": temSet,
+        "TemRec": temRec,
+        "TemUn": 1,
+    }
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("temperature", [-270, 10, 15, 31, 32, 100])
+async def test_send_temperature_out_of_range_celsius(temperature):
+    """Check that bad temperatures raise the appropriate error."""
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.temperature_units = TemperatureUnits.C
+    with pytest.raises(ValueError):
+        device.target_temperature = temperature
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("temperature", [-270, 58, 59, 87, 88, 89, 100])
+async def test_send_temperature_out_of_range_farenheit(temperature):
+    """Check that bad temperatures raise the appropriate error."""
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.temperature_units = TemperatureUnits.F
+    with pytest.raises(ValueError):
+        device.target_temperature = temperature
 
 
 @pytest.mark.asyncio
