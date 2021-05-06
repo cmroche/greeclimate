@@ -312,7 +312,7 @@ class Device:
         self.set_property(Props.MODE, int(value))
 
     def _convert_to_units(self, value, bit):
-        if self.temperature_units != TemperatureUnits.F:
+        if self.temperature_units != TemperatureUnits.F.value:
             return value
 
         f = next(t for t in TEMP_TABLE if t["temSet"] == value and t["temRec"] == bit)
@@ -328,7 +328,7 @@ class Device:
     def target_temperature(self, value: int):
         def validate(val):
             if val > TEMP_MAX or val < TEMP_MIN:
-                raise ValueError("Specified temperature is out of range.")
+                raise ValueError(f"Specified temperature {val} is out of range.")
 
         if self.temperature_units == 1:
             rec = generate_temperature_record(value)
