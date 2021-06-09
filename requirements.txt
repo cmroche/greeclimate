@@ -1,2 +1,2 @@
-netifaces==0.10.9
-pycryptodome==3.9.8
+netifaces
+pycryptodome~=3.10
