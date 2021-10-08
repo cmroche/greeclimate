@@ -24,6 +24,8 @@ class DiscoveryListener(Listener):
         if self.bind:
             device = Device(device_info)
             await device.bind()
+            await device.request_version()
+            _LOGGER.info(f"Device firmware: {device.hid}")
 
 
 async def run_discovery(bind=False):

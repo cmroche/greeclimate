@@ -172,8 +172,8 @@ class Device:
         self.device_key = None
 
         """ Device properties """
-        self._hid = None
-        self._version = None
+        self.hid = None
+        self.version = None
         self._properties = None
         self._dirty = []
 
@@ -219,19 +219,23 @@ class Device:
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
         ret = await network.request_state(["hid"], self.device_info, self.device_key)
-        self._hid = ret.get("hid")
+        self.hid = ret.get("hid")
 
         # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
-        if self._hid:
-            match = re.search(r"(?<=V)([\d.]+)\.bin$", self._hid)
-            self._version = match and match.group(1)
+        if self.hid:
+            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
+            self.version = match and match.group(1)
 
             # Special case firmwares ...
-            if self._hid.endswith("_JDV1.bin"):
-                self._version = "4.0"
+            if (
+                self.hid.endswith("_JDV1.bin")
+                or self.hid.endswith("(MTK)V1.bin")
+                or self.hid.endswith("362001000967V2.bin")
+            ):
+                self.version = "4.0"
 
     async def update_state(self):
-        """ Update the internal state of the device structure of the physical device """
+        """Update the internal state of the device structure of the physical device"""
         if not self.device_key:
             await self.bind()
 
@@ -240,7 +244,7 @@ class Device:
         props = [x.value for x in Props]
 
         try:
-            if not self._hid:
+            if not self.hid:
                 await self.request_version()
 
             self._properties = await network.request_state(
@@ -250,7 +254,7 @@ class Device:
             raise DeviceTimeoutError
 
     async def push_state_update(self):
-        """ Push any pending state updates to the unit """
+        """Push any pending state updates to the unit"""
         if not self._dirty:
             return
 
@@ -278,13 +282,13 @@ class Device:
             raise DeviceTimeoutError
 
     def get_property(self, name):
-        """ Generic lookup of properties tracked from the physical device """
+        """Generic lookup of properties tracked from the physical device"""
         if self._properties:
             return self._properties.get(name.value)
         return None
 
     def set_property(self, name, value):
-        """ Generic setting of properties for the physical device """
+        """Generic setting of properties for the physical device"""
         if not self._properties:
             self._properties = {}
 
@@ -352,7 +356,7 @@ class Device:
         prop = self.get_property(Props.TEMP_SENSOR)
         bit = self.get_property(Props.TEMP_BIT)
         if prop is not None:
-            v = self._version and int(self._version.split(".")[0])
+            v = self.version and int(self.version.split(".")[0])
             if v == 4:
                 return self._convert_to_units(prop, bit)
             elif prop != 0:
