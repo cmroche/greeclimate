@@ -19,6 +19,9 @@ class Listener:
     async def device_found(self, device_info: DeviceInfo) -> None:
         """Called any time a new (unique) device is found on the network."""
 
+    async def device_update(self, device_info: DeviceInfo) -> None:
+        """Called any time an up address for a device has changed on the network."""
+
 
 class Discovery(BroadcastListenerProtocol, Listener):
     """Interact with gree devices on the network
@@ -116,8 +119,15 @@ class Discovery(BroadcastListenerProtocol, Listener):
             device
         """
 
-        if device_info in self._device_infos:
-            return
+        for index, last_info in enumerate(self._device_infos):
+            if device_info == last_info:
+                if device_info.ip != last_info.ip:
+                    # ip address info may have been updated, so store the new info
+                    # and trigger a `device_update` event.
+                    self._device_infos[index] = device_info
+                    tasks = [l.device_update(device_info) for l in self._listeners]
+                    await asyncio.gather(*tasks, return_exceptions=True)
+                return
 
         self._device_infos.append(device_info)
 
@@ -167,7 +177,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
         return self._device_infos
 
     def _get_broadcast_addresses(self) -> List[IPInterface]:
-        """ Return a list of broadcast addresses for each discovered interface"""
+        """Return a list of broadcast addresses for each discovered interface"""
         import netifaces
 
         broadcastAddrs = []

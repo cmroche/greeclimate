@@ -151,6 +151,50 @@ async def test_discovery_events(netifaces, addr, bcast, family):
 
 
 @pytest.mark.asyncio
+async def test_discovery_device_update_events():
+    discovery = Discovery(allow_loopback=True)
+    discovery.packet_received(
+        {
+            "pack": {
+                "mac": "aa11bb22cc33",
+                "cid": 1,
+                "name": "MockDevice",
+                "brand": "",
+                "model": "",
+                "ver": "1.0.0",
+            }
+        },
+        ("1.1.1.1", 7000),
+    )
+
+    await asyncio.gather(*discovery.tasks, return_exceptions=True)
+
+    assert len(discovery.devices) == 1
+    assert discovery.devices[0].mac == "aa11bb22cc33"
+    assert discovery.devices[0].ip == "1.1.1.1"
+
+    discovery.packet_received(
+        {
+            "pack": {
+                "mac": "aa11bb22cc33",
+                "cid": 1,
+                "name": "MockDevice",
+                "brand": "",
+                "model": "",
+                "ver": "1.0.0",
+            }
+        },
+        ("1.1.2.2", 7000),
+    )
+
+    await asyncio.gather(*discovery.tasks, return_exceptions=True)
+
+    assert len(discovery.devices) == 1
+    assert discovery.devices[0].mac == "aa11bb22cc33"
+    assert discovery.devices[0].ip == "1.1.2.2"
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
 )
