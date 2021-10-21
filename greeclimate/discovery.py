@@ -200,7 +200,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
 
     async def search_on_interface(self, bcast_iface: IPInterface) -> None:
         """Search for devices on a specific interface."""
-        _LOGGER.debug("Listening for devices on %s", bcast_iface.ip_address)
+        _LOGGER.debug("Listening for devices on %s using %s", bcast_iface.ip_address, bcast_iface.bcast_address)
 
         if self._transport is None:
             local_addr = (bcast_iface.ip_address, 0)
