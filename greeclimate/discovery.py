@@ -4,7 +4,7 @@ import logging
 import time
 from asyncio import Task
 from asyncio.events import AbstractEventLoop
-from ipaddress import IPv4Network
+from ipaddress import IPv4Address
 from typing import Coroutine, List
 
 from greeclimate.device import DeviceInfo
@@ -180,27 +180,29 @@ class Discovery(BroadcastListenerProtocol, Listener):
         """Return a list of broadcast addresses for each discovered interface"""
         import netifaces
 
-        broadcastAddrs = []
+        bdrAddrs = []
+        for iface in netifaces.interfaces():
+            for addr in netifaces.ifaddresses(iface)[netifaces.AF_INET]:
+                ipaddr = addr.get("addr")
+                bdr = addr.get("broadcast")
+                peer = addr.get("peer")
+                if addr:
+                    ip4addr = IPv4Address(ipaddr)
+                    if ip4addr.is_private:
+                        if ip4addr.is_loopback and self._allow_loopback:
+                            bdrAddrs.append(IPInterface(ipaddr, bdr or peer))
+                        elif not ip4addr.is_loopback:
+                            bdrAddrs.append(IPInterface(ipaddr, bdr))
 
-        interfaces = netifaces.interfaces()
-        for iface in interfaces:
-            addr = netifaces.ifaddresses(iface)
-            if netifaces.AF_INET in addr:
-                netmask = addr[netifaces.AF_INET][0].get("netmask")
-                ipaddr = addr[netifaces.AF_INET][0].get("addr")
-                if netmask and addr:
-                    net = IPv4Network(f"{ipaddr}/{netmask}", strict=False)
-                    if net.broadcast_address:
-                        if not net.is_loopback or self._allow_loopback:
-                            broadcastAddrs.append(
-                                IPInterface(str(ipaddr), str(net.broadcast_address))
-                            )
-
-        return broadcastAddrs
+        return bdrAddrs
 
     async def search_on_interface(self, bcast_iface: IPInterface) -> None:
         """Search for devices on a specific interface."""
-        _LOGGER.debug("Listening for devices on %s using %s", bcast_iface.ip_address, bcast_iface.bcast_address)
+        _LOGGER.debug(
+            "Listening for devices on %s using %s",
+            bcast_iface.ip_address,
+            bcast_iface.bcast_address,
+        )
 
         if self._transport is None:
             local_addr = (bcast_iface.ip_address, 0)
