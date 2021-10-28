@@ -182,7 +182,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
 
         bdrAddrs = []
         for iface in netifaces.interfaces():
-            for addr in netifaces.ifaddresses(iface)[netifaces.AF_INET]:
+            for addr in netifaces.ifaddresses(iface).get(netifaces.AF_INET, []):
                 ipaddr = addr.get("addr")
                 bdr = addr.get("broadcast")
                 peer = addr.get("peer")
