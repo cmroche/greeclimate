@@ -359,7 +359,9 @@ async def send_state(property_values, device_info, key=GENERIC_KEY):
         stream.close()
 
     cols = r["pack"]["opt"]
-    dat = r["pack"]["val"]
+
+    # Some devices only return only "p" and not both "p" and "val"
+    dat = r["pack"].get("val") or r["pack"].get("p")
     return dict(zip(cols, dat))
 
 

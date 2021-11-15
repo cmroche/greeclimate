@@ -363,7 +363,7 @@ async def test_bind_device(addr, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
-async def test_send_and_update_device_status(addr, family):
+async def test_send_and_update_device_status_using_val(addr, family):
     with Responder(family, addr[1]) as sock:
 
         def responder(s):
@@ -373,6 +373,35 @@ async def test_send_and_update_device_status(addr, family):
             r = DEFAULT_RESPONSE
             r["pack"] = DeviceProtocol2.encrypt_payload(
                 {"opt": ["prop-a", "prop-b"], "val": ["val-a", "val-b"]}
+            )
+            p = json.dumps(r)
+            s.sendto(p.encode(), addr)
+
+        serv = Thread(target=responder, args=(sock,))
+        serv.start()
+
+        # Run the listener portion now
+        properties = {"prop-a": "val-a", "prop-b": "val-b"}
+        response = await send_state(properties, get_mock_device_info())
+
+        assert response
+        assert response == properties
+
+        serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
+async def test_send_and_update_device_status_using_p(addr, family):
+    with Responder(family, addr[1]) as sock:
+
+        def responder(s):
+            (d, addr) = s.recvfrom(2048)
+            p = json.loads(d)
+
+            r = DEFAULT_RESPONSE
+            r["pack"] = DeviceProtocol2.encrypt_payload(
+                {"opt": ["prop-a", "prop-b"], "p": ["val-a", "val-b"]}
             )
             p = json.dumps(r)
             s.sendto(p.encode(), addr)
