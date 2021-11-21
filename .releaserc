@@ -1,0 +1,23 @@
+# Global settings: branch naming conventions, run as CI, tag format, plugin dependencies
+tagFormat: v${version}
+branches:
+  - +([0-9])?(.{+([0-9]),x}).x # maintenance branches format: N.x, N.x.x or N.N.x, where N is a number
+  - master
+  # below are there as examples for extra branches + prelease branches configurations
+  - name: beta # format: vN.N.N-beta.N
+    prerelease: true
+  - name: alpha # format: vN.N.N-alpha.N
+    prerelease: true
+ci: true
+dryRun: false
+debug: false
+plugins:
+  - - "@semantic-release/commit-analyzer"
+    - preset: angular
+  - "@semantic-release/release-notes-generator"
+  - - "@semantic-release/changelog"
+    - changelogFile: CHANGELOG.md
+  - - "@semantic-release/git"
+    - assets: ["CHANGELOG.md"]
+  - "semantic-release-pypi"
+  - "@semantic-release/github"

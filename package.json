@@ -1,0 +1,32 @@
+{
+    "name": "greeclimate-release",
+    "version": "1.0.0",
+    "description": "![Python package](https://github.com/cmroche/greeclimate/workflows/Python%20package/badge.svg)",
+    "main": "index.js",
+    "directories": {
+      "test": "tests"
+    },
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/cmroche/greeclimate.git"
+    },
+    "author": "Clifford Roche",
+    "license": "GPL-3.0-or-later",
+    "bugs": {
+      "url": "https://github.com/cmroche/greeclimate/issues"
+    },
+    "homepage": "https://github.com/cmroche/greeclimate#readme",
+    "dependencies": {
+      "@semantic-release/changelog": "^6.0.1",
+      "@semantic-release/commit-analyzer": "^9.0.1",
+      "@semantic-release/git": "^10.0.1",
+      "@semantic-release/github": "^8.0.2",
+      "@semantic-release/release-notes-generator": "^10.0.2",
+      "semantic-release": "^18.0.0",
+      "semantic-release-pypi": "^2.4.3"
+    }
+  }
+  
