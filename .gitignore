@@ -133,3 +133,6 @@ dmypy.json
 cov.xml
 
 boot.py
+
+# npm stuff
+node_modules
