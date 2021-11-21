@@ -8,7 +8,6 @@ with open("requirements.txt") as f:
 
 setuptools.setup(
     name="greeclimate",
-    version="1.0.0",
     python_requires=">=3.6",
     install_requires=requirements,
     author="Clifford Roche",
