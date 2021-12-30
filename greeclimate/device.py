@@ -229,8 +229,8 @@ class Device:
             # Special case firmwares ...
             if (
                 self.hid.endswith("_JDV1.bin")
-                or self.hid.endswith("(MTK)V1.bin")
                 or self.hid.endswith("362001000967V2.bin")
+                or re.match("^.*\(MTK\)V[1-3]{1}\.bin", self.hid)  # (MTK)V[1-3].bin
             ):
                 self.version = "4.0"
 
