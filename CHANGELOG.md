@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/cmroche/greeclimate/compare/v1.0.1...v1.0.2) (2022-01-14)
+
+
+### Bug Fixes
+
+* Devices with NULL name use mac instead ([#44](https://github.com/cmroche/greeclimate/issues/44)) ([153cc32](https://github.com/cmroche/greeclimate/commit/153cc328dbfb2975f221bedc959e57754e993702))
+* Handle undefined bcast or peer IPs from Wireshark ([#45](https://github.com/cmroche/greeclimate/issues/45)) ([e28eb83](https://github.com/cmroche/greeclimate/commit/e28eb83a3ec5a06f3b69affda5411de485f5ded2))
+
 ## [1.0.1](https://github.com/cmroche/greeclimate/compare/v1.0.0...v1.0.1) (2021-12-30)
 
 
