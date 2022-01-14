@@ -189,9 +189,11 @@ class Discovery(BroadcastListenerProtocol, Listener):
                 if addr:
                     ip4addr = IPv4Address(ipaddr)
                     if ip4addr.is_loopback and self._allow_loopback:
-                        bdrAddrs.append(IPInterface(ipaddr, bdr or peer))
+                        if bdr or peer:
+                            bdrAddrs.append(IPInterface(ipaddr, bdr or peer))
                     elif not ip4addr.is_loopback:
-                        bdrAddrs.append(IPInterface(ipaddr, bdr))
+                        if bdr:
+                            bdrAddrs.append(IPInterface(ipaddr, bdr))
 
         return bdrAddrs
 
