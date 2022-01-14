@@ -110,7 +110,7 @@ class DeviceInfo:
         self.ip = ip
         self.port = port
         self.mac = mac
-        self.name = name if name else self.name
+        self.name = name if name else mac.replace(":", "")
         self.brand = brand
         self.model = model
         self.version = version
