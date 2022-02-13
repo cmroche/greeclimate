@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/cmroche/greeclimate/compare/v1.0.2...v1.0.3) (2022-02-13)
+
+
+### Bug Fixes
+
+* Add version from PyPI release to setup.cfg ([#47](https://github.com/cmroche/greeclimate/issues/47)) ([61e916a](https://github.com/cmroche/greeclimate/commit/61e916a9578bea2c5f100708ea208c823356ad94))
+
 ## [1.0.2](https://github.com/cmroche/greeclimate/compare/v1.0.1...v1.0.2) (2022-01-14)
 
 
