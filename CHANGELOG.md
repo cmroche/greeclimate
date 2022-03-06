@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/cmroche/greeclimate/compare/v1.0.3...v1.1.0) (2022-03-06)
+
+
+### Features
+
+* Check firmware version from temperature report ([#49](https://github.com/cmroche/greeclimate/issues/49)) ([cd6a25f](https://github.com/cmroche/greeclimate/commit/cd6a25f9556e6fd3d4871ac86883d114fc1e9b9e))
+
 ## [1.0.3](https://github.com/cmroche/greeclimate/compare/v1.0.2...v1.0.3) (2022-02-13)
 
 
