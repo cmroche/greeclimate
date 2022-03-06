@@ -414,7 +414,14 @@ async def test_update_current_temp_unsupported(mock_request):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("temsen,hid", [(69, "362001000762+U-CS532AE(LT)V3.31.bin")])
+@pytest.mark.parametrize(
+    "temsen,hid",
+    [
+        (69, "362001000762+U-CS532AE(LT)V3.31.bin"),
+        (61, "362001061060+U-W04HV3.29.bin"),
+        (62, "362001061147+U-ZX6045RV1.01.bin"),
+    ],
+)
 @patch("greeclimate.network.request_state")
 async def test_update_current_temp_v3(mock_request, temsen, hid):
     """Check that properties can be updates."""
@@ -437,6 +444,7 @@ async def test_update_current_temp_v3(mock_request, temsen, hid):
         (21, "362001060297+U-CS532AF(MTK)V4.bin"),
         (21, "362001060297+U-CS532AF(MTK)V2.bin"),
         (22, "362001061383+U-BL3332_JDV1.bin"),
+        (23, "362001061217+U-W04NV7.bin"),
     ],
 )
 @patch("greeclimate.network.request_state")

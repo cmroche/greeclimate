@@ -91,6 +91,7 @@ def generate_temperature_record(temp_f):
 
 TEMP_MIN = 16
 TEMP_MAX = 30
+TEMP_OFFSET = 40
 TEMP_MIN_F = 60
 TEMP_MAX_F = 86
 TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_F, TEMP_MAX_F + 1)]
@@ -227,12 +228,12 @@ class Device:
             self.version = match and match.group(1)
 
             # Special case firmwares ...
-            if (
-                self.hid.endswith("_JDV1.bin")
-                or self.hid.endswith("362001000967V2.bin")
-                or re.match("^.*\(MTK\)V[1-3]{1}\.bin", self.hid)  # (MTK)V[1-3].bin
-            ):
-                self.version = "4.0"
+            # if (
+            #     self.hid.endswith("_JDV1.bin")
+            #     or self.hid.endswith("362001000967V2.bin")
+            #     or re.match("^.*\(MTK\)V[1-3]{1}\.bin", self.hid)  # (MTK)V[1-3].bin
+            # ):
+            #     self.version = "4.0"
 
     async def update_state(self):
         """Update the internal state of the device structure of the physical device"""
@@ -244,12 +245,20 @@ class Device:
         props = [x.value for x in Props]
 
         try:
-            if not self.hid:
-                await self.request_version()
-
             self._properties = await network.request_state(
                 props, self.device_info, self.device_key
             )
+
+            # This check should prevent need to do version & device overrides
+            # to correctly compute the temperature. Though will need to confirm
+            # that it resolves all possible cases.
+            if not self.hid:
+                await self.request_version()
+
+            temp = self.get_property(Props.TEMP_SENSOR)
+            if temp and temp <= TEMP_OFFSET:
+                self.version = "4.0"
+
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
@@ -360,7 +369,7 @@ class Device:
             if v == 4:
                 return self._convert_to_units(prop, bit)
             elif prop != 0:
-                return self._convert_to_units(prop - 40, bit)
+                return self._convert_to_units(prop - TEMP_OFFSET, bit)
 
         return self.target_temperature
 
