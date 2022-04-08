@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/cmroche/greeclimate/compare/v1.1.0...v1.1.1) (2022-04-08)
+
+
+### Bug Fixes
+
+* Allow min temps down to 8C or 46F ([#52](https://github.com/cmroche/greeclimate/issues/52)) ([b957e0f](https://github.com/cmroche/greeclimate/commit/b957e0f33a2578f229f5e016b42349f561bd898e))
+* Bump minimist from 1.2.5 to 1.2.6 ([#50](https://github.com/cmroche/greeclimate/issues/50)) ([95892e4](https://github.com/cmroche/greeclimate/commit/95892e4c8619daad72081b40f1c077149341cfbd))
+
 # [1.1.0](https://github.com/cmroche/greeclimate/compare/v1.0.3...v1.1.0) (2022-03-06)
 
 
