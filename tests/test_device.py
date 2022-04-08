@@ -571,7 +571,7 @@ async def test_send_temperature_farenheit(mock_request, mock_push, temperature):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("temperature", [-270, 10, 15, 31, 32, 100])
+@pytest.mark.parametrize("temperature", [-270, 0, 7, 31, 32, 100])
 async def test_send_temperature_out_of_range_celsius(temperature):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
@@ -585,7 +585,7 @@ async def test_send_temperature_out_of_range_celsius(temperature):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("temperature", [-270, 58, 59, 87, 88, 89, 100])
+@pytest.mark.parametrize("temperature", [-270, 32, 44, 87, 88, 89, 100])
 async def test_send_temperature_out_of_range_farenheit(temperature):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()

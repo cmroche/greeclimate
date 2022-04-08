@@ -89,10 +89,10 @@ def generate_temperature_record(temp_f):
     return {"f": temp_f, "temSet": temSet, "temRec": temRec}
 
 
-TEMP_MIN = 16
+TEMP_MIN = 8
 TEMP_MAX = 30
 TEMP_OFFSET = 40
-TEMP_MIN_F = 60
+TEMP_MIN_F = 46
 TEMP_MAX_F = 86
 TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_F, TEMP_MAX_F + 1)]
 
