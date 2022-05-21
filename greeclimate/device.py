@@ -369,10 +369,13 @@ class Device:
         bit = self.get_property(Props.TEMP_BIT)
         if prop is not None:
             v = self.version and int(self.version.split(".")[0])
-            if v == 4:
-                return self._convert_to_units(prop, bit)
-            elif prop != 0:
-                return self._convert_to_units(prop - TEMP_OFFSET, bit)
+            try:
+                if v == 4:
+                    return self._convert_to_units(prop, bit)
+                elif prop != 0:
+                    return self._convert_to_units(prop - TEMP_OFFSET, bit)
+            except ValueError:
+                logging.warning("Converting unexpected set temperature value %s", prop)
 
         return self.target_temperature
 
