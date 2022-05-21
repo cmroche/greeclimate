@@ -328,6 +328,9 @@ class Device:
         if self.temperature_units != TemperatureUnits.F.value:
             return value
 
+        if value < TEMP_MIN or value > TEMP_MAX:
+            raise ValueError(f"Specified temperature {value} is out of range.")
+
         f = next(t for t in TEMP_TABLE if t["temSet"] == value and t["temRec"] == bit)
         return f["f"]
 
