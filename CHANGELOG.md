@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/cmroche/greeclimate/compare/v1.1.1...v1.2.0) (2022-05-22)
+
+
+### Features
+
+* Adding check and raise error when trying to convert out of range temp ([1bddf8b](https://github.com/cmroche/greeclimate/commit/1bddf8b7b34b7c1889812ff5c5e89128a1a365ce))
+
 ## [1.1.1](https://github.com/cmroche/greeclimate/compare/v1.1.0...v1.1.1) (2022-04-08)
 
 
