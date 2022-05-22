@@ -586,7 +586,7 @@ async def test_send_temperature_out_of_range_celsius(temperature):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("temperature", [-270, 32, 44, 87, 88, 89, 100])
-async def test_send_temperature_out_of_range_farenheit(temperature):
+async def test_send_temperature_out_of_range_farenheit_set(temperature):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
 
@@ -596,6 +596,24 @@ async def test_send_temperature_out_of_range_farenheit(temperature):
     device.temperature_units = TemperatureUnits.F
     with pytest.raises(ValueError):
         device.target_temperature = temperature
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("temperature", [-270, 100])
+async def test_send_temperature_out_of_range_farenheit_get(temperature):
+    """Check that bad temperatures raise the appropriate error."""
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.set_property(Props.TEMP_SET, 20)
+    device.set_property(Props.TEMP_SENSOR, temperature)
+    device.set_property(Props.TEMP_BIT, 0)
+    device.temperature_units = TemperatureUnits.F
+
+    t = device.current_temperature
+    assert t == 68
 
 
 @pytest.mark.asyncio

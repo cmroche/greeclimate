@@ -328,6 +328,9 @@ class Device:
         if self.temperature_units != TemperatureUnits.F.value:
             return value
 
+        if value < TEMP_MIN or value > TEMP_MAX:
+            raise ValueError(f"Specified temperature {value} is out of range.")
+
         f = next(t for t in TEMP_TABLE if t["temSet"] == value and t["temRec"] == bit)
         return f["f"]
 
@@ -366,10 +369,13 @@ class Device:
         bit = self.get_property(Props.TEMP_BIT)
         if prop is not None:
             v = self.version and int(self.version.split(".")[0])
-            if v == 4:
-                return self._convert_to_units(prop, bit)
-            elif prop != 0:
-                return self._convert_to_units(prop - TEMP_OFFSET, bit)
+            try:
+                if v == 4:
+                    return self._convert_to_units(prop, bit)
+                elif prop != 0:
+                    return self._convert_to_units(prop - TEMP_OFFSET, bit)
+            except ValueError:
+                logging.warning("Converting unexpected set temperature value %s", prop)
 
         return self.target_temperature
 
