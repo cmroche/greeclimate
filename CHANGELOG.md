@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/cmroche/greeclimate/compare/v1.2.0...v1.2.1) (2022-06-05)
+
+
+### Bug Fixes
+
+* Bump semver-regex from 3.1.3 to 3.1.4 ([#54](https://github.com/cmroche/greeclimate/issues/54)) ([fdfa0f6](https://github.com/cmroche/greeclimate/commit/fdfa0f6a8eb362a2956cdc5d83eb7b61e93229e5))
+
 # [1.2.0](https://github.com/cmroche/greeclimate/compare/v1.1.1...v1.2.0) (2022-05-22)
 
 
