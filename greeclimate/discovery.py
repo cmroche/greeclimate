@@ -209,7 +209,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
                 lambda: self, local_addr=("0.0.0.0", 0), allow_broadcast=True
             )
 
-        await self.send({"t": "scan"}, (bcast_iface, 7000))
+        await self.send({"t": "scan"}, (str(bcast_iface), 7000))
 
     async def search_devices(self, broadcastAddrs: list[IPv4Address] | None = None) -> None:
         """Search for devices with specific broadcast addresses."""
