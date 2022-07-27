@@ -156,7 +156,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
         self._create_task(self.device_found(DeviceInfo(*device)))
 
     # Discovery
-    async def scan(self, wait_for: int=0, bcast_iface: IPv4Address | None=None) -> List[DeviceInfo]:
+    async def scan(self, wait_for: int=0, bcast_ifaces: List[IPv4Address] | None=None) -> List[DeviceInfo]:
         """Sends a discovery broadcast packet on each network interface to
             locate Gree units on the network
 
@@ -169,7 +169,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
         """
         _LOGGER.info("Scanning for Gree devices ...")
 
-        await self.search_devices(bcast_iface)
+        await self.search_devices(bcast_ifaces)
         if wait_for:
             await asyncio.sleep(wait_for)
             await asyncio.gather(*self.tasks, return_exceptions=True)
