@@ -1,14 +1,14 @@
+from __future__ import annotations
+
 import asyncio
-import json
 import logging
-import time
 from asyncio import Task
 from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address
 from typing import Coroutine, List
 
 from greeclimate.device import DeviceInfo
-from greeclimate.network import BroadcastListenerProtocol, IPAddr, IPInterface
+from greeclimate.network import BroadcastListenerProtocol, IPAddr
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -156,7 +156,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
         self._create_task(self.device_found(DeviceInfo(*device)))
 
     # Discovery
-    async def scan(self, wait_for=0) -> List[DeviceInfo]:
+    async def scan(self, wait_for: int=0, bcast_ifaces: List[IPv4Address] | None=None) -> List[DeviceInfo]:
         """Sends a discovery broadcast packet on each network interface to
             locate Gree units on the network
 
@@ -169,14 +169,14 @@ class Discovery(BroadcastListenerProtocol, Listener):
         """
         _LOGGER.info("Scanning for Gree devices ...")
 
-        await self.search_devices()
+        await self.search_devices(bcast_ifaces)
         if wait_for:
             await asyncio.sleep(wait_for)
             await asyncio.gather(*self.tasks, return_exceptions=True)
 
         return self._device_infos
 
-    def _get_broadcast_addresses(self) -> List[IPInterface]:
+    def _get_broadcast_addresses(self) -> List[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""
         import netifaces
 
@@ -190,36 +190,31 @@ class Discovery(BroadcastListenerProtocol, Listener):
                     ip4addr = IPv4Address(ipaddr)
                     if ip4addr.is_loopback and self._allow_loopback:
                         if bdr or peer:
-                            bdrAddrs.append(IPInterface(ipaddr, bdr or peer))
+                            bdrAddrs.append(IPv4Address(bdr or peer))
                     elif not ip4addr.is_loopback:
                         if bdr:
-                            bdrAddrs.append(IPInterface(ipaddr, bdr))
+                            bdrAddrs.append(IPv4Address(bdr))
 
         return bdrAddrs
 
-    async def search_on_interface(self, bcast_iface: IPInterface) -> None:
+    async def search_on_interface(self, bcast_iface: IPv4Address) -> None:
         """Search for devices on a specific interface."""
         _LOGGER.debug(
-            "Listening for devices on %s using %s",
-            bcast_iface.ip_address,
-            bcast_iface.bcast_address,
+            "Listening for devices on %s",
+            bcast_iface,
         )
 
         if self._transport is None:
-            local_addr = (bcast_iface.ip_address, 0)
-
             self._transport, _ = await self._loop.create_datagram_endpoint(
-                lambda: self, local_addr=local_addr, allow_broadcast=True
+                lambda: self, local_addr=("0.0.0.0", 0), allow_broadcast=True
             )
 
-        await self.send({"t": "scan"}, (bcast_iface.bcast_address, 7000))
+        await self.send({"t": "scan"}, (str(bcast_iface), 7000))
 
-    async def search_devices(self, broadcastAddrs: str = None) -> None:
+    async def search_devices(self, broadcastAddrs: list[IPv4Address] | None = None) -> None:
         """Search for devices with specific broadcast addresses."""
         if not broadcastAddrs:
             broadcastAddrs = self._get_broadcast_addresses()
-
-        broadcastAddrs = list(broadcastAddrs)
         await asyncio.gather(
             *[asyncio.create_task(self.search_on_interface(b)) for b in broadcastAddrs]
         )
