@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/cmroche/greeclimate/compare/v1.2.1...v1.3.0) (2022-08-06)
+
+
+### Features
+
+* Support manually passing bcast addresses to device scan ([b57dbd5](https://github.com/cmroche/greeclimate/commit/b57dbd50d95d92479550592378f61372754a6fe9))
+
 ## [1.2.1](https://github.com/cmroche/greeclimate/compare/v1.2.0...v1.2.1) (2022-06-05)
 
 
