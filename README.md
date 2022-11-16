@@ -80,6 +80,7 @@ device.quiet = True
 device.turbo = True
 device.steady_heat = True
 device.power_save = True
+device.target_humidity = 45
 
 # Send the state update to the HVAC
 await device.push_state_update()
