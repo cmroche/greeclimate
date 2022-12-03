@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/cmroche/greeclimate/compare/v1.3.0...v1.4.0) (2022-12-03)
+
+
+### Features
+
+* Add device properties for dehumidifiers ([#62](https://github.com/cmroche/greeclimate/issues/62)) ([0e2a084](https://github.com/cmroche/greeclimate/commit/0e2a0846a2dd4ed5221c5861f5e5cd857a2dca2b))
+
 # [1.3.0](https://github.com/cmroche/greeclimate/compare/v1.2.1...v1.3.0) (2022-08-06)
 
 
