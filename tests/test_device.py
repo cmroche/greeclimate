@@ -48,6 +48,11 @@ def get_mock_state():
         "TemRec": 0,
         "HeatCoolType": 0,
         "hid": "362001000762+U-CS532AE(LT)V3.31.bin",
+        "Dmod": 0,
+        "Dwet": 5,
+        "DwatSen": 58,
+        "Dfltr": 0,
+        "DwatFul": 0,
     }
 
 
@@ -73,6 +78,11 @@ def get_mock_state_off():
         "SvSt": 0,
         "TemRec": 0,
         "HeatCoolType": 0,
+        "Dmod": 0,
+        "Dwet": 0,
+        "DwatSen": 0,
+        "Dfltr": 0,
+        "DwatFul": 0,
     }
 
 
@@ -98,6 +108,11 @@ def get_mock_state_on():
         "SvSt": 1,
         "TemRec": 0,
         "HeatCoolType": 0,
+        "Dmod": 0,
+        "Dwet": 3,
+        "DwatSen": 1,
+        "Dfltr": 0,
+        "DwatFul": 0,
     }
 
 
@@ -122,6 +137,11 @@ def get_mock_state_no_temperature():
         "SvSt": 0,
         "TemRec": 0,
         "HeatCoolType": 0,
+        "Dmod": 0,
+        "Dwet": 1,
+        "DwatSen": 1,
+        "Dfltr": 0,
+        "DwatFul": 0,
     }
 
 
@@ -325,6 +345,7 @@ async def test_set_properties(mock_request):
     device.turbo = True
     device.steady_heat = True
     device.power_save = True
+    device.target_humidity = 30
 
     await device.push_state_update()
 
@@ -336,6 +357,10 @@ async def test_set_properties(mock_request):
             Props.TEMP_SET,
             Props.TEMP_BIT,
             Props.UNKNOWN_HEATCOOLTYPE,
+            Props.HUM_SENSOR,
+            Props.DEHUMIDIFIER_MODE,
+            Props.WATER_FULL,
+            Props.CLEAN_FILTER,
         ):
             assert device.get_property(p) is not None
             assert device.get_property(p) == get_mock_state_on()[p.value]

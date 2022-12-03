@@ -11,6 +11,14 @@ from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 class Props(enum.Enum):
     POWER = "Pow"
     MODE = "Mod"
+
+    # Dehumidifier fields
+    HUM_SET = "Dwet"
+    HUM_SENSOR = "DwatSen"
+    CLEAN_FILTER = "Dfltr"
+    WATER_FULL = "DwatFul"
+    DEHUMIDIFIER_MODE = "Dmod"
+
     TEMP_SET = "SetTem"
     TEMP_SENSOR = "TemSen"
     TEMP_UNIT = "TemUn"
@@ -82,6 +90,9 @@ class VerticalSwing(IntEnum):
     SwingLowerMiddle = 10
     SwingLower = 11
 
+class DehumidifierMode(IntEnum):
+    Default = 0
+    AnionOnly = 9
 
 def generate_temperature_record(temp_f):
     temSet = round((temp_f - 32.0) * 5.0 / 9.0)
@@ -95,7 +106,8 @@ TEMP_OFFSET = 40
 TEMP_MIN_F = 46
 TEMP_MAX_F = 86
 TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_F, TEMP_MAX_F + 1)]
-
+HUMIDITY_MIN = 30
+HUMIDITY_MAX = 80
 
 class DeviceInfo:
     """Device information class, used to identify and connect
@@ -164,6 +176,10 @@ class Device:
         turbo: A boolean to enable turbo operation (heat or cool faster initially)
         steady_heat: When enabled unit will maintain a target temperature of 8 degrees C
         power_save: A boolen to enable power save operation
+        target_humidity: An int to set the target relative humidity
+        current_humidity: The current relative humidity
+        clean_filter: A bool to indicate the filter needs cleaning
+        water_full: A bool to indicate the water tank is full
     """
 
     def __init__(self, device_info):
@@ -475,3 +491,31 @@ class Device:
     @power_save.setter
     def power_save(self, value: bool):
         self.set_property(Props.POWER_SAVE, int(value))
+
+    @property
+    def target_humidity(self) -> int:
+        15 + (self.get_property(Props.HUM_SET) * 5)
+    
+    @target_humidity.setter
+    def target_humidity(self, value: int):
+        def validate(val):
+            if value > HUMIDITY_MAX or val < HUMIDITY_MIN:
+                raise ValueError(f"Specified temperature {val} is out of range.")
+        
+        self.set_property(Props.HUM_SET, (value - 15) // 5)
+
+    @property
+    def dehumidifier_mode(self):
+        return self.get_property(Props.DEHUMIDIFIER_MODE)
+
+    @property
+    def current_humidity(self) -> int:
+        return self.get_property(Props.HUM_SENSOR)
+
+    @property
+    def clean_filter(self) -> bool:
+        return bool(self.get_property(Props.CLEAN_FILTER))
+
+    @property
+    def water_full(self) -> bool:
+        return bool(self.get_property(Props.WATER_FULL))
