@@ -153,6 +153,7 @@ class BroadcastListenerProtocol(DeviceProtocol2):
 
         sock = transport.get_extra_info("socket")  # type: socket.socket
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 
 class DeviceProtocol(asyncio.DatagramProtocol):
