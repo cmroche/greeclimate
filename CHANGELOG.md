@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/cmroche/greeclimate/compare/v1.4.0...v1.4.1) (2023-02-05)
+
+
+### Bug Fixes
+
+* Allow socket reuse for discovery ([#64](https://github.com/cmroche/greeclimate/issues/64)) ([db819b4](https://github.com/cmroche/greeclimate/commit/db819b496c98f89330debd5668d3f0bfff729441))
+
 # [1.4.0](https://github.com/cmroche/greeclimate/compare/v1.3.0...v1.4.0) (2022-12-03)
 
 
