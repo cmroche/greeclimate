@@ -347,7 +347,13 @@ class Device:
         if value < TEMP_MIN or value > TEMP_MAX:
             raise ValueError(f"Specified temperature {value} is out of range.")
 
-        f = next(t for t in TEMP_TABLE if t["temSet"] == value and t["temRec"] == bit)
+        matching_temSet = [t for t in TEMP_TABLE if t["temSet"] == value]
+
+        try:
+            f = next(t for t in matching_temSet if t["temRec"] == bit)
+        except StopIteration:
+            f = matching_temSet[0]
+
         return f["f"]
 
     @property
