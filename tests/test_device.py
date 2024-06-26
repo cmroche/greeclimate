@@ -673,12 +673,11 @@ async def test_mismatch_temrec_farenheit(mock_request, mock_push, temperature):
     """Check that temperature is set and read properly in F."""
     temSet = round((temperature - 32.0) * 5.0 / 9.0)
     temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
-    # Now, we alter the temRec so it is not found in the table.
-    temRec = (temRec + 1) % 2
-
+    
     state = get_mock_state()
     state["TemSen"] = temSet + 40
-    state["TemRec"] = temRec
+    # Now, we alter the temRec on the device so it is not found in the table.
+    state["TemRec"] = (temRec + 1) % 2
     state["TemUn"] = 1
     mock_request.return_value = state
     device = await generate_device_mock_async()
