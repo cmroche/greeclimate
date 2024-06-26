@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/cmroche/greeclimate/compare/v1.4.1...v1.4.2) (2024-06-26)
+
+
+### Bug Fixes
+
+* Fahrenheit conversion inconsistencies ([#73](https://github.com/cmroche/greeclimate/issues/73)) ([f09f3f1](https://github.com/cmroche/greeclimate/commit/f09f3f1433968269027ea1d27259c09bc787df43))
+
 ## [1.4.1](https://github.com/cmroche/greeclimate/compare/v1.4.0...v1.4.1) (2023-02-05)
 
 
