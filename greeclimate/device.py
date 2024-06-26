@@ -276,7 +276,7 @@ class Device:
                 await self.request_version()
 
             temp = self.get_property(Props.TEMP_SENSOR)
-            if temp and temp <= TEMP_OFFSET:
+            if temp and temp < TEMP_OFFSET:
                 self.version = "4.0"
 
         except asyncio.TimeoutError:
