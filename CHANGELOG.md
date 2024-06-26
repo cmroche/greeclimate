@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/cmroche/greeclimate/compare/v1.4.2...v1.4.3) (2024-06-26)
+
+
+### Bug Fixes
+
+* Check for v4 temperature records ([#69](https://github.com/cmroche/greeclimate/issues/69)) ([#81](https://github.com/cmroche/greeclimate/issues/81)) ([f4882c1](https://github.com/cmroche/greeclimate/commit/f4882c1e6e3bbad5b62a5c6284ec6dbc26131d3d))
+
 ## [1.4.2](https://github.com/cmroche/greeclimate/compare/v1.4.1...v1.4.2) (2024-06-26)
 
 
