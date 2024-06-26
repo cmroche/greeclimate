@@ -105,7 +105,11 @@ TEMP_MAX = 30
 TEMP_OFFSET = 40
 TEMP_MIN_F = 46
 TEMP_MAX_F = 86
-TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_F, TEMP_MAX_F + 1)]
+TEMP_MIN_TABLE = -60
+TEMP_MAX_TABLE = 60
+TEMP_MIN_TABLE_F = -76
+TEMP_MAX_TABLE_F = 140
+TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_TABLE_F, TEMP_MAX_TABLE_F + 1)]
 HUMIDITY_MIN = 30
 HUMIDITY_MAX = 80
 
@@ -344,10 +348,16 @@ class Device:
         if self.temperature_units != TemperatureUnits.F.value:
             return value
 
-        if value < TEMP_MIN or value > TEMP_MAX:
+        if value < TEMP_MIN_TABLE or value > TEMP_MAX_TABLE:
             raise ValueError(f"Specified temperature {value} is out of range.")
 
-        f = next(t for t in TEMP_TABLE if t["temSet"] == value and t["temRec"] == bit)
+        matching_temSet = [t for t in TEMP_TABLE if t["temSet"] == value]
+
+        try:
+            f = next(t for t in matching_temSet if t["temRec"] == bit)
+        except StopIteration:
+            f = matching_temSet[0]
+
         return f["f"]
 
     @property

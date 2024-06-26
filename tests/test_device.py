@@ -596,7 +596,7 @@ async def test_send_temperature_farenheit(mock_request, mock_push, temperature):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("temperature", [-270, 0, 7, 31, 32, 100])
+@pytest.mark.parametrize("temperature", [-270, -61, 61, 100])
 async def test_send_temperature_out_of_range_celsius(temperature):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
@@ -610,7 +610,7 @@ async def test_send_temperature_out_of_range_celsius(temperature):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("temperature", [-270, 32, 44, 87, 88, 89, 100])
+@pytest.mark.parametrize("temperature", [-270, -61, 141])
 async def test_send_temperature_out_of_range_farenheit_set(temperature):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
@@ -624,7 +624,7 @@ async def test_send_temperature_out_of_range_farenheit_set(temperature):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("temperature", [-270, 100])
+@pytest.mark.parametrize("temperature", [-270, 150])
 async def test_send_temperature_out_of_range_farenheit_get(temperature):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
@@ -661,3 +661,39 @@ async def test_enable_disable_sleep_mode(mock_request):
 
     assert device.get_property(Props.SLEEP) == 0
     assert device.get_property(Props.SLEEP_MODE) == 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "temperature", [59, 77, 86]
+)
+@patch("greeclimate.network.send_state")
+@patch("greeclimate.network.request_state")
+async def test_mismatch_temrec_farenheit(mock_request, mock_push, temperature):
+    """Check that temperature is set and read properly in F."""
+    temSet = round((temperature - 32.0) * 5.0 / 9.0)
+    temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
+    
+    state = get_mock_state()
+    state["TemSen"] = temSet + 40
+    # Now, we alter the temRec on the device so it is not found in the table.
+    state["TemRec"] = (temRec + 1) % 2
+    state["TemUn"] = 1
+    mock_request.return_value = state
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.temperature_units = TemperatureUnits.F
+    device.target_temperature = temperature
+    await device.push_state_update()
+    await device.update_state()
+
+    assert device.current_temperature == temperature
+    assert mock_push.call_count == 1
+    assert mock_push.call_args.args[0] == {
+        "SetTem": temSet,
+        "TemRec": temRec,
+        "TemUn": 1,
+    }
