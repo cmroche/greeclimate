@@ -661,3 +661,40 @@ async def test_enable_disable_sleep_mode(mock_request):
 
     assert device.get_property(Props.SLEEP) == 0
     assert device.get_property(Props.SLEEP_MODE) == 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "temperature", [59, 77, 86]
+)
+@patch("greeclimate.network.send_state")
+@patch("greeclimate.network.request_state")
+async def test_mismatch_temrec_farenheit(mock_request, mock_push, temperature):
+    """Check that temperature is set and read properly in F."""
+    temSet = round((temperature - 32.0) * 5.0 / 9.0)
+    temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
+    # Now, we alter the temRec so it is not found in the table.
+    temRec = (temRec + 1) % 2
+
+    state = get_mock_state()
+    state["TemSen"] = temSet + 40
+    state["TemRec"] = temRec
+    state["TemUn"] = 1
+    mock_request.return_value = state
+    device = await generate_device_mock_async()
+
+    for p in Props:
+        assert device.get_property(p) is None
+
+    device.temperature_units = TemperatureUnits.F
+    device.target_temperature = temperature
+    await device.push_state_update()
+    await device.update_state()
+
+    assert device.current_temperature == temperature
+    assert mock_push.call_count == 1
+    assert mock_push.call_args.args[0] == {
+        "SetTem": temSet,
+        "TemRec": temRec,
+        "TemUn": 1,
+    }
