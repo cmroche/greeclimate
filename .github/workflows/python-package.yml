@@ -39,6 +39,8 @@ jobs:
       - uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   publish:
     needs: build
     name: Publish to Github & NPM or Github Package Registry
