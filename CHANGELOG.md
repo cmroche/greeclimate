@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/cmroche/greeclimate/compare/v1.4.3...v1.4.4) (2024-06-27)
+
+
+### Bug Fixes
+
+* twine upload error ([#84](https://github.com/cmroche/greeclimate/issues/84)) ([f097886](https://github.com/cmroche/greeclimate/commit/f097886cc39cca1beb20188cf8e762f121874cdf))
+
 ## [1.4.3](https://github.com/cmroche/greeclimate/compare/v1.4.2...v1.4.3) (2024-06-26)
 
 
