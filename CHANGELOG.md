@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/cmroche/greeclimate/compare/v1.4.4...v1.4.5) (2024-06-27)
+
+
+### Bug Fixes
+
+* use of Queue where Event was expected ([#85](https://github.com/cmroche/greeclimate/issues/85)) ([9dfcdbb](https://github.com/cmroche/greeclimate/commit/9dfcdbb9ae65b2c5e2f4c753e1fe7e6fa7de70a3))
+
 ## [1.4.4](https://github.com/cmroche/greeclimate/compare/v1.4.3...v1.4.4) (2024-06-27)
 
 
