@@ -158,7 +158,7 @@ class BroadcastListenerProtocol(DeviceProtocol2):
 
 class DeviceProtocol(asyncio.DatagramProtocol):
     def __init__(
-        self, recvq: asyncio.Queue, excq: asyncio.Queue, drained: asyncio.Queue
+        self, recvq: asyncio.Queue, excq: asyncio.Queue, drained: asyncio.Event
     ) -> None:
         self._loop = asyncio.get_event_loop()
 
