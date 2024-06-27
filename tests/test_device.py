@@ -102,7 +102,7 @@ def get_mock_state_on():
         "Lig": 1,
         "SwingLfRig": 1,
         "SwUpDn": 1,
-        "Quiet": 1,
+        "Quiet": 2,
         "Tur": 1,
         "StHt": 1,
         "SvSt": 1,
