@@ -476,7 +476,7 @@ class Device:
 
     @quiet.setter
     def quiet(self, value: bool):
-        self.set_property(Props.QUIET, int(value))
+        self.set_property(Props.QUIET, 2 if value else 0)
 
     @property
     def turbo(self) -> bool:
