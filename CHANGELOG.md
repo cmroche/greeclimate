@@ -1,3 +1,10 @@
+## [1.4.6](https://github.com/cmroche/greeclimate/compare/v1.4.5...v1.4.6) (2024-06-27)
+
+
+### Bug Fixes
+
+* Quiet mode to set value 2 not 1 ([#88](https://github.com/cmroche/greeclimate/issues/88)) ([129a190](https://github.com/cmroche/greeclimate/commit/129a1905940a0c723dce4890e6d567346967137c)), closes [#87](https://github.com/cmroche/greeclimate/issues/87)
+
 ## [1.4.5](https://github.com/cmroche/greeclimate/compare/v1.4.4...v1.4.5) (2024-06-27)
 
 
