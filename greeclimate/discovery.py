@@ -216,5 +216,5 @@ class Discovery(BroadcastListenerProtocol, Listener):
         if not broadcastAddrs:
             broadcastAddrs = self._get_broadcast_addresses()
         await asyncio.gather(
-            *[asyncio.create_task(self.search_on_interface(b)) for b in broadcastAddrs]
+            *[asyncio.create_task(self.search_on_interface(b)) for b in broadcastAddrs], return_exceptions=True
         )
