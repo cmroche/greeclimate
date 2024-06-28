@@ -1,6 +1,6 @@
 import asyncio
 import enum
-from unittest.mock import patch
+from unittest.mock import patch, AsyncMock
 
 import pytest
 
@@ -158,7 +158,7 @@ def get_mock_state_0c_v3_temp():
 
 
 async def generate_device_mock_async():
-    d = Device(("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
+    d = Device(DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
     await d.bind(key="St8Vw1Yz4Bc7Ef0H")
     return d
 
@@ -187,8 +187,7 @@ def test_device_info_equality():
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.bind_device")
-async def test_get_device_info(mock_bind):
+async def test_get_device_info():
     """Initialize device, check properties."""
 
     info = DeviceInfo(*get_mock_info())
@@ -203,43 +202,47 @@ async def test_get_device_info(mock_bind):
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.bind_device")
-async def test_device_bind(mock_bind):
+async def test_device_bind():
     """Check that the device returns a device key when binding."""
 
     info = DeviceInfo(*get_mock_info())
-    device = Device(info)
+    device = Device(info, timeout=1)
 
     assert device.device_info == info
 
     fake_key = "abcdefgh12345678"
-    mock_bind.return_value = fake_key
-    await device.bind()
+
+    def fake_send(*args):
+        """Emulate a bind event"""
+        device.ready.set()
+        device.handle_device_bound(fake_key)
+
+    with patch.object(Device, "send", side_effect=fake_send) as mock:
+        await device.bind()
+        assert mock.call_count == 1
 
     assert device.device_key == fake_key
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.bind_device")
-async def test_device_bind_timeout(mock_bind):
+async def test_device_bind_timeout():
     """Check that the device handles timeout errors when binding."""
 
     info = DeviceInfo(*get_mock_info())
-    device = Device(info)
+    device = Device(info, timeout=1)
 
     assert device.device_info == info
 
-    mock_bind.side_effect = asyncio.TimeoutError
-
     with pytest.raises(DeviceTimeoutError):
-        await device.bind()
+        with patch.object(Device, "send", return_value=None) as mock:
+            await device.bind()
+            assert mock.call_count == 1
 
     assert device.device_key is None
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.bind_device")
-async def test_device_bind_none(mock_bind):
+async def test_device_bind_none():
     """Check that the device handles bad binding sequences."""
 
     info = DeviceInfo(*get_mock_info())
@@ -247,36 +250,48 @@ async def test_device_bind_none(mock_bind):
 
     assert device.device_info == info
 
-    mock_bind.return_value = None
+    fake_key = None
+
+    def fake_send(*args):
+        """Emulate a bind event"""
+        device.ready.set()
 
     with pytest.raises(DeviceNotBoundError):
-        await device.bind()
+        with patch.object(Device, "send", side_effect=fake_send) as mock:
+            await device.bind()
+            assert mock.call_count == 1
 
     assert device.device_key is None
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.bind_device")
 @patch("greeclimate.network.request_state")
 @patch("greeclimate.network.send_state")
-async def test_device_late_bind(mock_push, mock_update, mock_bind):
+async def test_device_late_bind(mock_push, mock_update):
     """Check that the device handles late binding sequences."""
-    fake_key = "abcdefgh12345678"
-    mock_bind.return_value = fake_key
     mock_update.return_value = {}
     mock_push.return_value = []
 
     info = DeviceInfo(*get_mock_info())
-    device = Device(info)
+    device = Device(info, timeout=1)
     assert device.device_info == info
 
-    await device.update_state()
-    assert device.device_key == fake_key
+    fake_key = "abcdefgh12345678"
 
-    device.device_key = None
-    device.power = True
-    await device.push_state_update()
-    assert device.device_key == fake_key
+    def fake_send(*args):
+        """Emulate a bind event"""
+        device.handle_device_bound(fake_key)
+        device.ready.set()
+
+    with patch.object(Device, "send", side_effect=fake_send) as mock:
+        await device.update_state()
+        assert mock.call_count == 1
+        assert device.device_key == fake_key
+
+        device.device_key = None
+        device.power = True
+        await device.push_state_update()
+        assert device.device_key == fake_key
 
 
 @pytest.mark.asyncio

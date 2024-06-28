@@ -5,10 +5,10 @@ import logging
 from asyncio import Task
 from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address
-from typing import Coroutine, List
 
 from greeclimate.device import DeviceInfo
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
+from greeclimate.taskable import Taskable
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ class Listener:
         """Called any time an up address for a device has changed on the network."""
 
 
-class Discovery(BroadcastListenerProtocol, Listener):
+class Discovery(BroadcastListenerProtocol, Listener, Taskable):
     """Interact with gree devices on the network
 
     The `GreeClimate` class provides basic services for discovery and
@@ -35,50 +35,28 @@ class Discovery(BroadcastListenerProtocol, Listener):
         timeout: int = 2,
         allow_loopback: bool = False,
         loop: AbstractEventLoop = None,
-    ):
-        """Intialized the discovery manager.
+    ) -> None:
+        """Initialized the discovery manager.
 
         Args:
             timeout (int): Wait this long for responses to the scan request
             allow_loopback (bool): Allow scanning the loopback interface, default `False`
             loop (AbstractEventLoop): Async event loop
         """
-        super(BroadcastListenerProtocol, self).__init__()
-        self._timeout = timeout
-        self._allow_loopback = allow_loopback
-
-        self._device_infos = []
-        self._listeners = []
-        self._tasks = []
-
-        self._loop = loop or asyncio.get_event_loop()
-        self._transport = None
+        BroadcastListenerProtocol.__init__(self, timeout)
+        Taskable.__init__(self, loop)
+        self._allow_loopback: bool = allow_loopback
+        self._device_infos: list[DeviceInfo] = []
+        self._listeners: list[Listener] = []
 
     # Task management
     @property
-    def tasks(self) -> List[Coroutine]:
-        """Returns the outstanding tasks waiting completion."""
-        return self._tasks
-
-    @property
-    def devices(self) -> List[DeviceInfo]:
+    def devices(self) -> list[DeviceInfo]:
         """Return the current known list of devices."""
         return self._device_infos
 
-    def _task_done_callback(self, task):
-        if task.exception():
-            _LOGGER.exception("Uncaught exception", exc_info=task.exception())
-        self._tasks.remove(task)
-
-    def _create_task(self, coro) -> Task:
-        """Create and track tasks that are being created for events."""
-        task = self._loop.create_task(coro)
-        self._tasks.append(task)
-        task.add_done_callback(self._task_done_callback)
-        return task
-
     # Listener management
-    def add_listener(self, listener: Listener) -> List[Coroutine]:
+    def add_listener(self, listener: Listener) -> list[Task]:
         """Add a listener that will receive discovery events.
 
         Adding a listener will cause all currently known device to trigger a
@@ -90,7 +68,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
         Returns:
             List[Coro]: List of tasks for device found events.
         """
-        if not listener in self._listeners:
+        if listener not in self._listeners:
             self._listeners.append(listener)
             return [self._create_task(listener.device_found(x)) for x in self.devices]
 
@@ -156,13 +134,14 @@ class Discovery(BroadcastListenerProtocol, Listener):
         self._create_task(self.device_found(DeviceInfo(*device)))
 
     # Discovery
-    async def scan(self, wait_for: int=0, bcast_ifaces: List[IPv4Address] | None=None) -> List[DeviceInfo]:
+    async def scan(self, wait_for: int = 0, bcast_ifaces: list[IPv4Address] | None = None) -> list[DeviceInfo]:
         """Sends a discovery broadcast packet on each network interface to
             locate Gree units on the network
 
         Args:
             wait_for (int): Optionally wait this many seconds for discovery
                             and return the devices found.
+            bcast_ifaces (list[IPv4Address]): List of broadcast addresses to scan
 
         Returns:
             List[DeviceInfo]: List of devices found during this scan
@@ -176,7 +155,7 @@ class Discovery(BroadcastListenerProtocol, Listener):
 
         return self._device_infos
 
-    def _get_broadcast_addresses(self) -> List[IPv4Address]:
+    def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""
         import netifaces
 

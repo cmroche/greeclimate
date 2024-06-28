@@ -10,7 +10,7 @@ from greeclimate.network import (
     BroadcastListenerProtocol,
     DatagramStream,
     DeviceProtocol,
-    DeviceProtocol2,
+    DeviceProtocolBase2,
     IPAddr,
     bind_device,
     create_datagram_stream,
@@ -52,7 +52,7 @@ async def test_close_connection(addr, bcast, family):
     bcast = (bcast, 7000)
     local_addr = (addr[0], 0)
 
-    with patch.object(DeviceProtocol2, "connection_lost") as mock:
+    with patch.object(DeviceProtocolBase2, "connection_lost") as mock:
         dp2 = FakeDiscovery()
         await loop.create_datagram_endpoint(
             lambda: dp2,
@@ -77,7 +77,7 @@ async def test_close_connection(addr, bcast, family):
 async def test_set_get_key():
     """Test the encryption key property."""
     key = "faketestkey"
-    dp2 = DeviceProtocol2()
+    dp2 = DeviceProtocolBase2()
     dp2.device_key = key
     assert dp2.device_key == key
 
@@ -86,7 +86,7 @@ async def test_set_get_key():
 @pytest.mark.parametrize("addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")])
 async def test_connection_error(addr, bcast):
     """Test the encryption key property."""
-    dp2 = DeviceProtocol2()
+    dp2 = DeviceProtocolBase2()
 
     loop = asyncio.get_event_loop()
     transport, _ = await loop.create_datagram_endpoint(
@@ -106,7 +106,7 @@ async def test_connection_error(addr, bcast):
 async def test_pause_resume(addr, bcast):
     """Test the encryption key property."""
     event = asyncio.Event()
-    dp2 = DeviceProtocol2(drained=event)
+    dp2 = DeviceProtocolBase2(drained=event)
 
     loop = asyncio.get_event_loop()
     transport, _ = await loop.create_datagram_endpoint(
@@ -291,10 +291,10 @@ async def test_create_stream(addr, family):
 def test_encrypt_decrypt_payload():
     test_object = {"fake-key": "fake-value"}
 
-    encrypted = DeviceProtocol2.encrypt_payload(test_object)
+    encrypted = DeviceProtocolBase2.encrypt_payload(test_object)
     assert encrypted != test_object
 
-    decrypted = DeviceProtocol2.decrypt_payload(encrypted)
+    decrypted = DeviceProtocolBase2.decrypt_payload(encrypted)
     assert decrypted == test_object
 
 
@@ -343,7 +343,7 @@ async def test_bind_device(addr, family):
             p = json.loads(d)
 
             r = DEFAULT_RESPONSE
-            r["pack"] = DeviceProtocol2.encrypt_payload(
+            r["pack"] = DeviceProtocolBase2.encrypt_payload(
                 {"t": "bindok", "key": "acbd1234"}
             )
             p = json.dumps(r)
@@ -371,7 +371,7 @@ async def test_send_and_update_device_status_using_val(addr, family):
             p = json.loads(d)
 
             r = DEFAULT_RESPONSE
-            r["pack"] = DeviceProtocol2.encrypt_payload(
+            r["pack"] = DeviceProtocolBase2.encrypt_payload(
                 {"opt": ["prop-a", "prop-b"], "val": ["val-a", "val-b"]}
             )
             p = json.dumps(r)
@@ -400,7 +400,7 @@ async def test_send_and_update_device_status_using_p(addr, family):
             p = json.loads(d)
 
             r = DEFAULT_RESPONSE
-            r["pack"] = DeviceProtocol2.encrypt_payload(
+            r["pack"] = DeviceProtocolBase2.encrypt_payload(
                 {"opt": ["prop-a", "prop-b"], "p": ["val-a", "val-b"]}
             )
             p = json.dumps(r)
@@ -429,7 +429,7 @@ async def test_request_device_status(addr, family):
             p = json.loads(d)
 
             r = DEFAULT_RESPONSE
-            r["pack"] = DeviceProtocol2.encrypt_payload(
+            r["pack"] = DeviceProtocolBase2.encrypt_payload(
                 {"cols": ["prop-a", "prop-b"], "dat": ["val-a", "val-b"]}
             )
             p = json.dumps(r)

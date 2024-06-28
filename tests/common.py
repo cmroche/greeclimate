@@ -3,7 +3,7 @@ import socket
 from socket import SOCK_DGRAM
 from unittest.mock import Mock, create_autospec, patch
 
-from greeclimate.network import DeviceProtocol2
+from greeclimate.network import DeviceProtocolBase2
 
 DEFAULT_TIMEOUT = 5
 DISCOVERY_REQUEST = {"t": "scan"}
@@ -76,7 +76,7 @@ def get_mock_device_info():
 def encrypt_payload(data):
     """Encrypt the payload of responses quickly."""
     d = data.copy()
-    d["pack"] = DeviceProtocol2.encrypt_payload(d["pack"])
+    d["pack"] = DeviceProtocolBase2.encrypt_payload(d["pack"])
     return d
 
 

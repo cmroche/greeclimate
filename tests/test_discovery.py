@@ -9,7 +9,7 @@ import pytest
 
 from greeclimate.device import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
-from greeclimate.network import DatagramStream, DeviceProtocol2
+from greeclimate.network import DatagramStream, DeviceProtocolBase2
 
 from .common import (
     DEFAULT_TIMEOUT,
