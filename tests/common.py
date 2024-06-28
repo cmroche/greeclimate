@@ -5,7 +5,7 @@ from unittest.mock import Mock, create_autospec, patch
 
 from greeclimate.network import DeviceProtocolBase2
 
-DEFAULT_TIMEOUT = 5
+DEFAULT_TIMEOUT = 1
 DISCOVERY_REQUEST = {"t": "scan"}
 DISCOVERY_RESPONSE = {
     "t": "pack",
@@ -51,13 +51,25 @@ DISCOVERY_RESPONSE_NO_CID = {
         "lock": 0,
     },
 }
+DEFAULT_REQUEST = {
+    "t": "pack",
+    "i": 1,
+    "uid": 0,
+    "cid": "aabbcc112233",
+    "tcid": "",
+    "pack": {
+        "t": "test"
+    }
+}
 DEFAULT_RESPONSE = {
     "t": "pack",
     "i": 1,
     "uid": 0,
     "cid": "aabbcc112233",
     "tcid": "",
-    "pack": {},
+    "pack": {
+        "t": "testresponse"
+    }
 }
 
 

@@ -12,10 +12,9 @@ from greeclimate.network import (
     DeviceProtocol,
     DeviceProtocolBase2,
     IPAddr,
-    bind_device,
     create_datagram_stream,
     request_state,
-    send_state,
+    send_state, DeviceProtocol2,
 )
 
 from .common import (
@@ -25,19 +24,30 @@ from .common import (
     DISCOVERY_RESPONSE,
     Responder,
     encrypt_payload,
-    get_mock_device_info,
+    get_mock_device_info, DEFAULT_REQUEST,
 )
 
 
-class FakeDiscovery(BroadcastListenerProtocol):
+class FakeDiscoveryProtocol(BroadcastListenerProtocol):
     """Fake discovery class."""
 
     def __init__(self):
-        super(BroadcastListenerProtocol, self).__init__()
-        self.packets = []
+        super().__init__(timeout=1, drained=None)
+        self.packets = asyncio.Queue()
 
     def packet_received(self, obj, addr: IPAddr) -> None:
-        self.packets.append(obj)
+        self.packets.put_nowait(obj)
+
+
+class FakeDeviceProtocol(DeviceProtocol2):
+    """Fake discovery class."""
+
+    def __init__(self, drained: asyncio.Event = None):
+        super().__init__(timeout=1, drained=drained)
+        self.packets = asyncio.Queue()
+
+    def packet_received(self, obj, addr: IPAddr) -> None:
+        self.packets.put_nowait(obj)
 
 
 @pytest.mark.asyncio
@@ -53,7 +63,7 @@ async def test_close_connection(addr, bcast, family):
     local_addr = (addr[0], 0)
 
     with patch.object(DeviceProtocolBase2, "connection_lost") as mock:
-        dp2 = FakeDiscovery()
+        dp2 = FakeDiscoveryProtocol()
         await loop.create_datagram_endpoint(
             lambda: dp2,
             local_addr=local_addr,
@@ -65,11 +75,14 @@ async def test_close_connection(addr, bcast, family):
         dp2.close()
 
         # Wait on the scan response
-        await asyncio.sleep(DEFAULT_TIMEOUT)
-        response = dp2.packets
+        with pytest.raises(asyncio.TimeoutError):
+            task = asyncio.create_task(dp2.packets.get())
+            await asyncio.wait_for(task, DEFAULT_TIMEOUT)
+            (response, _) = task.result()
 
-        assert not response
-        assert len(response) == 0
+            assert not response
+            assert len(response) == 0
+
         assert mock.call_count == 1
 
 
@@ -97,7 +110,9 @@ async def test_connection_error(addr, bcast):
     # Send the scan command
     data = DISCOVERY_REQUEST
     await dp2.send(data, bcast)
-    dp2.connection_lost(RuntimeError())
+
+    with pytest.raises(RuntimeError):
+        dp2.connection_lost(RuntimeError())
     assert transport.is_closing()
 
 
@@ -149,7 +164,7 @@ async def test_broadcast_recv(addr, bcast, family):
         bcast = (bcast, 7000)
         local_addr = (addr[0], 0)
 
-        dp2 = FakeDiscovery()
+        dp2 = FakeDiscoveryProtocol()
         await loop.create_datagram_endpoint(
             lambda: dp2,
             local_addr=local_addr,
@@ -160,13 +175,11 @@ async def test_broadcast_recv(addr, bcast, family):
         await dp2.send(data, bcast)
 
         # Wait on the scan response
-        await asyncio.sleep(DEFAULT_TIMEOUT)
-        response = dp2.packets
+        task = asyncio.create_task(dp2.packets.get())
+        await asyncio.wait_for(task, DEFAULT_TIMEOUT)
+        response = task.result()
 
-        assert response
-        assert len(response) == 1
-        assert response[0] == DISCOVERY_RESPONSE
-
+        assert response == DISCOVERY_RESPONSE
         serv.join(timeout=DEFAULT_TIMEOUT)
 
 
@@ -187,7 +200,7 @@ async def test_broadcast_timeout(addr, bcast, family):
     bcast = (bcast, 7000)
     local_addr = (addr[0], 0)
 
-    dp2 = FakeDiscovery()
+    dp2 = FakeDiscoveryProtocol()
     await loop.create_datagram_endpoint(
         lambda: dp2,
         local_addr=local_addr,
@@ -197,11 +210,13 @@ async def test_broadcast_timeout(addr, bcast, family):
     await dp2.send(DISCOVERY_REQUEST, bcast)
 
     # Wait on the scan response
-    await asyncio.sleep(DEFAULT_TIMEOUT)
-    response = dp2.packets
+    task = asyncio.create_task(dp2.packets.get())
+    with pytest.raises(asyncio.TimeoutError):
+        await asyncio.wait_for(task, DEFAULT_TIMEOUT)
 
-    assert response is not None
-    assert len(response) == 0
+    with pytest.raises(asyncio.CancelledError):
+        response = task.result()
+        assert len(response) == 0
 
 
 @pytest.mark.asyncio
@@ -213,9 +228,9 @@ async def test_datagram_connect(addr, family):
         def responder(s):
             (d, addr) = s.recvfrom(2048)
             p = json.loads(d)
-            assert p == DISCOVERY_REQUEST
+            assert p == DEFAULT_REQUEST
 
-            p = json.dumps(DISCOVERY_RESPONSE)
+            p = json.dumps(DEFAULT_RESPONSE)
             s.sendto(p.encode(), addr)
 
         serv = Thread(target=responder, args=(sock,))
@@ -223,29 +238,24 @@ async def test_datagram_connect(addr, family):
 
         # Run the listener portion now
         loop = asyncio.get_event_loop()
-        recvq = asyncio.Queue()
-        excq = asyncio.Queue()
         drained = asyncio.Event()
 
         remote_addr = (addr[0], 7000)
 
-        transport, _ = await loop.create_datagram_endpoint(
-            lambda: DeviceProtocol(recvq, excq, drained), remote_addr=remote_addr
+        transport, protocol = await loop.create_datagram_endpoint(
+            lambda: FakeDeviceProtocol(drained=drained), remote_addr=remote_addr
         )
-        stream = DatagramStream(transport, recvq, excq, drained)
 
         # Send the scan command
-        data = json.dumps(DISCOVERY_REQUEST).encode()
-        await stream.send(data, None)
+        data = json.dumps(DEFAULT_REQUEST).encode()
+        await protocol.send(data, None)
 
         # Wait on the scan response
-        task = asyncio.create_task(stream.recv())
-        await asyncio.wait_for(task, timeout=DEFAULT_TIMEOUT)
-        (response, _) = task.result()
+        task = asyncio.create_task(protocol.packets.get())
+        await asyncio.wait_for(task, DEFAULT_TIMEOUT)
+        response = task.result()
 
-        assert response
-        assert len(response) > 0
-        assert json.loads(response) == DISCOVERY_RESPONSE
+        assert json.loads(response) == DEFAULT_RESPONSE
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
@@ -332,33 +342,6 @@ async def test_send_receive_device_data(addr, family):
 
         serv.join(timeout=DEFAULT_TIMEOUT)
 
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
-async def test_bind_device(addr, family):
-    with Responder(family, addr[1]) as sock:
-
-        def responder(s):
-            (d, addr) = s.recvfrom(2048)
-            p = json.loads(d)
-
-            r = DEFAULT_RESPONSE
-            r["pack"] = DeviceProtocolBase2.encrypt_payload(
-                {"t": "bindok", "key": "acbd1234"}
-            )
-            p = json.dumps(r)
-            s.sendto(p.encode(), addr)
-
-        serv = Thread(target=responder, args=(sock,))
-        serv.start()
-
-        # Run the listener portion now
-        response = await bind_device(get_mock_device_info())
-
-        assert response
-        assert response == "acbd1234"
-
-        serv.join(timeout=DEFAULT_TIMEOUT)
 
 
 @pytest.mark.asyncio
