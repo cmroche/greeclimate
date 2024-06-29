@@ -73,6 +73,13 @@ DEFAULT_RESPONSE = {
 }
 
 
+def generate_response(data):
+    """Generate a response from a request."""
+    response = DEFAULT_RESPONSE.copy()
+    response["pack"].update(data)
+    return response
+
+
 def get_mock_device_info():
     return Mock(
         name="device-info",
@@ -95,17 +102,18 @@ def encrypt_payload(data):
 class Responder:
     """Context manage for easy raw socket responders."""
 
-    def __init__(self, family, addr) -> None:
+    def __init__(self, family, addr, bcast=True) -> None:
         """Initialize the class."""
         self.sock = None
         self.family = family
         self.addr = addr
+        self.bcast = bcast
 
     def __enter__(self):
         """Enter the context manager."""
         self.sock = socket.socket(self.family, SOCK_DGRAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, self.bcast)
         self.sock.settimeout(DEFAULT_TIMEOUT)
         self.sock.bind(("", self.addr))
         return self.sock

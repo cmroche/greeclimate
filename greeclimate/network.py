@@ -199,7 +199,8 @@ class DeviceProtocol2(DeviceProtocolBase2):
         handlers = {
             "bindok": lambda o, a: self.__handle_device_bound(o["pack"]["key"]),
         }
-        handler = handlers.get(obj.get("t"), self.handle_unknown_packet)
+        resp = obj.get("pack", {}).get("t")
+        handler = handlers.get(resp, self.handle_unknown_packet)
         try:
             handler(obj, addr)
         except KeyError as e:

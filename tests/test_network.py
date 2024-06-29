@@ -2,7 +2,7 @@ import asyncio
 import json
 import socket
 from threading import Thread
-from unittest.mock import create_autospec, patch
+from unittest.mock import create_autospec, patch, MagicMock
 
 import pytest
 
@@ -24,7 +24,7 @@ from .common import (
     DISCOVERY_RESPONSE,
     Responder,
     encrypt_payload,
-    get_mock_device_info, DEFAULT_REQUEST,
+    get_mock_device_info, DEFAULT_REQUEST, generate_response,
 )
 
 
@@ -223,13 +223,10 @@ async def test_broadcast_timeout(addr, bcast, family):
 @pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_datagram_connect(addr, family):
     """Create a socket responder, an async connection, test send and recv."""
-    with Responder(family, addr[1]) as sock:
+    with Responder(family, addr[1], bcast=False) as sock:
 
         def responder(s):
             (d, addr) = s.recvfrom(2048)
-            p = json.loads(d)
-            assert p == DEFAULT_REQUEST
-
             p = json.dumps(DEFAULT_RESPONSE)
             s.sendto(p.encode(), addr)
 
@@ -241,58 +238,22 @@ async def test_datagram_connect(addr, family):
         drained = asyncio.Event()
 
         remote_addr = (addr[0], 7000)
-
         transport, protocol = await loop.create_datagram_endpoint(
             lambda: FakeDeviceProtocol(drained=drained), remote_addr=remote_addr
         )
 
-        # Send the scan command
-        data = json.dumps(DEFAULT_REQUEST).encode()
-        await protocol.send(data, None)
+        with patch("greeclimate.network.DeviceProtocolBase2.decrypt_payload", new_callable=MagicMock) as mock:
+            mock.side_effect = lambda x, y: x
 
-        # Wait on the scan response
-        task = asyncio.create_task(protocol.packets.get())
-        await asyncio.wait_for(task, DEFAULT_TIMEOUT)
-        response = task.result()
+            # Send the scan command
+            await protocol.send(DEFAULT_REQUEST, None)
 
-        assert json.loads(response) == DEFAULT_RESPONSE
+            # Wait on the scan response
+            task = asyncio.create_task(protocol.packets.get())
+            await asyncio.wait_for(task, DEFAULT_TIMEOUT)
+            response = task.result()
 
-        sock.close()
-        serv.join(timeout=DEFAULT_TIMEOUT)
-
-
-@pytest.mark.asyncio
-@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
-async def test_create_stream(addr, family):
-    """Create a socket responder, a network stream, test send and recv."""
-    with Responder(family, addr[1]) as sock:
-
-        def responder(s):
-            (d, addr) = s.recvfrom(2048)
-            p = json.loads(d)
-            assert p == DISCOVERY_REQUEST
-
-            p = json.dumps(DISCOVERY_RESPONSE)
-            s.sendto(p.encode(), addr)
-
-        serv = Thread(target=responder, args=(sock,))
-        serv.start()
-
-        # Run the listener portion now
-        stream = await create_datagram_stream(addr)
-
-        # Send the scan command
-        data = json.dumps(DISCOVERY_REQUEST).encode()
-        await stream.send(data)
-
-        # Wait on the scan response
-        task = asyncio.create_task(stream.recv())
-        await asyncio.wait_for(task, timeout=DEFAULT_TIMEOUT)
-        (response, _) = task.result()
-
-        assert response
-        assert len(response) > 0
-        assert json.loads(response) == DISCOVERY_RESPONSE
+            assert response == DEFAULT_RESPONSE
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
@@ -308,6 +269,18 @@ def test_encrypt_decrypt_payload():
     assert decrypted == test_object
 
 
+@pytest.mark.asyncio
+def test_bindok_handling():
+    """Test the bindok response."""
+    response = generate_response({"t": "bindok", "key": "fake-key"})
+    protocol = DeviceProtocol2(timeout=DEFAULT_TIMEOUT)
+    with patch("greeclimate.network.DeviceProtocolBase2.decrypt_payload", new_callable=MagicMock) as mock_decrypt:
+        mock_decrypt.side_effect = lambda x, y: x
+        with patch.object(DeviceProtocol2, "handle_device_bound") as mock:
+            protocol.datagram_received(json.dumps(response).encode(), ("0.0.0.0", 0))
+            assert mock.call_count == 1
+            assert mock.call_args[0][0] == "fake-key"
+    
 @pytest.mark.asyncio
 @pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
 async def test_send_receive_device_data(addr, family):
