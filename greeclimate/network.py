@@ -22,9 +22,10 @@ IPAddr = Tuple[str, int]
 
 
 class Commands:
-    SCAN = "scan"
     BIND = "bind"
     PACK = "pack"
+    SCAN = "scan"
+    STATUS = "status"
 
 @dataclass
 class IPInterface:
@@ -198,6 +199,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """
         handlers = {
             "bindok": lambda o, a: self.__handle_device_bound(o["pack"]["key"]),
+            "dat": lambda o, a: self.__handle_state_update(o["pack"]["cols"], o["pack"]["dat"]),
         }
         resp = obj.get("pack", {}).get("t")
         handler = handlers.get(resp, self.handle_unknown_packet)
@@ -217,6 +219,13 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device bound events. """
         pass
 
+    def __handle_state_update(self, cols: list[str], dat: list[Any]) -> None:
+        self.handle_state_update(dict(zip(cols, dat)))
+
+    def handle_state_update(self, state: Dict[str, Any]) -> None:
+        """ Implement this function to handle device state updates. """
+        pass
+
     def _generate_payload(self, command: str, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
         payload = {
             "cid": "app",
@@ -233,7 +242,10 @@ class DeviceProtocol2(DeviceProtocolBase2):
         return payload
 
     def create_bind_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
-        return self._generate_payload(Commands.BIND, device_info, {"t": "bind", "uid": 0})
+        return self._generate_payload(Commands.BIND, device_info, {"uid": 0})
+
+    def create_status_message(self, device_info: DeviceInfo, cols: list[str]) -> Dict[str, Any]:
+        return self._generate_payload(Commands.STATUS, device_info, {"cols": cols})
 
 
 class DeviceProtocol(asyncio.DatagramProtocol):

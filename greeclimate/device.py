@@ -224,23 +224,24 @@ class Device(DeviceProtocol2, Taskable):
         self.device_key = key
 
     async def request_version(self) -> None:
-
         """Request the firmware version from the device."""
-        ret = await network.request_state(["hid"], self.device_info, self.device_key)
-        self.hid = ret.get("hid")
+        if not self.device_key:
+            await self.bind()
+
+        try:
+            await self.send(self.create_status_message(self.device_info, ["hid"]))
+
+        except asyncio.TimeoutError:
+            raise DeviceTimeoutError
+
+    def handle_state_update(self, **kwargs) -> None:
+        """Handle incoming information about the firmware version of the device"""
 
         # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
-        if self.hid:
+        if hid:
+            self.hid = hid
             match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
             self.version = match and match.group(1)
-
-            # Special case firmwares ...
-            # if (
-            #     self.hid.endswith("_JDV1.bin")
-            #     or self.hid.endswith("362001000967V2.bin")
-            #     or re.match("^.*\(MTK\)V[1-3]{1}\.bin", self.hid)  # (MTK)V[1-3].bin
-            # ):
-            #     self.version = "4.0"
 
     async def update_state(self):
         """Update the internal state of the device structure of the physical device"""
