@@ -52,14 +52,14 @@ class FakeDeviceProtocol(DeviceProtocol2):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_close_connection(addr, bcast, family):
+async def test_close_connection(addr, family):
     """Test closing the connection."""
     # Run the listener portion now
     loop = asyncio.get_event_loop()
 
-    bcast = (bcast, 7000)
+    bcast = (addr[0], 7000)
     local_addr = (addr[0], 0)
 
     with patch.object(DeviceProtocolBase2, "connection_lost") as mock:
@@ -96,8 +96,8 @@ async def test_set_get_key():
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")])
-async def test_connection_error(addr, bcast):
+@pytest.mark.parametrize("addr", [(("127.0.0.1", 7001))])
+async def test_connection_error(addr):
     """Test the encryption key property."""
     dp2 = DeviceProtocolBase2()
 
@@ -109,7 +109,7 @@ async def test_connection_error(addr, bcast):
 
     # Send the scan command
     data = DISCOVERY_REQUEST
-    await dp2.send(data, bcast)
+    await dp2.send(data, (addr[0], 7000))
 
     with pytest.raises(RuntimeError):
         dp2.connection_lost(RuntimeError())
@@ -117,8 +117,8 @@ async def test_connection_error(addr, bcast):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("addr,bcast", [(("127.0.0.1", 7001), "127.255.255.255")])
-async def test_pause_resume(addr, bcast):
+@pytest.mark.parametrize("addr", [(("127.0.0.1", 7001))])
+async def test_pause_resume(addr):
     """Test the encryption key property."""
     event = asyncio.Event()
     dp2 = DeviceProtocolBase2(drained=event)
@@ -141,9 +141,9 @@ async def test_pause_resume(addr, bcast):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_broadcast_recv(addr, bcast, family):
+async def test_broadcast_recv(addr, family):
     """Create a socket broadcast responder, an async broadcast listener, test discovery responses."""
     with Responder(family, addr[1]) as sock:
 
@@ -161,7 +161,7 @@ async def test_broadcast_recv(addr, bcast, family):
         # Run the listener portion now
         loop = asyncio.get_event_loop()
 
-        bcast = (bcast, 7000)
+        bcast = (addr[0], 7000)
         local_addr = (addr[0], 0)
 
         dp2 = FakeDiscoveryProtocol()
@@ -185,19 +185,18 @@ async def test_broadcast_recv(addr, bcast, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family",
+    "addr,family",
     [
-        (("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET),
-        (("127.0.0.1", 7000), "255.255.255.255", socket.AF_INET),
+        (("127.0.0.1", 7000), socket.AF_INET),
     ],
 )
-async def test_broadcast_timeout(addr, bcast, family):
+async def test_broadcast_timeout(addr, family):
     """Create an async broadcast listener, test discovery responses."""
 
     # Run the listener portion now
     loop = asyncio.get_event_loop()
 
-    bcast = (bcast, 7000)
+    bcast = (addr[0], 7000)
     local_addr = (addr[0], 0)
 
     dp2 = FakeDiscoveryProtocol()

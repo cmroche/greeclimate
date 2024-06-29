@@ -102,7 +102,7 @@ def encrypt_payload(data):
 class Responder:
     """Context manage for easy raw socket responders."""
 
-    def __init__(self, family, addr, bcast=True) -> None:
+    def __init__(self, family, addr, bcast=False) -> None:
         """Initialize the class."""
         self.sock = None
         self.family = family
