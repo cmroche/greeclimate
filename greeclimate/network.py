@@ -239,8 +239,9 @@ class DeviceProtocol2(DeviceProtocolBase2):
             _LOGGER.exception("Error while handling packet", exc_info=e)
 
         # Call any registered callbacks for this event
-        for callback in self._handlers.get(Response(resp), []):
-            callback(obj, addr)
+        if resp in handlers:
+            for callback in self._handlers.get(Response(resp), []):
+                callback(obj, addr)
 
     def handle_unknown_packet(self, obj, addr: IPAddr) -> None:
         _LOGGER.warning("Received unknown packet from %s:\n%s", addr[0], json.dumps(obj))
