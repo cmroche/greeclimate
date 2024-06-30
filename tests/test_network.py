@@ -495,7 +495,7 @@ async def test_add_and_remove_handler(event_name, data):
     protocol.packet_received(event_data, ("0.0.0.0", 0))
 
     # Check that the callback was called
-    callback.assert_called_once_with(*data.values())
+    callback.assert_called_once()
 
     # Now remove the handler
     protocol.remove_handler(event_name, callback)

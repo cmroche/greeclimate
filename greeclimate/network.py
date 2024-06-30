@@ -228,8 +228,8 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """
         params = {
             Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
-            Response.DATA.value: lambda o, a: [o["pack"]["cols"], o["pack"]["dat"]],
-            Response.RESULT.value: lambda o, a: [o["pack"]["opt"], o["pack"]["val"]],
+            Response.DATA.value: lambda o, a: [dict(zip(o["pack"]["cols"], o["pack"]["dat"]))],
+            Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"]["val"]))],
         }
         handlers = {
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
@@ -261,8 +261,8 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device bound events. """
         pass
 
-    def __handle_state_update(self, cols: list[str], dat: list[Any]) -> None:
-        self.handle_state_update(**dict(zip(cols, dat)))
+    def __handle_state_update(self, data) -> None:
+        self.handle_state_update(**data)
 
     def handle_state_update(self, **kwargs) -> None:
         """ Implement this function to handle device state updates. """
