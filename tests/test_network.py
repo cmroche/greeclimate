@@ -12,7 +12,7 @@ from greeclimate.network import (
     BroadcastListenerProtocol,
     DeviceProtocolBase2,
     IPAddr,
-    DeviceProtocol2, Commands,
+    DeviceProtocol2, Commands, Response,
 )
 
 from .common import (
@@ -459,14 +459,50 @@ def test_generate_payload(use_default_key, command, data):
     expected = {
         'cid': 'app',
         'i': use_default_key,  # Device key encryption
-        't': Commands.PACK if data is not None else command,
+        't': Commands.PACK.value if data is not None else command.value,
         'uid': 0,
         'tcid': device_info.mac,
     }
     if data:
-        expected['pack'] = {'t': command, 'mac': device_info.mac}
+        expected['pack'] = {'t': command.value, 'mac': device_info.mac}
         expected['pack'].update(data)
 
     assert isinstance(result, dict)
     assert result == expected
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("event_name", [x for x in Response])
+async def test_add_and_remove_handler(event_name):
+    # Arrange
+    protocol = DeviceProtocol2()
+    callback = MagicMock()
+
+    # Act
+    protocol.add_handler(event_name, callback)
+
+    # Assert that the handler was added
+    assert event_name in protocol._handlers
+    assert callback in protocol._handlers[event_name]
+
+    # Trigger the event
+    protocol.packet_received({'pack': {'t': event_name.value}}, ("0.0.0.0", 0))
+
+    # Check that the callback was called
+    callback.assert_called_once_with({'pack': {'t': event_name.value}}, ("0.0.0.0", 0))
+
+    # Now remove the handler
+    protocol.remove_handler(event_name, callback)
+
+    # Assert that the handler was removed
+    assert callback not in protocol._handlers[event_name]
+
+    # Reset the callback
+    callback.reset_mock()
+
+    # Trigger the event again
+    protocol.packet_received({'pack': {'t': event_name.value}}, ("0.0.0.0", 0))
+
+    # Check that the callback was not called this time
+    callback.assert_not_called()
 

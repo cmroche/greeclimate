@@ -4,6 +4,7 @@ import json
 import logging
 import socket
 from dataclasses import dataclass
+from enum import Enum
 from typing import Any, Dict, Text, Tuple, Union
 
 from Crypto.Cipher import AES
@@ -21,12 +22,19 @@ _LOGGER = logging.getLogger(__name__)
 IPAddr = Tuple[str, int]
 
 
-class Commands:
+class Commands(Enum):
     BIND = "bind"
     CMD = "cmd"
     PACK = "pack"
     SCAN = "scan"
     STATUS = "status"
+
+
+class Response(Enum):
+    BIND_OK = "bindok"
+    DATA = "dat"
+    RESULT = "res"
+
 
 @dataclass
 class IPInterface:
@@ -188,10 +196,28 @@ class DeviceProtocol2(DeviceProtocolBase2):
         DeviceProtocolBase2.__init__(self, timeout, drained)
         self._ready = asyncio.Event()
         self._ready.clear()
+        self._handlers = {}
 
     @property
     def ready(self) -> asyncio.Event:
         return self._ready
+
+    def add_handler(self, event_name: Response, callback):
+        """Add a callback for a specific event."""
+        if event_name not in Response:
+            raise ValueError(f"Invalid event name: {event_name.value}")
+
+        if event_name not in self._handlers:
+            self._handlers[event_name] = []
+        self._handlers[event_name].append(callback)
+
+    def remove_handler(self, event_name: Response, callback):
+        """Remove a specific callback for a specific event."""
+        if event_name not in Response:
+            raise ValueError(f"Invalid event name: {event_name.value}")
+
+        if event_name in self._handlers:
+            self._handlers[event_name].remove(callback)
 
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded.
@@ -201,9 +227,9 @@ class DeviceProtocol2(DeviceProtocolBase2):
             addr (IPAddr): Endpoint address of the sender
         """
         handlers = {
-            "bindok": lambda o, a: self.__handle_device_bound(o["pack"]["key"]),
-            "dat": lambda o, a: self.__handle_state_update(o["pack"]["cols"], o["pack"]["dat"]),
-            "res": lambda o, a: self.__handle_state_update(o["pack"]["opt"], o["pack"]["val"]),
+            Response.BIND_OK.value: lambda o, a: self.__handle_device_bound(o["pack"]["key"]),
+            Response.DATA.value: lambda o, a: self.__handle_state_update(o["pack"]["cols"], o["pack"]["dat"]),
+            Response.RESULT.value: lambda o, a: self.__handle_state_update(o["pack"]["opt"], o["pack"]["val"]),
         }
         resp = obj.get("pack", {}).get("t")
         handler = handlers.get(resp, self.handle_unknown_packet)
@@ -211,6 +237,10 @@ class DeviceProtocol2(DeviceProtocolBase2):
             handler(obj, addr)
         except KeyError as e:
             _LOGGER.exception("Error while handling packet", exc_info=e)
+
+        # Call any registered callbacks for this event
+        for callback in self._handlers.get(Response(resp), []):
+            callback(obj, addr)
 
     def handle_unknown_packet(self, obj, addr: IPAddr) -> None:
         _LOGGER.warning("Received unknown packet from %s:\n%s", addr[0], json.dumps(obj))
@@ -230,17 +260,17 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device state updates. """
         pass
 
-    def _generate_payload(self, command: str, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_payload(self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
         payload = {
             "cid": "app",
             "i": 1 if command in [Commands.BIND, Commands.SCAN] else 0,
-            "t": Commands.PACK if data is not None else command,
+            "t": Commands.PACK.value if data is not None else command.value,
             "uid": 0,
             "tcid": device_info.mac
         }
         if data is not None:
             payload["pack"] = {
-                "t": command,
+                "t": command.value,
                 "mac": device_info.mac
             }
             payload["pack"].update(data)
