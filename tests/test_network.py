@@ -2,10 +2,12 @@ import asyncio
 import json
 import socket
 from threading import Thread
+from typing import Any
 from unittest.mock import create_autospec, patch, MagicMock
 
 import pytest
 
+from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.network import (
     BroadcastListenerProtocol,
     DeviceProtocolBase2,
@@ -22,6 +24,7 @@ from .common import (
     encrypt_payload,
     get_mock_device_info, DEFAULT_REQUEST, generate_response,
 )
+from .test_device import get_mock_info
 
 
 class FakeDiscoveryProtocol(BroadcastListenerProtocol):
@@ -276,3 +279,144 @@ def test_bindok_handling():
             assert mock.call_count == 1
             assert mock.call_args[0][0] == "fake-key"
 
+
+def test_create_bind_message():
+    # Arrange
+    device_info = DeviceInfo(*get_mock_info())
+    protocol = DeviceProtocol2()
+
+    # Act
+    result = protocol.create_bind_message(device_info)
+
+    # Assert
+    assert isinstance(result, dict)
+    assert result == {
+        'cid': 'app',
+        'i': 1,
+        't': 'pack',
+        'uid': 0,
+        'tcid': device_info.mac,
+        'pack': {
+            't': 'bind',
+            'mac': device_info.mac,
+            'uid': 0
+        }
+    }
+
+
+def test_create_status_message():
+    # Arrange
+    device_info = DeviceInfo(*get_mock_info())
+    protocol = DeviceProtocol2()
+
+    # Act
+    result = protocol.create_status_message(device_info, 'test')
+
+    # Assert
+    assert isinstance(result, dict)
+    assert result == {
+        'cid': 'app',
+        'i': 1,
+        't': 'pack',
+        'uid': 0,
+        'tcid': device_info.mac,
+        'pack': {
+            't': 'status',
+            'mac': device_info.mac,
+            'cols': ['test'],
+        }
+    }
+
+def test_create_command_message():
+    # Arrange
+    device_info = DeviceInfo(*get_mock_info())
+    protocol = DeviceProtocol2()
+
+    # Act
+    result = protocol.create_command_message(device_info, **{'key': 'value'})
+
+    # Assert
+    assert isinstance(result, dict)
+    assert result == {
+        'cid': 'app',
+        'i': 1,
+        't': 'pack',
+        'uid': 0,
+        'tcid': device_info.mac,
+        'pack': {
+            't': 'cmd',
+            'mac': device_info.mac,
+            'opt': ['key'],
+            'p': ['value'],
+        }
+    }
+
+
+class DeviceProtocol2Test(DeviceProtocol2):
+    def __init__(self):
+        super().__init__(timeout=DEFAULT_TIMEOUT)
+        self.state = {}
+        self.key = None
+        self.unknown = False
+
+    def handle_state_update(self, **kwargs) -> None:
+        self.state = dict(kwargs)
+
+    def handle_device_bound(self, key: str) -> None:
+        self._ready.set()
+        self.key = key
+
+    def handle_unknown_packet(self, obj, addr: IPAddr) -> None:
+        self.unknown = True
+
+
+def test_handle_state_update():
+
+    # Arrange
+    protocol = DeviceProtocol2Test()
+    state = {'key': 'value'}
+
+    # Act
+    protocol.packet_received({
+        'pack': {
+            't': 'dat',
+            'cols': list(state.keys()),
+            'dat': list(state.values())
+        }
+    },("0.0.0.0", 0))
+
+    # Assert
+    assert protocol.state == state
+    assert protocol.state == {'key': 'value'}
+
+
+def test_handle_device_bound():
+    # Arrange
+    protocol = DeviceProtocol2Test()
+
+    # Act
+    protocol.packet_received({
+        'pack': {
+            't': 'bindok',
+            'key': 'fake-key'
+        }
+    }, ("0.0.0.0", 0))
+
+    # Assert
+    assert protocol._ready.is_set()
+    assert protocol.key is "fake-key"
+
+
+def test_handle_unknown_packet():
+    # Arrange
+    protocol = DeviceProtocol2Test()
+
+    # Act
+    protocol.packet_received({
+        'pack': {
+            't': 'unknown'
+        }
+    }, ("0.0.0.0", 0))
+
+    # Assert
+    assert protocol.unknown is True

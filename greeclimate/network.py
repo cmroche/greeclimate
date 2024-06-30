@@ -223,7 +223,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
     def __handle_state_update(self, cols: list[str], dat: list[Any]) -> None:
         self.handle_state_update(**dict(zip(cols, dat)))
 
-    def handle_state_update(self, state: Dict[str, Any]) -> None:
+    def handle_state_update(self, **kwargs) -> None:
         """ Implement this function to handle device state updates. """
         pass
 
