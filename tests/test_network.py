@@ -8,11 +8,8 @@ import pytest
 
 from greeclimate.network import (
     BroadcastListenerProtocol,
-    DatagramStream,
-    DeviceProtocol,
     DeviceProtocolBase2,
     IPAddr,
-    create_datagram_stream,
     DeviceProtocol2,
 )
 
@@ -278,38 +275,4 @@ def test_bindok_handling():
             protocol.datagram_received(json.dumps(response).encode(), ("0.0.0.0", 0))
             assert mock.call_count == 1
             assert mock.call_args[0][0] == "fake-key"
-    
-@pytest.mark.asyncio
-@pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
-async def test_send_receive_device_data(addr, family):
-    """Create a socket responder, a network stream, test send and recv."""
-    with Responder(family, addr[1]) as sock:
-
-        def responder(s):
-            (d, addr) = s.recvfrom(2048)
-            p = json.loads(d)
-            assert p == DISCOVERY_REQUEST
-
-            # Echoing because part of the request is encrypted
-            p = json.dumps(DISCOVERY_REQUEST)
-            s.sendto(p.encode(), addr)
-
-        serv = Thread(target=responder, args=(sock,))
-        serv.start()
-
-        # Run the listener portion now
-        stream = await create_datagram_stream(addr)
-
-        # Send the scan command
-        await stream.send_device_data(DISCOVERY_REQUEST)
-
-        # Wait on the scan response
-        task = asyncio.create_task(stream.recv_device_data())
-        await asyncio.wait_for(task, timeout=DEFAULT_TIMEOUT)
-        (response, _) = task.result()
-
-        assert response
-        assert response == DISCOVERY_REQUEST
-
-        serv.join(timeout=DEFAULT_TIMEOUT)
 
