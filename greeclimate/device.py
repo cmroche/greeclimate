@@ -231,7 +231,7 @@ class Device(DeviceProtocol2, Taskable):
             await self.bind()
 
         try:
-            await self.send(self.create_status_message(self.device_info, ["hid"]))
+            await self.send(self.create_status_message(self.device_info, "hid"))
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
@@ -248,7 +248,7 @@ class Device(DeviceProtocol2, Taskable):
             props.append("hid")
 
         try:
-            await self.send(self.create_status_message(self.device_info, props))
+            await self.send(self.create_status_message(self.device_info, *props))
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
@@ -294,7 +294,8 @@ class Device(DeviceProtocol2, Taskable):
         self._dirty.clear()
 
         try:
-            await network.send_state(props, self.device_info, key=self.device_key)
+            await self.send(self.create_command_message(self.device_info, **props))
+
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
@@ -339,20 +340,20 @@ class Device(DeviceProtocol2, Taskable):
         if value < TEMP_MIN_TABLE or value > TEMP_MAX_TABLE:
             raise ValueError(f"Specified temperature {value} is out of range.")
 
-        matching_temSet = [t for t in TEMP_TABLE if t["temSet"] == value]
+        matching_temset = [t for t in TEMP_TABLE if t["temSet"] == value]
 
         try:
-            f = next(t for t in matching_temSet if t["temRec"] == bit)
+            f = next(t for t in matching_temset if t["temRec"] == bit)
         except StopIteration:
-            f = matching_temSet[0]
+            f = matching_temset[0]
 
         return f["f"]
 
     @property
     def target_temperature(self) -> int:
-        temSet = self.get_property(Props.TEMP_SET)
-        temRec = self.get_property(Props.TEMP_BIT)
-        return self._convert_to_units(temSet, temRec)
+        temset = self.get_property(Props.TEMP_SET)
+        temrec = self.get_property(Props.TEMP_BIT)
+        return self._convert_to_units(temset, temrec)
 
     @target_temperature.setter
     def target_temperature(self, value: int):

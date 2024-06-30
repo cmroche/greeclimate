@@ -13,7 +13,7 @@ from greeclimate.network import (
     DeviceProtocolBase2,
     IPAddr,
     create_datagram_stream,
-    send_state, DeviceProtocol2,
+    DeviceProtocol2,
 )
 
 from .common import (

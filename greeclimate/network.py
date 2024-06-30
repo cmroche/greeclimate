@@ -23,6 +23,7 @@ IPAddr = Tuple[str, int]
 
 class Commands:
     BIND = "bind"
+    CMD = "cmd"
     PACK = "pack"
     SCAN = "scan"
     STATUS = "status"
@@ -239,13 +240,17 @@ class DeviceProtocol2(DeviceProtocolBase2):
                 "t": command,
                 "mac": device_info.mac
             }
+            payload["pack"].update(data)
         return payload
 
-    def create_bind_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+    def create_bind_message(self, device_info: DeviceInfo) -> dict[str, Any]:
         return self._generate_payload(Commands.BIND, device_info, {"uid": 0})
 
-    def create_status_message(self, device_info: DeviceInfo, cols: list[str]) -> Dict[str, Any]:
-        return self._generate_payload(Commands.STATUS, device_info, {"cols": cols})
+    def create_status_message(self, device_info: DeviceInfo, *args) -> dict[str, Any]:
+        return self._generate_payload(Commands.STATUS, device_info, {"cols": list(args)})
+
+    def create_command_message(self, device_info: DeviceInfo, **kwargs) -> dict[str, Any]:
+        return self._generate_payload(Commands.CMD, device_info, {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
 
 
 class DeviceProtocol(asyncio.DatagramProtocol):
@@ -392,40 +397,4 @@ async def create_datagram_stream(target: IPAddr) -> DatagramStream:
         lambda: DeviceProtocol(recvq, excq, drained), remote_addr=target
     )
     return DatagramStream(transport, recvq, excq, drained, timeout=NETWORK_TIMEOUT)
-
-
-
-async def send_state(property_values, device_info, key=GENERIC_KEY[0]):
-    payload = {
-        "cid": "app",
-        "i": 0,
-        "t": "pack",
-        "uid": 0,
-        "tcid": device_info.mac,
-        "pack": {
-            "opt": list(property_values.keys()),
-            "p": list(property_values.values()),
-            "t": "cmd",
-        },
-    }
-
-    remote_addr = (device_info.ip, device_info.port)
-    stream = await create_datagram_stream(remote_addr)
-    try:
-        await stream.send_device_data(payload, key)
-        (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
-    except Exception as e:
-        _LOGGER.exception("Encountered an error sending state to device")
-        raise e
-    finally:
-        stream.close()
-
-    cols = r["pack"]["opt"]
-
-    # Some devices only return only "p" and not both "p" and "val"
-    dat = r["pack"].get("val") or r["pack"].get("p")
-    return dict(zip(cols, dat))
-
 
