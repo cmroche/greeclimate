@@ -126,6 +126,8 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         cipher = AES.new(key.encode(), AES.MODE_ECB)
         encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
         encoded = base64.b64encode(encrypted).decode()
+
+        _LOGGER.debug(f"Encrypted payload with key [{key}]: {encoded}")
         return encoded
 
     def datagram_received(self, data: bytes, addr: IPAddr) -> None:
@@ -201,6 +203,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
         handlers = {
             "bindok": lambda o, a: self.__handle_device_bound(o["pack"]["key"]),
             "dat": lambda o, a: self.__handle_state_update(o["pack"]["cols"], o["pack"]["dat"]),
+            "res": lambda o, a: self.__handle_state_update(o["pack"]["opt"], o["pack"]["val"]),
         }
         resp = obj.get("pack", {}).get("t")
         handler = handlers.get(resp, self.handle_unknown_packet)
@@ -230,7 +233,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
     def _generate_payload(self, command: str, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
         payload = {
             "cid": "app",
-            "i": 1,
+            "i": 1 if command in [Commands.BIND, Commands.SCAN] else 0,
             "t": Commands.PACK if data is not None else command,
             "uid": 0,
             "tcid": device_info.mac
@@ -251,4 +254,5 @@ class DeviceProtocol2(DeviceProtocolBase2):
 
     def create_command_message(self, device_info: DeviceInfo, **kwargs) -> dict[str, Any]:
         return self._generate_payload(Commands.CMD, device_info, {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
+
 

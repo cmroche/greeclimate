@@ -165,7 +165,6 @@ class Device(DeviceProtocol2, Taskable):
         self._logger = logging.getLogger(__name__)
 
         self.device_info: DeviceInfo = device_info
-        self.device_key = None
 
         """ Device properties """
         self.hid = None

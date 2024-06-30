@@ -12,7 +12,7 @@ from greeclimate.network import (
     BroadcastListenerProtocol,
     DeviceProtocolBase2,
     IPAddr,
-    DeviceProtocol2,
+    DeviceProtocol2, Commands,
 )
 
 from .common import (
@@ -292,7 +292,7 @@ def test_create_bind_message():
     assert isinstance(result, dict)
     assert result == {
         'cid': 'app',
-        'i': 1,
+        'i': 1,  # Default key encryption
         't': 'pack',
         'uid': 0,
         'tcid': device_info.mac,
@@ -316,7 +316,7 @@ def test_create_status_message():
     assert isinstance(result, dict)
     assert result == {
         'cid': 'app',
-        'i': 1,
+        'i': 0,  # Device key encryption
         't': 'pack',
         'uid': 0,
         'tcid': device_info.mac,
@@ -339,7 +339,7 @@ def test_create_command_message():
     assert isinstance(result, dict)
     assert result == {
         'cid': 'app',
-        'i': 1,
+        'i': 0,  # Device key encryption
         't': 'pack',
         'uid': 0,
         'tcid': device_info.mac,
@@ -383,7 +383,27 @@ def test_handle_state_update():
             'cols': list(state.keys()),
             'dat': list(state.values())
         }
-    },("0.0.0.0", 0))
+    }, ("0.0.0.0", 0))
+
+    # Assert
+    assert protocol.state == state
+    assert protocol.state == {'key': 'value'}
+
+
+def test_handle_result_update():
+
+    # Arrange
+    protocol = DeviceProtocol2Test()
+    state = {'key': 'value'}
+
+    # Act
+    protocol.packet_received({
+        'pack': {
+            't': 'res',
+            'opt': list(state.keys()),
+            'val': list(state.values())
+        }
+    }, ("0.0.0.0", 0))
 
     # Assert
     assert protocol.state == state
@@ -420,3 +440,33 @@ def test_handle_unknown_packet():
 
     # Assert
     assert protocol.unknown is True
+
+
+@pytest.mark.parametrize("use_default_key,command,data",
+                         [(1, Commands.BIND, {"uid": 0}),
+                          (1, Commands.SCAN, None),
+                          (0, Commands.STATUS, {'cols': ['test']}),
+                          (0, Commands.CMD, {'opt': ['key'], 'p': ['value']})])
+def test_generate_payload(use_default_key, command, data):
+    # Arrange
+    device_info = DeviceInfo(*get_mock_info())
+    protocol = DeviceProtocol2()
+
+    # Act
+    result = protocol._generate_payload(command, device_info, data)
+
+    # Assert
+    expected = {
+        'cid': 'app',
+        'i': use_default_key,  # Device key encryption
+        't': Commands.PACK if data is not None else command,
+        'uid': 0,
+        'tcid': device_info.mac,
+    }
+    if data:
+        expected['pack'] = {'t': command, 'mac': device_info.mac}
+        expected['pack'].update(data)
+
+    assert isinstance(result, dict)
+    assert result == expected
+
