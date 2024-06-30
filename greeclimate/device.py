@@ -223,7 +223,6 @@ class Device(DeviceProtocol2, Taskable):
     def handle_device_bound(self, key) -> None:
         """Handle the device bound message from the device"""
         self.device_key = key
-        self.request_version()
 
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
