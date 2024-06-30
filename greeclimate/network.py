@@ -226,22 +226,29 @@ class DeviceProtocol2(DeviceProtocolBase2):
             obj (JSON): Json object with decoded UDP data
             addr (IPAddr): Endpoint address of the sender
         """
+        params = {
+            Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
+            Response.DATA.value: lambda o, a: [o["pack"]["cols"], o["pack"]["dat"]],
+            Response.RESULT.value: lambda o, a: [o["pack"]["opt"], o["pack"]["val"]],
+        }
         handlers = {
-            Response.BIND_OK.value: lambda o, a: self.__handle_device_bound(o["pack"]["key"]),
-            Response.DATA.value: lambda o, a: self.__handle_state_update(o["pack"]["cols"], o["pack"]["dat"]),
-            Response.RESULT.value: lambda o, a: self.__handle_state_update(o["pack"]["opt"], o["pack"]["val"]),
+            Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
+            Response.DATA.value: lambda *args: self.__handle_state_update(*args),
+            Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
         }
         resp = obj.get("pack", {}).get("t")
         handler = handlers.get(resp, self.handle_unknown_packet)
+        param = []
         try:
-            handler(obj, addr)
+            param = params.get(resp, lambda o, a: (o, a))(obj, addr)
+            handler(*param)
         except KeyError as e:
             _LOGGER.exception("Error while handling packet", exc_info=e)
-
-        # Call any registered callbacks for this event
-        if resp in handlers:
-            for callback in self._handlers.get(Response(resp), []):
-                callback(obj, addr)
+        else:
+            # Call any registered callbacks for this event
+            if resp in handlers:
+                for callback in self._handlers.get(Response(resp), []):
+                    callback(*param)
 
     def handle_unknown_packet(self, obj, addr: IPAddr) -> None:
         _LOGGER.warning("Received unknown packet from %s:\n%s", addr[0], json.dumps(obj))

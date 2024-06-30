@@ -472,11 +472,17 @@ def test_generate_payload(use_default_key, command, data):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("event_name", [x for x in Response])
-async def test_add_and_remove_handler(event_name):
+@pytest.mark.parametrize("event_name, data",[
+    (Response.BIND_OK, {'key': 'fake-key'}),
+    (Response.DATA, {'cols': ['test'], 'dat': ['value']}),
+    (Response.RESULT, {'opt': ['key'], 'val': ['value']})
+])
+async def test_add_and_remove_handler(event_name, data):
     # Arrange
     protocol = DeviceProtocol2()
     callback = MagicMock()
+    event_data = {'pack': {'t': event_name.value}}
+    event_data['pack'].update(data)
 
     # Act
     protocol.add_handler(event_name, callback)
@@ -486,10 +492,10 @@ async def test_add_and_remove_handler(event_name):
     assert callback in protocol._handlers[event_name]
 
     # Trigger the event
-    protocol.packet_received({'pack': {'t': event_name.value}}, ("0.0.0.0", 0))
+    protocol.packet_received(event_data, ("0.0.0.0", 0))
 
     # Check that the callback was called
-    callback.assert_called_once_with({'pack': {'t': event_name.value}}, ("0.0.0.0", 0))
+    callback.assert_called_once_with(*data.values())
 
     # Now remove the handler
     protocol.remove_handler(event_name, callback)
@@ -501,7 +507,7 @@ async def test_add_and_remove_handler(event_name):
     callback.reset_mock()
 
     # Trigger the event again
-    protocol.packet_received({'pack': {'t': event_name.value}}, ("0.0.0.0", 0))
+    protocol.packet_received(event_data, ("0.0.0.0", 0))
 
     # Check that the callback was not called this time
     callback.assert_not_called()
