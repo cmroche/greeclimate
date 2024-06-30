@@ -2,23 +2,25 @@ from unittest.mock import patch
 
 import pytest
 
-from greeclimate.device import Props
+from greeclimate.device import Props, Device
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state")
-async def test_issue_69_TemSen_40_should_not_set_firmware_v4(mock_request):
+async def test_issue_69_TemSen_40_should_not_set_firmware_v4():
     from tests.test_device import generate_device_mock_async
 
     mock_v3_state = { "TemSen": 40 }
-    mock_request.return_value = mock_v3_state
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
-    assert device.version is None
+    def fake_send(*args):
+        device.handle_state_update(**mock_v3_state)
+
+    with patch.object(Device, "send", wraps=fake_send()):
+        await device.update_state()
+        assert device.version is None
 
 """Tests for issue 72"""
 

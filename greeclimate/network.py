@@ -220,7 +220,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
         pass
 
     def __handle_state_update(self, cols: list[str], dat: list[Any]) -> None:
-        self.handle_state_update(dict(zip(cols, dat)))
+        self.handle_state_update(**dict(zip(cols, dat)))
 
     def handle_state_update(self, state: Dict[str, Any]) -> None:
         """ Implement this function to handle device state updates. """
@@ -429,29 +429,3 @@ async def send_state(property_values, device_info, key=GENERIC_KEY[0]):
     return dict(zip(cols, dat))
 
 
-async def request_state(properties, device_info, key=GENERIC_KEY[0]):
-    payload = {
-        "cid": "app",
-        "i": 0,
-        "t": "pack",
-        "uid": 0,
-        "tcid": device_info.mac,
-        "pack": {"mac": device_info.mac, "t": "status", "cols": list(properties)},
-    }
-
-    remote_addr = (device_info.ip, device_info.port)
-    stream = await create_datagram_stream(remote_addr)
-    try:
-        await stream.send_device_data(payload, key)
-        (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
-    except Exception as e:
-        _LOGGER.exception("Encountered an error requesting update from device")
-        raise e
-    finally:
-        stream.close()
-
-    cols = r["pack"]["cols"]
-    dat = r["pack"]["dat"]
-    return dict(zip(cols, dat))

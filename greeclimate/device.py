@@ -170,7 +170,8 @@ class Device(DeviceProtocol2, Taskable):
         """ Device properties """
         self.hid = None
         self.version = None
-        self._properties = None
+        self.check_version = True
+        self._properties = {}
         self._dirty = []
 
     async def bind(self, key=None):
@@ -222,6 +223,7 @@ class Device(DeviceProtocol2, Taskable):
     def handle_device_bound(self, key) -> None:
         """Handle the device bound message from the device"""
         self.device_key = key
+        self.request_version()
 
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
@@ -234,15 +236,6 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-    def handle_state_update(self, **kwargs) -> None:
-        """Handle incoming information about the firmware version of the device"""
-
-        # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
-        if hid:
-            self.hid = hid
-            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
-            self.version = match and match.group(1)
-
     async def update_state(self):
         """Update the internal state of the device structure of the physical device"""
         if not self.device_key:
@@ -251,24 +244,31 @@ class Device(DeviceProtocol2, Taskable):
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
         props = [x.value for x in Props]
+        if not self.hid:
+            props.append("hid")
 
         try:
-            self._properties = await network.request_state(
-                props, self.device_info, self.device_key
-            )
-
-            # This check should prevent need to do version & device overrides
-            # to correctly compute the temperature. Though will need to confirm
-            # that it resolves all possible cases.
-            if not self.hid:
-                await self.request_version()
-
-            temp = self.get_property(Props.TEMP_SENSOR)
-            if temp and temp < TEMP_OFFSET:
-                self.version = "4.0"
+            await self.send(self.create_status_message(self.device_info, props))
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
+
+    def handle_state_update(self, **kwargs) -> None:
+        """Handle incoming information about the firmware version of the device"""
+
+        # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
+        if "hid" in kwargs:
+            self.hid = kwargs.pop("hid")
+            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
+            self.version = match and match.group(1)
+
+        self._properties.update(kwargs)
+
+        if self.check_version and Props.TEMP_SENSOR.value in kwargs:
+            self.check_version = False
+            temp = self.get_property(Props.TEMP_SENSOR)
+            if temp and temp < TEMP_OFFSET:
+                self.version = "4.0"
 
     async def push_state_update(self):
         """Push any pending state updates to the unit"""

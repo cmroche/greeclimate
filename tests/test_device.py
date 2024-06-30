@@ -250,14 +250,12 @@ async def test_device_bind_none():
 
     assert device.device_info == info
 
-    fake_key = None
-
     def fake_send(*args):
-        """Emulate a bind event"""
         device.ready.set()
 
+    fake_key = None
     with pytest.raises(DeviceNotBoundError):
-        with patch.object(Device, "send", side_effect=fake_send) as mock:
+        with patch.object(Device, "send", wraps=fake_send) as mock:
             await device.bind()
             assert mock.call_count == 1
 
@@ -265,11 +263,9 @@ async def test_device_bind_none():
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state")
 @patch("greeclimate.network.send_state")
-async def test_device_late_bind(mock_push, mock_update):
+async def test_device_late_bind(mock_push):
     """Check that the device handles late binding sequences."""
-    mock_update.return_value = {}
     mock_push.return_value = []
 
     info = DeviceInfo(*get_mock_info())
@@ -279,13 +275,12 @@ async def test_device_late_bind(mock_push, mock_update):
     fake_key = "abcdefgh12345678"
 
     def fake_send(*args):
-        """Emulate a bind event"""
         device.handle_device_bound(fake_key)
         device.ready.set()
 
-    with patch.object(Device, "send", side_effect=fake_send) as mock:
+    with patch.object(Device, "send", wraps=fake_send) as mock:
         await device.update_state()
-        assert mock.call_count == 1
+        assert mock.call_count == 2
         assert device.device_key == fake_key
 
         device.device_key = None
@@ -295,16 +290,19 @@ async def test_device_late_bind(mock_push, mock_update):
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state")
-async def test_update_properties(mock_request):
+async def test_update_properties():
     """Check that properties can be updates."""
-    mock_request.return_value = get_mock_state()
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
+    def fake_send(*args):
+        state = get_mock_state()
+        device.handle_state_update(**state)
+
+    with patch.object(Device, "send", side_effect=fake_send) as mock:
+        await device.update_state()
 
     for p in Props:
         assert device.get_property(p) is not None
@@ -312,17 +310,16 @@ async def test_update_properties(mock_request):
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state", side_effect=asyncio.TimeoutError)
-async def test_update_properties_timeout(mock_request):
+async def test_update_properties_timeout():
     """Check that timeouts are handled when properties are updates."""
-    mock_request.return_value = get_mock_state()
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
     with pytest.raises(DeviceTimeoutError):
-        await device.update_state()
+        with patch.object(Device, "send", side_effect=asyncio.TimeoutError):
+            await device.update_state()
 
 
 @pytest.mark.asyncio
@@ -438,16 +435,19 @@ async def test_uninitialized_properties():
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state")
-async def test_update_current_temp_unsupported(mock_request):
+async def test_update_current_temp_unsupported():
     """Check that properties can be updates."""
-    mock_request.return_value = get_mock_state_no_temperature()
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
+    def fake_send(*args):
+        state = get_mock_state_no_temperature()
+        device.handle_state_update(**state)
+
+    with patch.object(Device, "send", wraps=fake_send) as mock:
+        await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is None
     assert device.current_temperature == device.target_temperature
@@ -462,16 +462,18 @@ async def test_update_current_temp_unsupported(mock_request):
         (62, "362001061147+U-ZX6045RV1.01.bin"),
     ],
 )
-@patch("greeclimate.network.request_state")
-async def test_update_current_temp_v3(mock_request, temsen, hid):
+async def test_update_current_temp_v3(temsen, hid):
     """Check that properties can be updates."""
-    mock_request.return_value = {"TemSen": temsen, "hid": hid}
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
+    def fake_send(*args):
+        device.handle_state_update(TemSen=temsen, hid=hid)
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is not None
     assert device.current_temperature == temsen - 40
@@ -487,62 +489,70 @@ async def test_update_current_temp_v3(mock_request, temsen, hid):
         (23, "362001061217+U-W04NV7.bin"),
     ],
 )
-@patch("greeclimate.network.request_state")
-async def test_update_current_temp_v4(mock_request, temsen, hid):
+async def test_update_current_temp_v4(temsen, hid):
     """Check that properties can be updates."""
-    mock_request.return_value = {"TemSen": temsen, "hid": hid}
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
+    def fake_send(*args):
+        device.handle_state_update(TemSen=temsen, hid=hid)
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is not None
     assert device.current_temperature == temsen
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state")
-async def test_update_current_temp_bad(mock_request):
+async def test_update_current_temp_bad():
     """Check that properties can be updates."""
-    mock_request.return_value = get_mock_state_bad_temp()
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
+    def fake_send(*args):
+        device.handle_state_update(**get_mock_state_bad_temp())
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.current_temperature == get_mock_state_bad_temp()["TemSen"] - 40
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state")
-async def test_update_current_temp_0C_v4(mock_request):
+async def test_update_current_temp_0C_v4():
     """Check that properties can be updates."""
-    mock_request.return_value = get_mock_state_0c_v4_temp()
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
+    def fake_send(*args):
+        device.handle_state_update(**get_mock_state_0c_v4_temp())
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.current_temperature == get_mock_state_0c_v4_temp()["TemSen"]
 
 
 @pytest.mark.asyncio
-@patch("greeclimate.network.request_state")
-async def test_update_current_temp_0C_v3(mock_request):
+async def test_update_current_temp_0C_v3():
     """Check for devices without a temperature sensor."""
-    mock_request.return_value = get_mock_state_0c_v3_temp()
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
-    await device.update_state()
+    def fake_send(*args):
+        device.handle_state_update(**get_mock_state_0c_v3_temp())
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.current_temperature == device.target_temperature
 
@@ -550,12 +560,10 @@ async def test_update_current_temp_0C_v3(mock_request):
 @pytest.mark.asyncio
 @pytest.mark.parametrize("temperature", [18, 19, 20, 21, 22])
 @patch("greeclimate.network.send_state")
-@patch("greeclimate.network.request_state")
-async def test_send_temperature_celsius(mock_request, mock_push, temperature):
+async def test_send_temperature_celsius(mock_push, temperature):
     """Check that temperature is set and read properly in C."""
     state = get_mock_state()
     state["TemSen"] = temperature + 40
-    mock_request.return_value = state
     device = await generate_device_mock_async()
 
     for p in Props:
@@ -564,7 +572,12 @@ async def test_send_temperature_celsius(mock_request, mock_push, temperature):
     device.temperature_units = TemperatureUnits.C
     device.target_temperature = temperature
     await device.push_state_update()
-    await device.update_state()
+
+    def fake_send(*args):
+        device.handle_state_update(**state)
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.current_temperature == temperature
     assert mock_push.call_count == 1
@@ -580,8 +593,7 @@ async def test_send_temperature_celsius(mock_request, mock_push, temperature):
     "temperature", [60, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 86]
 )
 @patch("greeclimate.network.send_state")
-@patch("greeclimate.network.request_state")
-async def test_send_temperature_farenheit(mock_request, mock_push, temperature):
+async def test_send_temperature_farenheit(mock_push, temperature):
     """Check that temperature is set and read properly in F."""
     temSet = round((temperature - 32.0) * 5.0 / 9.0)
     temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
@@ -590,7 +602,6 @@ async def test_send_temperature_farenheit(mock_request, mock_push, temperature):
     state["TemSen"] = temSet + 40
     state["TemRec"] = temRec
     state["TemUn"] = 1
-    mock_request.return_value = state
     device = await generate_device_mock_async()
 
     for p in Props:
@@ -599,7 +610,12 @@ async def test_send_temperature_farenheit(mock_request, mock_push, temperature):
     device.temperature_units = TemperatureUnits.F
     device.target_temperature = temperature
     await device.push_state_update()
-    await device.update_state()
+
+    def fake_send(*args):
+        device.handle_state_update(**state)
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.current_temperature == temperature
     assert mock_push.call_count == 1
@@ -683,8 +699,7 @@ async def test_enable_disable_sleep_mode(mock_request):
     "temperature", [59, 77, 86]
 )
 @patch("greeclimate.network.send_state")
-@patch("greeclimate.network.request_state")
-async def test_mismatch_temrec_farenheit(mock_request, mock_push, temperature):
+async def test_mismatch_temrec_farenheit(mock_push, temperature):
     """Check that temperature is set and read properly in F."""
     temSet = round((temperature - 32.0) * 5.0 / 9.0)
     temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
@@ -694,7 +709,6 @@ async def test_mismatch_temrec_farenheit(mock_request, mock_push, temperature):
     # Now, we alter the temRec on the device so it is not found in the table.
     state["TemRec"] = (temRec + 1) % 2
     state["TemUn"] = 1
-    mock_request.return_value = state
     device = await generate_device_mock_async()
 
     for p in Props:
@@ -703,7 +717,12 @@ async def test_mismatch_temrec_farenheit(mock_request, mock_push, temperature):
     device.temperature_units = TemperatureUnits.F
     device.target_temperature = temperature
     await device.push_state_update()
-    await device.update_state()
+
+    def fake_send(*args):
+        device.handle_state_update(**state)
+
+    with patch.object(Device, "send", wraps=fake_send):
+        await device.update_state()
 
     assert device.current_temperature == temperature
     assert mock_push.call_count == 1
