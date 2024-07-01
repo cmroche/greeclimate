@@ -2,10 +2,15 @@ import asyncio
 import enum
 import logging
 import re
+from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
+from typing import List
 
 import greeclimate.network as network
+from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.network import DeviceProtocol2, IPAddr
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+from greeclimate.taskable import Taskable
 
 
 class Props(enum.Enum):
@@ -90,9 +95,11 @@ class VerticalSwing(IntEnum):
     SwingLowerMiddle = 10
     SwingLower = 11
 
+
 class DehumidifierMode(IntEnum):
     Default = 0
     AnionOnly = 9
+
 
 def generate_temperature_record(temp_f):
     temSet = round((temp_f - 32.0) * 5.0 / 9.0)
@@ -113,46 +120,8 @@ TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_TABLE_F, TE
 HUMIDITY_MIN = 30
 HUMIDITY_MAX = 80
 
-class DeviceInfo:
-    """Device information class, used to identify and connect
 
-    Attributes
-        ip: IP address (ipv4 only) of the physical device
-        port: Usually this will always be 7000
-        mac: mac address, in the format 'aabbcc112233'
-        name: Name of unit, if available
-    """
-
-    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None):
-        self.ip = ip
-        self.port = port
-        self.mac = mac
-        self.name = name if name else mac.replace(":", "")
-        self.brand = brand
-        self.model = model
-        self.version = version
-
-    def __str__(self):
-        return f"Device: {self.name} @ {self.ip}:{self.port} (mac: {self.mac})"
-
-    def __eq__(self, other):
-        """Check equality based on Device Info properties"""
-        if isinstance(other, DeviceInfo):
-            return (
-                self.mac == other.mac
-                and self.name == other.name
-                and self.brand == other.brand
-                and self.model == other.model
-                and self.version == other.version
-            )
-        return False
-
-    def __ne__(self, other):
-        """Check inequality based on Device Info properties"""
-        return not self.__eq__(other)
-
-
-class Device:
+class Device(DeviceProtocol2, Taskable):
     """Class representing a physical device, it's state and properties.
 
     Devices must be bound, either by discovering their presence, or supplying a persistent
@@ -186,31 +155,40 @@ class Device:
         water_full: A bool to indicate the water tank is full
     """
 
-    def __init__(self, device_info):
+    def __init__(self, device_info: DeviceInfo, timeout: int = 120, loop: AbstractEventLoop = None):
+        """Initialize the device object
+
+        Args:
+            device_info (DeviceInfo): Information about the physical device
+            timeout (int): Timeout for device communication
+            loop (AbstractEventLoop): The event loop to run the device operations on
+        """
+        DeviceProtocol2.__init__(self, timeout)
+        Taskable.__init__(self, loop)
         self._logger = logging.getLogger(__name__)
 
-        self.device_info = device_info
-        self.device_key = None
+        self.device_info: DeviceInfo = device_info
 
         """ Device properties """
         self.hid = None
         self.version = None
-        self._properties = None
+        self.check_version = True
+        self._properties = {}
         self._dirty = []
 
     async def bind(self, key=None):
         """Run the binding procedure.
 
-        Binding is a finnicky procedure, and happens in 1 of 2 ways:
+        Binding is a finicky procedure, and happens in 1 of 2 ways:
             1 - Without the key, binding must pass the device info structure immediately following
                 the search devices procedure. There is only a small window to complete registration.
             2 - With a key, binding is implicit and no further action is required
 
-            Both approaches result in a device_key which is used as like a persitent session id.
+            Both approaches result in a device_key which is used as like a persistent session id.
 
         Args:
             key (str): The device key, when provided binding is a NOOP, if None binding will
-                       attempt to negatiate the key with the device.
+                       attempt to negotiate the key with the device.
 
         Raises:
             DeviceNotBoundError: If binding was unsuccessful and no key returned
@@ -220,15 +198,22 @@ class Device:
         if not self.device_info:
             raise DeviceNotBoundError
 
+        if self._transport is None:
+            self._transport, _ = await self._loop.create_datagram_endpoint(
+                lambda: self, remote_addr=(self.device_info.ip, self.device_info.port)
+            )
+
         self._logger.info("Starting device binding to %s", str(self.device_info))
 
         try:
             if key:
                 self.device_key = key
             else:
-                self.device_key = await network.bind_device(
-                    self.device_info, announce=False
-                )
+                await self.send(self.create_bind_message(self.device_info))
+                # Special case, wait for binding to complete so we know that the device is ready
+                task = asyncio.create_task(self.ready.wait())
+                await asyncio.wait_for(task, timeout=self._timeout)
+
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
@@ -237,53 +222,69 @@ class Device:
         else:
             self._logger.info("Bound to device using key %s", self.device_key)
 
+    def handle_device_bound(self, key) -> None:
+        """Handle the device bound message from the device"""
+        self.device_key = key
+
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
-        ret = await network.request_state(["hid"], self.device_info, self.device_key)
-        self.hid = ret.get("hid")
+        if not self.device_key:
+            await self.bind()
 
-        # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
-        if self.hid:
-            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
-            self.version = match and match.group(1)
+        try:
+            await self.send(self.create_status_message(self.device_info, "hid"))
 
-            # Special case firmwares ...
-            # if (
-            #     self.hid.endswith("_JDV1.bin")
-            #     or self.hid.endswith("362001000967V2.bin")
-            #     or re.match("^.*\(MTK\)V[1-3]{1}\.bin", self.hid)  # (MTK)V[1-3].bin
-            # ):
-            #     self.version = "4.0"
+        except asyncio.TimeoutError:
+            raise DeviceTimeoutError
 
-    async def update_state(self):
-        """Update the internal state of the device structure of the physical device"""
+    async def update_state(self, wait_for: float = 30):
+        """Update the internal state of the device structure of the physical device, 0 for no wait
+
+        Args:
+            wait_for (object): How long to wait for an update from the device
+        """
         if not self.device_key:
             await self.bind()
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
         props = [x.value for x in Props]
+        if not self.hid:
+            props.append("hid")
 
         try:
-            self._properties = await network.request_state(
-                props, self.device_info, self.device_key
-            )
-
-            # This check should prevent need to do version & device overrides
-            # to correctly compute the temperature. Though will need to confirm
-            # that it resolves all possible cases.
-            if not self.hid:
-                await self.request_version()
-
-            temp = self.get_property(Props.TEMP_SENSOR)
-            if temp and temp < TEMP_OFFSET:
-                self.version = "4.0"
+            await self.send(self.create_status_message(self.device_info, *props))
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-    async def push_state_update(self):
-        """Push any pending state updates to the unit"""
+    def handle_state_update(self, **kwargs) -> None:
+        """Handle incoming information about the firmware version of the device"""
+
+        # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
+        if "hid" in kwargs:
+            self.hid = kwargs.pop("hid")
+            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
+            self.version = match and match.group(1)
+            self._logger.info(f"Device version is {self.version}, hid {self.hid}")
+
+        self._properties.update(kwargs)
+
+        if self.check_version and Props.TEMP_SENSOR.value in kwargs:
+            self.check_version = False
+            temp = self.get_property(Props.TEMP_SENSOR)
+            self._logger.debug(f"Checking for temperature offset, reported temp {temp}")
+            if temp and temp < TEMP_OFFSET:
+                self.version = "4.0"
+                self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
+            self._logger.debug(f"Using device temperature {self.current_temperature}")
+
+    async def push_state_update(self, wait_for: float = 30):
+        """Push any pending state updates to the unit
+
+        Args:
+            wait_for (object): How long to wait for an update from the device, 0 for no wait
+        """
         if not self._dirty:
             return
 
@@ -306,9 +307,23 @@ class Device:
         self._dirty.clear()
 
         try:
-            await network.send_state(props, self.device_info, key=self.device_key)
+            await self.send(self.create_command_message(self.device_info, **props))
+
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
+
+    def __eq__(self, other):
+        """Compare two devices for equality based on their properties state and device info."""
+        return self.device_info == other.device_info \
+            and self.raw_properties == other.raw_properties \
+            and self.device_key == other.device_key
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    @property
+    def raw_properties(self) -> dict:
+        return self._properties
 
     def get_property(self, name):
         """Generic lookup of properties tracked from the physical device"""
@@ -351,20 +366,20 @@ class Device:
         if value < TEMP_MIN_TABLE or value > TEMP_MAX_TABLE:
             raise ValueError(f"Specified temperature {value} is out of range.")
 
-        matching_temSet = [t for t in TEMP_TABLE if t["temSet"] == value]
+        matching_temset = [t for t in TEMP_TABLE if t["temSet"] == value]
 
         try:
-            f = next(t for t in matching_temSet if t["temRec"] == bit)
+            f = next(t for t in matching_temset if t["temRec"] == bit)
         except StopIteration:
-            f = matching_temSet[0]
+            f = matching_temset[0]
 
         return f["f"]
 
     @property
     def target_temperature(self) -> int:
-        temSet = self.get_property(Props.TEMP_SET)
-        temRec = self.get_property(Props.TEMP_BIT)
-        return self._convert_to_units(temSet, temRec)
+        temset = self.get_property(Props.TEMP_SET)
+        temrec = self.get_property(Props.TEMP_BIT)
+        return self._convert_to_units(temset, temrec)
 
     @target_temperature.setter
     def target_temperature(self, value: int):
@@ -505,13 +520,13 @@ class Device:
     @property
     def target_humidity(self) -> int:
         15 + (self.get_property(Props.HUM_SET) * 5)
-    
+
     @target_humidity.setter
     def target_humidity(self, value: int):
         def validate(val):
             if value > HUMIDITY_MAX or val < HUMIDITY_MIN:
                 raise ValueError(f"Specified temperature {val} is out of range.")
-        
+
         self.set_property(Props.HUM_SET, (value - 15) // 5)
 
     @property
