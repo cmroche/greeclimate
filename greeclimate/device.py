@@ -266,14 +266,18 @@ class Device(DeviceProtocol2, Taskable):
             self.hid = kwargs.pop("hid")
             match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
             self.version = match and match.group(1)
+            self._logger.info(f"Device version is {self.version}, hid {self.hid}")
 
         self._properties.update(kwargs)
 
         if self.check_version and Props.TEMP_SENSOR.value in kwargs:
             self.check_version = False
             temp = self.get_property(Props.TEMP_SENSOR)
+            self._logger.debug(f"Checking for temperature offset, reported temp {temp}")
             if temp and temp < TEMP_OFFSET:
                 self.version = "4.0"
+                self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
+            self._logger.debug(f"Using device temperature {self.current_temperature}")
 
     async def push_state_update(self, wait_for: float = 30):
         """Push any pending state updates to the unit
