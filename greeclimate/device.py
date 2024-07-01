@@ -95,9 +95,11 @@ class VerticalSwing(IntEnum):
     SwingLowerMiddle = 10
     SwingLower = 11
 
+
 class DehumidifierMode(IntEnum):
     Default = 0
     AnionOnly = 9
+
 
 def generate_temperature_record(temp_f):
     temSet = round((temp_f - 32.0) * 5.0 / 9.0)
@@ -152,6 +154,7 @@ class Device(DeviceProtocol2, Taskable):
         clean_filter: A bool to indicate the filter needs cleaning
         water_full: A bool to indicate the water tank is full
     """
+
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, loop: AbstractEventLoop = None):
         """Initialize the device object
 
@@ -234,8 +237,12 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-    async def update_state(self):
-        """Update the internal state of the device structure of the physical device"""
+    async def update_state(self, wait_for: float = 30):
+        """Update the internal state of the device structure of the physical device, 0 for no wait
+
+        Args:
+            wait_for (object): How long to wait for an update from the device
+        """
         if not self.device_key:
             await self.bind()
 
@@ -268,8 +275,12 @@ class Device(DeviceProtocol2, Taskable):
             if temp and temp < TEMP_OFFSET:
                 self.version = "4.0"
 
-    async def push_state_update(self):
-        """Push any pending state updates to the unit"""
+    async def push_state_update(self, wait_for: float = 30):
+        """Push any pending state updates to the unit
+
+        Args:
+            wait_for (object): How long to wait for an update from the device, 0 for no wait
+        """
         if not self._dirty:
             return
 
@@ -296,6 +307,19 @@ class Device(DeviceProtocol2, Taskable):
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
+
+    def __eq__(self, other):
+        """Compare two devices for equality based on their properties state and device info."""
+        return self.device_info == other.device_info \
+            and self.raw_properties == other.raw_properties \
+            and self.device_key == other.device_key
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    @property
+    def raw_properties(self) -> dict:
+        return self._properties
 
     def get_property(self, name):
         """Generic lookup of properties tracked from the physical device"""

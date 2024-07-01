@@ -717,3 +717,30 @@ async def test_mismatch_temrec_farenheit(temperature):
         await device.update_state()
 
     assert device.current_temperature == temperature
+
+
+@pytest.mark.asyncio
+async def test_device_equality():
+    """Check that two devices with the same info and key are equal."""
+
+    info1 = DeviceInfo(*get_mock_info())
+    device1 = Device(info1)
+    await device1.bind(key="fake_key")
+
+    info2 = DeviceInfo(*get_mock_info())
+    device2 = Device(info2)
+    await device2.bind(key="fake_key")
+
+    assert device1 == device2
+
+    # Change the key of the second device
+    await device2.bind(key="another_fake_key")
+    assert device1 != device2
+
+    # Change the info of the second device
+    info2 = DeviceInfo(*get_mock_info())
+    device2 = Device(info2)
+    device2.power = True
+    await device2.bind(key="fake_key")
+    assert device1 != device2
+
