@@ -424,7 +424,7 @@ def test_handle_device_bound():
 
     # Assert
     assert protocol._ready.is_set()
-    assert protocol.key is "fake-key"
+    assert protocol.key == "fake-key"
 
 
 def test_handle_unknown_packet():
