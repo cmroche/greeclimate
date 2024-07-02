@@ -283,13 +283,13 @@ class DeviceProtocol2(DeviceProtocolBase2):
             payload["pack"].update(data)
         return payload
 
-    def create_bind_message(self, device_info: DeviceInfo) -> dict[str, Any]:
+    def create_bind_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
         return self._generate_payload(Commands.BIND, device_info, {"uid": 0})
 
-    def create_status_message(self, device_info: DeviceInfo, *args) -> dict[str, Any]:
+    def create_status_message(self, device_info: DeviceInfo, *args) -> Dict[str, Any]:
         return self._generate_payload(Commands.STATUS, device_info, {"cols": list(args)})
 
-    def create_command_message(self, device_info: DeviceInfo, **kwargs) -> dict[str, Any]:
+    def create_command_message(self, device_info: DeviceInfo, **kwargs) -> Dict[str, Any]:
         return self._generate_payload(Commands.CMD, device_info, {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
 
 
