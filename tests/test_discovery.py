@@ -9,7 +9,7 @@ import pytest
 
 from greeclimate.device import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
-from greeclimate.network import DatagramStream, DeviceProtocol2
+from greeclimate.network import DeviceProtocolBase2
 
 from .common import (
     DEFAULT_TIMEOUT,
@@ -24,11 +24,11 @@ from .common import (
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_discover_devices(netifaces, addr, bcast, family):
+async def test_discover_devices(netifaces, addr, family):
     netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
     }
 
     devices = [
@@ -65,7 +65,7 @@ async def test_discover_devices(netifaces, addr, bcast, family):
 @pytest.mark.asyncio
 async def test_discover_no_devices(netifaces):
     netifaces.return_value = {
-        2: [{"addr": "127.0.0.1", "netmask": "255.0.0.0", "peer": "127.255.255.255"}]
+        2: [{"addr": "127.0.0.1", "netmask": "255.0.0.0", "peer": "127.0.0.1"}]
     }
 
     discovery = Discovery(allow_loopback=True)
@@ -77,13 +77,13 @@ async def test_discover_no_devices(netifaces):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
 async def test_discover_deduplicate_multiple_discoveries(
-    netifaces, addr, bcast, family
+    netifaces, addr, family
 ):
     netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
     }
 
     devices = [
@@ -119,11 +119,11 @@ async def test_discover_deduplicate_multiple_discoveries(
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_discovery_events(netifaces, addr, bcast, family):
+async def test_discovery_events(netifaces, addr, family):
     netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
     }
 
     with Responder(family, addr[1]) as sock:
@@ -196,14 +196,14 @@ async def test_discovery_device_update_events():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "addr,bcast,family", [(("127.0.0.1", 7000), "127.255.255.255", socket.AF_INET)]
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_discover_devices_bad_data(netifaces, addr, bcast, family):
+async def test_discover_devices_bad_data(netifaces, addr, family):
     """Create a socket broadcast responder, an async broadcast listener,
     test discovery responses.
     """
     netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": bcast}]
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
     }
 
     with Responder(family, addr[1]) as sock:

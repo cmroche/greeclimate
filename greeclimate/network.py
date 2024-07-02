@@ -4,17 +4,36 @@ import json
 import logging
 import socket
 from dataclasses import dataclass
+from enum import Enum
 from typing import Any, Dict, Text, Tuple, Union
 
 from Crypto.Cipher import AES
 
+from greeclimate.deviceinfo import DeviceInfo
+
 NETWORK_TIMEOUT = 10
-GENERIC_KEY = "a3K8Bx%2r8Y7#xDh"
+GENERIC_KEY = ["a3K8Bx%2r8Y7#xDh"]
+GCM_NONCE = b'\x54\x40\x78\x44\x49\x67\x5a\x51\x6c\x5e\x63\x13'
+GCM_AEAD = b'qualcomm-test'
 
 _LOGGER = logging.getLogger(__name__)
 
 
 IPAddr = Tuple[str, int]
+
+
+class Commands(Enum):
+    BIND = "bind"
+    CMD = "cmd"
+    PACK = "pack"
+    SCAN = "scan"
+    STATUS = "status"
+
+
+class Response(Enum):
+    BIND_OK = "bindok"
+    DATA = "dat"
+    RESULT = "res"
 
 
 @dataclass
@@ -23,7 +42,7 @@ class IPInterface:
     bcast_address: str
 
 
-class DeviceProtocol2(asyncio.DatagramProtocol):
+class DeviceProtocolBase2(asyncio.DatagramProtocol):
     """Event driven device protocol class."""
 
     def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
@@ -37,9 +56,9 @@ class DeviceProtocol2(asyncio.DatagramProtocol):
         self._drained = drained or asyncio.Event()
         self._drained.set()
         self._transport = None
-        self._key = GENERIC_KEY
+        self._key = None
 
-    # This event need to be implement to handle incoming requests
+    # This event need to be implemented to handle incoming requests
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded.
 
@@ -47,7 +66,7 @@ class DeviceProtocol2(asyncio.DatagramProtocol):
             obj (JSON): Json object with decoded UDP data
             addr (IPAddr): Endpoint address of the sender
         """
-        raise NotImplementedError(self)
+        raise NotImplementedError("packet_received must be implemented in a subclass")
 
     @property
     def device_key(self) -> str:
@@ -63,6 +82,7 @@ class DeviceProtocol2(asyncio.DatagramProtocol):
         """Close the UDP transport."""
         try:
             self._transport.close()
+            self._transport = None
         except RuntimeError:
             pass
 
@@ -73,17 +93,18 @@ class DeviceProtocol2(asyncio.DatagramProtocol):
     def connection_lost(self, exc: Exception) -> None:
         """Handle a closed socket."""
 
-        # In this case the connection was closed unexpectedly
-        if exc is not None:
-            _LOGGER.exception("Connection was closed unexpectedly", exc_info=exc)
-
         if self._transport is not None:
             self._transport.close()
             self._transport = None
 
+        # In this case the connection was closed unexpectedly
+        if exc is not None:
+            _LOGGER.exception("Connection was closed unexpectedly", exc_info=exc)
+            raise exc
+
     def error_received(self, exc: Exception) -> None:
         """Handle error while sending/receiving datagrams."""
-        raise exc
+        _LOGGER.exception("Connection reported an exception", exc_info=exc)
 
     def pause_writing(self) -> None:
         """Stop writing additional data to the transport."""
@@ -95,16 +116,39 @@ class DeviceProtocol2(asyncio.DatagramProtocol):
         self._drained.set()
         super().resume_writing()
 
+    @staticmethod
+    def decrypt_payload(payload, key=GENERIC_KEY[0]):
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        decoded = base64.b64decode(payload)
+        decrypted = cipher.decrypt(decoded).decode()
+        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
+        return json.loads(t)
+
+    @staticmethod
+    def encrypt_payload(payload, key=GENERIC_KEY[0]):
+        def pad(s):
+            bs = 16
+            return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
+
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
+        encoded = base64.b64encode(encrypted).decode()
+
+        _LOGGER.debug(f"Encrypted payload with key [{key}]: {encoded}")
+        return encoded
+
     def datagram_received(self, data: bytes, addr: IPAddr) -> None:
         """Handle an incoming datagram."""
         if len(data) == 0:
             return
 
         obj = json.loads(data)
-        key = GENERIC_KEY if obj.get("i") == 1 else self._key
+
+        # It could be either a v1 or v2 key
+        key = GENERIC_KEY[0] if obj.get("i") == 1 else self._key
 
         if obj.get("pack"):
-            obj["pack"] = DeviceProtocol2.decrypt_payload(obj["pack"], key)
+            obj["pack"] = DeviceProtocolBase2.decrypt_payload(obj["pack"], key)
 
         _LOGGER.debug("Received packet from %s:\n%s", addr[0], json.dumps(obj))
 
@@ -115,8 +159,8 @@ class DeviceProtocol2(asyncio.DatagramProtocol):
         _LOGGER.debug("Sending packet:\n%s", json.dumps(obj))
 
         if obj.get("pack"):
-            key = GENERIC_KEY if obj.get("i") == 1 else self._key
-            obj["pack"] = DeviceProtocol2.encrypt_payload(obj["pack"], key)
+            key = GENERIC_KEY[0] if obj.get("i") == 1 else self._key
+            obj["pack"] = DeviceProtocolBase2.encrypt_payload(obj["pack"], key)
 
         data_bytes = json.dumps(obj).encode()
         self._transport.sendto(data_bytes, addr)
@@ -124,27 +168,9 @@ class DeviceProtocol2(asyncio.DatagramProtocol):
         task = asyncio.create_task(self._drained.wait())
         await asyncio.wait_for(task, self._timeout)
 
-    @staticmethod
-    def decrypt_payload(payload, key=GENERIC_KEY):
-        cipher = AES.new(key.encode(), AES.MODE_ECB)
-        decoded = base64.b64decode(payload)
-        decrypted = cipher.decrypt(decoded).decode()
-        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
-        return json.loads(t)
-
-    @staticmethod
-    def encrypt_payload(payload, key=GENERIC_KEY):
-        def pad(s):
-            bs = 16
-            return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
-
-        cipher = AES.new(key.encode(), AES.MODE_ECB)
-        encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
-        encoded = base64.b64encode(encrypted).decode()
-        return encoded
 
 
-class BroadcastListenerProtocol(DeviceProtocol2):
+class BroadcastListenerProtocol(DeviceProtocolBase2):
     """Special protocol handler for when broadcast is needed."""
 
     def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
@@ -156,239 +182,114 @@ class BroadcastListenerProtocol(DeviceProtocol2):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 
-class DeviceProtocol(asyncio.DatagramProtocol):
-    def __init__(
-        self, recvq: asyncio.Queue, excq: asyncio.Queue, drained: asyncio.Event
-    ) -> None:
-        self._loop = asyncio.get_event_loop()
+class DeviceProtocol2(DeviceProtocolBase2):
+    """Protocol handler for direct device communication."""
 
-        self._recvq = recvq
-        self._excq = excq
-        self._drained = drained
+    def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
+        """Initialize the device protocol object.
 
-        self._drained.set()
-
-        # Transports are connected at the time a connection is made.
-        self._transport = None
-
-    def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
-
-        self._transport = transport
-
-    def datagram_received(self, data, addr: IPAddr) -> None:
-        self._recvq.put_nowait((data, addr))
-
-    def connection_lost(self, exc) -> None:
-        if exc is not None:
-            self._excq.put_nowait(exc)
-
-        if self._transport is not None:
-            self._transport.close()
-            self._transport = None
-
-    def error_received(self, exc) -> None:
-        self._excq.put_nowait(exc)
-
-    def pause_writing(self) -> None:
-        self._drained.clear()
-        super().pause_writing()
-
-    def resume_writing(self) -> None:
-        self._drained.set()
-        super().resume_writing()
-
-
-# Concepts and code here were taken from https://github.com/jsbronder/asyncio-dgram
-class DatagramStream:
-    def __init__(self, transport, recvq, excq, drained, timeout: int = 120):
-        self._transport = transport
-        self._recvq = recvq
-        self._excq = excq
-        self._drained = drained
-        self._timeout = timeout
-
-    def __del__(self):
-        self.close()
+        Args:
+            timeout (int): Packet send timeout
+            drained (asyncio.Event): Packet send drain event signal
+        """
+        DeviceProtocolBase2.__init__(self, timeout, drained)
+        self._ready = asyncio.Event()
+        self._ready.clear()
+        self._handlers = {}
 
     @property
-    def exception(self):
+    def ready(self) -> asyncio.Event:
+        return self._ready
+
+    def add_handler(self, event_name: Response, callback):
+        """Add a callback for a specific event."""
+        if event_name not in Response:
+            raise ValueError(f"Invalid event name: {event_name.value}")
+
+        if event_name not in self._handlers:
+            self._handlers[event_name] = []
+        self._handlers[event_name].append(callback)
+
+    def remove_handler(self, event_name: Response, callback):
+        """Remove a specific callback for a specific event."""
+        if event_name not in Response:
+            raise ValueError(f"Invalid event name: {event_name.value}")
+
+        if event_name in self._handlers:
+            self._handlers[event_name].remove(callback)
+
+    def packet_received(self, obj, addr: IPAddr) -> None:
+        """Event called when a packet is received and decoded.
+
+        Args:
+            obj (JSON): Json object with decoded UDP data
+            addr (IPAddr): Endpoint address of the sender
+        """
+        params = {
+            Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
+            Response.DATA.value: lambda o, a: [dict(zip(o["pack"]["cols"], o["pack"]["dat"]))],
+            Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"]["val"]))],
+        }
+        handlers = {
+            Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
+            Response.DATA.value: lambda *args: self.__handle_state_update(*args),
+            Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
+        }
+        resp = obj.get("pack", {}).get("t")
+        handler = handlers.get(resp, self.handle_unknown_packet)
+        param = []
         try:
-            exc = self._excq.get_nowait()
-            raise exc
-        except asyncio.queues.QueueEmpty:
-            pass
+            param = params.get(resp, lambda o, a: (o, a))(obj, addr)
+            handler(*param)
+        except KeyError as e:
+            _LOGGER.exception("Error while handling packet", exc_info=e)
+        else:
+            # Call any registered callbacks for this event
+            if resp in handlers:
+                for callback in self._handlers.get(Response(resp), []):
+                    callback(*param)
 
-    @property
-    def socket(self):
-        return self._transport.get_extra_info("socket")
+    def handle_unknown_packet(self, obj, addr: IPAddr) -> None:
+        _LOGGER.warning("Received unknown packet from %s:\n%s", addr[0], json.dumps(obj))
 
-    def close(self):
-        try:
-            self._transport.close()
-        except RuntimeError:
-            pass
+    def __handle_device_bound(self, key: str) -> None:
+        self._ready.set()
+        self.handle_device_bound(key)
 
-    async def send(self, data, addr=None) -> None:
-        _ = self.exception
-        self._transport.sendto(data, addr)
+    def handle_device_bound(self, key: str) -> None:
+        """ Implement this function to handle device bound events. """
+        pass
 
-        task = asyncio.create_task(self._drained.wait())
-        await asyncio.wait_for(task, self._timeout)
+    def __handle_state_update(self, data) -> None:
+        self.handle_state_update(**data)
 
-    async def send_device_data(self, data, key=GENERIC_KEY) -> None:
-        """Send a formatted request to the device."""
-        _LOGGER.debug("Sending packet:\n%s", json.dumps(data))
+    def handle_state_update(self, **kwargs) -> None:
+        """ Implement this function to handle device state updates. """
+        pass
 
-        if "pack" in data:
-            data["pack"] = DatagramStream.encrypt_payload(data["pack"], key)
+    def _generate_payload(self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
+        payload = {
+            "cid": "app",
+            "i": 1 if command in [Commands.BIND, Commands.SCAN] else 0,
+            "t": Commands.PACK.value if data is not None else command.value,
+            "uid": 0,
+            "tcid": device_info.mac
+        }
+        if data is not None:
+            payload["pack"] = {
+                "t": command.value,
+                "mac": device_info.mac
+            }
+            payload["pack"].update(data)
+        return payload
 
-        data_bytes = json.dumps(data).encode()
-        await self.send(data_bytes)
+    def create_bind_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        return self._generate_payload(Commands.BIND, device_info, {"uid": 0})
 
-    def recv_ready(self):
-        _ = self.exception
-        return not self._recvq.empty()
+    def create_status_message(self, device_info: DeviceInfo, *args) -> Dict[str, Any]:
+        return self._generate_payload(Commands.STATUS, device_info, {"cols": list(args)})
 
-    async def recv(self):
-        _ = self.exception
-
-        task = asyncio.create_task(self._recvq.get())
-        await asyncio.wait_for(task, self._timeout)
-        return task.result()
-
-    async def recv_device_data(self, key=GENERIC_KEY):
-        """Receive a formatted request from the device."""
-        (data_bytes, addr) = await self.recv()
-        if len(data_bytes) == 0:
-            return
-
-        data = json.loads(data_bytes)
-
-        if "pack" in data:
-            data["pack"] = DatagramStream.decrypt_payload(data["pack"], key)
-
-        _LOGGER.debug("Received packet:\n%s", json.dumps(data))
-        return (data, addr)
-
-    @staticmethod
-    def decrypt_payload(payload, key=GENERIC_KEY):
-        cipher = AES.new(key.encode(), AES.MODE_ECB)
-        decoded = base64.b64decode(payload)
-        decrypted = cipher.decrypt(decoded).decode()
-        t = decrypted.replace(decrypted[decrypted.rindex("}") + 1 :], "")
-        return json.loads(t)
-
-    @staticmethod
-    def encrypt_payload(payload, key=GENERIC_KEY):
-        def pad(s):
-            bs = 16
-            return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
-
-        cipher = AES.new(key.encode(), AES.MODE_ECB)
-        encrypted = cipher.encrypt(pad(json.dumps(payload)).encode())
-        encoded = base64.b64encode(encrypted).decode()
-        return encoded
+    def create_command_message(self, device_info: DeviceInfo, **kwargs) -> Dict[str, Any]:
+        return self._generate_payload(Commands.CMD, device_info, {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
 
 
-async def create_datagram_stream(target: IPAddr) -> DatagramStream:
-    loop = asyncio.get_event_loop()
-    recvq = asyncio.Queue()
-    excq = asyncio.Queue()
-    drained = asyncio.Event()
-
-    transport, _ = await loop.create_datagram_endpoint(
-        lambda: DeviceProtocol(recvq, excq, drained), remote_addr=target
-    )
-    return DatagramStream(transport, recvq, excq, drained, timeout=NETWORK_TIMEOUT)
-
-
-async def bind_device(device_info, announce=False):
-    payload = {
-        "cid": "app",
-        "i": 1,
-        "t": "pack",
-        "uid": 0,
-        "tcid": device_info.mac,
-        "pack": {"mac": device_info.mac, "t": "bind", "uid": 0},
-    }
-
-    remote_addr = (device_info.ip, device_info.port)
-    stream = await create_datagram_stream(remote_addr)
-    try:
-        # Binding uses the generic key only
-        if announce:
-            await stream.send_device_data({"t": "scan"})
-            await stream.recv_device_data()
-        await stream.send_device_data(payload)
-        (r, _) = await stream.recv_device_data()
-    except asyncio.TimeoutError as e:
-        raise e
-    except Exception as e:
-        _LOGGER.exception("Encountered an error trying to bind device")
-        raise e
-    finally:
-        stream.close()
-
-    return r["pack"].get("key")
-
-
-async def send_state(property_values, device_info, key=GENERIC_KEY):
-    payload = {
-        "cid": "app",
-        "i": 0,
-        "t": "pack",
-        "uid": 0,
-        "tcid": device_info.mac,
-        "pack": {
-            "opt": list(property_values.keys()),
-            "p": list(property_values.values()),
-            "t": "cmd",
-        },
-    }
-
-    remote_addr = (device_info.ip, device_info.port)
-    stream = await create_datagram_stream(remote_addr)
-    try:
-        await stream.send_device_data(payload, key)
-        (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
-    except Exception as e:
-        _LOGGER.exception("Encountered an error sending state to device")
-        raise e
-    finally:
-        stream.close()
-
-    cols = r["pack"]["opt"]
-
-    # Some devices only return only "p" and not both "p" and "val"
-    dat = r["pack"].get("val") or r["pack"].get("p")
-    return dict(zip(cols, dat))
-
-
-async def request_state(properties, device_info, key=GENERIC_KEY):
-    payload = {
-        "cid": "app",
-        "i": 0,
-        "t": "pack",
-        "uid": 0,
-        "tcid": device_info.mac,
-        "pack": {"mac": device_info.mac, "t": "status", "cols": list(properties)},
-    }
-
-    remote_addr = (device_info.ip, device_info.port)
-    stream = await create_datagram_stream(remote_addr)
-    try:
-        await stream.send_device_data(payload, key)
-        (r, _) = await stream.recv_device_data(key)
-    except asyncio.TimeoutError as e:
-        raise e
-    except Exception as e:
-        _LOGGER.exception("Encountered an error requesting update from device")
-        raise e
-    finally:
-        stream.close()
-
-    cols = r["pack"]["cols"]
-    dat = r["pack"]["dat"]
-    return dict(zip(cols, dat))
