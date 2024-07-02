@@ -105,7 +105,6 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
     def error_received(self, exc: Exception) -> None:
         """Handle error while sending/receiving datagrams."""
         _LOGGER.exception("Connection reported an exception", exc_info=exc)
-        raise exc
 
     def pause_writing(self) -> None:
         """Stop writing additional data to the transport."""
