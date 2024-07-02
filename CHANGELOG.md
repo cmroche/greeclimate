@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/cmroche/greeclimate/compare/v1.4.6...v2.0.0) (2024-07-02)
+
+
+### Features
+
+* Full async networking ([#90](https://github.com/cmroche/greeclimate/issues/90)) ([4587984](https://github.com/cmroche/greeclimate/commit/4587984df8d01a1bc7a0b20f01590f455e361a0b))
+
+
+### BREAKING CHANGES
+
+* API calls no longer block waiting for device response, use the add
+handler to listen for updates from the device.
+
 ## [1.4.6](https://github.com/cmroche/greeclimate/compare/v1.4.5...v1.4.6) (2024-06-27)
 
 
