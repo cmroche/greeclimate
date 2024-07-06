@@ -136,7 +136,9 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
 
         if obj.get("pack"):
             cipher = CipherV1(GENERIC_CIPHERS_KEYS[0]) if obj.get("i") == 1 else self._cipher
-            obj["pack"], _ = cipher.encrypt(obj["pack"])
+            obj["pack"], tag = cipher.encrypt(obj["pack"])
+            if tag:
+                obj["tag"] = tag
 
         data_bytes = json.dumps(obj).encode()
         self._transport.sendto(data_bytes, addr)
