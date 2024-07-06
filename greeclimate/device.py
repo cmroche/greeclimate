@@ -4,11 +4,10 @@ import logging
 import re
 from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
-from typing import List
 
-import greeclimate.network as network
+from greeclimate.cipher import CipherV1
 from greeclimate.deviceinfo import DeviceInfo
-from greeclimate.network import DeviceProtocol2, IPAddr
+from greeclimate.network import DeviceProtocol2
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.taskable import Taskable
 
@@ -207,7 +206,7 @@ class Device(DeviceProtocol2, Taskable):
 
         try:
             if key:
-                self.device_key = key
+                self.device_cipher = CipherV1(key.encode())
             else:
                 await self.send(self.create_bind_message(self.device_info))
                 # Special case, wait for binding to complete so we know that the device is ready
@@ -217,18 +216,18 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-        if not self.device_key:
+        if not self.device_cipher:
             raise DeviceNotBoundError
         else:
-            self._logger.info("Bound to device using key %s", self.device_key)
+            self._logger.info("Bound to device using key %s", self.device_cipher.key)
 
-    def handle_device_bound(self, key) -> None:
+    def handle_device_bound(self, key: str) -> None:
         """Handle the device bound message from the device"""
-        self.device_key = key
+        self.device_cipher = CipherV1(key.encode())
 
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
-        if not self.device_key:
+        if not self.device_cipher:
             await self.bind()
 
         try:
@@ -243,7 +242,7 @@ class Device(DeviceProtocol2, Taskable):
         Args:
             wait_for (object): How long to wait for an update from the device
         """
-        if not self.device_key:
+        if not self.device_cipher:
             await self.bind()
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
@@ -288,7 +287,7 @@ class Device(DeviceProtocol2, Taskable):
         if not self._dirty:
             return
 
-        if not self.device_key:
+        if not self.device_cipher:
             await self.bind()
 
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
@@ -316,7 +315,7 @@ class Device(DeviceProtocol2, Taskable):
         """Compare two devices for equality based on their properties state and device info."""
         return self.device_info == other.device_info \
             and self.raw_properties == other.raw_properties \
-            and self.device_key == other.device_key
+            and self.device_cipher.key == other.device_cipher.key
 
     def __ne__(self, other):
         return not self.__eq__(other)

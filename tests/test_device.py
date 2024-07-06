@@ -1,11 +1,10 @@
 import asyncio
 import enum
-from unittest.mock import patch, AsyncMock
+from unittest.mock import patch
 
 import pytest
 
 from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
-from greeclimate.discovery import Discovery
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 
 
@@ -187,7 +186,7 @@ def test_device_info_equality():
 
 
 @pytest.mark.asyncio
-async def test_get_device_info():
+async def test_get_device_info(cipher):
     """Initialize device, check properties."""
 
     info = DeviceInfo(*get_mock_info())
@@ -198,7 +197,8 @@ async def test_get_device_info():
     fake_key = "abcdefgh12345678"
     await device.bind(key=fake_key)
 
-    assert device.device_key == fake_key
+    assert device.device_cipher is not None
+    assert device.device_cipher.key == fake_key
 
 
 @pytest.mark.asyncio
@@ -221,7 +221,8 @@ async def test_device_bind():
         await device.bind()
         assert mock.call_count == 1
 
-    assert device.device_key == fake_key
+    assert device.device_cipher is not None
+    assert device.device_cipher.key == fake_key
 
 
 @pytest.mark.asyncio
@@ -238,7 +239,7 @@ async def test_device_bind_timeout():
             await device.bind()
             assert mock.call_count == 1
 
-    assert device.device_key is None
+    assert device.device_cipher is None
 
 
 @pytest.mark.asyncio
@@ -259,7 +260,7 @@ async def test_device_bind_none():
             await device.bind()
             assert mock.call_count == 1
 
-    assert device.device_key is None
+    assert device.device_cipher is None
 
 
 @pytest.mark.asyncio
@@ -278,13 +279,15 @@ async def test_device_late_bind():
     with patch.object(Device, "send", wraps=fake_send) as mock:
         await device.update_state()
         assert mock.call_count == 2
-        assert device.device_key == fake_key
+        assert device.device_cipher.key == fake_key
 
         device.power = True
 
     with patch.object(Device, "send"):
         await device.push_state_update()
-        assert device.device_key == fake_key
+        
+        assert device.device_cipher is not None
+        assert device.device_cipher.key == fake_key
 
 
 @pytest.mark.asyncio

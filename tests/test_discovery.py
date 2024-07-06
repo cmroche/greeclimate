@@ -1,24 +1,18 @@
 import asyncio
 import json
 import socket
-from asyncio.tasks import wait_for
 from threading import Thread
-from unittest.mock import MagicMock, PropertyMock, create_autospec, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 
 import pytest
 
-from greeclimate.device import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
-from greeclimate.network import DeviceProtocolBase2
-
 from .common import (
     DEFAULT_TIMEOUT,
     DISCOVERY_REQUEST,
     DISCOVERY_RESPONSE,
-    DISCOVERY_RESPONSE_NO_CID,
     Responder,
-    encrypt_payload,
-    get_mock_device_info,
+    get_mock_device_info, encrypt_payload,
 )
 
 
