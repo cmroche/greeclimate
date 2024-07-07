@@ -4,11 +4,12 @@ import logging
 import re
 from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
+from typing import Union
 
-from greeclimate.cipher import CipherV1
+from greeclimate.cipher import CipherV1, CipherV2, CipherBase
 from greeclimate.deviceinfo import DeviceInfo
-from greeclimate.network import DeviceProtocol2
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+from greeclimate.network import DeviceProtocol2
 from greeclimate.taskable import Taskable
 
 
@@ -41,6 +42,12 @@ class Props(enum.Enum):
     STEADY_HEAT = "StHt"
     POWER_SAVE = "SvSt"
     UNKNOWN_HEATCOOLTYPE = "HeatCoolType"
+
+
+GENERIC_CIPHERS_KEYS = {
+    CipherV1: b'a3K8Bx%2r8Y7#xDh',
+    CipherV2: b'{yxAHAY_Lm6pbC/<'
+}
 
 
 @unique
@@ -154,6 +161,13 @@ class Device(DeviceProtocol2, Taskable):
         water_full: A bool to indicate the water tank is full
     """
 
+    """ Device properties """
+    hid = None
+    version = None
+    check_version = True
+    _properties = {}
+    _dirty = []
+
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, loop: AbstractEventLoop = None):
         """Initialize the device object
 
@@ -165,17 +179,9 @@ class Device(DeviceProtocol2, Taskable):
         DeviceProtocol2.__init__(self, timeout)
         Taskable.__init__(self, loop)
         self._logger = logging.getLogger(__name__)
-
         self.device_info: DeviceInfo = device_info
 
-        """ Device properties """
-        self.hid = None
-        self.version = None
-        self.check_version = True
-        self._properties = {}
-        self._dirty = []
-
-    async def bind(self, key=None):
+    async def bind(self, key: str = None, cipher_type: Union[type[Union[CipherV1, CipherV2]], None] = None):
         """Run the binding procedure.
 
         Binding is a finicky procedure, and happens in 1 of 2 ways:
@@ -186,13 +192,17 @@ class Device(DeviceProtocol2, Taskable):
             Both approaches result in a device_key which is used as like a persistent session id.
 
         Args:
+            cipher_type (type): The cipher type to use for encryption, if None will attempt to detect the correct one
             key (str): The device key, when provided binding is a NOOP, if None binding will
-                       attempt to negotiate the key with the device.
+                       attempt to negotiate the key with the device. cipher_type must be provided.
 
         Raises:
             DeviceNotBoundError: If binding was unsuccessful and no key returned
             DeviceTimeoutError: The device didn't respond
         """
+
+        if key and not cipher_type:
+            raise ValueError("cipher_type must be provided when key is provided")
 
         if not self.device_info:
             raise DeviceNotBoundError
@@ -206,12 +216,18 @@ class Device(DeviceProtocol2, Taskable):
 
         try:
             if key:
-                self.device_cipher = CipherV1(key.encode())
+                self.device_cipher = cipher_type(key.encode())
             else:
-                await self.send(self.create_bind_message(self.device_info))
-                # Special case, wait for binding to complete so we know that the device is ready
-                task = asyncio.create_task(self.ready.wait())
-                await asyncio.wait_for(task, timeout=self._timeout)
+                if cipher_type is not None:
+                    await self.__bind_internal(cipher_type)
+                else:
+                    """ Try binding with CipherV1 first, if that fails try CipherV2"""
+                    try:
+                        self._logger.info("Attempting to bind to device using CipherV1")
+                        await self.__bind_internal(CipherV1)
+                    except asyncio.TimeoutError:
+                        self._logger.info("Attempting to bind to device using CipherV2")
+                        await self.__bind_internal(CipherV2)
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
@@ -221,9 +237,19 @@ class Device(DeviceProtocol2, Taskable):
         else:
             self._logger.info("Bound to device using key %s", self.device_cipher.key)
 
+    async def __bind_internal(self, cipher_type: type[Union[CipherV1, CipherV2]]):
+        """Internal binding procedure, do not call directly"""
+        default_key = GENERIC_CIPHERS_KEYS.get(cipher_type)
+        await self.send(self.create_bind_message(self.device_info), cipher=cipher_type(default_key))
+        task = asyncio.create_task(self.ready.wait())
+        await asyncio.wait_for(task, timeout=self._timeout)
+
     def handle_device_bound(self, key: str) -> None:
         """Handle the device bound message from the device"""
-        self.device_cipher = CipherV1(key.encode())
+        cipher_type = type(self.device_cipher)
+        if not issubclass(cipher_type, CipherBase):
+            raise ValueError(f"Invalid cipher type {cipher_type}")
+        self.device_cipher = cipher_type(key.encode())
 
     async def request_version(self) -> None:
         """Request the firmware version from the device."""

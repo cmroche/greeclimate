@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import pytest
 
+from greeclimate.cipher import CipherV1
 from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 
@@ -158,7 +159,7 @@ def get_mock_state_0c_v3_temp():
 
 async def generate_device_mock_async():
     d = Device(DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
-    await d.bind(key="St8Vw1Yz4Bc7Ef0H")
+    await d.bind(key="St8Vw1Yz4Bc7Ef0H", cipher_type=CipherV1)
     return d
 
 
@@ -195,7 +196,7 @@ async def test_get_device_info(cipher):
     assert device.device_info == info
 
     fake_key = "abcdefgh12345678"
-    await device.bind(key=fake_key)
+    await device.bind(key=fake_key, cipher_type=CipherV1)
 
     assert device.device_cipher is not None
     assert device.device_cipher.key == fake_key
@@ -212,8 +213,9 @@ async def test_device_bind():
 
     fake_key = "abcdefgh12345678"
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         """Emulate a bind event"""
+        device.device_cipher = CipherV1(fake_key.encode())
         device.ready.set()
         device.handle_device_bound(fake_key)
 
@@ -251,7 +253,7 @@ async def test_device_bind_none():
 
     assert device.device_info == info
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.ready.set()
 
     fake_key = None
@@ -272,7 +274,7 @@ async def test_device_late_bind():
 
     fake_key = "abcdefgh12345678"
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_device_bound(fake_key)
         device.ready.set()
 
@@ -298,7 +300,7 @@ async def test_update_properties():
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         state = get_mock_state()
         device.handle_state_update(**state)
 
@@ -441,7 +443,7 @@ async def test_update_current_temp_unsupported():
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         state = get_mock_state_no_temperature()
         device.handle_state_update(**state)
 
@@ -468,7 +470,7 @@ async def test_update_current_temp_v3(temsen, hid):
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(TemSen=temsen, hid=hid)
 
     with patch.object(Device, "send", wraps=fake_send):
@@ -495,7 +497,7 @@ async def test_update_current_temp_v4(temsen, hid):
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(TemSen=temsen, hid=hid)
 
     with patch.object(Device, "send", wraps=fake_send):
@@ -513,7 +515,7 @@ async def test_update_current_temp_bad():
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**get_mock_state_bad_temp())
 
     with patch.object(Device, "send", wraps=fake_send):
@@ -530,7 +532,7 @@ async def test_update_current_temp_0C_v4():
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**get_mock_state_0c_v4_temp())
 
     with patch.object(Device, "send", wraps=fake_send):
@@ -547,7 +549,7 @@ async def test_update_current_temp_0C_v3():
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**get_mock_state_0c_v3_temp())
 
     with patch.object(Device, "send", wraps=fake_send):
@@ -574,7 +576,7 @@ async def test_send_temperature_celsius(temperature):
         await device.push_state_update()
         assert mock_push.call_count == 1
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
 
     with patch.object(Device, "send", wraps=fake_send):
@@ -608,7 +610,7 @@ async def test_send_temperature_farenheit(temperature):
         await device.push_state_update()
         assert mock_push.call_count == 1
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
 
     with patch.object(Device, "send", wraps=fake_send):
@@ -713,7 +715,7 @@ async def test_mismatch_temrec_farenheit(temperature):
         await device.push_state_update()
         assert mock_push.call_count == 1
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
 
     with patch.object(Device, "send", wraps=fake_send):

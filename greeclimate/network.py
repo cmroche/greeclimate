@@ -6,15 +6,10 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, Tuple, Union
 
-from greeclimate.cipher import CipherBase, CipherV1
+from greeclimate.cipher import CipherBase
 from greeclimate.deviceinfo import DeviceInfo
 
 NETWORK_TIMEOUT = 10
-GENERIC_CIPHERS_KEYS = [
-    b'a3K8Bx%2r8Y7#xDh',
-    b'{yxAHAY_Lm6pbC/<'
-]
-
 _LOGGER = logging.getLogger(__name__)
 
 IPAddr = Tuple[str, int]
@@ -43,6 +38,9 @@ class IPInterface:
 class DeviceProtocolBase2(asyncio.DatagramProtocol):
     """Event driven device protocol class."""
 
+    _transport: Union[asyncio.transports.DatagramTransport, None] = None
+    _cipher: Union[CipherBase, None] = None
+
     def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
         """Initialize the device protocol object.
 
@@ -53,8 +51,6 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         self._timeout: int = timeout
         self._drained: asyncio.Event = drained or asyncio.Event()
         self._drained.set()
-        self._transport: Union[asyncio.transports.DatagramTransport, None] = None
-        self._cipher: Union[CipherBase, None] = None
 
     # This event need to be implemented to handle incoming requests
     def packet_received(self, obj, addr: IPAddr) -> None:
@@ -75,6 +71,20 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
     def device_cipher(self, value: CipherBase):
         """Gets the encryption key used for device data."""
         self._cipher = value
+
+    @property
+    def device_key(self) -> str:
+        """Gets the encryption key used for device data."""
+        if self._cipher is None:
+            raise ValueError("Cipher object not set")
+        return self._cipher.key
+
+    @device_key.setter
+    def device_key(self, value: str):
+        """Sets the encryption key used for device data."""
+        if self._cipher is None:
+            raise ValueError("Cipher object not set")
+        self._cipher.key = value
 
     def close(self) -> None:
         """Close the UDP transport."""
@@ -121,22 +131,28 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
 
         obj = json.loads(data)
 
-        # It could be either a v1 or v2 key
-        cipher = CipherV1(GENERIC_CIPHERS_KEYS[0]) if obj.get("i") == 1 else self._cipher
-
         if obj.get("pack"):
-            obj["pack"] = cipher.decrypt(obj["pack"])
+            obj["pack"] = self._cipher.decrypt(obj["pack"])
 
         _LOGGER.debug("Received packet from %s:\n<- %s", addr[0], json.dumps(obj))
         self.packet_received(obj, addr)
 
-    async def send(self, obj, addr: IPAddr = None) -> None:
-        """Send encode and send JSON command to the device."""
+    async def send(self, obj, addr: IPAddr = None, cipher: Union[CipherBase, None] = None) -> None:
+        """Send encode and send JSON command to the device.
+
+        Args:
+            addr (object): (Optional) Address to send the message
+            cipher (object): (Optional) Initial cipher to use for SCANNING and BINDING 
+        """
         _LOGGER.debug("Sending packet:\n-> %s", json.dumps(obj))
 
         if obj.get("pack"):
-            cipher = CipherV1(GENERIC_CIPHERS_KEYS[0]) if obj.get("i") == 1 else self._cipher
-            obj["pack"], tag = cipher.encrypt(obj["pack"])
+            if obj.get("i") == 1:
+                if cipher is None:
+                    raise ValueError("Cipher must be supplied for SCAN or BIND messages")
+                self._cipher = cipher
+
+            obj["pack"], tag = self._cipher.encrypt(obj["pack"])
             if tag:
                 obj["tag"] = tag
 
@@ -161,6 +177,7 @@ class BroadcastListenerProtocol(DeviceProtocolBase2):
 
 class DeviceProtocol2(DeviceProtocolBase2):
     """Protocol handler for direct device communication."""
+    _handlers = {}
 
     def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
         """Initialize the device protocol object.
@@ -172,7 +189,6 @@ class DeviceProtocol2(DeviceProtocolBase2):
         DeviceProtocolBase2.__init__(self, timeout, drained)
         self._ready = asyncio.Event()
         self._ready.clear()
-        self._handlers = {}
 
     @property
     def ready(self) -> asyncio.Event:

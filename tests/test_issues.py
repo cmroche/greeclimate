@@ -15,7 +15,7 @@ async def test_issue_69_TemSen_40_should_not_set_firmware_v4():
     for p in Props:
         assert device.get_property(p) is None
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**mock_v3_state)
 
     with patch.object(Device, "send", wraps=fake_send()):
@@ -35,7 +35,7 @@ async def test_issue_87_quiet_should_set_2():
     assert device.get_property(Props.QUIET) is None
     device.quiet = True
 
-    def fake_send(*args):
+    def fake_send(*args, **kwargs):
         device.handle_state_update(**mock_v3_state)
 
     with patch.object(Device, "send", wraps=fake_send()) as mock:
