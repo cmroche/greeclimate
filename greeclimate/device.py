@@ -44,12 +44,6 @@ class Props(enum.Enum):
     UNKNOWN_HEATCOOLTYPE = "HeatCoolType"
 
 
-GENERIC_CIPHERS_KEYS = {
-    CipherV1: b'a3K8Bx%2r8Y7#xDh',
-    CipherV2: b'{yxAHAY_Lm6pbC/<'
-}
-
-
 @unique
 class TemperatureUnits(IntEnum):
     C = 0
@@ -240,8 +234,7 @@ class Device(DeviceProtocol2, Taskable):
 
     async def __bind_internal(self, cipher_type: type[Union[CipherV1, CipherV2]]):
         """Internal binding procedure, do not call directly"""
-        default_key = GENERIC_CIPHERS_KEYS.get(cipher_type)
-        await self.send(self.create_bind_message(self.device_info), cipher=cipher_type(default_key))
+        await self.send(self.create_bind_message(self.device_info), cipher=cipher_type())
         task = asyncio.create_task(self.ready.wait())
         await asyncio.wait_for(task, timeout=self._timeout)
 

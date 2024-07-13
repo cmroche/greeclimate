@@ -4,7 +4,6 @@ from typing import Tuple, Union
 from unittest.mock import Mock
 
 from greeclimate.cipher import CipherV1, CipherBase
-from greeclimate.device import GENERIC_CIPHERS_KEYS
 
 DEFAULT_TIMEOUT = 1
 DISCOVERY_REQUEST = {"t": "scan"}
@@ -96,7 +95,7 @@ def get_mock_device_info():
 def encrypt_payload(data):
     """Encrypt the payload of responses quickly."""
     d = data.copy()
-    cipher = CipherV1(GENERIC_CIPHERS_KEYS[CipherV1])
+    cipher = CipherV1()
     d["pack"], _ = cipher.encrypt(d["pack"])
     return d
 

@@ -26,7 +26,7 @@ class CipherBase:
 
 
 class CipherV1(CipherBase):
-    def __init__(self, key: bytes) -> None:
+    def __init__(self, key: bytes = b'a3K8Bx%2r8Y7#xDh') -> None:
         super().__init__(key)
 
     def __create_cipher(self) -> AES:
@@ -58,7 +58,7 @@ class CipherV2(CipherBase):
     GCM_NONCE = b'\x54\x40\x78\x44\x49\x67\x5a\x51\x6c\x5e\x63\x13'
     GCM_AEAD = b'qualcomm-test'
 
-    def __init__(self, key: bytes) -> None:
+    def __init__(self, key: bytes = b'{yxAHAY_Lm6pbC/<') -> None:
         super().__init__(key)
 
     def __create_cipher(self) -> AES:
