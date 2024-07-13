@@ -1,6 +1,5 @@
 import asyncio
 import enum
-from unittest.mock import patch
 
 import pytest
 
@@ -306,9 +305,6 @@ async def test_update_properties_timeout(cipher, send):
     """Check that timeouts are handled when properties are updates."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     send.side_effect = asyncio.TimeoutError
     with pytest.raises(DeviceTimeoutError):
         await device.update_state()
@@ -328,9 +324,6 @@ async def test_set_properties(cipher, send):
     """Check that state is pushed when properties are updated."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     device.power = True
     device.mode = 1
     device.temperature_units = 1
@@ -348,9 +341,8 @@ async def test_set_properties(cipher, send):
     device.power_save = True
     device.target_humidity = 30
 
-    with patch.object(Device, "send") as mock_request:
-        await device.push_state_update()
-        mock_request.assert_called_once()
+    await device.push_state_update()
+    send.assert_called_once()
 
     for p in Props:
         if p not in (
@@ -372,9 +364,6 @@ async def test_set_properties_timeout(cipher, send):
     """Check timeout handling when pushing state changes."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     device.power = True
     device.mode = 1
     device.temperature_units = 1
@@ -390,19 +379,19 @@ async def test_set_properties_timeout(cipher, send):
     device.turbo = True
     device.steady_heat = True
     device.power_save = True
+    
+    assert len(device._dirty)
 
+    send.reset_mock()
+    send.side_effect = [asyncio.TimeoutError, asyncio.TimeoutError, asyncio.TimeoutError]
     with pytest.raises(DeviceTimeoutError):
-        with patch.object(Device, "send", side_effect=asyncio.TimeoutError):
-            await device.push_state_update()
+        await device.push_state_update()
 
 
 @pytest.mark.asyncio
 async def test_uninitialized_properties(cipher, send):
     """Check uninitialized property handling."""
     device = await generate_device_mock_async()
-
-    for p in Props:
-        assert device.get_property(p) is None
 
     assert not device.power
     assert device.mode is None
@@ -427,9 +416,6 @@ async def test_uninitialized_properties(cipher, send):
 async def test_update_current_temp_unsupported(cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
-
-    for p in Props:
-        assert device.get_property(p) is None
 
     def fake_send(*args, **kwargs):
         state = get_mock_state_no_temperature()

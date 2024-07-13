@@ -21,7 +21,7 @@ def netifaces_fixture():
         yield ifaddr_mock
 
 
-@pytest.fixture(name="cipher", autouse=False, scope="function")
+@pytest.fixture(name="cipher")
 def cipher_fixture():
     """Patch the cipher object."""
     with patch("greeclimate.device.CipherV1") as mock1, patch("greeclimate.device.CipherV2") as mock2:
@@ -30,7 +30,7 @@ def cipher_fixture():
         yield mock1, mock2
 
 
-@pytest.fixture(name="send", autouse=False, scope="function")
+@pytest.fixture(name="send")
 def network_fixture():
     """Patch the device object."""
     with patch.object(Device, "send") as mock:

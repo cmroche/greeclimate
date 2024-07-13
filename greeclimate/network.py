@@ -38,9 +38,6 @@ class IPInterface:
 class DeviceProtocolBase2(asyncio.DatagramProtocol):
     """Event driven device protocol class."""
 
-    _transport: Union[asyncio.transports.DatagramTransport, None] = None
-    _cipher: Union[CipherBase, None] = None
-
     def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
         """Initialize the device protocol object.
 
@@ -51,6 +48,10 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         self._timeout: int = timeout
         self._drained: asyncio.Event = drained or asyncio.Event()
         self._drained.set()
+
+        self._transport: Union[asyncio.transports.DatagramTransport, None] = None
+        self._cipher: Union[CipherBase, None] = None
+
 
     # This event need to be implemented to handle incoming requests
     def packet_received(self, obj, addr: IPAddr) -> None:

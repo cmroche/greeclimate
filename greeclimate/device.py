@@ -161,13 +161,6 @@ class Device(DeviceProtocol2, Taskable):
         water_full: A bool to indicate the water tank is full
     """
 
-    """ Device properties """
-    hid = None
-    version = None
-    check_version = True
-    _properties = {}
-    _dirty = []
-
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, loop: AbstractEventLoop = None):
         """Initialize the device object
 
@@ -180,6 +173,14 @@ class Device(DeviceProtocol2, Taskable):
         Taskable.__init__(self, loop)
         self._logger = logging.getLogger(__name__)
         self.device_info: DeviceInfo = device_info
+        
+        """ Device properties """
+        self.hid = None
+        self.version = None
+        self.check_version = True
+        self._properties = {}
+        self._dirty = []
+
 
     async def bind(self, key: str = None, cipher_type: Union[type[Union[CipherV1, CipherV2]], None] = None):
         """Run the binding procedure.
