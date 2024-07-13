@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
+from greeclimate.device import Device
 from tests.common import FakeCipher
 
 MOCK_INTERFACES = ["lo"]
@@ -20,11 +21,17 @@ def netifaces_fixture():
         yield ifaddr_mock
 
 
-
-@pytest.fixture(name="cipher")
+@pytest.fixture(name="cipher", autouse=False, scope="function")
 def cipher_fixture():
     """Patch the cipher object."""
     with patch("greeclimate.device.CipherV1") as mock1, patch("greeclimate.device.CipherV2") as mock2:
         mock1.return_value = FakeCipher(b"1234567890123456")
         mock2.return_value = FakeCipher(b"1234567890123456")
-        yield
+        yield mock1, mock2
+
+
+@pytest.fixture(name="send", autouse=False, scope="function")
+def network_fixture():
+    """Patch the device object."""
+    with patch.object(Device, "send") as mock:
+        yield mock

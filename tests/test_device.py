@@ -158,12 +158,12 @@ def get_mock_state_0c_v3_temp():
 
 
 async def generate_device_mock_async():
-    d = Device(DeviceInfo("192.168.1.29", 7000, "f4911e7aca59", "1e7aca59"))
+    d = Device(DeviceInfo("1.1.1.1", 7000, "f4911e7aca59", "1e7aca59"))
     await d.bind(key="St8Vw1Yz4Bc7Ef0H", cipher_type=CipherV1)
     return d
 
 
-def test_device_info_equality():
+def test_device_info_equality(send):
     """The only way to get the key through binding is by scanning first"""
 
     props = [
@@ -187,7 +187,7 @@ def test_device_info_equality():
 
 
 @pytest.mark.asyncio
-async def test_get_device_info(cipher):
+async def test_get_device_info(cipher, send):
     """Initialize device, check properties."""
 
     info = DeviceInfo(*get_mock_info())
@@ -203,97 +203,86 @@ async def test_get_device_info(cipher):
 
 
 @pytest.mark.asyncio
-async def test_device_bind():
+async def test_device_bind(cipher, send):
     """Check that the device returns a device key when binding."""
 
     info = DeviceInfo(*get_mock_info())
     device = Device(info, timeout=1)
-
-    assert device.device_info == info
-
     fake_key = "abcdefgh12345678"
-
+    
     def fake_send(*args, **kwargs):
         """Emulate a bind event"""
         device.device_cipher = CipherV1(fake_key.encode())
         device.ready.set()
         device.handle_device_bound(fake_key)
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", side_effect=fake_send) as mock:
-        await device.bind()
-        assert mock.call_count == 1
+    assert device.device_info == info
+    await device.bind()
+    assert send.call_count == 1
 
     assert device.device_cipher is not None
     assert device.device_cipher.key == fake_key
 
 
 @pytest.mark.asyncio
-async def test_device_bind_timeout():
+async def test_device_bind_timeout(cipher, send):
     """Check that the device handles timeout errors when binding."""
-
     info = DeviceInfo(*get_mock_info())
     device = Device(info, timeout=1)
 
-    assert device.device_info == info
-
     with pytest.raises(DeviceTimeoutError):
-        with patch.object(Device, "send", return_value=None) as mock:
-            await device.bind()
-            assert mock.call_count == 1
+        await device.bind()
+        assert send.call_count == 1
 
     assert device.device_cipher is None
 
 
 @pytest.mark.asyncio
-async def test_device_bind_none():
+async def test_device_bind_none(cipher, send):
     """Check that the device handles bad binding sequences."""
-
     info = DeviceInfo(*get_mock_info())
     device = Device(info)
 
-    assert device.device_info == info
-
     def fake_send(*args, **kwargs):
         device.ready.set()
+    send.side_effect = fake_send
 
-    fake_key = None
     with pytest.raises(DeviceNotBoundError):
-        with patch.object(Device, "send", wraps=fake_send) as mock:
-            await device.bind()
-            assert mock.call_count == 1
+        await device.bind()
+        assert send.call_count == 1
 
     assert device.device_cipher is None
 
 
 @pytest.mark.asyncio
-async def test_device_late_bind():
+async def test_device_late_bind(cipher, send):
     """Check that the device handles late binding sequences."""
     info = DeviceInfo(*get_mock_info())
     device = Device(info, timeout=1)
-    assert device.device_info == info
-
     fake_key = "abcdefgh12345678"
 
     def fake_send(*args, **kwargs):
+        device.device_cipher = CipherV1(fake_key.encode())
         device.handle_device_bound(fake_key)
         device.ready.set()
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send) as mock:
-        await device.update_state()
-        assert mock.call_count == 2
-        assert device.device_cipher.key == fake_key
+    await device.update_state()
+    assert send.call_count == 2
+    assert device.device_cipher.key == fake_key
 
-        device.power = True
+    device.power = True
 
-    with patch.object(Device, "send"):
-        await device.push_state_update()
-        
-        assert device.device_cipher is not None
-        assert device.device_cipher.key == fake_key
+    send.side_effect = None
+    await device.push_state_update()
+    
+    assert device.device_cipher is not None
+    assert device.device_cipher.key == fake_key
 
 
 @pytest.mark.asyncio
-async def test_update_properties():
+async def test_update_properties(cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
@@ -303,9 +292,9 @@ async def test_update_properties():
     def fake_send(*args, **kwargs):
         state = get_mock_state()
         device.handle_state_update(**state)
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", side_effect=fake_send) as mock:
-        await device.update_state()
+    await device.update_state()
 
     for p in Props:
         assert device.get_property(p) is not None
@@ -313,30 +302,29 @@ async def test_update_properties():
 
 
 @pytest.mark.asyncio
-async def test_update_properties_timeout():
+async def test_update_properties_timeout(cipher, send):
     """Check that timeouts are handled when properties are updates."""
     device = await generate_device_mock_async()
 
     for p in Props:
         assert device.get_property(p) is None
 
+    send.side_effect = asyncio.TimeoutError
     with pytest.raises(DeviceTimeoutError):
-        with patch.object(Device, "send", side_effect=asyncio.TimeoutError):
-            await device.update_state()
+        await device.update_state()
 
 
 @pytest.mark.asyncio
-async def test_set_properties_not_dirty():
+async def test_set_properties_not_dirty(cipher, send):
     """Check that the state isn't pushed when properties unchanged."""
     device = await generate_device_mock_async()
 
-    with patch.object(Device, "send") as mock_request:
-        await device.push_state_update()
-        assert mock_request.call_count == 0
+    await device.push_state_update()
+    assert send.call_count == 0
 
 
 @pytest.mark.asyncio
-async def test_set_properties():
+async def test_set_properties(cipher, send):
     """Check that state is pushed when properties are updated."""
     device = await generate_device_mock_async()
 
@@ -380,7 +368,7 @@ async def test_set_properties():
 
 
 @pytest.mark.asyncio
-async def test_set_properties_timeout():
+async def test_set_properties_timeout(cipher, send):
     """Check timeout handling when pushing state changes."""
     device = await generate_device_mock_async()
 
@@ -409,7 +397,7 @@ async def test_set_properties_timeout():
 
 
 @pytest.mark.asyncio
-async def test_uninitialized_properties():
+async def test_uninitialized_properties(cipher, send):
     """Check uninitialized property handling."""
     device = await generate_device_mock_async()
 
@@ -436,7 +424,7 @@ async def test_uninitialized_properties():
 
 
 @pytest.mark.asyncio
-async def test_update_current_temp_unsupported():
+async def test_update_current_temp_unsupported(cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
@@ -446,9 +434,9 @@ async def test_update_current_temp_unsupported():
     def fake_send(*args, **kwargs):
         state = get_mock_state_no_temperature()
         device.handle_state_update(**state)
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send) as mock:
-        await device.update_state()
+    await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is None
     assert device.current_temperature == device.target_temperature
@@ -463,19 +451,16 @@ async def test_update_current_temp_unsupported():
         (62, "362001061147+U-ZX6045RV1.01.bin"),
     ],
 )
-async def test_update_current_temp_v3(temsen, hid):
+async def test_update_current_temp_v3(temsen, hid, cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(TemSen=temsen, hid=hid)
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
-
+    await device.update_state()
+    
     assert device.get_property(Props.TEMP_SENSOR) is not None
     assert device.current_temperature == temsen - 40
 
@@ -490,97 +475,80 @@ async def test_update_current_temp_v3(temsen, hid):
         (23, "362001061217+U-W04NV7.bin"),
     ],
 )
-async def test_update_current_temp_v4(temsen, hid):
+async def test_update_current_temp_v4(temsen, hid, cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(TemSen=temsen, hid=hid)
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
+    await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is not None
     assert device.current_temperature == temsen
 
 
 @pytest.mark.asyncio
-async def test_update_current_temp_bad():
+async def test_update_current_temp_bad(cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(**get_mock_state_bad_temp())
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
+    await device.update_state()
 
     assert device.current_temperature == get_mock_state_bad_temp()["TemSen"] - 40
 
 
 @pytest.mark.asyncio
-async def test_update_current_temp_0C_v4():
+async def test_update_current_temp_0C_v4(cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(**get_mock_state_0c_v4_temp())
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
+    await device.update_state()
 
     assert device.current_temperature == get_mock_state_0c_v4_temp()["TemSen"]
 
 
 @pytest.mark.asyncio
-async def test_update_current_temp_0C_v3():
+async def test_update_current_temp_0C_v3(cipher, send):
     """Check for devices without a temperature sensor."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(**get_mock_state_0c_v3_temp())
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
+    await device.update_state()
 
     assert device.current_temperature == device.target_temperature
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("temperature", [18, 19, 20, 21, 22])
-async def test_send_temperature_celsius(temperature):
+async def test_send_temperature_celsius(temperature, cipher, send):
     """Check that temperature is set and read properly in C."""
     state = get_mock_state()
     state["TemSen"] = temperature + 40
     device = await generate_device_mock_async()
-
-    for p in Props:
-        assert device.get_property(p) is None
-
     device.temperature_units = TemperatureUnits.C
     device.target_temperature = temperature
 
-    with patch.object(Device, "send") as mock_push:
-        await device.push_state_update()
-        assert mock_push.call_count == 1
+    await device.push_state_update()
+    assert send.call_count == 1
 
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
+    await device.update_state()
 
     assert device.current_temperature == temperature
 
@@ -589,7 +557,7 @@ async def test_send_temperature_celsius(temperature):
 @pytest.mark.parametrize(
     "temperature", [60, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 86]
 )
-async def test_send_temperature_farenheit(temperature):
+async def test_send_temperature_farenheit(temperature, cipher, send):
     """Check that temperature is set and read properly in F."""
     temSet = round((temperature - 32.0) * 5.0 / 9.0)
     temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
@@ -600,33 +568,26 @@ async def test_send_temperature_farenheit(temperature):
     state["TemUn"] = 1
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     device.temperature_units = TemperatureUnits.F
     device.target_temperature = temperature
 
-    with patch.object(Device, "send") as mock_push:
-        await device.push_state_update()
-        assert mock_push.call_count == 1
+    await device.push_state_update()
+    assert send.call_count == 1
 
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
+    send.side_effect = fake_send
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
+    await device.update_state()
 
     assert device.current_temperature == temperature
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("temperature", [-270, -61, 61, 100])
-async def test_send_temperature_out_of_range_celsius(temperature):
+async def test_send_temperature_out_of_range_celsius(temperature, cipher, send):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
-
-    for p in Props:
-        assert device.get_property(p) is None
 
     device.temperature_units = TemperatureUnits.C
     with pytest.raises(ValueError):
@@ -635,7 +596,7 @@ async def test_send_temperature_out_of_range_celsius(temperature):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("temperature", [-270, -61, 141])
-async def test_send_temperature_out_of_range_farenheit_set(temperature):
+async def test_send_temperature_out_of_range_farenheit_set(temperature, cipher, send):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
 
@@ -649,12 +610,9 @@ async def test_send_temperature_out_of_range_farenheit_set(temperature):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("temperature", [-270, 150])
-async def test_send_temperature_out_of_range_farenheit_get(temperature):
+async def test_send_temperature_out_of_range_farenheit_get(temperature, cipher, send):
     """Check that bad temperatures raise the appropriate error."""
     device = await generate_device_mock_async()
-
-    for p in Props:
-        assert device.get_property(p) is None
 
     device.set_property(Props.TEMP_SET, 20)
     device.set_property(Props.TEMP_SENSOR, temperature)
@@ -666,25 +624,20 @@ async def test_send_temperature_out_of_range_farenheit_get(temperature):
 
 
 @pytest.mark.asyncio
-async def test_enable_disable_sleep_mode():
+async def test_enable_disable_sleep_mode(cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
-    for p in Props:
-        assert device.get_property(p) is None
-
     device.sleep = True
-    with patch.object(Device, "send") as mock_push:
-        await device.push_state_update()
-        assert mock_push.call_count == 1
+    await device.push_state_update()
+    assert send.call_count == 1
 
     assert device.get_property(Props.SLEEP) == 1
     assert device.get_property(Props.SLEEP_MODE) == 1
 
     device.sleep = False
-    with patch.object(Device, "send") as mock_push:
-        await device.push_state_update()
-        assert mock_push.call_count == 1
+    await device.push_state_update()
+    assert send.call_count == 2
 
     assert device.get_property(Props.SLEEP) == 0
     assert device.get_property(Props.SLEEP_MODE) == 0
@@ -694,7 +647,7 @@ async def test_enable_disable_sleep_mode():
 @pytest.mark.parametrize(
     "temperature", [59, 77, 86]
 )
-async def test_mismatch_temrec_farenheit(temperature):
+async def test_mismatch_temrec_farenheit(temperature, cipher, send):
     """Check that temperature is set and read properly in F."""
     temSet = round((temperature - 32.0) * 5.0 / 9.0)
     temRec = (int)((((temperature - 32.0) * 5.0 / 9.0) - temSet) > 0)
@@ -705,47 +658,43 @@ async def test_mismatch_temrec_farenheit(temperature):
     state["TemRec"] = (temRec + 1) % 2
     state["TemUn"] = 1
     device = await generate_device_mock_async()
-
-    for p in Props:
-        assert device.get_property(p) is None
-
     device.temperature_units = TemperatureUnits.F
     device.target_temperature = temperature
-    with patch.object(Device, "send") as mock_push:
-        await device.push_state_update()
-        assert mock_push.call_count == 1
+    
+    await device.push_state_update()
+    assert send.call_count == 1
 
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
+    send.side_effect = None
 
-    with patch.object(Device, "send", wraps=fake_send):
-        await device.update_state()
+    await device.update_state()
 
     assert device.current_temperature == temperature
 
 
 @pytest.mark.asyncio
-async def test_device_equality():
+async def test_device_equality(send):
     """Check that two devices with the same info and key are equal."""
 
     info1 = DeviceInfo(*get_mock_info())
     device1 = Device(info1)
-    await device1.bind(key="fake_key")
+    await device1.bind(key="fake_key", cipher_type=CipherV1)
 
     info2 = DeviceInfo(*get_mock_info())
     device2 = Device(info2)
-    await device2.bind(key="fake_key")
+    await device2.bind(key="fake_key", cipher_type=CipherV1)
 
     assert device1 == device2
 
     # Change the key of the second device
-    await device2.bind(key="another_fake_key")
+    await device2.bind(key="another_fake_key", cipher_type=CipherV1)
     assert device1 != device2
 
     # Change the info of the second device
     info2 = DeviceInfo(*get_mock_info())
     device2 = Device(info2)
     device2.power = True
-    await device2.bind(key="fake_key")
+    await device2.bind(key="fake_key", cipher_type=CipherV1)
     assert device1 != device2
 

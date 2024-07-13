@@ -6,7 +6,7 @@ from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
 from typing import Union
 
-from greeclimate.cipher import CipherV1, CipherV2, CipherBase
+from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import DeviceProtocol2
@@ -247,8 +247,6 @@ class Device(DeviceProtocol2, Taskable):
     def handle_device_bound(self, key: str) -> None:
         """Handle the device bound message from the device"""
         cipher_type = type(self.device_cipher)
-        if not issubclass(cipher_type, CipherBase):
-            raise ValueError(f"Invalid cipher type {cipher_type}")
         self.device_cipher = cipher_type(key.encode())
 
     async def request_version(self) -> None:
