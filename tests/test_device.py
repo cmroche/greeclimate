@@ -158,7 +158,7 @@ def get_mock_state_0c_v3_temp():
 
 async def generate_device_mock_async():
     d = Device(DeviceInfo("1.1.1.1", 7000, "f4911e7aca59", "1e7aca59"))
-    await d.bind(key="St8Vw1Yz4Bc7Ef0H", cipher_type=CipherV1)
+    await d.bind(key="St8Vw1Yz4Bc7Ef0H", cipher=CipherV1())
     return d
 
 
@@ -195,7 +195,7 @@ async def test_get_device_info(cipher, send):
     assert device.device_info == info
 
     fake_key = "abcdefgh12345678"
-    await device.bind(key=fake_key, cipher_type=CipherV1)
+    await device.bind(key=fake_key, cipher=CipherV1())
 
     assert device.device_cipher is not None
     assert device.device_cipher.key == fake_key
@@ -665,22 +665,22 @@ async def test_device_equality(send):
 
     info1 = DeviceInfo(*get_mock_info())
     device1 = Device(info1)
-    await device1.bind(key="fake_key", cipher_type=CipherV1)
+    await device1.bind(key="fake_key", cipher=CipherV1())
 
     info2 = DeviceInfo(*get_mock_info())
     device2 = Device(info2)
-    await device2.bind(key="fake_key", cipher_type=CipherV1)
+    await device2.bind(key="fake_key", cipher=CipherV1())
 
     assert device1 == device2
 
     # Change the key of the second device
-    await device2.bind(key="another_fake_key", cipher_type=CipherV1)
+    await device2.bind(key="another_fake_key", cipher=CipherV1())
     assert device1 != device2
 
     # Change the info of the second device
     info2 = DeviceInfo(*get_mock_info())
     device2 = Device(info2)
     device2.power = True
-    await device2.bind(key="fake_key", cipher_type=CipherV1)
+    await device2.bind(key="fake_key", cipher=CipherV1())
     assert device1 != device2
 
