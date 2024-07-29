@@ -175,8 +175,11 @@ class Device(DeviceProtocol2, Taskable):
         self._properties = {}
         self._dirty = []
 
-
-    async def bind(self, key: str = None, cipher_type: Union[type[Union[CipherV1, CipherV2]], None] = None):
+    async def bind(
+        self,
+        key: str = None,
+        cipher: Union[CipherV1, CipherV2, None] = None,
+    ):
         """Run the binding procedure.
 
         Binding is a finicky procedure, and happens in 1 of 2 ways:
@@ -187,17 +190,22 @@ class Device(DeviceProtocol2, Taskable):
             Both approaches result in a device_key which is used as like a persistent session id.
 
         Args:
-            cipher_type (type): The cipher type to use for encryption, if None will attempt to detect the correct one
+            cipher (CipherV1 | CipherV2): The cipher type to use for encryption, if None will attempt to detect the correct one
             key (str): The device key, when provided binding is a NOOP, if None binding will
-                       attempt to negotiate the key with the device. cipher_type must be provided.
+                       attempt to negotiate the key with the device. cipher must be provided.
 
         Raises:
             DeviceNotBoundError: If binding was unsuccessful and no key returned
             DeviceTimeoutError: The device didn't respond
         """
 
-        if key and not cipher_type:
-            raise ValueError("cipher_type must be provided when key is provided")
+        if key:
+            if not cipher:
+                raise ValueError("cipher must be provided when key is provided")
+            else:
+                cipher.key = key
+                self.device_cipher = cipher
+                return
 
         if not self.device_info:
             raise DeviceNotBoundError
@@ -210,19 +218,16 @@ class Device(DeviceProtocol2, Taskable):
         self._logger.info("Starting device binding to %s", str(self.device_info))
 
         try:
-            if key:
-                self.device_cipher = cipher_type(key.encode())
+            if cipher is not None:
+                await self.__bind_internal(cipher)
             else:
-                if cipher_type is not None:
-                    await self.__bind_internal(cipher_type)
-                else:
-                    """ Try binding with CipherV1 first, if that fails try CipherV2"""
-                    try:
-                        self._logger.info("Attempting to bind to device using CipherV1")
-                        await self.__bind_internal(CipherV1)
-                    except asyncio.TimeoutError:
-                        self._logger.info("Attempting to bind to device using CipherV2")
-                        await self.__bind_internal(CipherV2)
+                """ Try binding with CipherV1 first, if that fails try CipherV2"""
+                try:
+                    self._logger.info("Attempting to bind to device using CipherV1")
+                    await self.__bind_internal(CipherV1())
+                except asyncio.TimeoutError:
+                    self._logger.info("Attempting to bind to device using CipherV2")
+                    await self.__bind_internal(CipherV2())
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
@@ -232,16 +237,15 @@ class Device(DeviceProtocol2, Taskable):
         else:
             self._logger.info("Bound to device using key %s", self.device_cipher.key)
 
-    async def __bind_internal(self, cipher_type: type[Union[CipherV1, CipherV2]]):
+    async def __bind_internal(self, cipher: Union[CipherV1, CipherV2]):
         """Internal binding procedure, do not call directly"""
-        await self.send(self.create_bind_message(self.device_info), cipher=cipher_type())
+        await self.send(self.create_bind_message(self.device_info), cipher=cipher)
         task = asyncio.create_task(self.ready.wait())
         await asyncio.wait_for(task, timeout=self._timeout)
 
     def handle_device_bound(self, key: str) -> None:
         """Handle the device bound message from the device"""
-        cipher_type = type(self.device_cipher)
-        self.device_cipher = cipher_type(key.encode())
+        self.device_cipher.key = key
 
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
