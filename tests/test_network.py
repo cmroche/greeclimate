@@ -559,3 +559,16 @@ def test_add_invalid_handler():
     
     with pytest.raises(ValueError):
         protocol.add_handler(Response("invalid"), callback)
+
+
+def test_device_key_get_set():
+    # Arrange
+    protocol = DeviceProtocolBase2
+    key = "fake-key"
+    
+    # Act
+    protocol.device_key = key
+    
+    # Assert
+    assert protocol.device_key == key
+    

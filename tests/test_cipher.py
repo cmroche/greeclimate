@@ -1,6 +1,8 @@
 import base64
+
 import pytest
-from greeclimate.cipher import CipherV1, CipherV2
+
+from greeclimate.cipher import CipherV1, CipherV2, CipherBase
 
 
 @pytest.fixture
@@ -46,3 +48,13 @@ def test_encryption_then_decryption_yields_original_with_tag(cipher_v2, plain_te
     decrypted = cipher_v2.decrypt(encrypted)
     assert decrypted == plain_text
 
+
+def test_cipher_base_not_implemented():
+    fake_key = b'fake'
+    
+    with pytest.raises(NotImplementedError):
+        CipherBase(fake_key).encrypt(None)
+        
+    with pytest.raises(NotImplementedError):
+        CipherBase(fake_key).decrypt(None)
+        
