@@ -155,18 +155,22 @@ class Device(DeviceProtocol2, Taskable):
         water_full: A bool to indicate the water tank is full
     """
 
-    def __init__(self, device_info: DeviceInfo, timeout: int = 120, loop: AbstractEventLoop = None):
+    def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         """Initialize the device object
 
         Args:
             device_info (DeviceInfo): Information about the physical device
             timeout (int): Timeout for device communication
+            bind_timeout (int): Timeout for binding to the device, keep this short to prevent delays determining the
+                                correct device cipher to use
             loop (AbstractEventLoop): The event loop to run the device operations on
         """
         DeviceProtocol2.__init__(self, timeout)
         Taskable.__init__(self, loop)
         self._logger = logging.getLogger(__name__)
         self.device_info: DeviceInfo = device_info
+        
+        self._bind_timeout = bind_timeout
         
         """ Device properties """
         self.hid = None
@@ -241,7 +245,7 @@ class Device(DeviceProtocol2, Taskable):
         """Internal binding procedure, do not call directly"""
         await self.send(self.create_bind_message(self.device_info), cipher=cipher)
         task = asyncio.create_task(self.ready.wait())
-        await asyncio.wait_for(task, timeout=self._timeout)
+        await asyncio.wait_for(task, timeout=self._bind_timeout)
 
     def handle_device_bound(self, key: str) -> None:
         """Handle the device bound message from the device"""
