@@ -19,7 +19,6 @@ from .common import (
     DISCOVERY_REQUEST,
     DISCOVERY_RESPONSE,
     Responder,
-    encrypt_payload,
     DEFAULT_REQUEST, generate_response, FakeCipher,
 )
 from .test_device import get_mock_info
@@ -89,8 +88,8 @@ async def test_set_get_key():
     """Test the encryption key property."""
     key = "faketestkey"
     dp2 = DeviceProtocolBase2()
-    dp2.device_key = key
-    assert dp2.device_key == key
+    dp2.device_cipher = FakeCipher(key.encode())
+    assert dp2.device_cipher.key == key
 
 
 @pytest.mark.asyncio
@@ -150,7 +149,7 @@ async def test_broadcast_recv(addr, family):
             p = json.loads(d)
             assert p == DISCOVERY_REQUEST
 
-            p = json.dumps(encrypt_payload(DISCOVERY_RESPONSE))
+            p = json.dumps(DISCOVERY_RESPONSE)
             s.sendto(p.encode(), addr)
 
         serv = Thread(target=responder, args=(sock,))
@@ -163,6 +162,7 @@ async def test_broadcast_recv(addr, family):
         local_addr = (addr[0], 0)
 
         dp2 = FakeDiscoveryProtocol()
+        dp2.device_cipher = FakeCipher(b"1234567890123456")
         await loop.create_datagram_endpoint(
             lambda: dp2,
             local_addr=local_addr,
@@ -218,7 +218,7 @@ async def test_broadcast_timeout(addr, family):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("addr,family", [(("127.0.0.1", 7000), socket.AF_INET)])
-async def test_datagram_connect(addr, family, cipher):
+async def test_datagram_connect(addr, family):
     """Create a socket responder, an async connection, test send and recv."""
     with Responder(family, addr[1], bcast=False) as sock:
 
@@ -240,7 +240,7 @@ async def test_datagram_connect(addr, family, cipher):
         )
 
         # Send the scan command
-        await protocol.send(DEFAULT_REQUEST, None)
+        await protocol.send(DEFAULT_REQUEST, None, FakeCipher(b"1234567890123456"))
 
         # Wait on the scan response
         task = asyncio.create_task(protocol.packets.get())
@@ -253,11 +253,11 @@ async def test_datagram_connect(addr, family, cipher):
         serv.join(timeout=DEFAULT_TIMEOUT)
 
 
-@pytest.mark.asyncio
-def test_bindok_handling(cipher):
+def test_bindok_handling():
     """Test the bindok response."""
     response = generate_response({"t": "bindok", "key": "fake-key"})
     protocol = DeviceProtocol2(timeout=DEFAULT_TIMEOUT)
+    protocol.device_cipher = FakeCipher(b"1234567890123456")
     
     with patch.object(DeviceProtocol2, "handle_device_bound") as mock:
         protocol.datagram_received(json.dumps(response).encode(), ("0.0.0.0", 0))
