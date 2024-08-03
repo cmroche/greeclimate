@@ -513,11 +513,24 @@ def test_packet_received_invalid_data():
 
     # Act
     protocol.packet_received(None, ("0.0.0.0", 0))
+    protocol.packet_received({}, ("0.0.0.0", 0))
     protocol.packet_received({"pack"}, ("0.0.0.0", 0))
     
     with patch.object(protocol, "handle_unknown_packet") as mock:
         protocol.packet_received({"pack": {"t": "unknown"}}, ("0.0.0.0", 0))
         mock.assert_called_once()
+
+
+def test_set_get_cipher():
+    # Arrange
+    protocol = DeviceProtocolBase2()
+    cipher = FakeCipher(b"1234567890123456")
+
+    # Act
+    protocol.device_cipher = cipher
+
+    # Assert
+    assert protocol.device_cipher == cipher
 
 
 def test_cipher_is_not_set():
