@@ -281,6 +281,26 @@ async def test_device_late_bind(cipher, send):
 
 
 @pytest.mark.asyncio
+async def test_device_bind_no_cipher(cipher, send):
+    """Check that the device handles late binding sequences."""
+    info = DeviceInfo(*get_mock_info())
+    device = Device(info, timeout=1)
+    fake_key = "abcdefgh12345678"
+    
+    with pytest.raises(ValueError):
+        await device.bind(fake_key)
+
+
+@pytest.mark.asyncio
+async def test_device_bind_no_device_info(cipher, send):
+    """Check that the device handles late binding sequences."""
+    device = Device(None, timeout=1)
+    
+    with pytest.raises(DeviceNotBoundError):
+        await device.bind()
+
+
+@pytest.mark.asyncio
 async def test_update_properties(cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()

@@ -229,12 +229,13 @@ class DeviceProtocol2(DeviceProtocolBase2):
             Response.DATA.value: lambda *args: self.__handle_state_update(*args),
             Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
         }
-        resp = obj.get("pack", {}).get("t")
-        handler = handlers.get(resp, self.handle_unknown_packet)
-        param = []
         try:
+            resp = obj.get("pack", {}).get("t")
+            handler = handlers.get(resp, self.handle_unknown_packet)
             param = params.get(resp, lambda o, a: (o, a))(obj, addr)
             handler(*param)
+        except AttributeError as e:
+            _LOGGER.exception("Error while handling packet", exc_info=e)
         except KeyError as e:
             _LOGGER.exception("Error while handling packet", exc_info=e)
         else:

@@ -497,3 +497,52 @@ async def test_add_and_remove_handler(event_name, data):
     # Check that the callback was not called this time
     callback.assert_not_called()
 
+
+def test_packet_received_not_implemented():
+    # Arrange
+    protocol = DeviceProtocolBase2()
+
+    # Act
+    with pytest.raises(NotImplementedError):
+        protocol.packet_received({}, ("0.0.0.0", 0))
+        
+        
+def test_packet_received_invalid_data():
+    # Arrange
+    protocol = DeviceProtocol2()
+
+    # Act
+    protocol.packet_received(None, ("0.0.0.0", 0))
+    protocol.packet_received({"pack"}, ("0.0.0.0", 0))
+    
+    with patch.object(protocol, "handle_unknown_packet") as mock:
+        protocol.packet_received({"pack": {"t": "unknown"}}, ("0.0.0.0", 0))
+        mock.assert_called_once()
+
+
+def test_cipher_is_not_set():
+    # Arrange
+    protocol = DeviceProtocolBase2()
+
+    # Act
+    key = None
+    with pytest.raises(ValueError):
+        key = protocol.device_key
+        
+    assert key is None
+    
+    with pytest.raises(ValueError):
+        protocol.device_key = "fake-key"
+    
+    
+def test_add_invalid_handler():
+    # Arrange
+    protocol = DeviceProtocol2()
+    callback = MagicMock()
+    
+    # Act
+    with pytest.raises(ValueError):
+        protocol.add_handler(Response("invalid"), callback)
+    
+    with pytest.raises(ValueError):
+        protocol.add_handler(Response("invalid"), callback)
