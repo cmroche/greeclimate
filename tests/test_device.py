@@ -222,6 +222,10 @@ async def test_device_bind(cipher, send):
 
     assert device.device_cipher is not None
     assert device.device_cipher.key == fake_key
+    
+    # Bind with cipher already set
+    await device.bind()
+    assert send.call_count == 2 
 
 
 @pytest.mark.asyncio
@@ -255,7 +259,7 @@ async def test_device_bind_none(cipher, send):
 
 
 @pytest.mark.asyncio
-async def test_device_late_bind(cipher, send):
+async def test_device_late_bind_from_update(cipher, send):
     """Check that the device handles late binding sequences."""
     info = DeviceInfo(*get_mock_info())
     device = Device(info, timeout=1)
@@ -280,6 +284,24 @@ async def test_device_late_bind(cipher, send):
     assert device.device_cipher.key == fake_key
 
 
+@pytest.mark.asyncio
+async def test_device_late_bind_from_request_version(cipher, send):
+    """Check that the device handles late binding sequences."""
+    info = DeviceInfo(*get_mock_info())
+    device = Device(info, timeout=1)
+    fake_key = "abcdefgh12345678"
+
+    def fake_send(*args, **kwargs):
+        device.device_cipher = CipherV1(fake_key.encode())
+        device.handle_device_bound(fake_key)
+        device.ready.set()
+    send.side_effect = fake_send
+
+    await device.request_version()
+    assert send.call_count == 2
+    assert device.device_cipher.key == fake_key
+    
+    
 @pytest.mark.asyncio
 async def test_device_bind_no_cipher(cipher, send):
     """Check that the device handles late binding sequences."""
@@ -704,3 +726,11 @@ async def test_device_equality(send):
     await device2.bind(key="fake_key", cipher=CipherV1())
     assert device1 != device2
 
+
+def test_device_key_set_get():
+    """Check that the device key can be set and retrieved."""
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.device_cipher = CipherV1()
+    device.device_key = "fake_key"
+    assert device.device_key == "fake_key"
+    
