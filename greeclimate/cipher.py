@@ -5,6 +5,7 @@ from typing import Union, Tuple
 
 from Crypto.Cipher import AES
 
+_logger = logging.getLogger(__name__)
 
 class CipherBase:
     def __init__(self, key: bytes) -> None:
@@ -36,21 +37,21 @@ class CipherV1(CipherBase):
         return s + (16 - len(s) % 16) * chr(16 - len(s) % 16)
 
     def encrypt(self, data) -> Tuple[str, Union[str, None]]:
-        logging.debug("Encrypting data: %s", data)
+        _logger.debug("Encrypting data: %s", data)
         cipher = self.__create_cipher()
         padded = self.__pad(json.dumps(data)).encode()
         encrypted = cipher.encrypt(padded)
         encoded = base64.b64encode(encrypted).decode()
-        logging.info("Encrypted data: %s", encoded)
+        _logger.debug("Encrypted data: %s", encoded)
         return encoded, None
 
     def decrypt(self, data) -> dict:
-        logging.info("Decrypting data: %s", data)
+        _logger.debug("Decrypting data: %s", data)
         cipher = self.__create_cipher()
         decoded = base64.b64decode(data)
         decrypted = cipher.decrypt(decoded).decode()
         t = decrypted.replace(decrypted[decrypted.rindex('}') + 1:], '')
-        logging.debug("Decrypted data: %s", t)
+        _logger.debug("Decrypted data: %s", t)
         return json.loads(t)
 
 
@@ -67,21 +68,21 @@ class CipherV2(CipherBase):
         return cipher
 
     def encrypt(self, data) -> Tuple[str, str]:
-        logging.debug("Encrypting data: %s", data)
+        _logger.debug("Encrypting data: %s", data)
         cipher = self.__create_cipher()
         encrypted, tag = cipher.encrypt_and_digest(json.dumps(data).encode())
         encoded = base64.b64encode(encrypted).decode()
         tag = base64.b64encode(tag).decode()
-        logging.debug("Encrypted data: %s", encoded)
-        logging.debug("Cipher digest: %s", tag)
+        _logger.debug("Encrypted data: %s", encoded)
+        _logger.debug("Cipher digest: %s", tag)
         return encoded, tag
 
     def decrypt(self, data) -> dict:
-        logging.info("Decrypting data: %s", data)
+        _logger.info("Decrypting data: %s", data)
         cipher = self.__create_cipher()
         decoded = base64.b64decode(data)
         decrypted = cipher.decrypt(decoded).decode()
         t = decrypted.replace(decrypted[decrypted.rindex('}') + 1:], '')
-        logging.debug("Decrypted data: %s", t)
+        _logger.debug("Decrypted data: %s", t)
         return json.loads(t)
 
