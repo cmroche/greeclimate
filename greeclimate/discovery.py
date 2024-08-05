@@ -6,6 +6,7 @@ from asyncio import Task
 from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address
 
+from greeclimate.cipher import CipherV1
 from greeclimate.device import DeviceInfo
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
 from greeclimate.taskable import Taskable
@@ -45,6 +46,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         """
         BroadcastListenerProtocol.__init__(self, timeout)
         Taskable.__init__(self, loop)
+        self.device_cipher = CipherV1()
         self._allow_loopback: bool = allow_loopback
         self._device_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []

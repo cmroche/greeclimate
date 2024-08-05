@@ -6,7 +6,6 @@ import json
 import socket
 import time
 
-import machine
 import network
 import ubinascii
 from ucryptolib import aes

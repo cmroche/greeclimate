@@ -1,9 +1,9 @@
-import asyncio
 import socket
 from socket import SOCK_DGRAM
-from unittest.mock import Mock, create_autospec, patch
+from typing import Tuple, Union
+from unittest.mock import Mock
 
-from greeclimate.network import DeviceProtocolBase2
+from greeclimate.cipher import CipherV1, CipherBase
 
 DEFAULT_TIMEOUT = 1
 DISCOVERY_REQUEST = {"t": "scan"}
@@ -95,8 +95,22 @@ def get_mock_device_info():
 def encrypt_payload(data):
     """Encrypt the payload of responses quickly."""
     d = data.copy()
-    d["pack"] = DeviceProtocolBase2.encrypt_payload(d["pack"])
+    cipher = CipherV1()
+    d["pack"], _ = cipher.encrypt(d["pack"])
     return d
+
+
+class FakeCipher(CipherBase):
+    """Fake cipher object for testing."""
+
+    def __init__(self, key: bytes) -> None:
+        super().__init__(key)
+
+    def encrypt(self, data) -> Tuple[str, Union[str, None]]:
+        return data, None
+
+    def decrypt(self, data) -> dict:
+        return data
 
 
 class Responder:

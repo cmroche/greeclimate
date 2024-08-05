@@ -4,12 +4,12 @@ import logging
 import re
 from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
-from typing import List
+from typing import Union
 
-import greeclimate.network as network
+from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
-from greeclimate.network import DeviceProtocol2, IPAddr
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+from greeclimate.network import DeviceProtocol2
 from greeclimate.taskable import Taskable
 
 
@@ -155,20 +155,23 @@ class Device(DeviceProtocol2, Taskable):
         water_full: A bool to indicate the water tank is full
     """
 
-    def __init__(self, device_info: DeviceInfo, timeout: int = 120, loop: AbstractEventLoop = None):
+    def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         """Initialize the device object
 
         Args:
             device_info (DeviceInfo): Information about the physical device
             timeout (int): Timeout for device communication
+            bind_timeout (int): Timeout for binding to the device, keep this short to prevent delays determining the
+                                correct device cipher to use
             loop (AbstractEventLoop): The event loop to run the device operations on
         """
         DeviceProtocol2.__init__(self, timeout)
         Taskable.__init__(self, loop)
         self._logger = logging.getLogger(__name__)
-
         self.device_info: DeviceInfo = device_info
-
+        
+        self._bind_timeout = bind_timeout
+        
         """ Device properties """
         self.hid = None
         self.version = None
@@ -176,7 +179,11 @@ class Device(DeviceProtocol2, Taskable):
         self._properties = {}
         self._dirty = []
 
-    async def bind(self, key=None):
+    async def bind(
+        self,
+        key: str = None,
+        cipher: Union[CipherV1, CipherV2, None] = None,
+    ):
         """Run the binding procedure.
 
         Binding is a finicky procedure, and happens in 1 of 2 ways:
@@ -187,13 +194,22 @@ class Device(DeviceProtocol2, Taskable):
             Both approaches result in a device_key which is used as like a persistent session id.
 
         Args:
+            cipher (CipherV1 | CipherV2): The cipher type to use for encryption, if None will attempt to detect the correct one
             key (str): The device key, when provided binding is a NOOP, if None binding will
-                       attempt to negotiate the key with the device.
+                       attempt to negotiate the key with the device. cipher must be provided.
 
         Raises:
             DeviceNotBoundError: If binding was unsuccessful and no key returned
             DeviceTimeoutError: The device didn't respond
         """
+
+        if key:
+            if not cipher:
+                raise ValueError("cipher must be provided when key is provided")
+            else:
+                cipher.key = key
+                self.device_cipher = cipher
+                return
 
         if not self.device_info:
             raise DeviceNotBoundError
@@ -206,29 +222,38 @@ class Device(DeviceProtocol2, Taskable):
         self._logger.info("Starting device binding to %s", str(self.device_info))
 
         try:
-            if key:
-                self.device_key = key
+            if cipher is not None:
+                await self.__bind_internal(cipher)
             else:
-                await self.send(self.create_bind_message(self.device_info))
-                # Special case, wait for binding to complete so we know that the device is ready
-                task = asyncio.create_task(self.ready.wait())
-                await asyncio.wait_for(task, timeout=self._timeout)
+                """ Try binding with CipherV1 first, if that fails try CipherV2"""
+                try:
+                    self._logger.info("Attempting to bind to device using CipherV1")
+                    await self.__bind_internal(CipherV1())
+                except asyncio.TimeoutError:
+                    self._logger.info("Attempting to bind to device using CipherV2")
+                    await self.__bind_internal(CipherV2())
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-        if not self.device_key:
+        if not self.device_cipher:
             raise DeviceNotBoundError
         else:
-            self._logger.info("Bound to device using key %s", self.device_key)
+            self._logger.info("Bound to device using key %s", self.device_cipher.key)
 
-    def handle_device_bound(self, key) -> None:
+    async def __bind_internal(self, cipher: Union[CipherV1, CipherV2]):
+        """Internal binding procedure, do not call directly"""
+        await self.send(self.create_bind_message(self.device_info), cipher=cipher)
+        task = asyncio.create_task(self.ready.wait())
+        await asyncio.wait_for(task, timeout=self._bind_timeout)
+
+    def handle_device_bound(self, key: str) -> None:
         """Handle the device bound message from the device"""
-        self.device_key = key
+        self.device_cipher.key = key
 
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
-        if not self.device_key:
+        if not self.device_cipher:
             await self.bind()
 
         try:
@@ -243,7 +268,7 @@ class Device(DeviceProtocol2, Taskable):
         Args:
             wait_for (object): How long to wait for an update from the device
         """
-        if not self.device_key:
+        if not self.device_cipher:
             await self.bind()
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
@@ -288,7 +313,7 @@ class Device(DeviceProtocol2, Taskable):
         if not self._dirty:
             return
 
-        if not self.device_key:
+        if not self.device_cipher:
             await self.bind()
 
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
@@ -316,7 +341,7 @@ class Device(DeviceProtocol2, Taskable):
         """Compare two devices for equality based on their properties state and device info."""
         return self.device_info == other.device_info \
             and self.raw_properties == other.raw_properties \
-            and self.device_key == other.device_key
+            and self.device_cipher.key == other.device_cipher.key
 
     def __ne__(self, other):
         return not self.__eq__(other)

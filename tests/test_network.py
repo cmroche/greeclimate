@@ -2,8 +2,7 @@ import asyncio
 import json
 import socket
 from threading import Thread
-from typing import Any
-from unittest.mock import create_autospec, patch, MagicMock
+from unittest.mock import patch, MagicMock
 
 import pytest
 
@@ -14,15 +13,13 @@ from greeclimate.network import (
     IPAddr,
     DeviceProtocol2, Commands, Response,
 )
-
 from .common import (
     DEFAULT_RESPONSE,
     DEFAULT_TIMEOUT,
     DISCOVERY_REQUEST,
     DISCOVERY_RESPONSE,
     Responder,
-    encrypt_payload,
-    get_mock_device_info, DEFAULT_REQUEST, generate_response,
+    DEFAULT_REQUEST, generate_response, FakeCipher,
 )
 from .test_device import get_mock_info
 
@@ -44,6 +41,7 @@ class FakeDeviceProtocol(DeviceProtocol2):
     def __init__(self, drained: asyncio.Event = None):
         super().__init__(timeout=1, drained=drained)
         self.packets = asyncio.Queue()
+        self.device_cipher = FakeCipher(b"1234567890123456")
 
     def packet_received(self, obj, addr: IPAddr) -> None:
         self.packets.put_nowait(obj)
@@ -90,8 +88,8 @@ async def test_set_get_key():
     """Test the encryption key property."""
     key = "faketestkey"
     dp2 = DeviceProtocolBase2()
-    dp2.device_key = key
-    assert dp2.device_key == key
+    dp2.device_cipher = FakeCipher(key.encode())
+    assert dp2.device_cipher.key == key
 
 
 @pytest.mark.asyncio
@@ -151,7 +149,7 @@ async def test_broadcast_recv(addr, family):
             p = json.loads(d)
             assert p == DISCOVERY_REQUEST
 
-            p = json.dumps(encrypt_payload(DISCOVERY_RESPONSE))
+            p = json.dumps(DISCOVERY_RESPONSE)
             s.sendto(p.encode(), addr)
 
         serv = Thread(target=responder, args=(sock,))
@@ -164,6 +162,7 @@ async def test_broadcast_recv(addr, family):
         local_addr = (addr[0], 0)
 
         dp2 = FakeDiscoveryProtocol()
+        dp2.device_cipher = FakeCipher(b"1234567890123456")
         await loop.create_datagram_endpoint(
             lambda: dp2,
             local_addr=local_addr,
@@ -240,44 +239,30 @@ async def test_datagram_connect(addr, family):
             lambda: FakeDeviceProtocol(drained=drained), remote_addr=remote_addr
         )
 
-        with patch("greeclimate.network.DeviceProtocolBase2.decrypt_payload", new_callable=MagicMock) as mock:
-            mock.side_effect = lambda x, y: x
+        # Send the scan command
+        await protocol.send(DEFAULT_REQUEST, None, FakeCipher(b"1234567890123456"))
 
-            # Send the scan command
-            await protocol.send(DEFAULT_REQUEST, None)
+        # Wait on the scan response
+        task = asyncio.create_task(protocol.packets.get())
+        await asyncio.wait_for(task, DEFAULT_TIMEOUT)
+        response = task.result()
 
-            # Wait on the scan response
-            task = asyncio.create_task(protocol.packets.get())
-            await asyncio.wait_for(task, DEFAULT_TIMEOUT)
-            response = task.result()
-
-            assert response == DEFAULT_RESPONSE
+        assert response == DEFAULT_RESPONSE
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
 
 
-def test_encrypt_decrypt_payload():
-    test_object = {"fake-key": "fake-value"}
-
-    encrypted = DeviceProtocolBase2.encrypt_payload(test_object)
-    assert encrypted != test_object
-
-    decrypted = DeviceProtocolBase2.decrypt_payload(encrypted)
-    assert decrypted == test_object
-
-
-@pytest.mark.asyncio
 def test_bindok_handling():
     """Test the bindok response."""
     response = generate_response({"t": "bindok", "key": "fake-key"})
     protocol = DeviceProtocol2(timeout=DEFAULT_TIMEOUT)
-    with patch("greeclimate.network.DeviceProtocolBase2.decrypt_payload", new_callable=MagicMock) as mock_decrypt:
-        mock_decrypt.side_effect = lambda x, y: x
-        with patch.object(DeviceProtocol2, "handle_device_bound") as mock:
-            protocol.datagram_received(json.dumps(response).encode(), ("0.0.0.0", 0))
-            assert mock.call_count == 1
-            assert mock.call_args[0][0] == "fake-key"
+    protocol.device_cipher = FakeCipher(b"1234567890123456")
+    
+    with patch.object(DeviceProtocol2, "handle_device_bound") as mock:
+        protocol.datagram_received(json.dumps(response).encode(), ("0.0.0.0", 0))
+        assert mock.call_count == 1
+        assert mock.call_args[0][0] == "fake-key"
 
 
 def test_create_bind_message():
@@ -512,3 +497,78 @@ async def test_add_and_remove_handler(event_name, data):
     # Check that the callback was not called this time
     callback.assert_not_called()
 
+
+def test_packet_received_not_implemented():
+    # Arrange
+    protocol = DeviceProtocolBase2()
+
+    # Act
+    with pytest.raises(NotImplementedError):
+        protocol.packet_received({}, ("0.0.0.0", 0))
+        
+        
+def test_packet_received_invalid_data():
+    # Arrange
+    protocol = DeviceProtocol2()
+
+    # Act
+    protocol.packet_received(None, ("0.0.0.0", 0))
+    protocol.packet_received({}, ("0.0.0.0", 0))
+    protocol.packet_received({"pack"}, ("0.0.0.0", 0))
+    
+    with patch.object(protocol, "handle_unknown_packet") as mock:
+        protocol.packet_received({"pack": {"t": "unknown"}}, ("0.0.0.0", 0))
+        mock.assert_called_once()
+
+
+def test_set_get_cipher():
+    # Arrange
+    protocol = DeviceProtocolBase2()
+    cipher = FakeCipher(b"1234567890123456")
+
+    # Act
+    protocol.device_cipher = cipher
+
+    # Assert
+    assert protocol.device_cipher == cipher
+
+
+def test_cipher_is_not_set():
+    # Arrange
+    protocol = DeviceProtocolBase2()
+
+    # Act
+    key = None
+    with pytest.raises(ValueError):
+        key = protocol.device_key
+        
+    assert key is None
+    
+    with pytest.raises(ValueError):
+        protocol.device_key = "fake-key"
+    
+    
+def test_add_invalid_handler():
+    # Arrange
+    protocol = DeviceProtocol2()
+    callback = MagicMock()
+    
+    # Act
+    with pytest.raises(ValueError):
+        protocol.add_handler(Response("invalid"), callback)
+    
+    with pytest.raises(ValueError):
+        protocol.add_handler(Response("invalid"), callback)
+
+
+def test_device_key_get_set():
+    # Arrange
+    protocol = DeviceProtocolBase2
+    key = "fake-key"
+    
+    # Act
+    protocol.device_key = key
+    
+    # Assert
+    assert protocol.device_key == key
+    
