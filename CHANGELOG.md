@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/cmroche/greeclimate/compare/v2.0.0...v2.1.0) (2024-08-05)
+
+
+### Features
+
+* Support GCM encryption for Gree devices ([#92](https://github.com/cmroche/greeclimate/issues/92)) ([7122cdd](https://github.com/cmroche/greeclimate/commit/7122cdd82597af82109a17bc32dcbfb97c78073c))
+
 # [2.0.0](https://github.com/cmroche/greeclimate/compare/v1.4.6...v2.0.0) (2024-07-02)
 
 
