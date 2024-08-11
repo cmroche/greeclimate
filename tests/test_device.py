@@ -753,4 +753,14 @@ async def has_valid_state_with_valid_properties(cipher, send):
 
     await device.update_state()
     assert device.has_valid_state() is True
-    
+   
+   
+@pytest.mark.asyncio
+async def request_version_timeout_error(cipher, send):
+    """Check that request_version raises DeviceTimeoutError when a timeout occurs."""
+    device = await generate_device_mock_async()
+
+    send.side_effect = asyncio.TimeoutError
+
+    with pytest.raises(DeviceTimeoutError):
+        await device.request_version() 
