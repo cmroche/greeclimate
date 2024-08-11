@@ -752,7 +752,7 @@ async def has_valid_state_with_valid_properties(cipher, send):
     send.side_effect = fake_send
 
     await device.update_state()
-    assert device.has_valid_state() is True
+    assert device.has_valid_state is True
    
    
 @pytest.mark.asyncio
