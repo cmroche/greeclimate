@@ -544,7 +544,7 @@ class Device(DeviceProtocol2, Taskable):
 
     @property
     def target_humidity(self) -> int:
-        15 + (self.get_property(Props.HUM_SET) * 5)
+        return 15 + (self.get_property(Props.HUM_SET) * 5)
 
     @target_humidity.setter
     def target_humidity(self, value: int):

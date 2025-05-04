@@ -73,6 +73,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         if listener not in self._listeners:
             self._listeners.append(listener)
             return [self._create_task(listener.device_found(x)) for x in self.devices]
+        return []
 
     def remove_listener(self, listener: Listener) -> bool:
         """Remove a listener that has already been registered.
