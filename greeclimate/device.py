@@ -178,6 +178,7 @@ class Device(DeviceProtocol2, Taskable):
         self.check_version = True
         self._properties = {}
         self._dirty = []
+        self._beep = False
 
     async def bind(
         self,
@@ -328,6 +329,10 @@ class Device(DeviceProtocol2, Taskable):
                 props[Props.TEMP_UNIT.value] = self._properties.get(
                     Props.TEMP_UNIT.value
                 )
+
+        if not self._beep:
+            self._logger.debug("Disable nuzzer")
+            props["Buzzer_ON_OFF"] = 1
 
         self._dirty.clear()
 
@@ -569,3 +574,11 @@ class Device(DeviceProtocol2, Taskable):
     @property
     def water_full(self) -> bool:
         return bool(self.get_property(Props.WATER_FULL))
+
+    @property
+    def beep(self) -> bool:
+        return self._beep
+
+    @beep.setter
+    def beep(self, value: bool):
+        self._beep = bool(value)
