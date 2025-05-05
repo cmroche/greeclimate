@@ -747,6 +747,8 @@ async def test_disable_beep(cipher, send):
     assert send.call_count == 1
     assert set(send.call_args_list[0].args[0]['pack']['opt']) == {'Pow', 'Buzzer_ON_OFF'}
 
+    assert not device.beep
+
     send.reset_mock()
 
     device.power = False
@@ -754,3 +756,5 @@ async def test_disable_beep(cipher, send):
     await device.push_state_update()
     assert send.call_count == 1
     assert set(send.call_args_list[0].args[0]['pack']['opt']) == {'Pow'}
+
+    assert device.beep
