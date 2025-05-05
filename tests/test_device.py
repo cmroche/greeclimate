@@ -441,6 +441,7 @@ async def test_uninitialized_properties(cipher, send):
     assert device.current_temperature is None
     assert device.temperature_units is None
     assert device.fan_speed is None
+    assert device.target_humidity is None
     assert not device.fresh_air
     assert not device.xfan
     assert not device.anion

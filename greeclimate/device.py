@@ -543,8 +543,9 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.POWER_SAVE, int(value))
 
     @property
-    def target_humidity(self) -> int:
-        return 15 + (self.get_property(Props.HUM_SET) * 5)
+    def target_humidity(self) -> int | None:
+        value = self.get_property(Props.HUM_SET)
+        return (15 + value * 5) if value is not None else None
 
     @target_humidity.setter
     def target_humidity(self, value: int):
