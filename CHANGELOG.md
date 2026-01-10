@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/cmroche/greeclimate/compare/v2.1.3...v2.1.4) (2026-01-10)
+
+
+### Bug Fixes
+
+* incorrect type hinting on device properties, and inconsistent behaviour on bool properties ([b6004ea](https://github.com/cmroche/greeclimate/commit/b6004eabd85c7541812d75150d75ae45765e6f89))
+
 ## [2.1.3](https://github.com/cmroche/greeclimate/compare/v2.1.2...v2.1.3) (2026-01-10)
 
 
