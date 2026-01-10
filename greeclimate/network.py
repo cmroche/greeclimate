@@ -190,7 +190,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
         DeviceProtocolBase2.__init__(self, timeout, drained)
         self._ready = asyncio.Event()
         self._ready.clear()
-
+        
     @property
     def ready(self) -> asyncio.Event:
         return self._ready
@@ -222,7 +222,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
         params = {
             Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
             Response.DATA.value: lambda o, a: [dict(zip(o["pack"]["cols"], o["pack"]["dat"]))],
-            Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"]["val"]))],
+            Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"].get("val", []) or o["pack"].get("p", [])))],
         }
         handlers = {
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
@@ -248,12 +248,11 @@ class DeviceProtocol2(DeviceProtocolBase2):
         _LOGGER.warning("Received unknown packet from %s:\n%s", addr[0], json.dumps(obj))
 
     def __handle_device_bound(self, key: str) -> None:
-        self._ready.set()
         self.handle_device_bound(key)
 
     def handle_device_bound(self, key: str) -> None:
         """ Implement this function to handle device bound events. """
-        pass
+        self._ready.set()
 
     def __handle_state_update(self, data) -> None:
         self.handle_state_update(**data)

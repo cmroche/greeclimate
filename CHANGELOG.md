@@ -1,3 +1,24 @@
+## [2.1.3](https://github.com/cmroche/greeclimate/compare/v2.1.2...v2.1.3) (2026-01-10)
+
+
+### Bug Fixes
+
+* handle missing 'val' key in RESULT response and update test coverage ([#132](https://github.com/cmroche/greeclimate/issues/132)) ([a72bfd3](https://github.com/cmroche/greeclimate/commit/a72bfd34951e205203c8cfad8529f0f32fc7ba06))
+
+## [2.1.2](https://github.com/cmroche/greeclimate/compare/v2.1.1...v2.1.2) (2026-01-10)
+
+
+### Bug Fixes
+
+* only clear dirty state on successful push_state_update() ([a9d7107](https://github.com/cmroche/greeclimate/commit/a9d71078558bd9a8b5190f479a7ba369f8f8ec05))
+
+## [2.1.1](https://github.com/cmroche/greeclimate/compare/v2.1.0...v2.1.1) (2026-01-10)
+
+
+### Bug Fixes
+
+* invalid device state after bind ([#100](https://github.com/cmroche/greeclimate/issues/100)) ([07f0390](https://github.com/cmroche/greeclimate/commit/07f0390dcf15da82d35a3f25f69fe961782bf7b5))
+
 # [2.1.0](https://github.com/cmroche/greeclimate/compare/v2.0.0...v2.1.0) (2024-08-05)
 
 

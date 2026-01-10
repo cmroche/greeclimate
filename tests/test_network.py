@@ -375,7 +375,8 @@ def test_handle_state_update():
     assert protocol.state == {'key': 'value'}
 
 
-def test_handle_result_update():
+@pytest.mark.parametrize('values_key', ['val', 'p'])
+def test_handle_result_update(values_key):
 
     # Arrange
     protocol = DeviceProtocol2Test()
@@ -386,7 +387,7 @@ def test_handle_result_update():
         'pack': {
             't': 'res',
             'opt': list(state.keys()),
-            'val': list(state.values())
+            values_key: list(state.values())
         }
     }, ("0.0.0.0", 0))
 
