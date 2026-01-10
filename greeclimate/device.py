@@ -179,6 +179,9 @@ class Device(DeviceProtocol2, Taskable):
         self._properties = {}
         self._dirty = []
 
+        self._valid_state: asyncio.Event = asyncio.Event()
+        self._valid_state.clear()
+
     async def bind(
         self,
         key: str = None,
@@ -244,12 +247,14 @@ class Device(DeviceProtocol2, Taskable):
     async def __bind_internal(self, cipher: Union[CipherV1, CipherV2]):
         """Internal binding procedure, do not call directly"""
         await self.send(self.create_bind_message(self.device_info), cipher=cipher)
-        task = asyncio.create_task(self.ready.wait())
+        task = self._loop.create_task(self.ready.wait())
         await asyncio.wait_for(task, timeout=self._bind_timeout)
 
     def handle_device_bound(self, key: str) -> None:
         """Handle the device bound message from the device"""
+        DeviceProtocol2.handle_device_bound(self, key)
         self.device_cipher.key = key
+        self._loop.create_task(self.update_state())
 
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
@@ -262,11 +267,8 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-    async def update_state(self, wait_for: float = 30):
+    async def update_state(self):
         """Update the internal state of the device structure of the physical device, 0 for no wait
-
-        Args:
-            wait_for (object): How long to wait for an update from the device
         """
         if not self.device_cipher:
             await self.bind()
@@ -303,12 +305,11 @@ class Device(DeviceProtocol2, Taskable):
                 self.version = "4.0"
                 self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
             self._logger.debug(f"Using device temperature {self.current_temperature}")
+            
+        self._valid_state.set()
 
-    async def push_state_update(self, wait_for: float = 30):
+    async def push_state_update(self):
         """Push any pending state updates to the unit
-
-        Args:
-            wait_for (object): How long to wait for an update from the device, 0 for no wait
         """
         if not self._dirty:
             return
@@ -368,7 +369,11 @@ class Device(DeviceProtocol2, Taskable):
             self._properties[name.value] = value
             if name.value not in self._dirty:
                 self._dirty.append(name.value)
-
+                
+    @property
+    def has_valid_state(self) -> bool:
+        return self._valid_state.is_set() 
+    
     @property
     def power(self) -> bool:
         return bool(self.get_property(Props.POWER))

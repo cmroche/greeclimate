@@ -13,7 +13,14 @@ class Taskable:
     """Mixin class for objects that can be run as tasks."""
 
     def __init__(self, loop: AbstractEventLoop = None):
-        self._loop: AbstractEventLoop = loop or asyncio.get_event_loop()
+        if loop is not None:
+            self._loop = loop
+        else:
+            try:
+                self._loop = asyncio.get_running_loop()
+            except RuntimeError:
+                self._loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(self._loop)
         self._tasks = []
 
     @property
