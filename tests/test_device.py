@@ -232,7 +232,7 @@ async def test_device_bind(cipher, send):
 async def test_device_bind_timeout(cipher, send):
     """Check that the device handles timeout errors when binding."""
     info = DeviceInfo(*get_mock_info())
-    device = Device(info, timeout=1)
+    device = Device(info, bind_timeout=1)
 
     with pytest.raises(DeviceTimeoutError):
         await device.bind()
@@ -271,14 +271,14 @@ async def test_device_late_bind_from_update(cipher, send):
         device.ready.set()
     send.side_effect = fake_send
 
-    await device.update_state()
+    await device.update_state(0)
     assert send.call_count == 2
     assert device.device_cipher.key == fake_key
 
     device.power = True
 
     send.side_effect = None
-    await device.push_state_update()
+    await device.push_state_update(0)
     
     assert device.device_cipher is not None
     assert device.device_cipher.key == fake_key
@@ -344,12 +344,21 @@ async def test_update_properties(cipher, send):
 
 @pytest.mark.asyncio
 async def test_update_properties_timeout(cipher, send):
-    """Check that timeouts are handled when properties are updates."""
+    """Check that timeouts are handled when properties are updated."""
     device = await generate_device_mock_async()
 
     send.side_effect = asyncio.TimeoutError
     with pytest.raises(DeviceTimeoutError):
         await device.update_state()
+
+
+@pytest.mark.asyncio
+async def test_update_properties_timeout_reply(cipher, send):
+    """Check that reply timeouts are handled when properties are updated."""
+    device = await generate_device_mock_async()
+
+    with pytest.raises(DeviceTimeoutError):
+        await device.update_state(wait_for=1)
 
 
 @pytest.mark.asyncio
@@ -382,6 +391,11 @@ async def test_set_properties(cipher, send):
     device.steady_heat = True
     device.power_save = True
     device.target_humidity = 30
+
+    def fake_send(*args, **kwargs):
+        state = get_mock_state_on()
+        device.handle_state_update(**state)
+    send.side_effect = fake_send
 
     await device.push_state_update()
     send.assert_called_once()
@@ -428,6 +442,34 @@ async def test_set_properties_timeout(cipher, send):
     send.side_effect = [asyncio.TimeoutError, asyncio.TimeoutError, asyncio.TimeoutError]
     with pytest.raises(DeviceTimeoutError):
         await device.push_state_update()
+
+
+@pytest.mark.asyncio
+async def test_set_properties_timeout_reply(cipher, send):
+    """Check timeout handling when pushing state changes."""
+    device = await generate_device_mock_async()
+
+    device.power = True
+    device.mode = 1
+    device.temperature_units = 1
+    device.fan_speed = 1
+    device.fresh_air = True
+    device.xfan = True
+    device.anion = True
+    device.sleep = True
+    device.light = True
+    device.horizontal_swing = 1
+    device.vertical_swing = 1
+    device.quiet = True
+    device.turbo = True
+    device.steady_heat = True
+    device.power_save = True
+    
+    assert len(device._dirty)
+
+    send.reset_mock()
+    with pytest.raises(DeviceTimeoutError):
+        await device.push_state_update(1)
 
 
 @pytest.mark.asyncio
@@ -569,14 +611,12 @@ async def test_send_temperature_celsius(temperature, cipher, send):
     device.temperature_units = TemperatureUnits.C
     device.target_temperature = temperature
 
-    await device.push_state_update()
-    assert send.call_count == 1
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
     send.side_effect = fake_send
 
-    await device.update_state()
+    await device.push_state_update()
+    assert send.call_count == 1
 
     assert device.current_temperature == temperature
 
@@ -599,14 +639,12 @@ async def test_send_temperature_farenheit(temperature, cipher, send):
     device.temperature_units = TemperatureUnits.F
     device.target_temperature = temperature
 
-    await device.push_state_update()
-    assert send.call_count == 1
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
     send.side_effect = fake_send
 
-    await device.update_state()
+    await device.push_state_update()
+    assert send.call_count == 1
 
     assert device.current_temperature == temperature
 
@@ -653,18 +691,18 @@ async def test_send_temperature_out_of_range_farenheit_get(temperature, cipher, 
 
 @pytest.mark.asyncio
 async def test_enable_disable_sleep_mode(cipher, send):
-    """Check that properties can be updates."""
+    """Check that properties can be updated."""
     device = await generate_device_mock_async()
 
     device.sleep = True
-    await device.push_state_update()
+    await device.push_state_update(0)
     assert send.call_count == 1
 
     assert device.get_property(Props.SLEEP) == 1
     assert device.get_property(Props.SLEEP_MODE) == 1
 
     device.sleep = False
-    await device.push_state_update()
+    await device.push_state_update(0)
     assert send.call_count == 2
 
     assert device.get_property(Props.SLEEP) == 0
@@ -689,14 +727,12 @@ async def test_mismatch_temrec_farenheit(temperature, cipher, send):
     device.temperature_units = TemperatureUnits.F
     device.target_temperature = temperature
     
-    await device.push_state_update()
-    assert send.call_count == 1
-
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
-    send.side_effect = None
+    send.side_effect = fake_send
+    await device.push_state_update()
 
-    await device.update_state()
+    assert send.call_count == 1
 
     assert device.current_temperature == temperature
 

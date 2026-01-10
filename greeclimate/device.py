@@ -171,6 +171,7 @@ class Device(DeviceProtocol2, Taskable):
         self.device_info: DeviceInfo = device_info
         
         self._bind_timeout = bind_timeout
+        self._update_state_complete = asyncio.Event()
         
         """ Device properties """
         self.hid = None
@@ -262,11 +263,14 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-    async def update_state(self, wait_for: float = 30):
+    async def update_state(self, wait_for: float = 30) -> None:
         """Update the internal state of the device structure of the physical device, 0 for no wait
 
         Args:
             wait_for (object): How long to wait for an update from the device
+
+        Raises:
+            DeviceTimeoutError: The device didn't respond within the timeout
         """
         if not self.device_cipher:
             await self.bind()
@@ -278,8 +282,12 @@ class Device(DeviceProtocol2, Taskable):
             props.append("hid")
 
         try:
+            self._update_state_complete.clear()
             await self.send(self.create_status_message(self.device_info, *props))
 
+            if wait_for > 0:
+                task = asyncio.create_task(self._update_state_complete.wait())
+                await asyncio.wait_for(task, timeout=wait_for)
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
@@ -303,6 +311,8 @@ class Device(DeviceProtocol2, Taskable):
                 self.version = "4.0"
                 self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
             self._logger.debug(f"Using device temperature {self.current_temperature}")
+
+        self._update_state_complete.set()
 
     async def push_state_update(self, wait_for: float = 30):
         """Push any pending state updates to the unit
@@ -332,8 +342,12 @@ class Device(DeviceProtocol2, Taskable):
         self._dirty.clear()
 
         try:
+            self._update_state_complete.clear()
             await self.send(self.create_command_message(self.device_info, **props))
 
+            if wait_for > 0:
+                task = asyncio.create_task(self._update_state_complete.wait())
+                await asyncio.wait_for(task, timeout=wait_for)
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
