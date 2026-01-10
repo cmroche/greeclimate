@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/cmroche/greeclimate/compare/v2.1.0...v2.1.1) (2026-01-10)
+
+
+### Bug Fixes
+
+* invalid device state after bind ([#100](https://github.com/cmroche/greeclimate/issues/100)) ([07f0390](https://github.com/cmroche/greeclimate/commit/07f0390dcf15da82d35a3f25f69fe961782bf7b5))
+
 # [2.1.0](https://github.com/cmroche/greeclimate/compare/v2.0.0...v2.1.0) (2024-08-05)
 
 
