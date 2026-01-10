@@ -382,6 +382,7 @@ async def test_set_properties(cipher, send):
     device.steady_heat = True
     device.power_save = True
     device.target_humidity = 30
+    device.beep = True
 
     await device.push_state_update()
     send.assert_called_once()
@@ -733,4 +734,27 @@ def test_device_key_set_get():
     device.device_cipher = CipherV1()
     device.device_key = "fake_key"
     assert device.device_key == "fake_key"
-    
+
+
+@pytest.mark.asyncio
+async def test_disable_beep(cipher, send):
+    """Check that disabled beep add Buzzer_ON_OFF."""
+    device = await generate_device_mock_async()
+
+    device.power = True
+    device.beep = False
+    await device.push_state_update()
+    assert send.call_count == 1
+    assert set(send.call_args_list[0].args[0]['pack']['opt']) == {'Pow', 'Buzzer_ON_OFF'}
+
+    assert not device.beep
+
+    send.reset_mock()
+
+    device.power = False
+    device.beep = True
+    await device.push_state_update()
+    assert send.call_count == 1
+    assert set(send.call_args_list[0].args[0]['pack']['opt']) == {'Pow'}
+
+    assert device.beep
