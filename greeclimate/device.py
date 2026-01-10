@@ -4,7 +4,7 @@ import logging
 import re
 from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
-from typing import Union
+from typing import Union, Optional, Any
 
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
@@ -352,7 +352,7 @@ class Device(DeviceProtocol2, Taskable):
     def raw_properties(self) -> dict:
         return self._properties
 
-    def get_property(self, name):
+    def get_property(self, name) -> Optional[Any]:
         """Generic lookup of properties tracked from the physical device"""
         if self._properties:
             return self._properties.get(name.value)
@@ -375,15 +375,16 @@ class Device(DeviceProtocol2, Taskable):
         return self._valid_state.is_set() 
     
     @property
-    def power(self) -> bool:
-        return bool(self.get_property(Props.POWER))
+    def power(self) -> Optional[bool]:
+        prop = self.get_property(Props.POWER)
+        return bool(prop) if prop is not None else None
 
     @power.setter
     def power(self, value: int):
         self.set_property(Props.POWER, int(value))
 
     @property
-    def mode(self) -> int:
+    def mode(self) -> Optional[int]:
         return self.get_property(Props.MODE)
 
     @mode.setter
@@ -407,9 +408,11 @@ class Device(DeviceProtocol2, Taskable):
         return f["f"]
 
     @property
-    def target_temperature(self) -> int:
+    def target_temperature(self) -> Optional[int]:
         temset = self.get_property(Props.TEMP_SET)
         temrec = self.get_property(Props.TEMP_BIT)
+        if temset is None or temrec is None:
+            return None
         return self._convert_to_units(temset, temrec)
 
     @target_temperature.setter
@@ -428,7 +431,7 @@ class Device(DeviceProtocol2, Taskable):
             self.set_property(Props.TEMP_SET, int(value))
 
     @property
-    def temperature_units(self) -> int:
+    def temperature_units(self) -> Optional[int]:
         return self.get_property(Props.TEMP_UNIT)
 
     @temperature_units.setter
@@ -436,10 +439,11 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.TEMP_UNIT, int(value))
 
     @property
-    def current_temperature(self) -> int:
+    def current_temperature(self) -> Optional[int]:
         prop = self.get_property(Props.TEMP_SENSOR)
         bit = self.get_property(Props.TEMP_BIT)
         if prop is not None:
+            bit = bit if bit is not None else 0
             v = self.version and int(self.version.split(".")[0])
             try:
                 if v == 4:
@@ -452,7 +456,7 @@ class Device(DeviceProtocol2, Taskable):
         return self.target_temperature
 
     @property
-    def fan_speed(self) -> int:
+    def fan_speed(self) -> Optional[int]:
         return self.get_property(Props.FAN_SPEED)
 
     @fan_speed.setter
@@ -460,32 +464,36 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.FAN_SPEED, int(value))
 
     @property
-    def fresh_air(self) -> bool:
-        return bool(self.get_property(Props.FRESH_AIR))
+    def fresh_air(self) -> Optional[bool]:
+        prop = self.get_property(Props.FRESH_AIR)
+        return bool(prop) if prop is not None else None
 
     @fresh_air.setter
     def fresh_air(self, value: bool):
         self.set_property(Props.FRESH_AIR, int(value))
 
     @property
-    def xfan(self) -> bool:
-        return bool(self.get_property(Props.XFAN))
+    def xfan(self) -> Optional[bool]:
+        prop = self.get_property(Props.XFAN)
+        return bool(prop) if prop is not None else None
 
     @xfan.setter
     def xfan(self, value: bool):
         self.set_property(Props.XFAN, int(value))
 
     @property
-    def anion(self) -> bool:
-        return bool(self.get_property(Props.ANION))
+    def anion(self) -> Optional[bool]:
+        prop = self.get_property(Props.ANION)
+        return bool(prop) if prop is not None else None
 
     @anion.setter
     def anion(self, value: bool):
         self.set_property(Props.ANION, int(value))
 
     @property
-    def sleep(self) -> bool:
-        return bool(self.get_property(Props.SLEEP))
+    def sleep(self) -> Optional[bool]:
+        prop = self.get_property(Props.SLEEP)
+        return bool(prop) if prop is not None else None
 
     @sleep.setter
     def sleep(self, value: bool):
@@ -493,15 +501,16 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.SLEEP_MODE, int(value))
 
     @property
-    def light(self) -> bool:
-        return bool(self.get_property(Props.LIGHT))
+    def light(self) -> Optional[bool]:
+        prop = self.get_property(Props.LIGHT)
+        return bool(prop) if prop is not None else None
 
     @light.setter
     def light(self, value: bool):
         self.set_property(Props.LIGHT, int(value))
 
     @property
-    def horizontal_swing(self) -> int:
+    def horizontal_swing(self) -> Optional[int]:
         return self.get_property(Props.SWING_HORIZ)
 
     @horizontal_swing.setter
@@ -509,7 +518,7 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.SWING_HORIZ, int(value))
 
     @property
-    def vertical_swing(self) -> int:
+    def vertical_swing(self) -> Optional[int]:
         return self.get_property(Props.SWING_VERT)
 
     @vertical_swing.setter
@@ -517,7 +526,7 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.SWING_VERT, int(value))
 
     @property
-    def quiet(self) -> bool:
+    def quiet(self) -> Optional[int]:
         return self.get_property(Props.QUIET)
 
     @quiet.setter
@@ -525,32 +534,36 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.QUIET, 2 if value else 0)
 
     @property
-    def turbo(self) -> bool:
-        return bool(self.get_property(Props.TURBO))
+    def turbo(self) -> Optional[bool]:
+        prop = self.get_property(Props.TURBO)
+        return bool(prop) if prop is not None else None
 
     @turbo.setter
     def turbo(self, value: bool):
         self.set_property(Props.TURBO, int(value))
 
     @property
-    def steady_heat(self) -> bool:
-        return bool(self.get_property(Props.STEADY_HEAT))
+    def steady_heat(self) -> Optional[bool]:
+        prop = self.get_property(Props.STEADY_HEAT)
+        return bool(prop) if prop is not None else None
 
     @steady_heat.setter
     def steady_heat(self, value: bool):
         self.set_property(Props.STEADY_HEAT, int(value))
 
     @property
-    def power_save(self) -> bool:
-        return bool(self.get_property(Props.POWER_SAVE))
+    def power_save(self) -> Optional[bool]:
+        prop = self.get_property(Props.POWER_SAVE)
+        return bool(prop) if prop is not None else None
 
     @power_save.setter
     def power_save(self, value: bool):
         self.set_property(Props.POWER_SAVE, int(value))
 
     @property
-    def target_humidity(self) -> int:
-        15 + (self.get_property(Props.HUM_SET) * 5)
+    def target_humidity(self) -> Optional[int]:
+        prop = self.get_property(Props.HUM_SET)
+        return 15 + (prop * 5) if prop is not None else None
 
     @target_humidity.setter
     def target_humidity(self, value: int):
@@ -561,17 +574,19 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.HUM_SET, (value - 15) // 5)
 
     @property
-    def dehumidifier_mode(self):
+    def dehumidifier_mode(self) -> Optional[int]:
         return self.get_property(Props.DEHUMIDIFIER_MODE)
 
     @property
-    def current_humidity(self) -> int:
+    def current_humidity(self) -> Optional[int]:
         return self.get_property(Props.HUM_SENSOR)
 
     @property
-    def clean_filter(self) -> bool:
-        return bool(self.get_property(Props.CLEAN_FILTER))
+    def clean_filter(self) -> Optional[bool]:
+        prop = self.get_property(Props.CLEAN_FILTER)
+        return bool(prop) if prop is not None else None
 
     @property
-    def water_full(self) -> bool:
-        return bool(self.get_property(Props.WATER_FULL))
+    def water_full(self) -> Optional[bool]:
+        prop = self.get_property(Props.WATER_FULL)
+        return bool(prop) if prop is not None else None
