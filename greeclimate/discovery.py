@@ -58,7 +58,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         return self._device_infos
 
     # Listener management
-    def add_listener(self, listener: Listener) -> list[Task]:
+    def add_listener(self, listener: Listener) -> list[Task] | None:
         """Add a listener that will receive discovery events.
 
         Adding a listener will cause all currently known device to trigger a
@@ -68,11 +68,12 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             listener (Listener): A listener object which will receive events
 
         Returns:
-            List[Coro]: List of tasks for device found events.
+            List[Coro]: List of tasks for device found events or None if lister was added early.
         """
         if listener not in self._listeners:
             self._listeners.append(listener)
             return [self._create_task(listener.device_found(x)) for x in self.devices]
+        return None
 
     def remove_listener(self, listener: Listener) -> bool:
         """Remove a listener that has already been registered.
