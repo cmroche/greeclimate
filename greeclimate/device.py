@@ -330,13 +330,14 @@ class Device(DeviceProtocol2, Taskable):
                     Props.TEMP_UNIT.value
                 )
 
-        self._dirty.clear()
-
         try:
             await self.send(self.create_command_message(self.device_info, **props))
 
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
+        else:
+            self._dirty.clear()
+
 
     def __eq__(self, other):
         """Compare two devices for equality based on their properties state and device info."""
