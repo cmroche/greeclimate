@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/cmroche/greeclimate/compare/v2.1.2...v2.1.3) (2026-01-10)
+
+
+### Bug Fixes
+
+* handle missing 'val' key in RESULT response and update test coverage ([#132](https://github.com/cmroche/greeclimate/issues/132)) ([a72bfd3](https://github.com/cmroche/greeclimate/commit/a72bfd34951e205203c8cfad8529f0f32fc7ba06))
+
 ## [2.1.2](https://github.com/cmroche/greeclimate/compare/v2.1.1...v2.1.2) (2026-01-10)
 
 
