@@ -222,7 +222,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
         params = {
             Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
             Response.DATA.value: lambda o, a: [dict(zip(o["pack"]["cols"], o["pack"]["dat"]))],
-            Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"]["val"]))],
+            Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"].get("val", []) or o["pack"].get("p", [])))],
         }
         handlers = {
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
