@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/cmroche/greeclimate/compare/v2.1.1...v2.1.2) (2026-01-10)
+
+
+### Bug Fixes
+
+* only clear dirty state on successful push_state_update() ([a9d7107](https://github.com/cmroche/greeclimate/commit/a9d71078558bd9a8b5190f479a7ba369f8f8ec05))
+
 ## [2.1.1](https://github.com/cmroche/greeclimate/compare/v2.1.0...v2.1.1) (2026-01-10)
 
 
