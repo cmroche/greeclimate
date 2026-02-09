@@ -743,7 +743,53 @@ def test_device_key_set_get():
     device.device_key = "fake_key"
     assert device.device_key == "fake_key"
 
-    
+
+@pytest.mark.asyncio
+async def test_buzzer_default(cipher, send):
+    """Check that buzzer is enabled by default."""
+    device = await generate_device_mock_async()
+    assert device.buzzer is True
+
+
+@pytest.mark.asyncio
+async def test_buzzer_disabled(cipher, send):
+    """Check that disabling buzzer injects Buzzer_ON_OFF into commands."""
+    device = await generate_device_mock_async()
+
+    device.power = True
+    device.buzzer = False
+    await device.push_state_update()
+    assert send.call_count == 1
+    assert "Buzzer_ON_OFF" in send.call_args_list[0].args[0]["pack"]["opt"]
+    assert not device.buzzer
+
+    send.reset_mock()
+
+    device.power = False
+    device.buzzer = True
+    await device.push_state_update()
+    assert send.call_count == 1
+    assert "Buzzer_ON_OFF" not in send.call_args_list[0].args[0]["pack"]["opt"]
+    assert device.buzzer
+
+
+@pytest.mark.asyncio
+async def test_buzzer_disabled_every_command(cipher, send):
+    """Check that Buzzer_ON_OFF is sent with every command when disabled."""
+    device = await generate_device_mock_async()
+    device.buzzer = False
+
+    device.power = True
+    await device.push_state_update()
+    assert "Buzzer_ON_OFF" in send.call_args_list[0].args[0]["pack"]["opt"]
+
+    send.reset_mock()
+
+    device.mode = 1
+    await device.push_state_update()
+    assert "Buzzer_ON_OFF" in send.call_args_list[0].args[0]["pack"]["opt"]
+
+
 @pytest.mark.asyncio
 async def has_valid_state_with_valid_properties(cipher, send):
     """Check that the device has a valid state with valid properties."""
