@@ -18,7 +18,7 @@ async def test_issue_69_TemSen_40_should_not_set_firmware_v4():
     def fake_send(*args, **kwargs):
         device.handle_state_update(**mock_v3_state)
 
-    with patch.object(Device, "send", wraps=fake_send()):
+    with patch.object(Device, "send", side_effect=fake_send):
         await device.update_state()
         assert device.version is None
 

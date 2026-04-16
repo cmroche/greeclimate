@@ -2,11 +2,13 @@ import asyncio
 import json
 import socket
 from threading import Thread
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
 import pytest
 
 from greeclimate.discovery import Discovery, Listener
+from greeclimate.device import Device
+from greeclimate.deviceinfo import DeviceInfo
 from .common import (
     DEFAULT_TIMEOUT,
     DISCOVERY_REQUEST,
@@ -269,3 +271,101 @@ async def test_remove_listener():
 
     result = discovery.remove_listener(listener)
     assert result is False
+
+
+@pytest.mark.asyncio
+async def test_discovery_sub_count():
+    """Test that subCnt from scan response is passed to DeviceInfo."""
+    discovery = Discovery(allow_loopback=True)
+    discovery.packet_received(
+        {
+            "pack": {
+                "mac": "aabbcc112233",
+                "cid": "aabbcc112233",
+                "name": "GatewayDevice",
+                "brand": "gree",
+                "model": "gree",
+                "ver": "V1.0.0",
+                "subCnt": 3,
+            }
+        },
+        ("1.1.1.1", 7000),
+    )
+
+    await asyncio.gather(*discovery.tasks, return_exceptions=True)
+
+    assert len(discovery.devices) == 1
+    assert discovery.devices[0].sub_count == 3
+
+
+@pytest.mark.asyncio
+async def test_discovery_no_sub_count():
+    """Test that devices without subCnt default to 0."""
+    discovery = Discovery(allow_loopback=True)
+    discovery.packet_received(
+        {
+            "pack": {
+                "mac": "aabbcc112233",
+                "cid": "aabbcc112233",
+                "name": "RegularDevice",
+                "brand": "gree",
+                "model": "gree",
+                "ver": "V1.0.0",
+            }
+        },
+        ("1.1.1.1", 7000),
+    )
+
+    await asyncio.gather(*discovery.tasks, return_exceptions=True)
+
+    assert len(discovery.devices) == 1
+    assert discovery.devices[0].sub_count == 0
+
+
+@pytest.mark.asyncio
+async def test_scan_queries_gateway_sub_devices():
+    """Test that scan queries gateways for sub-devices and returns them."""
+    discovery = Discovery(allow_loopback=True)
+
+    gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
+    discovery._device_infos.append(gw_info)
+
+    sub_infos = [
+        DeviceInfo("1.1.1.1", 7000, "sub111111", "Sub1", gateway_key="test_key"),
+        DeviceInfo("1.1.1.1", 7000, "sub222222", "Sub2", gateway_key="test_key"),
+    ]
+
+    with patch.object(Discovery, "search_devices", new_callable=AsyncMock), \
+         patch.object(Device, "bind", new_callable=AsyncMock), \
+         patch.object(Device, "get_sub_devices", new_callable=AsyncMock, return_value=sub_infos), \
+         patch.object(Device, "close"):
+        devices = await discovery.scan(wait_for=0)
+
+    assert len(devices) == 2
+    assert devices[0].mac == "sub111111"
+    assert devices[1].mac == "sub222222"
+
+
+@pytest.mark.asyncio
+async def test_scan_include_gateways():
+    """Test that scan includes gateways when include_gateways=True."""
+    discovery = Discovery(allow_loopback=True)
+
+    gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
+    discovery._device_infos.append(gw_info)
+
+    sub_infos = [
+        DeviceInfo("1.1.1.1", 7000, "sub111111", "Sub1", gateway_key="test_key"),
+    ]
+
+    with patch.object(Discovery, "search_devices", new_callable=AsyncMock), \
+         patch.object(Device, "bind", new_callable=AsyncMock), \
+         patch.object(Device, "get_sub_devices", new_callable=AsyncMock, return_value=sub_infos), \
+         patch.object(Device, "close"):
+        devices = await discovery.scan(wait_for=0, include_gateways=True)
+
+    assert len(devices) == 2
+    macs = {d.mac for d in devices}
+    assert "aabbcc001122" in macs
+    assert "sub111111" in macs
+
