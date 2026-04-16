@@ -5,7 +5,7 @@ import re
 import typing
 from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
-from typing import Union, Optional, Any
+from typing import List, Union, Optional, Any
 
 from greeclimate.cipher import CipherV1, CipherV2, CipherBase
 from greeclimate.deviceinfo import DeviceInfo
@@ -270,11 +270,11 @@ class Device(DeviceProtocol2, Taskable):
         self._sub_devices_raw = sub_devices
         self._sublist_event.set()
 
-    async def get_sub_devices(self) -> list[DeviceInfo]:
+    async def get_sub_devices(self) -> List[DeviceInfo]:
         """Query the gateway for its sub-devices.
 
         Returns:
-            list[DeviceInfo]: List of sub-device info objects with the gateway's IP/port
+            List[DeviceInfo]: List of sub-device info objects with the gateway's IP/port
 
         Raises:
             DeviceNotBoundError: If the device is not bound
