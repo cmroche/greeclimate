@@ -369,3 +369,20 @@ async def test_scan_include_gateways():
     assert "aabbcc001122" in macs
     assert "sub111111" in macs
 
+
+@pytest.mark.asyncio
+async def test_scan_gateway_bind_failure():
+    """Test that scan handles gateway bind failure gracefully."""
+    from greeclimate.exceptions import DeviceNotBoundError
+
+    discovery = Discovery(allow_loopback=True)
+    gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
+    discovery._device_infos.append(gw_info)
+
+    with patch.object(Discovery, "search_devices", new_callable=AsyncMock), \
+         patch.object(Device, "bind", new_callable=AsyncMock, side_effect=DeviceNotBoundError), \
+         patch.object(Device, "close", side_effect=RuntimeError):
+        devices = await discovery.scan(wait_for=0)
+
+    assert len(devices) == 0
+

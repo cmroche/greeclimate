@@ -598,6 +598,20 @@ def test_handle_sublist_response():
     assert protocol.sub_devices == sub_devices
 
 
+def test_resolve_response_type_fallback_to_obj_t():
+    """Test _resolve_response_type falls back to obj.t when pack has no t."""
+    protocol = DeviceProtocol2Test()
+    result = protocol._resolve_response_type({"t": "sublist", "pack": {}})
+    assert result == "sublist"
+
+
+def test_deviceinfo_eq_non_deviceinfo():
+    """Test DeviceInfo equality with a non-DeviceInfo object."""
+    info = DeviceInfo("1.1.1.1", 7000, "aabbcc112233", "Test")
+    assert info != "not a device info"
+    assert (info == 42) is False
+
+
 def test_handle_sublist_response_empty():
     # Arrange
     protocol = DeviceProtocol2Test()
