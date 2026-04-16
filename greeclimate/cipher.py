@@ -8,6 +8,8 @@ from Crypto.Cipher import AES
 _logger = logging.getLogger(__name__)
 
 class CipherBase:
+    cipher_type: str = None
+
     def __init__(self, key: bytes) -> None:
         self._key: bytes = key
         
@@ -25,8 +27,20 @@ class CipherBase:
     def decrypt(self, data) -> dict:
         raise NotImplementedError
 
+    @staticmethod
+    def create(cipher_type: str) -> "CipherBase":
+        if not cipher_type:
+            raise ValueError(f"Unknown cipher type: {cipher_type}")
+        types = {cls.cipher_type: cls for cls in [CipherV1, CipherV2] if cls.cipher_type}
+        cls = types.get(cipher_type)
+        if cls is None:
+            raise ValueError(f"Unknown cipher type: {cipher_type}")
+        return cls()
+
 
 class CipherV1(CipherBase):
+    cipher_type = "v1"
+
     def __init__(self, key: bytes = b'a3K8Bx%2r8Y7#xDh') -> None:
         super().__init__(key)
 
@@ -56,6 +70,8 @@ class CipherV1(CipherBase):
 
 
 class CipherV2(CipherBase):
+    cipher_type = "v2"
+
     GCM_NONCE = b'\x54\x40\x78\x44\x49\x67\x5a\x51\x6c\x5e\x63\x13'
     GCM_AEAD = b'qualcomm-test'
 

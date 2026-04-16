@@ -7,7 +7,9 @@ from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address
 
 from greeclimate.cipher import CipherV1
-from greeclimate.device import DeviceInfo
+from greeclimate.device import Device
+from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
 from greeclimate.taskable import Taskable
 
@@ -132,19 +134,25 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             pack.get("brand"),
             pack.get("model"),
             pack.get("ver"),
+            pack.get("subCnt", 0),
         )
 
         self._create_task(self.device_found(DeviceInfo(*device)))
 
     # Discovery
-    async def scan(self, wait_for: int = 0, bcast_ifaces: list[IPv4Address] | None = None) -> list[DeviceInfo]:
+    async def scan(self, wait_for: int = 0, bcast_ifaces: list[IPv4Address] | None = None, include_gateways: bool = False) -> list[DeviceInfo]:
         """Sends a discovery broadcast packet on each network interface to
-            locate Gree units on the network
+            locate Gree units on the network.
+            When a gateway device is found, its sub-devices are automatically
+            queried and returned as regular devices.
 
         Args:
             wait_for (int): Optionally wait this many seconds for discovery
                             and return the devices found.
             bcast_ifaces (list[IPv4Address]): List of broadcast addresses to scan
+            include_gateways (bool): If True, gateway devices are included in
+                                     the results alongside their sub-devices.
+                                     Default is False.
 
         Returns:
             List[DeviceInfo]: List of devices found during this scan
@@ -155,6 +163,34 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         if wait_for:
             await asyncio.sleep(wait_for)
             await asyncio.gather(*self.tasks, return_exceptions=True)
+
+        # Query sub-devices from any discovered gateways
+        gateways = [d for d in self._device_infos if d.sub_count > 0]
+
+        async def _query_gateway(gw_info: DeviceInfo) -> None:
+            gw = Device(gw_info, loop=self._loop)
+            try:
+                await gw.bind()
+                sub_infos = await gw.get_sub_devices()
+                for sub_info in sub_infos:
+                    await self.device_found(sub_info)
+            except (DeviceNotBoundError, DeviceTimeoutError):
+                _LOGGER.warning(
+                    "Failed to query sub-devices from gateway %s", gw_info.mac
+                )
+            finally:
+                try:
+                    gw.close()
+                except (RuntimeError, AttributeError):
+                    pass
+
+        if gateways:
+            await asyncio.gather(*(_query_gateway(gw) for gw in gateways))
+
+        if not include_gateways:
+            self._device_infos = [
+                d for d in self._device_infos if d.sub_count == 0
+            ]
 
         return self._device_infos
 
