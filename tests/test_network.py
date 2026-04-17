@@ -343,6 +343,7 @@ class DeviceProtocol2Test(DeviceProtocol2):
         self.state = {}
         self.key = None
         self.unknown = False
+        self.sub_devices = None
 
     def handle_state_update(self, **kwargs) -> None:
         self.state = dict(kwargs)
@@ -350,6 +351,9 @@ class DeviceProtocol2Test(DeviceProtocol2):
     def handle_device_bound(self, key: str) -> None:
         self._ready.set()
         self.key = key
+
+    def handle_sublist_response(self, sub_devices: list) -> None:
+        self.sub_devices = sub_devices
 
     def handle_unknown_packet(self, obj, addr: IPAddr) -> None:
         self.unknown = True
@@ -572,4 +576,92 @@ def test_device_key_get_set():
     
     # Assert
     assert protocol.device_key == key
+
+
+def test_handle_sublist_response():
+    # Arrange
+    protocol = DeviceProtocol2Test()
+    sub_devices = [
+        {"mac": "sub111111", "mid": "10001"},
+        {"mac": "sub222222", "mid": "10002"},
+    ]
+
+    # Act
+    protocol.packet_received({
+        'pack': {
+            't': 'sublist',
+            'list': sub_devices,
+        }
+    }, ("0.0.0.0", 0))
+
+    # Assert
+    assert protocol.sub_devices == sub_devices
+
+
+def test_resolve_response_type_fallback_to_obj_t():
+    """Test _resolve_response_type falls back to obj.t when pack has no t."""
+    protocol = DeviceProtocol2Test()
+    result = protocol._resolve_response_type({"t": "sublist", "pack": {}})
+    assert result == "sublist"
+
+
+def test_deviceinfo_eq_non_deviceinfo():
+    """Test DeviceInfo equality with a non-DeviceInfo object."""
+    info = DeviceInfo("1.1.1.1", 7000, "aabbcc112233", "Test")
+    assert info != "not a device info"
+    assert (info == 42) is False
+
+
+def test_handle_sublist_response_empty():
+    # Arrange
+    protocol = DeviceProtocol2Test()
+
+    # Act
+    protocol.packet_received({
+        'pack': {
+            't': 'sublist',
+        }
+    }, ("0.0.0.0", 0))
+
+    # Assert
+    assert protocol.sub_devices == []
+
+
+def test_create_sublist_message():
+    # Arrange
+    device_info = DeviceInfo(*get_mock_info())
+    protocol = DeviceProtocol2()
+
+    # Act
+    result = protocol.create_sublist_message(device_info)
+
+    # Assert
+    assert isinstance(result, dict)
+    assert result == {
+        'cid': 'app',
+        'i': 0,
+        't': 'subList',
+        'uid': 0,
+        'tcid': device_info.mac,
+        'pack': {},
+    }
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("event_name, data",[
+    (Response.SUBLIST, {'list': [{"mac": "sub111111"}]}),
+])
+async def test_sublist_handler_callback(event_name, data):
+    # Arrange
+    protocol = DeviceProtocol2()
+    callback = MagicMock()
+    event_data = {'pack': {'t': event_name.value}}
+    event_data['pack'].update(data)
+
+    # Act
+    protocol.add_handler(event_name, callback)
+    protocol.packet_received(event_data, ("0.0.0.0", 0))
+
+    # Assert
+    callback.assert_called_once_with([{"mac": "sub111111"}])
     

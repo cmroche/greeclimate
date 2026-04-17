@@ -21,12 +21,14 @@ class Commands(Enum):
     PACK = "pack"
     SCAN = "scan"
     STATUS = "status"
+    SUBLIST = "subList"
 
 
 class Response(Enum):
     BIND_OK = "bindok"
     DATA = "dat"
     RESULT = "res"
+    SUBLIST = "sublist"
 
 
 @dataclass
@@ -212,6 +214,19 @@ class DeviceProtocol2(DeviceProtocolBase2):
         if event_name in self._handlers:
             self._handlers[event_name].remove(callback)
 
+    def _resolve_response_type(self, obj) -> str:
+        """Determine the response type from a received packet.
+
+        Checks pack.t first (standard responses), then falls back to
+        obj.t (e.g. subList responses with top-level type field).
+        """
+        pack = obj.get("pack", {})
+        if isinstance(pack, dict) and pack.get("t"):
+            return pack["t"].lower()
+        if obj.get("t"):
+            return obj["t"].lower()
+        return ""
+
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded.
 
@@ -223,14 +238,16 @@ class DeviceProtocol2(DeviceProtocolBase2):
             Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
             Response.DATA.value: lambda o, a: [dict(zip(o["pack"]["cols"], o["pack"]["dat"]))],
             Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"].get("val", []) or o["pack"].get("p", [])))],
+            Response.SUBLIST.value: lambda o, a: [o["pack"].get("list", []) if isinstance(o.get("pack"), dict) else o.get("list", [])],
         }
         handlers = {
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
             Response.DATA.value: lambda *args: self.__handle_state_update(*args),
             Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
+            Response.SUBLIST.value: lambda *args: self.__handle_sublist_response(*args),
         }
         try:
-            resp = obj.get("pack", {}).get("t")
+            resp = self._resolve_response_type(obj)
             handler = handlers.get(resp, self.handle_unknown_packet)
             param = params.get(resp, lambda o, a: (o, a))(obj, addr)
             handler(*param)
@@ -261,6 +278,13 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device state updates. """
         pass
 
+    def __handle_sublist_response(self, sub_devices) -> None:
+        self.handle_sublist_response(sub_devices)
+
+    def handle_sublist_response(self, sub_devices: list) -> None:
+        """ Implement this function to handle sub-device list responses. """
+        pass
+
     def _generate_payload(self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
         payload = {
             "cid": "app",
@@ -286,3 +310,16 @@ class DeviceProtocol2(DeviceProtocolBase2):
     def create_command_message(self, device_info: DeviceInfo, **kwargs) -> Dict[str, Any]:
         return self._generate_payload(Commands.CMD, device_info,
                                       {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
+
+    def create_sublist_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        # Bypasses _generate_payload intentionally: the subList command uses a
+        # top-level "t" of "subList" (not "pack") and sends an empty pack body,
+        # which doesn't fit the standard payload structure.
+        return {
+            "cid": "app",
+            "i": 0,
+            "t": Commands.SUBLIST.value,
+            "uid": 0,
+            "tcid": device_info.mac,
+            "pack": {},
+        }

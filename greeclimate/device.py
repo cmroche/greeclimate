@@ -5,9 +5,9 @@ import re
 import typing
 from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
-from typing import Union, Optional, Any
+from typing import List, Union, Optional, Any
 
-from greeclimate.cipher import CipherV1, CipherV2
+from greeclimate.cipher import CipherV1, CipherV2, CipherBase
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import DeviceProtocol2
@@ -183,6 +183,9 @@ class Device(DeviceProtocol2, Taskable):
         self._valid_state: asyncio.Event = asyncio.Event()
         self._valid_state.clear()
 
+        self._sublist_event: asyncio.Event = asyncio.Event()
+        self._sub_devices_raw: list = []
+
     async def bind(
         self,
         key: str = None,
@@ -207,13 +210,10 @@ class Device(DeviceProtocol2, Taskable):
             DeviceTimeoutError: The device didn't respond
         """
 
-        if key:
-            if not cipher:
-                raise ValueError("cipher must be provided when key is provided")
-            else:
-                cipher.key = key
-                self.device_cipher = cipher
-                return
+        if key is None and self.device_info and self.device_info.gateway_key:
+            key = self.device_info.gateway_key
+            if cipher is None and self.device_info.gateway_cipher is not None:
+                cipher = CipherBase.create(self.device_info.gateway_cipher)
 
         if not self.device_info:
             raise DeviceNotBoundError
@@ -222,6 +222,14 @@ class Device(DeviceProtocol2, Taskable):
             self._transport, _ = await self._loop.create_datagram_endpoint(
                 lambda: self, remote_addr=(self.device_info.ip, self.device_info.port)
             )
+
+        if key:
+            if not cipher:
+                raise ValueError("cipher must be provided when key is provided")
+            else:
+                cipher.key = key
+                self.device_cipher = cipher
+                return
 
         self._logger.info("Starting device binding to %s", str(self.device_info))
 
@@ -257,6 +265,70 @@ class Device(DeviceProtocol2, Taskable):
         self.device_cipher.key = key
         self._loop.create_task(self.update_state())
 
+    def handle_sublist_response(self, sub_devices: list) -> None:
+        """Handle the sub-device list response from the gateway."""
+        self._logger.debug("Received sub-device list: %s", sub_devices)
+        self._sub_devices_raw = sub_devices
+        self._sublist_event.set()
+
+    async def get_sub_devices(self) -> List[DeviceInfo]:
+        """Query the gateway for its sub-devices.
+
+        Returns:
+            List[DeviceInfo]: List of sub-device info objects with the gateway's IP/port
+
+        Raises:
+            DeviceNotBoundError: If the device is not bound
+            DeviceTimeoutError: If the gateway doesn't respond
+        """
+        if not self.device_cipher:
+            await self.bind()
+
+        self._sublist_event.clear()
+        self._sub_devices_raw = []
+
+        self._logger.debug("Requesting sub-device list from (%s)", str(self.device_info))
+
+        # Wait for any pending state update to complete before sending subList,
+        # as sending both simultaneously causes the gateway to drop the subList request.
+        if not self._valid_state.is_set():
+            try:
+                await asyncio.wait_for(self._valid_state.wait(), timeout=self._timeout)
+            except asyncio.TimeoutError:
+                self._logger.warning(
+                    "Timed out waiting for state update before subList request to (%s)",
+                    str(self.device_info),
+                )
+
+        try:
+            await self.send(self.create_sublist_message(self.device_info))
+            await asyncio.wait_for(self._sublist_event.wait(), timeout=self._bind_timeout)
+        except asyncio.TimeoutError:
+            raise DeviceTimeoutError
+
+        sub_infos = []
+        for sub in self._sub_devices_raw:
+            self._logger.debug("Raw sub-device data: %s", sub)
+            mac = sub.get("mac", "")
+            name = sub.get("name")
+            if not name and mac:
+                mid = sub.get("mid", "")
+                mac_suffix = mac[:6] if len(mac) >= 6 else mac
+                name = f"Gree {mid}_{mac_suffix}" if mid else None
+            sub_info = DeviceInfo(
+                self.device_info.ip,
+                self.device_info.port,
+                mac,
+                name,
+                sub.get("brand"),
+                sub.get("model"),
+                sub.get("ver"),
+                gateway_key=self.device_cipher.key,
+                gateway_cipher=self.device_cipher.cipher_type,
+            )
+            sub_infos.append(sub_info)
+        return sub_infos
+
     async def request_version(self) -> None:
         """Request the firmware version from the device."""
         if not self.device_cipher:
@@ -276,13 +348,14 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
+        self._valid_state.clear()
         props = [x.value for x in Props]
         if not self.hid:
             props.append("hid")
 
         try:
             await self.send(self.create_status_message(self.device_info, *props))
-
+            await asyncio.wait_for(self._valid_state.wait(), timeout=self._timeout)
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
@@ -302,7 +375,7 @@ class Device(DeviceProtocol2, Taskable):
             self.check_version = False
             temp = self.get_property(Props.TEMP_SENSOR)
             self._logger.debug(f"Checking for temperature offset, reported temp {temp}")
-            if temp and temp < TEMP_OFFSET:
+            if isinstance(temp, (int, float)) and temp and temp < TEMP_OFFSET:
                 self.version = "4.0"
                 self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
             self._logger.debug(f"Using device temperature {self.current_temperature}")
@@ -443,15 +516,15 @@ class Device(DeviceProtocol2, Taskable):
     def current_temperature(self) -> Optional[int]:
         prop = self.get_property(Props.TEMP_SENSOR)
         bit = self.get_property(Props.TEMP_BIT)
-        if prop is not None:
-            bit = bit if bit is not None else 0
+        if prop is not None and isinstance(prop, (int, float)):
+            bit = bit if isinstance(bit, (int, float)) else 0
             v = self.version and int(self.version.split(".")[0])
             try:
                 if v == 4:
                     return self._convert_to_units(prop, bit)
                 elif prop != 0:
                     return self._convert_to_units(prop - TEMP_OFFSET, bit)
-            except ValueError:
+            except (ValueError, TypeError):
                 logging.warning("Converting unexpected set temperature value %s", prop)
 
         return self.target_temperature

@@ -7,7 +7,9 @@ from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address
 
 from greeclimate.cipher import CipherV1
-from greeclimate.device import DeviceInfo
+from greeclimate.device import Device
+from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
 from greeclimate.taskable import Taskable
 
@@ -48,6 +50,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         Taskable.__init__(self, loop)
         self.device_cipher = CipherV1()
         self._allow_loopback: bool = allow_loopback
+        self._include_gateways: bool = False
         self._device_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []
 
@@ -114,6 +117,12 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         _LOGGER.info("Found gree device %s", str(device_info))
 
+        # If this is a gateway, query its sub-devices in the background
+        if device_info.sub_count > 0:
+            self._create_task(self._query_gateway(device_info))
+            if not self._include_gateways:
+                return
+
         tasks = [l.device_found(device_info) for l in self._listeners]
         await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -132,31 +141,61 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             pack.get("brand"),
             pack.get("model"),
             pack.get("ver"),
+            pack.get("subCnt", 0),
         )
 
         self._create_task(self.device_found(DeviceInfo(*device)))
 
+    async def _query_gateway(self, gw_info: DeviceInfo) -> None:
+        """Bind to a gateway device and discover its sub-devices."""
+        gw = Device(gw_info, bind_timeout=5, loop=self._loop)
+        try:
+            await gw.bind()
+            sub_infos = await gw.get_sub_devices()
+            for sub_info in sub_infos:
+                await self.device_found(sub_info)
+        except (DeviceNotBoundError, DeviceTimeoutError):
+            _LOGGER.warning(
+                "Failed to query sub-devices from gateway %s", gw_info.mac
+            )
+        finally:
+            try:
+                gw.close()
+            except (RuntimeError, AttributeError):
+                pass
+
     # Discovery
-    async def scan(self, wait_for: int = 0, bcast_ifaces: list[IPv4Address] | None = None) -> list[DeviceInfo]:
+    async def scan(self, wait_for: int = 0, bcast_ifaces: list[IPv4Address] | None = None, include_gateways: bool = False) -> list[DeviceInfo]:
         """Sends a discovery broadcast packet on each network interface to
-            locate Gree units on the network
+            locate Gree units on the network.
+            When a gateway device is found, its sub-devices are automatically
+            queried and returned as regular devices.
 
         Args:
             wait_for (int): Optionally wait this many seconds for discovery
                             and return the devices found.
             bcast_ifaces (list[IPv4Address]): List of broadcast addresses to scan
+            include_gateways (bool): If True, gateway devices are included in
+                                     the results alongside their sub-devices.
+                                     Default is False.
 
         Returns:
             List[DeviceInfo]: List of devices found during this scan
         """
         _LOGGER.info("Scanning for Gree devices ...")
 
-        await self.search_devices(bcast_ifaces)
-        if wait_for:
-            await asyncio.sleep(wait_for)
-            await asyncio.gather(*self.tasks, return_exceptions=True)
+        self._include_gateways = include_gateways
+        try:
+            await self.search_devices(bcast_ifaces)
+            if wait_for:
+                await asyncio.sleep(wait_for)
+                await asyncio.gather(*self.tasks, return_exceptions=True)
 
-        return self._device_infos
+            if include_gateways:
+                return list(self._device_infos)
+            return [d for d in self._device_infos if d.sub_count == 0]
+        finally:
+            self._include_gateways = False
 
     def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""
