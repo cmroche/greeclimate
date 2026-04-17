@@ -851,3 +851,34 @@ async def test_bind_with_gateway_key(cipher, send):
 
     assert device.device_cipher is not None
     assert device.device_cipher.key == "gateway_key_123"
+
+
+@pytest.mark.asyncio
+async def test_get_sub_devices_name_fallback(cipher, send):
+    """Check that sub-devices without a name get a generated name from mid and mac."""
+    info = DeviceInfo("1.1.1.0", "7000", "aabbcc001122", "Gateway", sub_count=2)
+    device = Device(info, timeout=1)
+    await device.bind(key="fake_key", cipher=CipherV1())
+
+    sub_devices_raw = [
+        {"mac": "aabb11223344", "mid": "10001"},
+        {"mac": "cc", "mid": "20002"},
+        {"mac": "ddee55667788"},
+        {"mac": "", "name": None},
+    ]
+
+    def fake_send(*args, **kwargs):
+        device.handle_sublist_response(sub_devices_raw)
+    send.side_effect = fake_send
+
+    result = await device.get_sub_devices()
+
+    assert len(result) == 4
+    # mid present, mac >= 6 chars → "Gree 10001_aabb11"
+    assert result[0].name == "Gree 10001_aabb11"
+    # mid present, mac < 6 chars → "Gree 20002_cc"
+    assert result[1].name == "Gree 20002_cc"
+    # no mid, no name → name param is None, DeviceInfo falls back to mac
+    assert result[2].name == "ddee55667788"
+    # no mac, no name → DeviceInfo falls back to empty mac
+    assert result[3].name == ""

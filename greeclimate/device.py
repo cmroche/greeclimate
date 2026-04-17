@@ -215,14 +215,6 @@ class Device(DeviceProtocol2, Taskable):
             if cipher is None and self.device_info.gateway_cipher is not None:
                 cipher = CipherBase.create(self.device_info.gateway_cipher)
 
-        if key:
-            if not cipher:
-                raise ValueError("cipher must be provided when key is provided")
-            else:
-                cipher.key = key
-                self.device_cipher = cipher
-                return
-
         if not self.device_info:
             raise DeviceNotBoundError
 
@@ -230,6 +222,14 @@ class Device(DeviceProtocol2, Taskable):
             self._transport, _ = await self._loop.create_datagram_endpoint(
                 lambda: self, remote_addr=(self.device_info.ip, self.device_info.port)
             )
+
+        if key:
+            if not cipher:
+                raise ValueError("cipher must be provided when key is provided")
+            else:
+                cipher.key = key
+                self.device_cipher = cipher
+                return
 
         self._logger.info("Starting device binding to %s", str(self.device_info))
 
@@ -267,6 +267,7 @@ class Device(DeviceProtocol2, Taskable):
 
     def handle_sublist_response(self, sub_devices: list) -> None:
         """Handle the sub-device list response from the gateway."""
+        self._logger.debug("Received sub-device list: %s", sub_devices)
         self._sub_devices_raw = sub_devices
         self._sublist_event.set()
 
@@ -301,17 +302,24 @@ class Device(DeviceProtocol2, Taskable):
 
         try:
             await self.send(self.create_sublist_message(self.device_info))
-            await asyncio.wait_for(self._sublist_event.wait(), timeout=self._timeout)
+            await asyncio.wait_for(self._sublist_event.wait(), timeout=self._bind_timeout)
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
         sub_infos = []
         for sub in self._sub_devices_raw:
+            self._logger.debug("Raw sub-device data: %s", sub)
+            mac = sub.get("mac", "")
+            name = sub.get("name")
+            if not name and mac:
+                mid = sub.get("mid", "")
+                mac_suffix = mac[:6] if len(mac) >= 6 else mac
+                name = f"Gree {mid}_{mac_suffix}" if mid else None
             sub_info = DeviceInfo(
                 self.device_info.ip,
                 self.device_info.port,
-                sub.get("mac"),
-                sub.get("name"),
+                mac,
+                name,
                 sub.get("brand"),
                 sub.get("model"),
                 sub.get("ver"),

@@ -328,18 +328,20 @@ async def test_scan_queries_gateway_sub_devices():
     discovery = Discovery(allow_loopback=True)
 
     gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
-    discovery._device_infos.append(gw_info)
 
     sub_infos = [
         DeviceInfo("1.1.1.1", 7000, "sub111111", "Sub1", gateway_key="test_key"),
         DeviceInfo("1.1.1.1", 7000, "sub222222", "Sub2", gateway_key="test_key"),
     ]
 
-    with patch.object(Discovery, "search_devices", new_callable=AsyncMock), \
+    async def fake_search(*args, **kwargs):
+        await discovery.device_found(gw_info)
+
+    with patch.object(Discovery, "search_devices", side_effect=fake_search), \
          patch.object(Device, "bind", new_callable=AsyncMock), \
          patch.object(Device, "get_sub_devices", new_callable=AsyncMock, return_value=sub_infos), \
          patch.object(Device, "close"):
-        devices = await discovery.scan(wait_for=0)
+        devices = await discovery.scan(wait_for=1)
 
     assert len(devices) == 2
     assert devices[0].mac == "sub111111"
@@ -352,17 +354,19 @@ async def test_scan_include_gateways():
     discovery = Discovery(allow_loopback=True)
 
     gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
-    discovery._device_infos.append(gw_info)
 
     sub_infos = [
         DeviceInfo("1.1.1.1", 7000, "sub111111", "Sub1", gateway_key="test_key"),
     ]
 
-    with patch.object(Discovery, "search_devices", new_callable=AsyncMock), \
+    async def fake_search(*args, **kwargs):
+        await discovery.device_found(gw_info)
+
+    with patch.object(Discovery, "search_devices", side_effect=fake_search), \
          patch.object(Device, "bind", new_callable=AsyncMock), \
          patch.object(Device, "get_sub_devices", new_callable=AsyncMock, return_value=sub_infos), \
          patch.object(Device, "close"):
-        devices = await discovery.scan(wait_for=0, include_gateways=True)
+        devices = await discovery.scan(wait_for=1, include_gateways=True)
 
     assert len(devices) == 2
     macs = {d.mac for d in devices}
@@ -377,12 +381,94 @@ async def test_scan_gateway_bind_failure():
 
     discovery = Discovery(allow_loopback=True)
     gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
-    discovery._device_infos.append(gw_info)
 
-    with patch.object(Discovery, "search_devices", new_callable=AsyncMock), \
+    async def fake_search(*args, **kwargs):
+        await discovery.device_found(gw_info)
+
+    with patch.object(Discovery, "search_devices", side_effect=fake_search), \
          patch.object(Device, "bind", new_callable=AsyncMock, side_effect=DeviceNotBoundError), \
          patch.object(Device, "close", side_effect=RuntimeError):
-        devices = await discovery.scan(wait_for=0)
+        devices = await discovery.scan(wait_for=1)
 
     assert len(devices) == 0
 
+
+@pytest.mark.asyncio
+async def test_scan_gateway_timeout_failure():
+    """Test that scan handles gateway timeout gracefully."""
+    from greeclimate.exceptions import DeviceTimeoutError
+
+    discovery = Discovery(allow_loopback=True)
+    gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
+
+    async def fake_search(*args, **kwargs):
+        await discovery.device_found(gw_info)
+
+    with patch.object(Discovery, "search_devices", side_effect=fake_search), \
+         patch.object(Device, "bind", new_callable=AsyncMock, side_effect=DeviceTimeoutError), \
+         patch.object(Device, "close"):
+        devices = await discovery.scan(wait_for=1)
+
+    assert len(devices) == 0
+
+
+@pytest.mark.asyncio
+async def test_scan_include_gateways_notifies_listeners():
+    """Test that gateway devices notify listeners when include_gateways=True."""
+    discovery = Discovery(allow_loopback=True)
+    gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
+
+    listener = MagicMock(spec_set=Listener)
+    listener.device_found = AsyncMock()
+    discovery.add_listener(listener)
+
+    sub_infos = [
+        DeviceInfo("1.1.1.1", 7000, "sub111111", "Sub1", gateway_key="test_key"),
+    ]
+
+    async def fake_search(*args, **kwargs):
+        await discovery.device_found(gw_info)
+
+    with patch.object(Discovery, "search_devices", side_effect=fake_search), \
+         patch.object(Device, "bind", new_callable=AsyncMock), \
+         patch.object(Device, "get_sub_devices", new_callable=AsyncMock, return_value=sub_infos), \
+         patch.object(Device, "close"):
+        await discovery.scan(wait_for=1, include_gateways=True)
+
+    # Listener should be notified for both gateway and sub-device
+    found_macs = [call.args[0].mac for call in listener.device_found.call_args_list]
+    assert "aabbcc001122" in found_macs
+    assert "sub111111" in found_macs
+
+
+@pytest.mark.asyncio
+async def test_scan_exclude_gateways_skips_listener():
+    """Test that gateway devices do NOT notify listeners when include_gateways=False."""
+    discovery = Discovery(allow_loopback=True)
+    gw_info = DeviceInfo("1.1.1.1", 7000, "aabbcc001122", "Gateway", sub_count=1)
+
+    listener = MagicMock(spec_set=Listener)
+    listener.device_found = AsyncMock()
+    discovery.add_listener(listener)
+
+    sub_infos = [
+        DeviceInfo("1.1.1.1", 7000, "sub111111", "Sub1", gateway_key="test_key"),
+    ]
+
+    async def fake_search(*args, **kwargs):
+        await discovery.device_found(gw_info)
+
+    with patch.object(Discovery, "search_devices", side_effect=fake_search), \
+         patch.object(Device, "bind", new_callable=AsyncMock), \
+         patch.object(Device, "get_sub_devices", new_callable=AsyncMock, return_value=sub_infos), \
+         patch.object(Device, "close"):
+        devices = await discovery.scan(wait_for=1)
+
+    # scan() return excludes gateways
+    assert len(devices) == 1
+    assert devices[0].mac == "sub111111"
+
+    # Listener should only be notified for sub-device, not gateway
+    found_macs = [call.args[0].mac for call in listener.device_found.call_args_list]
+    assert "aabbcc001122" not in found_macs
+    assert "sub111111" in found_macs
