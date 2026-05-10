@@ -290,14 +290,14 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Requesting sub-device list from (%s)", str(self.device_info))
 
-        # Wait for any pending state update to complete before sending subList,
-        # as sending both simultaneously causes the gateway to drop the subList request.
+        # Wait briefly for any pending state update to finish so we don't
+        # collide with it on the wire, but don't block long.
         if not self._valid_state.is_set():
             try:
-                await asyncio.wait_for(self._valid_state.wait(), timeout=self._timeout)
+                await asyncio.wait_for(self._valid_state.wait(), timeout=5)
             except asyncio.TimeoutError:
-                self._logger.warning(
-                    "Timed out waiting for state update before subList request to (%s)",
+                self._logger.debug(
+                    "State update not received, proceeding with subList request to (%s)",
                     str(self.device_info),
                 )
 
@@ -349,6 +349,16 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
+        if self._transport:
+            try:
+                sockname = self._transport.get_extra_info('sockname')
+                self._logger.debug(
+                    "Device %s (mac: %s) using transport local=%s",
+                    self.device_info.name, self.device_info.mac, sockname
+                )
+            except Exception:
+                pass
+
         self._valid_state.clear()
         props = [x.value for x in Props]
         if not self.hid:
@@ -359,6 +369,17 @@ class Device(DeviceProtocol2, Taskable):
             await asyncio.wait_for(self._valid_state.wait(), timeout=self._timeout)
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
+
+    def packet_received(self, obj, addr) -> None:
+        """Override to log response MAC for cross-device routing diagnostics."""
+        pack = obj.get("pack", {})
+        resp_mac = pack.get("mac") if isinstance(pack, dict) else None
+        if resp_mac and resp_mac != self.device_info.mac:
+            self._logger.warning(
+                "Device %s (mac: %s) received response intended for MAC %s",
+                self.device_info.name, self.device_info.mac, resp_mac
+            )
+        super().packet_received(obj, addr)
 
     def handle_state_update(self, **kwargs) -> None:
         """Handle incoming information about the firmware version of the device"""

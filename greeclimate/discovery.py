@@ -148,7 +148,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
     async def _query_gateway(self, gw_info: DeviceInfo) -> None:
         """Bind to a gateway device and discover its sub-devices."""
-        gw = Device(gw_info, bind_timeout=5, loop=self._loop)
+        gw = Device(gw_info, timeout=10, bind_timeout=15, loop=self._loop)
         try:
             await gw.bind()
             sub_infos = await gw.get_sub_devices()

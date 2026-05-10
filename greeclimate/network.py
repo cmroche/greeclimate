@@ -180,7 +180,6 @@ class BroadcastListenerProtocol(DeviceProtocolBase2):
 
 class DeviceProtocol2(DeviceProtocolBase2):
     """Protocol handler for direct device communication."""
-    _handlers = {}
 
     def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
         """Initialize the device protocol object.
@@ -190,6 +189,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
             drained (asyncio.Event): Packet send drain event signal
         """
         DeviceProtocolBase2.__init__(self, timeout, drained)
+        self._handlers: dict[Response, list] = {}
         self._ready = asyncio.Event()
         self._ready.clear()
         
@@ -312,14 +312,12 @@ class DeviceProtocol2(DeviceProtocolBase2):
                                       {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
 
     def create_sublist_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
-        # Bypasses _generate_payload intentionally: the subList command uses a
-        # top-level "t" of "subList" (not "pack") and sends an empty pack body,
-        # which doesn't fit the standard payload structure.
+        # subList is a protocol-level query sent unencrypted (no pack field).
+        # The gateway handles it outside the encrypted pack channel.
         return {
             "cid": "app",
             "i": 0,
             "t": Commands.SUBLIST.value,
             "uid": 0,
             "tcid": device_info.mac,
-            "pack": {},
         }
