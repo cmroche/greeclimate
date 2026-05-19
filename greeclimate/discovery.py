@@ -160,22 +160,18 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
     def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""
-        import netifaces
+        from pyroute2 import IPRoute
+        from socket import AF_INET
 
         bdrAddrs = []
-        for iface in netifaces.interfaces():
-            for addr in netifaces.ifaddresses(iface).get(netifaces.AF_INET, []):
-                ipaddr = addr.get("addr")
-                bdr = addr.get("broadcast")
-                peer = addr.get("peer")
+        with IPRoute() as ipr:
+            for msg in ipr.addr("dump"):
+                if not msg.get("family") == AF_INET:
+                    continue
+                addr = msg.get("address")
                 if addr:
-                    ip4addr = IPv4Address(ipaddr)
-                    if ip4addr.is_loopback and self._allow_loopback:
-                        if bdr or peer:
-                            bdrAddrs.append(IPv4Address(bdr or peer))
-                    elif not ip4addr.is_loopback:
-                        if bdr:
-                            bdrAddrs.append(IPv4Address(bdr))
+                    ip4addr = IPv4Address(addr)
+                    bdrAddrs.append(IPv4Address(msg.get("broadcast")))
 
         return bdrAddrs
 
