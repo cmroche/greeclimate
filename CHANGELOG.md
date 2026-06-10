@@ -1,3 +1,13 @@
+# [3.0.0](https://github.com/cmroche/greeclimate/compare/v2.1.4...v3.0.0) (2026-06-10)
+
+
+* feat!: drop Python 3.8 and 3.9 support ([17e5d7a](https://github.com/cmroche/greeclimate/commit/17e5d7a91728077e08c59eb06345fb7b30149f8c))
+
+
+### BREAKING CHANGES
+
+* Python 3.8 and 3.9 are no longer supported; package metadata and CI now start at Python 3.10.
+
 ## [2.1.4](https://github.com/cmroche/greeclimate/compare/v2.1.3...v2.1.4) (2026-01-10)
 
 
