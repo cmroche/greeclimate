@@ -1,2 +1,2 @@
-netifaces
+pyroute2
 pycryptodome~=3.10
