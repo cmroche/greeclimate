@@ -336,6 +336,9 @@ class Device(DeviceProtocol2, Taskable):
             self._logger.debug("Disabling buzzer for command")
             props["Buzzer_ON_OFF"] = 1
 
+        # Newer firmwares are using this property to control the buzzer
+        props["BuzzerCtrl"] = 1 if self._buzzer else 0
+
         try:
             await self.send(self.create_command_message(self.device_info, **props))
 
