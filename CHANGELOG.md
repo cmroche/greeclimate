@@ -1,3 +1,11 @@
+# [3.2.0](https://github.com/cmroche/greeclimate/compare/v3.1.1...v3.2.0) (2026-06-11)
+
+
+### Features
+
+* add buzzer property to control device beep on commands ([8c0a824](https://github.com/cmroche/greeclimate/commit/8c0a82436b2625dc5dc382566923c7953fe7fe85))
+* add buzzer property to control device beep on commands ([1735ddf](https://github.com/cmroche/greeclimate/commit/1735ddfd3ec9c62e4e19c6610e9d8cadfe457663)), closes [#106](https://github.com/cmroche/greeclimate/issues/106)
+
 ## [3.1.1](https://github.com/cmroche/greeclimate/compare/v3.1.0...v3.1.1) (2026-06-11)
 
 
