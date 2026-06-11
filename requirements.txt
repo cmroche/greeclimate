@@ -1,2 +1,2 @@
 netifaces
-pycryptodome~=3.10
+pycryptodome~=3.23
