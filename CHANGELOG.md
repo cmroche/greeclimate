@@ -1,3 +1,15 @@
+# [3.1.0](https://github.com/cmroche/greeclimate/compare/v3.0.0...v3.1.0) (2026-06-11)
+
+
+### Bug Fixes
+
+* dirty beep setting ([07b5cc2](https://github.com/cmroche/greeclimate/commit/07b5cc2108b39e5e92e3d5be63bf3dd6439a67c7))
+
+
+### Features
+
+* Add support for beep on/off (not supported on all devices) ([eb9f6a0](https://github.com/cmroche/greeclimate/commit/eb9f6a076c4b9a11868e13284359bfa927ad0201))
+
 # [3.0.0](https://github.com/cmroche/greeclimate/compare/v2.1.4...v3.0.0) (2026-06-10)
 
 
