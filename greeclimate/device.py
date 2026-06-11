@@ -180,6 +180,7 @@ class Device(DeviceProtocol2, Taskable):
         self._properties = {}
         self._dirty = []
         self._beep = False
+        self._beep_dirty = False
 
         self._valid_state: asyncio.Event = asyncio.Event()
         self._valid_state.clear()
@@ -313,7 +314,7 @@ class Device(DeviceProtocol2, Taskable):
     async def push_state_update(self):
         """Push any pending state updates to the unit
         """
-        if not self._dirty:
+        if not self._dirty and not self._beep_dirty:
             return
 
         if not self.device_cipher:
@@ -343,6 +344,7 @@ class Device(DeviceProtocol2, Taskable):
             raise DeviceTimeoutError
         else:
             self._dirty.clear()
+            self._beep_dirty = False
 
 
     def __eq__(self, other):
@@ -604,3 +606,7 @@ class Device(DeviceProtocol2, Taskable):
     @beep.setter
     def beep(self, value: bool):
         self._beep = bool(value)
+        if not self._beep:
+            self._beep_dirty = True
+        else:
+            self._beep_dirty = False

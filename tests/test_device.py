@@ -775,11 +775,10 @@ async def test_disable_beep(cipher, send):
     """Check that disabled beep add Buzzer_ON_OFF."""
     device = await generate_device_mock_async()
 
-    device.power = True
     device.beep = False
     await device.push_state_update()
     assert send.call_count == 1
-    assert set(send.call_args_list[0].args[0]["pack"]["opt"]) == {"Pow", "Buzzer_ON_OFF"}
+    assert set(send.call_args_list[0].args[0]["pack"]["opt"]) == {"Buzzer_ON_OFF"}
 
     assert not device.beep
 
@@ -792,3 +791,33 @@ async def test_disable_beep(cipher, send):
     assert set(send.call_args_list[0].args[0]["pack"]["opt"]) == {"Pow"}
 
     assert device.beep
+
+
+@pytest.mark.asyncio
+async def test_disable_beep_timeout_stays_dirty(cipher, send):
+    """Check that disabled beep is retained after push timeout."""
+    device = await generate_device_mock_async()
+
+    device.beep = False
+    send.reset_mock()
+    send.side_effect = asyncio.TimeoutError
+
+    with pytest.raises(DeviceTimeoutError):
+        await device.push_state_update()
+
+    send.side_effect = None
+    await device.push_state_update()
+    assert send.call_count == 2
+    assert set(send.call_args_list[1].args[0]["pack"]["opt"]) == {"Buzzer_ON_OFF"}
+
+
+@pytest.mark.asyncio
+async def test_enable_beep_clears_dirty_without_update(cipher, send):
+    """Check that enabling beep cancels a pending beep-only update."""
+    device = await generate_device_mock_async()
+
+    device.beep = False
+    device.beep = True
+    await device.push_state_update()
+
+    assert send.call_count == 0
