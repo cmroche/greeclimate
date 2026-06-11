@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/cmroche/greeclimate/compare/v3.1.0...v3.1.1) (2026-06-11)
+
+
+### Reverts
+
+* Revert "feat: Add support for beep on/off (not supported on all devices)" ([fbb22a2](https://github.com/cmroche/greeclimate/commit/fbb22a2d7df1785433158bea1fe73905fd64a97d))
+
 # [3.1.0](https://github.com/cmroche/greeclimate/compare/v3.0.0...v3.1.0) (2026-06-11)
 
 
