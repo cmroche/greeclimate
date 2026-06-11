@@ -86,6 +86,25 @@ device.target_humidity = 45
 await device.push_state_update()
 ```
 
+#### Disable beep
+
+In-door units have a very annoying beep on each status push.
+Hopefully, there is a parameter that can help to avoid it.
+
+Unfortunately, it doesn't work on some firmware versions.
+
+```python
+device = Device(...)
+device.beep = False
+await device.push_state_update()
+```
+
+This setting is not stored on the device and must be set in python each time you want to use it.
+
+**Based on the following discussion**
+
+- [Command to disable beeping](https://github.com/tomikaa87/gree-remote/issues/44)
+
 ## Debugging
 
 Maybe the reason you're here is that you're working with Home Assistant and your device isn't being detected.

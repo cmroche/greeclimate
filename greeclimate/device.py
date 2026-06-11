@@ -179,6 +179,8 @@ class Device(DeviceProtocol2, Taskable):
         self.check_version = True
         self._properties = {}
         self._dirty = []
+        self._beep = False
+        self._beep_dirty = False
 
         self._valid_state: asyncio.Event = asyncio.Event()
         self._valid_state.clear()
@@ -312,7 +314,7 @@ class Device(DeviceProtocol2, Taskable):
     async def push_state_update(self):
         """Push any pending state updates to the unit
         """
-        if not self._dirty:
+        if not self._dirty and not self._beep_dirty:
             return
 
         if not self.device_cipher:
@@ -331,6 +333,10 @@ class Device(DeviceProtocol2, Taskable):
                     Props.TEMP_UNIT.value
                 )
 
+        if not self._beep:
+            self._logger.debug("Disable buzzer")
+            props["Buzzer_ON_OFF"] = 1
+
         try:
             await self.send(self.create_command_message(self.device_info, **props))
 
@@ -338,6 +344,7 @@ class Device(DeviceProtocol2, Taskable):
             raise DeviceTimeoutError
         else:
             self._dirty.clear()
+            self._beep_dirty = False
 
 
     def __eq__(self, other):
@@ -591,3 +598,15 @@ class Device(DeviceProtocol2, Taskable):
     def water_full(self) -> Optional[bool]:
         prop = self.get_property(Props.WATER_FULL)
         return bool(prop) if prop is not None else None
+
+    @property
+    def beep(self) -> bool:
+        return self._beep
+
+    @beep.setter
+    def beep(self, value: bool):
+        self._beep = bool(value)
+        if not self._beep:
+            self._beep_dirty = True
+        else:
+            self._beep_dirty = False
