@@ -57,4 +57,14 @@ def test_cipher_base_not_implemented():
         
     with pytest.raises(NotImplementedError):
         CipherBase(fake_key).decrypt(None)
-        
+
+
+def test_cipher_base_create_empty_type():
+    with pytest.raises(ValueError):
+        CipherBase.create("")
+
+
+def test_cipher_base_create_unknown_type():
+    with pytest.raises(ValueError):
+        CipherBase.create("v99")
+
