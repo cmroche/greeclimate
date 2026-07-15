@@ -231,6 +231,8 @@ class DeviceProtocol2(DeviceProtocolBase2):
         }
         try:
             resp = obj.get("pack", {}).get("t")
+            if isinstance(resp, str):
+                resp = resp.casefold()
             handler = handlers.get(resp, self.handle_unknown_packet)
             param = params.get(resp, lambda o, a: (o, a))(obj, addr)
             handler(*param)
