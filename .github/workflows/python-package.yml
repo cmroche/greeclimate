@@ -67,7 +67,7 @@ jobs:
           pip install setuptools wheel twine
           pip install importlib_metadata==7.2.1
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: "24.x"
           check-latest: true
