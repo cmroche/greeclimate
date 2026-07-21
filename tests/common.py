@@ -3,7 +3,7 @@ from socket import SOCK_DGRAM
 from typing import Tuple, Union
 from unittest.mock import Mock
 
-from greeclimate.cipher import CipherV1, CipherBase
+from greeclimate.cipher import CipherV1, CipherV2, CipherBase
 
 DEFAULT_TIMEOUT = 1
 DISCOVERY_REQUEST = {"t": "scan"}
@@ -96,6 +96,14 @@ def encrypt_payload(data):
     """Encrypt the payload of responses quickly."""
     d = data.copy()
     cipher = CipherV1()
+    d["pack"], _ = cipher.encrypt(d["pack"])
+    return d
+
+
+def encrypt_payload_v2(data):
+    """Encrypt the payload of responses using CipherV2 (AES-GCM)."""
+    d = data.copy()
+    cipher = CipherV2()
     d["pack"], _ = cipher.encrypt(d["pack"])
     return d
 
