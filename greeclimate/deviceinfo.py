@@ -6,9 +6,12 @@ class DeviceInfo:
         port: Usually this will always be 7000
         mac: mac address, in the format 'aabbcc112233'
         name: Name of unit, if available
+        sub_count: Number of sub-devices behind this device (>0 for a gateway)
+        gateway_key: For a sub-device, the bound key of its parent gateway
+        gateway_cipher: For a sub-device, the cipher instance of its parent gateway
     """
 
-    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None):
+    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None, sub_count=0, gateway_key=None, gateway_cipher=None):
         self.ip = ip
         self.port = port
         self.mac = mac
@@ -16,6 +19,9 @@ class DeviceInfo:
         self.brand = brand
         self.model = model
         self.version = version
+        self.sub_count = sub_count
+        self.gateway_key = gateway_key
+        self.gateway_cipher = gateway_cipher
 
     def __str__(self):
         return f"Device: {self.name} @ {self.ip}:{self.port} (mac: {self.mac})"
@@ -29,6 +35,7 @@ class DeviceInfo:
                     and self.brand == other.brand
                     and self.model == other.model
                     and self.version == other.version
+                    and self.sub_count == other.sub_count
             )
         return False
 
