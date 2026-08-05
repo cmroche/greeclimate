@@ -125,6 +125,14 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         self._drained.set()
         super().resume_writing()
 
+    def _decrypt_pack(self, pack):
+        """Decrypt the pack field of a received packet.
+
+        Override to customize cipher selection (e.g. trying more than one
+        cipher for replies from not-yet-identified devices).
+        """
+        return self._cipher.decrypt(pack)
+
     def datagram_received(self, data: bytes, addr: IPAddr) -> None:
         """Handle an incoming datagram."""
         if len(data) == 0:
@@ -133,7 +141,7 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         obj = json.loads(data)
 
         if obj.get("pack"):
-            obj["pack"] = self._cipher.decrypt(obj["pack"])
+            obj["pack"] = self._decrypt_pack(obj["pack"])
 
         _LOGGER.debug("Received packet from %s:\n<- %s", addr[0], json.dumps(obj))
         self.packet_received(obj, addr)

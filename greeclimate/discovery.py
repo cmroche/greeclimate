@@ -6,7 +6,7 @@ from asyncio import Task
 from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address
 
-from greeclimate.cipher import CipherV1
+from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import DeviceInfo
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
 from greeclimate.taskable import Taskable
@@ -116,6 +116,25 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         tasks = [l.device_found(device_info) for l in self._listeners]
         await asyncio.gather(*tasks, return_exceptions=True)
+
+    def _decrypt_pack(self, pack):
+        """Decrypt a scan reply, falling back to CipherV2 if CipherV1 fails.
+
+        Some Gree Wi-Fi modules only speak the GCM-based protocol, even
+        for the initial scan reply, so the generic CipherV1 fails to
+        decrypt them. Device.bind() already has this same CipherV1 ->
+        CipherV2 fallback; this brings Discovery in line with it. Returns
+        None if the reply is undecryptable under either cipher, so
+        packet_received's existing "unexpected response" handling takes
+        care of it.
+        """
+        try:
+            return self._cipher.decrypt(pack)
+        except Exception:
+            try:
+                return CipherV2().decrypt(pack)
+            except Exception:
+                return None
 
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded."""
