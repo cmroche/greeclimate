@@ -62,7 +62,7 @@ class GreeMqttClient:
     # MQTT broker settings per region
     MQTT_SERVERS = {
         'Australia': 'mqtt-au.gree.com',
-        'China Mainland': 'mqtt-cn.gree.com',
+        'China Mainland': 'mqtt.gree.com',
         'East South Asia': 'mqtt-as.gree.com',
         'Europe': 'mqtt-eu.gree.com',
         'India': 'mqtt-in.gree.com',
@@ -114,9 +114,11 @@ class GreeMqttClient:
             return
 
         try:
-            # Create TLS context for secure connection
-            tls_context = ssl.create_default_context()
-            # Allow self-signed certificates (Gree broker uses custom cert)
+            # The Gree broker presents a custom cert, so verification is disabled
+            # anyway. Building the context directly avoids create_default_context(),
+            # whose load_default_certs() does blocking file I/O -- Home Assistant
+            # flags that when connect() runs inside the event loop.
+            tls_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
             tls_context.check_hostname = False
             tls_context.verify_mode = ssl.CERT_NONE
 
