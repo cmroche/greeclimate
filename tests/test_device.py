@@ -703,7 +703,7 @@ async def test_mismatch_temrec_farenheit(temperature, cipher, send):
 
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
-    send.side_effect = None
+    send.side_effect = fake_send
 
     await device.update_state()
 
@@ -813,3 +813,143 @@ async def request_version_timeout_error(cipher, send):
 
     with pytest.raises(DeviceTimeoutError):
         await device.request_version() 
+
+
+@pytest.mark.asyncio
+async def test_get_sub_devices(cipher, send):
+    """Check that get_sub_devices sends subList and returns DeviceInfo list."""
+    info = DeviceInfo("1.1.1.0", "7000", "aabbcc001122", "Gateway", sub_count=2)
+    device = Device(info, timeout=1)
+    await device.bind(key="fake_key", cipher=CipherV1())
+
+    sub_devices_raw = [
+        {"mac": "sub111111", "name": "SubDevice1", "brand": "gree", "model": "model1", "ver": "1.0"},
+        {"mac": "sub222222", "name": "SubDevice2"},
+    ]
+
+    def fake_send(*args, **kwargs):
+        device.handle_sublist_response(sub_devices_raw)
+    send.side_effect = fake_send
+
+    result = await device.get_sub_devices()
+
+    assert len(result) == 2
+    assert result[0].mac == "sub111111"
+    assert result[0].name == "SubDevice1"
+    assert result[0].ip == info.ip
+    assert result[0].port == info.port
+    assert result[1].mac == "sub222222"
+    assert result[1].name == "SubDevice2"
+    assert result[0].gateway_key == "fake_key"
+    assert result[1].gateway_key == "fake_key"
+
+
+@pytest.mark.asyncio
+async def test_get_sub_devices_timeout(cipher, send):
+    """Check that get_sub_devices raises DeviceTimeoutError on no response."""
+    info = DeviceInfo("1.1.1.0", "7000", "aabbcc001122", "Gateway", sub_count=2)
+    device = Device(info, timeout=1)
+    await device.bind(key="fake_key", cipher=CipherV1())
+
+    with pytest.raises(DeviceTimeoutError):
+        await device.get_sub_devices()
+
+
+@pytest.mark.asyncio
+async def test_sub_device_bind_with_key(cipher, send):
+    """Check that a sub-device can bind with an explicit key and cipher."""
+    sub_info = DeviceInfo("1.1.1.0", "7000", "sub111111", "SubDevice1")
+    sub_device = Device(sub_info, timeout=1)
+
+    await sub_device.bind(key="gateway_key", cipher=CipherV1())
+
+    assert sub_device.device_cipher is not None
+    assert sub_device.device_cipher.key == "gateway_key"
+
+
+@pytest.mark.asyncio
+async def test_sub_device_update_state(cipher, send):
+    """Check that a sub-device can update state through its own transport."""
+    sub_info = DeviceInfo("1.1.1.0", "7000", "sub111111", "SubDevice1")
+    sub_device = Device(sub_info, timeout=1)
+    await sub_device.bind(key="gateway_key", cipher=CipherV1())
+
+    def fake_send(*args, **kwargs):
+        sub_device.handle_state_update(**get_mock_state())
+    send.side_effect = fake_send
+
+    await sub_device.update_state()
+    assert sub_device.power is True
+    assert sub_device.has_valid_state is True
+
+
+@pytest.mark.asyncio
+async def test_bind_with_gateway_key(cipher, send):
+    """Check that bind uses gateway_key from device_info when no key is provided."""
+    sub_info = DeviceInfo("1.1.1.0", "7000", "sub111111", "SubDevice1", gateway_key="gateway_key_123", gateway_cipher=CipherV1())
+    device = Device(sub_info, timeout=1, bind_timeout=1)
+
+    def fake_send(*args, **kwargs):
+        device.handle_state_update(Pow=1)
+    send.side_effect = fake_send
+
+    await device.bind()
+
+    assert device.device_cipher is not None
+    assert device.device_cipher.key == "gateway_key_123"
+
+
+@pytest.mark.asyncio
+async def test_get_sub_devices_name_fallback(cipher, send):
+    """Sub-device name comes from the response, falling back to mac when absent."""
+    info = DeviceInfo("1.1.1.0", "7000", "aabbcc001122", "Gateway", sub_count=2)
+    device = Device(info, timeout=1)
+    await device.bind(key="fake_key", cipher=CipherV1())
+
+    sub_devices_raw = [
+        {"mac": "aabb11223344", "name": "Living Room"},
+        {"mac": "ddee55667788"},
+    ]
+
+    def fake_send(*args, **kwargs):
+        device.handle_sublist_response(sub_devices_raw)
+    send.side_effect = fake_send
+
+    result = await device.get_sub_devices()
+
+    assert len(result) == 2
+    # name present in response is used verbatim
+    assert result[0].name == "Living Room"
+    # no name in response → DeviceInfo falls back to mac
+    assert result[1].name == "ddee55667788"
+
+
+def test_target_temperature_survives_missing_temrec():
+    """Sub-devices omit / null out TemRec; target temperature must not vanish.
+
+    A SetTem command acknowledgement echoes val=[25, null, null] for
+    ["SetTem", "TemRec", "TemUn"], which previously reset target_temperature
+    to None. TemRec is only the 0.5-degree bit and should default to 0.
+    """
+    device = Device(DeviceInfo("1.1.1.1", "7000", "aabbcc001122", "Sub"))
+    device.version = "1.10"
+
+    # Initial status from a gateway sub-device: TemUn / TemRec are empty strings
+    device._properties = {
+        Props.POWER.value: 1,
+        Props.MODE.value: 1,
+        Props.TEMP_SET.value: 25,
+        Props.TEMP_UNIT.value: "",
+        Props.TEMP_BIT.value: "",
+        Props.TEMP_SENSOR.value: "",
+    }
+    assert device.target_temperature == 25
+
+    # The res echo of a SetTem command writes None for TemRec / TemUn
+    device.handle_state_update(SetTem=25, TemRec=None, TemUn=None)
+    assert device.target_temperature == 25
+
+    # A missing setpoint still yields None
+    device._properties[Props.TEMP_SET.value] = None
+    assert device.target_temperature is None
+
