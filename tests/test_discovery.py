@@ -12,7 +12,7 @@ from .common import (
     DISCOVERY_REQUEST,
     DISCOVERY_RESPONSE,
     Responder,
-    get_mock_device_info, encrypt_payload,
+    get_mock_device_info, encrypt_payload, encrypt_payload_v2,
 )
 
 
@@ -218,6 +218,87 @@ async def test_discover_devices_bad_data(netifaces, addr, family):
 
         assert response is not None
         assert len(response) == 0
+
+        sock.close()
+        serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
+)
+async def test_discover_devices_cipherv2_fallback(netifaces, addr, family):
+    """Devices that only encrypt their scan reply with CipherV2 (AES-GCM)
+    must still be discovered: Discovery should fall back to CipherV2 when
+    CipherV1 fails to decrypt the reply, same as Device.bind() already
+    does.
+    """
+    netifaces.return_value = {
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
+    }
+
+    with Responder(family, addr[1]) as sock:
+
+        def responder(s):
+            (d, addr) = s.recvfrom(2048)
+            p = json.loads(d)
+            assert p == DISCOVERY_REQUEST
+
+            p = json.dumps(encrypt_payload_v2(DISCOVERY_RESPONSE))
+            s.sendto(p.encode(), addr)
+
+        serv = Thread(target=responder, args=(sock,))
+        serv.start()
+
+        discovery = Discovery(allow_loopback=True)
+        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
+
+        assert devices is not None
+        assert len(devices) == 1
+        assert devices[0].mac == DISCOVERY_RESPONSE["pack"]["mac"]
+
+        sock.close()
+        serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
+)
+async def test_discover_devices_undecryptable_reply_ignored(
+    netifaces, addr, family
+):
+    """A reply that fails to decrypt under both CipherV1 and CipherV2
+    should be discarded without raising, and should not prevent other
+    devices from being discovered.
+    """
+    netifaces.return_value = {
+        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
+    }
+
+    with Responder(family, addr[1]) as sock:
+
+        def responder(s):
+            (d, addr) = s.recvfrom(2048)
+            p = json.loads(d)
+            assert p == DISCOVERY_REQUEST
+
+            bad = DISCOVERY_RESPONSE.copy()
+            bad["pack"] = "not-valid-base64-ciphertext"
+            s.sendto(json.dumps(bad).encode(), addr)
+
+            good = encrypt_payload(DISCOVERY_RESPONSE)
+            s.sendto(json.dumps(good).encode(), addr)
+
+        serv = Thread(target=responder, args=(sock,))
+        serv.start()
+
+        discovery = Discovery(allow_loopback=True)
+        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
+
+        assert devices is not None
+        assert len(devices) == 1
+        assert devices[0].mac == DISCOVERY_RESPONSE["pack"]["mac"]
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
