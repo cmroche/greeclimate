@@ -11,6 +11,9 @@ on:
   schedule:
     - cron: "17 4 * * *"
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,12 +23,14 @@ jobs:
         python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
+          cache: pip
+          cache-dependency-path: requirements.txt
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -40,9 +45,9 @@ jobs:
       - name: Test with unittest
         run: |
           pytest --cov-report=xml --cov=greeclimate tests/
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v7
         with:
-          file: ./coverage.xml
+          files: ./coverage.xml
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   publish:
@@ -53,24 +58,29 @@ jobs:
     concurrency:
       group: pypi-publish
       cancel-in-progress: false
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - name: Set up Python 3.15
-        uses: actions/setup-python@v5
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v7
         with:
-          python-version: 3.15
-          allow-prereleases: true
+          python-version: "3.14"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine
           pip install importlib_metadata==7.2.1
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: "24.x"
+          check-latest: true
+          cache: npm
       - env:
           CI: true
         run: npm ci

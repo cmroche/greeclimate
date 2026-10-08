@@ -1,0 +1,47 @@
+name: Dependabot auto-merge
+
+on:
+  workflow_run:
+    workflows: ["Python package"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.repository == 'cmroche/greeclimate'
+    steps:
+      - name: Find Dependabot PR
+        id: pr
+        run: |
+          pr_url="$(
+            gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/$REPO/commits/$HEAD_SHA/pulls" \
+              --jq 'map(select(.state == "open" and .user.login == "dependabot[bot]")) | first | .html_url // ""'
+          )"
+
+          if [ -z "$pr_url" ]; then
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "found=true" >> "$GITHUB_OUTPUT"
+          echo "url=$pr_url" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          REPO: ${{ github.repository }}
+
+      - name: Enable auto-merge for Dependabot PRs
+        if: steps.pr.outputs.found == 'true'
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ steps.pr.outputs.url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,3 +1,40 @@
+# [3.2.0](https://github.com/cmroche/greeclimate/compare/v3.1.1...v3.2.0) (2026-06-11)
+
+
+### Features
+
+* add buzzer property to control device beep on commands ([8c0a824](https://github.com/cmroche/greeclimate/commit/8c0a82436b2625dc5dc382566923c7953fe7fe85))
+* add buzzer property to control device beep on commands ([1735ddf](https://github.com/cmroche/greeclimate/commit/1735ddfd3ec9c62e4e19c6610e9d8cadfe457663)), closes [#106](https://github.com/cmroche/greeclimate/issues/106)
+
+## [3.1.1](https://github.com/cmroche/greeclimate/compare/v3.1.0...v3.1.1) (2026-06-11)
+
+
+### Reverts
+
+* Revert "feat: Add support for beep on/off (not supported on all devices)" ([fbb22a2](https://github.com/cmroche/greeclimate/commit/fbb22a2d7df1785433158bea1fe73905fd64a97d))
+
+# [3.1.0](https://github.com/cmroche/greeclimate/compare/v3.0.0...v3.1.0) (2026-06-11)
+
+
+### Bug Fixes
+
+* dirty beep setting ([07b5cc2](https://github.com/cmroche/greeclimate/commit/07b5cc2108b39e5e92e3d5be63bf3dd6439a67c7))
+
+
+### Features
+
+* Add support for beep on/off (not supported on all devices) ([eb9f6a0](https://github.com/cmroche/greeclimate/commit/eb9f6a076c4b9a11868e13284359bfa927ad0201))
+
+# [3.0.0](https://github.com/cmroche/greeclimate/compare/v2.1.4...v3.0.0) (2026-06-10)
+
+
+* feat!: drop Python 3.8 and 3.9 support ([17e5d7a](https://github.com/cmroche/greeclimate/commit/17e5d7a91728077e08c59eb06345fb7b30149f8c))
+
+
+### BREAKING CHANGES
+
+* Python 3.8 and 3.9 are no longer supported; package metadata and CI now start at Python 3.10.
+
 ## [2.1.4](https://github.com/cmroche/greeclimate/compare/v2.1.3...v2.1.4) (2026-01-10)
 
 
