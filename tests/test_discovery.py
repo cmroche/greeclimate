@@ -274,7 +274,8 @@ async def test_remove_listener():
 
 
 @pytest.mark.asyncio
-async def test_discovery_sub_count():
+@patch.object(Discovery, "_query_gateway", new_callable=AsyncMock)
+async def test_discovery_sub_count(query_gateway):
     """Test that subCnt from scan response is passed to DeviceInfo."""
     discovery = Discovery(allow_loopback=True)
     discovery.packet_received(

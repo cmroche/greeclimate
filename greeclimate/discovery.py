@@ -51,6 +51,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         self.device_cipher = CipherV1()
         self._allow_loopback: bool = allow_loopback
         self._include_gateways: bool = False
+        self._scan_lock = asyncio.Lock()
         self._device_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []
 
@@ -117,10 +118,11 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         _LOGGER.info("Found gree device %s", str(device_info))
 
-        # If this is a gateway, query its sub-devices in the background
+        include_gateway = self._include_gateways
         if device_info.sub_count > 0:
-            self._create_task(self._query_gateway(device_info))
-            if not self._include_gateways:
+            # Keep enumeration inside this tracked task so scan() waits for it.
+            await self._query_gateway(device_info)
+            if not include_gateway:
                 return
 
         tasks = [l.device_found(device_info) for l in self._listeners]
@@ -178,14 +180,16 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             include_gateways (bool): If True, gateway devices are included in
                                      the results alongside their sub-devices.
                                      Default is False.
+            Concurrent scans are serialized. The latest scan's gateway policy
+            remains active for late responses, including when wait_for is zero.
 
         Returns:
             List[DeviceInfo]: List of devices found during this scan
         """
         _LOGGER.info("Scanning for Gree devices ...")
 
-        self._include_gateways = include_gateways
-        try:
+        async with self._scan_lock:
+            self._include_gateways = include_gateways
             await self.search_devices(bcast_ifaces)
             if wait_for:
                 await asyncio.sleep(wait_for)
@@ -194,8 +198,6 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             if include_gateways:
                 return list(self._device_infos)
             return [d for d in self._device_infos if d.sub_count == 0]
-        finally:
-            self._include_gateways = False
 
     def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""

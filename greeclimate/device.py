@@ -183,6 +183,7 @@ class Device(DeviceProtocol2, Taskable):
 
         self._valid_state: asyncio.Event = asyncio.Event()
         self._valid_state.clear()
+        self._state_update_pending = False
 
         self._sublist_event: asyncio.Event = asyncio.Event()
         self._sub_devices_raw: list = []
@@ -219,18 +220,18 @@ class Device(DeviceProtocol2, Taskable):
         if not self.device_info:
             raise DeviceNotBoundError
 
+        if key and not cipher:
+            raise ValueError("cipher must be provided when key is provided")
+
         if self._transport is None:
             self._transport, _ = await self._loop.create_datagram_endpoint(
                 lambda: self, remote_addr=(self.device_info.ip, self.device_info.port)
             )
 
         if key:
-            if not cipher:
-                raise ValueError("cipher must be provided when key is provided")
-            else:
-                cipher.key = key
-                self.device_cipher = cipher
-                return
+            cipher.key = key
+            self.device_cipher = cipher
+            return
 
         self._logger.info("Starting device binding to %s", str(self.device_info))
 
@@ -264,6 +265,8 @@ class Device(DeviceProtocol2, Taskable):
         """Handle the device bound message from the device"""
         DeviceProtocol2.handle_device_bound(self, key)
         self.device_cipher.key = key
+        self._valid_state.clear()
+        self._state_update_pending = True
         self._loop.create_task(self.update_state())
 
     def handle_sublist_response(self, sub_devices: list) -> None:
@@ -291,7 +294,7 @@ class Device(DeviceProtocol2, Taskable):
 
         # Wait briefly for any pending state update to finish so we don't
         # collide with it on the wire, but don't block long.
-        if not self._valid_state.is_set():
+        if self._state_update_pending:
             try:
                 await asyncio.wait_for(self._valid_state.wait(), timeout=5)
             except asyncio.TimeoutError:
@@ -342,6 +345,7 @@ class Device(DeviceProtocol2, Taskable):
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
         self._valid_state.clear()
+        self._state_update_pending = True
         props = [x.value for x in Props]
         if not self.hid:
             props.append("hid")
@@ -349,6 +353,7 @@ class Device(DeviceProtocol2, Taskable):
         try:
             await self.send(self.create_status_message(self.device_info, *props))
         except asyncio.TimeoutError:
+            self._state_update_pending = False
             raise DeviceTimeoutError
 
     def handle_state_update(self, **kwargs) -> None:
@@ -373,6 +378,7 @@ class Device(DeviceProtocol2, Taskable):
             self._logger.debug(f"Using device temperature {self.current_temperature}")
 
         self._valid_state.set()
+        self._state_update_pending = False
 
     async def push_state_update(self):
         """Push any pending state updates to the unit

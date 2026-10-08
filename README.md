@@ -44,6 +44,20 @@ for device_info in await discovery.scan(wait_for=5):
     )
 ```
 
+Gateways with multiple indoor units are queried automatically. With a nonzero
+`wait_for`, `scan()` waits for gateway enumeration before returning the indoor
+units. Gateway devices themselves are excluded by default; pass
+`include_gateways=True` to include them and notify listeners about them.
+
+Concurrent scans on one `Discovery` instance are serialized. The latest scan's
+gateway inclusion policy remains active for late responses. With `wait_for=0`,
+use discovery listeners to receive devices found after `scan()` returns.
+
+Discovered indoor units inherit the gateway's key and cipher. Binding with a
+cached key still opens a UDP transport and requires a cipher; invalid key/cipher
+pairs are rejected before opening a socket. Gateway enumeration waits briefly
+only when a requested state update is still pending.
+
 #### Caveats
 
 Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.
