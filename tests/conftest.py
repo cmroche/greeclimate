@@ -6,19 +6,12 @@ import pytest
 from greeclimate.device import Device
 from tests.common import FakeCipher
 
-MOCK_INTERFACES = ["lo"]
-MOCK_LO_IFACE = {
-    2: [{"addr": "10.0.0.1", "netmask": "255.0.0.0", "peer": "10.255.255.255"}]
-}
 
-
-@pytest.fixture(name="netifaces")
-def netifaces_fixture():
-    """Patch netifaces interface discover."""
-    with patch("netifaces.interfaces", return_value=MOCK_INTERFACES), patch(
-            "netifaces.ifaddresses", return_value=MOCK_LO_IFACE
-    ) as ifaddr_mock:
-        yield ifaddr_mock
+@pytest.fixture(name="ifaddr_adapters")
+def ifaddr_adapters_fixture():
+    """Patch ifaddr adapter discovery."""
+    with patch("ifaddr.get_adapters", return_value=[]) as adapters_mock:
+        yield adapters_mock
 
 
 @pytest.fixture(name="cipher")

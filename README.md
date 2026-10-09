@@ -44,6 +44,15 @@ for device_info in await discovery.scan(wait_for=5):
     )
 ```
 
+Automatic discovery uses `ifaddr` to enumerate IPv4 interfaces and derives their subnet broadcast addresses.
+IPv6 and non-loopback `/31` and `/32` networks are skipped. Loopback is excluded unless
+`Discovery(allow_loopback=True)` is used; then scans target the loopback host address.
+
+Passing `None` or `[]` as `scan(bcast_ifaces=...)` uses automatic enumeration. A non-empty list of
+`ipaddress.IPv4Address` destinations bypasses enumeration and can select custom broadcast or
+point-to-point targets. Automatic enumeration derives broadcasts from prefixes rather than
+using OS-specific broadcast or peer fields.
+
 #### Caveats
 
 Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.

@@ -4,7 +4,7 @@ import asyncio
 import logging
 from asyncio import Task
 from asyncio.events import AbstractEventLoop
-from ipaddress import IPv4Address
+from ipaddress import IPv4Address, IPv4Interface
 
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import DeviceInfo
@@ -179,24 +179,23 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
     def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""
-        import netifaces
+        import ifaddr
 
-        bdrAddrs = []
-        for iface in netifaces.interfaces():
-            for addr in netifaces.ifaddresses(iface).get(netifaces.AF_INET, []):
-                ipaddr = addr.get("addr")
-                bdr = addr.get("broadcast")
-                peer = addr.get("peer")
-                if addr:
-                    ip4addr = IPv4Address(ipaddr)
-                    if ip4addr.is_loopback and self._allow_loopback:
-                        if bdr or peer:
-                            bdrAddrs.append(IPv4Address(bdr or peer))
-                    elif not ip4addr.is_loopback:
-                        if bdr:
-                            bdrAddrs.append(IPv4Address(bdr))
+        broadcast_addresses = []
+        for adapter in ifaddr.get_adapters():
+            for address in adapter.ips:
+                if not address.is_IPv4:
+                    continue
+                interface = IPv4Interface((address.ip, address.network_prefix))
+                if interface.ip.is_loopback:
+                    if self._allow_loopback:
+                        broadcast_addresses.append(interface.ip)
+                    continue
+                if interface.network.prefixlen >= 31:
+                    continue
+                broadcast_addresses.append(interface.network.broadcast_address)
 
-        return bdrAddrs
+        return broadcast_addresses
 
     async def search_on_interface(self, bcast_iface: IPv4Address) -> None:
         """Search for devices on a specific interface."""
