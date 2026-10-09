@@ -1,3 +1,12 @@
+## [3.2.1](https://github.com/cmroche/greeclimate/compare/v3.2.0...v3.2.1) (2026-10-09)
+
+
+### Bug Fixes
+
+* fall back to CipherV2 when Discovery can't decrypt a scan reply with CipherV1 ([#177](https://github.com/cmroche/greeclimate/issues/177)) ([e788cf1](https://github.com/cmroche/greeclimate/commit/e788cf11b5a49c29e32b0c01da38add43a91cd42)), closes [home-assistant/core#82452](https://github.com/home-assistant/core/issues/82452) [home-assistant/core#148458](https://github.com/home-assistant/core/issues/148458)
+* handle mixed-case bind responses ([2dbfc81](https://github.com/cmroche/greeclimate/commit/2dbfc81471739194de312c1c69d891ca35a7412c))
+* replace netifaces with ifaddr ([#193](https://github.com/cmroche/greeclimate/issues/193)) ([02eb7a2](https://github.com/cmroche/greeclimate/commit/02eb7a2c1231176b6a05867d2a6b1fbc0ff3819f))
+
 # [3.2.0](https://github.com/cmroche/greeclimate/compare/v3.1.1...v3.2.0) (2026-06-11)
 
 
