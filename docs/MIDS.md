@@ -13,7 +13,6 @@ The PC emulator preserves each family's status ordering, value alignment, and un
 ## Historical polling catalog
 
 These are default polling lists, not complete capability or temperature-encoding rules. An omitted field may support an explicit query; an unsupported query may return a generic zero, not a sensor reading. Firmware routing evidence below is separate from device observations.
-
 | MID | Device category | Status fields (polling) |
 | --- | --- | --- |
 | `0001` | Air conditioner | `Pow`, `HeatCoolType`, `Mod`, `TemUn`, `SetTem`, `TemRec`, `StHt`, `SvSt`, `host`, `name`, `AllErr`, `ModelType`, `Dmod`, `Add0.5`, `WdSpd`, `Quiet`, `Tur` |

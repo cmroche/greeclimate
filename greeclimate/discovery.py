@@ -100,7 +100,8 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         First observations emit device_found; changed IP or port emits
         device_update. Metadata-only observations silently replace the cache
-        entry. Listener failures are isolated; enrollment remains caller-owned.
+        entry, including an omitted MID. Listener failures are isolated;
+        enrollment remains caller-owned.
         """
         if self._closing:
             return

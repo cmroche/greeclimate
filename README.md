@@ -159,6 +159,27 @@ Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loo
 
 Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
 
+### Air-to-water heat pumps
+
+Use `create_device` to select a family from known exact identifiers, or construct
+`greeclimate.atw.AirToWaterDevice` directly when the family is already known.
+
+```python
+from greeclimate.device_factory import create_device
+
+device = create_device(device_info)
+# An already-known HID can also be supplied: create_device(device_info, hid=hid).
+await device.bind()
+# Wait for a received state update before using reported units or power.
+```
+
+ATW devices require a cooling mode value for cooling functions to work. But there
+is not clear indication of which of the two modes should be used, `0` or `5`. 
+To set a value, create the device like:
+`create_device(device_info, cooling_mode_value=5)`.
+
+Once a value is known, please consider submitting a PR adding your device to `KNOWN_DEVICES` in `device_factory.py`.
+
 ## Use Gree Emulator
 
 Run these commands from the repository root with Python 3.10+ and dependencies installed; each server runs until Ctrl-C.
