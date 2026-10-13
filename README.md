@@ -48,10 +48,23 @@ Automatic discovery uses `ifaddr` to enumerate IPv4 interfaces and derives their
 IPv6 and non-loopback `/31` and `/32` networks are skipped. Loopback is excluded unless
 `Discovery(allow_loopback=True)` is used; then scans target the loopback host address.
 
-Passing `None` or `[]` as `scan(bcast_ifaces=...)` uses automatic enumeration. A non-empty list of
+Passing `None` or `[]` as `scan(target_addresses=...)` uses automatic enumeration. A non-empty list of
 `ipaddress.IPv4Address` destinations bypasses enumeration and can select custom broadcast or
-point-to-point targets. Automatic enumeration derives broadcasts from prefixes rather than
+unicast targets. Automatic enumeration derives broadcasts from prefixes rather than
 using OS-specific broadcast or peer fields.
+
+To discover a device at a known address:
+
+```python
+from ipaddress import IPv4Address
+
+devices = await discovery.scan(wait_for=5, target_addresses=[IPv4Address(host)])
+```
+
+The existing `bcast_ifaces` parameter remains supported as a compatibility alias, including
+positional calls. Supplying both parameters with non-`None` values raises `ValueError`.
+`search_devices(target_addresses=...)` likewise retains its existing `broadcastAddrs`
+keyword and positional calls, with the same conflict and automatic enumeration rules.
 
 #### Caveats
 
