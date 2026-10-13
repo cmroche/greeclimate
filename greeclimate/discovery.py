@@ -185,7 +185,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         _LOGGER.info("Scanning for Gree devices ...")
 
-        await self.search_devices(target_addresses)
+        await self.search_devices(target_addresses=target_addresses)
         if wait_for:
             await asyncio.sleep(wait_for)
             await asyncio.gather(*self.tasks, return_exceptions=True)
@@ -226,8 +226,21 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         await self.send({"t": "scan"}, (str(target_address), 7000))
 
-    async def search_devices(self, target_addresses: list[IPv4Address] | None = None) -> None:
-        """Search for devices at explicit destinations or automatic broadcast addresses."""
+    async def search_devices(
+        self,
+        broadcastAddrs: list[IPv4Address] | None = None,
+        *,
+        target_addresses: list[IPv4Address] | None = None,
+    ) -> None:
+        """Search explicit destinations or automatic broadcast addresses.
+
+        broadcastAddrs is a compatibility alias for target_addresses.
+        Supplying both with non-None values raises ValueError.
+        """
+        if broadcastAddrs is not None:
+            if target_addresses is not None:
+                raise ValueError("Use either target_addresses or broadcastAddrs, not both")
+            target_addresses = broadcastAddrs
         if not target_addresses:
             target_addresses = self._get_broadcast_addresses()
         await asyncio.gather(

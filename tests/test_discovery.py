@@ -128,11 +128,45 @@ async def test_discover_devices(ifaddr_adapters, addr, family, scan_args, scan_k
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("args,kwargs", [
+    ((), {"target_addresses": [IPv4Address("127.0.0.1")]}),
+    ((), {"broadcastAddrs": [IPv4Address("127.0.0.1")]}),
+    (([IPv4Address("127.0.0.1")],), {}),
+    ((), {}),
+    ((), {"target_addresses": None}),
+    ((), {"target_addresses": []}),
+    ((), {"broadcastAddrs": None}),
+    ((), {"broadcastAddrs": []}),
+])
+async def test_search_devices_sends_discovery_packet(ifaddr_adapters, args, kwargs):
+    ifaddr_adapters.return_value = [] if args or any(kwargs.values()) else [
+        ifaddr.Adapter("lo", "lo", [ifaddr.IP("127.0.0.1", 8, "lo")])
+    ]
+    receiver = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    discovery = Discovery(allow_loopback=True)
+    try:
+        receiver.bind(("127.0.0.1", 7000))
+        receiver.setblocking(False)
+        await discovery.search_devices(*args, **kwargs)
+        data, _ = await asyncio.wait_for(
+            asyncio.get_running_loop().sock_recvfrom(receiver, 2048), DEFAULT_TIMEOUT
+        )
+        assert json.loads(data) == DISCOVERY_REQUEST
+    finally:
+        if discovery._transport is not None:
+            discovery.close()
+        receiver.close()
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize("legacy_addresses", [[], [IPv4Address("127.0.0.1")]])
-async def test_scan_rejects_conflicting_address_parameters(legacy_addresses):
+@pytest.mark.parametrize("method,legacy_parameter", [
+    ("scan", "bcast_ifaces"), ("search_devices", "broadcastAddrs"),
+])
+async def test_discovery_rejects_conflicting_address_parameters(legacy_addresses, method, legacy_parameter):
     discovery = Discovery()
-    with pytest.raises(ValueError, match="Use either target_addresses or bcast_ifaces"):
-        await discovery.scan(bcast_ifaces=legacy_addresses, target_addresses=[])
+    with pytest.raises(ValueError, match="Use either target_addresses or " + legacy_parameter):
+        await getattr(discovery, method)(**{legacy_parameter: legacy_addresses, "target_addresses": []})
 
 
 @pytest.mark.asyncio

@@ -63,6 +63,8 @@ devices = await discovery.scan(wait_for=5, target_addresses=[IPv4Address(host)])
 
 The existing `bcast_ifaces` parameter remains supported as a compatibility alias, including
 positional calls. Supplying both parameters with non-`None` values raises `ValueError`.
+`search_devices(target_addresses=...)` likewise retains its existing `broadcastAddrs`
+keyword and positional calls, with the same conflict and automatic enumeration rules.
 
 #### Caveats
 
