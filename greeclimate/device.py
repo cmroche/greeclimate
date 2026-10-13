@@ -2,10 +2,9 @@ import asyncio
 import enum
 import logging
 import re
-import typing
 from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
-from typing import Union, Optional, Any
+from typing import Union, Optional, Any, List, Dict
 
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
@@ -122,39 +121,8 @@ HUMIDITY_MIN = 30
 HUMIDITY_MAX = 80
 
 
-class Device(DeviceProtocol2, Taskable):
-    """Class representing a physical device, it's state and properties.
-
-    Devices must be bound, either by discovering their presence, or supplying a persistent
-    device key which is then used for communication (and encryption) with the unit. See the
-    `bind` function for more details on how to do this.
-
-    Once a device is bound occasionally call `update_state` to request and update state from
-    the HVAC, as it is possible that it changes state from other sources.
-
-    Attributes:
-        power: A boolean indicating if the unit is on or off
-        mode: An int indicating operating mode, see `Mode` enum for possible values
-        target_temperature: The target temperature, ignore if in Auto, Fan or Steady Heat mode
-        temperature_units: An int indicating unit of measurement, see `TemperatureUnits` enum for possible values
-        current_temperature: The current temperature
-        fan_speed: An int indicating fan speed, see `FanSpeed` enum for possible values
-        fresh_air: A boolean indicating if fresh air valve is open, if present
-        xfan: A boolean to enable the fan to dry the coil, only used for cool and dry modes
-        anion: A boolean to enable the ozone generator, if present
-        sleep: A boolean to enable sleep mode, which adjusts temperature over time
-        light: A boolean to enable the light on the unit, if present
-        horizontal_swing: An int to control the horizontal blade position, see `HorizontalSwing` enum for possible values
-        vertical_swing: An int to control the vertical blade position, see `VerticalSwing` enum for possible values
-        quiet: A boolean to enable quiet operation
-        turbo: A boolean to enable turbo operation (heat or cool faster initially)
-        steady_heat: When enabled unit will maintain a target temperature of 8 degrees C
-        power_save: A boolen to enable power save operation
-        target_humidity: An int to set the target relative humidity
-        current_humidity: The current relative humidity
-        clean_filter: A bool to indicate the filter needs cleaning
-        water_full: A bool to indicate the water tank is full
-    """
+class _BaseDevice(DeviceProtocol2, Taskable):
+    """Shared binding, state cache and transport lifecycle."""
 
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         """Initialize the device object
@@ -176,10 +144,8 @@ class Device(DeviceProtocol2, Taskable):
         """ Device properties """
         self.hid = None
         self.version = None
-        self.check_version = True
         self._properties = {}
         self._dirty = []
-        self._buzzer = True
 
         self._valid_state: asyncio.Event = asyncio.Event()
         self._valid_state.clear()
@@ -277,7 +243,7 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
-        props = [x.value for x in Props]
+        props = self._status_columns()
         if not self.hid:
             props.append("hid")
 
@@ -298,16 +264,7 @@ class Device(DeviceProtocol2, Taskable):
             self._logger.info(f"Device version is {self.version}, hid {self.hid}")
 
         self._properties.update(kwargs)
-
-        if self.check_version and Props.TEMP_SENSOR.value in kwargs:
-            self.check_version = False
-            temp = self.get_property(Props.TEMP_SENSOR)
-            self._logger.debug(f"Checking for temperature offset, reported temp {temp}")
-            if temp and temp < TEMP_OFFSET:
-                self.version = "4.0"
-                self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
-            self._logger.debug(f"Using device temperature {self.current_temperature}")
-
+        self._handle_properties_updated(kwargs)
         self._valid_state.set()
 
     async def push_state_update(self):
@@ -321,23 +278,7 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
 
-        props = {}
-        for name in self._dirty:
-            value = self._properties.get(name)
-            self._logger.debug("Sending remote state update %s -> %s", name, value)
-            props[name] = value
-            if name == Props.TEMP_SET.value:
-                props[Props.TEMP_BIT.value] = self._properties.get(Props.TEMP_BIT.value)
-                props[Props.TEMP_UNIT.value] = self._properties.get(
-                    Props.TEMP_UNIT.value
-                )
-
-        if not self._buzzer:
-            self._logger.debug("Disabling buzzer for command")
-            props["Buzzer_ON_OFF"] = 1
-
-        # Newer firmwares are using this property to control the buzzer
-        props["BuzzerCtrl"] = 1 if self._buzzer else 0
+        props = self._command_properties()
 
         try:
             await self.send(self.create_command_message(self.device_info, **props))
@@ -382,6 +323,54 @@ class Device(DeviceProtocol2, Taskable):
     @property
     def has_valid_state(self) -> bool:
         return self._valid_state.is_set()
+
+    def _status_columns(self) -> List[str]:
+        raise NotImplementedError
+
+    def _command_properties(self) -> Dict[str, Any]:
+        props = {}
+        for name in self._dirty:
+            value = self._properties.get(name)
+            self._logger.debug("Sending remote state update %s -> %s", name, value)
+            props[name] = value
+        return props
+
+    def _handle_properties_updated(self, properties: Dict[str, Any]) -> None:
+        pass
+
+
+class Device(_BaseDevice):
+    """Air-conditioner and dehumidifier controls."""
+
+    def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
+        super().__init__(device_info, timeout, bind_timeout, loop)
+        self.check_version = True
+        self._buzzer = True
+
+    def _status_columns(self) -> List[str]:
+        return [p.value for p in Props]
+
+    def _command_properties(self) -> Dict[str, Any]:
+        props = super()._command_properties()
+        if Props.TEMP_SET.value in props:
+            props[Props.TEMP_BIT.value] = self._properties.get(Props.TEMP_BIT.value)
+            props[Props.TEMP_UNIT.value] = self._properties.get(Props.TEMP_UNIT.value)
+        if not self._buzzer:
+            self._logger.debug("Disabling buzzer for command")
+            props["Buzzer_ON_OFF"] = 1
+        # Newer firmwares are using this property to control the buzzer
+        props["BuzzerCtrl"] = 1 if self._buzzer else 0
+        return props
+
+    def _handle_properties_updated(self, properties: Dict[str, Any]) -> None:
+        if self.check_version and Props.TEMP_SENSOR.value in properties:
+            self.check_version = False
+            temp = self.get_property(Props.TEMP_SENSOR)
+            self._logger.debug(f"Checking for temperature offset, reported temp {temp}")
+            if temp and temp < TEMP_OFFSET:
+                self.version = "4.0"
+                self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
+            self._logger.debug(f"Using device temperature {self.current_temperature}")
 
     @property
     def power(self) -> Optional[bool]:

@@ -2,7 +2,8 @@ import argparse
 import asyncio
 import logging
 
-from greeclimate.device import Device, DeviceInfo
+from greeclimate.device_factory import create_device
+from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
 
 logging.basicConfig(
@@ -22,7 +23,7 @@ class DiscoveryListener(Listener):
     async def device_found(self, device_info: DeviceInfo) -> None:
         """A new device was found on the network."""
         if self.bind:
-            device = Device(device_info)
+            device = create_device(device_info)
             await device.bind()
             await device.request_version()
             _LOGGER.info(f"Device firmware: {device.hid}")

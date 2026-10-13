@@ -102,9 +102,13 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         for index, last_info in enumerate(self._device_infos):
             if device_info == last_info:
+                if device_info.mid is not None:
+                    last_info.mid = device_info.mid
                 if device_info.ip != last_info.ip:
                     # ip address info may have been updated, so store the new info
                     # and trigger a `device_update` event.
+                    if device_info.mid is None:
+                        device_info.mid = last_info.mid
                     self._device_infos[index] = device_info
                     tasks = [l.device_update(device_info) for l in self._listeners]
                     await asyncio.gather(*tasks, return_exceptions=True)
@@ -151,6 +155,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             pack.get("brand"),
             pack.get("model"),
             pack.get("ver"),
+            pack.get("mid"),
         )
 
         self._create_task(self.device_found(DeviceInfo(*device)))

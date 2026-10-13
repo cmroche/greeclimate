@@ -108,6 +108,27 @@ device.target_humidity = 45
 await device.push_state_update()
 ```
 
+### Air-to-water heat pumps
+
+Use `create_device` to select a family from known exact identifiers, or construct
+`greeclimate.atw.AirToWaterDevice` directly when the family is already known.
+
+```python
+from greeclimate.device_factory import create_device
+
+device = create_device(device_info)
+# An already-known HID can also be supplied: create_device(device_info, hid=hid).
+await device.bind()
+# Wait for a received state update before using reported units or power.
+```
+
+ATW devices require a cooling mode value for cooling functions to work. But there
+is not clear indication of which of the two modes should be used, `0` or `5`. 
+To set a value, create the device like:
+`create_device(device_info, cooling_mode_value=5)`.
+
+Once a value is known, please consider submitting a PR adding your device to `KNOWN_DEVICES` in `device_factory.py`.
+
 ## Debugging
 
 Maybe the reason you're here is that you're working with Home Assistant and your device isn't being detected.
