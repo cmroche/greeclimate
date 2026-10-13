@@ -78,8 +78,19 @@ async def test_get_broadcast_addresses_no_ipv4(ifaddr_adapters, adapters):
 @pytest.mark.parametrize(
     "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_discover_devices(ifaddr_adapters, addr, family):
-    ifaddr_adapters.return_value = [ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])]
+@pytest.mark.parametrize("scan_args,scan_kwargs", [
+    ((), {}),
+    ((), {"target_addresses": [IPv4Address("127.0.0.1")]}),
+    ((), {"bcast_ifaces": [IPv4Address("127.0.0.1")]}),
+    (([IPv4Address("127.0.0.1")],), {}),
+    ((), {"target_addresses": None}),
+    ((), {"target_addresses": []}),
+    ((), {"bcast_ifaces": []}),
+], ids=["automatic", "target_addresses", "bcast_ifaces", "positional", "none", "empty", "legacy-empty"])
+async def test_discover_devices(ifaddr_adapters, addr, family, scan_args, scan_kwargs):
+    ifaddr_adapters.return_value = [] if scan_args or any(scan_kwargs.values()) else [
+        ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])
+    ]
 
     devices = [
         {"cid": "aabbcc001122", "mac": "aabbcc001122", "name": "MockDevice1"},
@@ -104,12 +115,24 @@ async def test_discover_devices(ifaddr_adapters, addr, family):
         serv.start()
 
         discovery = Discovery(allow_loopback=True)
-        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
-        assert devices is not None
-        assert len(devices) == 3
+        try:
+            devices = await discovery.scan(DEFAULT_TIMEOUT, *scan_args, **scan_kwargs)
+            assert {device.mac for device in devices} == {
+                "aabbcc001122", "aabbcc001123", "aabbcc001124",
+            }
+        finally:
+            discovery.close()
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("legacy_addresses", [[], [IPv4Address("127.0.0.1")]])
+async def test_scan_rejects_conflicting_address_parameters(legacy_addresses):
+    discovery = Discovery()
+    with pytest.raises(ValueError, match="Use either target_addresses or bcast_ifaces"):
+        await discovery.scan(bcast_ifaces=legacy_addresses, target_addresses=[])
 
 
 @pytest.mark.asyncio
