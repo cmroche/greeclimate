@@ -136,7 +136,7 @@ async def test_cached_gateway_enumeration_does_not_wait_for_unrequested_state():
     # Bind creates a real UDP transport; the query response is injected at send.
     await device.bind(key="1234567890123456", cipher=CipherV1())
 
-    async def send(*args):
+    async def send(*args, **kwargs):
         device.handle_sublist_response([{"mac": "aabbcc001133", "name": "Indoor"}])
 
     try:
@@ -154,8 +154,8 @@ async def test_enumeration_waits_for_requested_state_then_reuses_valid_session()
     await device.bind(key="1234567890123456", cipher=CipherV1())
     query_sent = asyncio.Event()
 
-    async def send(packet):
-        if packet.get("t") == "subList":
+    async def send(packet, **kwargs):
+        if packet.get("t") == "subList" or packet.get("pack", {}).get("t") in ("subList", "subDev"):
             query_sent.set()
             device.handle_sublist_response([{"mac": "aabbcc001133"}])
 

@@ -58,6 +58,16 @@ cached key still opens a UDP transport and requires a cipher; invalid key/cipher
 pairs are rejected before opening a socket. Gateway enumeration waits briefly
 only when a requested state update is still pending.
 
+Gateway enumeration collects results from the existing plain `subList` query,
+a bound-key encrypted `subList`, a generic-key `i:1`/`subList` exchange, and
+the bound-key `subDev` command (`uid:0`). Some gateways return complementary
+subsets, so entries are merged by indoor-unit MAC rather than stopping at the
+first answer. A timed-out form does not discard results from the others; each
+form waits up to two seconds for its response and retries once on timeout.
+Concurrent enumeration calls on
+the same device are serialized. Generic-key enumeration leaves the bound
+gateway cipher unchanged for subsequent state/control traffic.
+
 #### Caveats
 
 Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.

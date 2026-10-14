@@ -1,4 +1,5 @@
 import asyncio
+import copy
 import enum
 import logging
 import re
@@ -7,6 +8,7 @@ from asyncio import AbstractEventLoop
 from enum import IntEnum, unique
 from typing import List, Union, Optional, Any
 
+from greeclimate import cipher as cipher_module
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
@@ -187,6 +189,19 @@ class Device(DeviceProtocol2, Taskable):
 
         self._sublist_event: asyncio.Event = asyncio.Event()
         self._sub_devices_raw: list = []
+        self._sublist_lock = asyncio.Lock()
+        self._sublist_response_cipher = None
+
+    def decode_response_pack(self, obj) -> dict:
+        if self._sublist_response_cipher is not None and obj.get("i") == 1:
+            try:
+                pack = self._sublist_response_cipher.decrypt(obj["pack"])
+            except (ValueError, UnicodeError):
+                pass
+            else:
+                if str(pack.get("t", "")).lower() == "sublist":
+                    return pack
+        return super().decode_response_pack(obj)
 
     async def bind(
         self,
@@ -275,6 +290,11 @@ class Device(DeviceProtocol2, Taskable):
         self._sublist_event.set()
 
     async def get_sub_devices(self) -> List[DeviceInfo]:
+        """Enumerate and merge indoor units from the supported gateway query forms."""
+        async with self._sublist_lock:
+            return await self._get_sub_devices()
+
+    async def _get_sub_devices(self) -> List[DeviceInfo]:
         """Query the gateway for its sub-devices.
 
         Returns:
@@ -303,14 +323,56 @@ class Device(DeviceProtocol2, Taskable):
                     str(self.device_info),
                 )
 
-        try:
-            await self.send(self.create_sublist_message(self.device_info))
-            await asyncio.wait_for(self._sublist_event.wait(), timeout=self._bind_timeout)
-        except asyncio.TimeoutError:
+        generic_cipher = (cipher_module.CipherV2() if isinstance(self.device_cipher, cipher_module.CipherV2)
+                          else cipher_module.CipherV1())
+        requests = (
+            ("plain", self.create_sublist_message(self.device_info), None),
+            ("device-key", self.create_encrypted_sublist_message(self.device_info), None),
+            ("generic-key", self.create_generic_sublist_message(self.device_info), generic_cipher),
+            ("subDev", self.create_subdev_message(self.device_info), None),
+        )
+        merged = {}
+        answered = False
+        for label, request, request_cipher in requests:
+            self._sublist_event.clear()
+            self._sub_devices_raw = []
+            self._sublist_response_cipher = request_cipher
+            try:
+                for attempt in range(2):
+                    try:
+                        payload = copy.deepcopy(request)
+                        if request_cipher is None:
+                            await self.send(payload)
+                        else:
+                            await self.send(payload, request_cipher=request_cipher)
+                        await asyncio.wait_for(self._sublist_event.wait(), timeout=min(self._bind_timeout, 2))
+                        break
+                    except asyncio.TimeoutError:
+                        self._logger.debug("Gateway %s enumeration form %s attempt %d timed out",
+                                           self.device_info.mac, label, attempt + 1)
+                else:
+                    continue
+            finally:
+                self._sublist_response_cipher = None
+            answered = True
+            self._logger.debug("Gateway %s enumeration form %s returned %d entries",
+                               self.device_info.mac, label, len(self._sub_devices_raw))
+            for sub in self._sub_devices_raw:
+                if not isinstance(sub, dict):
+                    continue
+                mac = sub.get("mac")
+                if not isinstance(mac, str) or not mac.strip():
+                    continue
+                identity = mac.replace(":", "").replace("-", "").lower()
+                if identity not in merged:
+                    merged[identity] = sub
+        if not answered:
             raise DeviceTimeoutError
+        self._logger.debug("Gateway %s enumeration merged %d unique indoor units",
+                           self.device_info.mac, len(merged))
 
         sub_infos = []
-        for sub in self._sub_devices_raw:
+        for sub in merged.values():
             sub_info = DeviceInfo(
                 self.device_info.ip,
                 self.device_info.port,

@@ -22,6 +22,7 @@ class Commands(Enum):
     SCAN = "scan"
     STATUS = "status"
     SUBLIST = "subList"
+    SUBDEV = "subDev"
 
 
 class Response(Enum):
@@ -135,12 +136,16 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         obj = json.loads(data)
 
         if obj.get("pack"):
-            obj["pack"] = self._cipher.decrypt(obj["pack"])
+            obj["pack"] = self.decode_response_pack(obj)
 
         _LOGGER.debug("Received packet from %s:\n<- %s", addr[0], json.dumps(obj))
         self.packet_received(obj, addr)
 
-    async def send(self, obj, addr: IPAddr = None, cipher: Union[CipherBase, None] = None) -> None:
+    def decode_response_pack(self, obj) -> dict:
+        return self._cipher.decrypt(obj["pack"])
+
+    async def send(self, obj, addr: IPAddr = None, cipher: Union[CipherBase, None] = None,
+                   *, request_cipher: Union[CipherBase, None] = None) -> None:
         """Send encode and send JSON command to the device.
 
         Args:
@@ -150,12 +155,12 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         _LOGGER.debug("Sending packet:\n-> %s", json.dumps(obj))
 
         if obj.get("pack"):
-            if obj.get("i") == 1:
+            if obj.get("i") == 1 and request_cipher is None:
                 if cipher is None:
                     raise ValueError("Cipher must be supplied for SCAN or BIND messages")
                 self._cipher = cipher
 
-            obj["pack"], tag = self._cipher.encrypt(obj["pack"])
+            obj["pack"], tag = (request_cipher or self._cipher).encrypt(obj["pack"])
             if tag:
                 obj["tag"] = tag
 
@@ -328,3 +333,15 @@ class DeviceProtocol2(DeviceProtocolBase2):
             "uid": 0,
             "tcid": device_info.mac,
         }
+
+    def create_encrypted_sublist_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        return self._generate_payload(Commands.SUBLIST, device_info, {"i": 0})
+
+    def create_generic_sublist_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        return {
+            "cid": "app", "i": 1, "t": Commands.SUBLIST.value, "uid": 0,
+            "tcid": device_info.mac, "pack": {"mac": device_info.mac, "i": 1},
+        }
+
+    def create_subdev_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        return self._generate_payload(Commands.SUBDEV, device_info, {"cid": device_info.mac, "i": 0})
