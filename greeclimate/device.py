@@ -177,6 +177,7 @@ class Device(DeviceProtocol2, Taskable):
         self.hid = None
         self.version = None
         self.check_version = True
+        self._temperature_offset = TEMP_OFFSET
         self._properties = {}
         self._dirty = []
         self._buzzer = True
@@ -300,12 +301,15 @@ class Device(DeviceProtocol2, Taskable):
         self._properties.update(kwargs)
 
         if self.check_version and Props.TEMP_SENSOR.value in kwargs:
-            self.check_version = False
             temp = self.get_property(Props.TEMP_SENSOR)
             self._logger.debug(f"Checking for temperature offset, reported temp {temp}")
-            if temp and temp < TEMP_OFFSET:
-                self.version = "4.0"
-                self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
+            if temp:
+                self.check_version = False
+                if temp < TEMP_OFFSET:
+                    # A later firmware response must not undo the detected encoding.
+                    self._temperature_offset = 0
+                    self.version = "4.0"
+                    self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
             self._logger.debug(f"Using device temperature {self.current_temperature}")
 
         self._valid_state.set()
@@ -455,10 +459,10 @@ class Device(DeviceProtocol2, Taskable):
             bit = bit if bit is not None else 0
             v = self.version and int(self.version.split(".")[0])
             try:
-                if v == 4:
+                if v == 4 or self._temperature_offset == 0:
                     return self._convert_to_units(prop, bit)
                 elif prop != 0:
-                    return self._convert_to_units(prop - TEMP_OFFSET, bit)
+                    return self._convert_to_units(prop - self._temperature_offset, bit)
             except ValueError:
                 logging.warning("Converting unexpected set temperature value %s", prop)
 
