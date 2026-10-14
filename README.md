@@ -161,24 +161,41 @@ Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords 
 
 ### Air-to-water heat pumps
 
-Use `create_device` to select a family from known exact identifiers, or construct
-`greeclimate.atw.AirToWaterDevice` directly when the family is already known.
+`create_device(device_info)` selects `AirToWaterDevice` only for the exact discovery MID `"9300"`; every other MID, including missing or malformed values, selects the AC `Device`. Model names and HIDs do not select the family. If the family is already known, construct `greeclimate.atw.AirToWaterDevice` directly.
 
 ```python
 from greeclimate.device_factory import create_device
 
 device = create_device(device_info)
-# An already-known HID can also be supplied: create_device(device_info, hid=hid).
 await device.bind()
-# Wait for a received state update before using reported units or power.
+await device.update_state()
+# Wait for received status before using reported units or power.
 ```
 
-ATW devices require a cooling mode value for cooling functions to work. But there
-is not clear indication of which of the two modes should be used, `0` or `5`. 
-To set a value, create the device like:
-`create_device(device_info, cooling_mode_value=5)`.
+MID polling presets live in `greeclimate/mid_profile.py`. Firmware quirks live separately in `greeclimate/device_profile.py`: `match_device_profile(hid)` requires a complete HID and selects an exact-HID profile first, then the greatest eligible firmware-code `min_version`, or the code's fallback profile. Traits follow the latest received HID without changing the device's class.
 
-Once a value is known, please consider submitting a PR adding your device to `KNOWN_DEVICES` in `device_factory.py`.
+ATW cooling has two observed wire values, `0` and `5`; do not guess which your device uses. Firmware code `362001066763` defaults to `5`, irrespective of module or version. An explicit constructor option overrides firmware detection:
+
+| Construction | Cooling behavior |
+| --- | --- |
+| `create_device(device_info)` | Use the firmware trait when known; otherwise cooling remains unconfigured. |
+| `create_device(device_info, cooling_mode_value=0)` | Force wire value `0`. |
+| `create_device(device_info, cooling_mode_value=5)` | Force wire value `5`. |
+| `create_device(device_info, cooling_mode_value=None)` | Disable cooling even if a firmware trait provides it. |
+
+The same option is accepted by `AirToWaterDevice`. Submit independently observed firmware quirks to `device_profile.py`, not the family factory.
+
+ATW uses `AirToWaterMode`, not AC `Mode`, and exposes these Celsius properties:
+
+| Properties | Access / limits |
+| --- | --- |
+| `inlet_water_temperature_c`, `outlet_water_temperature_c`, `room_temperature_c`, `tank_temperature_c` | Read-only sensor temperatures. |
+| `heating_room_target_temperature_c`, `cooling_room_target_temperature_c` | Read-only targets. |
+| `heating_water_target_temperature_c` | Integer target, 20–60°C. |
+| `cooling_water_target_temperature_c` | Integer target, 7–25°C. |
+| `tank_target_temperature_c` | Integer target, 40–80°C. |
+
+Temperature reads return `None` unless Celsius units have been reported and required fields are present; writes require reported Celsius units. Mode changes require a received off power state: setting `power = False` locally is insufficient. Send power-off, wait for a status report confirming off, then send the mode change separately from power-on. Command validation repeats these checks before sending and rejects unsupported ATW fields; AC controls and AC temperature decoding are not used.
 
 ## Use Gree Emulator
 
