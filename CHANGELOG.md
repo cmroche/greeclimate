@@ -1,3 +1,10 @@
+## [3.2.2](https://github.com/cmroche/greeclimate/compare/v3.2.1...v3.2.2) (2026-10-14)
+
+
+### Bug Fixes
+
+* add target_addresses discovery parameter ([#195](https://github.com/cmroche/greeclimate/issues/195)) ([7108f50](https://github.com/cmroche/greeclimate/commit/7108f5048ce0e55188b02c8120ad8323bb7bea80))
+
 ## [3.2.1](https://github.com/cmroche/greeclimate/compare/v3.2.0...v3.2.1) (2026-10-09)
 
 
