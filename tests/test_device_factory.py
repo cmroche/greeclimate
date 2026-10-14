@@ -1,14 +1,14 @@
-"""Exact identity dispatch, safe defaults and family-specific wire behavior."""
+"""MID-only family selection and reported firmware traits."""
 import asyncio
 from unittest.mock import AsyncMock
 
 import pytest
 
-from greeclimate import device_factory
+from greeclimate import device_profile
 from greeclimate.atw import AirToWaterDevice, AirToWaterMode
 from greeclimate.cipher import CipherV1
 from greeclimate.device import Device
-from greeclimate.device_factory import DeviceProfile, create_device
+from greeclimate.device_factory import create_device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
 
@@ -40,7 +40,7 @@ def command(unit):
     return dict(zip(pack["opt"], pack["p"]))
 
 
-async def test_discovery_mid_selects_atw_wire_behavior():
+async def test_discovery_mid_selects_atw_before_reported_firmware():
     delivered = asyncio.Queue()
 
     class Receiver(Listener):
@@ -54,104 +54,126 @@ async def test_discovery_mid_selects_atw_wire_behavior():
         "name": "Synthetic", "brand": "gree", "model": "gree",
     }}, ("127.0.0.1", 7000))
     await asyncio.gather(*discovery.tasks)
-    unit = await capture(create_device(delivered.get_nowait()))
+    unit = create_device(delivered.get_nowait())
+    original = unit
     assert isinstance(unit, AirToWaterDevice)
-    receive(unit, {"Pow": 0, "Mod": 1, "TemUn": 0,
+    assert unit.device_cipher is None
+    assert unit.hid is None and unit.cooling_mode_value is None
+    await capture(unit)
+    cipher = unit.device_cipher
+    key = cipher.key
+    receive(unit, {"Pow": 0, "Mod": 2, "TemUn": 0,
                    "AllInWatTemHi": 132, "AllInWatTemLo": 4,
                    "HeWatOutTemSet": 35})
     assert unit.inlet_water_temperature_c == 32.4
     unit.heating_water_target_temperature_c = 36
     await unit.push_state_update()
     assert command(unit) == {"HeWatOutTemSet": 36}
-    with pytest.raises(ValueError):
-        unit.mode = AirToWaterMode.Cool
-
-
-@pytest.mark.parametrize("mid,hid", [
-    (None, KNOWN_HID), ("unknown", KNOWN_HID), ("9300", "unknown"),
-])
-async def test_exact_hid_or_mid_selects_atw(mid, hid):
-    unit = await capture(create_device(info(mid), hid=hid))
-    receive(unit, {"Pow": 0, "Mod": 1, "TemUn": 0, "HeWatOutTemSet": 35})
-    unit.heating_water_target_temperature_c = 36
+    unit.mode = AirToWaterMode.Heat
     await unit.push_state_update()
-    assert command(unit) == {"HeWatOutTemSet": 36}
-    assert unit.hid is None  # Lookup metadata is not reported state.
+    assert command(unit) == {"Mod": 1}
     with pytest.raises(ValueError):
         unit.mode = AirToWaterMode.Cool
+    receive(unit, {"hid": KNOWN_HID})
+    assert unit is original
+    assert unit.device_cipher is cipher and cipher.key == key
+    assert unit.inlet_water_temperature_c == 32.4
+    assert unit.heating_water_target_temperature_c == 36
+    unit.mode = AirToWaterMode.Cool
+    await unit.push_state_update()
+    assert command(unit) == {"Mod": 5}
 
 
-@pytest.mark.parametrize("mid,hid", [
-    (None, None), ("", None), ("unknown", None), (9300, None),
-    (None, KNOWN_HID.replace("6.04", "6.05")),
-    (None, ""), (None, 9300), ("9300 ", None),
+@pytest.mark.parametrize("hid", [
+    KNOWN_HID,
+    "362001066763+W06A(P3)V6.0.bin",
+    "362001066763+U-OTHER(LT)V7.12.bin",
 ])
-async def test_unmatched_identity_retains_ac_commands(mid, hid):
-    unit = await capture(create_device(info(mid), hid=hid))
+async def test_sinclair_ignores_module_and_version(hid):
+    unit = await capture(create_device(info("9300")))
+    receive(unit, {"Pow": 0, "Mod": 1, "hid": hid})
+    unit.mode = AirToWaterMode.Cool
+    await unit.push_state_update()
+    assert command(unit) == {"Mod": 5}
+
+
+@pytest.mark.parametrize("mid", [None, "", "unknown", 9300, "9300 ", [], {}])
+async def test_unmatched_mid_retains_ac_commands_after_sinclair_hid(mid):
+    unit = await capture(create_device(info(mid)))
     assert type(unit) is Device
-    receive(unit, {"Pow": 0, "Mod": 1, "TemUn": 0,
+    receive(unit, {"Pow": 0, "Mod": 1, "TemUn": 0, "hid": KNOWN_HID,
                    "TemRec": 0, "SetTem": 20, "TemSen": 65})
+    assert type(unit) is Device
     assert unit.current_temperature == 25
     unit.target_temperature = 23
     await unit.push_state_update()
     assert command(unit) == {"SetTem": 23, "TemRec": 0, "TemUn": 0, "BuzzerCtrl": 1}
 
 
-@pytest.mark.parametrize("hid,expected", [("test-hid", 5), ("unknown", 0)])
-async def test_hid_precedes_mid(monkeypatch, hid, expected):
-    monkeypatch.setattr(device_factory, "KNOWN_DEVICES", (
-        DeviceProfile(AirToWaterDevice, mids=("test-mid",),
-                      settings={"cooling_mode_value": 0}),
-        DeviceProfile(AirToWaterDevice, hids=("test-hid",),
-                      settings={"cooling_mode_value": 5}),
-    ))
-    unit = await capture(create_device(info("test-mid"), hid=hid))
-    receive(unit, {"Pow": 0, "Mod": 1})
-    unit.mode = AirToWaterMode.Cool
+@pytest.mark.parametrize("hid", [
+    None, "", 9300, "unknown", "362001066763", "362001066763+",
+    KNOWN_HID.replace("362001066763", "3620010667630"),
+    KNOWN_HID.replace("6.04", "6..04"), KNOWN_HID + "extra",
+])
+async def test_sinclair_mid_without_matching_hid_retains_atw_without_cooling(hid):
+    unit = await capture(create_device(info("9300")))
+    assert isinstance(unit, AirToWaterDevice)
+    assert unit.cooling_mode_value is None
+    receive(unit, {"Pow": 0, "Mod": 1, "hid": hid, "TemUn": 0,
+                   "HeWatOutTemSet": 35})
+    assert unit.cooling_mode_value is None
+    with pytest.raises(ValueError):
+        unit.mode = AirToWaterMode.Cool
+    unit.heating_water_target_temperature_c = 36
     await unit.push_state_update()
-    assert command(unit) == {"Mod": expected}
+    assert command(unit) == {"HeWatOutTemSet": 36}
 
 
-@pytest.mark.parametrize("kind", ["mids", "hids"])
-async def test_duplicate_identity_first_row_wins(monkeypatch, kind):
-    monkeypatch.setattr(device_factory, "KNOWN_DEVICES", tuple(
-        DeviceProfile(AirToWaterDevice, **{kind: ("duplicate",)},
-                      settings={"cooling_mode_value": value})
-        for value in (0, 5)
-    ))
-    unit = await capture(create_device(
-        info("duplicate" if kind == "mids" else None),
-        hid="duplicate" if kind == "hids" else None,
-    ))
-    receive(unit, {"Pow": 0, "Mod": 1})
-    unit.mode = AirToWaterMode.Cool
-    await unit.push_state_update()
-    assert command(unit) == {"Mod": 0}
+async def test_discovery_version_does_not_select_or_block_firmware_trait(monkeypatch):
+    profile = device_profile.DeviceProfile(
+        mid="9300", version="6.04", settings={"cooling_mode_value": 5})
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (profile,))
+    metadata = info("9300")
+    metadata.version = "6.04"
+    unit = create_device(metadata)
+    assert isinstance(unit, AirToWaterDevice)
+    assert unit.cooling_mode_value is None
+    receive(unit, {"hid": KNOWN_HID.replace("6.04", "6.4")})
+    assert unit.cooling_mode_value is None
+    metadata.version = "V5.0.0.0"
+    receive(unit, {"hid": KNOWN_HID})
+    assert unit.cooling_mode_value == 5
 
 
-async def test_explicit_settings_override_without_mutating_profile(monkeypatch):
-    monkeypatch.setattr(device_factory, "KNOWN_DEVICES", (
-        DeviceProfile(AirToWaterDevice, mids=("test-mid",),
-                      settings={"cooling_mode_value": 5}),
-    ))
-    for settings, expected in (({"cooling_mode_value": 0}, 0),
-                               ({"cooling_mode_value": None}, None), ({}, 5)):
-        unit = await capture(create_device(info("test-mid"), **settings))
-        receive(unit, {"Pow": 0, "Mod": 1})
-        if expected is None:
-            with pytest.raises(ValueError):
-                unit.mode = AirToWaterMode.Cool
-            await unit.push_state_update()
-            unit.send.assert_not_awaited()
-        else:
+@pytest.mark.parametrize("settings,expected", [
+    ({}, 5), ({"cooling_mode_value": 0}, 0),
+    ({"cooling_mode_value": 5}, 5), ({"cooling_mode_value": None}, None),
+])
+async def test_explicit_settings_override_without_mutating_profile(settings, expected):
+    unit = await capture(create_device(info("9300"), **settings))
+    receive(unit, {"Pow": 0, "Mod": 1, "hid": KNOWN_HID})
+    assert unit.cooling_mode_value == expected
+    if expected is None:
+        with pytest.raises(ValueError):
             unit.mode = AirToWaterMode.Cool
-            await unit.push_state_update()
-            assert command(unit) == {"Mod": expected}
+        await unit.push_state_update()
+        unit.send.assert_not_awaited()
+    else:
+        unit.mode = AirToWaterMode.Cool
+        await unit.push_state_update()
+        assert command(unit) == {"Mod": expected}
+    for hid in (KNOWN_HID, "unrecognized", KNOWN_HID):
+        receive(unit, {"hid": hid})
+        assert unit.cooling_mode_value == (expected if settings or hid == KNOWN_HID else None)
+    separate = create_device(info("9300"))
+    receive(separate, {"hid": KNOWN_HID})
+    assert separate.cooling_mode_value == 5
+    assert device_profile.KNOWN_PROFILES[0].settings == {"cooling_mode_value": 5}
 
 
 @pytest.mark.parametrize("value", [True, 3])
 async def test_selected_constructor_rejects_invalid_cooling(value):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="cooling_mode_value must be None, 0 or 5"):
         create_device(info("9300"), cooling_mode_value=value)
 
 
@@ -160,11 +182,17 @@ async def test_fallback_rejects_family_only_settings():
         create_device(info("unknown"), cooling_mode_value=0)
 
 
+async def test_selected_constructor_rejects_unsupported_settings():
+    with pytest.raises(TypeError):
+        create_device(info("9300"), unsupported_setting=True)
+
+
 async def test_profile_instances_have_independent_staged_state():
     first = await capture(create_device(info("9300")))
     second = await capture(create_device(info("9300")))
     for unit in (first, second):
-        receive(unit, {"Pow": 0, "Mod": 1, "TemUn": 0, "HeWatOutTemSet": 35})
+        receive(unit, {"Pow": 0, "Mod": 1, "hid": KNOWN_HID,
+                       "TemUn": 0, "HeWatOutTemSet": 35})
     first.heating_water_target_temperature_c = 36
     await first.push_state_update()
     await second.push_state_update()

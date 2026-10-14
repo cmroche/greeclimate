@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
+import greeclimate.device_profile as device_profile
 from greeclimate.atw import AirToWaterDevice, AirToWaterMode
 from greeclimate.cipher import CipherV1
 from greeclimate.device import Mode, Props
@@ -29,6 +30,16 @@ class Wire(enum.Enum):
 async def device():
     unit = AirToWaterDevice(
         DeviceInfo("127.0.0.1", 7000, "001122334455", "Synthetic ATW")
+    )
+    await unit.bind(key="0123456789abcdef", cipher=CipherV1())
+    unit.send = AsyncMock()
+    return unit
+
+
+@pytest.fixture
+async def automatic_device():
+    unit = AirToWaterDevice(
+        DeviceInfo("127.0.0.1", 7000, "001122334455", "Sinclair ATW", mid="9300")
     )
     await unit.bind(key="0123456789abcdef", cipher=CipherV1())
     unit.send = AsyncMock()
@@ -235,6 +246,111 @@ async def test_explicit_cooling_mode(code):
     assert unit.mode is AirToWaterMode.Cool
     receive(unit, {"Mod": 5 if code == 0 else 0})
     assert unit.mode is None
+
+
+async def test_direct_construction_resolves_late_reported_hid(automatic_device):
+    unit = automatic_device
+    assert unit.hid is None
+    assert unit.cooling_mode_value is None
+    receive(unit, {"Pow": 0, "Mod": 1, "TemUn": 0,
+                   "AllInWatTemHi": 132, "AllInWatTemLo": 4})
+    with pytest.raises(ValueError):
+        unit.mode = AirToWaterMode.Cool
+    unit.send.assert_not_awaited()
+    receive(unit, {"Mod": 5, "hid": "362001066763+U-W06A(P3)V6.04.bin"})
+    assert unit.cooling_mode_value == 5
+    assert unit.mode is AirToWaterMode.Cool
+    assert unit.inlet_water_temperature_c == 32.4
+    receive(unit, {"hid": "362001066763+U-W06A(P3)V6.04.bin"})
+    receive(unit, {"AllErr": 0})
+    assert unit.cooling_mode_value == 5
+    assert unit.mode is AirToWaterMode.Cool
+    assert unit.inlet_water_temperature_c == 32.4
+
+
+@pytest.mark.parametrize("hid", [
+    "unrecognized", "362001000762+U-W06A(P3)V6.04.bin", 123, [], None,
+])
+async def test_changed_hid_disables_only_automatic_cooling(automatic_device, hid):
+    unit = automatic_device
+    receive(unit, {"Mod": 5, "hid": "362001066763+U-W06A(P3)V6.04.bin",
+                   "Pow": 0, "TemUn": 0, "AllInWatTemHi": 132,
+                   "AllInWatTemLo": 4, "HeWatOutTemSet": 35})
+    assert unit.mode is AirToWaterMode.Cool
+    receive(unit, {"hid": hid})
+    assert type(unit) is AirToWaterDevice
+    assert unit.hid == hid
+    assert unit.cooling_mode_value is None
+    assert unit.mode is None
+    assert unit.inlet_water_temperature_c == 32.4
+    assert unit.heating_water_target_temperature_c == 35
+    if not isinstance(hid, str):
+        assert unit.version is None
+    with pytest.raises(ValueError):
+        unit.mode = AirToWaterMode.Cool
+    unit.mode = AirToWaterMode.Heat
+    unit.heating_water_target_temperature_c = 36
+    await unit.push_state_update()
+    assert sent_properties(unit) == {"Mod": 1, "HeWatOutTemSet": 36}
+
+
+async def test_changed_hid_rejects_push_and_retains_staged_cooling(automatic_device):
+    unit = automatic_device
+    receive(unit, {"Pow": 0, "Mod": 1,
+                   "hid": "362001066763+U-W06A(P3)V6.04.bin"})
+    unit.mode = AirToWaterMode.Cool
+    receive(unit, {"hid": "unrecognized"})
+    with pytest.raises(ValueError):
+        await unit.push_state_update()
+    unit.send.assert_not_awaited()
+    assert unit.raw_properties["Mod"] == 5
+    receive(unit, {"hid": "362001066763+U-W06A(P3)V6.04.bin"})
+    unit.send.assert_not_awaited()
+    assert unit.mode is AirToWaterMode.Cool
+    await unit.push_state_update()
+    assert sent_properties(unit) == {"Mod": 5}
+    assert unit.send.await_count == 1
+    await unit.push_state_update()
+    assert unit.send.await_count == 1
+
+
+@pytest.mark.parametrize("reported_power", [None, 1])
+async def test_hid_and_local_off_cannot_authorize_cooling(automatic_device, reported_power):
+    unit = automatic_device
+    if reported_power is not None:
+        receive(unit, {"Pow": reported_power})
+    receive(unit, {"hid": "362001066763+U-W06A(P3)V6.04.bin"})
+    assert unit.cooling_mode_value == 5
+    with pytest.raises(ValueError):
+        unit.mode = AirToWaterMode.Cool
+    unit.power = False
+    with pytest.raises(ValueError):
+        unit.mode = AirToWaterMode.Cool
+    unit.set_property(Wire.MODE, 5)
+    with pytest.raises(ValueError):
+        await unit.push_state_update()
+    unit.send.assert_not_awaited()
+    receive(unit, {"Pow": 0})
+    await unit.push_state_update()
+    assert sent_properties(unit) == {"Pow": 0, "Mod": 5}
+
+
+@pytest.mark.parametrize("configuration", [True, 3])
+async def test_invalid_profile_cooling_fails_at_resolution(automatic_device, monkeypatch,
+                                                          configuration):
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
+        device_profile.DeviceProfile(mid="9300", firmware_code="362001066763",
+                                     settings={"cooling_mode_value": configuration}),
+    ))
+    unit = automatic_device
+    assert unit.cooling_mode_value is None
+    receive(unit, {"Pow": 0, "Mod": 1,
+                   "hid": "362001066763+U-W06A(P3)V6.04.bin"})
+    with pytest.raises(ValueError, match="^cooling_mode_value must be None, 0 or 5$"):
+        _ = unit.cooling_mode_value
+    with pytest.raises(ValueError, match="^cooling_mode_value must be None, 0 or 5$"):
+        unit.mode = AirToWaterMode.Cool
+    unit.send.assert_not_awaited()
 
 
 @pytest.mark.parametrize("wire", [0, 5, 99, None, True, 1.0, "1"])

@@ -5,6 +5,7 @@ from asyncio import AbstractEventLoop
 from typing import Any, Dict, List, Optional
 
 from greeclimate.device import _BaseDevice
+from greeclimate.device_profile import match_device_profile
 from greeclimate.deviceinfo import DeviceInfo
 
 
@@ -54,6 +55,13 @@ _TARGET_RANGES = {
     _AtwProps.COOLING_WATER_TARGET: (7, 25),
     _AtwProps.TANK_TARGET: (40, 80),
 }
+_AUTO = object()
+
+
+def _validate_cooling_mode_value(value: Any) -> Optional[int]:
+    if value is not None and (type(value) is not int or value not in (0, 5)):
+        raise ValueError("cooling_mode_value must be None, 0 or 5")
+    return value
 
 
 class AirToWaterDevice(_BaseDevice):
@@ -62,12 +70,10 @@ class AirToWaterDevice(_BaseDevice):
     def __init__(
         self, device_info: DeviceInfo, timeout: int = 120,
         bind_timeout: int = 10, loop: AbstractEventLoop = None, *,
-        cooling_mode_value: Optional[int] = None,
+        cooling_mode_value: Any = _AUTO,
     ):
-        if cooling_mode_value is not None and (
-            type(cooling_mode_value) is not int or cooling_mode_value not in (0, 5)
-        ):
-            raise ValueError("cooling_mode_value must be None, 0 or 5")
+        if cooling_mode_value is not _AUTO:
+            _validate_cooling_mode_value(cooling_mode_value)
         super().__init__(device_info, timeout, bind_timeout, loop)
         self._cooling_mode_value = cooling_mode_value
         self._reported_power: Optional[bool] = None
@@ -75,7 +81,11 @@ class AirToWaterDevice(_BaseDevice):
 
     @property
     def cooling_mode_value(self) -> Optional[int]:
-        return self._cooling_mode_value
+        if self._cooling_mode_value is not _AUTO:
+            return self._cooling_mode_value
+        profile = match_device_profile(self.device_info.mid, self.hid)
+        value = profile.settings.get("cooling_mode_value") if profile is not None else None
+        return _validate_cooling_mode_value(value)
 
     def _status_columns(self) -> List[str]:
         return [p.value for p in _AtwProps]
@@ -179,7 +189,8 @@ class AirToWaterDevice(_BaseDevice):
         for mode, wire_value in _MODE_VALUES.items():
             if value == wire_value:
                 return mode
-        if self.cooling_mode_value is not None and value == self.cooling_mode_value:
+        cooling_mode_value = self.cooling_mode_value
+        if cooling_mode_value is not None and value == cooling_mode_value:
             return AirToWaterMode.Cool
         return None
 
@@ -187,9 +198,10 @@ class AirToWaterDevice(_BaseDevice):
         if not isinstance(value, AirToWaterMode):
             raise ValueError("ATW mode must be an AirToWaterMode member")
         if value is AirToWaterMode.Cool:
-            if self.cooling_mode_value is None:
+            cooling_mode_value = self.cooling_mode_value
+            if cooling_mode_value is None:
                 raise ValueError("Configure cooling_mode_value as 0 or 5 before selecting cooling")
-            return self.cooling_mode_value
+            return cooling_mode_value
         return _MODE_VALUES[value]
 
     def _require_reported_off(self) -> None:
@@ -221,8 +233,9 @@ class AirToWaterDevice(_BaseDevice):
         if _AtwProps.MODE.value in props:
             value = props[_AtwProps.MODE.value]
             modes = list(_MODE_VALUES.values())
-            if self.cooling_mode_value is not None:
-                modes.append(self.cooling_mode_value)
+            cooling_mode_value = self.cooling_mode_value
+            if cooling_mode_value is not None:
+                modes.append(cooling_mode_value)
             if type(value) is not int or value not in modes:
                 raise ValueError("Invalid or unconfigured ATW wire mode")
             self._require_reported_off()

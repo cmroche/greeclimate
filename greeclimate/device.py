@@ -259,7 +259,7 @@ class _BaseDevice(DeviceProtocol2, Taskable):
         # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
         if "hid" in kwargs:
             self.hid = kwargs.pop("hid")
-            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
+            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid) if isinstance(self.hid, str) else None
             self.version = match and match.group(1)
             self._logger.info(f"Device version is {self.version}, hid {self.hid}")
 
