@@ -1,18 +1,21 @@
 # Known MIDs
 
-A MID is the `mid` string in discovery metadata or a gateway's `subList`. Keep its case, letters and leading zeros. It is separate from the firmware identifier (`hid`); see [HIDS.md](HIDS.md) and [gateway observations](#gateway-observations-and-sources).
+A MID is the `mid` string in discovery metadata or a gateway's `subList`. Keep its case, letters and leading zeros. It is separate from the firmware identifier (`hid`); see [HIDS.md](HIDS.md) and [gateway observations](#gateway-observations-and-sources) for multi-unit discovery and addressing.
 
 `DeviceInfo.mid` stores the discovery value separately from `model`; missing MID is `None`. On every poll, `Device.update_state()` matches it exactly against the 58 presets in `greeclimate/mid_profile.py`. Missing, malformed, unknown or not-established MIDs use `FALLBACK_MID_PROFILE`, which preserves the previous full `Props` poll and order. `match_mid_profile()` always returns a profile; the fallback has `mid=None`. Model names never substitute for a MID.
 
 A matched profile requests its fields in the listed order, even fields outside `Props`. `hid` is appended only while firmware identity is unknown and the preset lacks it. A preset that includes `hid` keeps requesting it: MID `60` always polls `["hid"]`. Profiles change polling only, not setters, command responses or `raw_properties` access.
 
-Status-backed getters return `None` for missing required values. Received zero stays valid zero/false, subject to temperature calibration. Target temperature needs both `SetTem` and `TemRec`; MID does not select temperature encoding. `buzzer` and `has_valid_state` are non-optional local state. A narrower poll can leave a feature unavailable until its field arrives or is explicitly set; omission does not prove the hardware lacks it.
+Family construction is separate from polling: `create_device()` selects `AirToWaterDevice` only for exact MID `"9300"`, otherwise `Device`. Missing/malformed MIDs and model names never imply ATW. Explicit `AirToWaterDevice` construction remains available when the family is known. ATW polls the canonical MID `9300` preset plus its sensor/run-state fields without duplicates; even an explicitly constructed ATW device without a known MID does not use the AC fallback poll.
+
+AC status-backed getters return `None` for missing required values. Received zero stays valid zero/false, subject to temperature calibration. AC target temperature needs both `SetTem` and `TemRec`; MID does not select temperature encoding. `buzzer` and `has_valid_state` are non-optional local state. A narrower poll can leave a feature unavailable until its field arrives or is explicitly set; omission does not prove the hardware lacks it. ATW has separate temperature decoding and reported-unit/write safeguards; see the [ATW API](../README.md#air-to-water-heat-pumps).
 
 The PC emulator preserves each family's status ordering, value alignment, and unsupported-field behavior; there is no universal unknown-field rule. See the [emulator profile/evidence manifest](EMULATOR.md) for omission, empty-string, safe-rejection, and explicitly simulated appliance policies.
 
 ## Historical polling catalog
 
 These are default polling lists, not complete capability or temperature-encoding rules. An omitted field may support an explicit query; an unsupported query may return a generic zero, not a sensor reading. Firmware routing evidence below is separate from device observations.
+
 | MID | Device category | Status fields (polling) |
 | --- | --- | --- |
 | `0001` | Air conditioner | `Pow`, `HeatCoolType`, `Mod`, `TemUn`, `SetTem`, `TemRec`, `StHt`, `SvSt`, `host`, `name`, `AllErr`, `ModelType`, `Dmod`, `Add0.5`, `WdSpd`, `Quiet`, `Tur` |

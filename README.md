@@ -239,6 +239,12 @@ python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 
 
 These are simulated appliances, not complete firmware emulations. The library's `push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so simulator commands can be rejected even when sending succeeds. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
 
+## Device and protocol reference
+
+- [Known MIDs](docs/MIDS.md): device-category identifiers and polling fields.
+- [Known HIDs](docs/HIDS.md): firmware-string segments, sourced firmware codes, and unresolved reports.
+- [Multi-unit gateways](docs/GATEWAYS.md): VRF discovery, routing, and hardware evidence from PR #148 and its linked reports.
+
 ## Debugging
 
 Maybe the reason you're here is that you're working with Home Assistant and your device isn't being detected.
