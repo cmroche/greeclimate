@@ -1,5 +1,7 @@
 # Known MIDs
 
+A MID is reported in discovery metadata (`mid`) or a gateway's `subList` entries. Preserve it as a string, including letters; it is separate from the firmware identifier (`hid`), documented in [HIDS.md](HIDS.md). See [GATEWAYS.md](GATEWAYS.md) for multi-unit discovery and addressing.
+
 | MID | Device category | Status fields (polling) |
 | --- | --- | --- |
 | `0001` | Air conditioner | `Pow`, `HeatCoolType`, `Mod`, `TemUn`, `SetTem`, `TemRec`, `StHt`, `SvSt`, `host`, `name`, `AllErr`, `ModelType`, `Dmod`, `Add0.5`, `WdSpd`, `Quiet`, `Tur` |
@@ -59,8 +61,17 @@
 | `828214` | Fan | `Pow`, `WdSpd`, `Mod`, `Rotate`, `LRAngle`, `TmrHour`, `TmrMin`, `TmrOn`, `TmrAction`, `JFerr`, `LRHeadAngle`, `Quiet`, `OSD`, `estate`, `rssi`, `StepWdSpd` |
 | `80361` | Unknown | `ver`, `MGPowCtrlStat` |
 | `6036` | Unknown | `WPow`, `Wmod`, `FPow`, `WCurTem`, `WtmrMin`, `WtmrHr`, `Watpercent`, `FCurTem`, `SetTem`, `FSetTem`, `GetEr`, `WFConfig`, `IDUID`, `MidType`, `MIdType` |
-| `60` | Multi-unit gateway | Not established |
+| `60` | Multi-unit gateway | `hid` (observed on a WB05BR gateway; other requested fields were empty) |
 | `6049` | Multi-unit gateway indoor unit | Not established |
 | `6092` | Multi-unit gateway indoor unit | Not established |
 | `604c` | Multi-unit gateway indoor unit | Not established |
 | `604b` | Multi-unit gateway indoor unit | Not established |
+| `605c` | Multi-unit gateway indoor unit | Not established |
+| `608f` | Multi-unit gateway indoor unit | Not established |
+
+## Gateway observations and sources
+
+- [PR #148's hardware log](https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943) reports a GR-Gcloud gateway with MID `60`, three indoor units with MID `608f`, and one with MID `605c`. A separate standalone air conditioner reports MID `10001`. The log establishes these associations, not the indoor units' retail models or supported polling fields.
+- [Issue #101](https://github.com/cmroche/greeclimate/issues/101) reports a MID `60` gateway advertising six indoor units; the returned five-entry list contains MIDs `6049`, `6092`, and `604c`.
+- PR #148 links to HACS integration PR #508: [W06 packet notes](https://github.com/RobHofmann/HomeAssistant-GreeClimateComponent/pull/508#issuecomment-5795667844) associate MID `60` with `362001067012+U-W06AV30.bin` and show indoor MIDs `608f` and `6092`. [An older four-unit capture](https://github.com/RobHofmann/HomeAssistant-GreeClimateComponent/pull/508#issuecomment-5795708142) shows indoor MID `604b`, without establishing its gateway HID.
+- A gateway's HID identifies the gateway firmware, not necessarily the firmware of each indoor unit. Enumeration alone does not establish a child's supported status fields, and synthetic test fixtures are not additional hardware observations.

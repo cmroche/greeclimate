@@ -129,6 +129,12 @@ To set a value, create the device like:
 
 Once a value is known, please consider submitting a PR adding your device to `KNOWN_DEVICES` in `device_factory.py`.
 
+## Device and protocol reference
+
+- [Known MIDs](docs/MIDS.md): device-category identifiers and polling fields.
+- [Known HIDs](docs/HIDS.md): firmware-string segments, sourced firmware codes, and unresolved reports.
+- [Multi-unit gateways](docs/GATEWAYS.md): VRF discovery, routing, and hardware evidence from PR #148 and its linked reports.
+
 ## Debugging
 
 Maybe the reason you're here is that you're working with Home Assistant and your device isn't being detected.
