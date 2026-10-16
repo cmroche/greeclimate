@@ -36,7 +36,7 @@ async def test_scan_waits_for_gateway_query_created_by_packet_task():
         await release.wait()
         await discovery.device_found(sub_info)
 
-    async def search(*args):
+    async def search(*args, **kwargs):
         discovery.packet_received(gateway_packet(), ("127.0.0.1", 7000))
 
     async def end_window(*args):
@@ -84,7 +84,7 @@ async def test_overlapping_scans_do_not_replace_active_gateway_policy():
     release = asyncio.Event()
     calls = []
 
-    async def search(*args):
+    async def search(*args, **kwargs):
         calls.append(len(calls))
         if len(calls) == 1:
             first_search.set()
@@ -196,7 +196,7 @@ async def test_gateway_rescan_recovers_missing_indoor_units(first_response):
     initial = children[:1] if first_response == "partial" else []
     response = DeviceTimeoutError() if first_response == "timeout" else initial
 
-    async def search(*args):
+    async def search(*args, **kwargs):
         await discovery.device_found(gateway)
 
     with patch.object(discovery, "search_devices", side_effect=search), \
@@ -224,7 +224,7 @@ async def test_gateway_address_change_refreshes_indoor_addresses():
     ]
     advertisements = iter(gateways)
 
-    async def search(*args):
+    async def search(*args, **kwargs):
         await discovery.device_found(next(advertisements))
 
     with patch.object(discovery, "search_devices", side_effect=search), \
@@ -247,7 +247,7 @@ async def test_excluded_gateway_is_not_replayed_to_late_listener():
     early = RecordingListener()
     discovery.add_listener(early)
 
-    async def search(*args):
+    async def search(*args, **kwargs):
         await discovery.device_found(gateway)
 
     with patch.object(discovery, "search_devices", side_effect=search), \
@@ -274,7 +274,7 @@ async def test_excluded_gateway_does_not_emit_address_updates():
         for ip in ("127.0.0.1", "127.0.0.2")
     ])
 
-    async def search(*args):
+    async def search(*args, **kwargs):
         await discovery.device_found(next(gateways))
 
     with patch.object(discovery, "search_devices", side_effect=search), \

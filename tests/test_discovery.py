@@ -1,9 +1,11 @@
 import asyncio
 import json
 import socket
+from ipaddress import IPv4Address
 from threading import Thread
 from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
+import ifaddr
 import pytest
 
 from greeclimate.discovery import Discovery, Listener
@@ -14,18 +16,83 @@ from .common import (
     DISCOVERY_REQUEST,
     DISCOVERY_RESPONSE,
     Responder,
-    get_mock_device_info, encrypt_payload,
+    get_mock_device_info, encrypt_payload, encrypt_payload_v2,
 )
+
+
+@pytest.mark.asyncio
+async def test_get_broadcast_addresses_lan(ifaddr_adapters):
+    ifaddr_adapters.return_value = [
+        ifaddr.Adapter("lan0", "lan0", [
+            ifaddr.IP("192.0.2.10", 24, "lan0"),
+            ifaddr.IP("198.51.100.3", 23, "lan0"),
+            ifaddr.IP(("2001:db8::1", 0, 1), 64, "lan0"),
+        ]),
+        ifaddr.Adapter("lan1", "lan1", [ifaddr.IP("203.0.113.5", 30, "lan1")]),
+    ]
+
+    assert Discovery()._get_broadcast_addresses() == [
+        IPv4Address("192.0.2.255"),
+        IPv4Address("198.51.101.255"),
+        IPv4Address("203.0.113.7"),
+    ]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("allow_loopback", [False, True])
+async def test_get_broadcast_addresses_loopback(ifaddr_adapters, allow_loopback):
+    ifaddr_adapters.return_value = [
+        ifaddr.Adapter("lo", "lo", [
+            ifaddr.IP("127.0.0.1", 8, "lo"),
+            ifaddr.IP("127.0.0.2", 32, "lo"),
+        ]),
+    ]
+
+    expected = [IPv4Address("127.0.0.1"), IPv4Address("127.0.0.2")] if allow_loopback else []
+    assert Discovery(allow_loopback=allow_loopback)._get_broadcast_addresses() == expected
+
+
+@pytest.mark.asyncio
+async def test_get_broadcast_addresses_non_broadcast_subnets(ifaddr_adapters):
+    ifaddr_adapters.return_value = [
+        ifaddr.Adapter("lan", "lan", [
+            ifaddr.IP("192.0.2.10", 31, "lan"),
+            ifaddr.IP("198.51.100.7", 32, "lan"),
+        ]),
+    ]
+
+    assert Discovery(allow_loopback=True)._get_broadcast_addresses() == []
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("adapters", [
+    [],
+    [ifaddr.Adapter("empty", "empty", [])],
+    [ifaddr.Adapter("ipv6", "ipv6", [ifaddr.IP(("2001:db8::1", 0, 1), 64, "ipv6")])],
+], ids=["no-adapters", "no-addresses", "ipv6-only"])
+async def test_get_broadcast_addresses_no_ipv4(ifaddr_adapters, adapters):
+    ifaddr_adapters.return_value = adapters
+
+    assert Discovery()._get_broadcast_addresses() == []
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_discover_devices(netifaces, addr, family):
-    netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
-    }
+@pytest.mark.parametrize("scan_args,scan_kwargs", [
+    ((), {}),
+    ((), {"target_addresses": [IPv4Address("127.0.0.1")]}),
+    ((), {"bcast_ifaces": [IPv4Address("127.0.0.1")]}),
+    (([IPv4Address("127.0.0.1")],), {}),
+    ((), {"target_addresses": None}),
+    ((), {"target_addresses": []}),
+    ((), {"bcast_ifaces": []}),
+], ids=["automatic", "target_addresses", "bcast_ifaces", "positional", "none", "empty", "legacy-empty"])
+async def test_discover_devices(ifaddr_adapters, addr, family, scan_args, scan_kwargs):
+    ifaddr_adapters.return_value = [] if scan_args or any(scan_kwargs.values()) else [
+        ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])
+    ]
 
     devices = [
         {"cid": "aabbcc001122", "mac": "aabbcc001122", "name": "MockDevice1"},
@@ -50,19 +117,63 @@ async def test_discover_devices(netifaces, addr, family):
         serv.start()
 
         discovery = Discovery(allow_loopback=True)
-        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
-        assert devices is not None
-        assert len(devices) == 3
+        try:
+            devices = await discovery.scan(DEFAULT_TIMEOUT, *scan_args, **scan_kwargs)
+            assert {device.mac for device in devices} == {
+                "aabbcc001122", "aabbcc001123", "aabbcc001124",
+            }
+        finally:
+            discovery.close()
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
 
 
 @pytest.mark.asyncio
-async def test_discover_no_devices(netifaces):
-    netifaces.return_value = {
-        2: [{"addr": "127.0.0.1", "netmask": "255.0.0.0", "peer": "127.0.0.1"}]
-    }
+@pytest.mark.parametrize("args,kwargs", [
+    ((), {"target_addresses": [IPv4Address("127.0.0.1")]}),
+    ((), {"broadcastAddrs": [IPv4Address("127.0.0.1")]}),
+    (([IPv4Address("127.0.0.1")],), {}),
+    ((), {}),
+    ((), {"target_addresses": None}),
+    ((), {"target_addresses": []}),
+    ((), {"broadcastAddrs": None}),
+    ((), {"broadcastAddrs": []}),
+])
+async def test_search_devices_sends_discovery_packet(ifaddr_adapters, args, kwargs):
+    ifaddr_adapters.return_value = [] if args or any(kwargs.values()) else [
+        ifaddr.Adapter("lo", "lo", [ifaddr.IP("127.0.0.1", 8, "lo")])
+    ]
+    receiver = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    discovery = Discovery(allow_loopback=True)
+    try:
+        receiver.bind(("127.0.0.1", 7000))
+        receiver.setblocking(False)
+        await discovery.search_devices(*args, **kwargs)
+        data, _ = await asyncio.wait_for(
+            asyncio.get_running_loop().sock_recvfrom(receiver, 2048), DEFAULT_TIMEOUT
+        )
+        assert json.loads(data) == DISCOVERY_REQUEST
+    finally:
+        if discovery._transport is not None:
+            discovery.close()
+        receiver.close()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("legacy_addresses", [[], [IPv4Address("127.0.0.1")]])
+@pytest.mark.parametrize("method,legacy_parameter", [
+    ("scan", "bcast_ifaces"), ("search_devices", "broadcastAddrs"),
+])
+async def test_discovery_rejects_conflicting_address_parameters(legacy_addresses, method, legacy_parameter):
+    discovery = Discovery()
+    with pytest.raises(ValueError, match="Use either target_addresses or " + legacy_parameter):
+        await getattr(discovery, method)(**{legacy_parameter: legacy_addresses, "target_addresses": []})
+
+
+@pytest.mark.asyncio
+async def test_discover_no_devices(ifaddr_adapters):
+    ifaddr_adapters.return_value = [ifaddr.Adapter("lo", "lo", [ifaddr.IP("127.0.0.1", 8, "lo")])]
 
     discovery = Discovery(allow_loopback=True)
     devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
@@ -76,11 +187,9 @@ async def test_discover_no_devices(netifaces):
     "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
 async def test_discover_deduplicate_multiple_discoveries(
-    netifaces, addr, family
+    ifaddr_adapters, addr, family
 ):
-    netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
-    }
+    ifaddr_adapters.return_value = [ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])]
 
     devices = [
         {"cid": "aabbcc001122", "mac": "aabbcc001122", "name": "MockDevice1"},
@@ -117,10 +226,8 @@ async def test_discover_deduplicate_multiple_discoveries(
 @pytest.mark.parametrize(
     "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_discovery_events(netifaces, addr, family):
-    netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
-    }
+async def test_discovery_events(ifaddr_adapters, addr, family):
+    ifaddr_adapters.return_value = [ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])]
 
     with Responder(family, addr[1]) as sock:
 
@@ -194,13 +301,11 @@ async def test_discovery_device_update_events():
 @pytest.mark.parametrize(
     "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
 )
-async def test_discover_devices_bad_data(netifaces, addr, family):
+async def test_discover_devices_bad_data(ifaddr_adapters, addr, family):
     """Create a socket broadcast responder, an async broadcast listener,
     test discovery responses.
     """
-    netifaces.return_value = {
-        2: [{"addr": addr[0], "netmask": "255.0.0.0", "peer": addr[0]}]
-    }
+    ifaddr_adapters.return_value = [ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])]
 
     with Responder(family, addr[1]) as sock:
 
@@ -220,6 +325,83 @@ async def test_discover_devices_bad_data(netifaces, addr, family):
 
         assert response is not None
         assert len(response) == 0
+
+        sock.close()
+        serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
+)
+async def test_discover_devices_cipherv2_fallback(ifaddr_adapters, addr, family):
+    """Devices that only encrypt their scan reply with CipherV2 (AES-GCM)
+    must still be discovered: Discovery should fall back to CipherV2 when
+    CipherV1 fails to decrypt the reply, same as Device.bind() already
+    does.
+    """
+    ifaddr_adapters.return_value = [ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])]
+
+    with Responder(family, addr[1]) as sock:
+
+        def responder(s):
+            (d, addr) = s.recvfrom(2048)
+            p = json.loads(d)
+            assert p == DISCOVERY_REQUEST
+
+            p = json.dumps(encrypt_payload_v2(DISCOVERY_RESPONSE))
+            s.sendto(p.encode(), addr)
+
+        serv = Thread(target=responder, args=(sock,))
+        serv.start()
+
+        discovery = Discovery(allow_loopback=True)
+        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
+
+        assert devices is not None
+        assert len(devices) == 1
+        assert devices[0].mac == DISCOVERY_RESPONSE["pack"]["mac"]
+
+        sock.close()
+        serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "addr,family", [(("127.0.0.1", 7000), socket.AF_INET)]
+)
+async def test_discover_devices_undecryptable_reply_ignored(
+    ifaddr_adapters, addr, family
+):
+    """A reply that fails to decrypt under both CipherV1 and CipherV2
+    should be discarded without raising, and should not prevent other
+    devices from being discovered.
+    """
+    ifaddr_adapters.return_value = [ifaddr.Adapter("lo", "lo", [ifaddr.IP(addr[0], 8, "lo")])]
+
+    with Responder(family, addr[1]) as sock:
+
+        def responder(s):
+            (d, addr) = s.recvfrom(2048)
+            p = json.loads(d)
+            assert p == DISCOVERY_REQUEST
+
+            bad = DISCOVERY_RESPONSE.copy()
+            bad["pack"] = "not-valid-base64-ciphertext"
+            s.sendto(json.dumps(bad).encode(), addr)
+
+            good = encrypt_payload(DISCOVERY_RESPONSE)
+            s.sendto(json.dumps(good).encode(), addr)
+
+        serv = Thread(target=responder, args=(sock,))
+        serv.start()
+
+        discovery = Discovery(allow_loopback=True)
+        devices = await discovery.scan(wait_for=DEFAULT_TIMEOUT)
+
+        assert devices is not None
+        assert len(devices) == 1
+        assert devices[0].mac == DISCOVERY_RESPONSE["pack"]["mac"]
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)

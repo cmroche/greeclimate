@@ -73,6 +73,28 @@ outer `tcid` routes packets through their `gateway_mac`. Commands address the
 gateway inside the pack and select the indoor unit using `sub`. Standalone
 devices keep their existing addressing.
 
+Automatic discovery uses `ifaddr` to enumerate IPv4 interfaces and derives their subnet broadcast addresses.
+IPv6 and non-loopback `/31` and `/32` networks are skipped. Loopback is excluded unless
+`Discovery(allow_loopback=True)` is used; then scans target the loopback host address.
+
+Passing `None` or `[]` as `scan(target_addresses=...)` uses automatic enumeration. A non-empty list of
+`ipaddress.IPv4Address` destinations bypasses enumeration and can select custom broadcast or
+unicast targets. Automatic enumeration derives broadcasts from prefixes rather than
+using OS-specific broadcast or peer fields.
+
+To discover a device at a known address:
+
+```python
+from ipaddress import IPv4Address
+
+devices = await discovery.scan(wait_for=5, target_addresses=[IPv4Address(host)])
+```
+
+The existing `bcast_ifaces` parameter remains supported as a compatibility alias, including
+positional calls. Supplying both parameters with non-`None` values raises `ValueError`.
+`search_devices(target_addresses=...)` likewise retains its existing `broadcastAddrs`
+keyword and positional calls, with the same conflict and automatic enumeration rules.
+
 #### Caveats
 
 Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.

@@ -4,9 +4,9 @@ import asyncio
 import logging
 from asyncio import Task
 from asyncio.events import AbstractEventLoop
-from ipaddress import IPv4Address
+from ipaddress import IPv4Address, IPv4Interface
 
-from greeclimate.cipher import CipherV1
+from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import Device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
@@ -141,6 +141,26 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             ]
             await asyncio.gather(*tasks, return_exceptions=True)
 
+    def decode_response_pack(self, obj):
+        """Decrypt a scan reply, falling back to CipherV2 if CipherV1 fails.
+
+        Some Gree Wi-Fi modules only speak the GCM-based protocol, even
+        for the initial scan reply, so the generic CipherV1 fails to
+        decrypt them. Device.bind() already has this same CipherV1 ->
+        CipherV2 fallback; this brings Discovery in line with it. Returns
+        None if the reply is undecryptable under either cipher, so
+        packet_received's existing "unexpected response" handling takes
+        care of it.
+        """
+        pack = obj["pack"]
+        try:
+            return self._cipher.decrypt(pack)
+        except Exception:
+            try:
+                return CipherV2().decrypt(pack)
+            except Exception:
+                return None
+
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded."""
         pack = obj.get("pack")
@@ -180,30 +200,46 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
                 pass
 
     # Discovery
-    async def scan(self, wait_for: int = 0, bcast_ifaces: list[IPv4Address] | None = None, include_gateways: bool = False) -> list[DeviceInfo]:
-        """Sends a discovery broadcast packet on each network interface to
-            locate Gree units on the network.
-            When a gateway device is found, its sub-devices are automatically
-            queried and returned as regular devices.
+    async def scan(
+        self,
+        wait_for: int = 0,
+        bcast_ifaces: list[IPv4Address] | None = None,
+        include_gateways: bool = False,
+        *,
+        target_addresses: list[IPv4Address] | None = None,
+    ) -> list[DeviceInfo]:
+        """Send discovery packets to broadcast or unicast destinations.
+            Gateway sub-devices are automatically queried and returned as
+            regular devices.
 
         Args:
             wait_for (int): Optionally wait this many seconds for discovery
                             and return the devices found.
-            bcast_ifaces (list[IPv4Address]): List of broadcast addresses to scan
+            bcast_ifaces (list[IPv4Address]): Compatibility alias for target_addresses.
+            target_addresses (list[IPv4Address]): Destination addresses to scan.
+                None or an empty list uses automatic broadcast discovery.
             include_gateways (bool): If True, gateway devices are included in
                                      the results alongside their sub-devices.
                                      Default is False.
             Concurrent scans are serialized. The latest scan's gateway policy
             remains active for late responses, including when wait_for is zero.
 
+        Raises:
+            ValueError: Both address parameters are supplied with non-None values.
+
         Returns:
             List[DeviceInfo]: List of devices found during this scan
         """
+        if bcast_ifaces is not None:
+            if target_addresses is not None:
+                raise ValueError("Use either target_addresses or bcast_ifaces, not both")
+            target_addresses = bcast_ifaces
+
         _LOGGER.info("Scanning for Gree devices ...")
 
         async with self._scan_lock:
             self._include_gateways = include_gateways
-            await self.search_devices(bcast_ifaces)
+            await self.search_devices(target_addresses=target_addresses)
             if wait_for:
                 await asyncio.sleep(wait_for)
                 await asyncio.gather(*self.tasks, return_exceptions=True)
@@ -214,30 +250,29 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
     def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""
-        import netifaces
+        import ifaddr
 
-        bdrAddrs = []
-        for iface in netifaces.interfaces():
-            for addr in netifaces.ifaddresses(iface).get(netifaces.AF_INET, []):
-                ipaddr = addr.get("addr")
-                bdr = addr.get("broadcast")
-                peer = addr.get("peer")
-                if addr:
-                    ip4addr = IPv4Address(ipaddr)
-                    if ip4addr.is_loopback and self._allow_loopback:
-                        if bdr or peer:
-                            bdrAddrs.append(IPv4Address(bdr or peer))
-                    elif not ip4addr.is_loopback:
-                        if bdr:
-                            bdrAddrs.append(IPv4Address(bdr))
+        broadcast_addresses = []
+        for adapter in ifaddr.get_adapters():
+            for address in adapter.ips:
+                if not address.is_IPv4:
+                    continue
+                interface = IPv4Interface((address.ip, address.network_prefix))
+                if interface.ip.is_loopback:
+                    if self._allow_loopback:
+                        broadcast_addresses.append(interface.ip)
+                    continue
+                if interface.network.prefixlen >= 31:
+                    continue
+                broadcast_addresses.append(interface.network.broadcast_address)
 
-        return bdrAddrs
+        return broadcast_addresses
 
-    async def search_on_interface(self, bcast_iface: IPv4Address) -> None:
-        """Search for devices on a specific interface."""
+    async def search_on_interface(self, target_address: IPv4Address) -> None:
+        """Search for devices at a broadcast or unicast destination."""
         _LOGGER.debug(
-            "Listening for devices on %s",
-            bcast_iface,
+            "Searching for devices at %s",
+            target_address,
         )
 
         if self._transport is None:
@@ -245,12 +280,25 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
                 lambda: self, local_addr=("0.0.0.0", 0), allow_broadcast=True
             )
 
-        await self.send({"t": "scan"}, (str(bcast_iface), 7000))
+        await self.send({"t": "scan"}, (str(target_address), 7000))
 
-    async def search_devices(self, broadcastAddrs: list[IPv4Address] | None = None) -> None:
-        """Search for devices with specific broadcast addresses."""
-        if not broadcastAddrs:
-            broadcastAddrs = self._get_broadcast_addresses()
+    async def search_devices(
+        self,
+        broadcastAddrs: list[IPv4Address] | None = None,
+        *,
+        target_addresses: list[IPv4Address] | None = None,
+    ) -> None:
+        """Search explicit destinations or automatic broadcast addresses.
+
+        broadcastAddrs is a compatibility alias for target_addresses.
+        Supplying both with non-None values raises ValueError.
+        """
+        if broadcastAddrs is not None:
+            if target_addresses is not None:
+                raise ValueError("Use either target_addresses or broadcastAddrs, not both")
+            target_addresses = broadcastAddrs
+        if not target_addresses:
+            target_addresses = self._get_broadcast_addresses()
         await asyncio.gather(
-            *[asyncio.create_task(self.search_on_interface(b)) for b in broadcastAddrs], return_exceptions=True
+            *[asyncio.create_task(self.search_on_interface(address)) for address in target_addresses], return_exceptions=True
         )

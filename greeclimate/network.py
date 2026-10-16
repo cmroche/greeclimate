@@ -142,6 +142,7 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         self.packet_received(obj, addr)
 
     def decode_response_pack(self, obj) -> dict:
+        """Decrypt a response envelope, allowing device-specific cipher selection."""
         return self._cipher.decrypt(obj["pack"])
 
     async def send(self, obj, addr: IPAddr = None, cipher: Union[CipherBase, None] = None,
