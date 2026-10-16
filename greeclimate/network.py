@@ -303,13 +303,16 @@ class DeviceProtocol2(DeviceProtocolBase2):
             "i": 1 if command in [Commands.BIND, Commands.SCAN] else 0,
             "t": Commands.PACK.value if data is not None else command.value,
             "uid": 0,
-            "tcid": device_info.mac
+            "tcid": device_info.gateway_mac or device_info.mac
         }
         if data is not None:
             payload["pack"] = {
                 "t": command.value,
                 "mac": device_info.mac
             }
+            if device_info.gateway_mac and command == Commands.CMD:
+                payload["pack"]["mac"] = device_info.gateway_mac
+                payload["pack"]["sub"] = device_info.mac
             payload["pack"].update(data)
         return payload
 

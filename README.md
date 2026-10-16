@@ -68,6 +68,11 @@ Concurrent enumeration calls on
 the same device are serialized. Generic-key enumeration leaves the bound
 gateway cipher unchanged for subsequent state/control traffic.
 
+Indoor units retain their own MAC for identity and status queries, while the
+outer `tcid` routes packets through their `gateway_mac`. Commands address the
+gateway inside the pack and select the indoor unit using `sub`. Standalone
+devices keep their existing addressing.
+
 #### Caveats
 
 Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.

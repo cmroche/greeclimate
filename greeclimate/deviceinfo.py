@@ -9,9 +9,10 @@ class DeviceInfo:
         sub_count: Number of sub-devices behind this device (>0 for a gateway)
         gateway_key: For a sub-device, the bound key of its parent gateway
         gateway_cipher: For a sub-device, the cipher instance of its parent gateway
+        gateway_mac: For a sub-device, the MAC of its routing gateway
     """
 
-    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None, sub_count=0, gateway_key=None, gateway_cipher=None):
+    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None, sub_count=0, gateway_key=None, gateway_cipher=None, gateway_mac=None):
         self.ip = ip
         self.port = port
         self.mac = mac
@@ -22,6 +23,7 @@ class DeviceInfo:
         self.sub_count = sub_count
         self.gateway_key = gateway_key
         self.gateway_cipher = gateway_cipher
+        self.gateway_mac = gateway_mac
 
     def __str__(self):
         return f"Device: {self.name} @ {self.ip}:{self.port} (mac: {self.mac})"

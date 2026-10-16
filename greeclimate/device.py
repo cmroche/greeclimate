@@ -383,6 +383,7 @@ class Device(DeviceProtocol2, Taskable):
                 sub.get("ver"),
                 gateway_key=self.device_cipher.key,
                 gateway_cipher=self.device_cipher,
+                gateway_mac=self.device_info.mac,
             )
             sub_infos.append(sub_info)
         return sub_infos

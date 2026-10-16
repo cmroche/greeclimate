@@ -71,6 +71,7 @@ async def test_gateway_enumeration_over_real_encrypted_udp(responses, expected, 
         assert all(r[1]["uid"] == 0 for r in gateway.requests)
         assert gateway.requests[-1][2]["cid"] == info.mac
         assert all(d.gateway_key == device.device_key for d in result)
+        assert all(d.gateway_mac == info.mac for d in result)
     finally:
         device.close()
         transport.close()
