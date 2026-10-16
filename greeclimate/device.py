@@ -9,7 +9,7 @@ from typing import Union, Optional, Any
 
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
-from greeclimate.device_profile import match_device_profile
+from greeclimate.device_profile import DeviceProfile, match_device_profile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import DeviceProtocol2
 from greeclimate.taskable import Taskable
@@ -179,6 +179,8 @@ class Device(DeviceProtocol2, Taskable):
         """ Device properties """
         self.hid = None
         self.version = None
+        self._matched_hid = None
+        self._matched_profile: Optional[DeviceProfile] = None
         self._learned_temperature_offset: Optional[int] = None
         self._guessed_temperature_offset: Optional[int] = None
         self._properties = {}
@@ -304,15 +306,25 @@ class Device(DeviceProtocol2, Taskable):
 
         self._properties.update(kwargs)
 
-        if self._learned_temperature_offset is None and Props.TEMP_SENSOR.value in kwargs:
+        if Props.TEMP_SENSOR.value in kwargs:
+            profile = self._device_profile
+            relearn = profile is not None and profile.relearn_temperature_offset
             temp = kwargs[Props.TEMP_SENSOR.value]
-            # shortcut: confidence assumes indoor temperatures of -20..50 C; revise if calibrated device limits become available.
-            if type(temp) is int and TEMP_SENSOR_MIN <= temp <= TEMP_SENSOR_MAX + TEMP_OFFSET and temp != 0:
-                if temp < TEMP_SENSOR_MIN + TEMP_OFFSET:
+            # shortcut: ranges were checked on only some firmware versions; use version-specific profiles if others differ.
+            minimum = 0 if relearn else TEMP_SENSOR_MIN
+            plain_limit = TEMP_OFFSET if relearn else TEMP_SENSOR_MIN + TEMP_OFFSET
+            # shortcut: detection assumes indoor temperatures of -20..50 C; revise if real temperatures exceed this range.
+            if (
+                (relearn or self._learned_temperature_offset is None)
+                and type(temp) is int
+                and minimum <= temp <= TEMP_SENSOR_MAX + TEMP_OFFSET
+                and temp != 0
+            ):
+                if temp < plain_limit:
                     self._learned_temperature_offset = 0
                 elif temp > TEMP_SENSOR_MAX:
                     self._learned_temperature_offset = TEMP_OFFSET
-                elif self._guessed_temperature_offset is None:
+                elif self._learned_temperature_offset is None and self._guessed_temperature_offset is None:
                     self._guessed_temperature_offset = 0 if temp < TEMP_OFFSET else TEMP_OFFSET
 
         self._valid_state.set()
@@ -455,13 +467,21 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.TEMP_UNIT, int(value))
 
     @property
+    def _device_profile(self) -> Optional[DeviceProfile]:
+        if self.hid != self._matched_hid:
+            self._matched_profile = match_device_profile(self.hid)
+            self._matched_hid = self.hid
+        return self._matched_profile
+
+    @property
     def _temperature_offset(self) -> Optional[int]:
         if self._learned_temperature_offset is not None:
             return self._learned_temperature_offset
-        profile = match_device_profile(None, self.hid)
-        offset = profile.settings.get("temperature_offset") if profile else None
-        if offset is not None:
-            return offset
+        profile = self._device_profile
+        if profile is not None:
+            if profile.relearn_temperature_offset and self._guessed_temperature_offset is not None:
+                return self._guessed_temperature_offset
+            return profile.temperature_offset
         return self._guessed_temperature_offset
 
     @property
@@ -469,10 +489,12 @@ class Device(DeviceProtocol2, Taskable):
         prop = self.get_property(Props.TEMP_SENSOR)
         bit = self.get_property(Props.TEMP_BIT)
         offset = self._temperature_offset
+        profile = self._device_profile
+        minimum = 0 if profile is not None and profile.relearn_temperature_offset else TEMP_SENSOR_MIN
         if (
             offset is not None
             and type(prop) is int
-            and TEMP_SENSOR_MIN <= prop <= TEMP_SENSOR_MAX + TEMP_OFFSET
+            and minimum <= prop <= TEMP_SENSOR_MAX + TEMP_OFFSET
             and (prop != 0 or offset == 0)
         ):
             bit = bit if bit is not None else 0
