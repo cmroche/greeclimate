@@ -52,6 +52,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         self._allow_loopback: bool = allow_loopback
         self._include_gateways: bool = False
         self._scan_lock = asyncio.Lock()
+        self._querying_gateways = set()
         self._device_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []
 
@@ -76,7 +77,10 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         """
         if listener not in self._listeners:
             self._listeners.append(listener)
-            return [self._create_task(listener.device_found(x)) for x in self.devices]
+            return [
+                self._create_task(listener.device_found(x))
+                for x in self.devices if self._include_gateways or x.sub_count == 0
+            ]
         return None
 
     def remove_listener(self, listener: Listener) -> bool:
@@ -104,29 +108,38 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             device
         """
 
+        include_gateway = self._include_gateways
+        is_new = True
+        address_changed = False
         for index, last_info in enumerate(self._device_infos):
             if device_info == last_info:
-                if device_info.ip != last_info.ip:
-                    # ip address info may have been updated, so store the new info
-                    # and trigger a `device_update` event.
+                is_new = False
+                address_changed = device_info.ip != last_info.ip
+                if address_changed:
                     self._device_infos[index] = device_info
-                    tasks = [l.device_update(device_info) for l in self._listeners]
-                    await asyncio.gather(*tasks, return_exceptions=True)
-                return
+                break
+        else:
+            self._device_infos.append(device_info)
+            _LOGGER.info("Found gree device %s", str(device_info))
 
-        self._device_infos.append(device_info)
-
-        _LOGGER.info("Found gree device %s", str(device_info))
-
-        include_gateway = self._include_gateways
         if device_info.sub_count > 0:
-            # Keep enumeration inside this tracked task so scan() waits for it.
-            await self._query_gateway(device_info)
+            if device_info.mac in self._querying_gateways:
+                return
+            self._querying_gateways.add(device_info.mac)
+            try:
+                # Keep enumeration inside this tracked task so scan() waits for it.
+                await self._query_gateway(device_info)
+            finally:
+                self._querying_gateways.discard(device_info.mac)
             if not include_gateway:
                 return
 
-        tasks = [l.device_found(device_info) for l in self._listeners]
-        await asyncio.gather(*tasks, return_exceptions=True)
+        if is_new or address_changed:
+            tasks = [
+                l.device_found(device_info) if is_new else l.device_update(device_info)
+                for l in self._listeners
+            ]
+            await asyncio.gather(*tasks, return_exceptions=True)
 
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded."""

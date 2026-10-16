@@ -256,7 +256,9 @@ class DeviceProtocol2(DeviceProtocolBase2):
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
             Response.DATA.value: lambda *args: self.__handle_state_update(*args),
             Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
-            Response.SUBLIST.value: lambda *args: self.__handle_sublist_response(*args),
+            Response.SUBLIST.value: lambda sub_devices: self.__handle_sublist_response(
+                sub_devices, generic=obj.get("i") == 1
+            ),
         }
         try:
             resp = self._resolve_response_type(obj)
@@ -290,11 +292,11 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device state updates. """
         pass
 
-    def __handle_sublist_response(self, sub_devices) -> None:
-        self.handle_sublist_response(sub_devices)
+    def __handle_sublist_response(self, sub_devices, *, generic: bool) -> None:
+        self.handle_sublist_response(sub_devices, generic=generic)
 
-    def handle_sublist_response(self, sub_devices: list) -> None:
-        """ Implement this function to handle sub-device list responses. """
+    def handle_sublist_response(self, sub_devices: list, *, generic: bool = False) -> None:
+        """Handle a sub-device list, identifying replies to the generic-key exchange."""
         pass
 
     def _generate_payload(self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:

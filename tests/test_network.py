@@ -352,7 +352,7 @@ class DeviceProtocol2Test(DeviceProtocol2):
         self._ready.set()
         self.key = key
 
-    def handle_sublist_response(self, sub_devices: list) -> None:
+    def handle_sublist_response(self, sub_devices: list, *, generic: bool = False) -> None:
         self.sub_devices = sub_devices
 
     def handle_unknown_packet(self, obj, addr: IPAddr) -> None:

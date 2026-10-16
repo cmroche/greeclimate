@@ -1,6 +1,7 @@
 """Encrypted UDP gateway enumeration regressions."""
 import asyncio
 import json
+from unittest.mock import patch
 
 import pytest
 
@@ -75,3 +76,80 @@ async def test_gateway_enumeration_over_real_encrypted_udp(responses, expected, 
     finally:
         device.close()
         transport.close()
+
+
+def encrypted_sublist(cipher, entries, *, generic=False, outer_type=False):
+    body = {"list": entries}
+    if not outer_type:
+        body["t"] = "subList"
+    pack, _ = cipher.encrypt(body)
+    return json.dumps({
+        "t": "subList" if outer_type else "pack", "i": int(generic), "pack": pack,
+    }).encode()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("late_unit", [1, 3], ids=["duplicate", "additional-unit"])
+async def test_delayed_bound_reply_does_not_finish_generic_enumeration(late_unit):
+    """Issue 2: a late duplicate must not discard the generic-only indoor unit."""
+    address = ("127.0.0.1", 7000)
+    device = Device(DeviceInfo(*address, "aabbcc001122", "Gateway"), bind_timeout=1)
+    cipher = CipherV1(b"0123456789abcdef")
+    device.device_cipher = cipher
+    bound_reply = encrypted_sublist(cipher, [unit(1)])
+    generic_reply = encrypted_sublist(CipherV1(), [unit(2)], generic=True)
+    generic_requested = asyncio.Event()
+    release_subdev = asyncio.Event()
+
+    async def send(packet, **kwargs):
+        if packet["i"] == 1:
+            # Deliver a delayed duplicate from a previous bound-key query first.
+            device.datagram_received(encrypted_sublist(cipher, [unit(late_unit)]), address)
+            generic_requested.set()
+        else:
+            if packet.get("pack", {}).get("t") == "subDev":
+                await release_subdev.wait()
+            device.datagram_received(bound_reply, address)
+
+    with patch.object(device, "send", side_effect=send):
+        query = asyncio.create_task(device.get_sub_devices())
+        try:
+            await asyncio.wait_for(generic_requested.wait(), 1)
+            # Drain ready callbacks without a wall-clock race between packet timers.
+            for _ in range(10):
+                await asyncio.sleep(0)
+            device.datagram_received(generic_reply, address)
+            release_subdev.set()
+            result = await asyncio.wait_for(query, 1)
+            assert {info.mac for info in result} == {
+                unit(1)["mac"], unit(2)["mac"], unit(late_unit)["mac"],
+            }
+        finally:
+            release_subdev.set()
+            if not query.done():
+                query.cancel()
+            await asyncio.gather(query, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+async def test_generic_enumeration_accepts_outer_response_type():
+    """Issue 3: outer subList type must survive generic-key packet decryption."""
+    address = ("127.0.0.1", 7000)
+    device = Device(DeviceInfo(*address, "aabbcc001122", "Gateway"), bind_timeout=1)
+    cipher = CipherV1(b"0123456789abcdef")
+    device.device_cipher = cipher
+
+    async def send(packet, **kwargs):
+        generic = packet["i"] == 1
+        reply = encrypted_sublist(
+            CipherV1() if generic else cipher,
+            [unit(2)] if generic else [unit(1)],
+            generic=generic,
+            outer_type=generic,
+        )
+        device.datagram_received(reply, address)
+
+    with patch.object(device, "send", side_effect=send):
+        result = await asyncio.wait_for(device.get_sub_devices(), 1)
+
+    assert {info.mac for info in result} == {unit(1)["mac"], unit(2)["mac"]}

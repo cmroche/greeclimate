@@ -199,7 +199,7 @@ class Device(DeviceProtocol2, Taskable):
             except (ValueError, UnicodeError):
                 pass
             else:
-                if str(pack.get("t", "")).lower() == "sublist":
+                if self._resolve_response_type({"pack": pack, "t": obj.get("t")}) == "sublist":
                     return pack
         return super().decode_response_pack(obj)
 
@@ -284,10 +284,11 @@ class Device(DeviceProtocol2, Taskable):
         self._state_update_pending = True
         self._loop.create_task(self.update_state())
 
-    def handle_sublist_response(self, sub_devices: list) -> None:
-        """Handle the sub-device list response from the gateway."""
-        self._sub_devices_raw = sub_devices
-        self._sublist_event.set()
+    def handle_sublist_response(self, sub_devices: list, *, generic: bool = False) -> None:
+        """Collect lists without letting a late reply complete a different key exchange."""
+        self._sub_devices_raw.extend(sub_devices)
+        if generic == (self._sublist_response_cipher is not None):
+            self._sublist_event.set()
 
     async def get_sub_devices(self) -> List[DeviceInfo]:
         """Enumerate and merge indoor units from the supported gateway query forms."""

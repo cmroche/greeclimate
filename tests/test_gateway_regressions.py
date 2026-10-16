@@ -8,6 +8,7 @@ from greeclimate.cipher import CipherV1
 from greeclimate.device import Device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
+from greeclimate.exceptions import DeviceTimeoutError
 from greeclimate.network import DeviceProtocol2, Response
 
 
@@ -137,7 +138,9 @@ async def test_cached_gateway_enumeration_does_not_wait_for_unrequested_state():
     await device.bind(key="1234567890123456", cipher=CipherV1())
 
     async def send(*args, **kwargs):
-        device.handle_sublist_response([{"mac": "aabbcc001133", "name": "Indoor"}])
+        device.handle_sublist_response(
+            [{"mac": "aabbcc001133", "name": "Indoor"}], generic=kwargs.get("request_cipher") is not None
+        )
 
     try:
         with patch.object(device, "send", side_effect=send):
@@ -157,7 +160,7 @@ async def test_enumeration_waits_for_requested_state_then_reuses_valid_session()
     async def send(packet, **kwargs):
         if packet.get("t") == "subList" or packet.get("pack", {}).get("t") in ("subList", "subDev"):
             query_sent.set()
-            device.handle_sublist_response([{"mac": "aabbcc001133"}])
+            device.handle_sublist_response([{"mac": "aabbcc001133"}], generic=packet["i"] == 1)
 
     try:
         with patch.object(device, "send", side_effect=send):
@@ -178,3 +181,141 @@ async def test_enumeration_waits_for_requested_state_then_reuses_valid_session()
                 await asyncio.gather(query, return_exceptions=True)
     finally:
         device.close()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("first_response", ["timeout", "empty", "partial"])
+async def test_gateway_rescan_recovers_missing_indoor_units(first_response):
+    """Issue 1: a cached gateway must not make an incomplete first scan permanent."""
+    discovery = Discovery()
+    gateway = DeviceInfo("127.0.0.1", 7000, "aabbcc001122", "Gateway", sub_count=2)
+    children = [
+        DeviceInfo(gateway.ip, gateway.port, mac, "Indoor", gateway_mac=gateway.mac)
+        for mac in ("aabbcc001133", "aabbcc001144")
+    ]
+    initial = children[:1] if first_response == "partial" else []
+    response = DeviceTimeoutError() if first_response == "timeout" else initial
+
+    async def search(*args):
+        await discovery.device_found(gateway)
+
+    with patch.object(discovery, "search_devices", side_effect=search), \
+         patch.object(Device, "bind", new_callable=AsyncMock), \
+         patch.object(Device, "get_sub_devices", side_effect=[response, children]), \
+         patch.object(Device, "close"):
+        first = await discovery.scan()
+        assert {info.mac for info in first} == {info.mac for info in initial}
+        recovered = await discovery.scan()
+
+    assert {info.mac for info in recovered} == {info.mac for info in children}
+
+
+@pytest.mark.asyncio
+async def test_gateway_address_change_refreshes_indoor_addresses():
+    """Issue 1: indoor units must follow their gateway to its new address."""
+    discovery = Discovery()
+    gateways = [
+        DeviceInfo(ip, 7000, "aabbcc001122", "Gateway", sub_count=1)
+        for ip in ("127.0.0.1", "127.0.0.2")
+    ]
+    children = [
+        DeviceInfo(gateway.ip, gateway.port, "aabbcc001133", "Indoor", gateway_mac=gateway.mac)
+        for gateway in gateways
+    ]
+    advertisements = iter(gateways)
+
+    async def search(*args):
+        await discovery.device_found(next(advertisements))
+
+    with patch.object(discovery, "search_devices", side_effect=search), \
+         patch.object(Device, "bind", new_callable=AsyncMock), \
+         patch.object(Device, "get_sub_devices", side_effect=[[child] for child in children]), \
+         patch.object(Device, "close"):
+        first = await discovery.scan()
+        assert [(info.mac, info.ip) for info in first] == [(children[0].mac, gateways[0].ip)]
+        refreshed = await discovery.scan()
+
+    assert [(info.mac, info.ip) for info in refreshed] == [(children[1].mac, gateways[1].ip)]
+
+
+@pytest.mark.asyncio
+async def test_excluded_gateway_is_not_replayed_to_late_listener():
+    """Issue 4: registering after a scan must not expose an excluded gateway."""
+    discovery = Discovery()
+    gateway = DeviceInfo("127.0.0.1", 7000, "aabbcc001122", "Gateway", sub_count=1)
+    child = DeviceInfo(gateway.ip, gateway.port, "aabbcc001133", "Indoor", gateway_mac=gateway.mac)
+    early = RecordingListener()
+    discovery.add_listener(early)
+
+    async def search(*args):
+        await discovery.device_found(gateway)
+
+    with patch.object(discovery, "search_devices", side_effect=search), \
+         patch.object(Device, "bind", new_callable=AsyncMock), \
+         patch.object(Device, "get_sub_devices", return_value=[child]), \
+         patch.object(Device, "close"):
+        devices = await discovery.scan(include_gateways=False)
+
+    assert [info.mac for info in devices] == [child.mac]
+    assert early.macs == [child.mac]
+    late = RecordingListener()
+    await asyncio.gather(*discovery.add_listener(late))
+    assert late.macs == [child.mac]
+
+
+@pytest.mark.asyncio
+async def test_excluded_gateway_does_not_emit_address_updates():
+    """Issue 4: a hidden gateway must stay hidden when its address changes."""
+    discovery = Discovery()
+    listener = AsyncMock(spec=Listener)
+    discovery.add_listener(listener)
+    gateways = iter([
+        DeviceInfo(ip, 7000, "aabbcc001122", "Gateway", sub_count=1)
+        for ip in ("127.0.0.1", "127.0.0.2")
+    ])
+
+    async def search(*args):
+        await discovery.device_found(next(gateways))
+
+    with patch.object(discovery, "search_devices", side_effect=search), \
+         patch.object(discovery, "_query_gateway", new_callable=AsyncMock):
+        await discovery.scan(include_gateways=False)
+        listener.device_found.assert_not_awaited()
+        await discovery.scan(include_gateways=False)
+
+    listener.device_update.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_duplicate_gateway_advertisements_share_active_enumeration():
+    discovery = Discovery()
+    gateway = DeviceInfo("127.0.0.1", 7000, "aabbcc001122", "Gateway", sub_count=1)
+    child = DeviceInfo(gateway.ip, gateway.port, "aabbcc001133", "Indoor", gateway_mac=gateway.mac)
+    listener = RecordingListener()
+    discovery.add_listener(listener)
+    started = asyncio.Event()
+    release = asyncio.Event()
+    queries = []
+
+    async def query_gateway(info):
+        queries.append(info.mac)
+        started.set()
+        await release.wait()
+        await discovery.device_found(child)
+
+    with patch.object(discovery, "_query_gateway", side_effect=query_gateway):
+        first = asyncio.create_task(discovery.device_found(gateway))
+        duplicate = None
+        try:
+            await asyncio.wait_for(started.wait(), 1)
+            duplicate = asyncio.create_task(discovery.device_found(gateway))
+            await asyncio.sleep(0)
+        finally:
+            release.set()
+            await asyncio.gather(first, *([duplicate] if duplicate else []))
+        assert queries == [gateway.mac]
+        assert listener.macs == [child.mac]
+        await discovery.device_found(gateway)
+
+    assert queries == [gateway.mac, gateway.mac]
+    assert listener.macs == [child.mac]

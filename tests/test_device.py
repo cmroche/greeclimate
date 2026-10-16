@@ -828,7 +828,7 @@ async def test_get_sub_devices(cipher, send):
     ]
 
     def fake_send(*args, **kwargs):
-        device.handle_sublist_response(sub_devices_raw)
+        device.handle_sublist_response(sub_devices_raw, generic=kwargs.get("request_cipher") is not None)
     send.side_effect = fake_send
 
     result = await device.get_sub_devices()
@@ -912,7 +912,7 @@ async def test_get_sub_devices_name_fallback(cipher, send):
     ]
 
     def fake_send(*args, **kwargs):
-        device.handle_sublist_response(sub_devices_raw)
+        device.handle_sublist_response(sub_devices_raw, generic=kwargs.get("request_cipher") is not None)
     send.side_effect = fake_send
 
     result = await device.get_sub_devices()

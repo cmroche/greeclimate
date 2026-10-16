@@ -89,6 +89,7 @@ def get_mock_device_info():
         brand="gree",
         model="gree",
         version="1.1.13",
+        sub_count=0,
     )
 
 
