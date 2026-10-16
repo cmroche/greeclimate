@@ -148,14 +148,6 @@ def get_mock_state_bad_temp():
     return {"TemSen": 69, "hid": "362001060297+U-CS532AF(MTK).bin"}
 
 
-def get_mock_state_0c_v4_temp():
-    return {"TemSen": 0, "hid": "362001000762+U-CS532AE(LT)V4.bin"}
-
-
-def get_mock_state_0c_v3_temp():
-    return {"TemSen": 0, "hid": "362001000762+U-CS532AE(LT)V3.31.bin"}
-
-
 async def generate_device_mock_async():
     d = Device(DeviceInfo("1.1.1.1", 7000, "f4911e7aca59", "1e7aca59"))
     await d.bind(key="St8Vw1Yz4Bc7Ef0H", cipher=CipherV1())
@@ -476,7 +468,8 @@ async def test_update_current_temp_unsupported(cipher, send):
     await device.update_state()
 
     assert device.get_property(Props.TEMP_SENSOR) is None
-    assert device.current_temperature == device.target_temperature
+    assert device.current_temperature is None
+    assert device.target_temperature == 25
 
 
 @pytest.mark.asyncio
@@ -488,7 +481,7 @@ async def test_update_current_temp_unsupported(cipher, send):
         (62, "362001061147+U-ZX6045RV1.01.bin"),
     ],
 )
-async def test_update_current_temp_v3(temsen, hid, cipher, send):
+async def test_update_current_temp_offset40(temsen, hid, cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
@@ -512,7 +505,7 @@ async def test_update_current_temp_v3(temsen, hid, cipher, send):
         (23, "362001061217+U-W04NV7.bin"),
     ],
 )
-async def test_update_current_temp_v4(temsen, hid, cipher, send):
+async def test_update_current_temp_offset0(temsen, hid, cipher, send):
     """Check that properties can be updates."""
     device = await generate_device_mock_async()
 
@@ -540,32 +533,288 @@ async def test_update_current_temp_bad(cipher, send):
     assert device.current_temperature == get_mock_state_bad_temp()["TemSen"] - 40
 
 
-@pytest.mark.asyncio
-async def test_update_current_temp_0C_v4(cipher, send):
-    """Check that properties can be updates."""
-    device = await generate_device_mock_async()
-
-    def fake_send(*args, **kwargs):
-        device.handle_state_update(**get_mock_state_0c_v4_temp())
-    send.side_effect = fake_send
-
-    await device.update_state()
-
-    assert device.current_temperature == get_mock_state_0c_v4_temp()["TemSen"]
-
 
 @pytest.mark.asyncio
-async def test_update_current_temp_0C_v3(cipher, send):
-    """Check for devices without a temperature sensor."""
-    device = await generate_device_mock_async()
+@pytest.mark.parametrize(
+    "hid,sensor,expected,version",
+    [
+        ("362001060200+U-CS849AV10.bin", 45, 45, "10"),
+        ("362001000762+U-CS532AE(LT)V3.33.bin", 25, -15, "3.33"),
+        ("362001061665+U-W05TV2.07.bin", 25, -15, "2.07"),
+        ("362001000748+U-CS532Z(LT)V3.75.bin", 25, -15, "3.75"),
+        ("362001000748+U-CS532Z(LT)V3.74.bin", 25, -15, "3.74"),
+        ("362001000748+U-DIFFERENTV99.bin", 25, -15, "99"),
+        ("362001000835+U-CS532AX(MTK)V3.bin", 45, 45, "3"),
+        ("362001000835+U-CS532AX(MTK)V2.bin", 45, 45, "2"),
+        ("362001060297+U-CS532AF(MTK)V4.bin", 45, 45, "4"),
+        ("362001060297+U-CS532AF(MTK)V4.0.bin", 45, 45, "4.0"),
+        ("362001065736+U-QCOM4004CV3.76.bin", 25, -15, "3.76"),
+        ("362001064307+U-QCOM4004CV3.76.bin", 25, 25, "3.76"),
+        ("999999999999+U-UNKNOWNV4.bin", 25, 25, "4"),
+        ("362001061383+U-BL3332_JDV18.bin", 25, 25, "18"),
+    ],
+)
+async def test_temperature_code_defaults_and_literal_identity(hid, sensor, expected, version):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid=hid, TemSen=sensor, TemUn=0, TemRec=0)
 
-    def fake_send(*args, **kwargs):
-        device.handle_state_update(**get_mock_state_0c_v3_temp())
-    send.side_effect = fake_send
+    assert device.current_temperature == expected
+    assert device.version == version
+    assert device.hid == hid
+    assert device.raw_properties["TemSen"] == sensor
 
-    await device.update_state()
 
-    assert device.current_temperature == device.target_temperature
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "samples,expected",
+    [
+        ([-20, 65], [-20, 65]),
+        ([19, 65], [19, 65]),
+        ([51, 19], [11, -21]),
+        ([90, 19], [50, -21]),
+        ([20, 65], [20, 25]),
+        ([50, 19], [10, 19]),
+        ([0, 28, 45, 65, 25], [None, 28, 45, 25, -15]),
+        ([40, 35, 19, 65], [0, -5, 19, 65]),
+        ([0, 28, 0, 65], [None, 28, 0, 25]),
+        ([40, 0, 19, 65], [0, None, 19, 65]),
+        ([19, 0, 65], [19, 0, 65]),
+        ([65, 0, 19], [25, None, -21]),
+    ],
+)
+async def test_temperature_guess_promotion_and_permanent_lock(samples, expected):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(SetTem=25, TemUn=0, TemRec=0)
+    assert device.current_temperature is None
+
+    for sensor, temperature in zip(samples, expected):
+        device.handle_state_update(TemSen=sensor)
+        assert device.current_temperature == temperature
+        assert device.raw_properties["TemSen"] == sensor
+        assert device.target_temperature == 25
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("invalid", [None, "28", 28.5, True, False, "", -21, 91, 218])
+async def test_invalid_temperature_defers_inference(invalid):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(SetTem=25, TemUn=0, TemRec=0, TemSen=invalid)
+    assert device.current_temperature is None
+    assert device.target_temperature == 25
+    assert device.raw_properties["TemSen"] == invalid
+
+    device.handle_state_update(TemSen=28)
+    assert device.current_temperature == 28
+    device.handle_state_update(TemSen=65)
+    assert device.current_temperature == 25
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("invalid", [None, "28", 28.5, True, False, "", -21, 91, 218])
+@pytest.mark.parametrize("first,expected", [(28, 25), (40, -15), (19, 25), (65, -15)])
+async def test_unusable_temperature_preserves_selected_encoding(invalid, first, expected):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(SetTem=25, TemSen=first, TemUn=0, TemRec=0)
+    device.handle_state_update(TemSen=invalid)
+    assert device.current_temperature is None
+    assert device.target_temperature == 25
+    device.handle_state_update(TemSen=25)
+    assert device.current_temperature == expected
+    device.handle_state_update(Pow=1)
+    assert device.current_temperature == expected
+    assert device.raw_properties["TemSen"] == 25
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "hid,initial,sensor,expected",
+    [
+        ("362001060200+U-CS849AV10.bin", 0, 65, 25),
+        ("362001000762+U-CS532AE(LT)V3.33.bin", None, 19, 19),
+        ("999999999999+U-UNKNOWNV1.bin", None, 28, 28),
+    ],
+)
+async def test_zero_temperature_does_not_learn_or_guess(hid, initial, sensor, expected):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid=hid, TemSen=0, SetTem=25, TemUn=0, TemRec=0)
+    assert device.current_temperature == initial
+    assert device.raw_properties["TemSen"] == 0
+    device.handle_state_update(TemSen=sensor)
+    assert device.current_temperature == expected
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("hid_first", [False, True])
+async def test_trait_overrides_guess_until_learning(hid_first):
+    device = Device(DeviceInfo(*get_mock_info()))
+    hid = "362001000762+U-CS532AE(LT)V3.33.bin"
+    if hid_first:
+        device.handle_state_update(hid=hid)
+    device.handle_state_update(TemSen=25, TemUn=0, TemRec=0)
+    assert device.current_temperature == (-15 if hid_first else 25)
+    device.handle_state_update(hid=hid)
+    assert device.current_temperature == -15
+    assert device.raw_properties["TemSen"] == 25
+    assert device.version == "3.33"
+    device.handle_state_update(TemSen=19)
+    assert device.current_temperature == 19
+    device.handle_state_update(TemSen=65)
+    assert device.current_temperature == 65
+
+
+@pytest.mark.asyncio
+async def test_trait_keeps_first_ambiguous_guess_as_fallback():
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid="362001000762+U-CS532AE(LT)V3.33.bin", TemSen=25)
+    assert device.current_temperature == -15
+    device.handle_state_update(hid="999999999999+U-UNKNOWNV1.bin")
+    assert device.current_temperature == 25
+    device.handle_state_update(TemSen=45)
+    assert device.current_temperature == 45
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("arrival", ["before", "same", "after"])
+@pytest.mark.parametrize(
+    "hid,sensor,initial,ambiguous,opposite,final",
+    [
+        ("362001000762+U-CS532AE(LT)V3.33.bin", 19, 19, 25, 65, 65),
+        ("362001060200+U-CS849AV10.bin", 65, 25, -15, 19, -21),
+    ],
+)
+async def test_learning_overrides_trait_in_every_arrival_order(
+    arrival, hid, sensor, initial, ambiguous, opposite, final
+):
+    device = Device(DeviceInfo(*get_mock_info()))
+    if arrival == "before":
+        device.handle_state_update(hid=hid)
+    packet = {"TemSen": sensor, "TemUn": 0}
+    if arrival == "same":
+        packet["hid"] = hid
+    device.handle_state_update(**packet)
+    assert device.current_temperature == initial
+    device.handle_state_update(hid=hid)
+    assert device.current_temperature == initial
+    device.handle_state_update(TemSen=25)
+    assert device.current_temperature == ambiguous
+    device.handle_state_update(TemSen=opposite)
+    assert device.current_temperature == final
+    device.handle_state_update(TemSen=25)
+    assert device.current_temperature == ambiguous
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("hid_first", [False, True])
+@pytest.mark.parametrize("replacement", [
+    "999999999999+U-UNKNOWNV1.bin", "888888888888+U-OTHERV2.bin",
+])
+async def test_unknown_hid_preserves_guess_until_learning(hid_first, replacement):
+    device = Device(DeviceInfo(*get_mock_info()))
+    hid = "999999999999+U-UNKNOWNV1.bin"
+    if hid_first:
+        device.handle_state_update(hid=hid)
+    device.handle_state_update(TemSen=25, TemUn=0, TemRec=0)
+    device.handle_state_update(hid=replacement, TemSen=45)
+    assert device.current_temperature == 45
+    device.handle_state_update(hid=replacement, TemSen=65)
+    assert device.current_temperature == 25
+    assert device.hid == replacement
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "replacement,version",
+    [
+        ("362001000762+U-CS532AE(LT)V3.33.bin", "3.33"),
+        ("362001060200+U-CS849AV10.bin", "10"),
+        ("999999999999+U-UNKNOWNV2.bin", "2"),
+        ("malformed", None),
+        ("", None),
+        (None, None),
+        (123, None),
+    ],
+)
+@pytest.mark.parametrize("first,expected", [(19, 25), (65, -15)])
+async def test_temperature_lock_survives_hid_replacement(first, expected, replacement, version):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid="999999999999+U-UNKNOWNV1.bin", TemSen=first, TemUn=0)
+    device.handle_state_update(TemSen=25)
+    assert device.current_temperature == expected
+    device.handle_state_update(hid=replacement)
+    assert device.current_temperature == expected
+    assert device.version == version
+    assert device.hid == replacement
+    assert device.raw_properties["TemSen"] == 25
+
+
+@pytest.mark.asyncio
+async def test_temperature_learning_is_per_device():
+    direct = Device(DeviceInfo(*get_mock_info()))
+    biased = Device(DeviceInfo(*get_mock_info()))
+    direct.handle_state_update(TemSen=19)
+    biased.handle_state_update(TemSen=65)
+    for device in (direct, biased):
+        device.handle_state_update(TemSen=25)
+    assert direct.current_temperature == 25
+    assert biased.current_temperature == -15
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("hid,version", [
+    ("362001000762", None),
+    ("362001000762+U-CS532AE.bin", None),
+    ("invalid+U-CS532AEV3.33.bin", "3.33"),
+    (None, None), (123, None), ([], None), ({}, None),
+])
+async def test_invalid_hid_cannot_supply_temperature_trait(hid, version):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid=hid, TemSen=25)
+    assert device.current_temperature == 25
+    assert device.hid == hid
+    assert device.version == version
+    assert device.raw_properties["TemSen"] == 25
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("use_raw_dict", [False, True])
+async def test_local_sensor_mutation_does_not_learn(use_raw_dict):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(SetTem=25, TemRec=0)
+    if use_raw_dict:
+        device.raw_properties["TemSen"] = 65
+    else:
+        device.set_property(Props.TEMP_SENSOR, 65)
+    assert device.current_temperature is None
+    assert device.target_temperature == 25
+    device.handle_state_update(Pow=1)
+    assert device.current_temperature is None
+    device.handle_state_update(TemSen=65)
+    assert device.current_temperature == 25
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("reported_version", ["4", "4.0", "7", None])
+async def test_version_metadata_does_not_control_temperature(reported_version):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(TemSen=65, TemUn=0, TemRec=0)
+    device.version = reported_version
+    assert device.current_temperature == 25
+    assert device.version == reported_version
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "hid,sensor",
+    [
+        ("362001000762+U-CS532AE(LT)V3.33.bin", 65),
+        ("362001060297+U-CS532AF(MTK)V4.bin", 25),
+    ],
+)
+async def test_temperature_offset_precedes_fahrenheit_conversion(hid, sensor):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid=hid, TemSen=sensor, TemUn=1, TemRec=0)
+    assert device.current_temperature == 77
+    assert device.raw_properties["TemSen"] == sensor
 
 
 @pytest.mark.asyncio
@@ -646,18 +895,16 @@ async def test_send_temperature_out_of_range_farenheit_set(temperature, cipher, 
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("temperature", [-270, 150])
-async def test_send_temperature_out_of_range_farenheit_get(temperature, cipher, send):
-    """Check that bad temperatures raise the appropriate error."""
-    device = await generate_device_mock_async()
-
-    device.set_property(Props.TEMP_SET, 20)
-    device.set_property(Props.TEMP_SENSOR, temperature)
-    device.set_property(Props.TEMP_BIT, 0)
+async def test_ambient_fahrenheit_conversion_failure_preserves_lock():
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(SetTem=25, TemSen=19, TemRec=0)
+    assert device.current_temperature == 19
     device.temperature_units = TemperatureUnits.F
-
-    t = device.current_temperature
-    assert t == 68
+    device.handle_state_update(TemSen=65)
+    assert device.current_temperature is None
+    assert device.target_temperature == 77
+    device.handle_state_update(TemSen=25)
+    assert device.current_temperature == 77
 
 
 @pytest.mark.asyncio
@@ -703,7 +950,7 @@ async def test_mismatch_temrec_farenheit(temperature, cipher, send):
 
     def fake_send(*args, **kwargs):
         device.handle_state_update(**state)
-    send.side_effect = None
+    send.side_effect = fake_send
 
     await device.update_state()
 

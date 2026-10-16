@@ -9,6 +9,7 @@ from typing import Union, Optional, Any
 
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.device_profile import match_device_profile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import DeviceProtocol2
 from greeclimate.taskable import Taskable
@@ -111,6 +112,8 @@ def generate_temperature_record(temp_f):
 TEMP_MIN = 8
 TEMP_MAX = 30
 TEMP_OFFSET = 40
+TEMP_SENSOR_MIN = -20
+TEMP_SENSOR_MAX = 50
 TEMP_MIN_F = 46
 TEMP_MAX_F = 86
 TEMP_MIN_TABLE = -60
@@ -176,7 +179,8 @@ class Device(DeviceProtocol2, Taskable):
         """ Device properties """
         self.hid = None
         self.version = None
-        self.check_version = True
+        self._learned_temperature_offset: Optional[int] = None
+        self._guessed_temperature_offset: Optional[int] = None
         self._properties = {}
         self._dirty = []
         self._buzzer = True
@@ -288,25 +292,28 @@ class Device(DeviceProtocol2, Taskable):
             raise DeviceTimeoutError
 
     def handle_state_update(self, **kwargs) -> None:
-        """Handle incoming information about the firmware version of the device"""
+        """Handle incoming device properties and reported firmware metadata."""
 
         # Ex: hid = 362001000762+U-CS532AE(LT)V3.31.bin
         if "hid" in kwargs:
-            self.hid = kwargs.pop("hid")
-            match = re.search(r"(?<=V)([\d.]+)\.bin$", self.hid)
+            hid = kwargs.pop("hid")
+            self.hid = hid
+            match = re.search(r"(?<=V)([\d.]+)\.bin$", hid) if isinstance(hid, str) else None
             self.version = match and match.group(1)
             self._logger.info(f"Device version is {self.version}, hid {self.hid}")
 
         self._properties.update(kwargs)
 
-        if self.check_version and Props.TEMP_SENSOR.value in kwargs:
-            self.check_version = False
-            temp = self.get_property(Props.TEMP_SENSOR)
-            self._logger.debug(f"Checking for temperature offset, reported temp {temp}")
-            if temp and temp < TEMP_OFFSET:
-                self.version = "4.0"
-                self._logger.info(f"Device version changed to {self.version}, hid {self.hid}")
-            self._logger.debug(f"Using device temperature {self.current_temperature}")
+        if self._learned_temperature_offset is None and Props.TEMP_SENSOR.value in kwargs:
+            temp = kwargs[Props.TEMP_SENSOR.value]
+            # shortcut: confidence assumes indoor temperatures of -20..50 C; revise if calibrated device limits become available.
+            if type(temp) is int and TEMP_SENSOR_MIN <= temp <= TEMP_SENSOR_MAX + TEMP_OFFSET and temp != 0:
+                if temp < TEMP_SENSOR_MIN + TEMP_OFFSET:
+                    self._learned_temperature_offset = 0
+                elif temp > TEMP_SENSOR_MAX:
+                    self._learned_temperature_offset = TEMP_OFFSET
+                elif self._guessed_temperature_offset is None:
+                    self._guessed_temperature_offset = 0 if temp < TEMP_OFFSET else TEMP_OFFSET
 
         self._valid_state.set()
 
@@ -448,21 +455,33 @@ class Device(DeviceProtocol2, Taskable):
         self.set_property(Props.TEMP_UNIT, int(value))
 
     @property
+    def _temperature_offset(self) -> Optional[int]:
+        if self._learned_temperature_offset is not None:
+            return self._learned_temperature_offset
+        profile = match_device_profile(None, self.hid)
+        offset = profile.settings.get("temperature_offset") if profile else None
+        if offset is not None:
+            return offset
+        return self._guessed_temperature_offset
+
+    @property
     def current_temperature(self) -> Optional[int]:
         prop = self.get_property(Props.TEMP_SENSOR)
         bit = self.get_property(Props.TEMP_BIT)
-        if prop is not None:
+        offset = self._temperature_offset
+        if (
+            offset is not None
+            and type(prop) is int
+            and TEMP_SENSOR_MIN <= prop <= TEMP_SENSOR_MAX + TEMP_OFFSET
+            and (prop != 0 or offset == 0)
+        ):
             bit = bit if bit is not None else 0
-            v = self.version and int(self.version.split(".")[0])
             try:
-                if v == 4:
-                    return self._convert_to_units(prop, bit)
-                elif prop != 0:
-                    return self._convert_to_units(prop - TEMP_OFFSET, bit)
+                return self._convert_to_units(prop - offset, bit)
             except ValueError:
                 logging.warning("Converting unexpected set temperature value %s", prop)
 
-        return self.target_temperature
+        return None
 
     @property
     def fan_speed(self) -> Optional[int]:
