@@ -11,6 +11,7 @@ from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.device_profile import DeviceProfile, match_device_profile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+from greeclimate.mid_profile import match_mid_profile
 from greeclimate.network import DeviceProtocol2
 from greeclimate.taskable import Taskable
 
@@ -283,8 +284,9 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
-        props = [x.value for x in Props]
-        if not self.hid:
+        profile = match_mid_profile(self.device_info.mid)
+        props = list(profile.status_columns)
+        if not self.hid and "hid" not in props:
             props.append("hid")
 
         try:

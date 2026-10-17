@@ -6,6 +6,7 @@ import pytest
 from greeclimate.cipher import CipherV1
 from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+from greeclimate.mid_profile import match_mid_profile
 
 
 class FakeProps(enum.Enum):
@@ -169,6 +170,11 @@ def test_device_info_equality(send):
 
     # When all properties match the device info is the same
     assert DeviceInfo(*props) == DeviceInfo(*props)
+    assert DeviceInfo(*props).mid is None
+    assert DeviceInfo(*props) == DeviceInfo(*props, mid=None)
+    assert DeviceInfo(*props, mid="0001") == DeviceInfo(*props, mid="0001")
+    assert DeviceInfo(*props, mid="0001") != DeviceInfo(*props, mid="10001")
+    assert DeviceInfo(*props, mid="0001") != DeviceInfo(*props)
 
     # When any property differs the device info is not the same
     for i in range(2, len(props)):
@@ -341,6 +347,47 @@ async def test_update_properties(cipher, send):
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("mid", ["13805", "10001", "60"])
+async def test_mid_profile_poll_columns(cipher, send, mid):
+    device = Device(DeviceInfo(*get_mock_info(), mid=mid))
+    await device.bind(key="0123456789abcdef", cipher=CipherV1())
+    profile = match_mid_profile(mid)
+    columns = list(profile.status_columns)
+    initial = columns if "hid" in columns else columns + ["hid"]
+
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == initial
+    device.handle_state_update(hid=get_mock_state()["hid"])
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == columns
+    assert send.call_args_list[0].args[0]["pack"]["cols"] == initial
+    assert profile.status_columns == tuple(columns)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", ["unrecorded", None, "605c"])
+async def test_unknown_mid_uses_full_poll(cipher, send, mid):
+    info = DeviceInfo(*get_mock_info(), mid=mid)
+    info.model = "10001"
+    device = Device(info)
+    await device.bind(key="0123456789abcdef", cipher=CipherV1())
+    columns = [prop.value for prop in Props]
+
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == columns + ["hid"]
+    device.handle_state_update(hid=get_mock_state()["hid"])
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == columns
+
+    info.mid = "60"
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == ["hid"]
+    info.mid = "unrecorded"
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == columns
+
+
+@pytest.mark.asyncio
 async def test_update_properties_timeout(cipher, send):
     """Check that timeouts are handled when properties are updates."""
     device = await generate_device_mock_async()
@@ -435,24 +482,64 @@ async def test_uninitialized_properties(cipher, send):
     """Check uninitialized property handling."""
     device = await generate_device_mock_async()
 
-    assert not device.power
+    assert device.power is None
     assert device.mode is None
     assert device.target_temperature is None
     assert device.current_temperature is None
     assert device.temperature_units is None
     assert device.fan_speed is None
     assert device.target_humidity is None
-    assert not device.fresh_air
-    assert not device.xfan
-    assert not device.anion
-    assert not device.sleep
-    assert not device.light
+    assert device.dehumidifier_mode is None
+    assert device.current_humidity is None
+    assert device.clean_filter is None
+    assert device.water_full is None
+    assert device.fresh_air is None
+    assert device.xfan is None
+    assert device.anion is None
+    assert device.sleep is None
+    assert device.light is None
     assert device.horizontal_swing is None
     assert device.vertical_swing is None
-    assert not device.quiet
-    assert not device.turbo
-    assert not device.steady_heat
-    assert not device.power_save
+    assert device.quiet is None
+    assert device.turbo is None
+    assert device.steady_heat is None
+    assert device.power_save is None
+
+
+@pytest.mark.asyncio
+async def test_mid_profile_partial_state_and_extra_fields():
+    device = Device(DeviceInfo(*get_mock_info(), mid="13805"))
+    device.packet_received({"pack": {
+        "t": "dat",
+        "cols": ["Pow", "Dmod", "Dwet", "DwatSen", "DwatFul", "Dfltr", "airQlt"],
+        "dat": [0, 9, 6, 0, 0, 1, 3],
+    }}, ("127.0.0.1", 7000))
+
+    assert device.power is False
+    assert device.dehumidifier_mode == 9
+    assert device.target_humidity == 45
+    assert device.current_humidity == 0
+    assert device.water_full is False
+    assert device.clean_filter is True
+    assert device.raw_properties["airQlt"] == 3
+    assert device.mode is None
+    assert device.target_temperature is None
+    assert device.current_temperature is None
+    assert device.fresh_air is None
+
+    device.packet_received({"pack": {
+        "t": "dat",
+        "cols": ["TemSen", "TemUn", "TemRec"],
+        "dat": [65, 0, 0],
+    }}, ("127.0.0.1", 7000))
+    assert device.current_temperature == 25
+
+    device.fresh_air = True
+    assert device.fresh_air is True
+    device.packet_received({"pack": {
+        "t": "res", "opt": ["Air"], "val": [0],
+    }}, ("127.0.0.1", 7000))
+    assert device.fresh_air is False
 
 
 @pytest.mark.asyncio
