@@ -1,0 +1,1123 @@
+{
+  "source": {
+    "filename": "362001066763+U-W06A(P3)V6.04-eu.bin",
+    "sha256": "37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+    "size": 786432,
+    "isa": "Xtensa little-endian windowed ABI; L32R literal base 0x00a39000",
+    "segments": [
+      {
+        "address": "0xa00100",
+        "size": 14484,
+        "file_offset": 18456,
+        "sha256": "5cb90b2113d522f05b309866cac3b2f6e5a647d2b8369709f8034507d76ca0ff"
+      },
+      {
+        "address": "0x44b000",
+        "size": 33852,
+        "file_offset": 32980,
+        "sha256": "f9e937acad6129cae3a97a51711e1c1506cb0db01734ad9f5eb7ef4f518b7da7"
+      },
+      {
+        "address": "0x453440",
+        "size": 3964,
+        "file_offset": 66872,
+        "sha256": "5b7e266f49f1a6d6a9699f003e1ddc4559fa7a935b99fd3e4f70504e0c6446ad"
+      },
+      {
+        "address": "0xa07c00",
+        "size": 405311,
+        "file_offset": 70876,
+        "sha256": "72ddebb08f4e92642c96a7ceee1922a7c4aec488a4d8cee3f71f81ea860f0bf6"
+      }
+    ],
+    "prior_workspace_warning": "b15e7350 firmware.bin is V6.0, not this V6.04 image; 8a1b2de4 is Q11 V1.01, not this image."
+  },
+  "anchors": {
+    "mid_selection": {
+      "address": "0xa0856c",
+      "end_exclusive": "0xa0871c",
+      "sha256": "50bff0bc5aa74ebe52f2649ec4425d9fe3d097879f7c55a0e925d5f50bfa30d0"
+    },
+    "report_control_decode": {
+      "address": "0xa08da8",
+      "end_exclusive": "0xa09200",
+      "sha256": "31cacf37a5a61ae24f007b66292ab790871afd1b370330ef49805095db754c7e"
+    },
+    "report_sensor_decode": {
+      "address": "0xa09200",
+      "end_exclusive": "0xa09694",
+      "sha256": "cf9e1dc1578f22e59291a8324808973d36c0cf721195a233d8c858441a041aad"
+    },
+    "outgoing_control_encode": {
+      "address": "0xa10a20",
+      "end_exclusive": "0xa10f1c",
+      "sha256": "29b769dde273c30b8ebc143c8b75c9a452d8655d1ccc2d76cedeee6c0e2a12cb"
+    },
+    "setter": {
+      "address": "0xa10f1c",
+      "end_exclusive": "0xa10f5c",
+      "sha256": "c3c01d325feee854ccd72940b07f7115ef2c0eb42a986b5c3b13f44bed929deb"
+    },
+    "control_selector": {
+      "address": "0xa1115c",
+      "end_exclusive": "0xa112cc",
+      "sha256": "09aa45793123537f3ca3d3a8d1825ac2707518346891f6e9e73ba8e99e6989dc"
+    },
+    "sensor_selector": {
+      "address": "0xa112cc",
+      "end_exclusive": "0xa11480",
+      "sha256": "f9e6ebcabb809aa75be4234e2f82912a2dcaff21186cc0299bff43096ea05ff3"
+    },
+    "status_control_read": {
+      "address": "0xa0f446",
+      "end_exclusive": "0xa0f453",
+      "sha256": "e4888fef055b963d870e221485bf8f93387d5fdfa8746a0a18bdf7392b9055f1"
+    },
+    "status_sensor_selector": {
+      "address": "0xa0f414",
+      "end_exclusive": "0xa0f41d",
+      "sha256": "cea31e2bd710c6c9d82c030c0c29e8746153d877ff647901c8a598636ae849ef"
+    },
+    "status_sensor_read": {
+      "address": "0xa0f3de",
+      "end_exclusive": "0xa0f3e7",
+      "sha256": "86c337cb162ba976b31cf412708f0893b512ea44fed2de47b21bb0774b8129bb"
+    }
+  },
+  "classification": {
+    "9300": {
+      "uart_info_category": [
+        1,
+        2
+      ],
+      "role_catalog": "Versati air-to-water heat pump"
+    },
+    "9301": {
+      "uart_info_category": [
+        3,
+        4
+      ],
+      "role_catalog": "hot-water equipment"
+    },
+    "9302": {
+      "uart_info_category": [
+        5,
+        6
+      ],
+      "role_catalog": "pool heater"
+    },
+    "role_limit": "Role labels are catalog/client taxonomy, not physical-model detection from the executable. The executable proves emitted categories and one concrete LAN property family.",
+    "branch_discriminator": "literal[a0026c]+100 == literal[a00278] == 0x0046b5f8: emitted MID storage. Comparison to 806004 selects unrelated special AC branch, not a second ATW mainboard model. 9300/9301/9302 all use identical normal heater handler.",
+    "mid_selection_lifecycle": "Only when state_word[1] bit0x800 is clear; first type ASCII5 info frame sets latch even for out-of-range category. Subsequent category frames do not change MID."
+  },
+  "namespace": {
+    "network_table": {
+      "address": "0x0044ba60",
+      "count": 251,
+      "record_size": 35,
+      "names": [
+        "SwhWifi",
+        "SwhWifiRes",
+        "SwhWifiConf",
+        "AutoUpdate",
+        "AutoConnCloud",
+        "lock",
+        "datDump",
+        "datRep",
+        "datFailRep",
+        "datPeroid",
+        "subCnt",
+        "useTCP",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "apssid",
+        "appsw",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "host",
+        "mac",
+        "name",
+        "time",
+        "ver",
+        "city",
+        "cnty",
+        "cityid",
+        "lat",
+        "lon",
+        "Pow",
+        "Mod",
+        "SetTem",
+        "WdSpd",
+        "Tur",
+        "Quiet",
+        "SwUpDn",
+        "SwingLfRig",
+        "TemUn",
+        "TemRec",
+        "Lig",
+        "Air",
+        "Blo",
+        "Health",
+        "SvSt",
+        "SwhSw",
+        "HeatCoolType",
+        "StHt",
+        "LTemDry",
+        "Wet",
+        "SwhSlp",
+        "SlpMod",
+        "HasTmr",
+        "TmrLpTms",
+        "TmrOff",
+        "TmrOn",
+        "CurTmHor",
+        "CurTmMin",
+        "TmrOnHorLf",
+        "TmrOnMinLf",
+        "TmrOffHorLf",
+        "TmrOffMinLf",
+        "DsplySt",
+        "EnvFun",
+        "JFErrorCode",
+        "AssHt",
+        "FrshAir",
+        "AllErr",
+        "Coolmod",
+        "MasSub",
+        "MasIDUMod",
+        "GetEr",
+        "CoolSvStTemMin",
+        "HeatSvStTemMax",
+        "HumiSvStTemMin",
+        "MaeS",
+        "FanMod",
+        "ModS",
+        "VitiGr",
+        "GasN",
+        "TemSor",
+        "HumSor",
+        "PM2P5",
+        "VOC",
+        "CO2",
+        "PctCle",
+        "PctRe",
+        "IDUAirQu",
+        "AirQu",
+        "ODUViti",
+        "GasAvail",
+        "GasLED",
+        "GasMod",
+        "GasMas",
+        "PM2P5Sta",
+        "SorErr",
+        "CommErr",
+        "GasQ",
+        "TemRecH",
+        "TemRecC",
+        "FastHtWter",
+        "ColHtWter",
+        "HetHtWter",
+        "TemRecB",
+        "LefHom",
+        "SwDisFct",
+        "DisFctWD",
+        "DisFctStaHr",
+        "DisFctStaMin",
+        "SwTmr1",
+        "SwTmr2",
+        "SwTmr3",
+        "SwTmr4",
+        "SwTmr5",
+        "ModTmr1",
+        "ModTmr2",
+        "ModTmr3",
+        "ModTmr4",
+        " ModTmr5",
+        "Tmr1StaHr",
+        "Tmr1StaMin",
+        "Tmr1EndHr",
+        "Tmr1EndMin",
+        "Tmr2StaHr",
+        "Tmr2StaMin",
+        "Tmr2EndHr",
+        "Tmr2EndMin",
+        "Tmr3StaHr",
+        "Tmr3StaMin",
+        "Tmr3EndHr",
+        "Tmr3EndMin",
+        "Tmr4StaHr",
+        "Tmr4StaMin",
+        "Tmr4EndHr",
+        "Tmr4EndMin",
+        "Tmr5StaHr",
+        "Tmr5StaMin",
+        "Tmr5EndHr",
+        "Tmr5EndMin",
+        "Tmr1Tem",
+        "Tmr2Tem",
+        "Tmr3Tem",
+        "Tmr4Tem",
+        "Tmr5Tem",
+        "CoWatOutTemSet",
+        "HeWatOutTemSet",
+        "CoHomTemSet",
+        "HeHomTemSet",
+        "WatBoxTemSet",
+        "HeSvsEvoTemMin",
+        "HeSvsEvoTemMax",
+        "HeSvsHomTemMax",
+        "HeSvsEvoTemMin",
+        "HeSvsWatOutTemMax",
+        "HeSvsWatOutTemMin",
+        "CoSvsEvoTemMin",
+        "CoSvsEvoTemMax",
+        "CoSvsHomTemMax",
+        "CoSvsEvoTemMin",
+        "CoSvsWatOutTemMax",
+        "CoSvsWatOutTemMin",
+        "Reset",
+        "HeWatOutTemSetFloor",
+        "FactoryTest",
+        "EvoTemHi",
+        "EvoTemLo",
+        "SckTemHi",
+        "SckTemLo",
+        "EvoTemHi",
+        "EvoTemLo",
+        "SckTemHi",
+        "SckTemLo",
+        "PuGsTemHi",
+        "PuGsTemLo",
+        "AnFroTemHi",
+        "AnFroTemLo",
+        "EcoPutInTemHi",
+        "EcoPutInTemLo",
+        "EcoPutOutTemHi",
+        "EcoPutOutTemLo",
+        "AllInWatTemHi",
+        "AllInWatTemLo",
+        "AllOutWatTemHi",
+        "AllOutWatTemLo",
+        "HepOutWatTemHi",
+        "HepOutWatTemLo",
+        "LiqPipTemHi",
+        "LiqPipTemLo",
+        "GasPipTemHi",
+        "GasPipTemLo",
+        "WatBoxTemHi",
+        "WatBoxTemLo",
+        "RmoHomTemHi",
+        "RmoHomTemLo",
+        "OutGasPreHi",
+        "OutGasPreLo",
+        "HomTemCtrHi",
+        "HomTemCtrLo",
+        "FloTarTemHi",
+        "FloTarTemLo",
+        "FloTexTimHi",
+        "FloTexTimLo",
+        "EndTemCtrMod",
+        "CmpRunSta",
+        "Win1RunSta",
+        "Win2RunSta",
+        "WatPmpRunSta",
+        "Elc3Val1RunSta",
+        "Elc3Val2RunSta",
+        "CmperElcHeRunSta",
+        "CmpBoxElcHeRunSta",
+        "FlorElcHeRunSta",
+        "SyAnFroRunSta",
+        "SyRecOlRunSta",
+        "HepHeSorRunSta",
+        "Elc2ValRunSta",
+        "AssCtrRunSta",
+        "Elc4ValRunSta",
+        "ElcHe1RunSta",
+        "ElcHe2RunSta",
+        "AnFrzzRunSta",
+        "WatBoxExt",
+        "BordTest",
+        "RomHomTemExt",
+        "FocModSwh",
+        "ColColetSwh",
+        "EndTemCotSwh",
+        "Emegcy",
+        "HanFroSwh",
+        "WatSyExhSwh",
+        "WatBoxElcHeRunSta",
+        "VersatiSeries",
+        "EnvironmentTem",
+        "AirInTem",
+        "AirOutTem",
+        "DefrostTem",
+        "AllInWatTem",
+        "AllOutWatTem",
+        "AntifreezeTem",
+        "CodeCoalGasTem",
+        "CodeCoalLiquidTem",
+        "HighPressureTem",
+        "FloorHeat",
+        "ModelType",
+        "rssi",
+        "LowPressureTem",
+        "DryContact",
+        "EVU"
+      ]
+    },
+    "control_records": [
+      {
+        "name": "FastHtWter",
+        "slot": 0,
+        "uart_offset": 5,
+        "mask": 1,
+        "operation": 0
+      },
+      {
+        "name": "ColHtWter",
+        "slot": 1,
+        "uart_offset": 5,
+        "mask": 2,
+        "operation": 11
+      },
+      {
+        "name": "HetHtWter",
+        "slot": 2,
+        "uart_offset": 5,
+        "mask": 4,
+        "operation": 22
+      },
+      {
+        "name": "TemUn",
+        "slot": 3,
+        "uart_offset": 5,
+        "mask": 8,
+        "operation": 33
+      },
+      {
+        "name": "SvSt",
+        "slot": 4,
+        "uart_offset": 5,
+        "mask": 16,
+        "operation": 44
+      },
+      {
+        "name": "Quiet",
+        "slot": 5,
+        "uart_offset": 5,
+        "mask": 32,
+        "operation": 55
+      },
+      {
+        "name": "Emegcy",
+        "slot": 6,
+        "uart_offset": 5,
+        "mask": 64,
+        "operation": 66
+      },
+      {
+        "name": "LefHom",
+        "slot": 7,
+        "uart_offset": 5,
+        "mask": 128,
+        "operation": 77
+      },
+      {
+        "name": "Mod",
+        "slot": 8,
+        "uart_offset": 6,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "SwDisFct",
+        "slot": 9,
+        "uart_offset": 7,
+        "mask": 255,
+        "operation": 0
+      },
+      {
+        "name": "CoWatOutTemSet",
+        "slot": 10,
+        "uart_offset": 8,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "HeWatOutTemSet",
+        "slot": 11,
+        "uart_offset": 9,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "CoHomTemSet",
+        "slot": 12,
+        "uart_offset": 10,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "HeHomTemSet",
+        "slot": 13,
+        "uart_offset": 11,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "WatBoxTemSet",
+        "slot": 14,
+        "uart_offset": 12,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "Reset",
+        "slot": 15,
+        "uart_offset": 13,
+        "mask": 255,
+        "operation": 0
+      },
+      {
+        "name": "AllErr",
+        "slot": 16,
+        "uart_offset": 13,
+        "mask": 255,
+        "operation": 11
+      },
+      {
+        "name": "Pow",
+        "slot": 17,
+        "uart_offset": 7,
+        "mask": 255,
+        "operation": 11
+      },
+      {
+        "name": "TemRec",
+        "slot": 18,
+        "uart_offset": 13,
+        "mask": 255,
+        "operation": 22
+      },
+      {
+        "name": "TemRecB",
+        "slot": 19,
+        "uart_offset": 13,
+        "mask": 32,
+        "operation": 55
+      },
+      {
+        "name": "EVU",
+        "slot": 20,
+        "uart_offset": 13,
+        "mask": 64,
+        "operation": 66
+      }
+    ],
+    "sensor_records": [
+      {
+        "name": "AllInWatTemHi",
+        "slot": 0,
+        "uart_offset": 4,
+        "mask": 1,
+        "operation": 7
+      },
+      {
+        "name": "AllInWatTemLo",
+        "slot": 1,
+        "uart_offset": 5,
+        "mask": 2,
+        "operation": 7
+      },
+      {
+        "name": "AllOutWatTemHi",
+        "slot": 2,
+        "uart_offset": 6,
+        "mask": 4,
+        "operation": 7
+      },
+      {
+        "name": "AllOutWatTemLo",
+        "slot": 3,
+        "uart_offset": 7,
+        "mask": 8,
+        "operation": 7
+      },
+      {
+        "name": "HepOutWatTemHi",
+        "slot": 4,
+        "uart_offset": 8,
+        "mask": 16,
+        "operation": 7
+      },
+      {
+        "name": "HepOutWatTemLo",
+        "slot": 5,
+        "uart_offset": 9,
+        "mask": 32,
+        "operation": 7
+      },
+      {
+        "name": "WatBoxTemHi",
+        "slot": 6,
+        "uart_offset": 10,
+        "mask": 64,
+        "operation": 7
+      },
+      {
+        "name": "WatBoxTemLo",
+        "slot": 7,
+        "uart_offset": 11,
+        "mask": 128,
+        "operation": 7
+      },
+      {
+        "name": "RmoHomTemHi",
+        "slot": 8,
+        "uart_offset": 12,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "RmoHomTemLo",
+        "slot": 9,
+        "uart_offset": 13,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "WatBoxElcHeRunSta",
+        "slot": 10,
+        "uart_offset": 14,
+        "mask": 255,
+        "operation": 0
+      },
+      {
+        "name": "SyAnFroRunSta",
+        "slot": 11,
+        "uart_offset": 14,
+        "mask": 255,
+        "operation": 11
+      },
+      {
+        "name": "ElcHe1RunSta",
+        "slot": 12,
+        "uart_offset": 15,
+        "mask": 255,
+        "operation": 0
+      },
+      {
+        "name": "ElcHe2RunSta",
+        "slot": 13,
+        "uart_offset": 15,
+        "mask": 255,
+        "operation": 11
+      },
+      {
+        "name": "AnFrzzRunSta",
+        "slot": 14,
+        "uart_offset": 15,
+        "mask": 255,
+        "operation": 22
+      },
+      {
+        "name": "VersatiSeries",
+        "slot": 15,
+        "uart_offset": 16,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "WatBoxExt",
+        "slot": 16,
+        "uart_offset": 17,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "BordTest",
+        "slot": 17,
+        "uart_offset": 18,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "RomHomTemExt",
+        "slot": 18,
+        "uart_offset": 19,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "FocModSwh",
+        "slot": 19,
+        "uart_offset": 20,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "ColColetSwh",
+        "slot": 20,
+        "uart_offset": 21,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "EndTemCotSwh",
+        "slot": 21,
+        "uart_offset": 22,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "Emegcy",
+        "slot": 22,
+        "uart_offset": 23,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "HanFroSwh",
+        "slot": 23,
+        "uart_offset": 24,
+        "mask": 255,
+        "operation": 7
+      },
+      {
+        "name": "WatSyExhSwh",
+        "slot": 24,
+        "uart_offset": 25,
+        "mask": 255,
+        "operation": 7
+      }
+    ],
+    "source_selector_semantics": "21 names accepted by setter, including nominally diagnostic/reset names; nonnegative signed integer byte truncation. Sensors are read-only to this setter. Emegcy exists in both selectors; network table places it in sensor-range status selection, so report sensor slot22 governs status. Unknown selector returns -1. Safe simulator must omit unsafe known-but-unimplemented values rather than reading cache[-1].",
+    "pool_catalog_names_absent": [
+      "FlagPool",
+      "Wmod",
+      "PoolFunc",
+      "SetTemInt",
+      "SetTemDec",
+      "InTemInt",
+      "InTemDec",
+      "OutTemInt",
+      "OutTemDec",
+      "HeatTemMax",
+      "HeatTemMin",
+      "CoolTemMax",
+      "CoolTemMin"
+    ],
+    "client_9300_catalog_names_absent": [
+      "WDTemSet",
+      "ZoneCtr"
+    ],
+    "no_ambient_alias": "TemSen absent. RmoHomTemHi/Lo are real source properties; EnvironmentTem belongs alternate806004 branch and is not a default ATW alias."
+  },
+  "state": {
+    "requested_cache": "0x0046b800: one byte per control-selector slot",
+    "report_control_cache": "0x0046bca0: one byte per control-selector slot",
+    "report_sensor_cache": "0x0046bbc0: uint16 per sensor-selector slot, most are widened unsigned bytes",
+    "outgoing_uart": "0x0046b840; name table describes frame byte offsets and bit operations",
+    "source_sync": "a08da8 decodes report controls; report/cache copy to requested cache is gated by runtime flags at0x004639c0+0xc/+0xd. Command success is not a calibrated physical acceptance acknowledgement.",
+    "mode_temperature": "Mod,water/room/tank target fields pass raw bytes unchanged. Pow is outgoing byte7 bit1; SwDisFct is byte7 bit0. TemUn is byte5 bit3. All hi/lo readings are separate FULL unsigned frame bytes, NOT BE16 high/low reconstruction in this branch. Source does not subtract100 or divide10. Cooling5 byte passes unchanged; semantics require explicit simulated policy/client trait.",
+    "duplicate_partial": "Native setter applies numeric entries in order; final duplicate wins in requested cache. Unknown/read-only names fail individual setter but caller ignores return; mixed recognized/unknown batch therefore partially mutates and can report success. opt/p counts are not matched before processing; nonnumeric p entries leave stale numeric scratch cache. Simulator deliberately validates complete batch atomically and rejects all unsafe/unknown/read-only/nonnumeric/range violations."
+  },
+  "probes": {
+    "method": "Bounded instruction-matched Xtensa translation. Every executed instruction raw bytes compared to exact extracted source; each function range SHA256 anchored above. No Unicorn/native ISA execution/full boot.",
+    "command": "venv/bin/python3.14 /tmp/gree-atw-properties-20261017/probe.py",
+    "boundaries": [
+      "ROM libc strcmp0x009c0888 and memcpy0x009c1ac0 replaced with bounded host equivalents.",
+      "Display-only sprintf0x009aac10 stubbed; MID classification stops before independently probed sensor routine a08900.",
+      "Working RAM and UART inputs supplied; cache startup and physical mainboard not booted."
+    ],
+    "counts": {
+      "mid_vectors": 9,
+      "control_sensor_selector_names": 46,
+      "negative_unknown_selector_names_each": 11,
+      "command_setter_and_uart_vectors": 168,
+      "control_sensor_decode_vectors": 16,
+      "mid_specific_control_and_sensor_paths": 138,
+      "mid_specific_duplicate_and_latched_identity_paths": 3
+    },
+    "mid_vectors": [
+      {
+        "category": 0,
+        "emitted_mid": "",
+        "steps": 48
+      },
+      {
+        "category": 1,
+        "emitted_mid": "9300",
+        "steps": 51
+      },
+      {
+        "category": 2,
+        "emitted_mid": "9300",
+        "steps": 51
+      },
+      {
+        "category": 3,
+        "emitted_mid": "9301",
+        "steps": 52
+      },
+      {
+        "category": 4,
+        "emitted_mid": "9301",
+        "steps": 52
+      },
+      {
+        "category": 5,
+        "emitted_mid": "9302",
+        "steps": 51
+      },
+      {
+        "category": 6,
+        "emitted_mid": "9302",
+        "steps": 51
+      },
+      {
+        "category": 7,
+        "emitted_mid": "",
+        "steps": 45
+      },
+      {
+        "category": 8,
+        "emitted_mid": "",
+        "steps": 45
+      }
+    ],
+    "per_mid_paths": [
+      {"mid": "9300", "control_set_and_read_names": 21, "sensor_read_names": 25, "duplicate_pow_cache": 5, "duplicate_pow_effective_bit": 1, "latched_mid": "9300", "steps": 6511},
+      {"mid": "9301", "control_set_and_read_names": 21, "sensor_read_names": 25, "duplicate_pow_cache": 5, "duplicate_pow_effective_bit": 1, "latched_mid": "9301", "steps": 6511},
+      {"mid": "9302", "control_set_and_read_names": 21, "sensor_read_names": 25, "duplicate_pow_cache": 5, "duplicate_pow_effective_bit": 1, "latched_mid": "9302", "steps": 6511}
+    ],
+    "selected_command_vectors": [
+      {
+        "name": "TemUn",
+        "requested": 1,
+        "cache": 1,
+        "uart": "00000000000800000000000000000000"
+      },
+      {
+        "name": "TemUn",
+        "requested": 5,
+        "cache": 5,
+        "uart": "00000000000800000000000000000000"
+      },
+      {
+        "name": "TemUn",
+        "requested": 24,
+        "cache": 24,
+        "uart": "00000000000000000000000000000000"
+      },
+      {
+        "name": "TemUn",
+        "requested": 256,
+        "cache": 0,
+        "uart": "00000000000000000000000000000000"
+      },
+      {
+        "name": "Mod",
+        "requested": 1,
+        "cache": 1,
+        "uart": "00000000000001000000000000000000"
+      },
+      {
+        "name": "Mod",
+        "requested": 5,
+        "cache": 5,
+        "uart": "00000000000005000000000000000000"
+      },
+      {
+        "name": "Mod",
+        "requested": 24,
+        "cache": 24,
+        "uart": "00000000000018000000000000000000"
+      },
+      {
+        "name": "Mod",
+        "requested": 256,
+        "cache": 0,
+        "uart": "00000000000000000000000000000000"
+      },
+      {
+        "name": "CoWatOutTemSet",
+        "requested": 1,
+        "cache": 1,
+        "uart": "00000000000000000100000000000000"
+      },
+      {
+        "name": "CoWatOutTemSet",
+        "requested": 5,
+        "cache": 5,
+        "uart": "00000000000000000500000000000000"
+      },
+      {
+        "name": "CoWatOutTemSet",
+        "requested": 24,
+        "cache": 24,
+        "uart": "00000000000000001800000000000000"
+      },
+      {
+        "name": "CoWatOutTemSet",
+        "requested": 256,
+        "cache": 0,
+        "uart": "00000000000000000000000000000000"
+      },
+      {
+        "name": "HeWatOutTemSet",
+        "requested": 1,
+        "cache": 1,
+        "uart": "00000000000000000001000000000000"
+      },
+      {
+        "name": "HeWatOutTemSet",
+        "requested": 5,
+        "cache": 5,
+        "uart": "00000000000000000005000000000000"
+      },
+      {
+        "name": "HeWatOutTemSet",
+        "requested": 24,
+        "cache": 24,
+        "uart": "00000000000000000018000000000000"
+      },
+      {
+        "name": "HeWatOutTemSet",
+        "requested": 256,
+        "cache": 0,
+        "uart": "00000000000000000000000000000000"
+      },
+      {
+        "name": "WatBoxTemSet",
+        "requested": 1,
+        "cache": 1,
+        "uart": "00000000000000000000000001000000"
+      },
+      {
+        "name": "WatBoxTemSet",
+        "requested": 5,
+        "cache": 5,
+        "uart": "00000000000000000000000005000000"
+      },
+      {
+        "name": "WatBoxTemSet",
+        "requested": 24,
+        "cache": 24,
+        "uart": "00000000000000000000000018000000"
+      },
+      {
+        "name": "WatBoxTemSet",
+        "requested": 256,
+        "cache": 0,
+        "uart": "00000000000000000000000000000000"
+      },
+      {
+        "name": "Pow",
+        "requested": 1,
+        "cache": 1,
+        "uart": "00000000000000020000000000000000"
+      },
+      {
+        "name": "Pow",
+        "requested": 5,
+        "cache": 5,
+        "uart": "00000000000000020000000000000000"
+      },
+      {
+        "name": "Pow",
+        "requested": 24,
+        "cache": 24,
+        "uart": "00000000000000000000000000000000"
+      },
+      {
+        "name": "Pow",
+        "requested": 256,
+        "cache": 0,
+        "uart": "00000000000000000000000000000000"
+      }
+    ],
+    "selected_decode_vectors": [
+      {
+        "kind": "controls",
+        "uart_fill": 126,
+        "cache_values": {
+          "FastHtWter": 0,
+          "ColHtWter": 1,
+          "HetHtWter": 1,
+          "TemUn": 1,
+          "SvSt": 1,
+          "Quiet": 1,
+          "Emegcy": 1,
+          "LefHom": 0,
+          "Mod": 126,
+          "SwDisFct": 0,
+          "CoWatOutTemSet": 126,
+          "HeWatOutTemSet": 126,
+          "CoHomTemSet": 126,
+          "HeHomTemSet": 126,
+          "WatBoxTemSet": 126,
+          "Reset": 0,
+          "AllErr": 1,
+          "Pow": 1,
+          "TemRec": 1,
+          "TemRecB": 1,
+          "EVU": 1
+        }
+      },
+      {
+        "kind": "controls",
+        "uart_fill": 255,
+        "cache_values": {
+          "FastHtWter": 1,
+          "ColHtWter": 1,
+          "HetHtWter": 1,
+          "TemUn": 1,
+          "SvSt": 1,
+          "Quiet": 1,
+          "Emegcy": 1,
+          "LefHom": 1,
+          "Mod": 255,
+          "SwDisFct": 1,
+          "CoWatOutTemSet": 255,
+          "HeWatOutTemSet": 255,
+          "CoHomTemSet": 255,
+          "HeHomTemSet": 255,
+          "WatBoxTemSet": 255,
+          "Reset": 1,
+          "AllErr": 1,
+          "Pow": 1,
+          "TemRec": 1,
+          "TemRecB": 1,
+          "EVU": 1
+        }
+      },
+      {
+        "kind": "sensors",
+        "uart_fill": 126,
+        "cache_values": {
+          "AllInWatTemHi": 126,
+          "AllInWatTemLo": 126,
+          "AllOutWatTemHi": 126,
+          "AllOutWatTemLo": 126,
+          "HepOutWatTemHi": 126,
+          "HepOutWatTemLo": 126,
+          "WatBoxTemHi": 126,
+          "WatBoxTemLo": 126,
+          "RmoHomTemHi": 126,
+          "RmoHomTemLo": 126,
+          "WatBoxElcHeRunSta": 0,
+          "SyAnFroRunSta": 1,
+          "ElcHe1RunSta": 0,
+          "ElcHe2RunSta": 1,
+          "AnFrzzRunSta": 1,
+          "VersatiSeries": 126,
+          "WatBoxExt": 126,
+          "BordTest": 126,
+          "RomHomTemExt": 126,
+          "FocModSwh": 126,
+          "ColColetSwh": 126,
+          "EndTemCotSwh": 126,
+          "Emegcy": 126,
+          "HanFroSwh": 126,
+          "WatSyExhSwh": 126
+        }
+      },
+      {
+        "kind": "sensors",
+        "uart_fill": 255,
+        "cache_values": {
+          "AllInWatTemHi": 255,
+          "AllInWatTemLo": 255,
+          "AllOutWatTemHi": 255,
+          "AllOutWatTemLo": 255,
+          "HepOutWatTemHi": 255,
+          "HepOutWatTemLo": 255,
+          "WatBoxTemHi": 255,
+          "WatBoxTemLo": 255,
+          "RmoHomTemHi": 255,
+          "RmoHomTemLo": 255,
+          "WatBoxElcHeRunSta": 1,
+          "SyAnFroRunSta": 1,
+          "ElcHe1RunSta": 1,
+          "ElcHe2RunSta": 1,
+          "AnFrzzRunSta": 1,
+          "VersatiSeries": 255,
+          "WatBoxExt": 255,
+          "BordTest": 255,
+          "RomHomTemExt": 255,
+          "FocModSwh": 255,
+          "ColColetSwh": 255,
+          "EndTemCotSwh": 255,
+          "Emegcy": 255,
+          "HanFroSwh": 255,
+          "WatSyExhSwh": 255
+        }
+      }
+    ]
+  },
+  "simulation_policy": {
+    "status": "Deliberate appliance policy; not firmware boot defaults, mainboard limits or temperature calibration.",
+    "writable_minimal": {
+      "Pow": [
+        0,
+        1
+      ],
+      "TemUn": [
+        0,
+        1
+      ],
+      "Mod": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "CoWatOutTemSet": [
+        7,
+        25
+      ],
+      "HeWatOutTemSet": [
+        20,
+        60
+      ],
+      "WatBoxTemSet": [
+        40,
+        80
+      ],
+      "CoHomTemSet": [
+        16,
+        30
+      ],
+      "HeHomTemSet": [
+        16,
+        30
+      ]
+    },
+    "initial_controls": {
+      "Pow": 0,
+      "TemUn": 0,
+      "Mod": 1,
+      "CoWatOutTemSet": 18,
+      "HeWatOutTemSet": 35,
+      "WatBoxTemSet": 50,
+      "CoHomTemSet": 24,
+      "HeHomTemSet": 24
+    },
+    "sensor_encoding": "Explicit chosen hi=floor(C)+100, lo=floor((C-floor(C))*10), bounded high byte0..255,low0..9. Matches current public ATW Celsius consumer formula but not established by raw UART transport. TemUn1 is display bit; scalar remains Celsius internally; public Celsius accessors become None.",
+    "role_physical_scalar": {
+      "9300": "RmoHomTemHi/Lo room; heat/cool room setpoints",
+      "9301": "WatBoxTemHi/Lo tank; tank setpoint",
+      "9302": "AllInWatTemHi/Lo and AllOutWatTemHi/Lo pool water; heat/cool water setpoints"
+    },
+    "read_only_simulation": [
+      "AllErr and report sensors; diagnostics,reset,EVU,reported equipment capabilities remain unmodeled/read-only rather than invented controls."
+    ],
+    "consumer_mismatch": "Default9302 pool preset asks absent namespace and is not compatible beyond Pow/AllErr/TemUn overlap. Opt-in AirToWaterDevice polls9300 common fields for all MIDs; source-derived shared heater dialect may be exercised without inventing pool aliases. WDTemSet/ZoneCtr absent. BuzzerCtrl absent; do not add compatibility field."
+  }
+}

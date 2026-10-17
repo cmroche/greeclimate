@@ -3,7 +3,7 @@ import json
 import socket
 from ipaddress import IPv4Address
 from threading import Thread
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import AsyncMock, MagicMock, PropertyMock, patch
 
 import ifaddr
 import pytest
@@ -467,3 +467,58 @@ async def test_remove_listener():
 
     result = discovery.remove_listener(listener)
     assert result is False
+
+
+async def deliver_atw_discovery(discovery, ip, mid=None):
+    """Deliver fresh metadata without touching the shared discovery template."""
+    pack = {
+        "t": "dev", "mac": "001122334455", "cid": "001122334455",
+        "name": "Synthetic ATW", "brand": "gree", "model": "gree", "ver": "V5.0.0.0",
+    }
+    if mid is not None:
+        pack["mid"] = mid
+    discovery.packet_received({"t": "pack", "pack": pack}, (ip, 7000))
+    await asyncio.gather(*discovery.tasks)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", [None, "9300"])
+async def test_discovery_delivers_optional_atw_mid(mid):
+    discovery = Discovery()
+    listener = MagicMock(spec_set=Listener)
+    listener.device_found = AsyncMock()
+    listener.device_update = AsyncMock()
+    discovery.add_listener(listener)
+
+    await deliver_atw_discovery(discovery, "192.0.2.10", mid)
+
+    assert len(discovery.devices) == 1
+    info = discovery.devices[0]
+    assert info.mid == mid
+    assert info.ip == "192.0.2.10"
+    assert info.port == 7000
+    assert info.mac == "001122334455"
+    listener.device_found.assert_awaited_once_with(info)
+    listener.device_update.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_discovery_keeps_mid_families_distinct_across_ip_changes():
+    discovery = Discovery()
+    listener = MagicMock(spec_set=Listener)
+    listener.device_found = AsyncMock()
+    listener.device_update = AsyncMock()
+    discovery.add_listener(listener)
+
+    await deliver_atw_discovery(discovery, "192.0.2.10", "9300")
+    await deliver_atw_discovery(discovery, "192.0.2.10", "10001")
+    assert [info.mid for info in discovery.devices] == ["9300", "10001"]
+    assert listener.device_found.await_count == 2
+    listener.device_update.assert_not_awaited()
+
+    await deliver_atw_discovery(discovery, "192.0.2.11", "9300")
+    atw, ac = discovery.devices
+    assert atw.ip == "192.0.2.11"
+    assert ac.ip == "192.0.2.10"
+    assert listener.device_found.await_count == 2
+    listener.device_update.assert_awaited_once_with(atw)

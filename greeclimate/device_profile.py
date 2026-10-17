@@ -8,9 +8,10 @@ from typing import Optional, Tuple
 @dataclass(frozen=True)
 class DeviceProfile:
     firmware_code: str
-    temperature_offset: int
+    temperature_offset: Optional[int] = None
     min_version: Optional[str] = None
     relearn_temperature_offset: bool = False
+    cooling_mode_value: Optional[int] = None
 
 
 # See OFFSETS.md for inspected-build provenance and identity limitations.
@@ -65,6 +66,7 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001066300", 40),
     DeviceProfile("362001066308", 40),
     DeviceProfile("362001066511", 40),
+    DeviceProfile("362001066763", cooling_mode_value=5),  # Sinclair SMH-100IRB / SMH-60IRB
     DeviceProfile("362001066962", 40),
     DeviceProfile("362001067419", 40),
     DeviceProfile("362001067422", 40),

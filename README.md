@@ -136,6 +136,50 @@ Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loo
 
 Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
 
+### Air-to-water heat pumps
+
+`create_device(device_info)` selects `AirToWaterDevice` only for the exact discovery MID `"9300"`; every other MID, including missing or malformed values, selects the AC `Device`. Model names and HIDs do not select the family. If the family is already known, construct `greeclimate.atw.AirToWaterDevice` directly.
+
+```python
+from greeclimate.device_factory import create_device
+
+device = create_device(device_info)
+await device.bind()
+await device.update_state()
+# Wait for received status before using reported units or power.
+```
+
+MID polling presets live in `greeclimate/mid_profile.py`. Firmware quirks live separately in `greeclimate/device_profile.py`: `match_device_profile(hid)` requires a complete HID and matches its firmware code, not MID or module. It selects the greatest eligible `min_version` using dotted integer components (trailing zeros ignored), or the code's fallback profile. Traits follow the latest received HID without changing the device's class.
+
+ATW cooling has two observed wire values, `0` and `5`; do not guess which your device uses. Firmware code `362001066763` defaults to `5`, irrespective of module or version. An explicit constructor option overrides firmware detection:
+
+| Construction | Cooling behavior |
+| --- | --- |
+| `create_device(device_info)` | Use the firmware trait when known; otherwise cooling remains unconfigured. |
+| `create_device(device_info, cooling_mode_value=0)` | Force wire value `0`. |
+| `create_device(device_info, cooling_mode_value=5)` | Force wire value `5`. |
+| `create_device(device_info, cooling_mode_value=None)` | Disable cooling even if a firmware trait provides it. |
+
+The same option is accepted by `AirToWaterDevice`. Submit independently observed firmware quirks to `device_profile.py`, not the family factory.
+
+ATW uses `AirToWaterMode`, not AC `Mode`, and exposes these Celsius properties:
+
+| Properties | Access / limits |
+| --- | --- |
+| `inlet_water_temperature_c`, `outlet_water_temperature_c`, `room_temperature_c`, `tank_temperature_c` | Read-only sensor temperatures. |
+| `heating_room_target_temperature_c`, `cooling_room_target_temperature_c` | Read-only targets. |
+| `heating_water_target_temperature_c` | Integer target, 20–60°C. |
+| `cooling_water_target_temperature_c` | Integer target, 7–25°C. |
+| `tank_target_temperature_c` | Integer target, 40–80°C. |
+
+Temperature reads return `None` unless Celsius units have been reported and required fields are present; writes require reported Celsius units. Mode changes require a received off power state: setting `power = False` locally is insufficient. Send power-off, wait for a status report confirming off, then send the mode change separately from power-on. Command validation repeats these checks before sending and rejects unsupported ATW fields; AC controls and AC temperature decoding are not used.
+
+## Device and protocol reference
+
+- [Known MIDs](docs/MIDS.md): exact polling presets, device categories, and gateway observations.
+- [Known HIDs](docs/HIDS.md): firmware identifiers and sourced payload evidence.
+- [Temperature offsets](docs/OFFSETS.md): firmware-code calibration, automatic detection, and evidence limits; MID does not select temperature encoding.
+
 ## Use Gree Emulator
 
 Run these commands from the repository root with Python 3.10+ and dependencies installed; each server runs until Ctrl-C.
@@ -164,6 +208,12 @@ Run the supplied mixed-device configuration, including gateways and child device
 python -m gree_emulator --config examples/emulator-devices.json
 ```
 
+Run three independent ATW roles (MIDs `9300`, `9301`, `9302`) with synthetic room, tank and pool-water readings.
+
+```bash
+python -m gree_emulator --config examples/emulator-atw-devices.json
+```
+
 Expose the simulated ACs to LAN discovery on UDP port 7000, on a trusted test network only.
 
 ```bash
@@ -176,7 +226,7 @@ Capture packet logs on stderr while keeping startup announcements on stdout; scr
 python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1 2> emulator-packets.log
 ```
 
-These are simulated appliances, not complete firmware emulations. The library's `push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so simulator commands can be rejected even when sending succeeds. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
+These are simulated appliances, not complete firmware emulations. The library's AC `Device.push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so those simulator commands can be rejected even when sending succeeds. ATW has the separate polling-size limitation noted above. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
 
 ## Debugging
 
