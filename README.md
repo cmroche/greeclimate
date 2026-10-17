@@ -20,6 +20,8 @@ _If you have tested and know of others systems that work, please fork and submit
 The easiest way to grab **greeclimate** is through PyPI
 `pip3 install greeclimate`
 
+Maintainers can publish from `master` through GitHub Actions with `gh workflow run python-package.yml --repo cmroche/greeclimate --ref master`. The workflow runs the test matrix before semantic-release selects a version and publishes to PyPI and GitHub; nightly publication remains enabled. Pushes and pull requests do not publish.
+
 ## Use Gree Climate
 
 Discover devices on the LAN and bind immediately after scanning.
