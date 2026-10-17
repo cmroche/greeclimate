@@ -8,7 +8,7 @@ class DeviceInfo:
         name: Name of unit, if available
     """
 
-    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None):
+    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None, mid=None):
         self.ip = ip
         self.port = port
         self.mac = mac
@@ -16,6 +16,7 @@ class DeviceInfo:
         self.brand = brand
         self.model = model
         self.version = version
+        self.mid = mid
 
     def __str__(self):
         return f"Device: {self.name} @ {self.ip}:{self.port} (mac: {self.mac})"
@@ -29,6 +30,7 @@ class DeviceInfo:
                     and self.brand == other.brand
                     and self.model == other.model
                     and self.version == other.version
+                    and self.mid == other.mid
             )
         return False
 

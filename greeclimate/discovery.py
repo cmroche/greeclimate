@@ -151,6 +151,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             pack.get("brand"),
             pack.get("model"),
             pack.get("ver"),
+            pack.get("mid"),
         )
 
         self._create_task(self.device_found(DeviceInfo(*device)))
