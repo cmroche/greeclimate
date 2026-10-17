@@ -1,0 +1,1438 @@
+{
+  "source": {
+    "name": "362001066763+U-W06A(P3)V6.04-eu.bin",
+    "size": 786432,
+    "sha256": "37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+    "segments": [
+      {
+        "addr": "0xa00100",
+        "size": 14484,
+        "file_offset": 18456,
+        "flags": 1,
+        "sha256": "5cb90b2113d522f05b309866cac3b2f6e5a647d2b8369709f8034507d76ca0ff"
+      },
+      {
+        "addr": "0x44b000",
+        "size": 33852,
+        "file_offset": 32980,
+        "flags": 1,
+        "sha256": "f9e937acad6129cae3a97a51711e1c1506cb0db01734ad9f5eb7ef4f518b7da7"
+      },
+      {
+        "addr": "0x453440",
+        "size": 3964,
+        "file_offset": 66872,
+        "flags": 1,
+        "sha256": "5b7e266f49f1a6d6a9699f003e1ddc4559fa7a935b99fd3e4f70504e0c6446ad"
+      },
+      {
+        "addr": "0xa07c00",
+        "size": 405311,
+        "file_offset": 70876,
+        "flags": 17,
+        "sha256": "72ddebb08f4e92642c96a7ceee1922a7c4aec488a4d8cee3f71f81ea860f0bf6"
+      }
+    ],
+    "isa": "Xtensa little-endian 32-bit windowed ABI; QCA4010 application; firmware LITBASE=0x00a39000",
+    "embedded_identity": "362001066763+U-W06A(P3)V6.04.bin"
+  },
+  "method": {
+    "classification": "bounded instruction-matched translation, NOT native Xtensa execution",
+    "decompiler": "Fresh Ghidra12.1.4 project AtwLan37ab; Xtensa:LE:32:GreeLITBASE:default. Old ELF used only as processor import container, every memory block removed/replaced by independently extracted exact37ab segments. No existing project overwritten. All LAN functions actually decompiled; branches and loops checked against source instruction bytes. Ghidra incorrectly removes some zero-initialized request-list loops, so those are executed in bounded translation instead.",
+    "byte_assertion": "Each translated instruction asserted against the exact mapped source bytes during every replay; segment hashes and original firmware hash rechecked by probe.",
+    "boundaries": [
+      "ROM AES primitives independently named with matching SDK addresses; PyCryptodome substitutes each AES block primitive, not a claim to execute ROM/hardware AES. Firmware AES wrappers, key selection, padding, base64 and newline-conversion instructions execute in the translator.",
+      "libc memory and strcmp/strlen are Python memory/string boundaries.",
+      "cJSON parse/get/create/print/free calls are boundaries. Case-insensitive field lookup follows source0xa0de1c/0xa0d21c; ASCII vector serialization uses compact integer JSON. Parser reads first complete JSON value, matching source0xa0d7bc->0xa0d768(require_null_terminated=0). Unparsed trailing bytes are not decoded as text by real C; replacement decoding is confined to that research parser boundary.",
+      "Compiler integer-to-double and modulo helpers are arithmetic boundaries.",
+      "Clock, semaphore, socket-send and allocation/free callbacks are OS boundaries; outgoing UDP bytes are captured instead of using a socket.",
+      "Mainboard serializer0xa10a20 is a declared boundary after the actual command-byte-cache setter; this probe does not claim physical mainboard execution, incoming sensor calibration, full boot or Wi-Fi/cloud behavior.",
+      "Synthetic supplied identity/key/version/name and initially zero property cache; these are probe inputs, not recovered device defaults."
+    ],
+    "probe_command": "venv/bin/python3.14 /tmp/gree-atw-lan-20261017/replay_packets.py",
+    "probe_sha256": "a6be8309ee4361be33974ffc9c220608f5153c77e461f7f70e2f59c1b263905a",
+    "decompiler_script_sha256": "399db2362cd041d6d0d192b7c49808f17fc3ba560363a64c5bf313efa4e0b206",
+    "instruction_export_sha256": "2bfb7b9a9672cd1765e116b44db995aed53ba7fb7682d1d0f61db2b9c521003f",
+    "language_slaspec_sha256": "86b818a5144647e2d728f103cb6f9f2abb875061cead3ad77fc44e8439ee0ac9",
+    "packet_replay_sha256": "fe27d1f948ba3815fc355c513bcb2d26e044d12ff8dc66163cfc056b0028c61b"
+  },
+  "sdk": {
+    "source": "https://github.com/dandemidow/qca4010/blob/4fa7a6fca8070ea72f7696dd764519be8e87c186/xtensa.sh",
+    "archive_download": "https://drive.google.com/uc?export=download&id=1jn3KVCw9EXLQfJyf4oE2fwBvsAnph6Fy",
+    "archive_sha256": "750dba18385942f64ce89306d41c3a1b9861c3d7e4ee0fdc8200d8da42fce6ca",
+    "rom_map_sha256": "46dfdbb95b29fd678a3783d44b2b304678b611cf2c1e427f40a140bc34a89fe3",
+    "qcom_security_header_sha256": "07234bdf83c965522498ff3a7cd73ec2f98186825050e581638cf888380897ea",
+    "resolved_symbols": {
+      "encrypt_init": "0x9aa0b0",
+      "encrypt_block": "0x9aa0c4",
+      "encrypt_deinit": "0x9aa0d8",
+      "decrypt_init": "0x9aa0e8",
+      "decrypt_block": "0x9aa0fc",
+      "decrypt_deinit": "0x9aa110"
+    },
+    "verification": "Archive downloaded independently and both members re-extracted/rehashed in this research. Every six address matches the target source literal refs in0xa0cf28/0xa0cf94. SDK signatures take key,length16 and one16-byte input/output block; target wrappers iterate independent blocks with no IV/XOR/chaining: AES128 ECB."
+  },
+  "anchors": {
+    "udp_receive": {
+      "address": "0xa0b298",
+      "first_32_bytes": "3681080c0bc2a40072c120ad0781da1ce008004ba151501d81211d1c09881899",
+      "first_32_sha256": "540dde0fa3c5fa61445a241590db66797adb218d66df527685b6e10a6fbb8fb3"
+    },
+    "udp_reply_builder": {
+      "address": "0xa0afc0",
+      "first_32_bytes": "36e117c2a5dc72c1100c0bb9113d07ad0781da1ce008000c0bc2a5dc62d70662",
+      "first_32_sha256": "a0708f1f73962a0695dbf7e0c7326669b1d9109be704c4517d793b3ddabbca3d"
+    },
+    "entry": {
+      "address": "0xa0ebec",
+      "first_32_bytes": "36810b72c11061261eac22ac0382020092a07b979807a202012c2bb71a22bd06",
+      "first_32_sha256": "593ccf9fa40ac9c2efa627ff41e357ac7f9eaa3ef1adef9dfbf8ce665f5bab3d"
+    },
+    "operation_builder": {
+      "address": "0xa0ed64",
+      "first_32_bytes": "364100cc220c021df00c0426123826224126321b2642470c1526524e2662570c",
+      "first_32_sha256": "e5eef6bc8a1669800b2f2578bcc677f98c23af855c145a5d79b4548cc221117c"
+    },
+    "status_metadata_helper": {
+      "address": "0xa0ee0c",
+      "first_32_bytes": "364100665314a19b1ca22a5c25c8592506ffa0ba2020a2202501ff66a30da130",
+      "first_32_sha256": "92a8816740225c15cb9fca9b19cea9fb7a98a1a8dbb609dcdbe676e100e9f01b"
+    },
+    "decrypt_pack": {
+      "address": "0xa0efa0",
+      "first_32_bytes": "364100167203164303961403ad0381e11ce00800bd030c1d3d0aad02cd03e51e",
+      "first_32_sha256": "117720804bcf096ea38061c148fdc8994d3619a0b94fce85f88d3bd7f3f92514"
+    },
+    "outer_envelope": {
+      "address": "0xa0eff8",
+      "first_32_bytes": "36c10516040d16d30c16a20c10a120b2a000c2a2bc680281da1ce00800ad06a5",
+      "first_32_sha256": "1d00dfffd394b93d22f99811c99ba0833c38c376994184dd89fb6eedfa13cc76"
+    },
+    "inner_dispatch": {
+      "address": "0xa0f0d4",
+      "first_32_bytes": "366100ac029ce382020092a07b979807a202012c2bb71a16a1271eb13e1ec2a2",
+      "first_32_sha256": "65e30f8140d051fd059dbfc42d6e48c49e1344f2c3922d3ab8d9b84dd6fb5301"
+    },
+    "status_reply": {
+      "address": "0xa0f274",
+      "first_32_bytes": "368100a5c5fea03a20a14b1ee5c1fecd0ab12a1ead03e5bcfeb14c1e0c0aa5be",
+      "first_32_sha256": "63df123f99b62d412f70fb8246dd1a8085fac00b9648c5a037364edb24e875bc"
+    },
+    "command_reply": {
+      "address": "0xa0f488",
+      "first_32_bytes": "36c10065a4fea03a20a1531ea5a0fecd0ab12a1ead03a59bfeb14c1e0c0a659d",
+      "first_32_sha256": "d59f7890055d3422daac03dec56e9c85aa157b92a15c36bcd91ea79fd37c3c71"
+    },
+    "scan_reply": {
+      "address": "0xa0f8e8",
+      "first_32_bytes": "364100655efea03a20a1651ea55afecd0ab12a1ead03a555fe219b1cad02a559",
+      "first_32_sha256": "7e28161f942ec8cd55ba70f7896efcfcd3a829d340b75b4196495e5ea3f336ea"
+    },
+    "bind_reply": {
+      "address": "0xa0fa4c",
+      "first_32_bytes": "3641002548fea03a20a1731e6544fecd0ab12a1ead03653ffea13c1d6543fecd",
+      "first_32_sha256": "a64ad6be0d7d5f4b08843ce96ae77625846d5f892686d534d64e4a1e7392f66f"
+    },
+    "status_request": {
+      "address": "0xa0fb40",
+      "first_32_bytes": "36610016220b5802b14e1ead05e52cfe4d0a16da09684aad0681e11ce00800f6",
+      "first_32_sha256": "eb0715ca57fac75ca7de9a5f54e73ed9053d51998566685012cf22ee96e9f866"
+    },
+    "command_request": {
+      "address": "0xa0fc3c",
+      "first_32_bytes": "3681015d022d03cc257cf21df0322500b1541e30a320a51cfe7d0a166a290c0b",
+      "first_32_sha256": "60c7139f7a4748b3c249a2bcba9e018f32edc77109d448354dc7a194173d2001"
+    },
+    "bind_request": {
+      "address": "0xa0ffd0",
+      "first_32_bytes": "36610016f205b14e1ea22200e5e3fda04a2016ba04a22a0481e11ce00800f6ba",
+      "first_32_sha256": "a62fb96fec064cce218292384e173f240a398bdf55d12a5a9bd444c33d5a7417"
+    },
+    "command_cache_setter": {
+      "address": "0xa10f1c",
+      "first_32_bytes": "36410016c201169401966301a19e1cb1521e81a81ce0080056ca00ad04655400",
+      "first_32_sha256": "5578a90c6f3c6b1f9c647805086bfbd38df71b7395f018851afd49661fb8a56b"
+    },
+    "heater_selector": {
+      "address": "0xa1115c",
+      "first_32_bytes": "3641009cd2ad02b1a81e81a81ce00800dc4a0c021df0ad02b1a91e81a81ce008",
+      "first_32_sha256": "8ef052f3aedf7be79f5efdb5becca67f12d6514a3cf3c436c2f8fb1934e00177"
+    },
+    "heater_sensor_selector": {
+      "address": "0xa112cc",
+      "first_32_bytes": "3641009cd2ad02b1b61e81a81ce00800dc4a0c021df0ad02b1b71e81a81ce008",
+      "first_32_sha256": "b27af36165bd7189d0ad46423d339a8e1f6ec9dcf6fbc6c00c3b9200f24e3747"
+    },
+    "floor_selector": {
+      "address": "0xa11480",
+      "first_32_bytes": "3641009cd2ad02b1951e81a81ce00800dc4a0c021df0ad02b1ce1e81a81ce008",
+      "first_32_sha256": "af8a78e84559cc63a38b74a6f4a6da2430d7d485e4a9da7f239ced630116dd47"
+    },
+    "pool_sensor_selector": {
+      "address": "0xa11538",
+      "first_32_bytes": "3641009cd2ad02b1d01e81a81ce00800dc4a0c021df0ad02b1d11e81a81ce008",
+      "first_32_sha256": "0dfe218f8b3d03f666e7001a52e617ff8ce867139470a1f87399fc59960c5ce6"
+    },
+    "aes_encrypt_wrapper": {
+      "address": "0xa0cf28",
+      "first_32_bytes": "368100ad021c0b81bb1de008005d0a165a0540644116f604a6164042c3100c02",
+      "first_32_sha256": "128cc86b74bfc9ecda967e5984435e7f3dc012139217fbb625f598c058ff9d47"
+    },
+    "aes_decrypt_wrapper": {
+      "address": "0xa0cf94",
+      "first_32_bytes": "368100ad021c0b81be1de008005d0a165a0540644116f604a6164042c3100c02",
+      "first_32_sha256": "51b4ec9af42386d062b872b1bdad36990c097152c957151aeb53288910b143da"
+    },
+    "padding_encrypt": {
+      "address": "0xa0d000",
+      "first_32_bytes": "3641001c0d0c0c51c11d30903490a3c0a2ca10bc19a905e6b91b90adc030b441",
+      "first_32_sha256": "5fc375a7d4c4566607c5f1bd42a1ed177576c283af45f23e5199aa56be40a429"
+    },
+    "decrypt_tail": {
+      "address": "0xa0d084",
+      "first_32_bytes": "36410051c11d562403a2c51020b22030c320e5efffa915961a033ac2c2cc8082",
+      "first_32_sha256": "f742bdb3b4edd8dd79bbdaeca7b24bef42958f7aba73220697b8d249c98c8e68"
+    },
+    "base64_encode": {
+      "address": "0xa0d0d4",
+      "first_32_bytes": "364100e614028630003cd971c31d0c065202004b665052545a57520500524300",
+      "first_32_sha256": "45a899d78e885795997b8d7349bd70e7ef8f088623e6d6ab2f32995b895e8ccc"
+    },
+    "base64_decode": {
+      "address": "0xa0d1ac",
+      "first_32_bytes": "3661000c3847080acc750c099242007cf21df0a634510c05a20300a52959a901",
+      "first_32_sha256": "7edc765bca7b5d47ec3b21a4bc153753b17521c8b1196f39092e2894fc1487f9"
+    },
+    "newline_converter": {
+      "address": "0xa665d8",
+      "first_32_bytes": "364100bc52bc3357a331a613322c0b0cda0c090c0876a3202a383203001b8826",
+      "first_32_sha256": "2e3032cd2ad56d89b59f835e6b96057db5fd7ae4ced30263b3ba14aa0c0591f2"
+    }
+  },
+  "contract": {
+    "mids": [
+      "9300",
+      "9301",
+      "9302"
+    ],
+    "routing": "All three actual emitted MIDs use same normal heater name/cache branch. 0x00a00278->0x0046b5f8; 0x00a0026c->0x0046b594 +0x64 equals same MID storage. The only alternate comparison is exact MID806004, not a separate model selector. See atw-properties_research.json for independent MID serialization/property probes.",
+    "key_state": "Existing 16-byte ASCII key supplied at0x464260. Selector0 uses it; nonzero low-byte selector uses source literal a3K8Bx%2r8Y7#xDh at0x44ba40. Bind validates inner MAC but does not generate/rotate key. LAN bind transport param=2; source decrypt rejects negative full selector. Controls dispatch requires full OUTER i=0, not inner i.",
+    "outer": "Require pack/i/uid/cid/tcid; tcid exact case-sensitive device MAC. Field lookup case-insensitive; operation values and property names case-sensitive. Incoming cid need not be a MAC. UID copied into reply, reply cid=device MAC and tcid=request cid. Scan starts with cleared context so uid0,tcid empty.",
+    "reply_selectors": "scan and bind outer i1 generic; status and command outer i0 bound. No GCM branch.",
+    "inner_reply_shapes": {
+      "scan": "dev with cid,bc,brand,catalog,mac,mid,hid,ModelType,model,name,series,vender,ver,lock in source order",
+      "bind": "t=bindok,mac,key,r=200",
+      "status": "t=dat,r=200,mac,cols,dat; no inner uid",
+      "command": "t=res,r=200,opt,p,val; no inner mac; p and val each echo selected requested values, not the final duplicate cache"
+    },
+    "status": "mac and cols required. Native wrong inner mac still selects response path and actual reply MAC. Known names preserve request order/duplicates; unknown names omitted. Exactly50 occupied slots yield empty cols/dat because counter falls through as0. Known table names not in the active930x selectors can read cache[-1] natively (e.g.EnvironmentTem); omit them safely rather than manufacturing zero support.",
+    "command": "opt and p required, val-only not a receive alias; inner mac not required. Numeric values copied into per-position requested array then nonnegative values byte-truncate into known control cache. Duplicate writes execute in order; last value retained in next status. Native unknown command names omitted from reply; all-unknown gives successful empty arrays. Native unequal opt/p allowed and reads stale/zero per-position values; do not emulate unsafe behavior.",
+    "limits": {
+      "udp_request_bytes_max": 1024,
+      "outer_members_max": 20,
+      "inner_members_max": 30,
+      "outer_pack_ascii_bytes_exclusive_max": 700,
+      "native_property_slots": 50,
+      "native_slot_bytes": 20,
+      "command_name_bytes_max": 19,
+      "native_status_name_bytes_max_unsafe": 31,
+      "plaintext_reply_bytes_exclusive_max": 1500,
+      "reply_base64_buffer_bytes": 1500,
+      "notes": "Request receive bound applies original wire bytes. Outer pack text >=700 is left uncopied then decode/AES fails; proven valid684-character pack succeeds while704 and792 fail even below1024 wire bytes. Native status string31 into20 slots can overflow; native arrays and base64 reply have missing bounds. Safe runtime must validate whole batch/property names and bound padded/base64 reply before mutation; no source-derived outgoing wire1024 limit.",
+      "reply_safety": "For the1500-byte base64 output buffer require encoded ciphertext length<1500, independently of plaintext<1500. PKCS7 output max1120cipherbytes ->1496base64; hence at most1119plaintextbytes fits both native buffers. This is a safety bound derived from native allocations, not a firmware validation branch. Final outgoing UDP envelope can exceed1024; source does not impose1024 on replies."
+    },
+    "safe_runtime_deviations": [
+      "Reject unknown/unmodeled/read-only command batches, mismatched counts, non-integer/boolean/out-of-model-range values atomically rather than unsafe native partial/stale writes.",
+      "Reject ambiguous/malformed JSON, bad base64/padding and wrong inner targets rather than reproducing native coercion/unchecked-tail behavior.",
+      "Bound names to19 bytes and arrays to safe capacity; preserve/document native exactly50-empty behavior only if exposed.",
+      "Require ciphertext and padded/base64 reply to fit buffers before any command mutation."
+    ]
+  },
+  "independent_packets": [
+    {
+      "request_outer": {
+        "t": "scan"
+      },
+      "request_bytes": 12,
+      "firmware_return": 0,
+      "operation": 5,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 0,
+            "cid": "020000000001",
+            "tcid": "",
+            "pack": "LP24Ek0OaYogxs3iQLjL4N7Du3z0uyvW483Esajp7NlYT1PXPBDouOPiWHaG4G8lz22fUZtUbkblUYF5BzlKDV9xeQzMlsaP4RKBtrnsDrNx9UB4tXcWgFhxnqGueDTuFkh8xa6KY2HsEa53CLpheBkV1I5wHdJsOfUgdgsOqREPYEX5HYU1E6QyC8kGHX3VhJdacf8wcconwBMe4pCh3I+UmYq4E5g5QzzU+6/Qd+SiDkLzdpHfGhKp9hRkfnWTqZUkxk4znZHaw/guM6Gfu46830N2TTQ0VcD1XgrSp6IR29Sl1iMhYcyhPWN0foReIKSq7lNE9fHbdIkzsWgkNw=="
+          },
+          "inner": {
+            "t": "dev",
+            "cid": "020000000001",
+            "bc": "gree",
+            "brand": "gree",
+            "catalog": "gree",
+            "mac": "020000000001",
+            "mid": "9300",
+            "hid": "362001066763",
+            "ModelType": "synthetic-atw",
+            "model": "gree",
+            "name": "ATW research",
+            "series": "gree",
+            "vender": "1",
+            "ver": "V6.04",
+            "lock": 0
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":0,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"LP24Ek0OaYogxs3iQLjL4N7Du3z0uyvW483Esajp7NlYT1PXPBDouOPiWHaG4G8lz22fUZtUbkblUYF5BzlKDV9xeQzMlsaP4RKBtrnsDrNx9UB4tXcWgFhxnqGueDTuFkh8xa6KY2HsEa53CLpheBkV1I5wHdJsOfUgdgsOqREPYEX5HYU1E6QyC8kGHX3VhJdacf8wcconwBMe4pCh3I+UmYq4E5g5QzzU+6/Qd+SiDkLzdpHfGhKp9hRkfnWTqZUkxk4znZHaw/guM6Gfu46830N2TTQ0VcD1XgrSp6IR29Sl1iMhYcyhPWN0foReIKSq7lNE9fHbdIkzsWgkNw==\"}",
+          "plaintext_hex": "7b2274223a22646576222c22636964223a22303230303030303030303031222c226263223a2267726565222c226272616e64223a2267726565222c22636174616c6f67223a2267726565222c226d6163223a22303230303030303030303031222c226d6964223a2239333030222c22686964223a22333632303031303636373633222c224d6f64656c54797065223a2273796e7468657469632d617477222c226d6f64656c223a2267726565222c226e616d65223a22415457207265736561726368222c22736572696573223a2267726565222c2276656e646572223a2231222c22766572223a2256362e3034222c226c6f636b223a307d0808080808080808"
+        }
+      ],
+      "name": "scan",
+      "mid": "9300",
+      "cumulative_instruction_steps": 7237
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 6,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk="
+          },
+          "inner": {
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef",
+            "r": 200
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk=\"}",
+          "plaintext_hex": "7b2274223a2262696e646f6b222c226d6163223a22303230303030303030303031222c226b6579223a2230313233343536373839616263646566222c2272223a3230307d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "bind-generic2",
+      "mid": "9300",
+      "cumulative_instruction_steps": 4703
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwWAvrrlEgKeifg6BuvsdQ43SH/jtH43HLAUXdj1nCWB4KGrt3Z08fJgtjwwJQS+JOUGQ/3FY7Kfiini9M1WiIVg=="
+      },
+      "request_bytes": 233,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dZFUyAytHtzbU6fzBrwi6VdO/YDTYHtG0RPGZnkHQ0FIJxyz1axoVqKs/uxIVPP3B3zltfeLnAY1wGw4hVYKGIg=="
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow",
+              "AllInWatTemHi",
+              "Pow",
+              "HeWatOutTemSet"
+            ],
+            "dat": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dZFUyAytHtzbU6fzBrwi6VdO/YDTYHtG0RPGZnkHQ0FIJxyz1axoVqKs/uxIVPP3B3zltfeLnAY1wGw4hVYKGIg==\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77222c22416c6c496e57617454656d4869222c22506f77222c2248655761744f757454656d536574225d2c22646174223a5b302c302c302c305d7d0202"
+        }
+      ],
+      "name": "status-order-duplicates-unknown",
+      "mid": "9300",
+      "cumulative_instruction_steps": 17514
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9Wbz6M1m7oUPZVAK3ziJYIh8HAa4M5nNrKeYoYWbFFPQG8pgvjZhVCJ7Dk4kYe5dAg=="
+      },
+      "request_bytes": 169,
+      "firmware_return": 0,
+      "operation": 2,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "57Y1VBAdPLCHlDgJrgY0xWzreVjolmOwRzzNbDX8+z9XBIfQhXPEULOcDwvMflEcsyCBFzdVF4T6sHQMXulOBiBUVv3yFa2pkAPiTZYfhf6Nu+GsOExiD3wUVY21mldb"
+          },
+          "inner": {
+            "t": "res",
+            "r": 200,
+            "opt": [
+              "Pow",
+              "HeWatOutTemSet",
+              "Pow"
+            ],
+            "p": [
+              1,
+              40,
+              0
+            ],
+            "val": [
+              1,
+              40,
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"57Y1VBAdPLCHlDgJrgY0xWzreVjolmOwRzzNbDX8+z9XBIfQhXPEULOcDwvMflEcsyCBFzdVF4T6sHQMXulOBiBUVv3yFa2pkAPiTZYfhf6Nu+GsOExiD3wUVY21mldb\"}",
+          "plaintext_hex": "7b2274223a22726573222c2272223a3230302c226f7074223a5b22506f77222c2248655761744f757454656d536574222c22506f77225d2c2270223a5b312c34302c305d2c2276616c223a5b312c34302c305d7d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "command-duplicates",
+      "mid": "9300",
+      "cumulative_instruction_steps": 9370
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwChq7d2dPHyYLY8MCUEviTlBkP9xWOyn4op4vTNVoiFY="
+      },
+      "request_bytes": 189,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dDmjnAn7pMI0GGb5ODv8wy15VnWQRFB5jETsNUZYEfLWPo/R+7bHg6zi1Sm8l2Eb4"
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow",
+              "HeWatOutTemSet"
+            ],
+            "dat": [
+              0,
+              40
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dDmjnAn7pMI0GGb5ODv8wy15VnWQRFB5jETsNUZYEfLWPo/R+7bHg6zi1Sm8l2Eb4\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77222c2248655761744f757454656d536574225d2c22646174223a5b302c34305d7d0b0b0b0b0b0b0b0b0b0b0b"
+        }
+      ],
+      "name": "next-status",
+      "mid": "9300",
+      "cumulative_instruction_steps": 18621
+    },
+    {
+      "request_outer": {
+        "t": "scan"
+      },
+      "request_bytes": 12,
+      "firmware_return": 0,
+      "operation": 5,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 0,
+            "cid": "020000000001",
+            "tcid": "",
+            "pack": "LP24Ek0OaYogxs3iQLjL4N7Du3z0uyvW483Esajp7NlYT1PXPBDouOPiWHaG4G8lz22fUZtUbkblUYF5BzlKDV9xeQzMlsaP4RKBtrnsDrNx9UB4tXcWgFhxnqGueDTu/HHaE1bkS1UJoHcYeJJmOxkV1I5wHdJsOfUgdgsOqREPYEX5HYU1E6QyC8kGHX3VhJdacf8wcconwBMe4pCh3I+UmYq4E5g5QzzU+6/Qd+SiDkLzdpHfGhKp9hRkfnWTqZUkxk4znZHaw/guM6Gfu46830N2TTQ0VcD1XgrSp6IR29Sl1iMhYcyhPWN0foReIKSq7lNE9fHbdIkzsWgkNw=="
+          },
+          "inner": {
+            "t": "dev",
+            "cid": "020000000001",
+            "bc": "gree",
+            "brand": "gree",
+            "catalog": "gree",
+            "mac": "020000000001",
+            "mid": "9301",
+            "hid": "362001066763",
+            "ModelType": "synthetic-atw",
+            "model": "gree",
+            "name": "ATW research",
+            "series": "gree",
+            "vender": "1",
+            "ver": "V6.04",
+            "lock": 0
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":0,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"LP24Ek0OaYogxs3iQLjL4N7Du3z0uyvW483Esajp7NlYT1PXPBDouOPiWHaG4G8lz22fUZtUbkblUYF5BzlKDV9xeQzMlsaP4RKBtrnsDrNx9UB4tXcWgFhxnqGueDTu/HHaE1bkS1UJoHcYeJJmOxkV1I5wHdJsOfUgdgsOqREPYEX5HYU1E6QyC8kGHX3VhJdacf8wcconwBMe4pCh3I+UmYq4E5g5QzzU+6/Qd+SiDkLzdpHfGhKp9hRkfnWTqZUkxk4znZHaw/guM6Gfu46830N2TTQ0VcD1XgrSp6IR29Sl1iMhYcyhPWN0foReIKSq7lNE9fHbdIkzsWgkNw==\"}",
+          "plaintext_hex": "7b2274223a22646576222c22636964223a22303230303030303030303031222c226263223a2267726565222c226272616e64223a2267726565222c22636174616c6f67223a2267726565222c226d6163223a22303230303030303030303031222c226d6964223a2239333031222c22686964223a22333632303031303636373633222c224d6f64656c54797065223a2273796e7468657469632d617477222c226d6f64656c223a2267726565222c226e616d65223a22415457207265736561726368222c22736572696573223a2267726565222c2276656e646572223a2231222c22766572223a2256362e3034222c226c6f636b223a307d0808080808080808"
+        }
+      ],
+      "name": "scan",
+      "mid": "9301",
+      "cumulative_instruction_steps": 7237
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 6,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk="
+          },
+          "inner": {
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef",
+            "r": 200
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk=\"}",
+          "plaintext_hex": "7b2274223a2262696e646f6b222c226d6163223a22303230303030303030303031222c226b6579223a2230313233343536373839616263646566222c2272223a3230307d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "bind-generic2",
+      "mid": "9301",
+      "cumulative_instruction_steps": 4703
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwWAvrrlEgKeifg6BuvsdQ43SH/jtH43HLAUXdj1nCWB4KGrt3Z08fJgtjwwJQS+JOUGQ/3FY7Kfiini9M1WiIVg=="
+      },
+      "request_bytes": 233,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dZFUyAytHtzbU6fzBrwi6VdO/YDTYHtG0RPGZnkHQ0FIJxyz1axoVqKs/uxIVPP3B3zltfeLnAY1wGw4hVYKGIg=="
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow",
+              "AllInWatTemHi",
+              "Pow",
+              "HeWatOutTemSet"
+            ],
+            "dat": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dZFUyAytHtzbU6fzBrwi6VdO/YDTYHtG0RPGZnkHQ0FIJxyz1axoVqKs/uxIVPP3B3zltfeLnAY1wGw4hVYKGIg==\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77222c22416c6c496e57617454656d4869222c22506f77222c2248655761744f757454656d536574225d2c22646174223a5b302c302c302c305d7d0202"
+        }
+      ],
+      "name": "status-order-duplicates-unknown",
+      "mid": "9301",
+      "cumulative_instruction_steps": 17514
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9Wbz6M1m7oUPZVAK3ziJYIh8HAa4M5nNrKeYoYWbFFPQG8pgvjZhVCJ7Dk4kYe5dAg=="
+      },
+      "request_bytes": 169,
+      "firmware_return": 0,
+      "operation": 2,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "57Y1VBAdPLCHlDgJrgY0xWzreVjolmOwRzzNbDX8+z9XBIfQhXPEULOcDwvMflEcsyCBFzdVF4T6sHQMXulOBiBUVv3yFa2pkAPiTZYfhf6Nu+GsOExiD3wUVY21mldb"
+          },
+          "inner": {
+            "t": "res",
+            "r": 200,
+            "opt": [
+              "Pow",
+              "HeWatOutTemSet",
+              "Pow"
+            ],
+            "p": [
+              1,
+              40,
+              0
+            ],
+            "val": [
+              1,
+              40,
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"57Y1VBAdPLCHlDgJrgY0xWzreVjolmOwRzzNbDX8+z9XBIfQhXPEULOcDwvMflEcsyCBFzdVF4T6sHQMXulOBiBUVv3yFa2pkAPiTZYfhf6Nu+GsOExiD3wUVY21mldb\"}",
+          "plaintext_hex": "7b2274223a22726573222c2272223a3230302c226f7074223a5b22506f77222c2248655761744f757454656d536574222c22506f77225d2c2270223a5b312c34302c305d2c2276616c223a5b312c34302c305d7d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "command-duplicates",
+      "mid": "9301",
+      "cumulative_instruction_steps": 9370
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwChq7d2dPHyYLY8MCUEviTlBkP9xWOyn4op4vTNVoiFY="
+      },
+      "request_bytes": 189,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dDmjnAn7pMI0GGb5ODv8wy15VnWQRFB5jETsNUZYEfLWPo/R+7bHg6zi1Sm8l2Eb4"
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow",
+              "HeWatOutTemSet"
+            ],
+            "dat": [
+              0,
+              40
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dDmjnAn7pMI0GGb5ODv8wy15VnWQRFB5jETsNUZYEfLWPo/R+7bHg6zi1Sm8l2Eb4\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77222c2248655761744f757454656d536574225d2c22646174223a5b302c34305d7d0b0b0b0b0b0b0b0b0b0b0b"
+        }
+      ],
+      "name": "next-status",
+      "mid": "9301",
+      "cumulative_instruction_steps": 18621
+    },
+    {
+      "request_outer": {
+        "t": "scan"
+      },
+      "request_bytes": 12,
+      "firmware_return": 0,
+      "operation": 5,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 0,
+            "cid": "020000000001",
+            "tcid": "",
+            "pack": "LP24Ek0OaYogxs3iQLjL4N7Du3z0uyvW483Esajp7NlYT1PXPBDouOPiWHaG4G8lz22fUZtUbkblUYF5BzlKDV9xeQzMlsaP4RKBtrnsDrNx9UB4tXcWgFhxnqGueDTudSuYcHNU5wGVqO/aXJGaQhkV1I5wHdJsOfUgdgsOqREPYEX5HYU1E6QyC8kGHX3VhJdacf8wcconwBMe4pCh3I+UmYq4E5g5QzzU+6/Qd+SiDkLzdpHfGhKp9hRkfnWTqZUkxk4znZHaw/guM6Gfu46830N2TTQ0VcD1XgrSp6IR29Sl1iMhYcyhPWN0foReIKSq7lNE9fHbdIkzsWgkNw=="
+          },
+          "inner": {
+            "t": "dev",
+            "cid": "020000000001",
+            "bc": "gree",
+            "brand": "gree",
+            "catalog": "gree",
+            "mac": "020000000001",
+            "mid": "9302",
+            "hid": "362001066763",
+            "ModelType": "synthetic-atw",
+            "model": "gree",
+            "name": "ATW research",
+            "series": "gree",
+            "vender": "1",
+            "ver": "V6.04",
+            "lock": 0
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":0,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"LP24Ek0OaYogxs3iQLjL4N7Du3z0uyvW483Esajp7NlYT1PXPBDouOPiWHaG4G8lz22fUZtUbkblUYF5BzlKDV9xeQzMlsaP4RKBtrnsDrNx9UB4tXcWgFhxnqGueDTudSuYcHNU5wGVqO/aXJGaQhkV1I5wHdJsOfUgdgsOqREPYEX5HYU1E6QyC8kGHX3VhJdacf8wcconwBMe4pCh3I+UmYq4E5g5QzzU+6/Qd+SiDkLzdpHfGhKp9hRkfnWTqZUkxk4znZHaw/guM6Gfu46830N2TTQ0VcD1XgrSp6IR29Sl1iMhYcyhPWN0foReIKSq7lNE9fHbdIkzsWgkNw==\"}",
+          "plaintext_hex": "7b2274223a22646576222c22636964223a22303230303030303030303031222c226263223a2267726565222c226272616e64223a2267726565222c22636174616c6f67223a2267726565222c226d6163223a22303230303030303030303031222c226d6964223a2239333032222c22686964223a22333632303031303636373633222c224d6f64656c54797065223a2273796e7468657469632d617477222c226d6f64656c223a2267726565222c226e616d65223a22415457207265736561726368222c22736572696573223a2267726565222c2276656e646572223a2231222c22766572223a2256362e3034222c226c6f636b223a307d0808080808080808"
+        }
+      ],
+      "name": "scan",
+      "mid": "9302",
+      "cumulative_instruction_steps": 7237
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 6,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk="
+          },
+          "inner": {
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef",
+            "r": 200
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk=\"}",
+          "plaintext_hex": "7b2274223a2262696e646f6b222c226d6163223a22303230303030303030303031222c226b6579223a2230313233343536373839616263646566222c2272223a3230307d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "bind-generic2",
+      "mid": "9302",
+      "cumulative_instruction_steps": 4703
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwWAvrrlEgKeifg6BuvsdQ43SH/jtH43HLAUXdj1nCWB4KGrt3Z08fJgtjwwJQS+JOUGQ/3FY7Kfiini9M1WiIVg=="
+      },
+      "request_bytes": 233,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dZFUyAytHtzbU6fzBrwi6VdO/YDTYHtG0RPGZnkHQ0FIJxyz1axoVqKs/uxIVPP3B3zltfeLnAY1wGw4hVYKGIg=="
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow",
+              "AllInWatTemHi",
+              "Pow",
+              "HeWatOutTemSet"
+            ],
+            "dat": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dZFUyAytHtzbU6fzBrwi6VdO/YDTYHtG0RPGZnkHQ0FIJxyz1axoVqKs/uxIVPP3B3zltfeLnAY1wGw4hVYKGIg==\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77222c22416c6c496e57617454656d4869222c22506f77222c2248655761744f757454656d536574225d2c22646174223a5b302c302c302c305d7d0202"
+        }
+      ],
+      "name": "status-order-duplicates-unknown",
+      "mid": "9302",
+      "cumulative_instruction_steps": 17514
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9Wbz6M1m7oUPZVAK3ziJYIh8HAa4M5nNrKeYoYWbFFPQG8pgvjZhVCJ7Dk4kYe5dAg=="
+      },
+      "request_bytes": 169,
+      "firmware_return": 0,
+      "operation": 2,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "57Y1VBAdPLCHlDgJrgY0xWzreVjolmOwRzzNbDX8+z9XBIfQhXPEULOcDwvMflEcsyCBFzdVF4T6sHQMXulOBiBUVv3yFa2pkAPiTZYfhf6Nu+GsOExiD3wUVY21mldb"
+          },
+          "inner": {
+            "t": "res",
+            "r": 200,
+            "opt": [
+              "Pow",
+              "HeWatOutTemSet",
+              "Pow"
+            ],
+            "p": [
+              1,
+              40,
+              0
+            ],
+            "val": [
+              1,
+              40,
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"57Y1VBAdPLCHlDgJrgY0xWzreVjolmOwRzzNbDX8+z9XBIfQhXPEULOcDwvMflEcsyCBFzdVF4T6sHQMXulOBiBUVv3yFa2pkAPiTZYfhf6Nu+GsOExiD3wUVY21mldb\"}",
+          "plaintext_hex": "7b2274223a22726573222c2272223a3230302c226f7074223a5b22506f77222c2248655761744f757454656d536574222c22506f77225d2c2270223a5b312c34302c305d2c2276616c223a5b312c34302c305d7d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "command-duplicates",
+      "mid": "9302",
+      "cumulative_instruction_steps": 9370
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwChq7d2dPHyYLY8MCUEviTlBkP9xWOyn4op4vTNVoiFY="
+      },
+      "request_bytes": 189,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dDmjnAn7pMI0GGb5ODv8wy15VnWQRFB5jETsNUZYEfLWPo/R+7bHg6zi1Sm8l2Eb4"
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow",
+              "HeWatOutTemSet"
+            ],
+            "dat": [
+              0,
+              40
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dDmjnAn7pMI0GGb5ODv8wy15VnWQRFB5jETsNUZYEfLWPo/R+7bHg6zi1Sm8l2Eb4\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77222c2248655761744f757454656d536574225d2c22646174223a5b302c34305d7d0b0b0b0b0b0b0b0b0b0b0b"
+        }
+      ],
+      "name": "next-status",
+      "mid": "9302",
+      "cumulative_instruction_steps": 18621
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "eSn7Wn1ITLUrYQYF4JLC164jEpLZOJ8cS+5hJTOQly7mHt56vSetNkVN8VlbtIgckO8HoQFytsKWAqcRcb+utQ=="
+      },
+      "request_bytes": 169,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "status-generic1-rejected",
+      "mid": "9300",
+      "cumulative_instruction_steps": 3130
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "eSn7Wn1ITLUrYQYF4JLC164jEpLZOJ8cS+5hJTOQly7mHt56vSetNkVN8VlbtIgckO8HoQFytsKWAqcRcb+utQ=="
+      },
+      "request_bytes": 169,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "status-generic2-rejected",
+      "mid": "9300",
+      "cumulative_instruction_steps": 3130
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "hiOGD0nvWseMuNwdFv43e8fAC85fo5uPiT69fS1EcWIDAArrT/UdKRiPguShYqH2"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 6,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk="
+          },
+          "inner": {
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef",
+            "r": 200
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk=\"}",
+          "plaintext_hex": "7b2274223a2262696e646f6b222c226d6163223a22303230303030303030303031222c226b6579223a2230313233343536373839616263646566222c2272223a3230307d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "bind-bound0",
+      "mid": "9300",
+      "cumulative_instruction_steps": 4716
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 6,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk="
+          },
+          "inner": {
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef",
+            "r": 200
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk=\"}",
+          "plaintext_hex": "7b2274223a2262696e646f6b222c226d6163223a22303230303030303030303031222c226b6579223a2230313233343536373839616263646566222c2272223a3230307d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "name": "bind-generic1",
+      "mid": "9300",
+      "cumulative_instruction_steps": 4703
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEkV/tg3JLIhWbLeBsY57o6/pyhNX6ZNWv5dfVP60FBpD"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 0,
+      "replies": [],
+      "name": "bind-wrong-inner-mac",
+      "mid": "9300",
+      "cumulative_instruction_steps": 2350
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "y034RXIIYyZ3kPo5ncfnuXS7NbXm4uCNNN9VpIaIOwc="
+      },
+      "request_bytes": 125,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "status-missing-inner-mac",
+      "mid": "9300",
+      "cumulative_instruction_steps": 1761
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuo9xQhR91bSIZa1rDtfHZG6BpPFvVNtQH+93okp9Sc/f"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dSNMwQDJnm8qEIiwwTOFv3QMACutP9R0pGI+C5KFiofY="
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow"
+            ],
+            "dat": [
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dSNMwQDJnm8qEIiwwTOFv3QMACutP9R0pGI+C5KFiofY=\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77225d2c22646174223a5b305d7d0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"
+        }
+      ],
+      "name": "status-wrong-inner-mac-native-accepted",
+      "mid": "9300",
+      "cumulative_instruction_steps": 5299
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "cAa6EW6an4oHMuXC/sPbZ6Objs7IypID8i19+PNY6a4mZSfo+sEoFgAB++gjIljkGh3o7oMNU5JiygBrQoK4sg=="
+      },
+      "request_bytes": 169,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dSNMwQDJnm8qEIiwwTOFv3QMACutP9R0pGI+C5KFiofY="
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow"
+            ],
+            "dat": [
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dSNMwQDJnm8qEIiwwTOFv3QMACutP9R0pGI+C5KFiofY=\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77225d2c22646174223a5b305d7d0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"
+        }
+      ],
+      "name": "status-casefold-fields",
+      "mid": "9300",
+      "cumulative_instruction_steps": 9462
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9b1g47DNFmFRPyV96cATLYP8inSU5tRJlSLqupis+RDk"
+      },
+      "request_bytes": 145,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "command-val-only-rejected",
+      "mid": "9300",
+      "cumulative_instruction_steps": 2365
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9SLwkX3wZYO0SEyR8PglxE7UmVnoSniShsnnyHK5Nfgy"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 2,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "57Y1VBAdPLCHlDgJrgY0xXk0Rv/CkHwGL7/2aKeJbdnzirwy30VMVkqI/9Ay1/VG"
+          },
+          "inner": {
+            "t": "res",
+            "r": 200,
+            "opt": [],
+            "p": [],
+            "val": []
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"57Y1VBAdPLCHlDgJrgY0xXk0Rv/CkHwGL7/2aKeJbdnzirwy30VMVkqI/9Ay1/VG\"}",
+          "plaintext_hex": "7b2274223a22726573222c2272223a3230302c226f7074223a5b5d2c2270223a5b5d2c2276616c223a5b5d7d04040404"
+        }
+      ],
+      "name": "command-unknown-native-empty-success",
+      "mid": "9300",
+      "cumulative_instruction_steps": 7424
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9erw58DFGtOhFGcau9LMPvEDAArrT/UdKRiPguShYqH2"
+      },
+      "request_bytes": 145,
+      "firmware_return": 0,
+      "operation": 2,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "57Y1VBAdPLCHlDgJrgY0xVX5jsJmj8YnxvfpgS5FUQnUgUFOOeHUBfQDq/G5vPh7/Ip0lObUSZUi6rqYrPkQ5A=="
+          },
+          "inner": {
+            "t": "res",
+            "r": 200,
+            "opt": [
+              "Pow"
+            ],
+            "p": [
+              1
+            ],
+            "val": [
+              1
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"57Y1VBAdPLCHlDgJrgY0xVX5jsJmj8YnxvfpgS5FUQnUgUFOOeHUBfQDq/G5vPh7/Ip0lObUSZUi6rqYrPkQ5A==\"}",
+          "plaintext_hex": "7b2274223a22726573222c2272223a3230302c226f7074223a5b22506f77225d2c2270223a5b315d2c2276616c223a5b315d7d0d0d0d0d0d0d0d0d0d0d0d0d0d"
+        }
+      ],
+      "name": "command-missing-mac-native-accepted",
+      "mid": "9300",
+      "cumulative_instruction_steps": 4957
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw/YKyUyK5spbkECmp9TxiepxK69XfK4el/HjAm/UAUdQkEMWyQ2Nk+zQESSy5y5iF/YKyUyK5spbkECmp9TxiepxK69XfK4el/HjAm/UAUdQkEMWyQ2Nk+zQESSy5y5iF/YKyUyK5spbkECmp9TxiepxK69XfK4el/HjAm/UAUdQkEMWyQ2Nk+zQESSy5y5iF/YKyUyK5spbkECmp9TxiepxK69XfK4el/HjAm/UAUdQkEMWyQ2Nk+zQESSy5y5iF/YKyUyK5spbkECmp9TxiepxK69XfK4el/HjAm/UAUdQkEMWyQ2Nk+zQESSy5y5iF/YKyUyK5spbkECmp9TxiepxK69XfK4el/HjAm/UAUdQkEMWyQ2Nk+zQESSy5y5iFyXvrcm8Y7U270pfXMEUAWg=="
+      },
+      "request_bytes": 553,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dj67TMnMHrrFIyuvE//A1Dw=="
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [],
+            "dat": []
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dj67TMnMHrrFIyuvE//A1Dw==\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b5d2c22646174223a5b5d7d0505050505"
+        }
+      ],
+      "name": "status-50-native-empty",
+      "mid": "9300",
+      "cumulative_instruction_steps": 18546
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000002",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "request_bytes": 169,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "wrong-outer-tcid",
+      "mid": "9300",
+      "cumulative_instruction_steps": 124
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "request_bytes": 160,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "missing-outer-uid",
+      "mid": "9300",
+      "cumulative_instruction_steps": 97
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "request_bytes": 147,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "missing-outer-cid",
+      "mid": "9300",
+      "cumulative_instruction_steps": 103
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "request_bytes": 147,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "missing-outer-tcid",
+      "mid": "9300",
+      "cumulative_instruction_steps": 118
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "request_bytes": 163,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "missing-outer-i",
+      "mid": "9300",
+      "cumulative_instruction_steps": 91
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "request_bytes": 71,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "missing-outer-pack",
+      "mid": "9300",
+      "cumulative_instruction_steps": 77
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw3yEMD6b42NA7KoKSp8jKy6mcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCJ+2ZALGaDLH6BaGlKOq+JjdyIuBhqSTFkc2cJ+oWPtQ="
+      },
+      "request_bytes": 765,
+      "firmware_return": 0,
+      "operation": 1,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 17,
+            "cid": "020000000001",
+            "tcid": "research-peer",
+            "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dSNMwQDJnm8qEIiwwTOFv3QMACutP9R0pGI+C5KFiofY="
+          },
+          "inner": {
+            "t": "dat",
+            "r": 200,
+            "mac": "020000000001",
+            "cols": [
+              "Pow"
+            ],
+            "dat": [
+              0
+            ]
+          },
+          "datagram": "{\"t\":\"pack\",\"i\":0,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EFzbppc5FYvsShIimCSXY+dSNMwQDJnm8qEIiwwTOFv3QMACutP9R0pGI+C5KFiofY=\"}",
+          "plaintext_hex": "7b2274223a22646174222c2272223a3230302c226d6163223a22303230303030303030303031222c22636f6c73223a5b22506f77225d2c22646174223a5b305d7d0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"
+        }
+      ],
+      "name": "pack-text-length-684",
+      "mid": "9300",
+      "cumulative_instruction_steps": 25009
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw3yEMD6b42NA7KoKSp8jKy6mcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AiftmQCxmgyx+gWhpSjqviY3ciLgYakkxZHNnCfqFj7U"
+      },
+      "request_bytes": 785,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "pack-text-length-704",
+      "mid": "9300",
+      "cumulative_instruction_steps": 139
+    },
+    {
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw3yEMD6b42NA7KoKSp8jKy6mcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wKpnI8WxnYFF/i6RZEidvcCqZyPFsZ2BRf4ukWRInb3AqmcjxbGdgUX+LpFkSJ29wIn7ZkAsZoMsfoFoaUo6r4mN3Ii4GGpJMWRzZwn6hY+1A=="
+      },
+      "request_bytes": 873,
+      "firmware_return": -1,
+      "operation": 0,
+      "replies": [],
+      "name": "pack-text-length-792",
+      "mid": "9300",
+      "cumulative_instruction_steps": 139
+    }
+  ],
+  "unverified": [
+    "No native Xtensa ISA execution, complete firmware boot, hardware AES engine, real UDP/Wi-Fi stack or physical appliance/mainboard calibration.",
+    "Startup random-key generation and non-LAN/cloud/timer/OTA operations outside this slice.",
+    "Other firmware builds deliberately not claimed equivalent.",
+    "Source JSON/libc/ROM/OS boundaries mean datagram vectors are instruction-matched translations, not captured physical packets."
+  ]
+}

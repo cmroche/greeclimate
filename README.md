@@ -208,6 +208,12 @@ Run the supplied mixed-device configuration, including gateways and child device
 python -m gree_emulator --config examples/emulator-devices.json
 ```
 
+Run three independent ATW roles (MIDs `9300`, `9301`, `9302`) with synthetic room, tank and pool-water readings.
+
+```bash
+python -m gree_emulator --config examples/emulator-atw-devices.json
+```
+
 Expose the simulated ACs to LAN discovery on UDP port 7000, on a trusted test network only.
 
 ```bash
@@ -220,7 +226,7 @@ Capture packet logs on stderr while keeping startup announcements on stdout; scr
 python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1 2> emulator-packets.log
 ```
 
-These are simulated appliances, not complete firmware emulations. The library's `push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so simulator commands can be rejected even when sending succeeds. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
+These are simulated appliances, not complete firmware emulations. The library's AC `Device.push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so those simulator commands can be rejected even when sending succeeds. ATW has the separate polling-size limitation noted above. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
 
 ## Debugging
 
