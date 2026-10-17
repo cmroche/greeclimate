@@ -1,0 +1,182 @@
+{
+  "profile": "sim-w05sa-v1.28",
+  "mid": "50",
+  "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+  "evidence": {
+    "native_protocol": "zone-sparse_research.json native online slots0,2,4,6; sparse compaction and exact slot-derived identifiers.",
+    "model_contract": "Literal initial shared/local model state; no ambient field."
+  },
+  "device": {
+    "id": "zones",
+    "mac": "020000000001",
+    "name": "Emulator Office",
+    "key": "0123456789abcdef"
+  },
+  "children": [
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "sparse-zone-6",
+        "mac": "02000000000106",
+        "name": "Zone 6",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "sparse-zone-2",
+        "mac": "02000000000102",
+        "name": "Zone 2",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-master",
+      "mid": "5000",
+      "device": {
+        "id": "sparse-zone-0",
+        "mac": "02000000000100",
+        "name": "Zone 0",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "sparse-zone-4",
+        "mac": "02000000000104",
+        "name": "Zone 4",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    }
+  ],
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "r": 200,
+          "c": 4,
+          "i": 0,
+          "list": [
+            {
+              "mac": "02000000000100",
+              "mid": "5000",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000102",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000104",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000106",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "MasterPow": 0,
+    "Mod": 0,
+    "WdSpd": 0,
+    "StTem": 8,
+    "StFahFlg": 0,
+    "RmType": 0,
+    "RmNum": 0
+  },
+  "expected_children": {
+    "02000000000100": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "Mod": 0,
+      "WdSpd": 0
+    },
+    "02000000000102": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 0,
+      "WdSpd": 0
+    },
+    "02000000000104": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 0,
+      "WdSpd": 0
+    },
+    "02000000000106": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 0,
+      "WdSpd": 0
+    }
+  }
+}

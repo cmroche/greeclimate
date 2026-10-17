@@ -1,0 +1,463 @@
+{
+  "profile": "wb04brt13-v1.50-4005-native-wire-research",
+  "mid": "4005",
+  "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+  "registered": false,
+  "scope": "Independent native source observations, not executable emulator conformance vectors. Hardware AES primitive substituted explicitly; JSON/parser/PKCS7/base64/envelopes native.",
+  "evidence": {
+    "scan": {
+      "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+      "method": "Native complete scan branch/parser/builders/key assembly/PKCS7/base64/wrapper. libc/MAC-I/O boundaries hooked. Identified hardware AES-ECB primitive substituted with independent PyCryptodome AES only; no emulator implementation or firmware ciphertext claim. Runtime RAM metadata seeded explicitly.",
+      "metadata": {
+        "144": "gree",
+        "176": "gree",
+        "240": "Commercial Simulator",
+        "400": "Emulator Office",
+        "272": "",
+        "336": "V1.50",
+        "368": ""
+      },
+      "return": 0,
+      "packet_length": 355,
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 0,
+        "cid": "",
+        "tcid": "",
+        "pack": "LP24Ek0OaYogxs3iQLjL4MpqLc7bRfNhysEFQaTzJYQRkSe/PjIDh43oEmUUfFbnOh3L/lJ9jIhRCc9zQzLBxP2hPMeGpFclB7cgG701B1uNKW93rgWFFqpP3p/6szGJUtSnazIezLYefgsbPGVNfShTGhP4aiBF0il8XTH4Vpy41b91E240ozQcsoG5mSbDJS3d58cAi3e3EdBB3eCzh88DiBLe+eX6l6wP/W9Khhj5RVxBG7eGAlf3Bzx6J0Qlqcu5sKt/oZgiwnzFgE209OXCA8yJBSgXQAwU9ZA8cUU="
+      },
+      "inner": {
+        "t": "dev",
+        "cid": "",
+        "bc": "00000",
+        "brand": "gree",
+        "catalog": "gree",
+        "mac": "020000000001",
+        "mid": "4005",
+        "model": "Commercial Simulator",
+        "name": "Emulator Office",
+        "lock": 0,
+        "series": "",
+        "vender": "",
+        "ver": "V1.50",
+        "mqttVer": ""
+      },
+      "padded_plaintext_blocks_hex": [
+        "7b2274223a22646576222c2263696422",
+        "3a22222c226263223a22303030303022",
+        "2c226272616e64223a2267726565222c",
+        "22636174616c6f67223a226772656522",
+        "2c226d6163223a223032303030303030",
+        "30303031222c226d6964223a22343030",
+        "35222c226d6f64656c223a22436f6d6d",
+        "65726369616c2053696d756c61746f72",
+        "222c226e616d65223a22456d756c6174",
+        "6f72204f6666696365222c226c6f636b",
+        "223a302c22736572696573223a22222c",
+        "2276656e646572223a22222c22766572",
+        "223a2256312e3530222c226d71747456",
+        "6572223a22227d090909090909090909"
+      ]
+    },
+    "packed_dispatch": {
+      "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+      "method": "Native complete packed dispatcher including envelope parse, base64, AES PKCS7 wrappers, handler, reply wrapper. Only libc/MAC-I/O and independently identified hardware AES-ECB substituted; AES primitive uses PyCryptodome. No emulator implementation. Context key and metadata explicit synthetic RAM.",
+      "samples": [
+        {
+          "request_outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 7,
+            "cid": "app",
+            "tcid": "020000000001",
+            "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO6j9mrs/0p7GUTdWxmNaBUt"
+          },
+          "request_inner": {
+            "t": "bind",
+            "mac": "020000000001",
+            "uid": 0
+          },
+          "return": 0,
+          "reply_outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 7,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "FtZAY6UHKBwtaI55He0Incdr0tWDjLhcQnaLirlU16FeFNWiyLgwh14drLXjWdKcm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ="
+          },
+          "reply_inner": {
+            "r": 200,
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef"
+          },
+          "aes_keys_ascii": [
+            "a3K8Bx%2r8Y7#xDh",
+            "a3K8Bx%2r8Y7#xDh"
+          ]
+        },
+        {
+          "request_outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 7,
+            "cid": "app",
+            "tcid": "020000000001",
+            "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMVnWBliEuy0Av1saLGxJezI2YUQJ6r2/ySeZqVQ//ufC95lkxooXAZWCZIlS8b1aNo="
+          },
+          "request_inner": {
+            "t": "status",
+            "mac": "020000000001",
+            "cols": [
+              "SetTem",
+              "Pow",
+              "Mod",
+              "SetTem"
+            ]
+          },
+          "return": 0,
+          "reply_outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 7,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "EHXgFVOJmDQvvPvXoJ8oYWkmGHRb4n+ilG1DnaXMgwNP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHg8/p7OUb/rBABv5jVaPhaECOfTTFFRNN+N2B3eDlZf25935za29FSSJkDVKDPzGhJqEjaEzAivgtMgGEtQ+Qm2Y="
+          },
+          "reply_inner": {
+            "t": "dat",
+            "uid": 0,
+            "mac": "020000000001",
+            "cid": "020000000001",
+            "dat": [
+              24,
+              0,
+              1,
+              24
+            ],
+            "cols": [
+              "SetTem",
+              "Pow",
+              "Mod",
+              "SetTem"
+            ],
+            "r": 200
+          },
+          "aes_keys_ascii": [
+            "0123456789abcdef",
+            "0123456789abcdef"
+          ]
+        },
+        {
+          "request_outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 7,
+            "cid": "app",
+            "tcid": "020000000001",
+            "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWIWDaaL37wbHy2CeLjoLVEqf1xo9pydqhffGSutImqO3loaF+geUuLvgjsD5GkUHm7nLsMrgvPstF8xGlodqioo"
+          },
+          "request_inner": {
+            "t": "cmd",
+            "mac": "020000000001",
+            "p": [
+              1,
+              1,
+              24,
+              3
+            ],
+            "opt": [
+              "Pow",
+              "Mod",
+              "SetTem",
+              "WdSpd"
+            ]
+          },
+          "error": "0x9b03652c",
+          "pc": "0x9b03652c"
+        },
+        {
+          "request_outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 7,
+            "cid": "app",
+            "tcid": "020000000001",
+            "pack": "eSn7Wn1ITLUrYQYF4JLC164jEpLZOJ8cS+5hJTOQly4Fl/reSWoPby0+XAebUGGg+mMlgP46aCDwDtaKAfmNkQ=="
+          },
+          "request_inner": {
+            "t": "status",
+            "mac": "020000000001",
+            "cols": [
+              "SetTem",
+              "Pow"
+            ]
+          },
+          "return": 0,
+          "reply_outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 7,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "NBr2kS0H/E6sEb31+j2E2WzV0tLvBZt3QZekhdr50dlAQmofy303puYDxZvoM5PfIGVvfJF554Y4YHpRKNyjU6xz/4/16gi8I+oFx1kBmYVzJnzlCzxTL83047YuVH3zRlFuGTD2u0PKu04XuHzyRg=="
+          },
+          "reply_inner": {
+            "t": "dat",
+            "uid": 0,
+            "mac": "020000000001",
+            "cid": "020000000001",
+            "dat": [
+              24,
+              0
+            ],
+            "cols": [
+              "SetTem",
+              "Pow"
+            ],
+            "r": 200
+          },
+          "aes_keys_ascii": [
+            "a3K8Bx%2r8Y7#xDh",
+            "a3K8Bx%2r8Y7#xDh"
+          ]
+        }
+      ]
+    },
+    "metadata_getters": [
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "hid"
+          ]
+        },
+        "return": 128,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[\"362001065634+U-WB04BRT13V1.50.bin\"],\"cols\":[\"hid\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "mid"
+          ]
+        },
+        "return": 95,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[\"\"],\"cols\":[\"mid\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "name"
+          ]
+        },
+        "return": 96,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[\"\"],\"cols\":[\"name\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "lock"
+          ]
+        },
+        "return": 95,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[0],\"cols\":[\"lock\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "bc"
+          ]
+        },
+        "return": 94,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[\"\"],\"cols\":[\"bc\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "ver"
+          ]
+        },
+        "return": 95,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[\"\"],\"cols\":[\"ver\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "vender"
+          ]
+        },
+        "return": 98,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[\"\"],\"cols\":[\"vender\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "model"
+          ]
+        },
+        "return": 96,
+        "reply": "{\"t\":\"dat\",\"uid\":0,\"mac\":\"020000000001\",\"cid\":\"020000000001\",\"dat\":[0],\"cols\":[\"model\"],\"r\":200}",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "request": {
+          "t": "status",
+          "mac": "020000000001",
+          "cols": [
+            "mqttVer"
+          ]
+        },
+        "error": "Invalid memory read (UC_ERR_READ_UNMAPPED)",
+        "pc": "0x9b00435c",
+        "registers": [
+          "0x200002e8",
+          "0x0",
+          "0x200002e8",
+          "0x157"
+        ],
+        "lr": "0x9b02ffcd"
+      }
+    ],
+    "simulated_control_namespace": {
+      "Pow": 33,
+      "Mod": 34,
+      "SetTem": 35,
+      "WdSpd": 36,
+      "TemUn": 41,
+      "TemRec": 42,
+      "Air": 44,
+      "Blo": 45,
+      "Health": 46,
+      "SwhSlp": 53,
+      "SlpMod": 54,
+      "Lig": 43,
+      "SwingLfRig": 40,
+      "SwUpDn": 39,
+      "Quiet": 38,
+      "Tur": 37,
+      "StHt": 50,
+      "SvSt": 47,
+      "Buzzer_ON_OFF": 330
+    },
+    "property_cache_width": "Unsigned16-bit, native status ldrh from two-byte slots. Synthetic InTem uses floor(C) clipped0..65535; not native physical calibration.",
+    "packet_limit": "Native builders use0x5b4 (1460) bytes including terminator. Encoded replies at or above1460 are rejected safely.",
+    "limitation": "Historical complete packed cmd with plain JSON reached native absent-cols whitespace lookup beyond the instruction cap; failure remains recorded above. Resolved by exact one-NUL input contract: commercial-nul-input_research.json independently executes full encrypted command, observes changed cache and same-RAM next status. Codec accepts one optional terminal NUL before PKCS7; safe normal JSON parsing intentionally does not reproduce native padding-search behavior. Replies remain normal PKCS7, not NUL-terminated. Complete physical/mainboard conformance is still not claimed."
+  },
+  "initial_state": {},
+  "requests": [],
+  "expected_replies": [],
+  "expected_state": {}
+}

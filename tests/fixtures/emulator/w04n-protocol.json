@@ -1,0 +1,443 @@
+{
+  "profile": "sim-w04n-v17",
+  "mid": "10001",
+  "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+  "evidence": {
+    "protocol": "Actual ARM Thumb LAN0x802fd0c,bind0x802ea38,status0x8031350,command0x803156c,outer0x802fbc0,crypto0x803cf10; ROM AES init/encrypt/decrypt0x2e8d/2ec5/2ef5 hooked to AES primitive, actual PKCS7 wrapper executed; JSON/string/RTOS/hardware platform-version API boundaries hooked. Platform version44017 independently executed getter0x8025450; selected cached values injected explicitly. Not full boot or hardware.",
+    "appliance": "USER-APPROVED SYNTHETIC MODEL. Command accepted state and sensor26 are chosen model values, not hardware calibration/feedback claims. Native status API supplied those modeled cached values before each status. Unknown/unmodeled read omission and stricter invalid command rejection are model restrictions.",
+    "expanded_sha256": "9d2ce9192017933bcdf6b61995b225cae896a7e39c5959ea0c8bd91d6003693b",
+    "ram_segment_sha256": "c02d8a0c5b246439178201d90feff4c4cbb1c7a5f7ff433795cb28ca1a7decda"
+  },
+  "device": {"room_c": 26.5, "ambient_c": 26.5},
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "TemSen",
+          "Pow",
+          "unknown",
+          "name",
+          "mid",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          1,
+          22,
+          5
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd",
+          "TemSen",
+          "name"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "SetTem",
+          "SetTem"
+        ],
+        "p": [
+          23,
+          24
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "SetTem",
+          "TemUn",
+          "TemSen"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "name",
+          "host",
+          "lock",
+          "AutoUpdate",
+          "hid",
+          "ver",
+          "mid",
+          "vender",
+          "bc",
+          "MafIdf",
+          "DevID",
+          "MidType"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "00000",
+          "brand": "",
+          "catalog": "",
+          "mac": "020000000001",
+          "mid": "10001",
+          "model": "",
+          "name": "Emulator Office",
+          "lock": 0,
+          "series": "",
+          "vender": "",
+          "ver": "V3.0.0",
+          "hid": "362001064973+U-W04NV17.bin"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 7,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            26,
+            0,
+            "Emulator Office",
+            "10001",
+            0
+          ],
+          "cols": [
+            "TemSen",
+            "Pow",
+            "name",
+            "mid",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            1,
+            1,
+            22,
+            5
+          ],
+          "p": [
+            1,
+            1,
+            22,
+            5
+          ],
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 7,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            1,
+            1,
+            22,
+            5,
+            26,
+            "Emulator Office"
+          ],
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd",
+            "TemSen",
+            "name"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            24,
+            24
+          ],
+          "p": [
+            23,
+            24
+          ],
+          "opt": [
+            "SetTem",
+            "SetTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 7,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            24,
+            0,
+            26
+          ],
+          "cols": [
+            "SetTem",
+            "TemUn",
+            "TemSen"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 7,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "Emulator Office",
+            "",
+            0,
+            0,
+            "362001064973+U-W04NV17.bin",
+            "V3.0.0",
+            "10001",
+            "",
+            "3030303030",
+            0,
+            "",
+            ""
+          ],
+          "cols": [
+            "name",
+            "host",
+            "lock",
+            "AutoUpdate",
+            "hid",
+            "ver",
+            "mid",
+            "vender",
+            "bc",
+            "MafIdf",
+            "DevID",
+            "MidType"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Mod": 1,
+    "SetTem": 24,
+    "WdSpd": 5,
+    "TemUn": 0,
+    "TemRec": 0,
+    "Air": 0,
+    "Blo": 0,
+    "Health": 0,
+    "SwhSlp": 0,
+    "SlpMod": 0,
+    "Lig": 1,
+    "SwingLfRig": 0,
+    "SwUpDn": 0,
+    "Quiet": 0,
+    "Tur": 0,
+    "StHt": 0,
+    "SvSt": 0,
+    "Buzzer_ON_OFF": 0,
+    "TemSen": 26
+  }
+}

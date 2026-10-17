@@ -20,6 +20,10 @@ _If you have tested and know of others systems that work, please fork and submit
 The easiest way to grab **greeclimate** is through PyPI
 `pip3 install greeclimate`
 
+For PC-side simulated devices, run `python -m gree_emulator --list-profiles`.
+See the [emulator guide](docs/EMULATOR.md) for configuration, supported profiles,
+firmware evidence, and simulation/consumer-compatibility limits.
+
 ## Use Gree Climate
 
 ### Finding and binding to devices

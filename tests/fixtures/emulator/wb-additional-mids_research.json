@@ -1,0 +1,1884 @@
+{
+  "source_sha256": "0d5ee6fda1678084e1fa29e6267941afae304090b5b97f7b4264f9cee7fd461b",
+  "method": "Exact WB04AV1.49 native identity producer, AC acquisition and complete encrypted dispatcher. Same declared libc/MAC/UART/UDP/AES hardware boundaries as wb-native_research.json; no emulator/client imports. Extends actual AC heat branches10010/11011 from wb-branches_research.json, not guessed numeric ranges. Synthetic UART/cache inputs and chosen metadata; no physical mainboard calibration claim.",
+  "samples": [
+    {
+      "mid": "10010",
+      "identity_frame_hex": "00000000100001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "10010",
+      "request": {
+        "t": "scan"
+      },
+      "request_inner": {
+        "t": "scan"
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 0,
+            "cid": "",
+            "tcid": "",
+            "pack": "LP24Ek0OaYogxs3iQLjL4MpqLc7bRfNhysEFQaTzJYQRkSe/PjIDh43oEmUUfFbnOh3L/lJ9jIhRCc9zQzLBxP2hPMeGpFclB7cgG701B1v1JhQNbEkkV/pGa/d0UkbP0UEK07dlwajJQ0KNvjezgREkWvX0WEuKdEUZbevpJ3Xe9+habImIrxkGK72igdvyQbkEcadppXzypnbf65wiHAa1TtI6zs8KjVeijoJVeZaDg8kvqCZB2sASwVcvaoJjohQTUWictO5YeC5a/j9tjZjQbWOd7JZ5LzieKVpyfYnBnLZ4xQrIMYOFYbBYF15D"
+          },
+          "inner": {
+            "t": "dev",
+            "cid": "",
+            "bc": "00000",
+            "brand": "gree",
+            "catalog": "gree",
+            "mac": "020000000001",
+            "mid": "10010",
+            "model": "gree",
+            "name": "WB Simulator",
+            "lock": 0,
+            "series": "gree",
+            "vender": "2",
+            "ver": "V3.0.0",
+            "hid": "362001062295+U-WB04AV1.49.bin"
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "7b2274223a22646576222c2263696422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "3a22222c226263223a22303030303022"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "2c226272616e64223a2267726565222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "22636174616c6f67223a226772656522"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "2c226d6163223a223032303030303030"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "30303031222c226d6964223a22313030"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "3130222c226d6f64656c223a22677265"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "65222c226e616d65223a225742205369"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6d756c61746f72222c226c6f636b223a"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "302c22736572696573223a2267726565"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "222c2276656e646572223a2232222c22"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "766572223a2256332e302e30222c2268"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6964223a223336323030313036323239"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "352b552d574230344156312e34392e62"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "696e227d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "10010",
+      "identity_frame_hex": "00000000100001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "10010",
+      "request": {
+        "t": "pack",
+        "i": 1,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO6S+1f7335CM4Uafp2hJkTH"
+      },
+      "request_inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "FtZAY6UHKBwtaI55He0Incdr0tWDjLhcQnaLirlU16FeFNWiyLgwh14drLXjWdKcm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ="
+          },
+          "inner": {
+            "r": 200,
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef"
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "2dbc97948aff4f4fea5a18123522b312"
+        },
+        {
+          "direction": "decrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "71f54078b577168058719ea1ae7834ee"
+        },
+        {
+          "direction": "decrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "92fb57fbdf7e4233851a7e9da12644c7"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "7b2272223a3230302c2274223a226269"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6e646f6b222c226d6163223a22303230"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "303030303030303031222c226b657922"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "3a223031323334353637383961626364"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6566227d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "10010",
+      "identity_frame_hex": "00000000100001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "10010",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMVnWBliEuy0Av1saLGxJezIQEKxdxDoS8iqhv6zlAkVWpBTcTKaDgxHYMNv/trfoRsBOaILOu463QCHFGIOSTfE"
+      },
+      "request_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "SetTem",
+          "Pow",
+          "TemSen",
+          "Mod",
+          "Pow"
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "EHXgFVOJmDQvvPvXoJ8oYWkmGHRb4n+ilG1DnaXMgwNP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHg3csyStQOwUlwkzJAOkmlzEF0YjuNADk1AS9Vlsi1jx2N72/oUiTuUFB1aJK4v5GoThyAiNo12vhOovYoOOE+9pwS2oeAKRqANSXNo6Twk8T"
+          },
+          "inner": {
+            "t": "dat",
+            "uid": 0,
+            "mac": "020000000001",
+            "cid": "020000000001",
+            "dat": [
+              24,
+              1,
+              65,
+              1,
+              1
+            ],
+            "cols": [
+              "SetTem",
+              "Pow",
+              "TemSen",
+              "Mod",
+              "Pow"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "169398052f0011e925984612b60096ba"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "1d7d3aa54c3472cbb80563db3dd9a8c5"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6758196212ecb402fd6c68b1b125ecc8"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "4042b17710e84bc8aa86feb39409155a"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "905371329a0e0c4760c36ffedadfa11b"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "0139a20b3aee3add008714620e4937c4"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a302c226d6163223a22303230303030"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "303030303031222c22636964223a2230"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3230303030303030303031222c226461"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "74223a5b32342c312c36352c312c315d"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c22636f6c73223a5b2253657454656d"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c22506f77222c2254656d53656e22"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c224d6f64222c22506f77225d2c2272"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "223a3230307d0a0a0a0a0a0a0a0a0a0a"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "10010",
+      "identity_frame_hex": "00000000100001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "10010",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWLR1UX19Yepzga6ySEPB0/2U+FaPcgVtCxeQ30HH5ibhxjBT45sS5WvdfJRQKzOXsC+tepP7ZMyXgsG8u4Z1w0IW4EaOMHoqeDiVZtyr+G+h39vWXdJXRnamK2ARq8aLONLg+QWFC9SbpGUotiANxOIF9L2nEHTEa9NxZvQqe4pQ0l1FmdIE+LaQcLzOQkFbtBgj+2dz3bcpKv4FU1jwTE35Fi/0PFFMQ2j0koMvPHZQrE5EotIagnZ9bEKbIpkAYRVWEIZJ7RvimRdEE6qYX7bCtupe+J4G2xpVn6S2fdKqg=="
+      },
+      "request_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd",
+          "TemUn",
+          "TemRec",
+          "Air",
+          "Blo",
+          "Health",
+          "SwhSlp",
+          "SlpMod",
+          "Lig",
+          "SwingLfRig",
+          "SwUpDn",
+          "Quiet",
+          "Tur",
+          "StHt",
+          "SvSt",
+          "Buzzer_ON_OFF"
+        ],
+        "p": [
+          1,
+          4,
+          24,
+          3,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          3,
+          1,
+          6,
+          11,
+          3,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWJsaIToTaOZMZ2EPMXXsoh9Tp2AwNv/mbkZPUn+cDnLgYmIkyE1ZyQJ6rZOQ39Ki4DGg8Q8CuEwdHSo+DgTKz4d4Sf1Dr7nt6ecudylKStCZ9tYyGHZhLe8xAwTQ3iIo3YJEUVS0q4ra9qEsF8R8U/Z6K1tSNDe5eWm7xSec+bhhU00ENB2S/k0+azO7AyEzO0lNx0ynkPSAyELqhSDe2zr5q7THFdqT9oL/mCCTcvGYRzfxDiMGmpSNCkRNnbCa/M1xUYxbe7pfD6Z8rEDYPBTzQm9TSbKanGm/QFH66AG3g=="
+          },
+          "inner": {
+            "t": "res",
+            "mac": "020000000001",
+            "p": [
+              1,
+              4,
+              24,
+              3,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              3,
+              1,
+              6,
+              11,
+              3,
+              1,
+              1,
+              1,
+              1
+            ],
+            "opt": [
+              "Pow",
+              "Mod",
+              "SetTem",
+              "WdSpd",
+              "TemUn",
+              "TemRec",
+              "Air",
+              "Blo",
+              "Health",
+              "SwhSlp",
+              "SlpMod",
+              "Lig",
+              "SwingLfRig",
+              "SwUpDn",
+              "Quiet",
+              "Tur",
+              "StHt",
+              "SvSt",
+              "Buzzer_ON_OFF"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6a8bd73ce46daf29134763bdec1c3720"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "abb02424bc1b0a4c692bdd51a4eb8d62"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "d1d545f5f587a9ce06bac9210f074ff6"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "53e15a3dc815b42c5e437d071f989b87"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "18c14f8e6c4b95af75f25140acce5ec0"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "beb5ea4fed93325e0b06f2ee19d70d08"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5b811a38c1e8a9e0e2559b72afe1be87"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7f6f5977495d19da98ad8046af1a2ce3"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "4b83e416142f526e9194a2d880371388"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "17d2f69c41d311af4dc59bd0a9ee2943"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "497516674813e2da41c2f33909056ed0"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "608fed9dcf76dca4abf8154d63c13137"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "e458bfd0f145310da3d24a0cbcf1d942"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "b139128b486a09d9f5b10a6c8a640184"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5558421927b46f8a645d104eaa617edb"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "0adba97be2781b6c69567e92d9f74aaa"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22726573222c226d616322"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a22303230303030303030303031222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2270223a5b312c342c32342c332c312c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "312c312c312c312c312c332c312c362c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "31312c332c312c312c312c315d2c226f"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7074223a5b22506f77222c224d6f6422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c2253657454656d222c225764537064"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c2254656d556e222c2254656d5265"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "63222c22416972222c22426c6f222c22"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "4865616c7468222c22537768536c7022"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c22536c704d6f64222c224c6967222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "225377696e674c66526967222c225377"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5570446e222c225175696574222c2254"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7572222c2253744874222c2253765374"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c2242757a7a65725f4f4e5f4f4646"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "225d2c2272223a3230307d0505050505"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 4,
+        "SetTem": 24,
+        "WdSpd": 3,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "10010",
+      "identity_frame_hex": "00000000100001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "10010",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX7ZB0NpO5xgqgKPJhvuECLo9ezr8AJS2o2ln2OlHxEcfY4p7574And2TDallqS1aaVr2g0cyFS0b7HfZXnKM0BDVUBbcXo9iBxjPDRwnhchQ=="
+      },
+      "request_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "hid",
+          "mid",
+          "ver",
+          "vender",
+          "name",
+          "bc",
+          "mac",
+          "TemSen",
+          "Add0.5"
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "EHXgFVOJmDQvvPvXoJ8oYWkmGHRb4n+ilG1DnaXMgwNP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHgwhgnCXJgLJL5cmq4abQbWq/Teb3g+4HiClj/vreRNuGsmbWJHsWTmlQjxHNSNAp2gk6sGmbXah/7egmaC4sFpabZ1yyU8oCfjMx8SfOkQA5K5FOJb74RaDnetHbdcplrv6eS9jzLG6yRLi69rA8B5JmySPtDMKOWQlG8gwF1GkHg9xdcjByEvyKh0Cf5/EzdgUMC4RJ7jCqjptSsROUWjFmxCx/bQejQWYiWgP7KmHo"
+          },
+          "inner": {
+            "t": "dat",
+            "uid": 0,
+            "mac": "020000000001",
+            "cid": "020000000001",
+            "dat": [
+              "362001062295+U-WB04AV1.49.bin",
+              "10010",
+              "V3.0.0",
+              "2",
+              "WB Simulator",
+              "00000",
+              0,
+              65,
+              0
+            ],
+            "cols": [
+              "hid",
+              "mid",
+              "ver",
+              "vender",
+              "name",
+              "bc",
+              "mac",
+              "TemSen",
+              "Add0.5"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "169398052f0011e925984612b60096ba"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "1d7d3aa54c3472cbb80563db3dd9a8c5"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "fb641d0da4ee7182a80a3c986fb8408b"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "a3d7b3afc0094b6a36967d8e947c4471"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "f638a7be7be009ddd930da965a92d5a6"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "95af6834732152d1bec77d95e728cd01"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "0d55016dc5e8f620718cf0d1c2785c85"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a302c226d6163223a22303230303030"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "303030303031222c22636964223a2230"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3230303030303030303031222c226461"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "74223a5b223336323030313036323239"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "352b552d574230344156312e34392e62"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "696e222c223130303130222c2256332e"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "302e30222c2232222c2257422053696d"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "756c61746f72222c223030303030222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "302c36352c305d2c22636f6c73223a5b"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "22686964222c226d6964222c22766572"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c2276656e646572222c226e616d65"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c226263222c226d6163222c225465"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6d53656e222c22416464302e35225d2c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2272223a3230307d0808080808080808"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "10010",
+      "identity_frame_hex": "00000000100001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "10010",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWIXAzA527oFgJx9FfLL/1JmhDDFquc4hLqX53oaUuVakw=="
+      },
+      "request_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWKaNpkx50IAVLFFSOfu+t1IS7tcMQt1SeLpyPKkfxoWlHBLah4ApGoA1Jc2jpPCTxM="
+          },
+          "inner": {
+            "t": "res",
+            "mac": "020000000001",
+            "p": [
+              1,
+              0
+            ],
+            "opt": [
+              "Pow",
+              "Pow"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6a8bd73ce46daf29134763bdec1c3720"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "abb02424bc1b0a4c692bdd51a4eb8d62"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "17033039dbba05809c7d15f2cbff5266"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "8430c5aae73884ba97e77a1a52e55a93"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22726573222c226d616322"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a22303230303030303030303031222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2270223a5b312c305d2c226f7074223a"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5b22506f77222c22506f77225d2c2272"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "223a3230307d0a0a0a0a0a0a0a0a0a0a"
+        }
+      ],
+      "cache": {
+        "Pow": 0,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "11011",
+      "identity_frame_hex": "00000000111001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "11011",
+      "request": {
+        "t": "scan"
+      },
+      "request_inner": {
+        "t": "scan"
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 0,
+            "cid": "",
+            "tcid": "",
+            "pack": "LP24Ek0OaYogxs3iQLjL4MpqLc7bRfNhysEFQaTzJYQRkSe/PjIDh43oEmUUfFbnOh3L/lJ9jIhRCc9zQzLBxP2hPMeGpFclB7cgG701B1vfwOPCSzAgbJlVzxeEmzB86YoppvlPDVDq6HVyp0yRcREkWvX0WEuKdEUZbevpJ3Xe9+habImIrxkGK72igdvyQbkEcadppXzypnbf65wiHAa1TtI6zs8KjVeijoJVeZaDg8kvqCZB2sASwVcvaoJjohQTUWictO5YeC5a/j9tjZjQbWOd7JZ5LzieKVpyfYnBnLZ4xQrIMYOFYbBYF15D"
+          },
+          "inner": {
+            "t": "dev",
+            "cid": "",
+            "bc": "00000",
+            "brand": "gree",
+            "catalog": "gree",
+            "mac": "020000000001",
+            "mid": "11011",
+            "model": "gree",
+            "name": "WB Simulator",
+            "lock": 0,
+            "series": "gree",
+            "vender": "2",
+            "ver": "V3.0.0",
+            "hid": "362001062295+U-WB04AV1.49.bin"
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "7b2274223a22646576222c2263696422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "3a22222c226263223a22303030303022"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "2c226272616e64223a2267726565222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "22636174616c6f67223a226772656522"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "2c226d6163223a223032303030303030"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "30303031222c226d6964223a22313130"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "3131222c226d6f64656c223a22677265"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "65222c226e616d65223a225742205369"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6d756c61746f72222c226c6f636b223a"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "302c22736572696573223a2267726565"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "222c2276656e646572223a2232222c22"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "766572223a2256332e302e30222c2268"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6964223a223336323030313036323239"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "352b552d574230344156312e34392e62"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "696e227d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "11011",
+      "identity_frame_hex": "00000000111001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "11011",
+      "request": {
+        "t": "pack",
+        "i": 1,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO6S+1f7335CM4Uafp2hJkTH"
+      },
+      "request_inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 1,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "FtZAY6UHKBwtaI55He0Incdr0tWDjLhcQnaLirlU16FeFNWiyLgwh14drLXjWdKcm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ="
+          },
+          "inner": {
+            "r": 200,
+            "t": "bindok",
+            "mac": "020000000001",
+            "key": "0123456789abcdef"
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "2dbc97948aff4f4fea5a18123522b312"
+        },
+        {
+          "direction": "decrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "71f54078b577168058719ea1ae7834ee"
+        },
+        {
+          "direction": "decrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "92fb57fbdf7e4233851a7e9da12644c7"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "7b2272223a3230302c2274223a226269"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6e646f6b222c226d6163223a22303230"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "303030303030303031222c226b657922"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "3a223031323334353637383961626364"
+        },
+        {
+          "direction": "encrypt",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "block_hex": "6566227d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "11011",
+      "identity_frame_hex": "00000000111001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "11011",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMVnWBliEuy0Av1saLGxJezIQEKxdxDoS8iqhv6zlAkVWpBTcTKaDgxHYMNv/trfoRsBOaILOu463QCHFGIOSTfE"
+      },
+      "request_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "SetTem",
+          "Pow",
+          "TemSen",
+          "Mod",
+          "Pow"
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "EHXgFVOJmDQvvPvXoJ8oYWkmGHRb4n+ilG1DnaXMgwNP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHg3csyStQOwUlwkzJAOkmlzEF0YjuNADk1AS9Vlsi1jx2N72/oUiTuUFB1aJK4v5GoThyAiNo12vhOovYoOOE+9pwS2oeAKRqANSXNo6Twk8T"
+          },
+          "inner": {
+            "t": "dat",
+            "uid": 0,
+            "mac": "020000000001",
+            "cid": "020000000001",
+            "dat": [
+              24,
+              1,
+              65,
+              1,
+              1
+            ],
+            "cols": [
+              "SetTem",
+              "Pow",
+              "TemSen",
+              "Mod",
+              "Pow"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "169398052f0011e925984612b60096ba"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "1d7d3aa54c3472cbb80563db3dd9a8c5"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6758196212ecb402fd6c68b1b125ecc8"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "4042b17710e84bc8aa86feb39409155a"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "905371329a0e0c4760c36ffedadfa11b"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "0139a20b3aee3add008714620e4937c4"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a302c226d6163223a22303230303030"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "303030303031222c22636964223a2230"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3230303030303030303031222c226461"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "74223a5b32342c312c36352c312c315d"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c22636f6c73223a5b2253657454656d"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c22506f77222c2254656d53656e22"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c224d6f64222c22506f77225d2c2272"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "223a3230307d0a0a0a0a0a0a0a0a0a0a"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "11011",
+      "identity_frame_hex": "00000000111001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "11011",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWLR1UX19Yepzga6ySEPB0/2U+FaPcgVtCxeQ30HH5ibhxjBT45sS5WvdfJRQKzOXsC+tepP7ZMyXgsG8u4Z1w0IW4EaOMHoqeDiVZtyr+G+h39vWXdJXRnamK2ARq8aLONLg+QWFC9SbpGUotiANxOIF9L2nEHTEa9NxZvQqe4pQ0l1FmdIE+LaQcLzOQkFbtBgj+2dz3bcpKv4FU1jwTE35Fi/0PFFMQ2j0koMvPHZQrE5EotIagnZ9bEKbIpkAYRVWEIZJ7RvimRdEE6qYX7bCtupe+J4G2xpVn6S2fdKqg=="
+      },
+      "request_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd",
+          "TemUn",
+          "TemRec",
+          "Air",
+          "Blo",
+          "Health",
+          "SwhSlp",
+          "SlpMod",
+          "Lig",
+          "SwingLfRig",
+          "SwUpDn",
+          "Quiet",
+          "Tur",
+          "StHt",
+          "SvSt",
+          "Buzzer_ON_OFF"
+        ],
+        "p": [
+          1,
+          4,
+          24,
+          3,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          3,
+          1,
+          6,
+          11,
+          3,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWJsaIToTaOZMZ2EPMXXsoh9Tp2AwNv/mbkZPUn+cDnLgYmIkyE1ZyQJ6rZOQ39Ki4DGg8Q8CuEwdHSo+DgTKz4d4Sf1Dr7nt6ecudylKStCZ9tYyGHZhLe8xAwTQ3iIo3YJEUVS0q4ra9qEsF8R8U/Z6K1tSNDe5eWm7xSec+bhhU00ENB2S/k0+azO7AyEzO0lNx0ynkPSAyELqhSDe2zr5q7THFdqT9oL/mCCTcvGYRzfxDiMGmpSNCkRNnbCa/M1xUYxbe7pfD6Z8rEDYPBTzQm9TSbKanGm/QFH66AG3g=="
+          },
+          "inner": {
+            "t": "res",
+            "mac": "020000000001",
+            "p": [
+              1,
+              4,
+              24,
+              3,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              3,
+              1,
+              6,
+              11,
+              3,
+              1,
+              1,
+              1,
+              1
+            ],
+            "opt": [
+              "Pow",
+              "Mod",
+              "SetTem",
+              "WdSpd",
+              "TemUn",
+              "TemRec",
+              "Air",
+              "Blo",
+              "Health",
+              "SwhSlp",
+              "SlpMod",
+              "Lig",
+              "SwingLfRig",
+              "SwUpDn",
+              "Quiet",
+              "Tur",
+              "StHt",
+              "SvSt",
+              "Buzzer_ON_OFF"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6a8bd73ce46daf29134763bdec1c3720"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "abb02424bc1b0a4c692bdd51a4eb8d62"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "d1d545f5f587a9ce06bac9210f074ff6"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "53e15a3dc815b42c5e437d071f989b87"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "18c14f8e6c4b95af75f25140acce5ec0"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "beb5ea4fed93325e0b06f2ee19d70d08"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5b811a38c1e8a9e0e2559b72afe1be87"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7f6f5977495d19da98ad8046af1a2ce3"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "4b83e416142f526e9194a2d880371388"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "17d2f69c41d311af4dc59bd0a9ee2943"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "497516674813e2da41c2f33909056ed0"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "608fed9dcf76dca4abf8154d63c13137"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "e458bfd0f145310da3d24a0cbcf1d942"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "b139128b486a09d9f5b10a6c8a640184"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5558421927b46f8a645d104eaa617edb"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "0adba97be2781b6c69567e92d9f74aaa"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22726573222c226d616322"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a22303230303030303030303031222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2270223a5b312c342c32342c332c312c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "312c312c312c312c312c332c312c362c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "31312c332c312c312c312c315d2c226f"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7074223a5b22506f77222c224d6f6422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c2253657454656d222c225764537064"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c2254656d556e222c2254656d5265"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "63222c22416972222c22426c6f222c22"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "4865616c7468222c22537768536c7022"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2c22536c704d6f64222c224c6967222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "225377696e674c66526967222c225377"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5570446e222c225175696574222c2254"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7572222c2253744874222c2253765374"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c2242757a7a65725f4f4e5f4f4646"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "225d2c2272223a3230307d0505050505"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 4,
+        "SetTem": 24,
+        "WdSpd": 3,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "11011",
+      "identity_frame_hex": "00000000111001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "11011",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX7ZB0NpO5xgqgKPJhvuECLo9ezr8AJS2o2ln2OlHxEcfY4p7574And2TDallqS1aaVr2g0cyFS0b7HfZXnKM0BDVUBbcXo9iBxjPDRwnhchQ=="
+      },
+      "request_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "hid",
+          "mid",
+          "ver",
+          "vender",
+          "name",
+          "bc",
+          "mac",
+          "TemSen",
+          "Add0.5"
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "EHXgFVOJmDQvvPvXoJ8oYWkmGHRb4n+ilG1DnaXMgwNP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHgwhgnCXJgLJL5cmq4abQbWq/Teb3g+4HiClj/vreRNuGzSIUqKtBkaPRs6jF321zCQk6sGmbXah/7egmaC4sFpabZ1yyU8oCfjMx8SfOkQA5K5FOJb74RaDnetHbdcplrv6eS9jzLG6yRLi69rA8B5JmySPtDMKOWQlG8gwF1GkHg9xdcjByEvyKh0Cf5/EzdgUMC4RJ7jCqjptSsROUWjFmxCx/bQejQWYiWgP7KmHo"
+          },
+          "inner": {
+            "t": "dat",
+            "uid": 0,
+            "mac": "020000000001",
+            "cid": "020000000001",
+            "dat": [
+              "362001062295+U-WB04AV1.49.bin",
+              "11011",
+              "V3.0.0",
+              "2",
+              "WB Simulator",
+              "00000",
+              0,
+              65,
+              0
+            ],
+            "cols": [
+              "hid",
+              "mid",
+              "ver",
+              "vender",
+              "name",
+              "bc",
+              "mac",
+              "TemSen",
+              "Add0.5"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "169398052f0011e925984612b60096ba"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "1d7d3aa54c3472cbb80563db3dd9a8c5"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "fb641d0da4ee7182a80a3c986fb8408b"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "a3d7b3afc0094b6a36967d8e947c4471"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "f638a7be7be009ddd930da965a92d5a6"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "95af6834732152d1bec77d95e728cd01"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "0d55016dc5e8f620718cf0d1c2785c85"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a302c226d6163223a22303230303030"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "303030303031222c22636964223a2230"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3230303030303030303031222c226461"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "74223a5b223336323030313036323239"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "352b552d574230344156312e34392e62"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "696e222c223131303131222c2256332e"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "302e30222c2232222c2257422053696d"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "756c61746f72222c223030303030222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "302c36352c305d2c22636f6c73223a5b"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "22686964222c226d6964222c22766572"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c2276656e646572222c226e616d65"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "222c226263222c226d6163222c225465"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6d53656e222c22416464302e35225d2c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2272223a3230307d0808080808080808"
+        }
+      ],
+      "cache": {
+        "Pow": 1,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    },
+    {
+      "mid": "11011",
+      "identity_frame_hex": "00000000111001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "status_frame_hex": "00000000000000009080000000000000000000000000000000000000000000000000000000000000000000000000410000000000000000000000000000000000",
+      "emitted_mid": "11011",
+      "request": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWIXAzA527oFgJx9FfLL/1JmhDDFquc4hLqX53oaUuVakw=="
+      },
+      "request_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      },
+      "return": 0,
+      "replies": [
+        {
+          "outer": {
+            "t": "pack",
+            "i": 0,
+            "uid": 42,
+            "cid": "020000000001",
+            "tcid": "app",
+            "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWKaNpkx50IAVLFFSOfu+t1IS7tcMQt1SeLpyPKkfxoWlHBLah4ApGoA1Jc2jpPCTxM="
+          },
+          "inner": {
+            "t": "res",
+            "mac": "020000000001",
+            "p": [
+              1,
+              0
+            ],
+            "opt": [
+              "Pow",
+              "Pow"
+            ],
+            "r": 200
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "6a8bd73ce46daf29134763bdec1c3720"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "abb02424bc1b0a4c692bdd51a4eb8d62"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "17033039dbba05809c7d15f2cbff5266"
+        },
+        {
+          "direction": "decrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "8430c5aae73884ba97e77a1a52e55a93"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "7b2274223a22726573222c226d616322"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "3a22303230303030303030303031222c"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "2270223a5b312c305d2c226f7074223a"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "5b22506f77222c22506f77225d2c2272"
+        },
+        {
+          "direction": "encrypt",
+          "key": "0123456789abcdef",
+          "block_hex": "223a3230307d0a0a0a0a0a0a0a0a0a0a"
+        }
+      ],
+      "cache": {
+        "Pow": 0,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 0,
+        "TemSen": 65
+      }
+    }
+  ]
+}

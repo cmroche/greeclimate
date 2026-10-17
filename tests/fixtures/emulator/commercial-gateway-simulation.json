@@ -1,0 +1,911 @@
+{
+  "profile": "sim-wb04brt13-v1.50-60",
+  "mid": "60",
+  "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+  "evidence": {
+    "native_input_terminator": "Shared exact-source commercial parser/wrapper: commercial-nul-input_research.json proves full encrypted native command and next status with one JSON NUL before PKCS7. Codec accepts this single optional terminator and safe normal JSON. Embedded/double NUL remains invalid; replies retain ordinary PKCS7.",
+    "native_sources": [
+      "commercial-nul-input_research.json",
+      "commercial_research.json",
+      "commercial-wire_research.json",
+      "commercial-gateway_research.json"
+    ],
+    "protocol": "Native host60/subCnt1, exact one ACUnit child6400 with MAC parentMAC+00, subListc/i/list/r keys and fixed ACUnit/gree/lock0. Full source-specific scan and shared parser/reply constructors; not W06 fallback. Parent and child address the same native cache. mac takes precedence over sub; replies echo that selected mac with parentCID for dat. Children have no independent LAN endpoint/key/bind.",
+    "simulation_contract": "USER-APPROVED synthetic AC model runs only once on child6400. Parent thermal_targetNone and state{}; child shared bounded namespace identical source-table intersection to standalone commercial models. InTem floor(C) clipped0..65535; no TemBody/TemSen temperature substitution. Units flags stored only. Root name is immutable global metadata; child enumeration name is native constant ACUnit.",
+    "independence": "Expected protocol fields copied from independently replayed native builders; expected controls/thermal behavior literal explicit simulation specification, not generated from production/client code.",
+    "safety": "Whole-batch strict validation precedes advance/mutate. Unknown/unmodeled fields omitted, read-only/metadata writes dropped. Packet capacity1460 bytes; oversized reply omitted. Explicit derived child MAC validated by handler.validate_topology after CLI linking. BoardtypeFilter01 variant is not admitted as AC."
+  },
+  "device": {
+    "id": "office-host",
+    "mac": "020000000001",
+    "name": "Emulator Office",
+    "key": "0123456789abcdef"
+  },
+  "children": [
+    {
+      "profile": "sim-wb04brt13-v1.50-6400",
+      "mid": "6400",
+      "device": {
+        "id": "office-ac",
+        "mac": "02000000000100",
+        "name": "ACUnit",
+        "key": "0123456789abcdef",
+        "room_c": 26.5,
+        "ambient_c": 26.5
+      },
+      "initial_state": {
+        "Pow": 0,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 3,
+        "Lig": 1
+      }
+    }
+  ],
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 1
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000100",
+        "cols": [
+          "InTem",
+          "TemBody",
+          "TemSen",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "mid",
+          "name",
+          "Pow",
+          "InTem"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          1,
+          21,
+          3
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000100",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "InTem"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "mac": "02000000000100",
+        "opt": [
+          "TemUn",
+          "TemRec"
+        ],
+        "p": [
+          1,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "InTem",
+          "TemUn",
+          "TemRec"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow",
+          "InTem"
+        ],
+        "p": [
+          1,
+          27
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "020000000001ff",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001ff",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "02000000000100",
+        "opt": [
+          "name"
+        ],
+        "p": [
+          "Changed"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "nul_terminated": true,
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow"
+        ],
+        "val": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "02000000000100"
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name",
+          "name"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": true
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000000100"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "02000000000100"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000000100"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000100",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000100",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd",
+          "InTem"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "00000",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "60",
+          "subCnt": 1,
+          "model": "Commercial Simulator",
+          "name": "Emulator Office",
+          "lock": 0,
+          "series": "",
+          "vender": "",
+          "ver": "V1.50",
+          "mqttVer": ""
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "r": 200,
+          "c": 1,
+          "i": 0,
+          "list": [
+            {
+              "mac": "02000000000100",
+              "name": "ACUnit",
+              "mid": "6400",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "r": 200,
+          "c": 1,
+          "i": 1,
+          "list": []
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "r": 200,
+          "c": 1,
+          "i": 0,
+          "list": [
+            {
+              "mac": "02000000000100",
+              "name": "ACUnit",
+              "mid": "6400",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "02000000000100",
+          "cid": "020000000001",
+          "dat": [
+            26,
+            0
+          ],
+          "cols": [
+            "InTem",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "6400",
+            "Emulator Office",
+            0,
+            26
+          ],
+          "cols": [
+            "mid",
+            "name",
+            "Pow",
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            1,
+            21,
+            3
+          ],
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "02000000000100",
+          "cid": "020000000001",
+          "dat": [
+            1,
+            21,
+            26
+          ],
+          "cols": [
+            "Pow",
+            "SetTem",
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "02000000000100",
+          "p": [
+            0
+          ],
+          "opt": [
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "02000000000100",
+          "p": [
+            1,
+            1
+          ],
+          "opt": [
+            "TemUn",
+            "TemRec"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            0,
+            21,
+            26,
+            1,
+            1
+          ],
+          "cols": [
+            "Pow",
+            "SetTem",
+            "InTem",
+            "TemUn",
+            "TemRec"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "02000000000100",
+          "cid": "020000000001",
+          "dat": [
+            0,
+            1,
+            21,
+            3,
+            26
+          ],
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd",
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {},
+  "expected_children": {
+    "02000000000100": {
+      "Pow": 0,
+      "Mod": 1,
+      "SetTem": 21,
+      "WdSpd": 3,
+      "InTem": 26,
+      "TemUn": 1,
+      "TemRec": 1,
+      "Lig": 1,
+      "Air": 0,
+      "Blo": 0,
+      "Health": 0,
+      "SwhSlp": 0,
+      "SlpMod": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "StHt": 0,
+      "SvSt": 0,
+      "Buzzer_ON_OFF": 0
+    }
+  }
+}

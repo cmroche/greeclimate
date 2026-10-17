@@ -8,7 +8,7 @@ A matched profile requests its fields in the listed order, even fields outside `
 
 Status-backed getters return `None` for missing required values. Received zero stays valid zero/false, subject to temperature calibration. Target temperature needs both `SetTem` and `TemRec`; MID does not select temperature encoding. `buzzer` and `has_valid_state` are non-optional local state. A narrower poll can leave a feature unavailable until its field arrives or is explicitly set; omission does not prove the hardware lacks it.
 
-The emulator returns only implemented requested fields, in request order, with aligned `cols` and `dat`. It omits unknown fields rather than inventing zeros.
+The PC emulator preserves each family's status ordering, value alignment, and unsupported-field behavior; there is no universal unknown-field rule. See the [emulator profile/evidence manifest](EMULATOR.md) for omission, empty-string, safe-rejection, and explicitly simulated appliance policies.
 
 ## Historical polling catalog
 

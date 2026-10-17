@@ -1,0 +1,1505 @@
+{
+  "profile": "wb04brt13-v1.50",
+  "mid": "3019",
+  "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+  "registered": false,
+  "scope": "Independent native firmware-subfunction evidence, not runnable-profile conformance. Each LAN experiment starts afresh; raw cache ACKs are not a verified mainboard response. No emulator/client used to generate expectations.",
+  "evidence": {
+    "source_url": "http://test.grih.gree.com/wifiModule/image/22201/812228",
+    "hid": "362001065634+U-WB04BRT13V1.50.bin",
+    "original_and_mapped_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+    "segments": [
+      {
+        "file_offset": 544,
+        "address": "0x10000480",
+        "length": 26856,
+        "sha256": "00055aa8291cfe8c9f41ffce7dfd5cf1eec655ddfa6a8f9a523b593d001b3c2e"
+      },
+      {
+        "file_offset": 33088,
+        "address": "0x9b000140",
+        "length": 595200,
+        "sha256": "80988223e49c1cb98228f88075b8959a16090780ba037ef5365ad8ac6b6b4bf4"
+      },
+      {
+        "file_offset": 639296,
+        "address": "0x9b800140",
+        "length": 172856,
+        "sha256": "f7ec53fde48c22435305bb2652f797da367ed730a2758af88a518226b894e8ec"
+      }
+    ],
+    "method": "Actual ARM Thumb instructions executed under Unicorn2.1.4/Capstone5.0.9 on Python3.14.8. libc, MAC I/O and identified hardware-crypto API boundaries hooked; real native JSON parser/builders/setters/command-to-frame and status acquisition instructions ran. Hardware AES itself was not executed. No full boot or physical calibration.",
+    "addresses": {
+      "identity": "0x9b80f457",
+      "router": "0x9b02b2b8",
+      "scan": "0x9b02dee8",
+      "bind": "0x9b02cb54",
+      "request_parser": "0x9b02f8c0",
+      "command": "0x9b02fc8c",
+      "status": "0x9b02fe78",
+      "cached_command_apply": "0x9b02c528",
+      "binary_command": "0x9b02cc08",
+      "mainboard_encoder": "0x9b032eb0",
+      "mainboard_acquisition_entry": "0x9b02a6fc",
+      "mainboard_acquisition_body": "0x9b02a700",
+      "unit_table": "0x9b812f98",
+      "status_cache": "0x10015fe6"
+    },
+    "routing": [
+      {
+        "input_mid": "3017",
+        "emitted_mid_integer": 12313,
+        "namespace": 4
+      },
+      {
+        "input_mid": "3018",
+        "emitted_mid_integer": 12313,
+        "namespace": 4
+      },
+      {
+        "input_mid": "3019",
+        "emitted_mid_integer": 12313,
+        "namespace": 4
+      },
+      {
+        "input_mid": "3027",
+        "emitted_mid_integer": 12327,
+        "namespace": 0
+      },
+      {
+        "input_mid": "302b",
+        "emitted_mid_integer": 0,
+        "namespace": 0
+      },
+      {
+        "input_mid": "302c",
+        "emitted_mid_integer": 12313,
+        "namespace": 4
+      },
+      {
+        "input_mid": "4005",
+        "emitted_mid_integer": 16389,
+        "namespace": 0
+      },
+      {
+        "input_mid": "6000",
+        "emitted_mid_integer": 0,
+        "namespace": 0
+      },
+      {
+        "input_mid": "6400",
+        "emitted_mid_integer": 25600,
+        "namespace": 0
+      },
+      {
+        "input_mid": "3062",
+        "emitted_mid_integer": 0,
+        "namespace": 0
+      },
+      {
+        "input_mid": "6200",
+        "emitted_mid_integer": 25088,
+        "namespace": 0
+      },
+      {
+        "input_mid": "6045",
+        "emitted_mid_integer": 24645,
+        "namespace": 0
+      },
+      {
+        "input_mid": "609d",
+        "emitted_mid_integer": 24733,
+        "namespace": 0
+      }
+    ],
+    "mainboard_vectors": [
+      {
+        "mid": "3019",
+        "input_cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetTemDec": 5,
+          "TemRec": 1
+        },
+        "output_frame": "7e7e3701000000010000000000000000000000000000000010301800000000000000000000000000000000000000000000000000000000000000000000000000",
+        "result_cache": {
+          "0x42": 1,
+          "0x44": 1,
+          "0x46": 24,
+          "0x48": 3,
+          "0xe4": 0,
+          "0xfc": 5,
+          "0xfe": 1
+        }
+      },
+      {
+        "mid": "3027",
+        "input_cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetTemDec": 5,
+          "TemRec": 1
+        },
+        "output_frame": "7e7e2301000001040000f50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "result_cache": {
+          "0x42": 1,
+          "0x44": 1,
+          "0x46": 24,
+          "0x48": 3,
+          "0xe4": 245,
+          "0xfc": 5,
+          "0xfe": 1
+        }
+      },
+      {
+        "mid": "4005",
+        "input_cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetTemDec": 5,
+          "TemRec": 1
+        },
+        "output_frame": "7e7e1c01000001040001f00000000000000000021100000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "result_cache": {
+          "0x42": 1,
+          "0x44": 1,
+          "0x46": 24,
+          "0x48": 3,
+          "0xe4": 0,
+          "0xfc": 5,
+          "0xfe": 1
+        }
+      },
+      {
+        "mid": "6400",
+        "input_cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetTemDec": 5,
+          "TemRec": 1
+        },
+        "output_frame": "7e7e2301000001040011f50000000000000000021100000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "result_cache": {
+          "0x42": 1,
+          "0x44": 1,
+          "0x46": 24,
+          "0x48": 3,
+          "0xe4": 0,
+          "0xfc": 5,
+          "0xfe": 1
+        }
+      },
+      {
+        "mid": "3019",
+        "input_frame": "00000000000000000000f500000100000b0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "cache": {
+          "0x42": 0,
+          "0x44": 0,
+          "0x46": 0,
+          "0x48": 0,
+          "0x96": 16,
+          "0x98": 16,
+          "0x9a": 0,
+          "0xe4": 0,
+          "0xfc": 0,
+          "0xfe": 0,
+          "0x13a": 0,
+          "0x13e": 0
+        }
+      },
+      {
+        "mid": "3019",
+        "input_frame": "000000000000ffff0000f500000100000b01000000000000ffffffff000000000000000000000000000000000000000000000000000000000000000000000000",
+        "cache": {
+          "0x42": 1,
+          "0x44": 7,
+          "0x46": 31,
+          "0x48": 7,
+          "0x96": 16,
+          "0x98": 16,
+          "0x9a": 0,
+          "0xe4": 0,
+          "0xfc": 0,
+          "0xfe": 0,
+          "0x13a": 0,
+          "0x13e": 0
+        }
+      },
+      {
+        "mid": "3027",
+        "input_frame": "00000000000018180000f500000100000b0100000000000018181818000000000000000000000000000000000000000000000000000000000000000000000000",
+        "cache": {
+          "0x42": 0,
+          "0x44": 23,
+          "0x46": 24,
+          "0x48": 65535,
+          "0x96": 26,
+          "0x98": 27,
+          "0x9a": 0,
+          "0xe4": 245,
+          "0xfc": 5,
+          "0xfe": 1,
+          "0x13a": 256,
+          "0x13e": 267
+        }
+      },
+      {
+        "mid": "4005",
+        "input_frame": "00000000000007070000f500000100000b0100000000000007070707000000000000000000000000000000000000000000000000000000000000000000000000",
+        "cache": {
+          "0x42": 0,
+          "0x44": 1,
+          "0x46": 24,
+          "0x48": 1,
+          "0x96": 0,
+          "0x98": 0,
+          "0x9a": 0,
+          "0xe4": 0,
+          "0xfc": 0,
+          "0xfe": 0,
+          "0x13a": 0,
+          "0x13e": 0
+        }
+      },
+      {
+        "mid": "6400",
+        "input_frame": "00000000000006060000f500000100000b0100000000000006060606000000000000000000000000000000000000000000000000000000000000000000000000",
+        "cache": {
+          "0x42": 0,
+          "0x44": 5,
+          "0x46": 24,
+          "0x48": 5,
+          "0x96": 26,
+          "0x98": 27,
+          "0x9a": 0,
+          "0xe4": 245,
+          "0xfc": 5,
+          "0xfe": 1,
+          "0x13a": 256,
+          "0x13e": 267
+        }
+      }
+    ],
+    "crypto": {
+      "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+      "generic_key": "a3K8Bx%2r8Y7#xDh",
+      "method": "Native Thumb key assembly, PKCS#7 padding/block splitting, and physical setpoint table conversions. Identified AES-ECB hardware API edge captured only; hardware primitive NOT executed or mislabelled native. Vendor SDK object byte-match identifies engine modes independently.",
+      "padding": [
+        {
+          "plaintext_hex": "7b2274223a2262696e64222c2278223a313233343536377d",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "padded_blocks_hex": [
+            "7b2274223a2262696e64222c2278223a",
+            "313233343536377d0808080808080808"
+          ],
+          "padded_length": 32,
+          "hardware_keys_hex": [
+            "61334b38427825327238593723784468"
+          ],
+          "ciphertext": "Not executed: known AES hardware boundary captured rather than substituted with an invented native result."
+        },
+        {
+          "plaintext_hex": "3031323334353637383961626364656630313233343536373839616263646566",
+          "key": "a3K8Bx%2r8Y7#xDh",
+          "padded_blocks_hex": [
+            "30313233343536373839616263646566",
+            "30313233343536373839616263646566",
+            "10101010101010101010101010101010"
+          ],
+          "padded_length": 48,
+          "hardware_keys_hex": [
+            "61334b38427825327238593723784468"
+          ],
+          "ciphertext": "Not executed: known AES hardware boundary captured rather than substituted with an invented native result."
+        }
+      ],
+      "unit_table_replay": [
+        {
+          "deci_celsius_input": 159,
+          "fahrenheit_output": 61
+        },
+        {
+          "deci_celsius_input": 160,
+          "fahrenheit_output": 61
+        },
+        {
+          "deci_celsius_input": 165,
+          "fahrenheit_output": 62
+        },
+        {
+          "deci_celsius_input": 240,
+          "fahrenheit_output": 75
+        },
+        {
+          "deci_celsius_input": 245,
+          "fahrenheit_output": 76
+        },
+        {
+          "deci_celsius_input": 247,
+          "fahrenheit_output": 61
+        },
+        {
+          "deci_celsius_input": 300,
+          "fahrenheit_output": 86
+        },
+        {
+          "deci_celsius_input": 301,
+          "fahrenheit_output": 61
+        },
+        {
+          "fahrenheit_input": 60,
+          "cache_SetTem": 16,
+          "cache_TemRec": 0
+        },
+        {
+          "fahrenheit_input": 61,
+          "cache_SetTem": 16,
+          "cache_TemRec": 0
+        },
+        {
+          "fahrenheit_input": 75,
+          "cache_SetTem": 24,
+          "cache_TemRec": 0
+        },
+        {
+          "fahrenheit_input": 76,
+          "cache_SetTem": 24,
+          "cache_TemRec": 1
+        },
+        {
+          "fahrenheit_input": 86,
+          "cache_SetTem": 30,
+          "cache_TemRec": 0
+        },
+        {
+          "fahrenheit_input": 87,
+          "cache_SetTem": 16,
+          "cache_TemRec": 0
+        }
+      ]
+    },
+    "sdk_byte_match": {
+      "source_url": "https://raw.githubusercontent.com/libretiny-eu/framework-realtek-ambz2/5f7b9378a7f226a46e3b13349844a3f5f07565aa/component/soc/realtek/8710c/misc/bsp/lib/common/GCC/lib_soc_is.a",
+      "archive_sha256": "90cc16991fac61c991c901c59a952a59fdd13364f6415b1e116e2765e0623819",
+      "object_sha256": "e1ded85eb0c3c5c4440af53840ff0ddef8f9398b2d633d5242461e5267248c82",
+      "matches": [
+        {
+          "symbol": "hal_crypto_aes_ecb_init",
+          "firmware_address": "0x9b053d64",
+          "sdk_section": ".text.hal_crypto_aes_ecb_init",
+          "size": 108,
+          "relocations": [
+            {
+              "offset": 48,
+              "symbol": "exram_psram_addr_check",
+              "type": 10
+            },
+            {
+              "offset": 96,
+              "symbol": "g_rtl_cryptoEngine_s",
+              "type": 2
+            },
+            {
+              "offset": 100,
+              "symbol": "",
+              "type": 2
+            },
+            {
+              "offset": 104,
+              "symbol": "hal_crypto_stubs_s",
+              "type": 2
+            }
+          ],
+          "nonrelocated_byte_mismatches": [],
+          "firmware_bytes_sha256": "cf4813db9f879800dd74eeba6f0c8913d70e365f907d52172552e7aa75f658bc",
+          "sdk_bytes_sha256": "a84e4c7a5f19f4500c15a1acc03696eb786775a6518e3eccb245eff53e66f7b3"
+        },
+        {
+          "symbol": "hal_crypto_aes_ecb_encrypt",
+          "firmware_address": "0x9b053dd0",
+          "sdk_section": ".text.hal_crypto_aes_ecb_encrypt",
+          "size": 140,
+          "relocations": [
+            {
+              "offset": 56,
+              "symbol": "exram_psram_addr_check",
+              "type": 10
+            },
+            {
+              "offset": 128,
+              "symbol": "g_rtl_cryptoEngine_s",
+              "type": 2
+            },
+            {
+              "offset": 132,
+              "symbol": "",
+              "type": 2
+            },
+            {
+              "offset": 136,
+              "symbol": "hal_crypto_stubs_s",
+              "type": 2
+            }
+          ],
+          "nonrelocated_byte_mismatches": [],
+          "firmware_bytes_sha256": "01bce66f906666823d98ac27a5993b8c721b5197987bc0799d3489f0f5a42af1",
+          "sdk_bytes_sha256": "4c270c4bdc2d7f77e8f77ea3d1730af88127580653e3ca8a0158dfd3a3d3a0b8"
+        },
+        {
+          "symbol": "hal_crypto_aes_ecb_decrypt",
+          "firmware_address": "0x9b053e5c",
+          "sdk_section": ".text.hal_crypto_aes_ecb_decrypt",
+          "size": 140,
+          "relocations": [
+            {
+              "offset": 56,
+              "symbol": "exram_psram_addr_check",
+              "type": 10
+            },
+            {
+              "offset": 128,
+              "symbol": "g_rtl_cryptoEngine_s",
+              "type": 2
+            },
+            {
+              "offset": 132,
+              "symbol": "",
+              "type": 2
+            },
+            {
+              "offset": 136,
+              "symbol": "hal_crypto_stubs_s",
+              "type": 2
+            }
+          ],
+          "nonrelocated_byte_mismatches": [],
+          "firmware_bytes_sha256": "9a5a185db9541785e597dffb205429123ac9a7183066389ea8d0cc912583bf47",
+          "sdk_bytes_sha256": "87ac109b4d5f9c87bce86456373d3f9f328c58033a8616265c809f5ad1df47f3"
+        }
+      ]
+    },
+    "facts": [
+      "3017/3018/3019/302c input category IDs normalize to emitted3019; they are not four distinct emitted profiles.",
+      "302b/6000/3062 do not initialize a supported route in this exact image.",
+      "6400/6200/6045/609d scan advertises MID60/subCnt1, not standalone category MID.",
+      "350-slot common table has343 nonnull names; unknown TemSen reaches ROM strcmp(NULL) at0x9b00435c, return0x9b02ffcd; no graceful unknown default is invented.",
+      "TemBody on generic6400 acquisition is frame0x16 bit3 boolean, not gateway TemBody temperature.",
+      "3027 InTem is raw second status-frame byte6; its physical Celsius calibration remains unknown.",
+      "Readonly-sounding InTem write is acknowledged/cached but does not put sensor data into outgoing command frame; a cache ACK is not evidence of a writable measured sensor."
+    ],
+    "blockers": [
+      "No acquired commercial mainboard executable/specification/physical command-response capture establishes effective acceptance/clamps/readonly transitions after serial commands. For3019, requested Pow3/SetTem36/WdSpd15 ACK unchanged while outgoing bits encode1/4/7; whether the attached board accepts, clamps or rejects those effective controls cannot be inferred from Wi-Fi cache ACKs.",
+      "3027/6400 InTem byte transport has no established physical Celsius conversion; no TemSen substitution or guessed40/100 bias.",
+      "6400 gateway child identity/control topology not yet a complete calibrated AC definition.",
+      "302b and6000 are not routes of this build; alternate W04HB1.20/W06K4.4 evidence cannot be aliased into this handler."
+    ]
+  },
+  "initial_state": {
+    "Pow": 0,
+    "Mod": 1,
+    "SetTem": 24,
+    "WdSpd": 3
+  },
+  "requests": [
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "SetTem",
+          "Pow",
+          "Mod",
+          "SetTem"
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ],
+        "p": [
+          3,
+          7,
+          36,
+          15
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow"
+        ],
+        "val": [
+          1
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "TemSen"
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Mod",
+          "WdSpd",
+          "SetTem",
+          "Add0.1",
+          "Add0.5"
+        ],
+        "p": [
+          0,
+          6,
+          24,
+          7,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "InTem"
+        ],
+        "p": [
+          65
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod"
+        ],
+        "p": [
+          1
+        ]
+      }
+    },
+    {
+      "mid": "3019",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [],
+        "p": []
+      }
+    },
+    {
+      "mid": "3027",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Mod",
+          "WdSpd",
+          "SetTem",
+          "Add0.1",
+          "Add0.5"
+        ],
+        "p": [
+          0,
+          6,
+          24,
+          7,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "3027",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "InTem"
+        ],
+        "p": [
+          65
+        ]
+      }
+    },
+    {
+      "mid": "3027",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "3027",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod"
+        ],
+        "p": [
+          1
+        ]
+      }
+    },
+    {
+      "mid": "3027",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [],
+        "p": []
+      }
+    },
+    {
+      "mid": "4005",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Mod",
+          "WdSpd",
+          "SetTem",
+          "Add0.1",
+          "Add0.5"
+        ],
+        "p": [
+          0,
+          6,
+          24,
+          7,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "4005",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "InTem"
+        ],
+        "p": [
+          65
+        ]
+      }
+    },
+    {
+      "mid": "4005",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "4005",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod"
+        ],
+        "p": [
+          1
+        ]
+      }
+    },
+    {
+      "mid": "4005",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [],
+        "p": []
+      }
+    },
+    {
+      "mid": "6400",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Mod",
+          "WdSpd",
+          "SetTem",
+          "Add0.1",
+          "Add0.5"
+        ],
+        "p": [
+          0,
+          6,
+          24,
+          7,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "6400",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "InTem"
+        ],
+        "p": [
+          65
+        ]
+      }
+    },
+    {
+      "mid": "6400",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "mid": "6400",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod"
+        ],
+        "p": [
+          1
+        ]
+      }
+    },
+    {
+      "mid": "6400",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [],
+        "p": []
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            24,
+            0,
+            1,
+            24
+          ],
+          "cols": [
+            "SetTem",
+            "Pow",
+            "Mod",
+            "SetTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            3,
+            7,
+            36,
+            15
+          ],
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            0,
+            6,
+            24,
+            7,
+            0
+          ],
+          "opt": [
+            "Mod",
+            "WdSpd",
+            "SetTem",
+            "Add0.1",
+            "Add0.5"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            65
+          ],
+          "opt": [
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            0
+          ],
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [],
+          "opt": [],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            0,
+            6,
+            24,
+            7,
+            0
+          ],
+          "opt": [
+            "Mod",
+            "WdSpd",
+            "SetTem",
+            "Add0.1",
+            "Add0.5"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            65
+          ],
+          "opt": [
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            0
+          ],
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [],
+          "opt": [],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            0,
+            6,
+            24,
+            7,
+            0
+          ],
+          "opt": [
+            "Mod",
+            "WdSpd",
+            "SetTem",
+            "Add0.1",
+            "Add0.5"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            65
+          ],
+          "opt": [
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            0
+          ],
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [],
+          "opt": [],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            0,
+            6,
+            24,
+            7,
+            0
+          ],
+          "opt": [
+            "Mod",
+            "WdSpd",
+            "SetTem",
+            "Add0.1",
+            "Add0.5"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            65
+          ],
+          "opt": [
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            0
+          ],
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [],
+          "opt": [],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "per_independent_request": [
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 3,
+          "Mod": 7,
+          "SetTem": 36,
+          "WdSpd": 15,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e3701010000010000000000000000000000000000000070702400000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3019",
+        "native_fault": {
+          "pc": "0x9b00435c",
+          "return_edge": "0x9b02ffcd"
+        }
+      },
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 0,
+          "Mod": 0,
+          "SetTem": 24,
+          "WdSpd": 6,
+          "SetDeciTem": 0,
+          "Add0.1": 7,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e3701010000000000000000000000000000000000000000601800000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 65
+        },
+        "mainboard_frame_hex": "7e7e3701010000000000000000000000000000000000000010301800000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e3701010000000000000000000000000000000000000010301800000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3019",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e3701010000000000000000000000000000000000000010301800000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3027",
+        "cache": {
+          "Pow": 0,
+          "Mod": 0,
+          "SetTem": 24,
+          "WdSpd": 6,
+          "SetDeciTem": 247,
+          "Add0.1": 7,
+          "Add0.5": 1,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e2301000105000000f70000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3027",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 240,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 65
+        },
+        "mainboard_frame_hex": "7e7e2301000101040000f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3027",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 240,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e2301000101040000f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3027",
+        "cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "3027",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 240,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e2301000101040000f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "cache": {
+          "Pow": 0,
+          "Mod": 0,
+          "SetTem": 24,
+          "WdSpd": 6,
+          "SetDeciTem": 0,
+          "Add0.1": 7,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e1c01000101000001f00000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 65
+        },
+        "mainboard_frame_hex": "7e7e1c01000101040001f00000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e1c01000101040001f00000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "4005",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e1c01000101040001f00000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "6400",
+        "cache": {
+          "Pow": 0,
+          "Mod": 0,
+          "SetTem": 24,
+          "WdSpd": 6,
+          "SetDeciTem": 0,
+          "Add0.1": 7,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e2301000105000011f70000000000000000201100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "6400",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 65
+        },
+        "mainboard_frame_hex": "7e7e2301000101040011f00000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "6400",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e2301000101040011f00000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "6400",
+        "cache": {
+          "Pow": 1,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "mid": "6400",
+        "cache": {
+          "Pow": 0,
+          "Mod": 1,
+          "SetTem": 24,
+          "WdSpd": 3,
+          "SetDeciTem": 0,
+          "Add0.1": 0,
+          "Add0.5": 0,
+          "InTem": 0
+        },
+        "mainboard_frame_hex": "7e7e2301000101040011f00000000000000000001100000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ]
+  }
+}
