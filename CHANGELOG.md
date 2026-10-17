@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/cmroche/greeclimate/compare/v3.4.0...v3.4.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **release:** publish packages with provenance attestations ([237e5bf](https://github.com/cmroche/greeclimate/commit/237e5bf871cf8a1dd4d5d81dd375aaa31c815014))
+
 # [3.4.0](https://github.com/cmroche/greeclimate/compare/v3.3.0...v3.4.0) (2026-10-17)
 
 
