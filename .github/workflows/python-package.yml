@@ -51,18 +51,19 @@ jobs:
           files: ./coverage.xml
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  publish:
+  release:
     needs: build
     if: >-
       github.ref == 'refs/heads/master' &&
       (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
-    name: Publish to PyPI and GitHub
+    name: Prepare GitHub release
     runs-on: ubuntu-latest
     concurrency:
-      group: pypi-publish
+      group: prepare-release
       cancel-in-progress: false
     permissions:
       contents: write
+      actions: write
       issues: write
       pull-requests: write
     steps:
@@ -76,9 +77,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install setuptools wheel twine
-          pip install importlib_metadata==7.2.1
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install setuptools
       - uses: actions/setup-node@v7
         with:
           node-version: "24.x"
@@ -87,10 +86,25 @@ jobs:
       - env:
           CI: true
         run: npm ci
-      - if: success()
+      - name: Prepare release
+        id: release
         env:
           CI: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-          PYPI_USER: ${{ secrets.PYPI_USER }}
-        run: npx semantic-release
+        run: |
+          node --input-type=module <<'JS'
+          import semanticRelease from 'semantic-release';
+          import { appendFileSync } from 'node:fs';
+
+          const result = await semanticRelease();
+          if (result) {
+            appendFileSync(process.env.GITHUB_OUTPUT, `tag=${result.nextRelease.gitTag}\n`);
+          }
+          JS
+      # GITHUB_TOKEN-created tags do not trigger push workflows.
+      - name: Dispatch tagged PyPI publication
+        if: steps.release.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: gh workflow run pypi.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_TAG"

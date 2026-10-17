@@ -20,7 +20,31 @@ _If you have tested and know of others systems that work, please fork and submit
 The easiest way to grab **greeclimate** is through PyPI
 `pip3 install greeclimate`
 
-Maintainers can publish from `master` through GitHub Actions with `gh workflow run python-package.yml --repo cmroche/greeclimate --ref master`. The workflow runs the test matrix before semantic-release selects a version and publishes to PyPI and GitHub; nightly publication remains enabled. Pushes and pull requests do not publish.
+### Publishing releases
+
+Maintainers can prepare a release from `master` with:
+
+```bash
+gh workflow run python-package.yml --repo cmroche/greeclimate --ref master
+```
+
+Nightly preparation remains enabled. After the test matrix passes, semantic-release updates the version and changelog and creates a GitHub release, without uploading to PyPI. A new release explicitly dispatches `pypi.yml` at its release tag: tags created with `GITHUB_TOKEN` do not trigger other push workflows. Ordinary branch pushes and pull requests do not publish.
+
+The PyPI workflow also accepts `v*` tag pushes, but only publishes stable `vX.Y.Z` tags. It checks that the tag's commit is on `master`, matches the workflow event's commit, and has the same version in `setup.cfg`. It tests that exact source on Python 3.14, builds and checks the wheel and sdist, and transfers only those artifacts to a separate publishing job. The publishing job uses PyPI Trusted Publishing (OIDC) and uploads PEP 740 attestations through the pinned official PyPA action; it has no package checkout or static PyPI credentials.
+
+Before enabling the first OIDC publication:
+
+1. In [PyPI's publishing settings](https://pypi.org/manage/project/greeclimate/settings/publishing/), register a GitHub Trusted Publisher with owner `cmroche`, repository `greeclimate`, workflow filename `pypi.yml`, and environment `pypi`. The filename is not the workflow's display name or full path.
+2. Configure the GitHub `pypi` environment to allow only tags matching `v*`, and protect those tags against updates and deletion. Both restrictions are configured for `cmroche/greeclimate`; repositories using this workflow elsewhere need their own setup. Required deployment reviewers can be added for manual approval.
+3. Merge these workflow changes before creating a release: the publishing workflow must exist at the release tag. After the first successful OIDC upload, remove the obsolete `PYPI_TOKEN` and `PYPI_USERNAME` GitHub secrets (and `PYPI_USER` if present), and revoke the old API token in PyPI. Do not remove them while the old publishing workflow is still active.
+
+To retry an interrupted publication, dispatch the existing release tag, not `master`:
+
+```bash
+gh workflow run pypi.yml --repo cmroche/greeclimate --ref vX.Y.Z
+```
+
+Already uploaded files are not silently skipped or overwritten. If an upload partially succeeded, inspect PyPI before retrying. Attestations apply to newly uploaded files; existing releases are not retroactively attested. See [PyPI Trusted Publishing](https://docs.pypi.org/trusted-publishers/using-a-publisher/) and [attestation documentation](https://docs.pypi.org/attestations/producing-attestations/).
 
 ## Use Gree Climate
 
