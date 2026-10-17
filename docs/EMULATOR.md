@@ -33,9 +33,11 @@ The CLI logs incoming (`RX`) and outgoing (`TX`) UDP traffic to stderr at INFO l
 
 ## Configuration and identity
 
-The checked-in [representative configuration](../examples/emulator-devices.json) runs from the repository root and covers all eight protocol families: 16 device records, nine advertising roots and seven routed children. It includes two W06AV gateways with two independently controlled indoor units each, plus a commercial host with one AC child and a zone controller with a master and one zone.
+The checked-in [representative configuration](../examples/emulator-devices.json) runs from the repository root and covers the original eight protocol families: 16 device records, nine advertising roots and seven routed children. It includes two W06AV gateways with two independently controlled indoor units each, plus a commercial host with one AC child and a zone controller with a master and one zone.
 
 The example uses loopback, UDP 7000 and a fixed synthetic seed. Names default to logical IDs; controls start off with 24°C targets and appliance rooms at 26°C. Containers have no room temperature. Use `--port 0` if 7000 is occupied, or `--listen 0.0.0.0` only on an isolated trusted network. Restart resets controls while preserving the seeded identities.
+
+The separate [ATW configuration](../examples/emulator-atw-devices.json) runs three independent standalone roles on loopback UDP 7000 with a fixed synthetic seed. It does not replace or change the eight-family mixed example. Run it with `python -m gree_emulator --config examples/emulator-atw-devices.json`; use `--port 0` to avoid a port collision.
 
 A mixed standalone configuration:
 
@@ -127,12 +129,54 @@ The chosen default is power off, 24°C target and 26°C room/ambient where those
 | `sim-wb04brt13-v1.50-{MID}` | Standalone `3019`, `3027`, `4005`; host `60`; children `6400`, `6045`, `609d` | Appliance `InTem = clamp(floor(C),0,65535)`; no `TemSen` alias | `bindok`, command `p` only; status account UID 0; 1460-byte packet boundary. Source aliases `3017`, `3018`, `302c` emit standalone `3019`, not their original input MID. |
 | `sim-w06av-v30`, `sim-w06av-v30-ac` | Host `60`; children `6049`, `604a`, `604b`, `604c`, `605c`, `608f`, `6092` | Child `TemBody = clamp(floor(C),0,255)` | Case-sensitive `bindOk`, `subDev/subList`; command receives `p`, replies with `p` and `val`. Unknown status names return empty strings; known unmodeled fields omitted. No invented `TemSen`. |
 | `sim-w05sa-v1.28`, `-master`, `-zone` | Host `50`; master `5000`; zones `5001` | No ambient LAN sensor | Case-sensitive `bindOk`; enumeration may arrive generic-key but replies bound-key; bound-key status/commands, `p` only. Shared root aliases and 1024-byte packet boundary. |
+| `sim-w06a-p3-v6.04-9300` | `9300`, Versati ATW / synthetic room | `RmoHomTemHi/Lo`, chosen decimal Celsius encoding below | Shared W06A(P3) heater dialect; standalone, not a gateway. |
+| `sim-w06a-p3-v6.04-9301` | `9301`, hot-water equipment / synthetic tank | `WatBoxTemHi/Lo`, chosen decimal Celsius encoding below | Same independently traced heater path; separate device controls/key. |
+| `sim-w06a-p3-v6.04-9302` | `9302`, pool heater / ideal mixed pool water | `AllInWatTemHi/Lo` and `AllOutWatTemHi/Lo`, identical chosen mixed-water reading | Same heater namespace, **not** the app pool catalog or its aliases. |
 
 All registered families use independently identified AES-ECB with PKCS#7 and strict base64. H/HB/WB use bound-key control replies even for supported generic-key requests; N/commercial retain their own selector rules. There is no inferred GCM support.
 
 Receive limits are checked against the **original UDP byte length**, including whitespace and escaped JSON, before family dispatch: H/HB/AV/DV at most 1024 bytes, WB04A at most 1460, BRT below 1460, and zones below 1024. A scan is filtered per receiving profile, not by the smallest limit on the endpoint. N retains its declared property/reply bounds without inventing an additional receive-buffer limit.
 
+ATW also checks original requests at most 1024 bytes; its base64 `pack` must be ASCII and **less than 700 characters**, independently of datagram size.
+
 WB04A and WB04BRT13 accept **one optional terminal NUL after JSON, before PKCS#7**. Native complete encrypted command replay required that terminator to avoid an absent-column search overrunning padding. Safe ordinary JSON is also accepted deliberately; multiple NULs, embedded/trailing garbage, bad padding and ambiguous JSON are rejected. Replies do not add a NUL. Memory faults, unsafe native coercions, arbitrary cache writes, and buffer overruns are not reproduced.
+
+### Air-to-water roles
+
+All three ATW profiles share one concrete LAN/property implementation from W06A(P3) V6.04. Their exact MIDs are source-emitted categories, not retail model or calibrated mainboard identifications. `room_c` is the one role-specific medium, not three coupled reservoirs; `ambient_c` is its idle drift destination. The example deliberately chooses room 26°C/ambient 26°C, tank 45°C/ambient 22°C and pool water 28°C/ambient 24°C. Measured fields never copy requested targets.
+
+| Writable control | Strict simulation range | Initial policy |
+| --- | --- | --- |
+| `Pow` | 0–1 | 0 |
+| `TemUn` | 0–1, display only; scalar remains Celsius | 0 |
+| `Mod` | 1–5 | 1 for `9300`/`9302`; 2 for `9301` |
+| `CoWatOutTemSet` | 7–25 | 18 |
+| `HeWatOutTemSet` | 20–60 | 35 |
+| `WatBoxTemSet` | 40–80 | 50 |
+| `CoHomTemSet` | 16–30 | 24 |
+| `HeHomTemSet` | 16–30 | 24 |
+
+| Role | Powered thermal policy | Idle policy |
+| --- | --- | --- |
+| `9300` room | Modes 1/4 heat toward `HeHomTemSet`; 3/5 cool toward `CoHomTemSet` | Mode 2 or power off |
+| `9301` tank | Modes 2/3/4 heat toward `WatBoxTemSet` | Modes 1/5 or power off |
+| `9302` mixed pool water | Modes 1/4 heat toward `HeWatOutTemSet`; 3/5 cool toward `CoWatOutTemSet` | Mode 2 or power off |
+
+The existing 1°C/minute active and 0.1°C/minute idle rates apply. Sensor policy floors to tenths Celsius, clamps the biased result to 0–2559 tenths, then emits `hi=100+floor(C)` and decimal `lo=0..9` within that range. This matches the current ATW consumer's `hi-100+lo/10` interpretation; **firmware proves separate full-byte transport, not this physical calibration or mode semantics**. Only the role sensors above and chosen read-only `AllErr=0` no-fault state are exposed; other sensors, diagnostics and nominal source controls remain unmodeled. Ranges/defaults are simulator policy, not source startup values.
+
+| ATW packet rule | Firmware evidence / deliberate safety boundary |
+| --- | --- |
+| Framing | Raw UDP ≤1024 bytes; outer ≤20 and inner ≤30 members; required outer `pack/i/uid/cid/tcid`; base64 `pack` <700 ASCII characters. |
+| Selectors and replies | Nonnegative selectors choose the bound key when their low byte is zero, otherwise generic; status/commands require exact outer selector 0. Bind supports these key paths (including 0/1/2), replies generic selector 1 with `bindok`, retaining the existing synthetic key. Status/command replies use bound selector 0. Request UID is echoed; scan UID is 0. |
+| Targets and parsing | Bind/status require matching inner MAC; supplied command MAC/sub must match. Strict JSON/base64/PKCS#7, unambiguous case-insensitive inner/local field lookup, nonnegative integer selectors and CID ≤19 UTF-8 bytes intentionally reject native permissiveness/stale-memory behavior. Shared routing requires exact lowercase outer `t/pack/tcid`, unlike native case-insensitive member lookup. Operation/property values remain case-sensitive. |
+| Names and counts | Names ≤19 UTF-8 bytes; status ≤50 slots, exactly 50 returns native empty arrays. Commands require equal nonempty `opt/p` arrays of at most 49 items; reject the native exact-50 counter hazard. Unknown/unmodeled status names are omitted. |
+| Atomic safe commands | Strict non-boolean integers and the eight ranges above; unsupported/read-only names or malformed batches reject before any state/time advance. No native byte truncation, stale scratch values, partial mutation or unsafe cache access. |
+| Native command echo | Request uses `opt/p`, not `val`. Reply has `opt/p/val` with original ordered values, including duplicates, and no inner MAC; next status reports the final duplicate value. |
+| Derived reply bound | Compact UTF-8 plaintext ≤1119 bytes ensures PKCS#7 ciphertext ≤1120 and base64 ≤1496, below the native 1500-byte buffers. Checked before mutation; this is a safe derived allocation bound, not a native branch. Outgoing UDP is not limited to 1024 bytes. |
+
+The current `feat/air-to-water` factory automatically selects `AirToWaterDevice` only for MID `9300`; `9301`/`9302` require explicit `AirToWaterDevice` construction rather than the factory's AC fallback. Its unchanged default 39-column ATW poll has a 792-character `pack` (873-byte datagram), exceeding the source's <700 limit even though the datagram fits 1024. Independent source replay and real CLI/public-client smoke both reject that poll; the emulator and client were not relaxed. For all three MIDs, smoke verified discovery/bind/version, shorter public `create_status_message`/`send` batches, role sensors, cooling value 5, target writes and received-off guards. Every public control push was confirmed by an independent fresh raw UDP status poll.
+
+MID `9302` does **not** implement the default pool catalog's `FlagPool`, `Wmod`, `PoolFunc`, `SetTemInt/Dec`, `InTemInt/Dec`, `OutTemInt/Dec` or heat/cool min/max names. No aliases are provided. `WDTemSet`, `ZoneCtr`, `TemSen`, `EnvironmentTem` and generic AC `BuzzerCtrl` are likewise not manufactured for this concrete heater path. Discovery/version/binding, short native polling and default consumer paths must be evaluated separately; physical mainboard acceptance, Home Assistant UI and full firmware boots remain unverified.
 
 ## Source and evidence manifest
 
@@ -148,6 +192,7 @@ The conformance fixtures in [`tests/fixtures/emulator`](../tests/fixtures/emulat
 | W06AV V30 — `6b52f31a74a74c5a88f3d8b68f8b4afc89fcd8d59e3d11a287a4ec37825bf79b` | Envelope `0x00a13124`, enumeration `0x00a139fc`, status `0x00a13cf8`, receiving command `0x00a13f24`, result `0x00a13608` | Byte-matched Xtensa translations and independently resolved QCA4010 ROM AES; `gateway_research.json`. TemBody is a proven byte transport, not proven physical Celsius calibration. |
 | W06DV V4.01 — `eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f` | Exact exported source/property/reply traces in `controller_research.json` | Byte-matched Xtensa packet paths; no ambient namespace. Not an alias of BRT's input-3018 route. |
 | W05SA V1.28 — `aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864` | Dispatch `0x0805d9d4`, builder `0x0805e6fc`, status `0x0805f124`, setter `0x0805f3f2`, aliases `0x0805d4ac` | Native Thumb packet/crypto and sparse topology captures in `zone-*_research.json`. Correct extraction is image27, not image26/V1.27. Native setter's trailing out-of-range iteration was boundary-isolated, not claimed fault-free hardware behavior. |
+| W06A(P3) V6.04 / HID `362001066763` — `37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a` | MID emission `0x00a0856c`; ingress `0x00a0b298`, envelope `0x00a0eff8`, dispatch `0x00a0f0d4`, bind `0x00a0ffd0`, status `0x00a0fb40`/`0x00a0f274`, command `0x00a0fc3c`/`0x00a0f488`, selectors `0x00a1115c`/`0x00a112cc`, UART encoder `0x00a10a20` | Fresh exact-image Xtensa LE32 decompilation and independent byte-asserted instruction translations: 36 LAN packet expectations and per-MID property/UART paths in `atw-lan_research.json` / `atw-properties_research.json`. Declared JSON/libc/compiler-math/OS/I/O and identified ROM AES block substitutions; UART serializer is a LAN-probe boundary separately covered by property probes. Not native Xtensa, hardware AES, Wi-Fi capture, complete boot or physical calibration. Prior V6.0 `b15e7350` and Q11 `8a1b2de4` are not this build. |
 
 Primary cryptographic references include the [Ameba-Z ROM symbol map](https://github.com/libretiny-eu/libretiny/blob/master/cores/realtek-ambz/misc/export-rom_symbol_v01.txt) and the pinned [RTL8710C crypto API](https://raw.githubusercontent.com/libretiny-eu/framework-realtek-ambz2/5f7b9378a7f226a46e3b13349844a3f5f07565aa/component/common/mbed/targets/hal/rtl8710c/crypto_api.c). Exact SDK/object hashes and resolved addresses are retained with the relevant research vectors.
 
