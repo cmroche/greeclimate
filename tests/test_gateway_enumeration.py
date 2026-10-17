@@ -153,3 +153,60 @@ async def test_generic_enumeration_accepts_outer_response_type():
         result = await asyncio.wait_for(device.get_sub_devices(), 1)
 
     assert {info.mac for info in result} == {unit(1)["mac"], unit(2)["mac"]}
+
+
+@pytest.mark.asyncio
+async def test_delayed_bound_status_during_generic_enumeration():
+    address = ("127.0.0.1", 7000)
+    device = Device(DeviceInfo(*address, "aabbcc001122", "Gateway"), bind_timeout=1)
+    cipher = CipherV1(b"0123456789abcdef")
+    device.device_cipher = cipher
+    status_pack, _ = cipher.encrypt({"t": "dat", "cols": ["Pow"], "dat": [1]})
+    delayed_status = json.dumps({"t": "pack", "i": 1, "pack": status_pack}).encode()
+
+    async def send(packet, **kwargs):
+        generic = packet["i"] == 1
+        if generic:
+            device.datagram_received(delayed_status, address)
+            assert device.power is True
+            assert device.device_cipher is cipher
+        device.datagram_received(encrypted_sublist(
+            CipherV1() if generic else cipher,
+            [unit(2)] if generic else [unit(1)],
+            generic=generic,
+        ), address)
+
+    with patch.object(device, "send", side_effect=send):
+        result = await asyncio.wait_for(device.get_sub_devices(), 1)
+    assert {info.mac for info in result} == {unit(1)["mac"], unit(2)["mac"]}
+    assert device.power is True
+    assert device.device_cipher is cipher
+    assert device.device_key == "0123456789abcdef"
+
+
+@pytest.mark.asyncio
+async def test_gateway_enumeration_skips_malformed_entries_and_merges_mac_formats():
+    first = {"mac": "AA:BB:CC:DD:EE:FF", "name": "First indoor unit"}
+    responses = {
+        "plain": [None, 1, "invalid", [], {}, {"mac": None}, {"mac": 123},
+                  {"mac": ""}, {"mac": " \t"}, first],
+        "subList": [{"mac": "aabbccddeeff", "name": "Duplicate"}, unit(2)],
+        "generic-key": [{"mac": "aa-bb-cc-dd-ee-ff"}, unit(2)],
+        "subDev": [],
+    }
+    loop = asyncio.get_running_loop()
+    transport, gateway = await loop.create_datagram_endpoint(
+        lambda: Gateway(responses), local_addr=("127.0.0.1", 0))
+    info = DeviceInfo("127.0.0.1", transport.get_extra_info("sockname")[1], "aabbcc001122", "Gateway")
+    device = Device(info, bind_timeout=1)
+    cipher = CipherV1(b"0123456789abcdef")
+    try:
+        await device.bind(key=cipher.key, cipher=cipher)
+        result = await asyncio.wait_for(device.get_sub_devices(), 2)
+        assert [indoor.mac for indoor in result] == [first["mac"], unit(2)["mac"]]
+        assert result[0].name == first["name"]
+        assert [request[0] for request in gateway.requests] == ["plain", "subList", "generic-key", "subDev"]
+        assert all(indoor.gateway_cipher is cipher for indoor in result)
+    finally:
+        device.close()
+        transport.close()

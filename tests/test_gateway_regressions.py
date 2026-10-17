@@ -184,6 +184,129 @@ async def test_enumeration_waits_for_requested_state_then_reuses_valid_session()
 
 
 @pytest.mark.asyncio
+async def test_enumeration_automatically_binds_cached_gateway_session():
+    cipher = CipherV1()
+    device = Device(DeviceInfo(
+        "127.0.0.1", 7000, "aabbcc001122", "Gateway",
+        gateway_key="1234567890123456", gateway_cipher=cipher,
+    ))
+    statuses = []
+
+    async def send(packet, **kwargs):
+        if packet.get("pack", {}).get("t") == "status":
+            statuses.append(packet)
+            device.handle_state_update(Pow=1)
+        else:
+            device.handle_sublist_response(
+                [{"mac": "aabbcc001133", "name": "Indoor"}],
+                generic=kwargs.get("request_cipher") is not None,
+            )
+
+    try:
+        with patch.object(device, "send", side_effect=send):
+            children = await device.get_sub_devices()
+            await device.update_state()
+        assert [child.mac for child in children] == ["aabbcc001133"]
+        assert children[0].gateway_key == "1234567890123456"
+        assert statuses[0]["tcid"] == device.device_info.mac
+        assert device.power is True
+        assert device.device_key == "1234567890123456"
+    finally:
+        device.close()
+
+
+@pytest.mark.asyncio
+async def test_enumeration_survives_pending_status_timeout_and_session_recovers():
+    device = Device(DeviceInfo("127.0.0.1", 7000, "aabbcc001122", "Gateway"))
+    await device.bind(key="1234567890123456", cipher=CipherV1())
+    wait_for = asyncio.wait_for
+    timed_out = []
+    answer_status = False
+
+    async def pending_status_timeout(awaitable, timeout):
+        if timeout == 5:
+            timed_out.append(timeout)
+            awaitable.close()
+            raise asyncio.TimeoutError
+        return await wait_for(awaitable, timeout)
+
+    async def send(packet, **kwargs):
+        if packet.get("pack", {}).get("t") == "status":
+            if answer_status:
+                device.handle_state_update(Pow=1)
+        else:
+            device.handle_sublist_response(
+                [{"mac": "aabbcc001133", "name": "Indoor"}],
+                generic=kwargs.get("request_cipher") is not None,
+            )
+
+    try:
+        with patch.object(device, "send", side_effect=send):
+            await device.update_state()
+            with patch("greeclimate.device.asyncio.wait_for", side_effect=pending_status_timeout):
+                children = await device.get_sub_devices()
+            assert timed_out == [5]
+            assert [child.mac for child in children] == ["aabbcc001133"]
+            answer_status = True
+            await device.update_state()
+            assert device.power is True
+            assert device.device_key == "1234567890123456"
+            children = await device.get_sub_devices()
+            assert [child.mac for child in children] == ["aabbcc001133"]
+    finally:
+        device.close()
+
+
+@pytest.mark.asyncio
+async def test_enumerated_child_polls_own_mid_profile_through_gateway():
+    gateway = Device(DeviceInfo(
+        "127.0.0.1", 7000, "aabbcc001122", "Gateway", mid="60",
+    ))
+    await gateway.bind(key="1234567890123456", cipher=CipherV1())
+    child = None
+    polls = []
+
+    async def enumerate_children(packet, **kwargs):
+        gateway.handle_sublist_response(
+            [{"mac": "aabbcc001133", "name": "Indoor", "mid": "10f02"}],
+            generic=kwargs.get("request_cipher") is not None,
+        )
+
+    async def answer_poll(packet, **kwargs):
+        polls.append(packet)
+        values = {"hid": "indoor-firmware", "Pow": 1, "SetTem": 24, "TemSen": 25, "TemUn": 0}
+        columns = packet["pack"]["cols"]
+        child.packet_received({"pack": {
+            "t": "dat", "cols": columns, "dat": [values.get(column, "") for column in columns],
+        }}, (gateway.device_info.ip, gateway.device_info.port))
+
+    try:
+        with patch.object(gateway, "send", side_effect=enumerate_children):
+            children = await gateway.get_sub_devices()
+        assert [info.mid for info in children] == ["10f02"]
+        child = Device(children[0])
+        with patch.object(child, "send", side_effect=answer_poll):
+            await child.update_state()
+            await child.update_state()
+        assert "hid" in polls[0]["pack"]["cols"]
+        assert "hid" not in polls[1]["pack"]["cols"]
+        for packet in polls:
+            assert packet["tcid"] == gateway.device_info.mac
+            assert packet["pack"]["mac"] == children[0].mac
+            assert "TemSen" in packet["pack"]["cols"]
+            assert "Dwet" not in packet["pack"]["cols"]
+        assert child.hid == "indoor-firmware"
+        assert child.power is True
+        assert child.target_temperature == 24
+        assert child.current_temperature == 25
+        assert child.device_key == gateway.device_key
+    finally:
+        if child is not None:
+            child.close()
+        gateway.close()
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize("first_response", ["timeout", "empty", "partial"])
 async def test_gateway_rescan_recovers_missing_indoor_units(first_response):
     """Issue 1: a cached gateway must not make an incomplete first scan permanent."""
