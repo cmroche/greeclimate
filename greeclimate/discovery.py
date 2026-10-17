@@ -176,10 +176,10 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             pack.get("brand"),
             pack.get("model"),
             pack.get("ver"),
-            pack.get("subCnt", 0),
+            pack.get("mid"),
         )
 
-        self._create_task(self.device_found(DeviceInfo(*device)))
+        self._create_task(self.device_found(DeviceInfo(*device, sub_count=pack.get("subCnt", 0))))
 
     async def _query_gateway(self, gw_info: DeviceInfo) -> None:
         """Bind to a gateway device and discover its sub-devices."""

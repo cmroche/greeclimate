@@ -116,8 +116,9 @@ def cmd_response(addr, opt, p):
 
 
 def status_response(addr, opt):
+    cols = [o for o in opt if o in state_cols]
     r = []
-    for o in opt:
+    for o in cols:
         i = state_cols.index(o)
         r.append(state_dat[i])
 
@@ -131,7 +132,7 @@ def status_response(addr, opt):
             "t": "dat",
             "mac": device_id,
             "r": 200,
-            "cols": state_cols,
+            "cols": cols,
             "dat": r,
         },
     }

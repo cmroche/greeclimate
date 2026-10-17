@@ -73,6 +73,9 @@ outer `tcid` routes packets through their `gateway_mac`. Commands address the
 gateway inside the pack and select the indoor unit using `sub`. Standalone
 devices keep their existing addressing.
 
+Each indoor unit retains its reported MID, so status polling uses the unit's
+MID profile rather than the parent gateway's profile.
+
 Automatic discovery uses `ifaddr` to enumerate IPv4 interfaces and derives their subnet broadcast addresses.
 IPv6 and non-loopback `/31` and `/32` networks are skipped. Loopback is excluded unless
 `Discovery(allow_loopback=True)` is used; then scans target the loopback host address.

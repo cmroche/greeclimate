@@ -122,6 +122,7 @@ async def test_discover_devices(ifaddr_adapters, addr, family, scan_args, scan_k
             assert {device.mac for device in devices} == {
                 "aabbcc001122", "aabbcc001123", "aabbcc001124",
             }
+            assert all(device.mid == "10001" for device in devices)
         finally:
             discovery.close()
 
@@ -251,6 +252,21 @@ async def test_discovery_events(ifaddr_adapters, addr, family):
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", ["0001", "10f01", None])
+async def test_discovery_preserves_reported_mid(mid):
+    discovery = Discovery()
+    pack = {"mac": "000000000001", "name": "mid-test", "model": "10001"}
+    if mid is not None:
+        pack["mid"] = mid
+    discovery.packet_received({"pack": pack}, ("127.0.0.1", 7000))
+    await asyncio.gather(*discovery.tasks)
+
+    device_info, = discovery.devices
+    assert device_info.mid == mid
+    assert device_info.model == "10001"
 
 
 @pytest.mark.asyncio

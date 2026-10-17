@@ -12,7 +12,8 @@ class DeviceInfo:
         gateway_mac: For a sub-device, the MAC of its routing gateway
     """
 
-    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None, sub_count=0, gateway_key=None, gateway_cipher=None, gateway_mac=None):
+    def __init__(self, ip, port, mac, name, brand=None, model=None, version=None, mid=None,
+                 sub_count=0, gateway_key=None, gateway_cipher=None, gateway_mac=None):
         self.ip = ip
         self.port = port
         self.mac = mac
@@ -20,6 +21,7 @@ class DeviceInfo:
         self.brand = brand
         self.model = model
         self.version = version
+        self.mid = mid
         self.sub_count = sub_count
         self.gateway_key = gateway_key
         self.gateway_cipher = gateway_cipher
@@ -37,6 +39,7 @@ class DeviceInfo:
                     and self.brand == other.brand
                     and self.model == other.model
                     and self.version == other.version
+                    and self.mid == other.mid
                     and self.sub_count == other.sub_count
             )
         return False

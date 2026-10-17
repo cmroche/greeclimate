@@ -13,6 +13,7 @@ from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.device_profile import DeviceProfile, match_device_profile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
+from greeclimate.mid_profile import match_mid_profile
 from greeclimate.network import DeviceProtocol2
 from greeclimate.taskable import Taskable
 
@@ -388,6 +389,7 @@ class Device(DeviceProtocol2, Taskable):
                 sub.get("brand"),
                 sub.get("model"),
                 sub.get("ver"),
+                mid=sub.get("mid"),
                 gateway_key=self.device_cipher.key,
                 gateway_cipher=self.device_cipher,
                 gateway_mac=self.device_info.mac,
@@ -416,8 +418,9 @@ class Device(DeviceProtocol2, Taskable):
 
         self._valid_state.clear()
         self._state_update_pending = True
-        props = [x.value for x in Props]
-        if not self.hid:
+        profile = match_mid_profile(self.device_info.mid)
+        props = list(profile.status_columns)
+        if not self.hid and "hid" not in props:
             props.append("hid")
 
         try:

@@ -6,11 +6,11 @@
 
 ## Build, Test, and Development Commands
 
-Create an isolated environment before installing dependencies:
+Use the repository-root `venv/` as the official and only virtual environment. Reuse it when it exists; do not create additional environments such as `.venv/` or `.venv-ifaddr/`. If it is missing, create it before installing dependencies:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 pip install flake8 pytest pytest-asyncio pytest-cov
 ```
@@ -32,7 +32,9 @@ For release tooling, install Node dependencies with `npm ci`; releases are drive
 
 ## Coding Style & Naming Conventions
 
-Use Python 3.8-compatible code. Follow the existing style: 4-space indentation, snake_case functions and variables, PascalCase classes and enums, and explicit async/await for network behavior. Keep public API changes in `greeclimate/__init__.py` intentional. Prefer small, focused modules and avoid broad rewrites of protocol or encryption code without tests.
+Keep code compatible with the minimum Python version declared in `setup.py` (currently 3.10). Check the CI matrix and `tox.ini` separately; report which interpreters were actually exercised. Do not raise the supported minimum incidentally.
+
+Follow the existing style: 4-space indentation, snake_case functions and variables, PascalCase classes and enums, and explicit async/await for network behavior. Keep public API changes in `greeclimate/__init__.py` intentional. Prefer small, focused modules and avoid broad rewrites of protocol or encryption code without tests.
 
 ## Testing Guidelines
 
@@ -41,6 +43,8 @@ Tests use `pytest` with `pytest-asyncio`; `asyncio_mode = auto` is configured in
 ## Commit & Pull Request Guidelines
 
 History follows conventional commits, for example `feat: add buzzer property`, `fix: handle missing 'val' key`, and `chore(release): 2.1.4 [skip ci]`. Use `feat:`, `fix:`, `chore:`, or another conventional type so semantic-release can classify changes.
+
+Never edit `CHANGELOG.md` directly; semantic-release generates it. Document behavior changes in the relevant existing documentation and PR description.
 
 Pull requests should describe the behavior change, list test commands run, and link related issues. Include device model or packet-capture context when changing discovery, binding, or protocol behavior. Do not commit local virtual environments, caches, coverage output, or generated release artifacts unless the release process explicitly requires them.
 
