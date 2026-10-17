@@ -21,12 +21,15 @@ class Commands(Enum):
     PACK = "pack"
     SCAN = "scan"
     STATUS = "status"
+    SUBLIST = "subList"
+    SUBDEV = "subDev"
 
 
 class Response(Enum):
     BIND_OK = "bindok"
     DATA = "dat"
     RESULT = "res"
+    SUBLIST = "sublist"
 
 
 @dataclass
@@ -125,14 +128,6 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         self._drained.set()
         super().resume_writing()
 
-    def _decrypt_pack(self, pack):
-        """Decrypt the pack field of a received packet.
-
-        Override to customize cipher selection (e.g. trying more than one
-        cipher for replies from not-yet-identified devices).
-        """
-        return self._cipher.decrypt(pack)
-
     def datagram_received(self, data: bytes, addr: IPAddr) -> None:
         """Handle an incoming datagram."""
         if len(data) == 0:
@@ -141,12 +136,17 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         obj = json.loads(data)
 
         if obj.get("pack"):
-            obj["pack"] = self._decrypt_pack(obj["pack"])
+            obj["pack"] = self.decode_response_pack(obj)
 
         _LOGGER.debug("Received packet from %s:\n<- %s", addr[0], json.dumps(obj))
         self.packet_received(obj, addr)
 
-    async def send(self, obj, addr: IPAddr = None, cipher: Union[CipherBase, None] = None) -> None:
+    def decode_response_pack(self, obj) -> dict:
+        """Decrypt a response envelope, allowing device-specific cipher selection."""
+        return self._cipher.decrypt(obj["pack"])
+
+    async def send(self, obj, addr: IPAddr = None, cipher: Union[CipherBase, None] = None,
+                   *, request_cipher: Union[CipherBase, None] = None) -> None:
         """Send encode and send JSON command to the device.
 
         Args:
@@ -156,12 +156,12 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         _LOGGER.debug("Sending packet:\n-> %s", json.dumps(obj))
 
         if obj.get("pack"):
-            if obj.get("i") == 1:
+            if obj.get("i") == 1 and request_cipher is None:
                 if cipher is None:
                     raise ValueError("Cipher must be supplied for SCAN or BIND messages")
                 self._cipher = cipher
 
-            obj["pack"], tag = self._cipher.encrypt(obj["pack"])
+            obj["pack"], tag = (request_cipher or self._cipher).encrypt(obj["pack"])
             if tag:
                 obj["tag"] = tag
 
@@ -186,7 +186,6 @@ class BroadcastListenerProtocol(DeviceProtocolBase2):
 
 class DeviceProtocol2(DeviceProtocolBase2):
     """Protocol handler for direct device communication."""
-    _handlers = {}
 
     def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
         """Initialize the device protocol object.
@@ -196,6 +195,11 @@ class DeviceProtocol2(DeviceProtocolBase2):
             drained (asyncio.Event): Packet send drain event signal
         """
         DeviceProtocolBase2.__init__(self, timeout, drained)
+        # Per-instance handler registry. This MUST NOT be a class attribute:
+        # a gateway plus its sub-devices (and any standalone units) create
+        # multiple DeviceProtocol2 instances, and a shared dict would cross-
+        # dispatch one device's callbacks to another, breaking bind/state.
+        self._handlers: dict = {}
         self._ready = asyncio.Event()
         self._ready.clear()
         
@@ -220,6 +224,19 @@ class DeviceProtocol2(DeviceProtocolBase2):
         if event_name in self._handlers:
             self._handlers[event_name].remove(callback)
 
+    def _resolve_response_type(self, obj) -> str:
+        """Determine the response type from a received packet.
+
+        Checks pack.t first (standard responses), then falls back to
+        obj.t (e.g. subList responses with top-level type field).
+        """
+        pack = obj.get("pack", {})
+        if isinstance(pack, dict) and pack.get("t"):
+            return pack["t"].lower()
+        if obj.get("t"):
+            return obj["t"].lower()
+        return ""
+
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded.
 
@@ -231,16 +248,21 @@ class DeviceProtocol2(DeviceProtocolBase2):
             Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
             Response.DATA.value: lambda o, a: [dict(zip(o["pack"]["cols"], o["pack"]["dat"]))],
             Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"].get("val", []) or o["pack"].get("p", [])))],
+            Response.SUBLIST.value: lambda o, a: [
+                o["pack"].get("list", o.get("list", []))
+                if isinstance(o.get("pack"), dict) else o.get("list", [])
+            ],
         }
         handlers = {
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
             Response.DATA.value: lambda *args: self.__handle_state_update(*args),
             Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
+            Response.SUBLIST.value: lambda sub_devices: self.__handle_sublist_response(
+                sub_devices, generic=obj.get("i") == 1
+            ),
         }
         try:
-            resp = obj.get("pack", {}).get("t")
-            if isinstance(resp, str):
-                resp = resp.casefold()
+            resp = self._resolve_response_type(obj)
             handler = handlers.get(resp, self.handle_unknown_packet)
             param = params.get(resp, lambda o, a: (o, a))(obj, addr)
             handler(*param)
@@ -271,19 +293,29 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device state updates. """
         pass
 
+    def __handle_sublist_response(self, sub_devices, *, generic: bool) -> None:
+        self.handle_sublist_response(sub_devices, generic=generic)
+
+    def handle_sublist_response(self, sub_devices: list, *, generic: bool = False) -> None:
+        """Handle a sub-device list, identifying replies to the generic-key exchange."""
+        pass
+
     def _generate_payload(self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
         payload = {
             "cid": "app",
             "i": 1 if command in [Commands.BIND, Commands.SCAN] else 0,
             "t": Commands.PACK.value if data is not None else command.value,
             "uid": 0,
-            "tcid": device_info.mac
+            "tcid": device_info.gateway_mac or device_info.mac
         }
         if data is not None:
             payload["pack"] = {
                 "t": command.value,
                 "mac": device_info.mac
             }
+            if device_info.gateway_mac and command == Commands.CMD:
+                payload["pack"]["mac"] = device_info.gateway_mac
+                payload["pack"]["sub"] = device_info.mac
             payload["pack"].update(data)
         return payload
 
@@ -296,3 +328,26 @@ class DeviceProtocol2(DeviceProtocolBase2):
     def create_command_message(self, device_info: DeviceInfo, **kwargs) -> Dict[str, Any]:
         return self._generate_payload(Commands.CMD, device_info,
                                       {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
+
+    def create_sublist_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        # subList is a protocol-level query sent unencrypted (no pack field).
+        # The gateway handles it outside the encrypted pack channel.
+        return {
+            "cid": "app",
+            "i": 0,
+            "t": Commands.SUBLIST.value,
+            "uid": 0,
+            "tcid": device_info.mac,
+        }
+
+    def create_encrypted_sublist_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        return self._generate_payload(Commands.SUBLIST, device_info, {"i": 0})
+
+    def create_generic_sublist_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        return {
+            "cid": "app", "i": 1, "t": Commands.SUBLIST.value, "uid": 0,
+            "tcid": device_info.mac, "pack": {"mac": device_info.mac, "i": 1},
+        }
+
+    def create_subdev_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
+        return self._generate_payload(Commands.SUBDEV, device_info, {"cid": device_info.mac, "i": 0})

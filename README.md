@@ -44,6 +44,46 @@ for device_info in await discovery.scan(wait_for=5):
     )
 ```
 
+Gateways with multiple indoor units are queried automatically. With a nonzero
+`wait_for`, `scan()` waits for gateway enumeration before returning the indoor
+units. Gateway devices themselves are excluded by default; pass
+`include_gateways=True` to include them and notify listeners about them.
+
+`scan()` returns a live, accumulated list, not a snapshot of one scan. Both zero-
+and positive-wait results receive later standalone devices and gateway indoor
+units, including address replacements. Each returned list keeps its original
+gateway inclusion policy across subsequent scans. Partial, empty, or failed
+gateway rescans do not remove previously discovered indoor units.
+
+Concurrent scans on one `Discovery` instance are serialized. The latest scan's
+gateway inclusion policy remains active for listener notifications from late
+responses. With `wait_for=0`, the scan sends discovery requests without waiting
+for replies or gateway enumeration. Retain the returned list for late results,
+or use discovery listeners for event-driven updates.
+
+Discovered indoor units inherit the gateway's key and cipher. Binding with a
+cached key still opens a UDP transport and requires a cipher; invalid key/cipher
+pairs are rejected before opening a socket. Gateway enumeration waits briefly
+only when a requested state update is still pending.
+
+Gateway enumeration collects results from the existing plain `subList` query,
+a bound-key encrypted `subList`, a generic-key `i:1`/`subList` exchange, and
+the bound-key `subDev` command (`uid:0`). Some gateways return complementary
+subsets, so entries are merged by indoor-unit MAC rather than stopping at the
+first answer. A timed-out form does not discard results from the others; each
+form waits up to two seconds for its response and retries once on timeout.
+Concurrent enumeration calls on
+the same device are serialized. Generic-key enumeration leaves the bound
+gateway cipher unchanged for subsequent state/control traffic.
+
+Indoor units retain their own MAC for identity and status queries, while the
+outer `tcid` routes packets through their `gateway_mac`. Commands address the
+gateway inside the pack and select the indoor unit using `sub`. Standalone
+devices keep their existing addressing.
+
+Each indoor unit retains its reported MID, so status polling uses the unit's
+MID profile rather than the parent gateway's profile.
+
 Automatic discovery uses `ifaddr` to enumerate IPv4 interfaces and derives their subnet broadcast addresses.
 IPv6 and non-loopback `/31` and `/32` networks are skipped. Loopback is excluded unless
 `Discovery(allow_loopback=True)` is used; then scans target the loopback host address.

@@ -7,7 +7,9 @@ from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address, IPv4Interface
 
 from greeclimate.cipher import CipherV1, CipherV2
-from greeclimate.device import DeviceInfo
+from greeclimate.device import Device
+from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
 from greeclimate.taskable import Taskable
 
@@ -48,7 +50,11 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         Taskable.__init__(self, loop)
         self.device_cipher = CipherV1()
         self._allow_loopback: bool = allow_loopback
+        self._include_gateways: bool = False
+        self._scan_lock = asyncio.Lock()
+        self._querying_gateways = set()
         self._device_infos: list[DeviceInfo] = []
+        self._non_gateway_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []
 
     # Task management
@@ -72,7 +78,10 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         """
         if listener not in self._listeners:
             self._listeners.append(listener)
-            return [self._create_task(listener.device_found(x)) for x in self.devices]
+            return [
+                self._create_task(listener.device_found(x))
+                for x in self.devices if self._include_gateways or x.sub_count == 0
+            ]
         return None
 
     def remove_listener(self, listener: Listener) -> bool:
@@ -100,24 +109,44 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             device
         """
 
+        include_gateway = self._include_gateways
+        is_new = True
+        address_changed = False
         for index, last_info in enumerate(self._device_infos):
             if device_info == last_info:
-                if device_info.ip != last_info.ip:
-                    # ip address info may have been updated, so store the new info
-                    # and trigger a `device_update` event.
+                is_new = False
+                address_changed = device_info.ip != last_info.ip
+                if address_changed:
                     self._device_infos[index] = device_info
-                    tasks = [l.device_update(device_info) for l in self._listeners]
-                    await asyncio.gather(*tasks, return_exceptions=True)
+                    if device_info.sub_count == 0:
+                        self._non_gateway_infos[self._non_gateway_infos.index(last_info)] = device_info
+                break
+        else:
+            self._device_infos.append(device_info)
+            if device_info.sub_count == 0:
+                self._non_gateway_infos.append(device_info)
+            _LOGGER.info("Found gree device %s", str(device_info))
+
+        if device_info.sub_count > 0:
+            if device_info.mac in self._querying_gateways:
+                return
+            self._querying_gateways.add(device_info.mac)
+            try:
+                # Keep enumeration inside this tracked task so scan() waits for it.
+                await self._query_gateway(device_info)
+            finally:
+                self._querying_gateways.discard(device_info.mac)
+            if not include_gateway:
                 return
 
-        self._device_infos.append(device_info)
+        if is_new or address_changed:
+            tasks = [
+                l.device_found(device_info) if is_new else l.device_update(device_info)
+                for l in self._listeners
+            ]
+            await asyncio.gather(*tasks, return_exceptions=True)
 
-        _LOGGER.info("Found gree device %s", str(device_info))
-
-        tasks = [l.device_found(device_info) for l in self._listeners]
-        await asyncio.gather(*tasks, return_exceptions=True)
-
-    def _decrypt_pack(self, pack):
+    def decode_response_pack(self, obj):
         """Decrypt a scan reply, falling back to CipherV2 if CipherV1 fails.
 
         Some Gree Wi-Fi modules only speak the GCM-based protocol, even
@@ -128,6 +157,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         packet_received's existing "unexpected response" handling takes
         care of it.
         """
+        pack = obj["pack"]
         try:
             return self._cipher.decrypt(pack)
         except Exception:
@@ -154,17 +184,38 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             pack.get("mid"),
         )
 
-        self._create_task(self.device_found(DeviceInfo(*device)))
+        self._create_task(self.device_found(DeviceInfo(*device, sub_count=pack.get("subCnt", 0))))
+
+    async def _query_gateway(self, gw_info: DeviceInfo) -> None:
+        """Bind to a gateway device and discover its sub-devices."""
+        gw = Device(gw_info, timeout=10, bind_timeout=15, loop=self._loop)
+        try:
+            await gw.bind()
+            sub_infos = await gw.get_sub_devices()
+            for sub_info in sub_infos:
+                await self.device_found(sub_info)
+        except (DeviceNotBoundError, DeviceTimeoutError):
+            _LOGGER.warning(
+                "Failed to query sub-devices from gateway %s", gw_info.mac
+            )
+        finally:
+            try:
+                gw.close()
+            except (RuntimeError, AttributeError):
+                pass
 
     # Discovery
     async def scan(
         self,
         wait_for: int = 0,
         bcast_ifaces: list[IPv4Address] | None = None,
+        include_gateways: bool = False,
         *,
         target_addresses: list[IPv4Address] | None = None,
     ) -> list[DeviceInfo]:
         """Send discovery packets to broadcast or unicast destinations.
+            Gateway sub-devices are automatically queried and returned as
+            regular devices.
 
         Args:
             wait_for (int): Optionally wait this many seconds for discovery
@@ -172,12 +223,20 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             bcast_ifaces (list[IPv4Address]): Compatibility alias for target_addresses.
             target_addresses (list[IPv4Address]): Destination addresses to scan.
                 None or an empty list uses automatic broadcast discovery.
+            include_gateways (bool): If True, gateway devices are included in
+                                     the results alongside their sub-devices.
+                                     Default is False.
+            Concurrent scans are serialized. The latest scan's gateway policy
+            remains active for late listener notifications, including when
+            wait_for is zero.
 
         Raises:
             ValueError: Both address parameters are supplied with non-None values.
 
         Returns:
-            List[DeviceInfo]: List of devices found during this scan
+            List[DeviceInfo]: Live accumulated list, updated by late discoveries
+                and address changes. Its gateway inclusion policy is preserved
+                across subsequent scans.
         """
         if bcast_ifaces is not None:
             if target_addresses is not None:
@@ -186,12 +245,16 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
         _LOGGER.info("Scanning for Gree devices ...")
 
-        await self.search_devices(target_addresses=target_addresses)
-        if wait_for:
-            await asyncio.sleep(wait_for)
-            await asyncio.gather(*self.tasks, return_exceptions=True)
+        async with self._scan_lock:
+            self._include_gateways = include_gateways
+            await self.search_devices(target_addresses=target_addresses)
+            if wait_for:
+                await asyncio.sleep(wait_for)
+                await asyncio.gather(*self.tasks, return_exceptions=True)
 
-        return self._device_infos
+            if include_gateways:
+                return self._device_infos
+            return self._non_gateway_infos
 
     def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""
