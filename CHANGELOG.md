@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/cmroche/greeclimate/compare/v3.2.2...v3.3.0) (2026-10-17)
+
+
+### Features
+
+* improved temperature offset learning with device quirks ([#199](https://github.com/cmroche/greeclimate/issues/199)) ([899a4bb](https://github.com/cmroche/greeclimate/commit/899a4bbb428b838dff39a54bd57d1c80f9f9a6fd)), closes [#197](https://github.com/cmroche/greeclimate/issues/197)
+
 ## [3.2.2](https://github.com/cmroche/greeclimate/compare/v3.2.1...v3.2.2) (2026-10-14)
 
 
