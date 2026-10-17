@@ -63,6 +63,91 @@ async def test_scan_waits_for_gateway_query_created_by_packet_task():
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("include_gateways", [False, True])
+async def test_no_wait_scan_result_receives_late_gateway_children(include_gateways):
+    discovery = Discovery()
+    listener = RecordingListener()
+    discovery.add_listener(listener)
+    started = asyncio.Event()
+    release = asyncio.Event()
+    children = [
+        DeviceInfo("127.0.0.1", 7000, mac, "Indoor", gateway_mac="aabbcc001122")
+        for mac in ("aabbcc001133", "aabbcc001144")
+    ]
+
+    async def query_gateway(info):
+        started.set()
+        await release.wait()
+        for child in children:
+            await discovery.device_found(child)
+
+    async def search(*args, **kwargs):
+        discovery.packet_received(gateway_packet(), ("127.0.0.1", 7000))
+
+    with patch.object(discovery, "search_devices", side_effect=search), \
+         patch.object(discovery, "_query_gateway", side_effect=query_gateway):
+        try:
+            devices = await asyncio.wait_for(
+                discovery.scan(wait_for=0, include_gateways=include_gateways), 1
+            )
+            await asyncio.wait_for(started.wait(), 1)
+            gateway_tasks = set(discovery.tasks)
+            discovery.packet_received(
+                {"pack": {"mac": "aabbcc001155", "name": "Standalone"}}, ("127.0.0.1", 7000)
+            )
+            await asyncio.gather(*(task for task in discovery.tasks if task not in gateway_tasks))
+            expected = ["aabbcc001122"] if include_gateways else []
+            expected.append("aabbcc001155")
+            assert [info.mac for info in devices] == expected
+            assert listener.macs == ["aabbcc001155"]
+            release.set()
+            await asyncio.gather(*discovery.tasks)
+            assert [info.mac for info in devices] == expected + [child.mac for child in children]
+            assert listener.macs == ["aabbcc001155"] + [child.mac for child in children] + (
+                ["aabbcc001122"] if include_gateways else []
+            )
+        finally:
+            release.set()
+            await asyncio.gather(*discovery.tasks, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("include_gateways", [False, True])
+async def test_live_scan_results_keep_gateway_policy_across_scans(include_gateways):
+    discovery = Discovery()
+    listener = RecordingListener()
+    discovery.add_listener(listener)
+    child = DeviceInfo("127.0.0.1", 7000, "aabbcc001133", "Indoor", gateway_mac="aabbcc001122")
+
+    async def query_gateway(info):
+        await discovery.device_found(child)
+
+    with patch.object(discovery, "search_devices", new_callable=AsyncMock), \
+         patch.object(discovery, "_query_gateway", side_effect=query_gateway):
+        units = await discovery.scan()
+        all_devices = await discovery.scan(include_gateways=True)
+        await discovery.scan(include_gateways=include_gateways)
+        assert units == all_devices == []
+        discovery.packet_received(gateway_packet(), ("127.0.0.1", 7000))
+        await asyncio.gather(*discovery.tasks)
+        assert [info.mac for info in units] == [child.mac]
+        assert [info.mac for info in all_devices] == ["aabbcc001122", child.mac]
+        assert listener.macs == [child.mac] + (["aabbcc001122"] if include_gateways else [])
+
+        later_units = await discovery.scan()
+        later_all_devices = await discovery.scan(include_gateways=True)
+        discovery.packet_received(
+            {"pack": {"mac": "aabbcc001155", "name": "Standalone"}}, ("127.0.0.1", 7000)
+        )
+        await asyncio.gather(*discovery.tasks)
+        for result in (units, later_units):
+            assert [info.mac for info in result] == [child.mac, "aabbcc001155"]
+        for result in (all_devices, later_all_devices):
+            assert [info.mac for info in result] == ["aabbcc001122", child.mac, "aabbcc001155"]
+        assert listener.macs.count("aabbcc001155") == 1
+
+
+@pytest.mark.asyncio
 async def test_no_wait_scan_keeps_gateway_policy_for_late_responses():
     discovery = Discovery()
     listener = RecordingListener()
@@ -318,23 +403,29 @@ async def test_gateway_rescan_recovers_missing_indoor_units(first_response):
     ]
     initial = children[:1] if first_response == "partial" else []
     response = DeviceTimeoutError() if first_response == "timeout" else initial
+    recovery = children[1:] if first_response == "partial" else children
 
     async def search(*args, **kwargs):
         await discovery.device_found(gateway)
 
     with patch.object(discovery, "search_devices", side_effect=search), \
          patch.object(Device, "bind", new_callable=AsyncMock), \
-         patch.object(Device, "get_sub_devices", side_effect=[response, children]), \
+         patch.object(Device, "get_sub_devices", side_effect=[response, recovery, DeviceTimeoutError()]), \
          patch.object(Device, "close"):
         first = await discovery.scan()
         assert {info.mac for info in first} == {info.mac for info in initial}
         recovered = await discovery.scan()
+        for result in (first, recovered):
+            assert {info.mac for info in result} == {info.mac for info in children}
+        await discovery.scan()
 
-    assert {info.mac for info in recovered} == {info.mac for info in children}
+    for result in (first, recovered):
+        assert {info.mac for info in result} == {info.mac for info in children}
 
 
 @pytest.mark.asyncio
-async def test_gateway_address_change_refreshes_indoor_addresses():
+@pytest.mark.parametrize("include_gateways", [False, True])
+async def test_gateway_address_change_refreshes_indoor_addresses(include_gateways):
     """Issue 1: indoor units must follow their gateway to its new address."""
     discovery = Discovery()
     gateways = [
@@ -354,11 +445,14 @@ async def test_gateway_address_change_refreshes_indoor_addresses():
          patch.object(Device, "bind", new_callable=AsyncMock), \
          patch.object(Device, "get_sub_devices", side_effect=[[child] for child in children]), \
          patch.object(Device, "close"):
-        first = await discovery.scan()
-        assert [(info.mac, info.ip) for info in first] == [(children[0].mac, gateways[0].ip)]
-        refreshed = await discovery.scan()
+        first = await discovery.scan(include_gateways=include_gateways)
+        expected_macs = ([gateways[0].mac] if include_gateways else []) + [children[0].mac]
+        assert [(info.mac, info.ip) for info in first] == [(mac, gateways[0].ip) for mac in expected_macs]
+        refreshed = await discovery.scan(include_gateways=include_gateways)
 
-    assert [(info.mac, info.ip) for info in refreshed] == [(children[1].mac, gateways[1].ip)]
+    for result in (first, refreshed):
+        assert [(info.mac, info.ip) for info in result] == [(mac, gateways[1].ip) for mac in expected_macs]
+        assert result[-1].gateway_mac == gateways[1].mac
 
 
 @pytest.mark.asyncio
@@ -416,6 +510,9 @@ async def test_duplicate_gateway_advertisements_share_active_enumeration():
     child = DeviceInfo(gateway.ip, gateway.port, "aabbcc001133", "Indoor", gateway_mac=gateway.mac)
     listener = RecordingListener()
     discovery.add_listener(listener)
+    with patch.object(discovery, "search_devices", new_callable=AsyncMock):
+        all_devices = await discovery.scan(include_gateways=True)
+        units = await discovery.scan()
     started = asyncio.Event()
     release = asyncio.Event()
     queries = []
@@ -438,7 +535,11 @@ async def test_duplicate_gateway_advertisements_share_active_enumeration():
             await asyncio.gather(first, *([duplicate] if duplicate else []))
         assert queries == [gateway.mac]
         assert listener.macs == [child.mac]
+        assert [info.mac for info in all_devices] == [gateway.mac, child.mac]
+        assert [info.mac for info in units] == [child.mac]
         await discovery.device_found(gateway)
 
     assert queries == [gateway.mac, gateway.mac]
     assert listener.macs == [child.mac]
+    assert [info.mac for info in all_devices] == [gateway.mac, child.mac]
+    assert [info.mac for info in units] == [child.mac]

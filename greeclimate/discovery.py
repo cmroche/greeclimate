@@ -54,6 +54,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         self._scan_lock = asyncio.Lock()
         self._querying_gateways = set()
         self._device_infos: list[DeviceInfo] = []
+        self._non_gateway_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []
 
     # Task management
@@ -117,9 +118,13 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
                 address_changed = device_info.ip != last_info.ip
                 if address_changed:
                     self._device_infos[index] = device_info
+                    if device_info.sub_count == 0:
+                        self._non_gateway_infos[self._non_gateway_infos.index(last_info)] = device_info
                 break
         else:
             self._device_infos.append(device_info)
+            if device_info.sub_count == 0:
+                self._non_gateway_infos.append(device_info)
             _LOGGER.info("Found gree device %s", str(device_info))
 
         if device_info.sub_count > 0:
@@ -222,13 +227,16 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
                                      the results alongside their sub-devices.
                                      Default is False.
             Concurrent scans are serialized. The latest scan's gateway policy
-            remains active for late responses, including when wait_for is zero.
+            remains active for late listener notifications, including when
+            wait_for is zero.
 
         Raises:
             ValueError: Both address parameters are supplied with non-None values.
 
         Returns:
-            List[DeviceInfo]: List of devices found during this scan
+            List[DeviceInfo]: Live accumulated list, updated by late discoveries
+                and address changes. Its gateway inclusion policy is preserved
+                across subsequent scans.
         """
         if bcast_ifaces is not None:
             if target_addresses is not None:
@@ -245,8 +253,8 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
                 await asyncio.gather(*self.tasks, return_exceptions=True)
 
             if include_gateways:
-                return list(self._device_infos)
-            return [d for d in self._device_infos if d.sub_count == 0]
+                return self._device_infos
+            return self._non_gateway_infos
 
     def _get_broadcast_addresses(self) -> list[IPv4Address]:
         """Return a list of broadcast addresses for each discovered interface"""

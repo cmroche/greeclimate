@@ -49,9 +49,17 @@ Gateways with multiple indoor units are queried automatically. With a nonzero
 units. Gateway devices themselves are excluded by default; pass
 `include_gateways=True` to include them and notify listeners about them.
 
+`scan()` returns a live, accumulated list, not a snapshot of one scan. Both zero-
+and positive-wait results receive later standalone devices and gateway indoor
+units, including address replacements. Each returned list keeps its original
+gateway inclusion policy across subsequent scans. Partial, empty, or failed
+gateway rescans do not remove previously discovered indoor units.
+
 Concurrent scans on one `Discovery` instance are serialized. The latest scan's
-gateway inclusion policy remains active for late responses. With `wait_for=0`,
-use discovery listeners to receive devices found after `scan()` returns.
+gateway inclusion policy remains active for listener notifications from late
+responses. With `wait_for=0`, the scan sends discovery requests without waiting
+for replies or gateway enumeration. Retain the returned list for late results,
+or use discovery listeners for event-driven updates.
 
 Discovered indoor units inherit the gateway's key and cipher. Binding with a
 cached key still opens a UDP transport and requires a cipher; invalid key/cipher

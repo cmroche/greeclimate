@@ -255,6 +255,39 @@ async def test_discovery_events(ifaddr_adapters, addr, family):
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("wait_for", [0, 1])
+@pytest.mark.parametrize("include_gateways", [False, True])
+async def test_scan_result_receives_late_devices(wait_for, include_gateways):
+    discovery = Discovery()
+    listener = AsyncMock(spec=Listener)
+    discovery.add_listener(listener)
+    packet = {"pack": {"mac": "aabbcc001155", "name": "Standalone"}}
+    with patch.object(discovery, "search_devices", new_callable=AsyncMock), \
+         patch("greeclimate.discovery.asyncio.sleep", new_callable=AsyncMock):
+        devices = await discovery.scan(wait_for=wait_for, include_gateways=include_gateways)
+    assert devices == []
+
+    discovery.packet_received(packet, ("127.0.0.1", 7000))
+    await asyncio.gather(*discovery.tasks)
+    assert [info.mac for info in devices] == ["aabbcc001155"]
+    assert [call.args[0].mac for call in listener.device_found.call_args_list] == ["aabbcc001155"]
+    original = devices[0]
+
+    discovery.packet_received(packet, ("127.0.0.1", 7000))
+    await asyncio.gather(*discovery.tasks)
+    assert [info.mac for info in devices] == ["aabbcc001155"]
+    listener.device_found.assert_awaited_once()
+    listener.device_update.assert_not_awaited()
+
+    discovery.packet_received(packet, ("127.0.0.2", 7000))
+    await asyncio.gather(*discovery.tasks)
+    assert [(info.mac, info.ip) for info in devices] == [("aabbcc001155", "127.0.0.2")]
+    listener.device_update.assert_awaited_once_with(devices[0])
+    listener.device_found.assert_awaited_once()
+    assert original.ip == "127.0.0.1"
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize("mid", ["0001", "10f01", None])
 async def test_discovery_preserves_reported_mid(mid):
     discovery = Discovery()
