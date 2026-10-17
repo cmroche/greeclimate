@@ -6,11 +6,11 @@
 
 ## Build, Test, and Development Commands
 
-Create an isolated environment before installing dependencies:
+Use the repository-root `venv/` as the official and only virtual environment. Reuse it when it exists; do not create additional environments such as `.venv/` or `.venv-ifaddr/`. If it is missing, create it before installing dependencies:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 pip install flake8 pytest pytest-asyncio pytest-cov
 ```
