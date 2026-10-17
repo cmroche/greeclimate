@@ -1,0 +1,644 @@
+{
+  "profile": "sim-w04h-v3.55",
+  "mid": "10001",
+  "source_sha256": "17b1c7812a3f98fa1e800e786b37606d842ebbf0b38a25c0ec5c173fcaaa9f2e",
+  "evidence": {
+    "source_url": "http://test.grih.gree.com/wifiModule/image/20049/892240",
+    "native_protocol_addresses": [
+      "0x08052088",
+      "0x08052234",
+      "0x08052914",
+      "0x08052ff0",
+      "0x08053288"
+    ],
+    "native_capture": "w04h_research.json records original ARM Thumb dispatch/builders with JSON/ROM boundary hooks; command p only, generic bind reply and forced device-key status/cmd reply",
+    "simulation_contract": "USER-APPROVED synthetic appliance: independent bounded controls, atomic strict command validation, model-limited known-field omission, immutable configured name, room floor(C)+40. No claim this models actual mainboard setters/cache feedback. Strict w04h-v3.55 remains blocked.",
+    "expected_value_origin": "Manually encoded observed firmware envelope shapes and separately specified simulation model; no production/client imports."
+  },
+  "device": {
+    "id": "office",
+    "mac": "020000000001",
+    "name": "Emulator Office",
+    "key": "0123456789abcdef",
+    "room_c": 26.5,
+    "ambient_c": 26.5
+  },
+  "initial_state": {
+    "Pow": 0,
+    "Mod": 0,
+    "SetTem": 24,
+    "WdSpd": 0,
+    "Lig": 1
+  },
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "TemSen",
+          "Pow",
+          "Mod",
+          "SetTem",
+          "TemSen"
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ],
+        "p": [
+          0,
+          1,
+          1,
+          22,
+          5
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "WdSpd",
+          "Pow",
+          "SetTem",
+          "Mod",
+          "TemSen"
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "SetTem",
+          "Pow"
+        ],
+        "p": [
+          25,
+          2
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "TemSen"
+        ],
+        "p": [
+          25
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "name"
+        ],
+        "p": [
+          "Changed"
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "HumSen",
+          "SetTem",
+          "model",
+          "hid",
+          "mid",
+          "ver",
+          "vender",
+          "name",
+          "host"
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow"
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "ThisNameIsTooLong",
+          "Mod"
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "unknown"
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "SetTem"
+        ],
+        "p": [
+          0
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "SetTem"
+        ]
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {"t": "pack", "i": 0, "uid": 42, "cid": "malformed-peer", "tcid": "020000000001"},
+      "inner": {"t": "status", "mac": "020000000001", "cols": ["Pow", 7, "SetTem"]}
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {"t": "pack", "i": 0, "uid": 42, "cid": "malformed-peer", "tcid": "020000000001"},
+      "inner": {
+        "t": "cmd", "mac": "020000000001",
+        "opt": ["Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow","Pow"],
+        "p": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      }
+    },
+    {
+      "outer": {
+        "t": "scan"
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "00000",
+          "hid": "362001061060+U-W04HV3.55.bin",
+          "catalog": "gree",
+          "mid": "10001",
+          "lock": 0,
+          "model": "gree",
+          "name": "Emulator Office",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V3.0.0",
+          "brand": "gree",
+          "mac": "020000000001"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "TemSen",
+            "Pow",
+            "Mod",
+            "SetTem",
+            "TemSen"
+          ],
+          "dat": [
+            66,
+            0,
+            0,
+            24,
+            66
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            1,
+            1,
+            22,
+            5
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "WdSpd",
+            "Pow",
+            "SetTem",
+            "Mod",
+            "TemSen"
+          ],
+          "dat": [
+            5,
+            1,
+            22,
+            1,
+            66
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "SetTem",
+            "hid",
+            "mid",
+            "ver",
+            "vender",
+            "name",
+            "host"
+          ],
+          "dat": [
+            1,
+            22,
+            "362001061060+U-W04HV3.55.bin",
+            "10001",
+            "V3.0.0",
+            "2",
+            "Emulator Office",
+            ""
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [],
+          "dat": []
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            1
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "SetTem"
+          ],
+          "dat": [
+            1,
+            22
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "00000",
+          "hid": "362001061060+U-W04HV3.55.bin",
+          "catalog": "gree",
+          "mid": "10001",
+          "lock": 0,
+          "model": "gree",
+          "name": "Emulator Office",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V3.0.0",
+          "brand": "gree",
+          "mac": "020000000001"
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Mod": 1,
+    "SetTem": 22,
+    "WdSpd": 5,
+    "TemUn": 0,
+    "TemRec": 0,
+    "Air": 0,
+    "Blo": 0,
+    "Health": 0,
+    "SwhSlp": 0,
+    "SlpMod": 0,
+    "Lig": 1,
+    "SwingLfRig": 0,
+    "SwUpDn": 0,
+    "Quiet": 0,
+    "Tur": 0,
+    "StHt": 0,
+    "SvSt": 0,
+    "Buzzer_ON_OFF": 0,
+    "TemSen": 66
+  }
+}

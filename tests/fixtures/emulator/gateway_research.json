@@ -1,0 +1,1315 @@
+{
+  "profile": "w06av-v30",
+  "mid": "60",
+  "source_sha256": "6b52f31a74a74c5a88f3d8b68f8b4afc89fcd8d59e3d11a287a4ec37825bf79b",
+  "registered": false,
+  "evidence": {
+    "method": "Bounded instruction-matched Xtensa translations; every decoded instruction checked against source-matched extracted bytes. JSON/ROM memory and AES APIs were boundaries. No native Xtensa execution, full boot, emulator/client-generated expectations, physical sensor calibration, or network trace.",
+    "source_url": "http://eu.grih.gree.com/wifiModule/image/10156/786432",
+    "hashes": [
+      {
+        "source_sha256": "6ac3db6c6b5d72d327171d2bc16223c626301a194511a44931ad86de4135abd8",
+        "path": "/Users/cliffordroche/Downloads/gree-firmware/362001061649+V4.4-test.bin",
+        "segments": [
+          {
+            "addr": 10486016,
+            "size": 10732,
+            "file_offset": 17564,
+            "sha256": "69b15ea6f28f63806804307defae478ec7f48d1483099382e92db22b9a433d4f"
+          },
+          {
+            "addr": 4481024,
+            "size": 30952,
+            "file_offset": 28336,
+            "sha256": "33d11dab2746d94d9e854d8e6e812c288a324232f809ce417a16139cad042220"
+          },
+          {
+            "addr": 4511984,
+            "size": 3140,
+            "file_offset": 59328,
+            "sha256": "706fa7bc43beadf334ab79a16f0f9e9906431c4cd4e894bebc6696e5c6ffd476"
+          },
+          {
+            "addr": 10504192,
+            "size": 182079,
+            "file_offset": 62508,
+            "sha256": "9e75d8d79c1d445527bd2fcbc6be9dd113746770f44a0e9347087c975ac490ef"
+          }
+        ]
+      },
+      {
+        "source_sha256": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f",
+        "path": "/Users/cliffordroche/Downloads/gree-firmware/362001067592+U-W06DV4.01-eu.bin",
+        "segments": [
+          {
+            "addr": 10486016,
+            "size": 14848,
+            "file_offset": 18456,
+            "sha256": "f3006e04dab693f82c9c98e9c5db08688ccccef51b26ebbb845e5e109ddf3b39"
+          },
+          {
+            "addr": 4501504,
+            "size": 31652,
+            "file_offset": 33344,
+            "sha256": "9f55dc03fc094d45b5a3ef57cf72b9237901e64c0db3a6ccc613eee59daf3b93"
+          },
+          {
+            "addr": 4533168,
+            "size": 3948,
+            "file_offset": 65036,
+            "sha256": "fba308a29c8fd82e82919e0936b81cc7386bf23e61d29b9a716a385afd09b969"
+          },
+          {
+            "addr": 10517504,
+            "size": 403727,
+            "file_offset": 69024,
+            "sha256": "e306a079ca2bd5a33ad7f280e44bd047d22c952464c40583d3fe6041bf4a7df9"
+          }
+        ]
+      },
+      {
+        "source_sha256": "6b52f31a74a74c5a88f3d8b68f8b4afc89fcd8d59e3d11a287a4ec37825bf79b",
+        "path": "/Users/cliffordroche/Downloads/gree-firmware/362001060168+TIAO_U-W06AV30-eu.bin",
+        "segments": [
+          {
+            "addr": 10486016,
+            "size": 15608,
+            "file_offset": 18456,
+            "sha256": "80b73ef5c18023fc3d9650ff0db9ae4d7307c259bdb82b7f54c0306efa6ca880"
+          },
+          {
+            "addr": 4501504,
+            "size": 45752,
+            "file_offset": 34104,
+            "sha256": "6f6817b79b4dffd73e61980a7447bfefdf3551fe086c61dba3c57c2ff506990b"
+          },
+          {
+            "addr": 4547264,
+            "size": 4188,
+            "file_offset": 79896,
+            "sha256": "e072190ae1b9ed6a18cff74dbdefc297a8b89dc170614e2f9350b9a87a8bf0e8"
+          },
+          {
+            "addr": 10517504,
+            "size": 426319,
+            "file_offset": 84124,
+            "sha256": "3537a1f2afcf9173f803736d4f7b4687cdbc069225bd0b9f69d773fc553e5975"
+          }
+        ]
+      }
+    ],
+    "sdk": {
+      "source_url": "https://github.com/dandemidow/qca4010/blob/4fa7a6fca8070ea72f7696dd764519be8e87c186/xtensa.sh",
+      "archive_sha256": "750dba18385942f64ce89306d41c3a1b9861c3d7e4ee0fdc8200d8da42fce6ca",
+      "symbols": "target/image/rom.addrs.ld: _qcom_aes_encrypt_init=0x009aa0b0, _qcom_aes_encrypt=0x009aa0c4, _qcom_aes_encrypt_deinit=0x009aa0d8; corresponding decrypt=0x009aa0e8/0x009aa0fc/0x009aa110",
+      "rom_map_sha256": "46dfdbb95b29fd678a3783d44b2b304678b611cf2c1e427f40a140bc34a89fe3",
+      "qcom_security_header_sha256": "07234bdf83c965522498ff3a7cd73ec2f98186825050e581638cf888380897ea",
+      "verification": "Archive hash and both member hashes recomputed independently; exact six symbol addresses match firmware literal references."
+    },
+    "rom_references": {
+      "0xa0e2d3": "0x9aa0b0",
+      "0xa0e306": "0x9aa0c4",
+      "0xa0e32a": "0x9aa0d8",
+      "0xa0e33f": "0x9aa0e8",
+      "0xa0e372": "0x9aa0fc",
+      "0xa0e396": "0x9aa110"
+    },
+    "addresses": {
+      "envelope": "0xa13124",
+      "enumeration_request": "0xa145b8",
+      "enumeration_builder": "0xa139fc",
+      "bind_builder": "0xa13c04",
+      "status_parser": "0xa13cf8",
+      "command_parser": "0xa13f24",
+      "command_reply": "0xa13608",
+      "AC_selector": "0xa15068",
+      "alternate_selector": "0xa1562c",
+      "AC_getter": "0xa160cc",
+      "AC_mainboard_to_wire": "0xa15a38",
+      "AC_wire_to_mainboard": "0xa15bc8"
+    },
+    "wire_literals": {
+      "0x453e64": "p",
+      "0x454134": "i",
+      "0x455118": "c",
+      "0x4540a8": "t",
+      "0x45400c": "r",
+      "0x453e68": "val"
+    },
+    "command_shape": "Receiving parser explicitly fetches p, not val. The res builder creates separate p and val arrays. A val-only receive alias is not supported by this evidence.",
+    "selectors": "Outer tcid is gateway MAC; outer i,uid,cid are required before pack dispatch. Status mac selects child; command parser requires sub for child controls. Enumeration mac is gateway MAC; i is required.",
+    "scan_bind": "Discovery builder0xa138c8 emits MID60; bind builder0xa13c04 emits t=bindOk,mac,key,r=200.",
+    "child_identity": "0xa139fc calls actual0xa1665c with length7; complete instruction replay retains all14 lowercase hex characters.",
+    "child_namespace_routes": {
+      "6049": 0,
+      "604a": 0,
+      "604b": 0,
+      "604c": 0,
+      "605c": 0,
+      "608f": 0,
+      "6092": 0,
+      "605d": 1,
+      "6079": 1
+    },
+    "selector_replays": {
+      "6b52f31a": {
+        "function": "0xa15068",
+        "results": {
+          "Pow": 1,
+          "Mod": 6,
+          "SetTem": 10,
+          "TemBody": 27,
+          "TemSor": -2,
+          "TemSen": -2,
+          "Missing": -2
+        },
+        "executed_instruction_count": 438
+      },
+      "eabd04d4": {
+        "function": "0xa10c68",
+        "results": {
+          "Pow": 0,
+          "Mod": 8,
+          "SetTem": 9,
+          "TemRecH": 19,
+          "TemRecC": 20,
+          "TemSor": -1,
+          "TemBody": -1,
+          "TemSen": -1,
+          "Missing": -1
+        },
+        "executed_instruction_count": 134
+      },
+      "6ac3db6c": {
+        "function": "0xa12a08",
+        "results": {
+          "Pow": 0,
+          "Mod": -1,
+          "SetTem": -1,
+          "TemSor": 4,
+          "TemBody": -1,
+          "TemSen": -1,
+          "Missing": -1
+        },
+        "executed_instruction_count": 153
+      }
+    },
+    "enumeration_parser_replays": [
+      {
+        "request": {
+          "mac": "020000000001",
+          "i": 0
+        },
+        "return": 0,
+        "reply_operation": 7,
+        "stored_index": 0
+      },
+      {
+        "request": {
+          "mac": "020000000001",
+          "i": 5
+        },
+        "return": 0,
+        "reply_operation": 7,
+        "stored_index": 5
+      },
+      {
+        "request": {
+          "mac": "020000000001",
+          "i": 256
+        },
+        "return": 0,
+        "reply_operation": 7,
+        "stored_index": 0
+      },
+      {
+        "request": {
+          "mac": "020000000001",
+          "i": -1
+        },
+        "return": 0,
+        "reply_operation": 7,
+        "stored_index": 255
+      },
+      {
+        "request": {
+          "mac": "020000000001"
+        },
+        "return": -1,
+        "reply_operation": 0,
+        "stored_index": 33
+      },
+      {
+        "request": {
+          "mac": "020000000009",
+          "i": 0
+        },
+        "return": 0,
+        "reply_operation": 0,
+        "stored_index": 0
+      },
+      {
+        "request": {},
+        "return": -1,
+        "reply_operation": 0,
+        "stored_index": 33
+      }
+    ],
+    "enumeration_only_mid_rewrites": [
+      {
+        "stored_mid": "6099",
+        "expected_enumerated_mid": "6079"
+      },
+      {
+        "stored_mid": "608d",
+        "expected_enumerated_mid": "6079"
+      },
+      {
+        "stored_mid": "6091",
+        "expected_enumerated_mid": "6079"
+      },
+      {
+        "stored_mid": "60a9",
+        "expected_enumerated_mid": "6079"
+      },
+      {
+        "stored_mid": "6092",
+        "expected_enumerated_mid": "6092"
+      }
+    ],
+    "sensor_replay": {
+      "field": "TemBody",
+      "descriptor_address": "0x451014",
+      "wire_id": 27,
+      "cache_offset": 35,
+      "mask": 255,
+      "getter": "0xa160cc",
+      "cases": 512,
+      "cache_banks": [
+        65,
+        185
+      ],
+      "result": "All256 byte values in both cache banks forwarded unchanged. No raw-to-Celsius physical conversion established."
+    },
+    "command_conversion_replay": {
+      "function": "0xa15bc8",
+      "method": "Complete byte-matched instructions; only ROM strcmp boundary. These are converter results, not complete command acceptance or next-status vectors.",
+      "Pow": {"requests": [-1, 0, 1, 2], "returns": [-1, 0, 0, -1], "mainboard_values": [-1, 85, 170, 2]},
+      "Mod": {"requests": [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "returns": [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1], "mainboard_values": [-1, 5, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 12]},
+      "WdSpd": {"requests": [-1, 0, 1, 7, 8], "returns": [-1, 0, 0, 0, -1], "mainboard_values": [-1, 1, 2, 8, 8]},
+      "SetTem": {"requests": [-1, 0, 16, 24, 30, 256], "returns": [0, 0, 0, 0, 0, 0], "mainboard_values": [-10, 0, 160, 240, 300, 2560]},
+      "SwUpDn": {"requests": [-1, 0, 1, 2], "returns": [-1, 0, 0, -1], "mainboard_values": [-1, 1, 2, 2]},
+      "TemBody": {"requests": [25], "returns": [-1], "mainboard_values": [25]}
+    },
+    "descriptors": {
+      "6b52f31a": {
+        "table": "0x450d20",
+        "records": [
+          {
+            "wire_id": 0,
+            "name": "GetEr",
+            "cache_offset": 5,
+            "mask": 255
+          },
+          {
+            "wire_id": 1,
+            "name": "Pow",
+            "cache_offset": 6,
+            "mask": 255
+          },
+          {
+            "wire_id": 2,
+            "name": "MasSub",
+            "cache_offset": 7,
+            "mask": 255
+          },
+          {
+            "wire_id": 3,
+            "name": "SvSt",
+            "cache_offset": 8,
+            "mask": 255
+          },
+          {
+            "wire_id": 4,
+            "name": "Blo",
+            "cache_offset": 9,
+            "mask": 255
+          },
+          {
+            "wire_id": 5,
+            "name": "Air",
+            "cache_offset": 10,
+            "mask": 255
+          },
+          {
+            "wire_id": 6,
+            "name": "Mod",
+            "cache_offset": 11,
+            "mask": 255
+          },
+          {
+            "wire_id": 7,
+            "name": "Quiet",
+            "cache_offset": 12,
+            "mask": 255
+          },
+          {
+            "wire_id": 8,
+            "name": "SwhSlp",
+            "cache_offset": 13,
+            "mask": 255
+          },
+          {
+            "wire_id": 9,
+            "name": "WdSpd",
+            "cache_offset": 15,
+            "mask": 255
+          },
+          {
+            "wire_id": 10,
+            "name": "SetTem",
+            "cache_offset": 16,
+            "mask": 65535
+          },
+          {
+            "wire_id": 11,
+            "name": "CoolSvStTemMin",
+            "cache_offset": 18,
+            "mask": 65535
+          },
+          {
+            "wire_id": 12,
+            "name": "HeatSvStTemMax",
+            "cache_offset": 20,
+            "mask": 65535
+          },
+          {
+            "wire_id": 13,
+            "name": "HumiSvStTemMin",
+            "cache_offset": 22,
+            "mask": 65535
+          },
+          {
+            "wire_id": 14,
+            "name": "MasIDUMod",
+            "cache_offset": 28,
+            "mask": 255
+          },
+          {
+            "wire_id": 15,
+            "name": "GoOut",
+            "cache_offset": 29,
+            "mask": 255
+          },
+          {
+            "wire_id": 16,
+            "name": "AidHeat",
+            "cache_offset": 31,
+            "mask": 255
+          },
+          {
+            "wire_id": 17,
+            "name": "SetCoolHumi",
+            "cache_offset": 32,
+            "mask": 255
+          },
+          {
+            "wire_id": 18,
+            "name": "SetDeciTem",
+            "cache_offset": 16,
+            "mask": 65535
+          },
+          {
+            "wire_id": 19,
+            "name": "SysSta",
+            "cache_offset": 33,
+            "mask": 65535
+          },
+          {
+            "wire_id": 20,
+            "name": "AllErr",
+            "cache_offset": 5,
+            "mask": 255
+          },
+          {
+            "wire_id": 21,
+            "name": "OutHome",
+            "cache_offset": 29,
+            "mask": 255
+          },
+          {
+            "wire_id": 22,
+            "name": "AssHt",
+            "cache_offset": 31,
+            "mask": 255
+          },
+          {
+            "wire_id": 23,
+            "name": "Add0.5",
+            "cache_offset": 44,
+            "mask": 255
+          },
+          {
+            "wire_id": 24,
+            "name": "Tur",
+            "cache_offset": 14,
+            "mask": 255
+          },
+          {
+            "wire_id": 25,
+            "name": "Heat3DSvStTemMax",
+            "cache_offset": 24,
+            "mask": 65535
+          },
+          {
+            "wire_id": 26,
+            "name": "Heat2SvStTemMax",
+            "cache_offset": 26,
+            "mask": 65535
+          },
+          {
+            "wire_id": 27,
+            "name": "TemBody",
+            "cache_offset": 35,
+            "mask": 255
+          },
+          {
+            "wire_id": 28,
+            "name": "HumiEnable",
+            "cache_offset": 36,
+            "mask": 255
+          },
+          {
+            "wire_id": 29,
+            "name": "SwUpDn",
+            "cache_offset": 37,
+            "mask": 255
+          },
+          {
+            "wire_id": 30,
+            "name": "SwingLfRig",
+            "cache_offset": 38,
+            "mask": 255
+          },
+          {
+            "wire_id": 31,
+            "name": "Add0.1",
+            "cache_offset": 39,
+            "mask": 255
+          },
+          {
+            "wire_id": 32,
+            "name": "LowDeHumi",
+            "cache_offset": 40,
+            "mask": 255
+          },
+          {
+            "wire_id": 33,
+            "name": "CleanTime",
+            "cache_offset": 41,
+            "mask": 255
+          },
+          {
+            "wire_id": 34,
+            "name": "CleanState",
+            "cache_offset": 42,
+            "mask": 255
+          },
+          {
+            "wire_id": 35,
+            "name": "AutoClean",
+            "cache_offset": 43,
+            "mask": 255
+          },
+          {
+            "wire_id": 36,
+            "name": "ErrType1",
+            "cache_offset": 50,
+            "mask": 65535
+          },
+          {
+            "wire_id": 37,
+            "name": "ErrType2",
+            "cache_offset": 52,
+            "mask": 65535
+          },
+          {
+            "wire_id": 38,
+            "name": "WFConfig",
+            "cache_offset": 54,
+            "mask": 255
+          },
+          {
+            "wire_id": 39,
+            "name": "WPow",
+            "cache_offset": 55,
+            "mask": 255
+          },
+          {
+            "wire_id": 40,
+            "name": "Wstate",
+            "cache_offset": 56,
+            "mask": 255
+          },
+          {
+            "wire_id": 41,
+            "name": "Wmod",
+            "cache_offset": 57,
+            "mask": 255
+          },
+          {
+            "wire_id": 42,
+            "name": "WtmrMin",
+            "cache_offset": 58,
+            "mask": 255
+          },
+          {
+            "wire_id": 43,
+            "name": "WtmrHr",
+            "cache_offset": 59,
+            "mask": 255
+          },
+          {
+            "wire_id": 44,
+            "name": "WSetTemMax",
+            "cache_offset": 60,
+            "mask": 65535
+          },
+          {
+            "wire_id": 45,
+            "name": "Watpercent",
+            "cache_offset": 62,
+            "mask": 255
+          },
+          {
+            "wire_id": 46,
+            "name": "WSunEn",
+            "cache_offset": 63,
+            "mask": 255
+          },
+          {
+            "wire_id": 47,
+            "name": "WAutoSetTemEn",
+            "cache_offset": 64,
+            "mask": 255
+          },
+          {
+            "wire_id": 48,
+            "name": "WUTHEn",
+            "cache_offset": 65,
+            "mask": 255
+          },
+          {
+            "wire_id": 49,
+            "name": "WUTHSetTem",
+            "cache_offset": 66,
+            "mask": 65535
+          },
+          {
+            "wire_id": 50,
+            "name": "WUTHCycle",
+            "cache_offset": 68,
+            "mask": 255
+          },
+          {
+            "wire_id": 51,
+            "name": "WUTHTmrMin",
+            "cache_offset": 69,
+            "mask": 255
+          },
+          {
+            "wire_id": 52,
+            "name": "WUTHTmrHr",
+            "cache_offset": 70,
+            "mask": 255
+          },
+          {
+            "wire_id": 53,
+            "name": "WUTHOngoing",
+            "cache_offset": 71,
+            "mask": 255
+          },
+          {
+            "wire_id": 54,
+            "name": "WFastWat",
+            "cache_offset": 72,
+            "mask": 255
+          },
+          {
+            "wire_id": 55,
+            "name": "FPow",
+            "cache_offset": 73,
+            "mask": 255
+          },
+          {
+            "wire_id": 56,
+            "name": "Fstate",
+            "cache_offset": 74,
+            "mask": 255
+          },
+          {
+            "wire_id": 57,
+            "name": "FSetTem",
+            "cache_offset": 75,
+            "mask": 65535
+          },
+          {
+            "wire_id": 58,
+            "name": "FSetTemMax",
+            "cache_offset": 77,
+            "mask": 65535
+          },
+          {
+            "wire_id": 59,
+            "name": "FAutoSetTemEn",
+            "cache_offset": 79,
+            "mask": 255
+          },
+          {
+            "wire_id": 60,
+            "name": "FFastHeat",
+            "cache_offset": 80,
+            "mask": 255
+          },
+          {
+            "wire_id": 61,
+            "name": "FIndoorEn",
+            "cache_offset": 81,
+            "mask": 255
+          },
+          {
+            "wire_id": 62,
+            "name": "FOutHomeEn",
+            "cache_offset": 82,
+            "mask": 255
+          },
+          {
+            "wire_id": 63,
+            "name": "ExtraMod",
+            "cache_offset": 83,
+            "mask": 255
+          },
+          {
+            "wire_id": 64,
+            "name": "WCurTem",
+            "cache_offset": 84,
+            "mask": 255
+          },
+          {
+            "wire_id": 65,
+            "name": "FCurTem",
+            "cache_offset": 85,
+            "mask": 255
+          },
+          {
+            "wire_id": 66,
+            "name": "WatTemWrap",
+            "cache_offset": 86,
+            "mask": 255
+          },
+          {
+            "wire_id": 67,
+            "name": "host",
+            "cache_offset": 255,
+            "mask": 255
+          },
+          {
+            "wire_id": 68,
+            "name": "hid",
+            "cache_offset": 254,
+            "mask": 255
+          },
+          {
+            "wire_id": 69,
+            "name": "lock",
+            "cache_offset": 253,
+            "mask": 255
+          }
+        ]
+      },
+      "eabd04d4": {
+        "table": "0x44cdf0",
+        "records": [
+          {
+            "wire_id": 0,
+            "name": "Pow",
+            "cache_offset": 5,
+            "mask": 1
+          },
+          {
+            "wire_id": 1,
+            "name": "Blo",
+            "cache_offset": 5,
+            "mask": 2
+          },
+          {
+            "wire_id": 2,
+            "name": "SwhSlp",
+            "cache_offset": 5,
+            "mask": 4
+          },
+          {
+            "wire_id": 3,
+            "name": "Air",
+            "cache_offset": 5,
+            "mask": 8
+          },
+          {
+            "wire_id": 4,
+            "name": "SvSt",
+            "cache_offset": 5,
+            "mask": 16
+          },
+          {
+            "wire_id": 5,
+            "name": "Quiet",
+            "cache_offset": 5,
+            "mask": 32
+          },
+          {
+            "wire_id": 6,
+            "name": "Tur",
+            "cache_offset": 5,
+            "mask": 64
+          },
+          {
+            "wire_id": 7,
+            "name": "HeatCoolType",
+            "cache_offset": 5,
+            "mask": 128
+          },
+          {
+            "wire_id": 8,
+            "name": "Mod",
+            "cache_offset": 6,
+            "mask": 255
+          },
+          {
+            "wire_id": 9,
+            "name": "SetTem",
+            "cache_offset": 7,
+            "mask": 255
+          },
+          {
+            "wire_id": 10,
+            "name": "HeatSvStTemMax",
+            "cache_offset": 8,
+            "mask": 255
+          },
+          {
+            "wire_id": 11,
+            "name": "CoolSvStTemMin",
+            "cache_offset": 9,
+            "mask": 255
+          },
+          {
+            "wire_id": 12,
+            "name": "WdSpd",
+            "cache_offset": 10,
+            "mask": 255
+          },
+          {
+            "wire_id": 13,
+            "name": "SwUpDn",
+            "cache_offset": 11,
+            "mask": 255
+          },
+          {
+            "wire_id": 14,
+            "name": "SwingLfRig",
+            "cache_offset": 12,
+            "mask": 255
+          },
+          {
+            "wire_id": 15,
+            "name": "AllErr",
+            "cache_offset": 13,
+            "mask": 1
+          },
+          {
+            "wire_id": 16,
+            "name": "TemUn",
+            "cache_offset": 13,
+            "mask": 2
+          },
+          {
+            "wire_id": 17,
+            "name": "TemRec",
+            "cache_offset": 14,
+            "mask": 255
+          },
+          {
+            "wire_id": 18,
+            "name": "SlpMod",
+            "cache_offset": 15,
+            "mask": 255
+          },
+          {
+            "wire_id": 19,
+            "name": "TemRecH",
+            "cache_offset": 14,
+            "mask": 2
+          },
+          {
+            "wire_id": 20,
+            "name": "TemRecC",
+            "cache_offset": 14,
+            "mask": 4
+          },
+          {
+            "wire_id": 21,
+            "name": "WifiOff",
+            "cache_offset": 16,
+            "mask": 1
+          },
+          {
+            "wire_id": 22,
+            "name": "WifiRest",
+            "cache_offset": 16,
+            "mask": 2
+          }
+        ]
+      },
+      "6ac3db6c": {
+        "table": "0x448140",
+        "records": [
+          {
+            "wire_id": 0,
+            "name": "Pow",
+            "cache_offset": 0,
+            "mask": 255
+          },
+          {
+            "wire_id": 1,
+            "name": "LigPow",
+            "cache_offset": 1,
+            "mask": 255
+          },
+          {
+            "wire_id": 2,
+            "name": "ScrTime",
+            "cache_offset": 2,
+            "mask": 255
+          },
+          {
+            "wire_id": 3,
+            "name": "AutoCtr",
+            "cache_offset": 3,
+            "mask": 255
+          },
+          {
+            "wire_id": 4,
+            "name": "TemSor",
+            "cache_offset": 4,
+            "mask": 65535
+          },
+          {
+            "wire_id": 5,
+            "name": "Humsor",
+            "cache_offset": 6,
+            "mask": 65535
+          },
+          {
+            "wire_id": 6,
+            "name": "HCHO",
+            "cache_offset": 8,
+            "mask": 65535
+          },
+          {
+            "wire_id": 7,
+            "name": "PM2P5",
+            "cache_offset": 10,
+            "mask": 65535
+          },
+          {
+            "wire_id": 8,
+            "name": "CO2",
+            "cache_offset": 12,
+            "mask": 65535
+          },
+          {
+            "wire_id": 9,
+            "name": "VOC",
+            "cache_offset": 14,
+            "mask": 65535
+          },
+          {
+            "wire_id": 10,
+            "name": "InAirQuality",
+            "cache_offset": 16,
+            "mask": 255
+          },
+          {
+            "wire_id": 11,
+            "name": "SensorErr",
+            "cache_offset": 17,
+            "mask": 255
+          },
+          {
+            "wire_id": 12,
+            "name": "BatteryWarn",
+            "cache_offset": 18,
+            "mask": 255
+          }
+        ]
+      }
+    },
+    "w06k": {
+      "source_sha256": "6ac3db6c6b5d72d327171d2bc16223c626301a194511a44931ad86de4135abd8",
+      "identity": "362001061649+U-W06KV4.4.bin",
+      "discovery_hosts": [
+        "80241",
+        "80242"
+      ],
+      "host_selection": [
+        "0xa05080",
+        "0xa0de70",
+        "0xa11210"
+      ],
+      "devs_parser": "0xa10270",
+      "allowlist_table": "0x44dbd0..0x44dc2c",
+      "accepted_devs_mids": [
+        "13800",
+        "13801",
+        "828500",
+        "828100",
+        "828102",
+        "828103",
+        "828140",
+        "10002",
+        "10003",
+        "10007",
+        "11000",
+        "11001",
+        "11002",
+        "11005",
+        "10f00",
+        "10f10",
+        "605d",
+        "6000",
+        "60",
+        "6079",
+        "608d",
+        "6091",
+        "6099"
+      ],
+      "requested_routes_not_admitted": [
+        "6045",
+        "609d",
+        "6200"
+      ],
+      "sensor_getter": "0xa12c00",
+      "sensor_vectors": [
+        {
+          "cache_bytes4_5_hex": "0000",
+          "expected_numeric_TemSor": 0
+        },
+        {
+          "cache_bytes4_5_hex": "0100",
+          "expected_numeric_TemSor": 1
+        },
+        {
+          "cache_bytes4_5_hex": "ff00",
+          "expected_numeric_TemSor": 255
+        },
+        {
+          "cache_bytes4_5_hex": "0001",
+          "expected_numeric_TemSor": 256
+        },
+        {
+          "cache_bytes4_5_hex": "ffff",
+          "expected_numeric_TemSor": 65535
+        }
+      ],
+      "sensor_result": "TemSor is u16LE cache4/5, no established Celsius conversion; not TemSen. Host scalar selector rejects Mod/SetTem. Accepted6000 is downstream routing, not an emitted standalone AC."
+    },
+    "w06dv": {
+      "source_sha256": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f",
+      "identity": "362001067592+U-W06DV4.01.bin",
+      "mid": "3018",
+      "identity_addresses": [
+        "0xa11200",
+        "0x450058"
+      ],
+      "state_setter": "0xa10b70",
+      "mainboard_pack": "0xa109cc",
+      "cache_decode": "0xa08c78",
+      "result": "Pow..Tur use bit-packed cache byte5; Mod byte6; SetTem byte7. Scalar selector rejects TemSor,TemBody,TemSen; do not invent ambient sensor. Setter byte-casts many nonnegative controls, and excludes read-only indices7,15,21,22,23. No complete independently calibrated SetTem/TemRecH/TemRecC-to-Celsius effective target path established."
+    },
+    "sources_tried": [
+      "Exact original OTA payloads and all four extracted segments per build; byte equality and SHA256 recomputed.",
+      "Existing resolved C, exact/disassembled instructions, namespace tables, metadata, prior selector/field replay scripts, docs/MIDS.md, docs/OFFSETS.md, docs/HIDS.md.",
+      "W06AV30 full enumeration request/builder with six synthetic7-byte IDs, pages0/5/6/255, all four MID rewrites, and all seven required child namespace branches.",
+      "W06AV30 complete TemBody getter256 raw values per cache bank; W06K complete TemSor getter representative u16 boundaries; W06DV/K/AV exact selectors.",
+      "Recovered QCA SDK ROM crypto map via baseline worker; W06AV30 block loops and PKCS7 partial/aligned branches replayed with documented AES ROM boundary.",
+      "Public QCA SDK/software listings and GitHub QCA4010+SDK / AR401X repository searches: no physical child mainboard calibration.",
+      "Commercial worker compared distinct WB04 BRT sensor schema: its16-bit deci-degree fields are not evidence for W06AV byte35 or W06K cache4/5."
+    ],
+    "blockers": [
+      {
+        "profiles": [
+          "w06av-v30",
+          "w06av-v30-ac"
+        ],
+        "mids": [
+          "60",
+          "6049",
+          "604a",
+          "604b",
+          "604c",
+          "605c",
+          "608f",
+          "6092"
+        ],
+        "operations": [
+          "thermal_target",
+          "encode_room",
+          "command/status conformance"
+        ],
+        "gap": "No calibrated physical TemBody producer/mainboard semantics for these child MIDs. Byte transport and enumeration do not prove Celsius encoding; parent without one complete child is not admitted. Need child mainboard executable/protocol specification or independently measured calibration capture."
+      },
+      {
+        "profiles": [
+          "w06dv-v4.01"
+        ],
+        "mids": [
+          "3018"
+        ],
+        "operations": [
+          "thermal_target",
+          "command/cache conformance"
+        ],
+        "gap": "Complete effective SetTem/TemRecH/TemRecC physical Celsius mapping and independently replayed command-to-frame-to-next-status transition are not established. No ambient sensor is invented; its actual scalar selector has none."
+      },
+      {
+        "profiles": [
+          "w06k-v4.4"
+        ],
+        "mids": [
+          "80241",
+          "80242",
+          "6000",
+          "6045",
+          "609d",
+          "6200"
+        ],
+        "operations": [
+          "AC control",
+          "thermal_target",
+          "encode_room"
+        ],
+        "gap": "80241/80242 are routing/AQM host identities, not proof of supported ACs. Scalar host lacks Mod/SetTem;6000 is accepted downstream but full child mainboard control/physical encoding remains unestablished.6045/609d/6200 are not in exact23-entry devs allowlist for this build."
+      }
+    ]
+  },
+  "initial_state": {
+    "children": [
+      {
+        "mac": "02000000000001",
+        "mid": "6049"
+      },
+      {
+        "mac": "02000000000002",
+        "mid": "604a"
+      },
+      {
+        "mac": "02000000000003",
+        "mid": "604b"
+      },
+      {
+        "mac": "02000000000004",
+        "mid": "604c"
+      },
+      {
+        "mac": "02000000000005",
+        "mid": "605c"
+      },
+      {
+        "mac": "02000000000006",
+        "mid": "608f"
+      }
+    ]
+  },
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 5
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 6
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 255
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "inner": {
+          "t": "subList",
+          "c": 6.0,
+          "i": 0.0,
+          "r": 200.0,
+          "list": [
+            {
+              "mac": "02000000000001",
+              "mid": "6049"
+            },
+            {
+              "mac": "02000000000002",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000003",
+              "mid": "604b"
+            },
+            {
+              "mac": "02000000000004",
+              "mid": "604c"
+            },
+            {
+              "mac": "02000000000005",
+              "mid": "605c"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "subList",
+          "c": 6.0,
+          "i": 5.0,
+          "r": 200.0,
+          "list": [
+            {
+              "mac": "02000000000006",
+              "mid": "608f"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "subList",
+          "c": 6.0,
+          "i": 6.0,
+          "r": 200.0,
+          "list": []
+        }
+      }
+    ],
+    [
+      {
+        "inner": {
+          "t": "subList",
+          "c": 6.0,
+          "i": 255.0,
+          "r": 200.0,
+          "list": []
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "children": [
+      {
+        "mac": "02000000000001",
+        "mid": "6049"
+      },
+      {
+        "mac": "02000000000002",
+        "mid": "604a"
+      },
+      {
+        "mac": "02000000000003",
+        "mid": "604b"
+      },
+      {
+        "mac": "02000000000004",
+        "mid": "604c"
+      },
+      {
+        "mac": "02000000000005",
+        "mid": "605c"
+      },
+      {
+        "mac": "02000000000006",
+        "mid": "608f"
+      }
+    ]
+  },
+  "crypto_vectors": [
+    {
+      "plaintext_hex": "7b2274223a2262696e64222c226d6163223a22303230303030303030303031222c22756964223a307d",
+      "key_ascii": "a3K8Bx%2r8Y7#xDh",
+      "padding_hex": "07070707070707",
+      "ciphertext_hex": "2dbc97948aff4f4fea5a18123522b31271f54078b577168058719ea1ae7834eea3f66aecff4a7b1944dd5b198d68152d",
+      "key_selector": 1
+    },
+    {
+      "plaintext_hex": "30313233343536373839616263646566",
+      "key_ascii": "a3K8Bx%2r8Y7#xDh",
+      "padding_hex": "10101010101010101010101010101010",
+      "ciphertext_hex": "0103fe6a4e910d1a68129d46ec927eac43b0ac6a527cb4d163b3aa2633c677d8",
+      "key_selector": 1
+    },
+    {
+      "plaintext_hex": "7b2274223a22737461747573222c22636f6c73223a5b2254656d426f6479225d7d",
+      "key_ascii": "0123456789abcdef",
+      "padding_hex": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+      "ciphertext_hex": "cb4df845720863267790fa399dc7e7b973e31f9ee186b63fc96879395d900f5703000aeb4ff51d29188f82e4a162a1f6",
+      "key_selector": 0
+    }
+  ],
+  "scope": "Independent firmware-subfunction evidence only. Not runnable-profile conformance; registration prohibited until blockers are resolved."
+}

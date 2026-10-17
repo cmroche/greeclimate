@@ -120,6 +120,7 @@ async def test_discover_devices(ifaddr_adapters, addr, family, scan_args, scan_k
             assert {device.mac for device in devices} == {
                 "aabbcc001122", "aabbcc001123", "aabbcc001124",
             }
+            assert all(device.mid == "10001" for device in devices)
         finally:
             discovery.close()
 
@@ -249,6 +250,21 @@ async def test_discovery_events(ifaddr_adapters, addr, family):
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", ["0001", "10f01", None])
+async def test_discovery_preserves_reported_mid(mid):
+    discovery = Discovery()
+    pack = {"mac": "000000000001", "name": "mid-test", "model": "10001"}
+    if mid is not None:
+        pack["mid"] = mid
+    discovery.packet_received({"pack": pack}, ("127.0.0.1", 7000))
+    await asyncio.gather(*discovery.tasks)
+
+    device_info, = discovery.devices
+    assert device_info.mid == mid
+    assert device_info.model == "10001"
 
 
 @pytest.mark.asyncio
@@ -487,67 +503,22 @@ async def test_discovery_delivers_optional_atw_mid(mid):
 
 
 @pytest.mark.asyncio
-async def test_discovery_late_mid_and_omitted_mid_preserve_metadata_and_events():
+async def test_discovery_keeps_mid_families_distinct_across_ip_changes():
     discovery = Discovery()
     listener = MagicMock(spec_set=Listener)
     listener.device_found = AsyncMock()
     listener.device_update = AsyncMock()
     discovery.add_listener(listener)
-
-    await deliver_atw_discovery(discovery, "192.0.2.10")
-    first_info = discovery.devices[0]
-    assert first_info.mid is None
-    listener.device_found.assert_awaited_once_with(first_info)
 
     await deliver_atw_discovery(discovery, "192.0.2.10", "9300")
-    assert len(discovery.devices) == 1
-    assert discovery.devices[0] is first_info
-    assert first_info.mid == "9300"
-    assert listener.device_found.await_count == 1
+    await deliver_atw_discovery(discovery, "192.0.2.10", "10001")
+    assert [info.mid for info in discovery.devices] == ["9300", "10001"]
+    assert listener.device_found.await_count == 2
     listener.device_update.assert_not_awaited()
 
-    await deliver_atw_discovery(discovery, "192.0.2.10")
-    assert discovery.devices[0].mid == "9300"
-    assert listener.device_found.await_count == 1
-    listener.device_update.assert_not_awaited()
-
-    await deliver_atw_discovery(discovery, "192.0.2.11")
-    assert len(discovery.devices) == 1
-    updated_info = discovery.devices[0]
-    assert updated_info.ip == "192.0.2.11"
-    assert updated_info.mid == "9300"
-    assert listener.device_found.await_count == 1
-    listener.device_update.assert_awaited_once_with(updated_info)
-
     await deliver_atw_discovery(discovery, "192.0.2.11", "9300")
-    assert len(discovery.devices) == 1
-    assert discovery.devices[0].mid == "9300"
-    assert listener.device_found.await_count == 1
-    assert listener.device_update.await_count == 1
-
-
-@pytest.mark.asyncio
-async def test_discovery_receives_late_mid_on_ip_change():
-    discovery = Discovery()
-    listener = MagicMock(spec_set=Listener)
-    listener.device_found = AsyncMock()
-    listener.device_update = AsyncMock()
-    discovery.add_listener(listener)
-    await deliver_atw_discovery(discovery, "192.0.2.10")
-    assert discovery.devices[0].mid is None
-
-    await deliver_atw_discovery(discovery, "192.0.2.11", "9300")
-    assert len(discovery.devices) == 1
-    info = discovery.devices[0]
-    assert info.ip == "192.0.2.11"
-    assert info.mid == "9300"
-    assert listener.device_found.await_count == 1
-    listener.device_update.assert_awaited_once_with(info)
-
-    await deliver_atw_discovery(discovery, "192.0.2.12")
-    assert len(discovery.devices) == 1
-    assert discovery.devices[0].mid == "9300"
-    assert discovery.devices[0].ip == "192.0.2.12"
-    assert listener.device_found.await_count == 1
-    assert listener.device_update.await_count == 2
-    assert listener.device_update.await_args.args[0] is discovery.devices[0]
+    atw, ac = discovery.devices
+    assert atw.ip == "192.0.2.11"
+    assert ac.ip == "192.0.2.10"
+    assert listener.device_found.await_count == 2
+    listener.device_update.assert_awaited_once_with(atw)

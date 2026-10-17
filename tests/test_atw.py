@@ -11,6 +11,7 @@ from greeclimate.cipher import CipherV1
 from greeclimate.device import Mode, Props
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.exceptions import DeviceTimeoutError
+from greeclimate.mid_profile import match_mid_profile
 
 pytestmark = pytest.mark.asyncio
 
@@ -339,8 +340,8 @@ async def test_hid_and_local_off_cannot_authorize_cooling(automatic_device, repo
 async def test_invalid_profile_cooling_fails_at_resolution(automatic_device, monkeypatch,
                                                           configuration):
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
-        device_profile.DeviceProfile(mid="9300", firmware_code="362001066763",
-                                     settings={"cooling_mode_value": configuration}),
+        device_profile.DeviceProfile(firmware_code="362001066763",
+                                     cooling_mode_value=configuration),
     ))
     unit = automatic_device
     assert unit.cooling_mode_value is None
@@ -535,7 +536,9 @@ async def test_result_response_updates_named_readings(device, values):
     assert device.tank_target_temperature_c == 51
 
 
-async def test_status_poll_requests_atw_sensors_not_ac_controls(device):
+@pytest.mark.parametrize("mid", [None, "unknown", "9300"])
+async def test_status_poll_combines_mid_preset_and_atw_sensors(device, mid):
+    device.device_info.mid = mid
     await device.update_state()
     message = device.send.await_args.args[0]
     assert message["pack"]["t"] == "status"
@@ -547,7 +550,9 @@ async def test_status_poll_requests_atw_sensors_not_ac_controls(device):
             "HepOutWatTemLo", "WatBoxElcHeRunSta", "SyAnFroRunSta", "ElcHe1RunSta",
             "ElcHe2RunSta", "AnFrzzRunSta", "hid"} <= set(columns)
     assert len(columns) == len(set(columns))
-    assert not {"SetTem", "TemSen", "WdSpd", "TemRec", "BuzzerCtrl"} & set(columns)
+    if mid == "9300":
+        assert set(match_mid_profile(mid).status_columns) <= set(columns)
+    assert not {"SetTem", "TemSen", "WdSpd", "BuzzerCtrl"} & set(columns)
     receive(device, {"hid": "362001066763+U-W06A(P3)V6.04.bin"})
     assert device.hid == "362001066763+U-W06A(P3)V6.04.bin"
     await device.update_state()

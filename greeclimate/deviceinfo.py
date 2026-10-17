@@ -30,6 +30,7 @@ class DeviceInfo:
                     and self.brand == other.brand
                     and self.model == other.model
                     and self.version == other.version
+                    and self.mid == other.mid
             )
         return False
 

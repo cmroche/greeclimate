@@ -1,0 +1,56 @@
+{
+  "profile": "wb04brt13-v1.50-4005-research",
+  "mid": "4005",
+  "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+  "registered": false,
+  "scope": "Native bind serializer research. A simulated-LAN profile may reuse this framing without claiming physical commercial mainboard conformance.",
+  "evidence": {
+    "native_function": "0x9b02cb54",
+    "initial_context_key_ascii": "0123456789abcdef",
+    "result": {
+      "mid": "4005",
+      "request": {
+        "t": "bind",
+        "mac": "020000000001",
+        "uid": 0
+      },
+      "return": 68,
+      "reply": "{\"r\":200,\"t\":\"bindok\",\"mac\":\"020000000001\",\"key\":\"0123456789abcdef\"}",
+      "cache": {
+        "Pow": 0,
+        "Mod": 1,
+        "SetTem": 24,
+        "WdSpd": 3,
+        "SetDeciTem": 0,
+        "Add0.1": 0,
+        "Add0.5": 0,
+        "InTem": 0
+      },
+      "mainboard_frame": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "method": "Exact firmware parser and bind serializer; libc and MAC IO boundaries hooked; existing native LAN harness same context/input/output ABI. No emulator implementation used."
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001",
+        "uid": 0
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef"
+        }
+      }
+    ]
+  ],
+  "expected_state": {}
+}

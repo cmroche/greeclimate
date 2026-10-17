@@ -8,6 +8,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
   schedule:
     - cron: "17 4 * * *"
 
@@ -52,7 +53,9 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   publish:
     needs: build
-    if: github.event_name == 'schedule'
+    if: >-
+      github.ref == 'refs/heads/master' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     name: Publish to PyPI and GitHub
     runs-on: ubuntu-latest
     concurrency:

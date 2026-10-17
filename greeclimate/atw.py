@@ -5,8 +5,8 @@ from asyncio import AbstractEventLoop
 from typing import Any, Dict, List, Optional
 
 from greeclimate.device import _BaseDevice
-from greeclimate.device_profile import match_device_profile
 from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.mid_profile import match_mid_profile
 
 
 class _AtwProps(enum.Enum):
@@ -83,12 +83,13 @@ class AirToWaterDevice(_BaseDevice):
     def cooling_mode_value(self) -> Optional[int]:
         if self._cooling_mode_value is not _AUTO:
             return self._cooling_mode_value
-        profile = match_device_profile(self.device_info.mid, self.hid)
-        value = profile.settings.get("cooling_mode_value") if profile is not None else None
-        return _validate_cooling_mode_value(value)
+        profile = self._device_profile
+        return _validate_cooling_mode_value(profile.cooling_mode_value if profile is not None else None)
 
     def _status_columns(self) -> List[str]:
-        return [p.value for p in _AtwProps]
+        columns = list(match_mid_profile("9300").status_columns)
+        columns.extend(p.value for p in _AtwProps if p.value not in columns)
+        return columns
 
     def _handle_properties_updated(self, properties: Dict[str, Any]) -> None:
         if "Pow" in properties:

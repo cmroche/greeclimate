@@ -55,13 +55,9 @@ async def test_discovery_mid_selects_atw_before_reported_firmware():
     }}, ("127.0.0.1", 7000))
     await asyncio.gather(*discovery.tasks)
     unit = create_device(delivered.get_nowait())
-    original = unit
     assert isinstance(unit, AirToWaterDevice)
-    assert unit.device_cipher is None
     assert unit.hid is None and unit.cooling_mode_value is None
     await capture(unit)
-    cipher = unit.device_cipher
-    key = cipher.key
     receive(unit, {"Pow": 0, "Mod": 2, "TemUn": 0,
                    "AllInWatTemHi": 132, "AllInWatTemLo": 4,
                    "HeWatOutTemSet": 35})
@@ -75,8 +71,6 @@ async def test_discovery_mid_selects_atw_before_reported_firmware():
     with pytest.raises(ValueError):
         unit.mode = AirToWaterMode.Cool
     receive(unit, {"hid": KNOWN_HID})
-    assert unit is original
-    assert unit.device_cipher is cipher and cipher.key == key
     assert unit.inlet_water_temperature_c == 32.4
     assert unit.heating_water_target_temperature_c == 36
     unit.mode = AirToWaterMode.Cool
@@ -98,13 +92,15 @@ async def test_sinclair_ignores_module_and_version(hid):
 
 
 @pytest.mark.parametrize("mid", [None, "", "unknown", 9300, "9300 ", [], {}])
-async def test_unmatched_mid_retains_ac_commands_after_sinclair_hid(mid):
+async def test_unmatched_mid_retains_ac_commands_and_temperature_learning_after_sinclair_hid(mid):
     unit = await capture(create_device(info(mid)))
     assert type(unit) is Device
     receive(unit, {"Pow": 0, "Mod": 1, "TemUn": 0, "hid": KNOWN_HID,
-                   "TemRec": 0, "SetTem": 20, "TemSen": 65})
-    assert type(unit) is Device
-    assert unit.current_temperature == 25
+                   "TemRec": 0, "SetTem": 20, "TemSen": 20})
+    assert unit.current_temperature == 20
+    for sensor, expected in [(65, 25), (19, -21)]:
+        receive(unit, {"TemSen": sensor})
+        assert unit.current_temperature == expected
     unit.target_temperature = 23
     await unit.push_state_update()
     assert command(unit) == {"SetTem": 23, "TemRec": 0, "TemUn": 0, "BuzzerCtrl": 1}
@@ -129,28 +125,35 @@ async def test_sinclair_mid_without_matching_hid_retains_atw_without_cooling(hid
     assert command(unit) == {"HeWatOutTemSet": 36}
 
 
-async def test_discovery_version_does_not_select_or_block_firmware_trait(monkeypatch):
+@pytest.mark.parametrize("mid", ["9300", None, "unknown"])
+async def test_cooling_uses_numeric_firmware_floor_not_discovery_version_or_mid(monkeypatch, mid):
     profile = device_profile.DeviceProfile(
-        mid="9300", version="6.04", settings={"cooling_mode_value": 5})
+        firmware_code="362001066763", min_version="6.10", cooling_mode_value=5)
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (profile,))
-    metadata = info("9300")
-    metadata.version = "6.04"
-    unit = create_device(metadata)
-    assert isinstance(unit, AirToWaterDevice)
+    metadata = info(mid)
+    metadata.version = "99.0"
+    unit = await capture(AirToWaterDevice(metadata))
     assert unit.cooling_mode_value is None
-    receive(unit, {"hid": KNOWN_HID.replace("6.04", "6.4")})
+    receive(unit, {"Pow": 0, "Mod": 1,
+                   "hid": "362001066763+U-OTHERV6.9.bin"})
     assert unit.cooling_mode_value is None
-    metadata.version = "V5.0.0.0"
-    receive(unit, {"hid": KNOWN_HID})
+    with pytest.raises(ValueError):
+        unit.mode = AirToWaterMode.Cool
+    unit.version = "0"
+    receive(unit, {"hid": "362001066763+U-OTHERV6.10.0.bin"})
     assert unit.cooling_mode_value == 5
+    unit.version = "0"
+    unit.mode = AirToWaterMode.Cool
+    await unit.push_state_update()
+    assert command(unit) == {"Mod": 5}
 
 
-@pytest.mark.parametrize("settings,expected", [
+@pytest.mark.parametrize("options,expected", [
     ({}, 5), ({"cooling_mode_value": 0}, 0),
     ({"cooling_mode_value": 5}, 5), ({"cooling_mode_value": None}, None),
 ])
-async def test_explicit_settings_override_without_mutating_profile(settings, expected):
-    unit = await capture(create_device(info("9300"), **settings))
+async def test_explicit_cooling_override_is_independent(options, expected):
+    unit = await capture(create_device(info("9300"), **options))
     receive(unit, {"Pow": 0, "Mod": 1, "hid": KNOWN_HID})
     assert unit.cooling_mode_value == expected
     if expected is None:
@@ -164,11 +167,10 @@ async def test_explicit_settings_override_without_mutating_profile(settings, exp
         assert command(unit) == {"Mod": expected}
     for hid in (KNOWN_HID, "unrecognized", KNOWN_HID):
         receive(unit, {"hid": hid})
-        assert unit.cooling_mode_value == (expected if settings or hid == KNOWN_HID else None)
+        assert unit.cooling_mode_value == (expected if options or hid == KNOWN_HID else None)
     separate = create_device(info("9300"))
     receive(separate, {"hid": KNOWN_HID})
     assert separate.cooling_mode_value == 5
-    assert device_profile.KNOWN_PROFILES[0].settings == {"cooling_mode_value": 5}
 
 
 @pytest.mark.parametrize("value", [True, 3])

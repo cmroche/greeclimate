@@ -20,120 +20,207 @@ _If you have tested and know of others systems that work, please fork and submit
 The easiest way to grab **greeclimate** is through PyPI
 `pip3 install greeclimate`
 
+Maintainers can publish from `master` through GitHub Actions with `gh workflow run python-package.yml --repo cmroche/greeclimate --ref master`. The workflow runs the test matrix before semantic-release selects a version and publishes to PyPI and GitHub; nightly publication remains enabled. Pushes and pull requests do not publish.
+
 ## Use Gree Climate
 
-### Finding and binding to devices
-
-Scan the network for devices, select a device and immediately bind. See the notes below for caveats.
+Discover devices on the LAN and bind immediately after scanning.
 
 ```python
-discovery = Discovery()
-for device_info in await discovery.scan(wait_for=5):
-    try:
-        device = Device(device_info)
-        await device.bind() # Device will auto bind on update if you omit this step
-    except CannotConnect:
-        _LOGGER.error("Unable to bind to gree device: %s", device_info)
-        continue
+import asyncio
 
-    _LOGGER.debug(
-        "Adding Gree device at %s:%i (%s)",
-        device.device_info.ip,
-        device.device_info.port,
-        device.device_info.name,
-    )
+from greeclimate.device import Device
+from greeclimate.discovery import Discovery
+
+
+async def main():
+    discovery = Discovery()
+    try:
+        for device_info in await discovery.scan(wait_for=5):
+            device = Device(device_info)
+            try:
+                await device.bind()
+                print(device_info.name, device_info.ip)
+            finally:
+                device.close()
+    finally:
+        discovery.close()
+
+
+asyncio.run(main())
 ```
 
-Automatic discovery uses `ifaddr` to enumerate IPv4 interfaces and derives their subnet broadcast addresses.
-IPv6 and non-loopback `/31` and `/32` networks are skipped. Loopback is excluded unless
-`Discovery(allow_loopback=True)` is used; then scans target the loopback host address.
+The following snippets run inside `main()`; device-control snippets go after binding and before closing `device`.
 
-Passing `None` or `[]` as `scan(target_addresses=...)` uses automatic enumeration. A non-empty list of
-`ipaddress.IPv4Address` destinations bypasses enumeration and can select custom broadcast or
-unicast targets. Automatic enumeration derives broadcasts from prefixes rather than
-using OS-specific broadcast or peer fields.
-
-To discover a device at a known address:
+Scan a known IP address instead of broadcasting on the LAN.
 
 ```python
 from ipaddress import IPv4Address
 
-devices = await discovery.scan(wait_for=5, target_addresses=[IPv4Address(host)])
+devices = await discovery.scan(
+    wait_for=5, target_addresses=[IPv4Address("192.0.2.10")]
+)
 ```
 
-The existing `bcast_ifaces` parameter remains supported as a compatibility alias, including
-positional calls. Supplying both parameters with non-`None` values raises `ValueError`.
-`search_devices(target_addresses=...)` likewise retains its existing `broadcastAddrs`
-keyword and positional calls, with the same conflict and automatic enumeration rules.
-
-#### Caveats
-
-Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.
-
-Binding is incredibly finnicky, if you do not have the device key you must first scan and re-bind. The device will only respond to binding requests immediately proceeding a scan.
-
-### Update device state
-
-It's possible for devices to be updated from external sources, to update the `Device` internal state with the physical device call `Device.update_state()`
-
-### Properties
-
-There are several properties representing the state of the HVAC. Setting these properties will command the HVAC to change state.
-
-Not all properties are supported on each device, in the event a property isn't supported commands to the HVAC will simply be ignored.
-
-When setting a value it is cached but not pushed to the device until `Device.push_state_update()` is called.
+Discover a device listening on UDP port 7000, including loopback addresses.
 
 ```python
-device = Device(...)
-device.power = True
-device.mode = Mode.Auto
-device.target_temperature = 25
-device.temperature_units = TemperatureUnits.C
-device.fan_speed = FanSpeed.Auto
-device.fresh_air = True
-device.xfan = True
-device.anion = True
-device.sleep = True
-device.light = True
-device.horizontal_swing = HorizontalSwing.FullSwing
-device.vertical_swing = VerticalSwing.FullSwing
-device.quiet = True
-device.turbo = True
-device.steady_heat = True
-device.power_save = True
-device.target_humidity = 45
+discovery = Discovery(allow_loopback=True)
+devices = await discovery.scan(wait_for=5)
+```
 
-# Send the state update to the HVAC
+Manually poll for updated device state.
+
+```python
+await device.update_state()
+```
+
+Cool to 25°C and send updates to the device.
+
+```python
+from greeclimate.device import Mode, TemperatureUnits
+
+device.power = True
+device.mode = Mode.Cool
+device.temperature_units = TemperatureUnits.C
+device.target_temperature = 25
 await device.push_state_update()
 ```
 
+Set a Fahrenheit target by selecting units before setting the temperature.
+
+```python
+from greeclimate.device import TemperatureUnits
+
+device.temperature_units = TemperatureUnits.F
+device.target_temperature = 77
+await device.push_state_update()
+```
+
+Set fan speed and swing positions.
+
+```python
+from greeclimate.device import FanSpeed, HorizontalSwing, VerticalSwing
+
+device.fan_speed = FanSpeed.Auto
+device.horizontal_swing = HorizontalSwing.FullSwing
+device.vertical_swing = VerticalSwing.FullSwing
+await device.push_state_update()
+```
+
+Enable optional features where supported by the device.
+
+```python
+device.light = True
+device.xfan = True
+device.quiet = True
+await device.push_state_update()
+```
+
+Set a dehumidifier's target relative humidity.
+
+```python
+device.target_humidity = 45
+await device.push_state_update()
+```
+
+Turn the device off, then request a fresh status update.
+
+```python
+device.power = False
+await device.push_state_update()
+await device.update_state()
+```
+
+Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loopback, and non-loopback `/31` and `/32` networks. `allow_loopback=True` adds loopback host addresses; non-empty `target_addresses` bypasses interface enumeration, while `None` or `[]` uses it.
+
+Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
+
 ### Air-to-water heat pumps
 
-Use `create_device` to select a family from known exact identifiers, or construct
-`greeclimate.atw.AirToWaterDevice` directly when the family is already known.
+`create_device(device_info)` selects `AirToWaterDevice` only for the exact discovery MID `"9300"`; every other MID, including missing or malformed values, selects the AC `Device`. Model names and HIDs do not select the family. If the family is already known, construct `greeclimate.atw.AirToWaterDevice` directly.
 
 ```python
 from greeclimate.device_factory import create_device
 
 device = create_device(device_info)
-# An already-known HID can also be supplied: create_device(device_info, hid=hid).
 await device.bind()
-# Wait for a received state update before using reported units or power.
+await device.update_state()
+# Wait for received status before using reported units or power.
 ```
 
-ATW devices require a cooling mode value for cooling functions to work. But there
-is not clear indication of which of the two modes should be used, `0` or `5`. 
-To set a value, create the device like:
-`create_device(device_info, cooling_mode_value=5)`.
+MID polling presets live in `greeclimate/mid_profile.py`. Firmware quirks live separately in `greeclimate/device_profile.py`: `match_device_profile(hid)` requires a complete HID and matches its firmware code, not MID or module. It selects the greatest eligible `min_version` using dotted integer components (trailing zeros ignored), or the code's fallback profile. Traits follow the latest received HID without changing the device's class.
 
-Once a value is known, please consider submitting a PR adding your device to `KNOWN_DEVICES` in `device_factory.py`.
+ATW cooling has two observed wire values, `0` and `5`; do not guess which your device uses. Firmware code `362001066763` defaults to `5`, irrespective of module or version. An explicit constructor option overrides firmware detection:
+
+| Construction | Cooling behavior |
+| --- | --- |
+| `create_device(device_info)` | Use the firmware trait when known; otherwise cooling remains unconfigured. |
+| `create_device(device_info, cooling_mode_value=0)` | Force wire value `0`. |
+| `create_device(device_info, cooling_mode_value=5)` | Force wire value `5`. |
+| `create_device(device_info, cooling_mode_value=None)` | Disable cooling even if a firmware trait provides it. |
+
+The same option is accepted by `AirToWaterDevice`. Submit independently observed firmware quirks to `device_profile.py`, not the family factory.
+
+ATW uses `AirToWaterMode`, not AC `Mode`, and exposes these Celsius properties:
+
+| Properties | Access / limits |
+| --- | --- |
+| `inlet_water_temperature_c`, `outlet_water_temperature_c`, `room_temperature_c`, `tank_temperature_c` | Read-only sensor temperatures. |
+| `heating_room_target_temperature_c`, `cooling_room_target_temperature_c` | Read-only targets. |
+| `heating_water_target_temperature_c` | Integer target, 20–60°C. |
+| `cooling_water_target_temperature_c` | Integer target, 7–25°C. |
+| `tank_target_temperature_c` | Integer target, 40–80°C. |
+
+Temperature reads return `None` unless Celsius units have been reported and required fields are present; writes require reported Celsius units. Mode changes require a received off power state: setting `power = False` locally is insufficient. Send power-off, wait for a status report confirming off, then send the mode change separately from power-on. Command validation repeats these checks before sending and rejects unsupported ATW fields; AC controls and AC temperature decoding are not used.
 
 ## Device and protocol reference
 
-- [Known MIDs](docs/MIDS.md): device-category identifiers and polling fields.
-- [Known HIDs](docs/HIDS.md): firmware-string segments, sourced firmware codes, and unresolved reports.
-- [Multi-unit gateways](docs/GATEWAYS.md): VRF discovery, routing, and hardware evidence from PR #148 and its linked reports.
+- [Known MIDs](docs/MIDS.md): exact polling presets, device categories, and gateway observations.
+- [Known HIDs](docs/HIDS.md): firmware identifiers and sourced payload evidence.
+- [Temperature offsets](docs/OFFSETS.md): firmware-code calibration, automatic detection, and evidence limits; MID does not select temperature encoding.
+
+## Use Gree Emulator
+
+Run these commands from the repository root with Python 3.10+ and dependencies installed; each server runs until Ctrl-C.
+
+List supported simulated profiles and their exact MID values.
+
+```bash
+python -m gree_emulator --list-profiles
+```
+
+Run one simulated AC on loopback, with stable identity across restarts.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1
+```
+
+Run three independently controlled simulated ACs on the same endpoint.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --count 3 --seed demo --listen 127.0.0.1
+```
+
+Run the supplied mixed-device configuration, including gateways and child devices.
+
+```bash
+python -m gree_emulator --config examples/emulator-devices.json
+```
+
+Expose the simulated ACs to LAN discovery on UDP port 7000, on a trusted test network only.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --count 3 --seed demo --listen 0.0.0.0 --port 7000
+```
+
+Capture packet logs on stderr while keeping startup announcements on stdout; scrub identities, addresses, and bind exchanges before sharing.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1 2> emulator-packets.log
+```
+
+These are simulated appliances, not complete firmware emulations. The library's `push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so simulator commands can be rejected even when sending succeeds. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
 
 ## Debugging
 

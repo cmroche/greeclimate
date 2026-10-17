@@ -1,3 +1,25 @@
+# [3.4.0](https://github.com/cmroche/greeclimate/compare/v3.3.0...v3.4.0) (2026-10-17)
+
+
+### Features
+
+* **device:** select status polling presets by MID ([#200](https://github.com/cmroche/greeclimate/issues/200)) ([4a602eb](https://github.com/cmroche/greeclimate/commit/4a602eb3d4f0dc877c8c8b7f696667793e8d5d2f))
+* **emulator:** replace MicroPython emulator with PC simulator ([#201](https://github.com/cmroche/greeclimate/issues/201)) ([6e9b4bc](https://github.com/cmroche/greeclimate/commit/6e9b4bcbdbfca5c9da1d1a20b6f59c61aa9c8e40))
+
+# [3.3.0](https://github.com/cmroche/greeclimate/compare/v3.2.2...v3.3.0) (2026-10-17)
+
+
+### Features
+
+* improved temperature offset learning with device quirks ([#199](https://github.com/cmroche/greeclimate/issues/199)) ([899a4bb](https://github.com/cmroche/greeclimate/commit/899a4bbb428b838dff39a54bd57d1c80f9f9a6fd)), closes [#197](https://github.com/cmroche/greeclimate/issues/197)
+
+## [3.2.2](https://github.com/cmroche/greeclimate/compare/v3.2.1...v3.2.2) (2026-10-14)
+
+
+### Bug Fixes
+
+* add target_addresses discovery parameter ([#195](https://github.com/cmroche/greeclimate/issues/195)) ([7108f50](https://github.com/cmroche/greeclimate/commit/7108f5048ce0e55188b02c8120ad8323bb7bea80))
+
 ## [3.2.1](https://github.com/cmroche/greeclimate/compare/v3.2.0...v3.2.1) (2026-10-09)
 
 

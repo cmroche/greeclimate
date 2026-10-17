@@ -1,0 +1,237 @@
+{
+  "profile": "sim-wb04brt13-v1.50-4005",
+  "mid": "4005",
+  "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+  "evidence": {
+    "native_sources": [
+      "commercial-nul-input_research.json"
+    ],
+    "first_request": "Exact ciphertext/envelope from independent native complete command capture; not regenerated from emulator/client. Same-RAM native next-status fixture proves controls1/1/24/3.",
+    "malformed_requests": "Independent PyCryptodome construction: doubleNUL, tripleNUL, embeddedNUL+junk and NUL+space; must drop before command Pow0 mutation. Following ordinary status must still reportPow1.",
+    "safe_json_difference": "Ordinary JSON command (noNUL) accepted deliberately by safe decoder, rather than reproducing native absent-key scan through PKCS7; finalPow0. Replies ordinary PKCS7 with noNUL.",
+    "model_sensor": "Only finalInTem26 is explicitly synthetic floor(roomC), not native physical calibration."
+  },
+  "device": {
+    "id": "office",
+    "mac": "020000000001",
+    "name": "Emulator Office",
+    "key": "0123456789abcdef",
+    "room_c": 26.5,
+    "ambient_c": 26.5
+  },
+  "initial_state": {
+    "Pow": 0,
+    "Mod": 1,
+    "SetTem": 24,
+    "WdSpd": 3
+  },
+  "requests": [
+    {
+      "raw_hex": "7b2274223a227061636b222c2269223a302c22756964223a372c22636964223a22617070222c2274636964223a22303230303030303030303031222c227061636b223a22616f7658504f527472796b5452324f3937427733494b75774a4353384777704d61537664556154726a5749574461614c3337776248793243654c6a6f4c5645716631786f397079647168666647537574496d714f336c6f61462b676555754c76676a734435476b55486d377250626863353059494179476d65355a752b6c7765227d"
+    },
+    {
+      "raw_hex": "7b2274223a227061636b222c2269223a302c22756964223a372c22636964223a22617070222c2274636964223a22303230303030303030303031222c227061636b223a22616f7658504f527472796b5452324f3937427733494b75774a4353384777704d61537664556154726a57496e394f6b544134515661642b4e4a2f746c65346d35714a62366451494a454641484477436b335a466850773d3d227d"
+    },
+    {
+      "raw_hex": "7b2274223a227061636b222c2269223a302c22756964223a372c22636964223a22617070222c2274636964223a22303230303030303030303031222c227061636b223a22616f7658504f527472796b5452324f3937427733494b75774a4353384777704d61537664556154726a57496e394f6b544134515661642b4e4a2f746c65346d3562774f6b7467345a666476534754316d5047766137413d3d227d"
+    },
+    {
+      "raw_hex": "7b2274223a227061636b222c2269223a302c22756964223a372c22636964223a22617070222c2274636964223a22303230303030303030303031222c227061636b223a22616f7658504f527472796b5452324f3937427733494b75774a4353384777704d61537664556154726a57496e394f6b544134515661642b4e4a2f746c65346d3535355a506f4663564a49555658417064336e746473673d3d227d"
+    },
+    {
+      "raw_hex": "7b2274223a227061636b222c2269223a302c22756964223a372c22636964223a22617070222c2274636964223a22303230303030303030303031222c227061636b223a22616f7658504f527472796b5452324f3937427733494b75774a4353384777704d61537664556154726a57496e394f6b544134515661642b4e4a2f746c65346d35573849702f6849376a726d2b37787661506b707244773d3d227d"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 11,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 11,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "InTem"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            1,
+            24,
+            3
+          ],
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 11,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            1,
+            1,
+            24,
+            3
+          ],
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            0
+          ],
+          "opt": [
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 11,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            0,
+            26
+          ],
+          "cols": [
+            "Pow",
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 0,
+    "Mod": 1,
+    "SetTem": 24,
+    "WdSpd": 3,
+    "InTem": 26,
+    "TemUn": 0,
+    "TemRec": 0,
+    "Lig": 1,
+    "Air": 0,
+    "Blo": 0,
+    "Health": 0,
+    "SwhSlp": 0,
+    "SlpMod": 0,
+    "SwingLfRig": 0,
+    "SwUpDn": 0,
+    "Quiet": 0,
+    "Tur": 0,
+    "StHt": 0,
+    "SvSt": 0,
+    "Buzzer_ON_OFF": 0
+  }
+}

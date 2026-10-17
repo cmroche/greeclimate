@@ -1,0 +1,178 @@
+{
+  "profile": "commercial-zone-investigation",
+  "mid": "3019",
+  "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+  "registered": false,
+  "scope": "Strict firmware-conformance support/blocking matrix only. USER-APPROVED explicitly simulated models are separately admitted using proven LAN framing; physical-only blockers below do not prohibit those models. No numeric aliases or polling presets are admitted.",
+  "evidence": {
+    "simulated_models": {
+      "standalone": ["sim-wb04brt13-v1.50-3019", "sim-wb04brt13-v1.50-3027", "sim-wb04brt13-v1.50-4005"],
+      "one_child_gateway": {"parent": "sim-wb04brt13-v1.50-60", "child": "sim-wb04brt13-v1.50-6400", "identity": "parentMAC+00; exactly one ACUnit child; no independent child LAN endpoint"},
+      "native_wire_evidence": "commercial-gateway_research.json; commercial-wire_research.json",
+      "separate_ownership": "302b alternative W04HB and zones50/5000/5001 model admission are handled by their respective workers; their strict physical blockers here are not simulation exclusions.",
+      "unresolved_association": "3062 remains unassociated;6000 is not a route of WB04BRT1.50."
+    },
+    "support_table": [
+      {
+        "mid": "3017",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "mainboard input alias, normalized to emitted3019",
+        "status": "not-an-exact-emitted-MID-in-this-build",
+        "blocker": "Do not advertise this alias as preserved identity; normalized3019 route also lacks verified downstream board acceptance/next-status semantics."
+      },
+      {
+        "mid": "3018",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "mainboard input alias, normalized to emitted3019",
+        "status": "not-an-exact-emitted-MID-in-this-build",
+        "blocker": "Do not advertise this alias as preserved identity; normalized3019 route also lacks verified downstream board acceptance/next-status semantics."
+      },
+      {
+        "mid": "3019",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "normalized emitted U-Match category",
+        "status": "blocked",
+        "blocker": "Native LAN status/commands and bit-packed command/acquisition are recovered; arbitrary cache writes are ACKed before mainboard confirmation. Complete physical mainboard acceptance/clamp/readonly transitions are not established from this Wi-Fi module image or independent captures. No cache-echo profile."
+      },
+      {
+        "mid": "3027",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "runtime commercial category with distinct mode/fan/decimal schema",
+        "status": "blocked",
+        "blocker": "Native Mod0\u2192wire5, WdSpd6 turbo bit, decimal247 cache reconciliation and LAN ACK distinctions recovered. InTem comes unchanged from auxiliary status byte6; calibrated physical Celsius encoding and effective mainboard transitions unavailable."
+      },
+      {
+        "mid": "302b",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "not accepted by WB04BRT1.50 router",
+        "status": "blocked-alternate-build-required",
+        "alternate_source": {
+          "hid": "362001063384+U-W04HBV1.20.bin",
+          "inventory_sha256": "5a4705122e69dfb99462fdeef1d19e8b7ce7315d6cdad895849c87ef0cfdfea8",
+          "emitted_identity_address": "0x0805fa20",
+          "evidence": "Prior exact-source record has controller302b\u2192emitted302b; different from WB04BRT. No cross-build behavior alias."
+        },
+        "blocker": "No302b route in supplied commercial build; alternative W04HB LAN/control/mainboard/physical contract cannot be inferred from this build or polling list."
+      },
+      {
+        "mid": "302c",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "mainboard input alias, normalized to emitted3019",
+        "status": "not-an-exact-emitted-MID-in-this-build",
+        "blocker": "Do not advertise this alias as preserved identity; normalized3019 route also lacks verified downstream board acceptance/next-status semantics."
+      },
+      {
+        "mid": "3062",
+        "profile": null,
+        "source_sha256": null,
+        "registered": false,
+        "role": "catalog U-Match target without executable association",
+        "status": "blocked-no-associated-firmware",
+        "blocker": "Exact source search279 original payloads and Gree app resources yields polling schema only, no firmware-code/HID association. Numeric362001063062 is unrelated828xxx firmware, not evidence.",
+        "sources_tried": [
+          "expanded/offset native decompilations and disassembly exact0x3062/12386/quoted3062/lib3062 routes",
+          "all279 inventory payloads exact ASCII3062 token; sole unrelated ELF$t.3062 symbol",
+          "GreePlus1.14.1.25 APK be32c3df; no exact3062",
+          "GreePlus1.27.0.14 APK f3913400; AXML short_json_config contains onlymid/statueJson",
+          "public maxim-smirnov/gree-wifimodule-firmware README",
+          "web exact Gree3062 firmware/HID/MID query"
+        ],
+        "acquisition": "No download skill invoked without evidenced code/HID association."
+      },
+      {
+        "mid": "4005",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "runtime commercial category; separate locked command encoder",
+        "status": "blocked",
+        "blocker": "Exact native deci-C\u2194F table and wire masks recovered, so setpoint calibration itself is not the gap. No commercial mainboard executable/authoritative serial response specification or independent capture establishes effective command acceptance/clamps/readonly transitions after outbound frame, including lock-controlled non-transmission. Do not equate raw cache ACK with next board-confirmed status."
+      },
+      {
+        "mid": "6000",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "not accepted by WB04BRT1.50 router; W06K routed-device candidate",
+        "status": "blocked-different-host-contract",
+        "alternate_source": {
+          "profile": "w06k-v4.4",
+          "inventory_sha256": "6ac3db6c6b5d72d327171d2bc16223c626301a194511a44931ad86de4135abd8",
+          "scope": "Gateway worker traces W06K; host emits80241/80242, accepts6000 route, not standalone6000."
+        },
+        "blocker": "No6000 route here; exact W06K downstream control/calibration remains blocked per gateway research."
+      },
+      {
+        "mid": "6400",
+        "profile": "wb04brt13-v1.50",
+        "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "registered": false,
+        "role": "mainboard category advertised through hostMID60/subCnt1",
+        "status": "blocked",
+        "blocker": "Not standalone6400 discovery. Requires full one-child topology, calibrated InTem/physical control semantics and downstream effective transitions; raw InTem unchanged is not Celsius calibration. TemBody here is a boolean bit, not a temperature."
+      },
+      {
+        "mid": "50",
+        "profile": "w05sa-v1.28",
+        "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+        "role": "parent/controller, emitted discovery identity",
+        "registered": false,
+        "status": "blocked-physical-target-calibration",
+        "blocker": "Exact native topology, parent-derived child IDs, global/per-zone aliases, raw nibble packing, energy limits and1.27/1.28 fault difference recovered. Physical StTem/TemUnit/StFahFlg\u2192Celsius target calibration not established. No24\u00b0C encoding or thermal target may be guessed."
+      },
+      {
+        "mid": "5000",
+        "profile": "w05sa-v1.28",
+        "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+        "role": "child index0, MasterPow alias",
+        "registered": false,
+        "status": "blocked-physical-target-calibration",
+        "blocker": "Exact native topology, parent-derived child IDs, global/per-zone aliases, raw nibble packing, energy limits and1.27/1.28 fault difference recovered. Physical StTem/TemUnit/StFahFlg\u2192Celsius target calibration not established. No24\u00b0C encoding or thermal target may be guessed."
+      },
+      {
+        "mid": "5001",
+        "profile": "w05sa-v1.28",
+        "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+        "role": "children1..8, per-zone valve/setpoint aliases",
+        "registered": false,
+        "status": "blocked-physical-target-calibration",
+        "blocker": "Exact native topology, parent-derived child IDs, global/per-zone aliases, raw nibble packing, energy limits and1.27/1.28 fault difference recovered. Physical StTem/TemUnit/StFahFlg\u2192Celsius target calibration not established. No24\u00b0C encoding or thermal target may be guessed."
+      }
+    ],
+    "related_vectors": [
+      "commercial_research.json",
+      "zone_research.json"
+    ],
+    "external_sources": [
+      {
+        "url": "https://raw.githubusercontent.com/maxim-smirnov/gree-wifimodule-firmware/main/README.md",
+        "result": "No MID3062 association."
+      },
+      {
+        "url": "https://raw.githubusercontent.com/libretiny-eu/framework-realtek-ambz2/5f7b9378a7f226a46e3b13349844a3f5f07565aa/component/common/mbed/targets/hal/rtl8710c/crypto_api.c",
+        "result": "Identifies AES-ECB wrapper source API."
+      },
+      {
+        "url": "https://raw.githubusercontent.com/libretiny-eu/framework-realtek-ambz2/5f7b9378a7f226a46e3b13349844a3f5f07565aa/component/soc/realtek/8710c/cmsis/rtl8710c/source/GCC/romsym_is.so",
+        "result": "Names crypto ROM-stub table0x2f0, matching exact firmware literal."
+      }
+    ],
+    "source_procedure": "Original and extracted SHA256 rechecked; new independent Ghidra projects used. Existing research exports/projects not overwritten. Native replay probes read vendor executable bytes directly, no production profile/client code."
+  },
+  "initial_state": {},
+  "requests": [],
+  "expected_replies": [],
+  "expected_state": {}
+}

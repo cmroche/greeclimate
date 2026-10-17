@@ -1,0 +1,556 @@
+{
+  "profile": "w04n-v17-not-admitted",
+  "mid": "10001",
+  "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+  "evidence": {
+    "protocol": "Actual ARM Thumb LAN0x802fd0c,bind0x802ea38,status0x8031350,command0x803156c,outer0x802fbc0,crypto0x803cf10; ROM AES init/encrypt/decrypt0x2e8d/2ec5/2ef5 hooked to AES primitive, actual PKCS7 wrapper executed; JSON/string/RTOS/hardware platform-version API boundaries hooked. Platform version44017 independently executed getter0x8025450; selected cached values injected explicitly. Not full boot or hardware.",
+    "appliance": "USER-APPROVED SYNTHETIC MODEL. Command accepted state and sensor26 are chosen model values, not hardware calibration/feedback claims. Native status API supplied those modeled cached values before each status. Unknown/unmodeled read omission and stricter invalid command rejection are model restrictions.",
+    "expanded_sha256": "9d2ce9192017933bcdf6b61995b225cae896a7e39c5959ea0c8bd91d6003693b",
+    "ram_segment_sha256": "c02d8a0c5b246439178201d90feff4c4cbb1c7a5f7ff433795cb28ca1a7decda"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":0,\"cid\":\"\",\"tcid\":\"\",\"pack\":\"LP24Ek0OaYogxs3iQLjL4N7Du3z0uyvW483Esajp7NnmkRZ6Hit8Mf+IRn/amdSynEuuforerLxoL+Zzz831xa43JWeMpthCqc//vfjqtv2H50wHACgMDAdwX35dcNuc4vp0f9mPSKgHrNGIR5dQEx5tv645xoI2Yvh8PE4XkKEQNxLlfVRfa/f38b8oY7gv6IucdD21G1q56TiDCmAtDTOoqb69FbsF6nlW/9L5hO5NMnO9uM8wQskQ87cNk5fHd3Bb15xLmm1XKIxZQL+Jw9B6HiXKSHccTFEnXTQclJc=\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2274223a22646576222c2263696422"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a22303230303030303030303031222c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "226263223a223030303030222c226272"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "616e64223a22222c22636174616c6f67"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "223a22222c226d6163223a2230323030"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3030303030303031222c226d6964223a"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "223130303031222c226d6f64656c223a"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "22222c226e616d65223a22456d756c61"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "746f72204f6666696365222c226c6f63"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6b223a302c22736572696573223a2222"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2c2276656e646572223a22222c227665"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "72223a2256332e302e30222c22686964"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "223a223336323030313036343937332b"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "552d5730344e5631372e62696e227d01"
+        }
+      ]
+    },
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"FtZAY6UHKBwtaI55He0Incdr0tWDjLhcQnaLirlU16FeFNWiyLgwh14drLXjWdKcm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ=\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7b2274223a2262696e64222c226d6163"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "223a2230323030303030303030303122"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7d0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2272223a3230302c2274223a226269"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6e646f6b222c226d6163223a22303230"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "303030303030303031222c226b657922"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a223031323334353637383961626364"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6566227d0c0c0c0c0c0c0c0c0c0c0c0c"
+        }
+      ]
+    },
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"EHXgFVOJmDQvvPvXoJ8oYezI/jHf7CIzRsLU6cwTpaBP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHgwmnWZRbba+kBaO/jFAL6VLvoHyyBzx/0PHX5DIeKU9KRhGnhfyypmlxGskFfGcFPRbmOPGaClKmJJfv0UDaAidFWq2AqQVK8jAJ//XuMOc44efZgYzqyXBjy0naLZ3DnA==\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7b2274223a22737461747573222c226d"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "6163223a223032303030303030303030"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "31222c22636f6c73223a5b2254656d53"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "656e222c22506f77222c22756e6b6e6f"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "776e222c226e616d65222c226d696422"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "2c22506f77225d7d0808080808080808"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a372c226d6163223a22303230303030"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "303030303031222c22636964223a2230"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3230303030303030303031222c226461"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "74223a5b32362c302c22456d756c6174"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6f72204f6666696365222c2231303030"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "31222c305d2c22636f6c73223a5b2254"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "656d53656e222c22506f77222c226e61"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6d65222c226d6964222c22506f77225d"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2c2272223a3230307d07070707070707"
+        }
+      ]
+    },
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWKxYRLslC7i2ktN+5sTngI44yHkqYy45BjDtjnQlP0xadHVRfX1h6nOBrrJIQ8HT/ZT4Vo9yBW0LF5DfQcfmJuH/DeCcR+fsPDpVKTcH71maw==\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7b2274223a22636d64222c226d616322"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "3a22303230303030303030303031222c"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "226f7074223a5b22506f77222c224d6f"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "64222c2253657454656d222c22576453"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7064225d2c2270223a5b312c312c3232"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "2c355d7d0c0c0c0c0c0c0c0c0c0c0c0c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2274223a22726573222c226d616322"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a22303230303030303030303031222c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2276616c223a5b312c312c32322c355d"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2c2270223a5b312c312c32322c355d2c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "226f7074223a5b22506f77222c224d6f"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "64222c2253657454656d222c22576453"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7064225d2c2272223a3230307d030303"
+        }
+      ]
+    },
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"EHXgFVOJmDQvvPvXoJ8oYezI/jHf7CIzRsLU6cwTpaBP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHg3YacpaH0/DW7bLOx3CebVzC9BIOzu3pUx11NXER9B4JSSe1OPBolnwBsIcbhm4jQPOhGAfkAdvS319b2D7iN8tT0cmtWH4UIwEYGdmXC9sTT3WbfQhhX8atqc9xzy5zwQMACutP9R0pGI+C5KFiofY=\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7b2274223a22737461747573222c226d"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "6163223a223032303030303030303030"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "31222c22636f6c73223a5b22506f7722"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "2c224d6f64222c2253657454656d222c"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "225764537064222c2254656d53656e22"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "2c226e616d65225d7d07070707070707"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a372c226d6163223a22303230303030"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "303030303031222c22636964223a2230"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3230303030303030303031222c226461"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "74223a5b312c312c32322c352c32362c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "22456d756c61746f72204f6666696365"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "225d2c22636f6c73223a5b22506f7722"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2c224d6f64222c2253657454656d222c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "225764537064222c2254656d53656e22"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2c226e616d65225d2c2272223a323030"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7d0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f"
+        }
+      ]
+    },
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWL6Ae/G1vMGoLH619G/Tn1CJnjUU1oiUcxTCemYT+54IKa7wE5liCvRqqox1xJHW4TB0bjIz6eORTWQd88hI9fw\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7b2274223a22636d64222c226d616322"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "3a22303230303030303030303031222c"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "226f7074223a5b2253657454656d222c"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "2253657454656d225d2c2270223a5b32"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "332c32345d7d0a0a0a0a0a0a0a0a0a0a"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2274223a22726573222c226d616322"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a22303230303030303030303031222c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2276616c223a5b32342c32345d2c2270"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "223a5b32332c32345d2c226f7074223a"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "5b2253657454656d222c225365745465"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6d225d2c2272223a3230307d04040404"
+        }
+      ]
+    },
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"EHXgFVOJmDQvvPvXoJ8oYezI/jHf7CIzRsLU6cwTpaBP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHg6s+kS10cvmLLNAQhv8sJ92KAvpYrM33Oc/+6/EHxxFVwtLNHytN4uJBkqaLClN6wmbELH9tB6NBZiJaA/sqYeg=\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7b2274223a22737461747573222c226d"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "6163223a223032303030303030303030"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "31222c22636f6c73223a5b2253657454"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "656d222c2254656d556e222c2254656d"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "53656e225d7d0a0a0a0a0a0a0a0a0a0a"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a372c226d6163223a22303230303030"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "303030303031222c22636964223a2230"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3230303030303030303031222c226461"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "74223a5b32342c302c32365d2c22636f"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6c73223a5b2253657454656d222c2254"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "656d556e222c2254656d53656e225d2c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2272223a3230307d0808080808080808"
+        }
+      ]
+    },
+    {
+      "return": 0,
+      "packets": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"EHXgFVOJmDQvvPvXoJ8oYezI/jHf7CIzRsLU6cwTpaBP+DylFBAUTI1dmuUZ1qfVXKyRFTbGMq/Sk6835QHHg0gubf9KWM8OBRO8sBzsLoG/WCmPULCvLdgWfknHCyhmJGXTBkQWNgqpAgoey23dpwXePQ6OQIeDLJR2ICm3e7B9B+hYKGoxNmT/n/j1gC0jj+fU95qmRL41IGY6s72QA+NcXClqjzkXUav+E2XP4V/UpjJxs3cfKpkOnYYaFUhrghjQCapyKcefNc9uiPocu/5ZWk8280n3VqUGsma+LD3fK1p5OH+w6VcKwGHzd5ICODOFvucU+J8xknVFKOKrOBj6QUgVEi0jK4yOU1pfqW0OCYdN+253OXkx2XWjI7pk\"}"
+      ],
+      "crypto": [
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "7b2274223a22737461747573222c226d"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "6163223a223032303030303030303030"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "31222c22636f6c73223a5b226e616d65"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "222c22686f7374222c226c6f636b222c"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "224175746f557064617465222c226869"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "64222c22766572222c226d6964222c22"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "76656e646572222c226263222c224d61"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "66496466222c224465764944222c224d"
+        },
+        {
+          "operation": "decrypt",
+          "plaintext_padded": "696454797065225d7d07070707070707"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "7b2274223a22646174222c2275696422"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3a372c226d6163223a22303230303030"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "303030303031222c22636964223a2230"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "3230303030303030303031222c226461"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "74223a5b22456d756c61746f72204f66"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "66696365222c22222c302c302c223336"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "323030313036343937332b552d573034"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "4e5631372e62696e222c2256332e302e"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "30222c223130303031222c22222c2233"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "303330333033303330222c302c22222c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "22225d2c22636f6c73223a5b226e616d"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "65222c22686f7374222c226c6f636b22"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2c224175746f557064617465222c2268"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6964222c22766572222c226d6964222c"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "2276656e646572222c226263222c224d"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "6166496466222c224465764944222c22"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "4d696454797065225d2c2272223a3230"
+        },
+        {
+          "operation": "encrypt",
+          "plaintext_padded": "307d0e0e0e0e0e0e0e0e0e0e0e0e0e0e"
+        }
+      ]
+    }
+  ],
+  "expected_replies": [],
+  "expected_state": {}
+}

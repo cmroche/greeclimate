@@ -1,0 +1,977 @@
+{
+  "profile": "zts31a-v3.10 (research only; not admitted)",
+  "mid": "807002",
+  "source_sha256": "5ba439396454e99496d2de6744cf26769ca2c70a43bb5a0b116925936f5eb0bc",
+  "plugin_sha256": "547a1fc41777ce9869b0996d54862a3c0766d732e1dccb439ec76a763fefb2fe",
+  "evidence": {
+    "method": "Unicorn 2.1.4 native ARM Thumb plugin entry points; actual cJSON/parser/base64/protocol instructions; libc allocation/string/formatting boundaries hooked",
+    "addresses": {
+      "json_to_hex": "ELF0x20b5 (Thumb)",
+      "hex_to_json": "ELF0x20b9 (Thumb)",
+      "host_command": "0x13850",
+      "host_binStatus": "0x18c68"
+    },
+    "limits": "Synthetic zero cache probes establish transformation/error behavior, not a real mainboard frame or calibrated temperature. No encrypted host transport executed."
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "operation": "json_to_hex",
+      "input": {},
+      "result": {
+        "return": -2,
+        "output": "",
+        "externals": [
+          "free",
+          "malloc",
+          "memset",
+          "strlen"
+        ]
+      }
+    },
+    {
+      "operation": "hex_to_json",
+      "input": {},
+      "result": {
+        "return": -2,
+        "output": "",
+        "externals": [
+          "free",
+          "malloc",
+          "memset",
+          "strlen"
+        ]
+      }
+    },
+    {
+      "operation": "hex_to_json",
+      "input": {
+        "base64Param": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "originLength": 128
+      },
+      "result": {
+        "return": 17,
+        "output": "{\"opt\":[],\"p\":[]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "strcmp",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "hex_to_json",
+      "input": {
+        "base64Param": "fn4yMQAQAAEAAAAAAAAAAAAAAAAAAAAAABgFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "originLength": 52
+      },
+      "result": {
+        "return": 277,
+        "output": "{\"opt\":[\"ScheOn\",\"Pow\",\"TemUn\",\"ScheOff\",\"TemRec\",\"Mod\",\"SwhSlp\",\"SvSt\",\"SvStMod\",\"ChildLock\",\"Quiet\",\"Tur\",\"Blo\",\"AllErr\",\"IsPurify\",\"EnvTemDis\",\"EleReportFlag\",\"WdSpd\",\"SetTem\",\"Add0.1\",\"TemSetMax\",\"TemSetMin\",\"ScheTime\"],\"p\":[0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,24,5,0,0,0]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "sprintf",
+          "strcmp",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          0
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlBvdyJdLCJwIjpbMF19"
+      },
+      "result": {
+        "return": 57,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4DAQAA\",\"fragment\":[[1,2,16,0]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlBvdyJdLCJwIjpbMV19"
+      },
+      "result": {
+        "return": 57,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4DAQAQ\",\"fragment\":[[1,2,16,1]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          2
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlBvdyJdLCJwIjpbMl19"
+      },
+      "result": {
+        "return": 57,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4DAQAA\",\"fragment\":[[1,2,16,2]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          255
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlBvdyJdLCJwIjpbMjU1XX0="
+      },
+      "result": {
+        "return": 59,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4DAQAQ\",\"fragment\":[[1,2,16,255]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Mod"
+        ],
+        "p": [
+          0
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIk1vZCJdLCJwIjpbMF19"
+      },
+      "result": {
+        "return": 60,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4FAQAAAAA=\",\"fragment\":[[1,4,7,0]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Mod"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIk1vZCJdLCJwIjpbMV19"
+      },
+      "result": {
+        "return": 60,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4FAQAAAAE=\",\"fragment\":[[1,4,7,1]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Mod"
+        ],
+        "p": [
+          2
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIk1vZCJdLCJwIjpbMl19"
+      },
+      "result": {
+        "return": 60,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4FAQAAAAI=\",\"fragment\":[[1,4,7,2]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Mod"
+        ],
+        "p": [
+          3
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIk1vZCJdLCJwIjpbM119"
+      },
+      "result": {
+        "return": 60,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4FAQAAAAM=\",\"fragment\":[[1,4,7,3]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Mod"
+        ],
+        "p": [
+          4
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIk1vZCJdLCJwIjpbNF19"
+      },
+      "result": {
+        "return": 60,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4FAQAAAAQ=\",\"fragment\":[[1,4,7,4]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "SetTem"
+        ],
+        "p": [
+          16
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlNldFRlbSJdLCJwIjpbMTZdfQ=="
+      },
+      "result": {
+        "return": 88,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4XAQAAAAAAAAAAAAAAAAAAAAAAAAAAABA=\",\"fragment\":[[1,22,255,16]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "SetTem"
+        ],
+        "p": [
+          24
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlNldFRlbSJdLCJwIjpbMjRdfQ=="
+      },
+      "result": {
+        "return": 88,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4XAQAAAAAAAAAAAAAAAAAAAAAAAAAAABg=\",\"fragment\":[[1,22,255,24]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "SetTem"
+        ],
+        "p": [
+          30
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlNldFRlbSJdLCJwIjpbMzBdfQ=="
+      },
+      "result": {
+        "return": 88,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4XAQAAAAAAAAAAAAAAAAAAAAAAAAAAAB4=\",\"fragment\":[[1,22,255,30]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "SetTem"
+        ],
+        "p": [
+          255
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlNldFRlbSJdLCJwIjpbMjU1XX0="
+      },
+      "result": {
+        "return": 89,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4XAQAAAAAAAAAAAAAAAAAAAAAAAAAAAP8=\",\"fragment\":[[1,22,255,255]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Add0.1"
+        ],
+        "p": [
+          0
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIkFkZDAuMSJdLCJwIjpbMF19"
+      },
+      "result": {
+        "return": 87,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4YAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"fragment\":[[1,23,255,0]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Add0.1"
+        ],
+        "p": [
+          5
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIkFkZDAuMSJdLCJwIjpbNV19"
+      },
+      "result": {
+        "return": 87,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4YAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF\",\"fragment\":[[1,23,255,5]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "Add0.1"
+        ],
+        "p": [
+          9
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIkFkZDAuMSJdLCJwIjpbOV19"
+      },
+      "result": {
+        "return": 87,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4YAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ\",\"fragment\":[[1,23,255,9]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "TemSetMax"
+        ],
+        "p": [
+          30
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlRlbVNldE1heCJdLCJwIjpbMzBdfQ=="
+      },
+      "result": {
+        "return": 96,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4cAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHg==\",\"fragment\":[[1,27,255,30]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "TemSetMin"
+        ],
+        "p": [
+          16
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIlRlbVNldE1pbiJdLCJwIjpbMTZdfQ=="
+      },
+      "result": {
+        "return": 96,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4dAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=\",\"fragment\":[[1,28,255,16]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "WdSpd"
+        ],
+        "p": [
+          0
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIldkU3BkIl0sInAiOlswXX0="
+      },
+      "result": {
+        "return": 81,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4VAQAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"fragment\":[[1,20,7,0]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "WdSpd"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIldkU3BkIl0sInAiOlsxXX0="
+      },
+      "result": {
+        "return": 81,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4VAQAAAAAAAAAAAAAAAAAAAAAAAAAB\",\"fragment\":[[1,20,7,1]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "WdSpd"
+        ],
+        "p": [
+          5
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbIldkU3BkIl0sInAiOls1XX0="
+      },
+      "result": {
+        "return": 81,
+        "output": "{\"t\":\"binCmd\",\"hex01\":\"fn4VAQAAAAAAAAAAAAAAAAAAAAAAAAAF\",\"fragment\":[[1,20,7,5]]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "__isoc99_sscanf",
+          "__strdup",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "snprintf",
+          "sprintf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "command": {
+        "t": "cmd",
+        "opt": [
+          "unknown"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "input": {
+        "ver": "V3.5.M",
+        "binParam": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+        "requestParam": "eyJ0IjoiY21kIiwib3B0IjpbInVua25vd24iXSwicCI6WzFdfQ=="
+      },
+      "result": {
+        "return": 14,
+        "output": "{\"t\":\"binCmd\"}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "realloc",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strncmp",
+          "strtod"
+        ]
+      }
+    },
+    {
+      "operation": "json_to_hex",
+      "input": {
+        "requestId": "x",
+        "ver": "V3.5.M",
+        "requestParam": "eyJ0Ijoic3RhdHVzIiwiY29scyI6WyJQb3ciXX0="
+      },
+      "result": {
+        "return": 29,
+        "output": "{\"t\":\"status\",\"cols\":[\"Pow\"]}",
+        "externals": [
+          "__ctype_tolower_loc",
+          "calloc",
+          "free",
+          "malloc",
+          "memcpy",
+          "memset",
+          "strcmp",
+          "strlen",
+          "strncmp",
+          "strncpy"
+        ]
+      }
+    }
+  ],
+  "expected_replies": [],
+  "expected_state": {}
+}

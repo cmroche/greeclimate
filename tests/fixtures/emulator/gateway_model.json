@@ -1,0 +1,654 @@
+{
+  "profile": "sim-w06av-v30",
+  "mid": "60",
+  "source_sha256": "6b52f31a74a74c5a88f3d8b68f8b4afc89fcd8d59e3d11a287a4ec37825bf79b",
+  "evidence": {
+    "native_protocol": "W06AV30 byte-matched discovery0xa138c8,bind0xa13c04,reply envelope0xa0b49c..b513,enumeration0xa139fc/request0xa145b8,command parser0xa13f24/builder0xa13608,status0xa13200. Crypto and hashes:gateway_research.json.",
+    "model_contract": "Explicitly synthetic common AC controls; no physical cache/frame emulation. TemBody=floor(room_c),clamp0..255, NOT a proved hardware Celsius encoding. SetTem integerC16..30. Unsupported known/nonmodeled fields omitted; truly unknown names preserve native empty string.",
+    "independence": "Expected metadata obtained from actual firmware instruction replay; model expectations are explicit literal contract values recorded before implementation; never generated from emulator/client."
+  },
+  "device": {
+    "id": "gateway",
+    "mac": "020000000001",
+    "name": "Emulator Gateway",
+    "key": "0123456789abcdef"
+  },
+  "children": [
+    {
+      "profile": "sim-w06av-v30-ac", "mid": "6049",
+      "device": {"id": "child-1", "mac": "02000000000001", "name": "Indoor 1", "room_c": 22, "ambient_c": 22},
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v30-ac", "mid": "604a",
+      "device": {"id": "child-2", "mac": "02000000000002", "name": "Indoor 2", "room_c": 22, "ambient_c": 22},
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v30-ac", "mid": "604b",
+      "device": {"id": "child-3", "mac": "02000000000003", "name": "Indoor 3", "room_c": 22, "ambient_c": 22},
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v30-ac", "mid": "604c",
+      "device": {"id": "child-4", "mac": "02000000000004", "name": "Indoor 4", "room_c": 22, "ambient_c": 22},
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v30-ac", "mid": "605c",
+      "device": {"id": "child-5", "mac": "02000000000005", "name": "Indoor 5", "room_c": 22, "ambient_c": 22},
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v30-ac", "mid": "608f",
+      "device": {"id": "child-6", "mac": "02000000000006", "name": "Indoor 6", "room_c": 22, "ambient_c": 22},
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v30-ac", "mid": "6092",
+      "device": {"id": "child-7", "mac": "02000000000007", "name": "Indoor 7", "room_c": 22, "ambient_c": 22},
+      "initial_state": {}
+    }
+  ],
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 5
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 7
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001"
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000009",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "02000000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem"
+        ],
+        "p": [
+          1,
+          1,
+          22
+        ],
+        "val": [
+          0,
+          4,
+          30
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000001",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "TemBody",
+          "TemSen",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000002",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "TemBody"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000001",
+        "opt": [
+          "Pow"
+        ],
+        "val": [
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000001",
+        "opt": [
+          "Pow",
+          "SetTem"
+        ],
+        "p": [
+          0,
+          31
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000000002"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000002",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000001",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "60",
+          "model": "gree",
+          "name": "Emulator Gateway",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V1.1.0.0",
+          "lock": 0.0,
+          "hid": "362001067012+U-W06AV30.bin",
+          "subCnt": 7
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindOk",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 7,
+          "i": 0,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000001",
+              "mid": "6049"
+            },
+            {
+              "mac": "02000000000002",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000003",
+              "mid": "604b"
+            },
+            {
+              "mac": "02000000000004",
+              "mid": "604c"
+            },
+            {
+              "mac": "02000000000005",
+              "mid": "605c"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 7,
+          "i": 5,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000006",
+              "mid": "608f"
+            },
+            {
+              "mac": "02000000000007",
+              "mid": "6092"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 7,
+          "i": 7,
+          "r": 200,
+          "list": []
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "02000000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem"
+          ],
+          "p": [
+            1,
+            1,
+            22
+          ],
+          "val": [
+            1,
+            1,
+            22
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "02000000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "TemBody",
+            "TemSen",
+            "Pow"
+          ],
+          "dat": [
+            1,
+            1,
+            22,
+            22,
+            "",
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "02000000000002",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "SetTem",
+            "TemBody"
+          ],
+          "dat": [
+            0,
+            24,
+            22
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "02000000000001",
+          "r": 200,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            1
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {},
+  "expected_children": {
+    "02000000000001": {
+      "Pow": 1,
+      "Mod": 1,
+      "SetTem": 22,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000002": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000003": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000004": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000005": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000006": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000007": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    }
+  }
+}
