@@ -1,0 +1,997 @@
+{
+  "profile": "w04h-v3.55",
+  "mid": "10001",
+  "source_sha256": "17b1c7812a3f98fa1e800e786b37606d842ebbf0b38a25c0ec5c173fcaaa9f2e",
+  "verification_level": "research-only; native LAN/cached response and framing, not an admitted mainboard feedback model",
+  "evidence": {
+    "source_url": "http://test.grih.gree.com/wifiModule/image/20049/892240",
+    "addresses": [
+      "0x08052234",
+      "0x08052914",
+      "0x08052ff0",
+      "0x08053288",
+      "0x0804e798",
+      "0x0804a330"
+    ],
+    "native_engine": "Unicorn2.1.4 ARM Thumb",
+    "boundaries": "JSON nodes/constructors, int-to-double ABI, I/O and publicly named AES ECB ROM primitive are hooked; dispatcher/cache/frame code original instructions",
+    "aes_rom_source": "https://raw.githubusercontent.com/libretiny-eu/libretiny/master/cores/realtek-ambz/misc/export-rom_symbol_v01.txt",
+    "crypto_limit": "AES supplied at the resolved ROM boundary by PyCryptodome; native wrapper proves block iteration and PKCS7, not execution of ROM silicon AES"
+  },
+  "device": {
+    "id": "office",
+    "mac": "020000000001",
+    "name": "Emulator Office",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {
+    "Pow": 0,
+    "Mod": 0,
+    "SetTem": 24,
+    "WdSpd": 0,
+    "TemSen": 65
+  },
+  "requests": [
+    {
+      "t": "bind",
+      "mac": "020000000001"
+    },
+    {
+      "t": "bind",
+      "mac": "020000000099"
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "TemSen",
+        "TemUn",
+        "TemRec"
+      ]
+    },
+    {
+      "t": "cmd",
+      "mac": "020000000001",
+      "opt": [
+        "Pow",
+        "Mod",
+        "SetTem",
+        "WdSpd"
+      ],
+      "p": [
+        1,
+        1,
+        22,
+        5
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "WdSpd",
+        "Pow",
+        "SetTem",
+        "Pow",
+        "Mod"
+      ]
+    },
+    {
+      "t": "cmd",
+      "mac": "020000000001",
+      "opt": [
+        "Pow",
+        "Pow",
+        "SetTem"
+      ],
+      "p": [
+        65536,
+        -1,
+        33
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "Pow",
+        "SetTem"
+      ]
+    },
+    {
+      "t": "cmd",
+      "mac": "020000000001",
+      "opt": [
+        "Pow"
+      ],
+      "p": [
+        "1"
+      ]
+    },
+    {
+      "t": "cmd",
+      "mac": "020000000001",
+      "opt": [
+        "Pow"
+      ],
+      "p": [
+        false
+      ]
+    },
+    {
+      "t": "cmd",
+      "mac": "020000000001",
+      "opt": [
+        "Pow"
+      ],
+      "p": [
+        2.9
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": []
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow"
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "Pow",
+        "ThisNameIsTooLong",
+        "Mod"
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "Pow",
+        1,
+        "Mod"
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "Pow",
+        "",
+        "Mod"
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "hid",
+        "mid",
+        "ver",
+        "vender",
+        "name",
+        "host",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "HidSvrVer"
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": [
+        "unknown"
+      ]
+    },
+    {
+      "t": "status",
+      "mac": "020000000001"
+    },
+    {
+      "t": "status",
+      "mac": "020000000001",
+      "cols": null
+    },
+    {
+      "t": "cmd",
+      "mac": "020000000001",
+      "opt": [
+        "Pow",
+        "Mod"
+      ],
+      "p": [
+        1
+      ]
+    },
+    {
+      "t": "cmd",
+      "mac": "020000000001",
+      "opt": [
+        "unknown"
+      ],
+      "p": [
+        1
+      ]
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "t": "bindok",
+        "mac": "020000000001",
+        "r": 200,
+        "key": "0123456789abcdef"
+      },
+      {
+        "t": "pack",
+        "i": 1.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly5P4HhGrVe8a9SPswvX3Oqzm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ="
+      }
+    ],
+    [],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "TemSen",
+          "TemUn",
+          "TemRec"
+        ],
+        "dat": [
+          65.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/w/mGWpEMBLexy9ejLsgK9ZuV5TIOMf5xCCChWmBJBOPvDrRRCUgw/lpamwTBekJoN3Ii4GGpJMWRzZwn6hY+1A=="
+      }
+    ],
+    [
+      {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ],
+        "p": [
+          1.0,
+          1.0,
+          22.0,
+          5.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIjjShNCjrI+i/WX1GNWXOKwmO6VmYp7ffP3VE5jnLru4kTgkzd89u1yhlu06IytLqfUnM4CWMQ6qwcE/h7jVKww=="
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "WdSpd",
+          "Pow",
+          "SetTem",
+          "Pow",
+          "Mod"
+        ],
+        "dat": [
+          0.0,
+          0.0,
+          24.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/mcbVYfpYtHmMA+okOpCQGdCo4vN4kOdfM4UPU4CBi0tHg+QpLvQUJw/hMmpL98IRRim2wl/uSRlWaU2/ZbQzZgMACutP9R0pGI+C5KFiofY="
+      }
+    ],
+    [
+      {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "Pow",
+          "Pow",
+          "SetTem"
+        ],
+        "p": [
+          0.0,
+          65535.0,
+          33.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIk/iKLVCZvtxWZsFil5p9FwHZp/oz7IOADvml54Qir2rhUIfN6iHvP/IX7tsNnR3D"
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "Pow",
+          "SetTem"
+        ],
+        "dat": [
+          0.0,
+          24.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/VIpJhmpfG+r9cb/TnsfXpn9R0CUbq/FkT3vOzY5k9vsDAArrT/UdKRiPguShYqH2"
+      }
+    ],
+    [
+      {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIYoRMh6Wbtf0i7L57rcrYGjdyIuBhqSTFkc2cJ+oWPtQ="
+      }
+    ],
+    [
+      {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIYoRMh6Wbtf0i7L57rcrYGjdyIuBhqSTFkc2cJ+oWPtQ="
+      }
+    ],
+    [
+      {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          2.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLI8vl1t1lxWS8o+NxT8aAWpTdyIuBhqSTFkc2cJ+oWPtQ="
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [],
+        "dat": []
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/j67TMnMHrrFIyuvE//A1Dw=="
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [],
+        "dat": []
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/j67TMnMHrrFIyuvE//A1Dw=="
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "Pow"
+        ],
+        "dat": [
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/S7HaLmJnVyftiVAKHWYsoCvUfNzHmzfo3csl1e4nEA4="
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "Pow"
+        ],
+        "dat": [
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/S7HaLmJnVyftiVAKHWYsoCvUfNzHmzfo3csl1e4nEA4="
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "Pow"
+        ],
+        "dat": [
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/S7HaLmJnVyftiVAKHWYsoCvUfNzHmzfo3csl1e4nEA4="
+      }
+    ],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "hid",
+          "mid",
+          "ver",
+          "vender",
+          "name",
+          "host",
+          "model",
+          "series",
+          "brand",
+          "catalog",
+          "country",
+          "HidSvrVer"
+        ],
+        "dat": [
+          "362001061060+U-W04HV3.55.bin",
+          "10001",
+          "V3.0.0",
+          "2",
+          "Emulator Office",
+          ""
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ//p5L2PMsbrJEuLr2sDwHkmbJI+0Mwo5ZCUbyDAXUaQfk0QrrAPSlqwDuGCMz6C91lngiHKhqpVpHrk5qmQGq+lYPAC6ntogRuHXNONjSuoUTFOXh+7pKZZqu1m8s21qofTF8ao3zHX4z4mPTD6Dr3Z8mD3q2/HYRTOsQCTT3EvdRp9eRn0J8tV/PVv2T1h9BX5DpeplQoYgXSUjyAZOGF/c4n3sCg6GUAkTZXhL4oVIzAPnzC5mvUSQse9uYJg5B"
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [],
+        "dat": []
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/j67TMnMHrrFIyuvE//A1Dw=="
+      }
+    ],
+    [
+      {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "Pow",
+          "Mod"
+        ],
+        "p": [
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "t": "pack",
+        "i": 0.0,
+        "uid": 0.0,
+        "cid": "020000000001",
+        "tcid": "",
+        "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIAQCpS2P6FM7xlC+3xk3lKZ4t5jRGATpwY03GgvfV3GU="
+      }
+    ],
+    []
+  ],
+  "expected_state": [
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 1,
+      "Mod": 1,
+      "SetTem": 22,
+      "WdSpd": 5,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 65535,
+      "Mod": 0,
+      "SetTem": 33,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 2,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 1,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    },
+    {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "TemSen": 65
+    }
+  ],
+  "native_errors": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "ValueError('firmware strcmp NULL', '0x800b55c', [805432620, 0, 805432620, 0]) pc=0800b55c",
+    null,
+    null,
+    null,
+    "ValueError('firmware strcmp NULL', '0x800b55c', [537002304, 0, 0, 0]) pc=0800b55c"
+  ],
+  "scan_native_plaintext_objects": [
+    {
+      "t": "dev",
+      "cid": "",
+      "bc": "00000",
+      "hid": "362001061060+U-W04HV3.55.bin",
+      "catalog": "gree",
+      "mid": "10001",
+      "lock": 0.0,
+      "model": "gree",
+      "name": "Emulator Office",
+      "series": "gree",
+      "vender": "2",
+      "ver": "V3.0.0",
+      "brand": "gree",
+      "mac": "020000000001"
+    },
+    {
+      "t": "pack",
+      "i": 1.0,
+      "uid": 0.0,
+      "cid": "020000000001",
+      "tcid": "",
+      "pack": "LP24Ek0OaYogxs3iQLjL4MpqLc7bRfNhysEFQaTzJYT4J4Emf37gSUx8fhgG5nUiN0xyd0TEBxQlStU4KeN1JG96cYmVUmokta1BQBcNyIToG8y2e8r7TIMbLOmDVUI/ic4I3PWv8QurkeDllyOf2j2zXwoEwQzfVMbNm5RFLDizXEkoWqN0h9mFVF9kpgilhV1dN6LQYW8xijxhVnYfD9Vthj617lBBHzEIheTDieQn+ci4PrOwTV3ctxZydsTs4ESHJtfqBARSiN8VSYF+xBzWjbLSTsVEwcDm8vtvoo9Y5spcoSMrt9Vkndse5h6q"
+    }
+  ],
+  "crypto_vectors": [
+    {
+      "plaintext_hex": "",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "10101010101010101010101010101010",
+          "output": "377222e061a924c591cd9c27ea163ed4"
+        }
+      ],
+      "ciphertext_hex": "377222e061a924c591cd9c27ea163ed4"
+    },
+    {
+      "plaintext_hex": "61616161616161616161616161616161",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "10101010101010101010101010101010",
+          "output": "377222e061a924c591cd9c27ea163ed4"
+        }
+      ],
+      "ciphertext_hex": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f377222e061a924c591cd9c27ea163ed4"
+    },
+    {
+      "plaintext_hex": "6161616161616161616161616161616161",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "610f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+          "output": "0950013d77ed2905ce50637eca5442ee"
+        }
+      ],
+      "ciphertext_hex": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f0950013d77ed2905ce50637eca5442ee"
+    },
+    {
+      "plaintext_hex": "61616161616161616161616161616161616161616161616161616161616161",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616101",
+          "output": "8752d293f9d3b04f96b9f78b261a5f50"
+        }
+      ],
+      "ciphertext_hex": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f8752d293f9d3b04f96b9f78b261a5f50"
+    },
+    {
+      "plaintext_hex": "6161616161616161616161616161616161616161616161616161616161616161",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "10101010101010101010101010101010",
+          "output": "377222e061a924c591cd9c27ea163ed4"
+        }
+      ],
+      "ciphertext_hex": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f9b6dfb4c7d7f2f4fd686f4f0e7539d1f377222e061a924c591cd9c27ea163ed4"
+    },
+    {
+      "plaintext_hex": "6161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616101",
+          "output": "8752d293f9d3b04f96b9f78b261a5f50"
+        }
+      ],
+      "ciphertext_hex": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f9b6dfb4c7d7f2f4fd686f4f0e7539d1f8752d293f9d3b04f96b9f78b261a5f50"
+    },
+    {
+      "plaintext_hex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "10101010101010101010101010101010",
+          "output": "377222e061a924c591cd9c27ea163ed4"
+        }
+      ],
+      "ciphertext_hex": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f9b6dfb4c7d7f2f4fd686f4f0e7539d1f9b6dfb4c7d7f2f4fd686f4f0e7539d1f377222e061a924c591cd9c27ea163ed4"
+    },
+    {
+      "plaintext_hex": "616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161",
+      "native_rom_calls": [
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616161",
+          "output": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f"
+        },
+        {
+          "operation": "encrypt",
+          "input": "61616161616161616161616161616101",
+          "output": "8752d293f9d3b04f96b9f78b261a5f50"
+        }
+      ],
+      "ciphertext_hex": "9b6dfb4c7d7f2f4fd686f4f0e7539d1f9b6dfb4c7d7f2f4fd686f4f0e7539d1f9b6dfb4c7d7f2f4fd686f4f0e7539d1f8752d293f9d3b04f96b9f78b261a5f50"
+    }
+  ],
+  "admission_blocker": "Complete incoming mainboard status synthesis and active runtime MID feature context are not established. Do not use raw cache echo or Tx-as-status as a complete physical control model."
+}

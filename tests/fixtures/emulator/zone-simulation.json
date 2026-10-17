@@ -1,0 +1,675 @@
+{
+  "profile": "sim-w05sa-v1.28",
+  "mid": "50",
+  "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+  "evidence": {
+    "native_protocol": "ARM Thumb V1.28/image27 discovery0x805e6fc; command0x805f3f2/status0x805f124; alias0x805d4ac; AES wrappers0x80544a4/5458e with independently verified ROM branch addresses0x2e8d/2ec5/2ef5; PKCS7 repeated bytes captured before runtime implementation.",
+    "model_contract": "Synthetic target Celsius=16+StTem nibble; Mod1 cool/2 heat/0 idle; powered only when MasterPow and local Pow; no ambient LAN field. Six children, exact parent+0slot identities, shared Mod/WdSpd.",
+    "native_boundary_limit": "cJSON/libc and AES ROM boundaries hooked. Native setter loops one beyond cJSON array count; out-of-range getter returnsNULL and strcmpNULL boundary returnsnonmatching rather than emulating unavailable ROM vector word0x10. Valid accepted columns and native reply builder are captured; no full-firmware claim."
+  },
+  "device": {
+    "id": "zones",
+    "mac": "020000000001",
+    "name": "Emulator Office",
+    "key": "0123456789abcdef"
+  },
+  "children": [
+    {
+      "profile": "sim-w05sa-v1.28-master",
+      "mid": "5000",
+      "device": {
+        "id": "zone-0",
+        "mac": "02000000000100",
+        "name": "Zone 0",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "zone-1",
+        "mac": "02000000000101",
+        "name": "Zone 1",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "zone-2",
+        "mac": "02000000000102",
+        "name": "Zone 2",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "zone-3",
+        "mac": "02000000000103",
+        "name": "Zone 3",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "zone-4",
+        "mac": "02000000000104",
+        "name": "Zone 4",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "device": {
+        "id": "zone-5",
+        "mac": "02000000000105",
+        "name": "Zone 5",
+        "room_c": 24,
+        "ambient_c": 24
+      },
+      "initial_state": {}
+    }
+  ],
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 5
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000101",
+        "cols": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd",
+          "TemSen",
+          "unknown"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000101",
+        "opt": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          8,
+          1,
+          3
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000102",
+        "cols": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "MasterPow",
+          "EnWdVlv1",
+          "StTem1",
+          "Mod",
+          "WdSpd"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Mod",
+          "WdSpd"
+        ],
+        "p": [
+          2,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000101",
+        "cols": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dev",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "50",
+          "lock": 0,
+          "model": "gree",
+          "name": "Emulator Office",
+          "series": "gree",
+          "vender": "",
+          "ver": "",
+          "brand": "gree",
+          "mac": "020000000001",
+          "subCnt": 6
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindOk",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "r": 200,
+          "c": 6,
+          "i": 0,
+          "list": [
+            {
+              "mac": "02000000000100",
+              "mid": "5000",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000101",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000102",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000103",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000104",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "r": 200,
+          "c": 6,
+          "i": 5,
+          "list": [
+            {
+              "mac": "02000000000105",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000101",
+          "cols": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            0,
+            8,
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000000101",
+          "opt": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            8,
+            1,
+            3
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000102",
+          "cols": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            0,
+            8,
+            1,
+            3
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000000100",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "MasterPow",
+            "EnWdVlv1",
+            "StTem1",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            1,
+            1,
+            8,
+            1,
+            3
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Mod",
+            "WdSpd"
+          ],
+          "p": [
+            2,
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000101",
+          "cols": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            1,
+            8,
+            2,
+            1
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "MasterPow": 1,
+    "Mod": 2,
+    "WdSpd": 1,
+    "StTem": 8,
+    "StFahFlg": 0,
+    "RmType": 0,
+    "RmNum": 0
+  },
+  "expected_children": {
+    "02000000000100": {
+      "Pow": 1,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "Mod": 2,
+      "WdSpd": 1
+    },
+    "02000000000101": {
+      "Pow": 1,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 2,
+      "WdSpd": 1
+    },
+    "02000000000102": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 2,
+      "WdSpd": 1
+    },
+    "02000000000103": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 2,
+      "WdSpd": 1
+    },
+    "02000000000104": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 2,
+      "WdSpd": 1
+    },
+    "02000000000105": {
+      "Pow": 0,
+      "StTem": 8,
+      "StFahFlg": 0,
+      "RmType": 0,
+      "RmNum": 0,
+      "EnValve": 0,
+      "Mod": 2,
+      "WdSpd": 1
+    }
+  }
+}

@@ -22,91 +22,159 @@ The easiest way to grab **greeclimate** is through PyPI
 
 ## Use Gree Climate
 
-### Finding and binding to devices
-
-Scan the network for devices, select a device and immediately bind. See the notes below for caveats.
+Discover devices on the LAN and bind immediately after scanning.
 
 ```python
-discovery = Discovery()
-for device_info in await discovery.scan(wait_for=5):
-    try:
-        device = Device(device_info)
-        await device.bind() # Device will auto bind on update if you omit this step
-    except CannotConnect:
-        _LOGGER.error("Unable to bind to gree device: %s", device_info)
-        continue
+import asyncio
 
-    _LOGGER.debug(
-        "Adding Gree device at %s:%i (%s)",
-        device.device_info.ip,
-        device.device_info.port,
-        device.device_info.name,
-    )
+from greeclimate.device import Device
+from greeclimate.discovery import Discovery
+
+
+async def main():
+    discovery = Discovery()
+    try:
+        for device_info in await discovery.scan(wait_for=5):
+            device = Device(device_info)
+            try:
+                await device.bind()
+                print(device_info.name, device_info.ip)
+            finally:
+                device.close()
+    finally:
+        discovery.close()
+
+
+asyncio.run(main())
 ```
 
-Automatic discovery uses `ifaddr` to enumerate IPv4 interfaces and derives their subnet broadcast addresses.
-IPv6 and non-loopback `/31` and `/32` networks are skipped. Loopback is excluded unless
-`Discovery(allow_loopback=True)` is used; then scans target the loopback host address.
+The following snippets run inside `main()`; device-control snippets go after binding and before closing `device`.
 
-Passing `None` or `[]` as `scan(target_addresses=...)` uses automatic enumeration. A non-empty list of
-`ipaddress.IPv4Address` destinations bypasses enumeration and can select custom broadcast or
-unicast targets. Automatic enumeration derives broadcasts from prefixes rather than
-using OS-specific broadcast or peer fields.
-
-To discover a device at a known address:
+Scan a known IP address instead of broadcasting on the LAN.
 
 ```python
 from ipaddress import IPv4Address
 
-devices = await discovery.scan(wait_for=5, target_addresses=[IPv4Address(host)])
+devices = await discovery.scan(
+    wait_for=5, target_addresses=[IPv4Address("192.0.2.10")]
+)
 ```
 
-The existing `bcast_ifaces` parameter remains supported as a compatibility alias, including
-positional calls. Supplying both parameters with non-`None` values raises `ValueError`.
-`search_devices(target_addresses=...)` likewise retains its existing `broadcastAddrs`
-keyword and positional calls, with the same conflict and automatic enumeration rules.
-
-#### Caveats
-
-Devices have and use 2 encryption keys. 1 for discovery and setup which is the same on all gree devices, and a second which is negotiated during the binding process.
-
-Binding is incredibly finnicky, if you do not have the device key you must first scan and re-bind. The device will only respond to binding requests immediately proceeding a scan.
-
-### Update device state
-
-It's possible for devices to be updated from external sources, to update the `Device` internal state with the physical device call `Device.update_state()`
-
-### Properties
-
-There are several properties representing the state of the HVAC. Setting these properties will command the HVAC to change state.
-
-Not all properties are supported on each device, in the event a property isn't supported commands to the HVAC will simply be ignored.
-
-When setting a value it is cached but not pushed to the device until `Device.push_state_update()` is called.
+Discover a device listening on UDP port 7000, including loopback addresses.
 
 ```python
-device = Device(...)
-device.power = True
-device.mode = Mode.Auto
-device.target_temperature = 25
-device.temperature_units = TemperatureUnits.C
-device.fan_speed = FanSpeed.Auto
-device.fresh_air = True
-device.xfan = True
-device.anion = True
-device.sleep = True
-device.light = True
-device.horizontal_swing = HorizontalSwing.FullSwing
-device.vertical_swing = VerticalSwing.FullSwing
-device.quiet = True
-device.turbo = True
-device.steady_heat = True
-device.power_save = True
-device.target_humidity = 45
+discovery = Discovery(allow_loopback=True)
+devices = await discovery.scan(wait_for=5)
+```
 
-# Send the state update to the HVAC
+Manually poll for updated device state.
+
+```python
+await device.update_state()
+```
+
+Cool to 25°C and send updates to the device.
+
+```python
+from greeclimate.device import Mode, TemperatureUnits
+
+device.power = True
+device.mode = Mode.Cool
+device.temperature_units = TemperatureUnits.C
+device.target_temperature = 25
 await device.push_state_update()
 ```
+
+Set a Fahrenheit target by selecting units before setting the temperature.
+
+```python
+from greeclimate.device import TemperatureUnits
+
+device.temperature_units = TemperatureUnits.F
+device.target_temperature = 77
+await device.push_state_update()
+```
+
+Set fan speed and swing positions.
+
+```python
+from greeclimate.device import FanSpeed, HorizontalSwing, VerticalSwing
+
+device.fan_speed = FanSpeed.Auto
+device.horizontal_swing = HorizontalSwing.FullSwing
+device.vertical_swing = VerticalSwing.FullSwing
+await device.push_state_update()
+```
+
+Enable optional features where supported by the device.
+
+```python
+device.light = True
+device.xfan = True
+device.quiet = True
+await device.push_state_update()
+```
+
+Set a dehumidifier's target relative humidity.
+
+```python
+device.target_humidity = 45
+await device.push_state_update()
+```
+
+Turn the device off, then request a fresh status update.
+
+```python
+device.power = False
+await device.push_state_update()
+await device.update_state()
+```
+
+Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loopback, and non-loopback `/31` and `/32` networks. `allow_loopback=True` adds loopback host addresses; non-empty `target_addresses` bypasses interface enumeration, while `None` or `[]` uses it.
+
+Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
+
+## Use Gree Emulator
+
+Run these commands from the repository root with Python 3.10+ and dependencies installed; each server runs until Ctrl-C.
+
+List supported simulated profiles and their exact MID values.
+
+```bash
+python -m gree_emulator --list-profiles
+```
+
+Run one simulated AC on loopback, with stable identity across restarts.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1
+```
+
+Run three independently controlled simulated ACs on the same endpoint.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --count 3 --seed demo --listen 127.0.0.1
+```
+
+Run the supplied mixed-device configuration, including gateways and child devices.
+
+```bash
+python -m gree_emulator --config examples/emulator-devices.json
+```
+
+Expose the simulated ACs to LAN discovery on UDP port 7000, on a trusted test network only.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --count 3 --seed demo --listen 0.0.0.0 --port 7000
+```
+
+Capture packet logs on stderr while keeping startup announcements on stdout; scrub identities, addresses, and bind exchanges before sharing.
+
+```bash
+python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1 2> emulator-packets.log
+```
+
+These are simulated appliances, not complete firmware emulations. The library's `push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so simulator commands can be rejected even when sending succeeds. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
 
 ## Debugging
 

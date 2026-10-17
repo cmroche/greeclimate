@@ -1,0 +1,226 @@
+{
+  "profile": "sim-w04n-v17",
+  "mid": "13000",
+  "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+  "evidence": {
+    "protocol": "Native ARM Thumb standalone LAN0x802fd0c with exact runtime MID supplied both core+0x324 and LAN+0xd8; scan,bind0x802ea38,cmd0x803156c,status0x8031350,outer0x802fbc0 and AES PKCS7 wrappers executed. JSON/string/RTOS/platform-version/ROM AES primitives are boundaries as in w04n-native_research.json. No emulator/client expected-output imports.",
+    "classification": "Exact AC-category/default-column branches0x802699c/0x802df3c independently native-executed in catalog evidence. Runtime class30000 finite AC map selected; no non-AC MIDs included. Non-default pointer for11f00..02 retained in classification, not conflated with an automatic default10001 fallback.",
+    "appliance": "User-approved synthetic AC: physical mode/fan/cache transformations deliberately bypassed. Selected shared-model cached scalar values injected before status. This fixture proves exact standalone LAN routing/metadata for this explicit MID, not retail identity or mainboard fidelity.",
+    "expanded_sha256": "9d2ce9192017933bcdf6b61995b225cae896a7e39c5959ea0c8bd91d6003693b",
+    "ram_segment_sha256": "c02d8a0c5b246439178201d90feff4c4cbb1c7a5f7ff433795cb28ca1a7decda"
+  },
+  "device": {
+    "room_c": 26.5,
+    "ambient_c": 26.5
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          1,
+          22,
+          5
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "mid",
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd",
+          "TemSen",
+          "unknown",
+          "name"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "00000",
+          "brand": "",
+          "catalog": "",
+          "mac": "020000000001",
+          "mid": "13000",
+          "model": "",
+          "name": "Emulator Office",
+          "lock": 0,
+          "series": "",
+          "vender": "",
+          "ver": "V3.0.0",
+          "hid": "362001064973+U-W04NV17.bin"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            1,
+            1,
+            22,
+            5
+          ],
+          "p": [
+            1,
+            1,
+            22,
+            5
+          ],
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 7,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "13000",
+            1,
+            1,
+            22,
+            5,
+            26,
+            "Emulator Office"
+          ],
+          "cols": [
+            "mid",
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd",
+            "TemSen",
+            "name"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Mod": 1,
+    "SetTem": 22,
+    "WdSpd": 5,
+    "TemUn": 0,
+    "TemRec": 0,
+    "Air": 0,
+    "Blo": 0,
+    "Health": 0,
+    "SwhSlp": 0,
+    "SlpMod": 0,
+    "Lig": 1,
+    "SwingLfRig": 0,
+    "SwUpDn": 0,
+    "Quiet": 0,
+    "Tur": 0,
+    "StHt": 0,
+    "SvSt": 0,
+    "Buzzer_ON_OFF": 0,
+    "TemSen": 26
+  }
+}

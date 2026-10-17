@@ -1,0 +1,459 @@
+{
+  "profile": "sim-w06dv-v4.01",
+  "mid": "3018",
+  "source_sha256": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f",
+  "evidence": {
+    "method": "Bounded byte-matched Xtensa instruction translation, not native CPU execution, full boot, or physical-device traffic. Every decoded instruction was checked against independently SHA256-verified extracted mapped bytes.",
+    "boundaries": "JSON tree allocation/get/append/print, libc memory/string operations, integer-to-double and double comparison, ROM AES init/block/deinit. Command mainboard pack0xa109cc deliberately stops at physical-appliance boundary; actual selector and setter instructions execute before this hook.",
+    "crypto": "DV exact references to ROM0x9aa0b0/0x9aa0c4/0x9aa0d8 match independently recovered QCA SDK2.1 ROM symbols recorded in gateway_research.json. DV0xa0cb50 PKCS7 fill and0xa0ca78 ECB block loop executed; outputs captured below. No inherited assumption of W06AV padding.",
+    "metadata": "Initializer0xa11200 copies MID3018,HID362001067592+U-W06DV4.01.bin,vender1,verV1.0.0.0; identities/name/binding key are explicitly initialized laboratory values.",
+    "outer": "0xa0ec60 requires i,uid,cid,tcid; tcid must match root MAC; main reply builder0xa0bcb4 (resolved.c4421..4471) emits t=pack,i,uid,cid=root,tcid=peer. Status/cmd dispatcher0xa0edd8 requires selector0. Discovery/bind operation selector1. Bind t is lowercase bindok.",
+    "ambient": "Exact scalar selector0xa10c68 rejects TemSor,TemBody,TemSen. Full finite networking namespace includes TemSor: native status builder can index cache[-1] after selector failure, so its captured0 is NOT an ambient value. Simulation intentionally omits all nonmodeled fields, never promotes this out-of-bounds access into a thermometer.",
+    "w06k6000": {
+      "source_sha256": "6ac3db6c6b5d72d327171d2bc16223c626301a194511a44931ad86de4135abd8",
+      "sources": "gateway_research.json hashes/allowlist; /tmp/gree-expanded-survey/XtensaGateway/6ac3db6c/{resolved.c,annotated.dis,namespace.json,refs.json,getter_exact.dis,selector_exact.dis} and four source-matched mapped segments.",
+      "observed": "Host identity emits80241/80242, not6000. Parser0xa10270 accepts external devs list entries with mid,mac,subMac. Outgoing status builder0xa0ce5c selects subMac as mac for6000; command0xa0cf34 uses sub rather than mac for6000. This is an outbound controller/relay route to another device, not a local6000 appliance handler.",
+      "missing_contract": "Actual6000 downstream firmware identity/discovery/bind response, its MAC-vs-subMac ownership and binding-key context, incoming status/reply builders and supported scalar namespace/command acceptance. Host request builders and response consumers constrain some fields but do not supply the downstream server implementation. No matching6000 child firmware/trace is present in inspected host image; W06AV's seven proven child MID routes do not include6000. Cannot admit an independent AC profile or relabel host80241/80242 as6000."
+    }
+  },
+  "source": {
+    "source_sha256": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f",
+    "path": "/Users/cliffordroche/Downloads/gree-firmware/362001067592+U-W06DV4.01-eu.bin",
+    "segments": [
+      {
+        "addr": 10486016,
+        "size": 14848,
+        "file_offset": 18456,
+        "sha256": "f3006e04dab693f82c9c98e9c5db08688ccccef51b26ebbb845e5e109ddf3b39"
+      },
+      {
+        "addr": 4501504,
+        "size": 31652,
+        "file_offset": 33344,
+        "sha256": "9f55dc03fc094d45b5a3ef57cf72b9237901e64c0db3a6ccc613eee59daf3b93"
+      },
+      {
+        "addr": 4533168,
+        "size": 3948,
+        "file_offset": 65036,
+        "sha256": "fba308a29c8fd82e82919e0936b81cc7386bf23e61d29b9a716a385afd09b969"
+      },
+      {
+        "addr": 10517504,
+        "size": 403727,
+        "file_offset": 69024,
+        "sha256": "e306a079ca2bd5a33ad7f280e44bd047d22c952464c40583d3fe6041bf4a7df9"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "entry": "0xa0f54c",
+      "columns": [],
+      "values": [],
+      "expected_inner": [
+        {
+          "t": "dev",
+          "cid": "aabbccddeeff",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "aabbccddeeff",
+          "mid": "3018",
+          "hid": "362001067592+U-W06DV4.01.bin",
+          "model": "gree",
+          "name": "Lab Controller",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V1.0.0.0",
+          "lock": 0
+        }
+      ],
+      "executed": 102
+    },
+    {
+      "entry": "0xa0f6ac",
+      "columns": [],
+      "values": [],
+      "expected_inner": [
+        {
+          "t": "bindok",
+          "mac": "aabbccddeeff",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      ],
+      "executed": 34
+    },
+    {
+      "entry": "0xa0efd8",
+      "columns": [
+        "Pow",
+        "SetTem",
+        "Unknown",
+        "TemSen",
+        "TemSor",
+        "TemBody"
+      ],
+      "values": [],
+      "expected_inner": [
+        {
+          "t": "dat",
+          "r": 200,
+          "mac": "aabbccddeeff",
+          "cols": [
+            "Pow",
+            "SetTem",
+            "TemSor"
+          ],
+          "dat": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "executed": 225
+    },
+    {
+      "entry": "0xa0f0d8",
+      "columns": [
+        "Pow",
+        "SetTem"
+      ],
+      "values": [
+        1,
+        22
+      ],
+      "expected_inner": [
+        {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "SetTem"
+          ],
+          "p": [
+            1,
+            22
+          ],
+          "val": [
+            1,
+            22
+          ]
+        }
+      ],
+      "executed": 125
+    }
+  ],
+  "traces": [
+    {
+      "request_inner": {
+        "t": "status",
+        "mac": "aabbccddeeff",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "Unknown",
+          "TemSen",
+          "TemBody"
+        ]
+      },
+      "operation": 1,
+      "expected_inner": [
+        {
+          "t": "dat",
+          "r": 200,
+          "mac": "aabbccddeeff",
+          "cols": [
+            "Pow",
+            "SetTem"
+          ],
+          "dat": [
+            0,
+            24
+          ]
+        }
+      ],
+      "executed": 230,
+      "control_cache": "000000000000000000180000000000000000000000"
+    },
+    {
+      "request_inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "SetTem"
+        ],
+        "p": [
+          1,
+          22
+        ]
+      },
+      "operation": 2,
+      "expected_inner": [
+        {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "SetTem"
+          ],
+          "p": [
+            1,
+            22
+          ],
+          "val": [
+            1,
+            22
+          ]
+        }
+      ],
+      "executed": 350,
+      "control_cache": "010000000000000000160000000000000000000000"
+    }
+  ],
+  "crypto": [
+    {
+      "inner": {
+        "t": "dev",
+        "cid": "aabbccddeeff",
+        "bc": "gree",
+        "brand": "gree",
+        "catalog": "gree",
+        "mac": "aabbccddeeff",
+        "mid": "3018",
+        "hid": "362001067592+U-W06DV4.01.bin",
+        "model": "gree",
+        "name": "Lab Controller",
+        "series": "gree",
+        "vender": "1",
+        "ver": "V1.0.0.0",
+        "lock": 0
+      },
+      "index": 1,
+      "ciphertext_base64": "LP24Ek0OaYogxs3iQLjL4FsSESg8wFcI8lSYoyaCphxYT1PXPBDouOPiWHaG4G8lz22fUZtUbkblUYF5BzlKDV9xeQzMlsaP4RKBtrnsDrOjsAgxyezQGGB22/VaU93EgFQsh4lDMRnjzzz9+se+4m/SXMlEF8XZgXr/lVyg/Ya5jMPWkS1W6by8LqVKljSX/VLofOeYjta54xNeZ+9zkaLyFMY64N8S8FOAeTnA6UZJj1aiUw7/cU1vFq87bL/dvNIKvR8SvC6GvFl1Y4GXD+FX+TIysWutF7eSdaCPpbMLx5rIId7ccMg4a6WpLaDS6coTV+mTVr+XX1T+tBQaQw==",
+      "blocks": [
+        {
+          "address": "0x9aa0c4",
+          "input": "7b2274223a22646576222c2263696422",
+          "output": "2cfdb8124d0e698a20c6cde240b8cbe0"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "3a22616162626363646465656666222c",
+          "output": "5b1211283cc05708f25498a32682a61c"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "226263223a2267726565222c22627261",
+          "output": "584f53d73c10e8b8e3e2587686e06f25"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "6e64223a2267726565222c2263617461",
+          "output": "cf6d9f519b546e46e551817907394a0d"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "6c6f67223a2267726565222c226d6163",
+          "output": "5f71790ccc96c68fe11281b6b9ec0eb3"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "223a2261616262636364646565666622",
+          "output": "a3b00831c9ecd0186076dbf55a53ddc4"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "2c226d6964223a2233303138222c2268",
+          "output": "80542c8789433119e3cf3cfdfac7bee2"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "6964223a223336323030313036373539",
+          "output": "6fd25cc94417c5d9817aff955ca0fd86"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "322b552d5730364456342e30312e6269",
+          "output": "b98cc3d6912d56e9bcbc2ea54a963497"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "6e222c226d6f64656c223a2267726565",
+          "output": "fd52e87ce7988ed6b9e3135e67ef7391"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "222c226e616d65223a224c616220436f",
+          "output": "a2f214c63ae0df12f053807939c0e946"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "6e74726f6c6c6572222c227365726965",
+          "output": "498f56a2530eff714d6f16af3b6cbfdd"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "73223a2267726565222c2276656e6465",
+          "output": "bcd20abd1f12bc2e86bc59756381970f"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "72223a2231222c22766572223a225631",
+          "output": "e157f93232b16bad17b79275a08fa5b3"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "2e302e302e30222c226c6f636b223a30",
+          "output": "0bc79ac821dedc70c8386ba5a92da0d2"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "7d0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+          "output": "e9ca1357e99356bf975f54feb4141a43"
+        }
+      ],
+      "executed": 76
+    },
+    {
+      "inner": {
+        "t": "bindok",
+        "mac": "aabbccddeeff",
+        "key": "0123456789abcdef",
+        "r": 200
+      },
+      "index": 1,
+      "ciphertext_base64": "T2tGu9JTsZPLMhoPO/mBchLGNsP4EUIf3DsxnkNaRc5pSICpibRAn/vOtJ0Dx72N+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk=",
+      "blocks": [
+        {
+          "address": "0x9aa0c4",
+          "input": "7b2274223a2262696e646f6b222c226d",
+          "output": "4f6b46bbd253b193cb321a0f3bf98172"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "6163223a226161626263636464656566",
+          "output": "12c636c3f811421fdc3b319e435a45ce"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "66222c226b6579223a22303132333435",
+          "output": "694880a989b4409ffbceb49d03c7bd8d"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "36373839616263646566222c2272223a",
+          "output": "f8c1879ab98779ac2c24d4c48bb39ca7"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "3230307d0c0c0c0c0c0c0c0c0c0c0c0c",
+          "output": "8cc3d64ea38f18b0136accad383b5e79"
+        }
+      ],
+      "executed": 76
+    },
+    {
+      "inner": {
+        "t": "dat",
+        "r": 200,
+        "mac": "aabbccddeeff",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "TemSor"
+        ],
+        "dat": [
+          0,
+          0,
+          0
+        ]
+      },
+      "index": 0,
+      "ciphertext_base64": "UkhOtb7oWLvXsxyYlbHbesPBuWllEZ72j5wdZ+Pc+qk4SPUIxZaKTg9n1Cv8EOWMEKYIbh57QEcdrLgC2D3ixOfJITQOmCiwNgHgnxqrfPb0VYQwCrpF6ovjC6SflWC6",
+      "blocks": [
+        {
+          "address": "0x9aa0c4",
+          "input": "7b2274223a22646174222c2272223a32",
+          "output": "52484eb5bee858bbd7b31c9895b1db7a"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "30302c226d6163223a22616162626363",
+          "output": "c3c1b96965119ef68f9c1d67e3dcfaa9"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "646465656666222c22636f6c73223a5b",
+          "output": "3848f508c5968a4e0f67d42bfc10e58c"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "22506f77222c2253657454656d222c22",
+          "output": "10a6086e1e7b40471dacb802d83de2c4"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "54656d536f72225d2c22646174223a5b",
+          "output": "e7c921340e9828b03601e09f1aab7cf6"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "302c302c305d7d090909090909090909",
+          "output": "f45584300aba45ea8be30ba49f9560ba"
+        }
+      ],
+      "executed": 75
+    },
+    {
+      "inner": {
+        "t": "res",
+        "r": 200,
+        "opt": [
+          "Pow",
+          "SetTem"
+        ],
+        "p": [
+          1,
+          22
+        ],
+        "val": [
+          1,
+          22
+        ]
+      },
+      "index": 0,
+      "ciphertext_base64": "57Y1VBAdPLCHlDgJrgY0xWzreVjolmOwRzzNbDX8+z8jA3RKc7cVzqy8tV/+wZUxfUIvizRQiN74aFiCpvTtANnoBtuaAy+F4DKA6oEn2Sk=",
+      "blocks": [
+        {
+          "address": "0x9aa0c4",
+          "input": "7b2274223a22726573222c2272223a32",
+          "output": "e7b63554101d3cb087943809ae0634c5"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "30302c226f7074223a5b22506f77222c",
+          "output": "6ceb7958e89663b0473ccd6c35fcfb3f"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "2253657454656d225d2c2270223a5b31",
+          "output": "2303744a73b715ceacbcb55ffec19531"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "2c32325d2c2276616c223a5b312c3232",
+          "output": "7d422f8b345088def8685882a6f4ed00"
+        },
+        {
+          "address": "0x9aa0c4",
+          "input": "5d7d0e0e0e0e0e0e0e0e0e0e0e0e0e0e",
+          "output": "d9e806db9a032f85e03280ea8127d929"
+        }
+      ],
+      "executed": 75
+    }
+  ]
+}

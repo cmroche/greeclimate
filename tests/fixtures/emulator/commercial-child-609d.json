@@ -1,0 +1,237 @@
+{
+  "profile": "sim-wb04brt13-v1.50-60",
+  "mid": "60",
+  "initial_state": {},
+  "evidence": {
+    "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+    "native": "commercial-additional-routes_research.json: actual router, complete scan, enumeration and status/command parser/builders for this exact MID.",
+    "model": "Literal synthetic controls; room/ambient24C and target24C keep the selected InTem field stationary. Expected packets are native shapes plus explicit model values, not runtime-generated."
+  },
+  "children": [
+    {
+      "profile": "sim-wb04brt13-v1.50-609d",
+      "mid": "609d",
+      "initial_state": {},
+      "device": {
+        "id": "indoor",
+        "mac": "02000000000100",
+        "room_c": 24,
+        "ambient_c": 24
+      }
+    }
+  ],
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001",
+        "uid": 0
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          1,
+          24,
+          3
+        ]
+      },
+      "key": "0123456789abcdef",
+      "nul_terminated": true
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 0,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000100",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "WdSpd",
+          "InTem",
+          "mid"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "r": 200,
+          "c": 1,
+          "i": 0,
+          "list": [
+            {
+              "mac": "02000000000100",
+              "name": "ACUnit",
+              "mid": "609d",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            1,
+            24,
+            3
+          ],
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "02000000000100",
+          "cid": "020000000001",
+          "dat": [
+            1,
+            1,
+            24,
+            3,
+            24,
+            "609d"
+          ],
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "WdSpd",
+            "InTem",
+            "mid"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {},
+  "expected_children": {
+    "02000000000100": {
+      "Pow": 1,
+      "Mod": 1,
+      "SetTem": 24,
+      "WdSpd": 3,
+      "TemUn": 0,
+      "TemRec": 0,
+      "Air": 0,
+      "Blo": 0,
+      "Health": 0,
+      "SwhSlp": 0,
+      "SlpMod": 0,
+      "Lig": 1,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "StHt": 0,
+      "SvSt": 0,
+      "Buzzer_ON_OFF": 0,
+      "InTem": 24
+    }
+  }
+}

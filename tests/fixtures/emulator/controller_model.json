@@ -1,0 +1,33 @@
+{
+  "profile": "sim-w06dv-v4.01", "mid": "3018",
+  "source_sha256": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f",
+  "evidence": {
+    "native_protocol": "controller_research.json: byte-matched DV discovery0xa0f54c,bind0xa0f6ac,status parser0xa0f7a0/builder0xa0efd8,command parser0xa0f8c0/setter0xa10b70/builder0xa0f0d8; AES block and PKCS7 padding replay0xa0cb50/0xa0ca78 with documented ROM boundary.",
+    "model_contract": "Synthetic integer Celsius SetTem and persisted controls. No advertised ambient sensor: TemSen/TemBody unknown; TemSor lacks scalar selector and is not modeled. Thermal state remains internal. Known nonmodeled fields and unknown columns omitted. Quiet restricted to actual setter boolean.",
+    "independence": "Recorded before runtime implementation; protocol shapes and base values from firmware replay, changed control state explicitly from approved synthetic model contract, never emulator/client-generated."
+  },
+  "device": {"id":"controller","mac":"aabbccddeeff","name":"Lab Controller","key":"0123456789abcdef","room_c":24,"ambient_c":24},
+  "initial_state": {},
+  "requests": [
+    {"outer":{"t":"scan"}},
+    {"outer":{"t":"pack","i":1,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"bind","mac":"aabbccddeeff"},"key":"a3K8Bx%2r8Y7#xDh"},
+    {"outer":{"t":"pack","i":0,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"status","mac":"aabbccddeeff","cols":["Pow","SetTem","Unknown","TemSen","TemBody","TemSor"]},"key":"0123456789abcdef"},
+    {"outer":{"t":"pack","i":0,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"cmd","opt":["Pow","Mod","SetTem","SetTem","TemUn","TemRec"],"p":[1,4,22,25,1,1]},"key":"0123456789abcdef"},
+    {"outer":{"t":"pack","i":0,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"status","mac":"aabbccddeeff","cols":["SetTem","Pow","Mod","TemUn","TemRec","SetTem","mid","hid","name"]},"key":"0123456789abcdef"},
+    {"outer":{"t":"pack","i":0,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"cmd","opt":["Pow","Quiet"],"p":[0,2]},"key":"0123456789abcdef"},
+    {"outer":{"t":"pack","i":1,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"status","mac":"aabbccddeeff","cols":["Pow"]},"key":"a3K8Bx%2r8Y7#xDh"},
+    {"outer":{"t":"pack","i":0,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"status","mac":"aabbccddeeff","cols":[]},"key":"0123456789abcdef"},
+    {"outer":{"t":"pack","i":0,"uid":7,"cid":"app","tcid":"aabbccddeeff"},"inner":{"t":"status","mac":"000000000000","cols":["Pow"]},"key":"0123456789abcdef"}
+  ],
+  "expected_replies": [
+    [{"outer":{"t":"pack","i":1,"uid":0,"cid":"aabbccddeeff","tcid":""},"inner":{"t":"dev","cid":"aabbccddeeff","bc":"gree","brand":"gree","catalog":"gree","mac":"aabbccddeeff","mid":"3018","hid":"362001067592+U-W06DV4.01.bin","model":"gree","name":"Lab Controller","series":"gree","vender":"1","ver":"V1.0.0.0","lock":0}}],
+    [{"outer":{"t":"pack","i":1,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"bindok","mac":"aabbccddeeff","key":"0123456789abcdef","r":200}}],
+    [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"dat","r":200,"mac":"aabbccddeeff","cols":["Pow","SetTem"],"dat":[0,24]}}],
+    [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"res","r":200,"opt":["Pow","Mod","SetTem","SetTem","TemUn","TemRec"],"p":[1,4,22,25,1,1],"val":[1,4,22,25,1,1]}}],
+    [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"dat","r":200,"mac":"aabbccddeeff","cols":["SetTem","Pow","Mod","TemUn","TemRec","SetTem","mid","hid","name"],"dat":[25,1,4,1,1,25,"3018","362001067592+U-W06DV4.01.bin","Lab Controller"]}}],
+    [], [],
+    [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"dat","r":200,"mac":"aabbccddeeff","cols":[],"dat":[]}}],
+    []
+  ],
+  "expected_state":{"Pow":1,"Blo":0,"SwhSlp":0,"Air":0,"SvSt":0,"Quiet":0,"Tur":0,"Mod":4,"SetTem":25,"WdSpd":0,"SwUpDn":0,"SwingLfRig":0,"TemUn":1,"TemRec":1,"SlpMod":0}
+}

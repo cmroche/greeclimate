@@ -1,0 +1,932 @@
+{
+  "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+  "evidence": {
+    "native_protocol": "ARM Thumb V1.28/image27 discovery0x805e6fc; command0x805f3f2/status0x805f124; alias0x805d4ac; AES wrappers0x80544a4/5458e with independently verified ROM branch addresses0x2e8d/2ec5/2ef5; PKCS7 repeated bytes captured before runtime implementation.",
+    "model_contract": "Synthetic target Celsius=16+StTem nibble; Mod1 cool/2 heat/0 idle; powered only when MasterPow and local Pow; no ambient LAN field. Six children, exact parent+0slot identities, shared Mod/WdSpd.",
+    "native_boundary_limit": "cJSON/libc and AES ROM boundaries hooked. Native setter loops one beyond cJSON array count; out-of-range getter returnsNULL and strcmpNULL boundary returnsnonmatching rather than emulating unavailable ROM vector word0x10. Valid accepted columns and native reply builder are captured; no full-firmware claim."
+  },
+  "samples": [
+    {
+      "request": {
+        "t": "scan"
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "dev",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "50",
+          "lock": 0,
+          "model": "gree",
+          "name": "Emulator Office",
+          "series": "gree",
+          "vender": "",
+          "ver": "",
+          "brand": "gree",
+          "mac": "020000000001",
+          "subCnt": 6
+        },
+        {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "bkVMP61MVBCj+bKj6Nc/0+3bUhgLmeZMHQVI0K0ZJAIBfyf7q78NB/mZIbnY1ilDzlBxlBYwCoi2MAitC9BJGPaOGxc0vwxgjIcGCxHsPhSP7SZS459vSv7rz4M3UEwtMtSDkS7dib/Q8jEu6Ryqh3nfpDzBkUGqZs3y8BoDyIGBbbwLGZQtMHG1DDw0qVrwneRcmD201qUJsYrkyjdhWXJd4q6/LiCyJStqMElfQ1arSEtjlLGKeRkw/thQZWRo"
+        }
+      ],
+      "crypto": [
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "7b2274223a22646576222c226263223a",
+          "output": "6e454c3fad4c5410a3f9b2a3e8d73fd3"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "2267726565222c22636174616c6f6722",
+          "output": "eddb52180b99e64c1d0548d0ad192402"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "3a2267726565222c226d6964223a2235",
+          "output": "017f27fbabbf0d07f99921b9d8d62943"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "30222c226c6f636b223a302c226d6f64",
+          "output": "ce50719416300a88b63008ad0bd04918"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "656c223a2267726565222c226e616d65",
+          "output": "f68e1b1734bf0c608c87060b11ec3e14"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "223a22456d756c61746f72204f666669",
+          "output": "8fed2652e39f6f4afeebcf8337504c2d"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "6365222c22736572696573223a226772",
+          "output": "32d483912edd89bfd0f2312ee91caa87"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "6565222c2276656e646572223a22222c",
+          "output": "79dfa43cc19141aa66cdf2f01a03c881"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "22766572223a22222c226272616e6422",
+          "output": "816dbc0b19942d3071b50c3c34a95af0"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "3a2267726565222c226d6163223a2230",
+          "output": "9de45c983db4d6a509b18ae4ca376159"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "3230303030303030303031222c227375",
+          "output": "725de2aebf2e20b2252b6a30495f4356"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "62436e74223a367d0808080808080808",
+          "output": "ab484b6394b18a791930fed850656468"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "request_i": 1,
+      "serialized": [
+        {
+          "t": "bindOk",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        },
+        {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "MWQd8NecdFWZIS8jB7ovXa4jEpLZOJ8cS+5hJTOQly5P4HhGrVe8a9SPswvX3Oqzm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ="
+        }
+      ],
+      "crypto": [
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "7b2274223a2262696e644f6b222c226d",
+          "output": "31641df0d79c745599212f2307ba2f5d"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "6163223a223032303030303030303030",
+          "output": "ae231292d9389f1c4bee61253390972e"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "31222c2272223a3230302c226b657922",
+          "output": "4fe07846ad57bc6bd48fb30bd7dceab3"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "3a223031323334353637383961626364",
+          "output": "9bc4bf0d68ded1609025336c0d8639e2"
+        },
+        {
+          "key": "61334b38427825327238593723784468",
+          "input": "6566227d0c0c0c0c0c0c0c0c0c0c0c0c",
+          "output": "59cb030d7c04eef7c97dd44b97f28284"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "request_i": 1,
+      "serialized": [
+        {
+          "t": "subList",
+          "r": 200,
+          "c": 6,
+          "i": 0,
+          "list": [
+            {
+              "mac": "02000000000100",
+              "mid": "5000",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000101",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000102",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000103",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000104",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "+Z3VdEiQSUJya61QNRvoSXAKqa170pvrQagIZ0Ydhfh57ziY3oQAusZ/MxDMeBewCNc+SBWV6blVheOSCB5uiX1XNiumykzavGlKsmDL5md/IbUzd9ucoX+TSDDBAJ+WoW4pND9G/QFhgeaGChQGRok9hS/ZLOg4kRjSt5k3oki7DNe8dlKjHegVKGnSj1tLOODxZdA1R3FwMO6tUobpKWYYTWlQEQTJsAnCBdKe04IF2nPF4rji82Q6ofS6WRCS3R9Ps/t+SI0biI3IQMpEFM9XKaO+vl2RtQDko2cpmdr5UHnFTWTM3Cw7SHqQcyTjMOYoNPcG4QgXjvhblffBRM0M4J9l7pGmlR/R2ahsT1mTyzusK3oFiTExLx+QeoOdYX+0UvJ1e68AtyJsAX8L7Hwf2IjjXS6nH5o9hQHfGkfSSoB4DfGi9ODY/HWqdDxxW9r0wCQteIVhCtyp1jIwUQjXPkgVlem5VYXjkggebome/0tv28vG/zSdXiqkfEzLfyG1M3fbnKF/k0gwwQCflqFuKTQ/Rv0BYYHmhgoUBkYjD2qdcsVrpo0a+V3j8dwp"
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a227375624c697374222c22",
+          "output": "f99dd57448904942726bad50351be849"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "72223a3230302c2263223a362c226922",
+          "output": "700aa9ad7bd29beb41a80867461d85f8"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a302c226c697374223a5b7b226d6163",
+          "output": "79ef3898de8400bac67f3310cc7817b0"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "223a2230323030303030303030303130",
+          "output": "08d73e481595e9b95585e392081e6e89"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "30222c226d6964223a2235303030222c",
+          "output": "7d57362ba6ca4cdabc694ab260cbe667"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "226e616d65223a227a6f6e65222c226d",
+          "output": "7f21b53377db9ca17f934830c1009f96"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "6f64656c223a2267726565222c226c6f",
+          "output": "a16e29343f46fd016181e6860a140646"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "636b223a307d2c7b226d6163223a2230",
+          "output": "893d852fd92ce8389118d2b79937a248"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "32303030303030303030313031222c22",
+          "output": "bb0cd7bc7652a31de8152869d28f5b4b"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "6d6964223a2235303031222c226e616d",
+          "output": "38e0f165d03547717030eead5286e929"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "65223a227a6f6e65222c226d6f64656c",
+          "output": "66184d69501104c9b009c205d29ed382"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "223a2267726565222c226c6f636b223a",
+          "output": "05da73c5e2b8e2f3643aa1f4ba591092"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "307d2c7b226d6163223a223032303030",
+          "output": "dd1f4fb3fb7e488d1b888dc840ca4414"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "303030303030313032222c226d696422",
+          "output": "cf5729a3bebe5d91b500e4a3672999da"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a2235303031222c226e616d65223a22",
+          "output": "f95079c54d64ccdc2c3b487a907324e3"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7a6f6e65222c226d6f64656c223a2267",
+          "output": "30e62834f706e108178ef85b95f7c144"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "726565222c226c6f636b223a307d2c7b",
+          "output": "cd0ce09f65ee91a6951fd1d9a86c4f59"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "226d6163223a22303230303030303030",
+          "output": "93cb3bac2b7a058931312f1f907a839d"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3030313033222c226d6964223a223530",
+          "output": "617fb452f2757baf00b7226c017f0bec"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3031222c226e616d65223a227a6f6e65",
+          "output": "7c1fd888e35d2ea71f9a3d8501df1a47"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "222c226d6f64656c223a226772656522",
+          "output": "d24a80780df1a2f4e0d8fc75aa743c71"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "2c226c6f636b223a307d2c7b226d6163",
+          "output": "5bdaf4c0242d7885610adca9d6323051"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "223a2230323030303030303030303130",
+          "output": "08d73e481595e9b95585e392081e6e89"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "34222c226d6964223a2235303031222c",
+          "output": "9eff4b6fdbcbc6ff349d5e2aa47c4ccb"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "226e616d65223a227a6f6e65222c226d",
+          "output": "7f21b53377db9ca17f934830c1009f96"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "6f64656c223a2267726565222c226c6f",
+          "output": "a16e29343f46fd016181e6860a140646"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "636b223a307d5d7d0808080808080808",
+          "output": "230f6a9d72c56ba68d1af95de3f1dc29"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 5
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "subList",
+          "r": 200,
+          "c": 6,
+          "i": 5,
+          "list": [
+            {
+              "mac": "02000000000105",
+              "mid": "5001",
+              "name": "zone",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "+Z3VdEiQSUJya61QNRvoSXAKqa170pvrQagIZ0YdhfjzR0JOAkLa+J3Hg05YzUvSCNc+SBWV6blVheOSCB5uiUqkeuECn1nNP0UkTo/cS4J/IbUzd9ucoX+TSDDBAJ+WoW4pND9G/QFhgeaGChQGRiMPap1yxWumjRr5XePx3Ck="
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a227375624c697374222c22",
+          "output": "f99dd57448904942726bad50351be849"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "72223a3230302c2263223a362c226922",
+          "output": "700aa9ad7bd29beb41a80867461d85f8"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a352c226c697374223a5b7b226d6163",
+          "output": "f347424e0242daf89dc7834e58cd4bd2"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "223a2230323030303030303030303130",
+          "output": "08d73e481595e9b95585e392081e6e89"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "35222c226d6964223a2235303031222c",
+          "output": "4aa47ae1029f59cd3f45244e8fdc4b82"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "226e616d65223a227a6f6e65222c226d",
+          "output": "7f21b53377db9ca17f934830c1009f96"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "6f64656c223a2267726565222c226c6f",
+          "output": "a16e29343f46fd016181e6860a140646"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "636b223a307d5d7d0808080808080808",
+          "output": "230f6a9d72c56ba68d1af95de3f1dc29"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "status",
+        "mac": "02000000000101",
+        "cols": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd",
+          "TemSen",
+          "unknown"
+        ]
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000101",
+          "cols": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            0,
+            8,
+            0,
+            0
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EF/7FGVYE3FsRNzrMjV9veTrAL2ifoOEkdWF7ptTRmxS5/7pftbsX7/4RMDdy/qjnb+QH1dW+joUhFH8cxVw+iq"
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a22646174222c2272223a32",
+          "output": "52484eb5bee858bbd7b31c9895b1db7a"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "30302c226d6163223a22303230303030",
+          "output": "86e3da326b3c6fa5de5f956092fcec41"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3030303030313031222c22636f6c7322",
+          "output": "7fec5195604dc5b11373acc8d5f6f793"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a5b22506f77222c22537454656d222c",
+          "output": "ac02f689fa0e12475617ba6d4d19b14b"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "224d6f64222c225764537064225d2c22",
+          "output": "9ffba5fb5bb17effe11303772fea8e76"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "646174223a5b302c382c302c305d7d01",
+          "output": "fe407d5d5be8e8521147f1cc55c3e8aa"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "cmd",
+        "sub": "02000000000101",
+        "opt": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          8,
+          1,
+          3
+        ]
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000000101",
+          "opt": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            8,
+            1,
+            3
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "57Y1VBAdPLCHlDgJrgY0xYbj2jJrPG+l3l+VYJL87EEp2acvqG3gkrwuaoglCeFSe4bREZJZ7t6HKZ3b60UbgEUPVEGPcbqH3DgxZ+BHo97HEXKRqIY5BDOum/FEbKuO"
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a22726573222c2272223a32",
+          "output": "e7b63554101d3cb087943809ae0634c5"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "30302c226d6163223a22303230303030",
+          "output": "86e3da326b3c6fa5de5f956092fcec41"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3030303030313031222c226f7074223a",
+          "output": "29d9a72fa86de092bc2e6a882509e152"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "5b22506f77222c22537454656d222c22",
+          "output": "7b86d1119259eede87299ddbeb451b80"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "4d6f64222c225764537064225d2c2270",
+          "output": "450f54418f71ba87dc383167e047a3de"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "223a5b312c382c312c335d7d04040404",
+          "output": "c7117291a886390433ae9bf1446cab8e"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "status",
+        "mac": "02000000000102",
+        "cols": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd"
+        ]
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000102",
+          "cols": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            0,
+            8,
+            1,
+            3
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EH/fYSEniJMXGzXy1F0nu++rAL2ifoOEkdWF7ptTRmxS5/7pftbsX7/4RMDdy/qjnYqdwYDVdV4UHrEYSvJiEqm"
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a22646174222c2272223a32",
+          "output": "52484eb5bee858bbd7b31c9895b1db7a"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "30302c226d6163223a22303230303030",
+          "output": "86e3da326b3c6fa5de5f956092fcec41"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3030303030313032222c22636f6c7322",
+          "output": "ff7d84849e224c5c6cd7cb51749eefbe"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a5b22506f77222c22537454656d222c",
+          "output": "ac02f689fa0e12475617ba6d4d19b14b"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "224d6f64222c225764537064225d2c22",
+          "output": "9ffba5fb5bb17effe11303772fea8e76"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "646174223a5b302c382c312c335d7d01",
+          "output": "2a77060355d578507ac4612bc9884aa6"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "cmd",
+        "sub": "02000000000100",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000000100",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            1
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "57Y1VBAdPLCHlDgJrgY0xYbj2jJrPG+l3l+VYJL87EG3prkDaDco1fkJITyBVNdYZ23nvOHZ9wHK92IBmVMsmzdyIuBhqSTFkc2cJ+oWPtQ="
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a22726573222c2272223a32",
+          "output": "e7b63554101d3cb087943809ae0634c5"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "30302c226d6163223a22303230303030",
+          "output": "86e3da326b3c6fa5de5f956092fcec41"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3030303030313030222c226f7074223a",
+          "output": "b7a6b903683728d5f909213c8154d758"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "5b22506f77225d2c2270223a5b315d7d",
+          "output": "676de7bce1d9f701caf7620199532c9b"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "10101010101010101010101010101010",
+          "output": "377222e061a924c591cd9c27ea163ed4"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "MasterPow",
+          "EnWdVlv1",
+          "StTem1",
+          "Mod",
+          "WdSpd"
+        ]
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "MasterPow",
+            "EnWdVlv1",
+            "StTem1",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            1,
+            1,
+            8,
+            1,
+            3
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/5ENYUGR0H3cXxarAVz9bX4qT6zM+XRSXJqpNnwjKzHef+6X7W7F+/+ETA3cv6o522ORAc0c9sEroWZ0Rjq40iQMACutP9R0pGI+C5KFiofY="
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a22646174222c226d616322",
+          "output": "c2acf1f842326af002bd1bb5c9b6c74a"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a22303230303030303030303031222c",
+          "output": "abb02424bc1b0a4c692bdd51a4eb8d62"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "2272223a3230302c22636f6c73223a5b",
+          "output": "9f381cf938d0e15219f5b73e7fe2d43f"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "224d6173746572506f77222c22456e57",
+          "output": "e443585064741f7717c5aac0573f5b5f"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "64566c7631222c22537454656d31222c",
+          "output": "8a93eb333e5d149726aa4d9f08cacc77"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "224d6f64222c225764537064225d2c22",
+          "output": "9ffba5fb5bb17effe11303772fea8e76"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "646174223a5b312c312c382c312c335d",
+          "output": "d8e44073473db04ae8599d118eae3489"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7d0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+          "output": "03000aeb4ff51d29188f82e4a162a1f6"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "cmd",
+        "opt": [
+          "Mod",
+          "WdSpd"
+        ],
+        "p": [
+          2,
+          1
+        ]
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Mod",
+            "WdSpd"
+          ],
+          "p": [
+            2,
+            1
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIRQ9UQY9xuofcODFn4Eej3h1/C8LqQMGqSyijY0Gpml4="
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a22726573222c226d616322",
+          "output": "35e2cf5a37a40ee1c3cab5e7fe0f9198"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a22303230303030303030303031222c",
+          "output": "abb02424bc1b0a4c692bdd51a4eb8d62"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "2272223a3230302c226f7074223a5b22",
+          "output": "35fe395b7424b2fb21b417a7082252c8"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "4d6f64222c225764537064225d2c2270",
+          "output": "450f54418f71ba87dc383167e047a3de"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "223a5b322c315d7d0808080808080808",
+          "output": "1d7f0bc2ea40c1aa4b28a36341a99a5e"
+        }
+      ]
+    },
+    {
+      "request": {
+        "t": "status",
+        "mac": "02000000000101",
+        "cols": [
+          "Pow",
+          "StTem",
+          "Mod",
+          "WdSpd"
+        ]
+      },
+      "request_i": 0,
+      "serialized": [
+        {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000101",
+          "cols": [
+            "Pow",
+            "StTem",
+            "Mod",
+            "WdSpd"
+          ],
+          "dat": [
+            1,
+            8,
+            2,
+            1
+          ]
+        },
+        {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app",
+          "pack": "UkhOtb7oWLvXsxyYlbHbeobj2jJrPG+l3l+VYJL87EF/7FGVYE3FsRNzrMjV9veTrAL2ifoOEkdWF7ptTRmxS5/7pftbsX7/4RMDdy/qjnaylmlRyAbSp8yPKzIGZDkD"
+        }
+      ],
+      "crypto": [
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "7b2274223a22646174222c2272223a32",
+          "output": "52484eb5bee858bbd7b31c9895b1db7a"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "30302c226d6163223a22303230303030",
+          "output": "86e3da326b3c6fa5de5f956092fcec41"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3030303030313031222c22636f6c7322",
+          "output": "7fec5195604dc5b11373acc8d5f6f793"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "3a5b22506f77222c22537454656d222c",
+          "output": "ac02f689fa0e12475617ba6d4d19b14b"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "224d6f64222c225764537064225d2c22",
+          "output": "9ffba5fb5bb17effe11303772fea8e76"
+        },
+        {
+          "key": "30313233343536373839616263646566",
+          "input": "646174223a5b312c382c322c315d7d01",
+          "output": "b2966951c806d2a7cc8f2b3206643903"
+        }
+      ]
+    }
+  ]
+}

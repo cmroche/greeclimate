@@ -1,0 +1,99 @@
+{
+  "seed": "protocol-families-demo",
+  "listen": "127.0.0.1",
+  "port": 7000,
+  "devices": [
+    {
+      "id": "w04h-ac",
+      "profile": "sim-w04h-v3.55",
+      "mid": "10001"
+    },
+    {
+      "id": "w04n-ac",
+      "profile": "sim-w04n-v17",
+      "mid": "10001"
+    },
+    {
+      "id": "wb04a-ac",
+      "profile": "sim-wb04a-v1.49",
+      "mid": "10f05"
+    },
+    {
+      "id": "w04hb-controller",
+      "profile": "sim-w04hb-v1.20",
+      "mid": "302b"
+    },
+    {
+      "id": "w06dv-controller",
+      "profile": "sim-w06dv-v4.01",
+      "mid": "3018"
+    },
+    {
+      "id": "commercial-host",
+      "profile": "sim-wb04brt13-v1.50-60",
+      "mid": "60",
+      "mac": "020000000100"
+    },
+    {
+      "id": "commercial-ac",
+      "profile": "sim-wb04brt13-v1.50-6400",
+      "mid": "6400",
+      "parent": "commercial-host",
+      "mac": "02000000010000"
+    },
+    {
+      "id": "zones",
+      "profile": "sim-w05sa-v1.28",
+      "mid": "50",
+      "mac": "020000000200"
+    },
+    {
+      "id": "zone-master",
+      "profile": "sim-w05sa-v1.28-master",
+      "mid": "5000",
+      "parent": "zones",
+      "mac": "02000000020000"
+    },
+    {
+      "id": "zone-1",
+      "profile": "sim-w05sa-v1.28-zone",
+      "mid": "5001",
+      "parent": "zones",
+      "mac": "02000000020001"
+    },
+    {
+      "id": "gateway-a",
+      "profile": "sim-w06av-v30",
+      "mid": "60"
+    },
+    {
+      "id": "gateway-a-room-1",
+      "profile": "sim-w06av-v30-ac",
+      "mid": "6049",
+      "parent": "gateway-a"
+    },
+    {
+      "id": "gateway-a-room-2",
+      "profile": "sim-w06av-v30-ac",
+      "mid": "604a",
+      "parent": "gateway-a"
+    },
+    {
+      "id": "gateway-b",
+      "profile": "sim-w06av-v30",
+      "mid": "60"
+    },
+    {
+      "id": "gateway-b-room-1",
+      "profile": "sim-w06av-v30-ac",
+      "mid": "6049",
+      "parent": "gateway-b"
+    },
+    {
+      "id": "gateway-b-room-2",
+      "profile": "sim-w06av-v30-ac",
+      "mid": "604a",
+      "parent": "gateway-b"
+    }
+  ]
+}

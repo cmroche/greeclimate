@@ -1,0 +1,212 @@
+{
+  "source_sha256": "5ba439396454e99496d2de6744cf26769ca2c70a43bb5a0b116925936f5eb0bc",
+  "host_sha256": "6f825a6494f2dc3dcce60c8a2184cab906944784453ba1f84c5001a27a8d0a6a",
+  "evidence": "Independent ELF byte extraction; not emulator output or UDP conformance",
+  "handler_table_address": "0xd43b8",
+  "handler_table": [
+    {
+      "name": "UBind",
+      "function": "0x1647c",
+      "key_type": 1
+    },
+    {
+      "name": "syncDev",
+      "function": "0x176c8",
+      "key_type": 0
+    },
+    {
+      "name": "syncDevList",
+      "function": "0x17b14",
+      "key_type": 0
+    },
+    {
+      "name": "status",
+      "function": "0x181f4",
+      "key_type": 0
+    },
+    {
+      "name": "binStatus",
+      "function": "0x18c68",
+      "key_type": 0
+    },
+    {
+      "name": "dat",
+      "function": "0x19118",
+      "key_type": 2
+    },
+    {
+      "name": "connect",
+      "function": "0x193e6",
+      "key_type": 2
+    },
+    {
+      "name": "cmd",
+      "function": "0x198d6",
+      "key_type": 2
+    },
+    {
+      "name": "jsonCmd",
+      "function": "0x198d6",
+      "key_type": 2
+    },
+    {
+      "name": "hb",
+      "function": "0x17f5e",
+      "key_type": 1
+    },
+    {
+      "name": "Utm",
+      "function": "0x18150",
+      "key_type": 0
+    },
+    {
+      "name": "ret",
+      "function": "0x19e88",
+      "key_type": 0
+    },
+    {
+      "name": "res",
+      "function": "0x19f34",
+      "key_type": 0
+    },
+    {
+      "name": "DevCheck",
+      "function": "0x1a75a",
+      "key_type": 0
+    },
+    {
+      "name": "upgrade",
+      "function": "0x1af80",
+      "key_type": 2
+    },
+    {
+      "name": "upDevList",
+      "function": "0x1a79e",
+      "key_type": 0
+    },
+    {
+      "name": "jsonStatus",
+      "function": "0x1b1da",
+      "key_type": 0
+    },
+    {
+      "name": "configStatus",
+      "function": "0x1b368",
+      "key_type": 0
+    },
+    {
+      "name": "AddTiming",
+      "function": "0x1ba1e",
+      "key_type": 2
+    },
+    {
+      "name": "DeleteTiming",
+      "function": "0x1ba1e",
+      "key_type": 2
+    },
+    {
+      "name": "UpdateTiming",
+      "function": "0x1ba1e",
+      "key_type": 2
+    },
+    {
+      "name": "upRoomInfo",
+      "function": "0x1c02c",
+      "key_type": 2
+    },
+    {
+      "name": "checksub",
+      "function": "0x1c2f8",
+      "key_type": 2
+    },
+    {
+      "name": "devListPush",
+      "function": "0x1c438",
+      "key_type": 0
+    },
+    {
+      "name": "roomListPush",
+      "function": "0x1d134",
+      "key_type": 0
+    },
+    {
+      "name": "DevOnlineRes",
+      "function": "0x1d66c",
+      "key_type": 0
+    },
+    {
+      "name": "DevOnlineDone",
+      "function": "0x1d7da",
+      "key_type": 0
+    },
+    {
+      "name": "CheckResRes",
+      "function": "0x1d92a",
+      "key_type": 0
+    },
+    {
+      "name": "CheckResDone",
+      "function": "0x1da98",
+      "key_type": 0
+    },
+    {
+      "name": "binSubStatus",
+      "function": "0x1dba0",
+      "key_type": 1
+    },
+    {
+      "name": "binSubEvent",
+      "function": "0x1e278",
+      "key_type": 1
+    },
+    {
+      "name": "syncPersistent",
+      "function": "0x1e74a",
+      "key_type": 0
+    },
+    {
+      "name": "devListPushRes",
+      "function": "0x1ebb0",
+      "key_type": 0
+    },
+    {
+      "name": "485Configure",
+      "function": "0x1ee38",
+      "key_type": 0
+    },
+    {
+      "name": "sceneSinglepush",
+      "function": "0x1f030",
+      "key_type": 0
+    },
+    {
+      "name": "switchBindPush",
+      "function": "0x1f630",
+      "key_type": 2
+    },
+    {
+      "name": "activation",
+      "function": "0x1fba0",
+      "key_type": 0
+    },
+    {
+      "name": "CheckSceneExe",
+      "function": "0x1fdc2",
+      "key_type": 0
+    },
+    {
+      "name": "updownFlag",
+      "function": "0x1fec8",
+      "key_type": 0
+    }
+  ],
+  "literals": {
+    "0x96f7c": "t",
+    "0x97280": "scan",
+    "0x9cf4c": "t",
+    "0x9cf80": "pack",
+    "0x9cf94": "i",
+    "0x9cf90": "cid",
+    "0x9cf88": "tcid"
+  }
+}
