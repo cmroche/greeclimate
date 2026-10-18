@@ -642,10 +642,10 @@ async def test_scan_size_limit_is_applied_per_device():
         await server.wait_closed()
 
 
-async def test_packet_logs_include_rejected_input_and_exact_wire_replies(caplog):
+async def test_packet_logs_show_plaintext_without_ciphertext(caplog):
     device = load_config({"devices": [standard_record()]})[2][0]
     transport, server = await start_server([device], "127.0.0.1", 0)
-    caplog.set_level(logging.INFO, logger="gree_emulator.server")
+    caplog.set_level(logging.INFO, logger="gree_emulator")
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as peer:
             peer.bind(("127.0.0.1", 0))
@@ -656,23 +656,31 @@ async def test_packet_logs_include_rejected_input_and_exact_wire_replies(caplog)
             peer.sendto(malformed, endpoint)
             with pytest.raises(socket.timeout):
                 await asyncio.to_thread(receive, peer)
-            messages = [record.getMessage() for record in caplog.records if record.name == "gree_emulator.server"]
-            assert len(messages) == 1
-            assert "RX" in messages[0] and peer_address in messages[0]
-            assert repr(malformed) in messages[0] and "\n" not in messages[0]
+            assert peer_address in caplog.text
+            assert str(len(malformed)) in caplog.text
+            assert repr(malformed) not in caplog.text
 
-            caplog.clear()
-            bind = peer_request(device.mac, "bind", {"uid": 0})
-            peer.sendto(bind, endpoint)
-            data = await asyncio.to_thread(receive, peer)
-            reply = peer_reply(data, GENERIC_KEY)["inner"]
-            assert reply["t"] == "bindok" and reply["key"].encode("ascii") == device.key
-            messages = [record.getMessage() for record in caplog.records if record.name == "gree_emulator.server"]
-            assert len(messages) == 2
-            for message, direction, packet in zip(messages, ("RX", "TX"), (bind, data)):
-                assert direction in message and peer_address in message
-                assert str(len(packet)) in message and repr(packet) in message
-            assert device.key.decode("ascii") not in "\n".join(messages)
+            for packet, key in [
+                (b'{"t":"scan"}', GENERIC_KEY),
+                (peer_request(device.mac, "bind", {"uid": 0}), GENERIC_KEY),
+                (peer_request(device.mac, "status", {"cols": ["Pow"]}, device.key), device.key),
+                (peer_request(device.mac, "cmd", {"opt": ["Pow"], "p": [1]}, device.key), device.key),
+            ]:
+                caplog.clear()
+                peer.sendto(packet, endpoint)
+                data = await asyncio.to_thread(receive, peer)
+                reply = peer_reply(data, key)["inner"]
+                request = json.loads(packet)
+                if "pack" in request:
+                    assert request["pack"] not in caplog.text
+                    request = peer_reply(packet, key)["inner"]
+                assert repr(request) in caplog.text
+                assert repr(reply) in caplog.text
+                assert json.loads(data)["pack"] not in caplog.text
+                assert peer_address in caplog.text
+                assert "RX" in caplog.text and "TX" in caplog.text
+                assert str(len(packet)) in caplog.text and str(len(data)) in caplog.text
+            assert device.state["Pow"] == 1
     finally:
         server.close()
         await server.wait_closed()

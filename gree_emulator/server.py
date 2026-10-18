@@ -42,10 +42,11 @@ class EmulatorServer(asyncio.DatagramProtocol):
         self.close()
 
     def datagram_received(self, data, addr):
-        _LOGGER.info("RX from %s:%s (%d bytes): %r", *addr, len(data), data)
+        _LOGGER.info("RX from %s:%s (%d bytes)", *addr, len(data))
         try:
             outer = decode_outer(data)
             if outer["t"] == "scan":
+                _LOGGER.info("RX payload: %r", outer)
                 if outer.get("tcid"):
                     return
                 replies = [reply for device in self.roots
@@ -65,7 +66,8 @@ class EmulatorServer(asyncio.DatagramProtocol):
         for reply in replies:
             data = encode_reply(reply)
             self.transport.sendto(data, addr)
-            _LOGGER.info("TX to %s:%s (%d bytes): %r", *addr, len(data), data)
+            _LOGGER.info("TX to %s:%s (%d bytes): %r", *addr, len(data),
+                         reply.inner if reply.inner is not None else reply.outer)
 
     def error_received(self, exc):
         asyncio.get_running_loop().call_exception_handler(
