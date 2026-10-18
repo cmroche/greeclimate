@@ -3,11 +3,15 @@
 import base64
 import binascii
 import json
+import logging
 import math
 from dataclasses import dataclass
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
+
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class InvalidPacket(ValueError):
@@ -100,7 +104,9 @@ def decode_pack(outer: dict, key: bytes, codec: str) -> dict:
         raise InvalidPacket("invalid padding") from exc
     if codec == "aes-ecb-pkcs7-nul-input" and plain.endswith(b"\0"):
         plain = plain[:-1]
-    return _json(plain)
+    inner = _json(plain)
+    _LOGGER.info("RX payload: %r", inner)
+    return inner
 
 
 def encode_reply(reply: Reply) -> bytes:
