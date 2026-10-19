@@ -1,3 +1,5 @@
+import asyncio
+from contextlib import asynccontextmanager
 import socket
 from socket import SOCK_DGRAM
 from typing import Tuple, Union
@@ -143,3 +145,28 @@ class Responder:
     def __exit__(self, *args):
         """Exit the context manager."""
         self.sock.close()
+
+
+@asynccontextmanager
+async def udp_peer(host: str = "127.0.0.1", port: int = 0):
+    """Yield an isolated loopback peer and await its transport's closure."""
+    loop = asyncio.get_running_loop()
+    received = asyncio.Queue()
+    closed = loop.create_future()
+
+    class Peer(asyncio.DatagramProtocol):
+        def datagram_received(self, data, addr):
+            received.put_nowait((data, addr))
+
+        def connection_lost(self, exc):
+            if not closed.done():
+                closed.set_result(None)
+
+    transport, _ = await loop.create_datagram_endpoint(
+        Peer, local_addr=(host, port)
+    )
+    try:
+        yield transport, received
+    finally:
+        transport.close()
+        await asyncio.wait_for(closed, 2)

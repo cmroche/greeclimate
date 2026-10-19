@@ -6,6 +6,9 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
+from greeclimate.cipher import CipherV1, CipherV2
+from greeclimate.exceptions import DeviceNotBoundError
+from greeclimate.taskable import Taskable
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.network import (
     BroadcastListenerProtocol,
@@ -20,8 +23,10 @@ from .common import (
     DISCOVERY_RESPONSE,
     Responder,
     DEFAULT_REQUEST, generate_response, FakeCipher,
+    udp_peer,
 )
 from .test_device import get_mock_info
+from .test_emulator import peer_packet, peer_reply
 
 
 class FakeDiscoveryProtocol(BroadcastListenerProtocol):
@@ -93,24 +98,34 @@ async def test_set_get_key():
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("addr", [(("127.0.0.1", 7001))])
-async def test_connection_error(addr):
-    """Test the encryption key property."""
-    dp2 = DeviceProtocolBase2()
-
-    loop = asyncio.get_event_loop()
-    transport, _ = await loop.create_datagram_endpoint(
-        lambda: dp2,
-        local_addr=addr,
-    )
-
-    # Send the scan command
-    data = DISCOVERY_REQUEST
-    await dp2.send(data, (addr[0], 7000))
-
-    with pytest.raises(RuntimeError):
-        dp2.connection_lost(RuntimeError())
-    assert transport.is_closing()
+async def test_connection_error():
+    """A lost connection releases a pending send through the library contract."""
+    loop = asyncio.get_running_loop()
+    errors = []
+    previous_handler = loop.get_exception_handler()
+    loop.set_exception_handler(lambda loop, context: errors.append(context))
+    protocol = DeviceProtocolBase2()
+    pending = None
+    async with udp_peer() as (peer, received):
+        transport, _ = await loop.create_datagram_endpoint(
+            lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+        )
+        try:
+            protocol.pause_writing()
+            pending = asyncio.create_task(protocol.send({"t": "scan"}))
+            await asyncio.wait_for(received.get(), 1)
+            transport.close()
+            with pytest.raises(DeviceNotBoundError):
+                await asyncio.wait_for(pending, 1)
+            protocol.close()
+            assert transport.is_closing()
+            assert not errors
+        finally:
+            transport.close()
+            if pending is not None and not pending.done():
+                pending.cancel()
+                await asyncio.gather(pending, return_exceptions=True)
+            loop.set_exception_handler(previous_handler)
 
 
 @pytest.mark.asyncio
@@ -562,14 +577,291 @@ def test_add_invalid_handler():
         protocol.add_handler(Response("invalid"), callback)
 
 
-def test_device_key_get_set():
-    # Arrange
-    protocol = DeviceProtocolBase2
-    key = "fake-key"
-    
-    # Act
-    protocol.device_key = key
-    
-    # Assert
-    assert protocol.device_key == key
-    
+@pytest.mark.asyncio
+@pytest.mark.parametrize("event", [Response.DATA, Response.RESULT])
+async def test_recovery_handler_ownership_and_close_isolation(event):
+    """The same callable belongs independently to each protocol instance."""
+    loop = asyncio.get_running_loop()
+    first, second = DeviceProtocol2(), DeviceProtocol2()
+    key = b"0123456789abcdef"
+    first.device_cipher = CipherV1(key)
+    second.device_cipher = CipherV1(key)
+    callbacks = asyncio.Queue()
+    shared = callbacks.put_nowait
+    first.add_handler(event, shared)
+    second.add_handler(event, shared)
+    payload = (
+        {"t": "dat", "cols": ["Pow"], "dat": [1]}
+        if event is Response.DATA
+        else {"t": "res", "opt": ["Pow"], "val": [1]}
+    )
+    wire = peer_packet({}, payload, key)
+    async with udp_peer() as (peer, received):
+        transports = []
+        try:
+            for protocol in (first, second):
+                transport, _ = await loop.create_datagram_endpoint(
+                    lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+                )
+                transports.append(transport)
+            for transport in transports:
+                peer.sendto(wire, transport.get_extra_info("sockname"))
+                assert await asyncio.wait_for(callbacks.get(), 1) == {"Pow": 1}
+                assert callbacks.empty()
+            first.remove_handler(event, shared)
+            first.close()
+            peer.sendto(wire, transports[1].get_extra_info("sockname"))
+            assert await asyncio.wait_for(callbacks.get(), 1) == {"Pow": 1}
+            assert callbacks.empty()
+            await second.send({"t": "still-open"})
+            data, _ = await asyncio.wait_for(received.get(), 1)
+            assert json.loads(data) == {"t": "still-open"}
+        finally:
+            for transport in transports:
+                transport.close()
+            for protocol in (first, second):
+                if shared in protocol._handlers.get(event, []):
+                    protocol.remove_handler(event, shared)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("close_during_dispatch", [False, True])
+async def test_recovery_dispatch_snapshot_and_stop_on_close(close_during_dispatch):
+    loop = asyncio.get_running_loop()
+    protocol = DeviceProtocol2()
+    key = b"0123456789abcdef"
+    protocol.device_cipher = CipherV1(key)
+    calls = []
+    dispatched = asyncio.Event()
+
+    def last(data):
+        calls.append("last")
+        dispatched.set()
+
+    def added(data):
+        calls.append("added")
+
+    def first(data):
+        calls.append("first")
+        if close_during_dispatch:
+            protocol.close()
+            dispatched.set()
+        else:
+            protocol.remove_handler(Response.DATA, last)
+            protocol.add_handler(Response.DATA, added)
+
+    protocol.add_handler(Response.DATA, first)
+    protocol.add_handler(Response.DATA, last)
+    async with udp_peer() as (peer, _):
+        transport, _ = await loop.create_datagram_endpoint(
+            lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+        )
+        try:
+            peer.sendto(
+                peer_packet({}, {"t": "dat", "cols": ["Pow"], "dat": [1]}, key),
+                transport.get_extra_info("sockname"),
+            )
+            await asyncio.wait_for(dispatched.wait(), 1)
+            assert calls == (["first"] if close_during_dispatch else ["first", "last"])
+        finally:
+            transport.close()
+            for callback in (first, last, added):
+                if callback in protocol._handlers.get(Response.DATA, []):
+                    protocol.remove_handler(Response.DATA, callback)
+
+
+@pytest.mark.asyncio
+async def test_recovery_close_before_connect_and_paused_send():
+    protocol = DeviceProtocolBase2()
+    protocol.close()
+    protocol.close()
+    with pytest.raises(DeviceNotBoundError):
+        await protocol.send({"t": "scan"})
+
+    loop = asyncio.get_running_loop()
+    async with udp_peer() as (peer, received):
+        transport, _ = await loop.create_datagram_endpoint(
+            lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+        )
+        pending = None
+        try:
+            protocol.pause_writing()
+            pending = asyncio.create_task(protocol.send({"t": "scan"}))
+            await asyncio.wait_for(received.get(), 1)
+            assert not pending.done()
+            protocol.close()
+            protocol.close()
+            with pytest.raises(DeviceNotBoundError):
+                await asyncio.wait_for(pending, 1)
+            with pytest.raises(DeviceNotBoundError):
+                await protocol.send({"t": "scan"})
+            assert transport.is_closing()
+        finally:
+            transport.close()
+            if pending is not None and not pending.done():
+                pending.cancel()
+                await asyncio.gather(pending, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("cipher_type", [CipherV1, CipherV2])
+async def test_recovery_malformed_datagrams_do_not_break_next_reply(cipher_type):
+    """Bad wire input is ignored; a later real encrypted reply still dispatches."""
+    loop = asyncio.get_running_loop()
+    errors = []
+    previous_handler = loop.get_exception_handler()
+    loop.set_exception_handler(lambda loop, context: errors.append(context))
+    protocol = DeviceProtocol2()
+    protocol.device_cipher = cipher_type(b"0123456789abcdef")
+    replies = asyncio.Queue()
+    callback = replies.put_nowait
+    protocol.add_handler(Response.DATA, callback)
+    encrypted, tag = protocol.device_cipher.encrypt(
+        {"t": "dat", "cols": ["Pow"], "dat": [1]}
+    )
+    valid = {"pack": encrypted}
+    if tag:
+        valid["tag"] = tag
+    malformed = [
+        b"{",
+        b"\xff",
+        b"null",
+        b"[]",
+        b"42",
+        b'{"pack": null}',
+        b'{"pack": []}',
+        b'{"pack": 7}',
+        b'{"pack": ""}',
+        b'{"pack": "%%%"}',
+        b'{"pack": "YQ=="}',
+        b'{"pack": "AAAAAAAAAAAAAAAAAAAAAA=="}',
+    ]
+    async with udp_peer() as (peer, _):
+        transport, _ = await loop.create_datagram_endpoint(
+            lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+        )
+        try:
+            endpoint = transport.get_extra_info("sockname")
+            for packet in malformed:
+                peer.sendto(packet, endpoint)
+                peer.sendto(json.dumps(valid).encode(), endpoint)
+                assert await asyncio.wait_for(replies.get(), 1) == {"Pow": 1}
+                assert replies.empty()
+            assert not errors
+        finally:
+            transport.close()
+            protocol.remove_handler(Response.DATA, callback)
+            loop.set_exception_handler(previous_handler)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("decrypted", [None, [], 7, "not-a-pack"])
+async def test_recovery_decrypted_pack_must_be_dictionary(decrypted):
+    protocol = FakeDeviceProtocol()
+    with patch.object(protocol, "_decrypt_pack", return_value=decrypted):
+        protocol.datagram_received(b'{"pack": "encrypted"}', ("127.0.0.1", 1))
+    assert protocol.packets.empty()
+    protocol.datagram_received(b'{"t": "unwrapped"}', ("127.0.0.1", 1))
+    assert await asyncio.wait_for(protocol.packets.get(), 1) == {"t": "unwrapped"}
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("error_type", [ValueError, KeyError, AttributeError])
+async def test_recovery_application_callback_errors_are_not_decode_errors(error_type):
+    protocol = DeviceProtocol2()
+    protocol.device_cipher = CipherV1(b"0123456789abcdef")
+
+    def callback(data):
+        raise error_type("application callback failed")
+
+    protocol.add_handler(Response.DATA, callback)
+    try:
+        with pytest.raises(error_type, match="application callback failed"):
+            protocol.datagram_received(
+                peer_packet(
+                    {}, {"t": "dat", "cols": ["Pow"], "dat": [1]},
+                    b"0123456789abcdef",
+                ),
+                ("127.0.0.1", 1),
+            )
+    finally:
+        protocol.remove_handler(Response.DATA, callback)
+
+
+@pytest.mark.asyncio
+async def test_recovery_tracked_task_cancellation_is_instance_local_and_safe():
+    loop = asyncio.get_running_loop()
+    errors = []
+    previous_handler = loop.get_exception_handler()
+    loop.set_exception_handler(lambda loop, context: errors.append(context))
+    owner, other = Taskable(), Taskable()
+    started = asyncio.Event()
+    blocked = asyncio.Event()
+    task = other_task = cancelling_task = None
+
+    async def work():
+        started.set()
+        await blocked.wait()
+
+    async def cancel_owned_tasks():
+        owner._cancel_tasks()
+        return "survived"
+
+    try:
+        task = owner._create_task(work())
+        other_task = other._create_task(blocked.wait())
+        await asyncio.wait_for(started.wait(), 1)
+        cancelling_task = owner._create_task(cancel_owned_tasks())
+        assert await asyncio.wait_for(cancelling_task, 1) == "survived"
+        await asyncio.gather(task, return_exceptions=True)
+        assert task.cancelled()
+        assert not other_task.done()
+        owner._cancel_tasks()
+        blocked.set()
+        await asyncio.wait_for(other_task, 1)
+        callbacks_done = loop.create_future()
+        loop.call_soon(callbacks_done.set_result, None)
+        await callbacks_done
+        assert not errors
+    finally:
+        tasks = [item for item in (task, other_task, cancelling_task) if item is not None]
+        for item in tasks:
+            if not item.done():
+                item.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+        loop.set_exception_handler(previous_handler)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "identity,canonical",
+    [
+        ("AA:BB:CC:11:22:33", "aabbcc112233"),
+        ("AA-BB-CC-11-22-33", "aabbcc112233"),
+        ("AABB.CC11.2233", "aabbcc112233"),
+        ("AA:BB:CC:11:22:33:44", "aabbcc11223344"),
+    ],
+)
+@pytest.mark.parametrize("command", [Commands.BIND, Commands.STATUS, Commands.CMD])
+async def test_recovery_outbound_identity_is_canonical(identity, canonical, command):
+    protocol = DeviceProtocol2()
+    info = DeviceInfo("127.0.0.1", 1, identity, "synthetic")
+    key = b"0123456789abcdef"
+    cipher = CipherV1(key)
+    protocol.device_cipher = cipher
+    loop = asyncio.get_running_loop()
+    async with udp_peer() as (peer, received):
+        transport, _ = await loop.create_datagram_endpoint(
+            lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+        )
+        try:
+            payload = protocol._generate_payload(command, info, {"synthetic": 1})
+            await protocol.send(payload, cipher=cipher)
+            packet, _ = await asyncio.wait_for(received.get(), 1)
+            decoded = peer_reply(packet, key)
+            assert decoded["outer"]["tcid"] == canonical
+            assert decoded["inner"]["mac"] == canonical
+            assert decoded["inner"]["t"] == command.value
+            assert info.mac == identity
+        finally:
+            transport.close()

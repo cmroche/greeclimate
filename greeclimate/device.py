@@ -4,15 +4,16 @@ import logging
 import re
 import typing
 from asyncio import AbstractEventLoop
+from copy import copy
 from enum import IntEnum, unique
 from typing import Union, Optional, Any
 
 from greeclimate.cipher import CipherV1, CipherV2
-from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.deviceinfo import DeviceInfo, _canonical_mac
 from greeclimate.device_profile import DeviceProfile, match_device_profile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.mid_profile import match_mid_profile
-from greeclimate.network import DeviceProtocol2
+from greeclimate.network import DeviceProtocol2, IPAddr
 from greeclimate.taskable import Taskable
 
 
@@ -129,9 +130,9 @@ HUMIDITY_MAX = 80
 class Device(DeviceProtocol2, Taskable):
     """Class representing a physical device, it's state and properties.
 
-    Devices must be bound, either by discovering their presence, or supplying a persistent
-    device key which is then used for communication (and encryption) with the unit. See the
-    `bind` function for more details on how to do this.
+    Devices can freshly bind using saved DeviceInfo without discovery. Some firmware
+    requires a caller-initiated scan first. Explicit close retires the object; callers
+    replace it and freshly bind for recovery. See `bind` for key-supplied semantics.
 
     Once a device is bound occasionally call `update_state` to request and update state from
     the HVAC, as it is possible that it changes state from other sources.
@@ -176,6 +177,9 @@ class Device(DeviceProtocol2, Taskable):
         self.device_info: DeviceInfo = device_info
         
         self._bind_timeout = bind_timeout
+        self._closed = False
+        self._bind_lock = asyncio.Lock()
+        self._bind_waiter: asyncio.Future | None = None
         
         """ Device properties """
         self.hid = None
@@ -196,77 +200,174 @@ class Device(DeviceProtocol2, Taskable):
         key: str = None,
         cipher: Union[CipherV1, CipherV2, None] = None,
     ):
-        """Run the binding procedure.
+        """Freshly bind directly to DeviceInfo's IP/port, without discovery.
 
-        Binding is a finicky procedure, and happens in 1 of 2 ways:
-            1 - Without the key, binding must pass the device info structure immediately following
-                the search devices procedure. There is only a small window to complete registration.
-            2 - With a key, binding is implicit and no further action is required
+        Some firmware requires the caller to scan immediately before binding.
+        An explicit cipher is copied for fresh negotiation; otherwise V1 then
+        V2 are tried on timeout. Concurrent fresh binds share the first session.
+        After explicit close, construct a replacement Device instead.
 
-            Both approaches result in a device_key which is used as like a persistent session id.
-
-        Args:
-            cipher (CipherV1 | CipherV2): The cipher type to use for encryption, if None will attempt to detect the correct one
-            key (str): The device key, when provided binding is a NOOP, if None binding will
-                       attempt to negotiate the key with the device. cipher must be provided.
+        Supplying a key still only configures the supplied cipher and does not
+        open a transport; a cipher is required for this legacy behavior.
 
         Raises:
-            DeviceNotBoundError: If binding was unsuccessful and no key returned
-            DeviceTimeoutError: The device didn't respond
+            DeviceNotBoundError: Closed object, invalid identity/key, or lost transport.
+            DeviceTimeoutError: No identified bind reply within the cipher attempts.
+            OSError: UDP endpoint creation failed.
         """
-
+        if self._closed:
+            raise DeviceNotBoundError
         if key:
             if not cipher:
                 raise ValueError("cipher must be provided when key is provided")
-            else:
-                cipher.key = key
-                self.device_cipher = cipher
+            cipher.key = key
+            self.device_cipher = cipher
+            return
+
+        async with self._bind_lock:
+            if self._closed:
+                raise DeviceNotBoundError
+            if self.ready.is_set() and self.device_cipher is not None:
                 return
+            if self.device_info is None or _canonical_mac(self.device_info.mac) is None:
+                raise DeviceNotBoundError
 
-        if not self.device_info:
-            raise DeviceNotBoundError
+            bound = False
+            try:
+                if self._transport is None:
+                    await self._transport_closed.wait()
+                    if self._closed:
+                        raise DeviceNotBoundError
+                    transport, _ = await self._loop.create_datagram_endpoint(
+                        lambda: self, remote_addr=(self.device_info.ip, self.device_info.port)
+                    )
+                    if self._closed:
+                        transport.close()
+                        raise DeviceNotBoundError
 
-        if self._transport is None:
-            self._transport, _ = await self._loop.create_datagram_endpoint(
-                lambda: self, remote_addr=(self.device_info.ip, self.device_info.port)
-            )
-
-        self._logger.info("Starting device binding to %s", str(self.device_info))
-
-        try:
-            if cipher is not None:
-                await self.__bind_internal(cipher)
-            else:
-                """ Try binding with CipherV1 first, if that fails try CipherV2"""
-                try:
-                    self._logger.info("Attempting to bind to device using CipherV1")
-                    await self.__bind_internal(CipherV1())
-                except asyncio.TimeoutError:
-                    self._logger.info("Attempting to bind to device using CipherV2")
-                    await self.__bind_internal(CipherV2())
-
-        except asyncio.TimeoutError:
-            raise DeviceTimeoutError
-
-        if not self.device_cipher:
-            raise DeviceNotBoundError
-        else:
-            self._logger.info("Bound to device using key %s", self.device_cipher.key)
+                self._logger.info("Starting device binding to %s", self.device_info)
+                if cipher is not None:
+                    await self.__bind_internal(copy(cipher))
+                else:
+                    try:
+                        await self.__bind_internal(CipherV1())
+                    except asyncio.TimeoutError:
+                        if self._closed:
+                            raise DeviceNotBoundError
+                        await self.__bind_internal(CipherV2())
+                if self._closed or not self.ready.is_set() or self.device_cipher is None:
+                    raise DeviceNotBoundError
+                bound = True
+            except asyncio.TimeoutError as exc:
+                raise DeviceTimeoutError from exc
+            finally:
+                if not bound:
+                    self.device_cipher = None
+                    self.ready.clear()
+                    self._valid_state.clear()
+                    self._cancel_tasks()
+                    DeviceProtocol2.close(self)
 
     async def __bind_internal(self, cipher: Union[CipherV1, CipherV2]):
-        """Internal binding procedure, do not call directly"""
-        await self.send(self.create_bind_message(self.device_info), cipher=cipher)
-        task = self._loop.create_task(self.ready.wait())
-        await asyncio.wait_for(task, timeout=self._bind_timeout)
+        """Wait for this attempt's identified bind reply, not an old ready event."""
+        self.ready.clear()
+        waiter = self._loop.create_future()
+        self._bind_waiter = waiter
+        bound = False
+        try:
+            await self.send(self.create_bind_message(self.device_info), cipher=cipher)
+            await asyncio.wait_for(waiter, timeout=self._bind_timeout)
+            bound = True
+        finally:
+            if not waiter.done():
+                waiter.cancel()
+            elif not waiter.cancelled():
+                waiter.exception()
+            if self._bind_waiter is waiter:
+                self._bind_waiter = None
+            if not bound:
+                self.device_cipher = None
+                self.ready.clear()
 
     def handle_device_bound(self, key: str) -> None:
-        """Handle the device bound message from the device"""
-        DeviceProtocol2.handle_device_bound(self, key)
+        """Install the negotiated session before notifying callers or polling."""
+        waiter = self._bind_waiter
+        if self._closed or waiter is None or waiter.done():
+            return
         self.device_cipher.key = key
-        self._loop.create_task(self.update_state())
+        self.ready.set()
+        waiter.set_result(None)
+        self._create_task(self.update_state())
+
+    def close(self) -> None:
+        """Idempotently retire this Device; reconnect using a new instance."""
+        self._closed = True
+        self._handlers.clear()
+        self.device_cipher = None
+        self.ready.clear()
+        self._valid_state.clear()
+        if self._bind_waiter is not None and not self._bind_waiter.done():
+            self._bind_waiter.set_exception(DeviceNotBoundError())
+        self._cancel_tasks()
+        DeviceProtocol2.close(self)
+
+    def connection_lost(self, exc: Exception) -> None:
+        """Invalidate this session and fail pending binding on socket loss."""
+        self.device_cipher = None
+        self.ready.clear()
+        self._valid_state.clear()
+        if self._bind_waiter is not None and not self._bind_waiter.done():
+            self._bind_waiter.set_exception(DeviceNotBoundError())
+        self._cancel_tasks()
+        DeviceProtocol2.connection_lost(self, exc)
+
+    def packet_received(self, obj, addr: IPAddr) -> None:
+        """Dispatch only packets belonging to this connected peer and session."""
+        if self._closed or self._closing or self._transport is None:
+            self._logger.debug("Ignoring packet for a closed device")
+            return
+        if addr != self._transport.get_extra_info("peername"):
+            self._logger.debug("Ignoring packet from unexpected peer %s", addr)
+            return
+        pack = obj.get("pack") if isinstance(obj, dict) else None
+        if not isinstance(pack, dict):
+            self._logger.debug("Ignoring device packet without dictionary pack")
+            return
+        expected = _canonical_mac(self.device_info.mac)
+        identified = False
+        for value in (pack.get("mac"), pack.get("cid"), obj.get("cid")):
+            if value is None or value == "":
+                continue
+            if expected is None or _canonical_mac(value) != expected:
+                self._logger.debug("Ignoring packet with conflicting sender identity")
+                return
+            identified = True
+
+        response = pack.get("t")
+        response = response.casefold() if isinstance(response, str) else None
+        if response == "bindok":
+            waiter = self._bind_waiter
+            if waiter is None or waiter.done() or not identified:
+                self._logger.debug("Ignoring bind reply outside identified negotiation")
+                return
+            key = pack.get("key")
+            try:
+                valid_key = isinstance(key, str) and len(key.encode("utf-8")) in (16, 24, 32)
+            except UnicodeError:
+                valid_key = False
+            if not valid_key or ("r" in pack and (type(pack["r"]) is not int or pack["r"] != 200)):
+                self._logger.debug("Rejecting matching bind reply with invalid key or result")
+                waiter.set_exception(DeviceNotBoundError())
+                return
+        elif not self.ready.is_set() or self.device_cipher is None:
+            self._logger.debug("Ignoring packet without a negotiated session")
+            return
+        DeviceProtocol2.packet_received(self, obj, addr)
 
     async def request_version(self) -> None:
-        """Request the firmware version from the device."""
+        """Send a firmware-version request; observe DATA for the reply."""
+        if self._closed or (self._bind_waiter is not None and not self._bind_waiter.done()):
+            raise DeviceNotBoundError
         if not self.device_cipher:
             await self.bind()
 
@@ -277,8 +378,9 @@ class Device(DeviceProtocol2, Taskable):
             raise DeviceTimeoutError
 
     async def update_state(self):
-        """Update the internal state of the device structure of the physical device, 0 for no wait
-        """
+        """Send a status request; state changes only when a DATA reply arrives."""
+        if self._closed or (self._bind_waiter is not None and not self._bind_waiter.done()):
+            raise DeviceNotBoundError
         if not self.device_cipher:
             await self.bind()
 
@@ -332,8 +434,9 @@ class Device(DeviceProtocol2, Taskable):
         self._valid_state.set()
 
     async def push_state_update(self):
-        """Push any pending state updates to the unit
-        """
+        """Send pending controls; observe RESULT for the device's response."""
+        if self._closed or (self._bind_waiter is not None and not self._bind_waiter.done()):
+            raise DeviceNotBoundError
         if not self._dirty:
             return
 

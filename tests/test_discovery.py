@@ -1,6 +1,7 @@
 import asyncio
 import json
 import socket
+from contextlib import AsyncExitStack, asynccontextmanager
 from ipaddress import IPv4Address
 from threading import Thread
 from unittest.mock import MagicMock, PropertyMock, patch
@@ -8,6 +9,8 @@ from unittest.mock import MagicMock, PropertyMock, patch
 import ifaddr
 import pytest
 
+from greeclimate.cipher import CipherV1
+from greeclimate.device import Device
 from greeclimate.discovery import Discovery, Listener
 from .common import (
     DEFAULT_TIMEOUT,
@@ -16,6 +19,8 @@ from .common import (
     Responder,
     get_mock_device_info, encrypt_payload, encrypt_payload_v2,
 )
+from .common import udp_peer
+from .test_emulator import peer_packet, peer_reply
 
 
 @pytest.mark.asyncio
@@ -467,3 +472,449 @@ async def test_remove_listener():
 
     result = discovery.remove_listener(listener)
     assert result is False
+
+
+class _RecoveryDiscovery(Discovery):
+    """Expose completed observations and actual transport closure to tests."""
+
+    def __init__(self):
+        super().__init__(allow_loopback=True)
+        self.observations = asyncio.Queue()
+        self.closed_transports = asyncio.Queue()
+
+    async def device_found(self, device_info):
+        await super().device_found(device_info)
+        self.observations.put_nowait(device_info)
+
+    def connection_lost(self, exc):
+        try:
+            super().connection_lost(exc)
+        finally:
+            self.closed_transports.put_nowait(exc)
+
+
+class _RecoveryListener(Listener):
+    def __init__(self):
+        self.events = asyncio.Queue()
+
+    async def device_found(self, device_info):
+        self.events.put_nowait(("found", device_info))
+
+    async def device_update(self, device_info):
+        self.events.put_nowait(("update", device_info))
+
+
+@asynccontextmanager
+async def _recovery_discovery():
+    discovery = _RecoveryDiscovery()
+    await asyncio.get_running_loop().create_datagram_endpoint(
+        lambda: discovery, local_addr=("127.0.0.1", 0)
+    )
+    try:
+        yield discovery
+    finally:
+        if discovery._transport is not None:
+            discovery.close()
+            await asyncio.wait_for(discovery.closed_transports.get(), DEFAULT_TIMEOUT)
+        if discovery.tasks:
+            await asyncio.wait_for(
+                asyncio.gather(*discovery.tasks, return_exceptions=True),
+                DEFAULT_TIMEOUT,
+            )
+
+
+async def _recovery_observe(discovery, peer, pack):
+    transport, received = peer
+    await discovery.send(DISCOVERY_REQUEST, transport.get_extra_info("sockname"))
+    data, source = await asyncio.wait_for(received.get(), DEFAULT_TIMEOUT)
+    assert json.loads(data) == DISCOVERY_REQUEST
+    transport.sendto(peer_packet({"t": "pack"}, pack), source)
+    return await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_canonical_identity_latest_snapshot_and_port():
+    async with udp_peer() as old_peer, udp_peer() as new_peer, _recovery_discovery() as discovery:
+        listener = _RecoveryListener()
+        discovery.add_listener(listener)
+        cache = discovery.devices
+        initial = {"mac": "02:AA:BB:00:00:01", "name": "original"}
+        old_info = await _recovery_observe(discovery, old_peer, initial)
+        assert listener.events.get_nowait() == ("found", old_info)
+        other = await _recovery_observe(
+            discovery, old_peer, {"mac": "020000000002", "name": "other"}
+        )
+        assert listener.events.get_nowait() == ("found", other)
+        metadata = {
+            "mac": "02-AA-BB-00-00-01", "name": "latest", "brand": "new-brand",
+            "model": "new-model", "ver": "new-version", "mid": "new-mid",
+        }
+        latest = await _recovery_observe(discovery, old_peer, metadata)
+        assert discovery.devices is cache
+        assert [info.mac for info in cache] == ["02aabb000001", "020000000002"]
+        assert cache[0] is latest
+        assert cache[1] is other
+        assert (latest.name, latest.brand, latest.model, latest.version, latest.mid) == (
+            "latest", "new-brand", "new-model", "new-version", "new-mid"
+        )
+        assert listener.events.empty()
+
+        for spelling in ("02AA.BB00.0001", "02aabb000001"):
+            latest = await _recovery_observe(
+                discovery, old_peer, {**metadata, "mac": spelling}
+            )
+            assert cache[0] is latest
+            assert listener.events.empty()
+
+        replay = _RecoveryListener()
+        await asyncio.wait_for(
+            asyncio.gather(*discovery.add_listener(replay)), DEFAULT_TIMEOUT
+        )
+        assert replay.events.get_nowait() == ("found", latest)
+        assert replay.events.get_nowait() == ("found", other)
+        moved = await _recovery_observe(discovery, new_peer, metadata)
+        assert listener.events.get_nowait() == ("update", moved)
+        assert replay.events.get_nowait() == ("update", moved)
+        assert discovery.devices is cache
+        assert cache == [moved, other]
+        assert cache[0] is moved
+        assert (old_info.ip, old_info.port, old_info.name) == (
+            "127.0.0.1", old_peer[0].get_extra_info("sockname")[1], "original"
+        )
+        assert moved.port == new_peer[0].get_extra_info("sockname")[1]
+        await _recovery_observe(discovery, new_peer, metadata)
+        assert listener.events.empty()
+        assert replay.events.empty()
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_ip_only_source_boundary():
+    discovery = _RecoveryDiscovery()
+    listener = _RecoveryListener()
+    discovery.add_listener(listener)
+    cache = discovery.devices
+    pack = {"mac": "02AA.BB00.0001", "name": "portable"}
+    discovery.packet_received({"pack": pack}, ("127.0.0.1", 7000))
+    old_info = await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+    assert listener.events.get_nowait() == ("found", old_info)
+    discovery.packet_received({"pack": pack}, ("127.0.0.2", 7000))
+    moved = await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+    assert listener.events.get_nowait() == ("update", moved)
+    assert discovery.devices is cache
+    assert len(cache) == 1
+    assert cache[0] is moved
+    assert (moved.mac, moved.ip, moved.port) == ("02aabb000001", "127.0.0.2", 7000)
+    assert (old_info.ip, old_info.port) == ("127.0.0.1", 7000)
+    discovery.packet_received({"pack": pack}, ("127.0.0.2", 7000))
+    await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+    assert listener.events.empty()
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_ip_only_udp_move():
+    async with AsyncExitStack() as stack:
+        old_peer = await stack.enter_async_context(udp_peer())
+        port = old_peer[0].get_extra_info("sockname")[1]
+        try:
+            new_peer = await stack.enter_async_context(udp_peer("127.0.0.2", port))
+        except OSError as exc:
+            pytest.skip(f"127.0.0.2:{port} unavailable: {exc!r}")
+        discovery = await stack.enter_async_context(_recovery_discovery())
+        listener = _RecoveryListener()
+        discovery.add_listener(listener)
+        pack = {"mac": "020000000001", "name": "moving"}
+        old_info = await _recovery_observe(discovery, old_peer, pack)
+        assert listener.events.get_nowait() == ("found", old_info)
+        moved = await _recovery_observe(discovery, new_peer, pack)
+        assert listener.events.get_nowait() == ("update", moved)
+        assert len(discovery.devices) == 1
+        assert discovery.devices[0] is moved
+        assert (moved.ip, moved.port) == ("127.0.0.2", port)
+        assert (old_info.ip, old_info.port) == ("127.0.0.1", port)
+        await _recovery_observe(discovery, new_peer, pack)
+        assert listener.events.empty()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("pack", [
+    None, [], ["not-a-dictionary"], "not-a-dictionary", 7,
+    {}, {"name": "missing"}, {"mac": None}, {"mac": ""},
+    {"mac": ":-."}, {"cid": None}, {"cid": ""}, {"cid": 123},
+    {"mac": 123, "cid": "020000000001"},
+    {"mac": [], "cid": "020000000001"},
+    {"mac": "", "cid": ["020000000001"]},
+])
+async def test_recovery_discovery_rejects_invalid_packet_identity(pack):
+    discovery = Discovery()
+    try:
+        discovery.packet_received({"pack": pack}, ("127.0.0.1", 7000))
+        assert discovery.tasks == []
+        assert discovery.devices == []
+    finally:
+        if discovery.tasks:
+            await asyncio.wait_for(
+                asyncio.gather(*discovery.tasks, return_exceptions=True), DEFAULT_TIMEOUT
+            )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("identity,expected", [
+    ({"mac": "02:AA:BB:00:00:01", "cid": 123}, "02aabb000001"),
+    ({"mac": "02:AA:BB:00:00:01", "cid": "different"}, "02aabb000001"),
+    ({"cid": "02-AA-BB-00-00-01"}, "02aabb000001"),
+    ({"mac": None, "cid": "02AA.BB00.0001"}, "02aabb000001"),
+    ({"mac": "", "cid": "02AA.BB00.0001"}, "02aabb000001"),
+    ({"mac": "02:00:00:00:00:00:01"}, "02000000000001"),
+])
+async def test_recovery_discovery_accepts_valid_identity_precedence(identity, expected):
+    async with udp_peer() as peer, _recovery_discovery() as discovery:
+        info = await _recovery_observe(discovery, peer, {**identity, "name": "identity"})
+        assert len(discovery.devices) == 1
+        assert discovery.devices[0] is info
+        assert info.mac == expected
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_duplicate_while_listener_waits_and_exceptions():
+    entered = asyncio.Event()
+    release = asyncio.Event()
+    events = asyncio.Queue()
+
+    class SlowListener(Listener):
+        async def device_found(self, device_info):
+            entered.set()
+            await release.wait()
+            events.put_nowait(("found", device_info))
+
+        async def device_update(self, device_info):
+            events.put_nowait(("update", device_info))
+
+    class BrokenListener(Listener):
+        async def device_found(self, device_info):
+            raise RuntimeError("synthetic listener failure")
+
+        async def device_update(self, device_info):
+            raise RuntimeError("synthetic listener failure")
+
+    async with udp_peer() as peer, udp_peer() as moved_peer, _recovery_discovery() as discovery:
+        discovery.add_listener(BrokenListener())
+        discovery.add_listener(SlowListener())
+        try:
+            await discovery.send(DISCOVERY_REQUEST, peer[0].get_extra_info("sockname"))
+            _, source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            packet = peer_packet({"t": "pack"}, {"mac": "020000000001", "name": "slow"})
+            peer[0].sendto(packet, source)
+            await asyncio.wait_for(entered.wait(), DEFAULT_TIMEOUT)
+            peer[0].sendto(packet, source)
+            await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+            assert len(discovery.devices) == 1
+        finally:
+            release.set()
+        await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+        assert events.get_nowait()[0] == "found"
+        assert events.empty()
+        moved = await _recovery_observe(
+            discovery, moved_peer, {"mac": "020000000001", "name": "slow"}
+        )
+        assert events.get_nowait() == ("update", moved)
+        assert events.empty()
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_simultaneous_searches_share_endpoint():
+    discovery = _RecoveryDiscovery()
+    loop = asyncio.get_running_loop()
+    transports = []
+    create_endpoint = loop.create_datagram_endpoint
+
+    async def record_endpoint(*args, **kwargs):
+        transport, protocol = await create_endpoint(*args, **kwargs)
+        transports.append(transport)
+        return transport, protocol
+
+    async with udp_peer(port=7000) as peer:
+        try:
+            with patch.object(loop, "create_datagram_endpoint", side_effect=record_endpoint):
+                await asyncio.wait_for(asyncio.gather(*(
+                    discovery.search_on_interface(IPv4Address("127.0.0.1"))
+                    for _ in range(3)
+                )), DEFAULT_TIMEOUT)
+            requests = [
+                await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+                for _ in range(3)
+            ]
+            assert all(json.loads(data) == DISCOVERY_REQUEST for data, _ in requests)
+            assert len({source for _, source in requests}) == 1
+            assert len(transports) == 1
+            peer[0].sendto(
+                peer_packet({"t": "pack"}, {"mac": "020000000001", "name": "shared"}),
+                requests[0][1],
+            )
+            await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+            assert len(discovery.devices) == 1
+        finally:
+            if discovery._transport is not None:
+                discovery.close()
+            for transport in transports:
+                if not transport.is_closing():
+                    transport.close()
+            for _ in transports:
+                await asyncio.wait_for(discovery.closed_transports.get(), DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_close_cancels_listener_and_reopens():
+    discovery = _RecoveryDiscovery()
+    entered = asyncio.Event()
+    cancelled = asyncio.Event()
+    never = asyncio.Event()
+
+    class WaitingListener(Listener):
+        async def device_found(self, device_info):
+            entered.set()
+            try:
+                await never.wait()
+            finally:
+                cancelled.set()
+
+    async with udp_peer(port=7000) as peer:
+        try:
+            listener = WaitingListener()
+            discovery.add_listener(listener)
+            await discovery.search_on_interface(IPv4Address("127.0.0.1"))
+            data, old_source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            assert json.loads(data) == DISCOVERY_REQUEST
+            packet = peer_packet({"t": "pack"}, {"mac": "020000000001", "name": "before"})
+            peer[0].sendto(packet, old_source)
+            await asyncio.wait_for(entered.wait(), DEFAULT_TIMEOUT)
+            old_transport = discovery._transport
+            pending = tuple(discovery.tasks)
+            discovery.close()
+            discovery.close()
+            await asyncio.wait_for(cancelled.wait(), DEFAULT_TIMEOUT)
+            await asyncio.wait_for(
+                asyncio.gather(*pending, return_exceptions=True), DEFAULT_TIMEOUT
+            )
+            await asyncio.wait_for(discovery.closed_transports.get(), DEFAULT_TIMEOUT)
+            assert old_transport.is_closing()
+            assert discovery.remove_listener(listener) is False
+            peer[0].sendto(
+                peer_packet({"t": "pack"}, {"mac": "020000000099", "name": "late"}),
+                old_source,
+            )
+            assert discovery.tasks == []
+            assert len(discovery.devices) == 1
+
+            await discovery.search_on_interface(IPv4Address("127.0.0.1"))
+            data, source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            assert json.loads(data) == DISCOVERY_REQUEST
+            assert discovery._transport is not old_transport
+            fresh_listener = _RecoveryListener()
+            await asyncio.wait_for(
+                asyncio.gather(*discovery.add_listener(fresh_listener)), DEFAULT_TIMEOUT
+            )
+            assert fresh_listener.events.get_nowait()[0] == "found"
+            peer[0].sendto(
+                peer_packet({"t": "pack"}, {"mac": "020000000001", "name": "after"}),
+                source,
+            )
+            observed = await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+            assert observed.name == "after"
+            assert discovery.devices[0] is observed
+            assert fresh_listener.events.empty()
+        finally:
+            never.set()
+            if discovery._transport is not None:
+                discovery.close()
+                await asyncio.wait_for(discovery.closed_transports.get(), DEFAULT_TIMEOUT)
+            if discovery.tasks:
+                await asyncio.wait_for(
+                    asyncio.gather(*discovery.tasks, return_exceptions=True), DEFAULT_TIMEOUT
+                )
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_enrollment_requires_explicit_selection():
+    async with udp_peer() as peer, _recovery_discovery() as discovery:
+        listener = _RecoveryListener()
+        discovery.add_listener(listener)
+        for mac in ("020000000001", "020000000002"):
+            info = await _recovery_observe(
+                discovery, peer, {"mac": mac, "name": "not-yet-approved"}
+            )
+            assert listener.events.get_nowait() == ("found", info)
+        assert len(discovery.devices) == 2
+        with pytest.raises(asyncio.TimeoutError):
+            await asyncio.wait_for(peer[1].get(), 0.05)
+
+        selected = discovery.devices[1]
+        device = Device(selected, bind_timeout=DEFAULT_TIMEOUT)
+        bind = asyncio.create_task(device.bind(cipher=CipherV1()))
+        try:
+            data, source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            request = peer_reply(data, b"a3K8Bx%2r8Y7#xDh")
+            assert request["inner"]["t"] == "bind"
+            assert request["inner"]["mac"] == selected.mac
+            assert request["outer"]["tcid"] == selected.mac
+            key = b"0123456789abcdef"
+            peer[0].sendto(
+                peer_packet(
+                    {"t": "pack", "cid": selected.mac},
+                    {"t": "bindok", "mac": selected.mac, "r": 200, "key": key.decode()},
+                ),
+                source,
+            )
+            await asyncio.wait_for(bind, DEFAULT_TIMEOUT)
+            data, status_source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            status = peer_reply(data, key)
+            assert status_source == source
+            assert status["inner"]["t"] == "status"
+            assert status["inner"]["mac"] == selected.mac
+            assert status["outer"]["tcid"] == selected.mac
+        finally:
+            device.close()
+            if not bind.done():
+                bind.cancel()
+            await asyncio.gather(bind, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_port_only_update_preserves_old_snapshot():
+    async with udp_peer() as old_peer, udp_peer() as new_peer, _recovery_discovery() as discovery:
+        listener = _RecoveryListener()
+        discovery.add_listener(listener)
+        cache = discovery.devices
+        pack = {"mac": "020000000001", "name": "same-metadata"}
+        original = await _recovery_observe(discovery, old_peer, pack)
+        assert listener.events.get_nowait() == ("found", original)
+        moved = await _recovery_observe(discovery, new_peer, pack)
+        assert listener.events.get_nowait() == ("update", moved)
+        assert discovery.devices is cache
+        assert len(cache) == 1
+        assert cache[0] is moved
+        assert (original.ip, original.port) == old_peer[0].get_extra_info("sockname")
+        assert (moved.ip, moved.port) == new_peer[0].get_extra_info("sockname")
+        await _recovery_observe(discovery, new_peer, pack)
+        assert listener.events.empty()
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_close_before_search_is_safe_and_reopenable():
+    discovery = _RecoveryDiscovery()
+    discovery.close()
+    discovery.close()
+    async with udp_peer(port=7000) as peer:
+        try:
+            await discovery.search_on_interface(IPv4Address("127.0.0.1"))
+            data, source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            assert json.loads(data) == DISCOVERY_REQUEST
+            peer[0].sendto(
+                peer_packet({"t": "pack"}, {"mac": "020000000001", "name": "reopened"}),
+                source,
+            )
+            info = await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
+            assert discovery.devices == [info]
+        finally:
+            if discovery._transport is not None:
+                discovery.close()
+                await asyncio.wait_for(discovery.closed_transports.get(), DEFAULT_TIMEOUT)
