@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/cmroche/greeclimate/compare/v3.5.0...v3.5.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* **discovery:** preserve first-observed MAC spelling in DeviceInfo ([#207](https://github.com/cmroche/greeclimate/issues/207)) ([5de780a](https://github.com/cmroche/greeclimate/commit/5de780ae688ad64037be6fce159cd247b1658463))
+
 # [3.5.0](https://github.com/cmroche/greeclimate/compare/v3.4.1...v3.5.0) (2026-10-19)
 
 
