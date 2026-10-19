@@ -1,3 +1,10 @@
+## [3.5.2](https://github.com/cmroche/greeclimate/compare/v3.5.1...v3.5.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* **deps:** restore PyCryptodome 3.x compatibility ([#208](https://github.com/cmroche/greeclimate/issues/208)) ([a841ceb](https://github.com/cmroche/greeclimate/commit/a841ceb765f7394e8dade7d5f4b315d4ad24c87b))
+
 ## [3.5.1](https://github.com/cmroche/greeclimate/compare/v3.5.0...v3.5.1) (2026-10-19)
 
 
