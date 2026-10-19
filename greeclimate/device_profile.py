@@ -8,9 +8,11 @@ from typing import Optional, Tuple
 @dataclass(frozen=True)
 class DeviceProfile:
     firmware_code: str
-    temperature_offset: int
+    temperature_offset: Optional[int]
     min_version: Optional[str] = None
     relearn_temperature_offset: bool = False
+    buzzer_properties: Optional[Tuple[str, ...]] = None
+    exact_hid: Optional[str] = None
 
 
 # See OFFSETS.md for inspected-build provenance and identity limitations.
@@ -77,6 +79,29 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001068411", 40),
     DeviceProfile("362001068458", 40),
     DeviceProfile("362001071519", 40),
+    # Buzzer namespaces are known only for these exact inspected HIDs.
+    DeviceProfile(
+        "362001064973", 40, relearn_temperature_offset=True,
+        buzzer_properties=("Buzzer_ON_OFF",),
+        exact_hid="362001064973+U-W04NV17.bin",
+    ),
+    DeviceProfile(
+        "362001064973", 40, relearn_temperature_offset=True,
+        buzzer_properties=("Buzzer_ON_OFF",),
+        exact_hid="362001064973+U-W04NV19.bin",
+    ),
+    DeviceProfile(
+        "362001065016", 40, buzzer_properties=("Buzzer_ON_OFF",),
+        exact_hid="362001065016+U-W04HMV1.05.bin",
+    ),
+    DeviceProfile(
+        "362001065634", None, buzzer_properties=("Buzzer_ON_OFF",),
+        exact_hid="362001065634+U-WB04BRT13V1.50.bin",
+    ),
+    DeviceProfile(
+        "362001066763", None, buzzer_properties=(),
+        exact_hid="362001066763+U-W06A(P3)V6.04.bin",
+    ),
 )
 
 
@@ -88,7 +113,7 @@ def _version_key(version: str) -> Tuple[int, ...]:
 
 
 def match_device_profile(hid: Optional[str]) -> Optional[DeviceProfile]:
-    """Select the greatest eligible version floor, otherwise the code fallback."""
+    """Select an exact HID, then the greatest version floor or code fallback."""
     firmware = re.fullmatch(
         r"([0-9]+)\+(?:U-)?([^+()\s]+?)(?:\([^()]+\))?"
         r"V([0-9]+(?:\.[0-9]+)*)\.bin",
@@ -103,6 +128,10 @@ def match_device_profile(hid: Optional[str]) -> Optional[DeviceProfile]:
     selected_floor = None
     for candidate in KNOWN_PROFILES:
         if candidate.firmware_code != code:
+            continue
+        if candidate.exact_hid is not None:
+            if candidate.exact_hid == hid:
+                return candidate
             continue
         if candidate.min_version is None:
             if fallback is None:

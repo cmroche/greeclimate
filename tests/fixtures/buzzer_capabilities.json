@@ -1,0 +1,206 @@
+{
+  "scope": "Sanitized observations from original firmware analysis, independent of greeclimate profile matching and command generation. Exact reported HID strings only; no MID-wide or minimum-version buzzer rule.",
+  "limitations": [
+    "Recognized property names, native state storage, and cached replies do not prove physical buzzer operation, UART behavior, mute polarity, or hardware boot defaults.",
+    "Buzzer_ON_OFF=1 for a locally muted command preserves the existing client convention; it is not a firmware-derived acoustic polarity claim.",
+    "A zero-initialized native replay object is synthetic state, not a measured hardware boot state.",
+    "Uninspected versions, alternate module spellings, and other firmware remain unknown and enable no buzzer command fields. Shared MIDs do not imply shared namespaces."
+  ],
+  "unknown_families": [
+    "CS532AE", "QCOM", "SN", "TMAC", "JDNEW", "5018", "gateway/plugin paths",
+    "WB05MARJ/EMA: BuzzerCtrl native boolean storage exists, but LAN versus cloud reachability is unresolved"
+  ],
+  "profiles": [
+    {
+      "hid": "362001064973+U-W04NV17.bin",
+      "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+      "expanded_sha256": "9d2ce9192017933bcdf6b61995b225cae896a7e39c5959ea0c8bd91d6003693b",
+      "temperature_offset": 40,
+      "relearn_temperature_offset": true,
+      "buzzer_properties": ["Buzzer_ON_OFF"],
+      "sources": [
+        "../../docs/HIDS.md#sha-b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+        "../../docs/OFFSETS.md#offset-b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+        "emulator/w04n_research.json",
+        "https://grih.gree.com/wifiModule/image/10546/303710"
+      ],
+      "identity": {
+        "method": "Native platform-info prefix copy and executed Thumb version getter, not download-name inference",
+        "prefix": "362001064973+U-W04N",
+        "platform_info": "0x08025e18",
+        "version_getter": "0x08025450",
+        "version_getter_result": 44017,
+        "version_rule": "result modulo 1000",
+        "hid_handlers": ["0x0802fd0c", "0x08030814"],
+        "format": "%sV%d.bin"
+      },
+      "namespace": {
+        "method": "Complete recovered native property table",
+        "table": "0x08074610",
+        "stride_bytes": 36,
+        "count": 136,
+        "present": ["Buzzer_ON_OFF"],
+        "absent": ["BuzzerCtrl"]
+      },
+      "native_setter": {
+        "proof": "Original ARM Thumb setter/getter replay in Unicorn 2.1.4; no behavior hooks",
+        "setter": "0x0802dc44",
+        "getter": "0x0802dc4c",
+        "state_byte_offset": 73,
+        "stored_value": "input & 1",
+        "replayed_inputs": [0, 1, 2, 3],
+        "observed_getter_values": [0, 1, 0, 1],
+        "hardware_boot_default": "unknown",
+        "uart_effect": "untraced",
+        "physical_effect": "unknown"
+      }
+    },
+    {
+      "hid": "362001064973+U-W04NV19.bin",
+      "source_sha256": "0b01a0d0fd25651b81bf435e46428987a3b43b905b2ee6bdc0714c6030452d92",
+      "temperature_offset": 40,
+      "relearn_temperature_offset": true,
+      "buzzer_properties": ["Buzzer_ON_OFF"],
+      "sources": [
+        "../../docs/HIDS.md#sha-0b01a0d0fd25651b81bf435e46428987a3b43b905b2ee6bdc0714c6030452d92",
+        "../../docs/OFFSETS.md#offset-0b01a0d0fd25651b81bf435e46428987a3b43b905b2ee6bdc0714c6030452d92",
+        "http://test.grih.gree.com/wifiModule/image/20310/274527",
+        "http://test.grih.gree.com/wifiModule/image/20356/274527"
+      ],
+      "identity": {
+        "method": "Native platform-info prefix copy and executed Thumb version getter; requested download code 362001061217 is not an HID alias",
+        "prefix": "362001064973+U-W04N",
+        "platform_info": "0x08024514",
+        "version_getter": "0x08023c68",
+        "version_getter_result": 44019,
+        "version_rule": "result modulo 1000",
+        "hid_handler": "0x08030348",
+        "format": "%sV%d.bin"
+      },
+      "namespace": {
+        "method": "Original compiled complete 130-name synchronous AC snapshot array, not acoustic or setter replay",
+        "analysis_artifact": "gree-expanded-survey/wifi-followup/selector/findings.json: synchronous_snapshot.real_compiled_name_array_and_membership and chains, exact source_sha256 record",
+        "array": "0x08068ea4",
+        "count": 130,
+        "buzzer_on_off_index": 101,
+        "present": ["Buzzer_ON_OFF"],
+        "absent": ["BuzzerCtrl"],
+        "registry_wrapper": "0x0802dc50",
+        "installed_callback": "0x08025a04",
+        "snapshot": "0x080257dc",
+        "number_api": "0x08039180"
+      },
+      "native_setter": "untraced",
+      "uart_effect": "untraced",
+      "physical_effect": "unknown"
+    },
+    {
+      "hid": "362001065016+U-W04HMV1.05.bin",
+      "source_sha256": "6babf96350a02f2dc93b62a0a7ac3c56bd2246447b3e3f85dd9c9a9725316d77",
+      "temperature_offset": 40,
+      "relearn_temperature_offset": false,
+      "buzzer_properties": ["Buzzer_ON_OFF"],
+      "sources": [
+        "../../docs/HIDS.md#sha-6babf96350a02f2dc93b62a0a7ac3c56bd2246447b3e3f85dd9c9a9725316d77",
+        "../../docs/OFFSETS.md#offset-6babf96350a02f2dc93b62a0a7ac3c56bd2246447b3e3f85dd9c9a9725316d77",
+        "https://grih.gree.com/wifiModule/image/10427/851760"
+      ],
+      "identity": {
+        "method": "Both native bank HID getters replayed; literal passed to string serializer. API filename omits module and is not the reported HID",
+        "hid_property_index": 468,
+        "bank1_getter": "0x0805bdae",
+        "bank1_serializer": "0x0805be9e",
+        "bank2_getter": "0x080d0dae",
+        "bank2_serializer": "0x080d0e9e"
+      },
+      "namespace": {
+        "method": "Complete native name table recovered independently in both banks; recognition only",
+        "analysis_artifact": "gree-expanded-survey/RealtekLate/scan.json: exact source_sha256 record, banks[].tables[]",
+        "table": "0x10006394",
+        "count": 476,
+        "buzzer_on_off_index": 50,
+        "present": ["Buzzer_ON_OFF"],
+        "absent": ["BuzzerCtrl"]
+      },
+      "native_setter": "untraced",
+      "uart_effect": "untraced",
+      "physical_effect": "unknown"
+    },
+    {
+      "hid": "362001065634+U-WB04BRT13V1.50.bin",
+      "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+      "temperature_offset": null,
+      "relearn_temperature_offset": false,
+      "buzzer_properties": ["Buzzer_ON_OFF"],
+      "sources": [
+        "../../docs/HIDS.md#sha-44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "../../docs/OFFSETS.md#offset-44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
+        "emulator/commercial-wire_research.json",
+        "http://test.grih.gree.com/wifiModule/image/22201/812228"
+      ],
+      "identity": {
+        "method": "Embedded complete HID with native pointer references; not inferred from shared commercial or ATW MIDs",
+        "literal_file_offset": "0x000ab457",
+        "literal_address": "0x9b80f457",
+        "native_references": ["0x10001204", "0x9b029894"]
+      },
+      "namespace": {
+        "method": "Native commercial property namespace and cached-control path; physical mainboard effect unproven",
+        "table": "0x10000c8c",
+        "count": 350,
+        "populated_count": 343,
+        "buzzer_on_off_index": 330,
+        "present": ["Buzzer_ON_OFF"],
+        "absent": ["BuzzerCtrl"],
+        "parser": "0x9b02f8c0",
+        "command_handler": "0x9b02fc8c",
+        "cached_apply": "0x9b02c528",
+        "cache_width_bits": 16
+      },
+      "temperature_trait": "No numeric offset authorized; preserve existing learned or guessed offset",
+      "uart_effect": "unproven",
+      "physical_effect": "unknown"
+    },
+    {
+      "hid": "362001066763+U-W06A(P3)V6.04.bin",
+      "source_sha256": "37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+      "temperature_offset": null,
+      "relearn_temperature_offset": false,
+      "buzzer_properties": [],
+      "sources": [
+        "../../docs/HIDS.md#sha-37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+        "../../docs/OFFSETS.md#offset-37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+        "http://eu.grih.gree.com/wifiModule/image/10143/786432"
+      ],
+      "identity": {
+        "method": "Exact inspected W06A(P3) build, also catalogued as reported HID; WB06A is a different spelling and is not an alias",
+        "shared_native_mids": ["9300", "9301", "9302"]
+      },
+      "namespace": {
+        "method": "Source-byte-asserted Xtensa selector translations and complete control/sensor tables, not an emulator relaxation",
+        "analysis_artifact": "gree-atw-properties-20261017/probe.py and probe-results.json",
+        "control_selector": "0x00a1115c",
+        "control_table": "0x0044e650",
+        "control_count": 21,
+        "sensor_selector": "0x00a112cc",
+        "sensor_table": "0x0044e950",
+        "sensor_count": 25,
+        "present": [],
+        "absent": ["BuzzerCtrl", "Buzzer_ON_OFF"],
+        "direct_miss_replay": {
+          "verified_date": "2026-10-19",
+          "method": "Bounded instruction-matched Machine replay from the existing source-byte-asserted probe; source SHA and instruction bytes asserted, not full CPU or boot execution",
+          "libc_boundary": "strcmp comparison supplied by the probe",
+          "names": ["BuzzerCtrl", "Buzzer_ON_OFF"],
+          "control_selector_result_for_each": "0xffffffff",
+          "control_selector_steps_for_each": 109,
+          "sensor_selector_result_for_each": "0xffffffff",
+          "sensor_selector_steps_for_each": 129
+        }
+      },
+      "temperature_trait": "No numeric offset authorized; preserve existing learned or guessed offset",
+      "uart_effect": "No supported buzzer property established",
+      "physical_effect": "unknown"
+    }
+  ]
+}
