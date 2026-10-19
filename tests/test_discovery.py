@@ -11,6 +11,7 @@ import pytest
 
 from greeclimate.cipher import CipherV1
 from greeclimate.device import Device
+from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
 from .common import (
     DEFAULT_TIMEOUT,
@@ -918,3 +919,40 @@ async def test_recovery_discovery_close_before_search_is_safe_and_reopenable():
             if discovery._transport is not None:
                 discovery.close()
                 await asyncio.wait_for(discovery.closed_transports.get(), DEFAULT_TIMEOUT)
+
+
+async def test_recovery_discovery_late_observations_cannot_revive_closed_owner():
+    discovery = Discovery()
+    listener = _RecoveryListener()
+    initial = DeviceInfo("127.0.0.1", 7000, "020000000001", "saved")
+    await discovery.device_found(initial)
+    discovery.close()
+    try:
+        assert discovery.add_listener(listener) is None
+        moved = DeviceInfo("127.0.0.1", 7001, initial.mac, "late")
+        await discovery.device_found(moved)
+        discovery.packet_received(
+            {"pack": {"mac": "020000000002", "name": "late-new"}},
+            ("127.0.0.1", 7002),
+        )
+        assert discovery.devices == [initial]
+        assert discovery.devices[0] is initial
+        assert listener.events.empty() and discovery.tasks == []
+        assert discovery.remove_listener(listener) is False
+    finally:
+        discovery.close()
+
+
+@pytest.mark.parametrize("mac", [None, "", ":-.", 123])
+async def test_recovery_discovery_invalid_direct_observation_preserves_cache(mac):
+    discovery = Discovery()
+    listener = _RecoveryListener()
+    discovery.add_listener(listener)
+    initial = DeviceInfo("127.0.0.1", 7000, "020000000001", "saved")
+    try:
+        await discovery.device_found(initial)
+        assert listener.events.get_nowait() == ("found", initial)
+        await discovery.device_found(DeviceInfo("127.0.0.1", 7001, mac, "invalid"))
+        assert discovery.devices == [initial] and listener.events.empty()
+    finally:
+        discovery.close()

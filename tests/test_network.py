@@ -807,6 +807,9 @@ async def test_recovery_tracked_task_cancellation_is_instance_local_and_safe():
         owner._cancel_tasks()
         return "survived"
 
+    async def failed_work():
+        raise RuntimeError("synthetic listener failure")
+
     try:
         task = owner._create_task(work())
         other_task = other._create_task(blocked.wait())
@@ -816,6 +819,10 @@ async def test_recovery_tracked_task_cancellation_is_instance_local_and_safe():
         await asyncio.gather(task, return_exceptions=True)
         assert task.cancelled()
         assert not other_task.done()
+        failed = owner._create_task(failed_work())
+        with pytest.raises(RuntimeError):
+            await asyncio.wait_for(failed, 1)
+        assert owner.tasks == [] and not other_task.done()
         owner._cancel_tasks()
         blocked.set()
         await asyncio.wait_for(other_task, 1)
@@ -865,3 +872,58 @@ async def test_recovery_outbound_identity_is_canonical(identity, canonical, comm
             assert info.mac == identity
         finally:
             transport.close()
+
+
+async def test_recovery_packets_without_session_or_after_close_never_dispatch():
+    protocol = FakeDeviceProtocol()
+    protocol.device_cipher = None
+    endpoint = ("127.0.0.1", 7000)
+    wire = peer_packet({}, {"t": "dat", "cols": ["Pow"], "dat": [1]})
+    protocol.datagram_received(b"", endpoint)
+    protocol.datagram_received(wire, endpoint)
+    assert protocol.packets.empty()
+    protocol.device_cipher = CipherV1()
+    protocol.datagram_received(wire, endpoint)
+    assert (await asyncio.wait_for(protocol.packets.get(), 1))["pack"]["dat"] == [1]
+    protocol.close()
+    protocol.datagram_received(wire, endpoint)
+    assert protocol.packets.empty()
+
+
+async def test_recovery_incomplete_response_does_not_dispatch_or_block_next_reply():
+    protocol = DeviceProtocol2()
+    protocol.device_cipher = CipherV1()
+    events = asyncio.Queue()
+    protocol.add_handler(Response.DATA, events.put_nowait)
+    endpoint = ("127.0.0.1", 7000)
+    try:
+        protocol.datagram_received(peer_packet({}, {"t": "dat", "cols": ["Pow"]}), endpoint)
+        assert events.empty()
+        protocol.datagram_received(
+            peer_packet({}, {"t": "dat", "cols": ["Pow"], "dat": [1]}), endpoint
+        )
+        assert await asyncio.wait_for(events.get(), 1) == {"Pow": 1}
+    finally:
+        protocol.close()
+
+
+async def test_recovery_socket_error_releases_pending_send():
+    protocol = DeviceProtocolBase2()
+    loop = asyncio.get_running_loop()
+    async with udp_peer() as (peer, received):
+        transport, _ = await loop.create_datagram_endpoint(
+            lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+        )
+        protocol.pause_writing()
+        pending = asyncio.create_task(protocol.send({"t": "scan"}))
+        try:
+            await asyncio.wait_for(received.get(), 1)
+            failure = OSError("synthetic socket loss")
+            protocol.connection_lost(failure)
+            with pytest.raises(DeviceNotBoundError):
+                await asyncio.wait_for(pending, 1)
+            assert protocol._transport is None
+        finally:
+            transport.close()
+            protocol.close()
+            await asyncio.gather(pending, return_exceptions=True)

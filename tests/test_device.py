@@ -1155,7 +1155,7 @@ async def has_valid_state_with_valid_properties(cipher, send):
    
    
 @pytest.mark.asyncio
-async def request_version_timeout_error(cipher, send):
+async def test_request_version_timeout_error(cipher, send):
     """Check that request_version raises DeviceTimeoutError when a timeout occurs."""
     device = await generate_device_mock_async()
 
@@ -1230,6 +1230,9 @@ async def test_recovery_saved_info_data_and_control(cipher_type):
         ), addr)
         assert await asyncio.wait_for(data.get(), 2) == {"Pow": 1, "SetTem": 24}
         assert device.power and device.get_property(Props.TEMP_SET) == 24
+        device.power = True
+        await device.push_state_update()
+        assert queue.empty()
         device.power = False
         await device.push_state_update()
         request, _ = await recovery_receive(queue, device.device_cipher)
@@ -1551,10 +1554,14 @@ async def test_recovery_implicit_bind(operation):
             await asyncio.gather(task, return_exceptions=True)
 
 
-async def test_recovery_cancel_bind_then_retry():
+@pytest.mark.parametrize("paused_send", [False, True])
+async def test_recovery_cancel_bind_then_retry(paused_send):
     async with udp_peer() as (peer, queue):
         host, port = peer.get_extra_info("sockname")
         device = Device(DeviceInfo(host, port, RECOVERY_MAC, "cancel"), bind_timeout=0.1)
+        if paused_send:
+            await device._loop.create_datagram_endpoint(lambda: device, remote_addr=(host, port))
+            device.pause_writing()
         task = asyncio.create_task(device.bind(cipher=CipherV1()))
         try:
             await recovery_receive(queue)
@@ -1760,3 +1767,125 @@ async def test_recovery_lost_transport_fails_pending_bind_and_allows_retry():
         finally:
             device.close()
             await asyncio.gather(task, return_exceptions=True)
+
+
+@pytest.mark.parametrize("boundary", ["closed", "wrong-peer", "missing-pack"])
+async def test_recovery_rejected_packet_cannot_change_state(boundary):
+    async with recovery_session() as (device, peer, queue, addr):
+        await recovery_receive(queue, device.device_cipher)
+        device.handle_state_update(Pow=1)
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        endpoint = peer.get_extra_info("sockname")
+        packet = {"pack": {"t": "dat", "cols": ["Pow"], "dat": [0]}}
+        if boundary == "closed":
+            device.close()
+        elif boundary == "wrong-peer":
+            endpoint = (endpoint[0], 0)
+        else:
+            packet = {}
+        device.packet_received(packet, endpoint)
+        device.handle_device_bound("fedcba9876543210")
+        assert device.power is True and events.empty()
+        if boundary == "closed":
+            assert not device.ready.is_set() and device.device_cipher is None
+        else:
+            assert device.device_key == RECOVERY_KEY
+            peer.sendto(recovery_packet(
+                {"t": "dat", "cols": ["Pow"], "dat": [0]}, device.device_cipher
+            ), addr)
+            assert await asyncio.wait_for(events.get(), 2) == {"Pow": 0}
+            assert device.power is False
+
+
+async def test_recovery_status_before_identified_bind_is_not_available():
+    async with udp_peer() as (peer, queue):
+        host, port = peer.get_extra_info("sockname")
+        device = Device(DeviceInfo(host, port, RECOVERY_MAC, "premature"), bind_timeout=1)
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        task = asyncio.create_task(device.bind(cipher=CipherV1()))
+        try:
+            _, addr = await recovery_receive(queue)
+            peer.sendto(recovery_packet({"t": "dat", "cols": ["Pow"], "dat": [0]}), addr)
+            peer.sendto(recovery_packet({"t": "bindok", "mac": RECOVERY_MAC, "key": RECOVERY_KEY}), addr)
+            await asyncio.wait_for(task, 2)
+            assert events.empty() and not device.has_valid_state and device.power is None
+            await recovery_receive(queue, device.device_cipher)
+            peer.sendto(recovery_packet(
+                {"t": "dat", "cols": ["Pow"], "dat": [1]}, device.device_cipher
+            ), addr)
+            assert await asyncio.wait_for(events.get(), 2) == {"Pow": 1}
+            assert device.has_valid_state and device.power is True
+        finally:
+            device.close()
+            await asyncio.gather(task, return_exceptions=True)
+
+
+async def test_recovery_close_from_bind_callback_cannot_report_success():
+    async with udp_peer() as (peer, queue):
+        host, port = peer.get_extra_info("sockname")
+        device = Device(DeviceInfo(host, port, RECOVERY_MAC, "callback-close"), bind_timeout=1)
+        device.add_handler(Response.BIND_OK, lambda key: device.close())
+        task = asyncio.create_task(device.bind(cipher=CipherV1()))
+        try:
+            _, addr = await recovery_receive(queue)
+            peer.sendto(recovery_packet({"t": "bindok", "mac": RECOVERY_MAC, "key": RECOVERY_KEY}), addr)
+            with pytest.raises(DeviceNotBoundError):
+                await asyncio.wait_for(task, 2)
+            assert not device.ready.is_set() and device.device_cipher is None
+            assert queue.empty()
+        finally:
+            device.close()
+            await asyncio.gather(task, *device.tasks, return_exceptions=True)
+
+
+async def test_recovery_close_rejects_bind_queued_on_lock():
+    device = Device(DeviceInfo("127.0.0.1", 7000, RECOVERY_MAC, "queued"))
+    await device._bind_lock.acquire()
+    task = asyncio.create_task(device.bind(cipher=CipherV1()))
+    barrier = device._loop.create_future()
+    device._loop.call_soon(barrier.set_result, None)
+    try:
+        await barrier
+        assert not task.done()
+        device.close()
+        device._bind_lock.release()
+        with pytest.raises(DeviceNotBoundError):
+            await asyncio.wait_for(task, 2)
+        assert device._transport is None and not device.ready.is_set()
+    finally:
+        if device._bind_lock.locked():
+            device._bind_lock.release()
+        device.close()
+        await asyncio.gather(task, return_exceptions=True)
+
+
+async def test_recovery_close_while_retry_waits_for_old_socket(monkeypatch):
+    async with udp_peer() as (peer, queue):
+        host, port = peer.get_extra_info("sockname")
+        device = Device(DeviceInfo(host, port, RECOVERY_MAC, "closing"), bind_timeout=0.02)
+        lost = asyncio.Queue()
+        connection_lost = device.connection_lost
+        monkeypatch.setattr(device, "connection_lost", lost.put_nowait)
+        task = None
+        try:
+            with pytest.raises(DeviceTimeoutError):
+                await device.bind(cipher=CipherV1())
+            await recovery_receive(queue)
+            exc = await asyncio.wait_for(lost.get(), 2)
+            task = asyncio.create_task(device.bind(cipher=CipherV1()))
+            barrier = device._loop.create_future()
+            device._loop.call_soon(barrier.set_result, None)
+            await barrier
+            assert not task.done()
+            device.close()
+            connection_lost(exc)
+            with pytest.raises(DeviceNotBoundError):
+                await asyncio.wait_for(task, 2)
+            assert queue.empty() and device.device_cipher is None
+        finally:
+            device.close()
+            connection_lost(None)
+            if task is not None:
+                await asyncio.gather(task, return_exceptions=True)
