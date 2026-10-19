@@ -7,7 +7,8 @@ from enum import Enum
 from typing import Any, Dict, Tuple, Union
 
 from greeclimate.cipher import CipherBase
-from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.deviceinfo import DeviceInfo, _canonical_mac
+from greeclimate.exceptions import DeviceNotBoundError
 
 NETWORK_TIMEOUT = 10
 _LOGGER = logging.getLogger(__name__)
@@ -51,6 +52,9 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
 
         self._transport: Union[asyncio.transports.DatagramTransport, None] = None
         self._cipher: Union[CipherBase, None] = None
+        self._closing = False
+        self._transport_closed = asyncio.Event()
+        self._transport_closed.set()
 
 
     # This event need to be implemented to handle incoming requests
@@ -88,28 +92,27 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         self._cipher.key = value
 
     def close(self) -> None:
-        """Close the UDP transport."""
-        try:
-            self._transport.close()
-            self._transport = None
-        except RuntimeError:
-            pass
+        """Idempotently close this transport and wake pending sends."""
+        self._closing = True
+        transport, self._transport = self._transport, None
+        self._drained.set()
+        if transport is not None:
+            transport.close()
 
     def connection_made(self, transport: asyncio.transports.DatagramTransport) -> None:
-        """Called when the Datagram protocol handler is initialized."""
+        """Install a transport after the preceding transport has finished closing."""
+        self._closing = False
+        self._transport_closed.clear()
         self._transport = transport
 
     def connection_lost(self, exc: Exception) -> None:
-        """Handle a closed socket."""
-
-        if self._transport is not None:
-            self._transport.close()
-            self._transport = None
-
-        # In this case the connection was closed unexpectedly
+        """Finalize transport closure without raising from the event loop callback."""
+        self._transport = None
+        self._closing = True
+        self._drained.set()
+        self._transport_closed.set()
         if exc is not None:
-            _LOGGER.exception("Connection was closed unexpectedly", exc_info=exc)
-            raise exc
+            _LOGGER.error("Connection was closed unexpectedly", exc_info=exc)
 
     def error_received(self, exc: Exception) -> None:
         """Handle error while sending/receiving datagrams."""
@@ -131,28 +134,39 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         Override to customize cipher selection (e.g. trying more than one
         cipher for replies from not-yet-identified devices).
         """
+        if self._cipher is None:
+            raise ValueError("No cipher available for incoming packet")
         return self._cipher.decrypt(pack)
 
     def datagram_received(self, data: bytes, addr: IPAddr) -> None:
         """Handle an incoming datagram."""
-        if len(data) == 0:
+        if not data or self._closing:
             return
-
-        obj = json.loads(data)
-
-        if obj.get("pack"):
-            obj["pack"] = self._decrypt_pack(obj["pack"])
+        try:
+            obj = json.loads(data)
+            if not isinstance(obj, dict):
+                raise ValueError("Envelope is not a dictionary")
+            if "pack" in obj:
+                obj["pack"] = self._decrypt_pack(obj["pack"])
+                if not isinstance(obj["pack"], dict):
+                    raise ValueError("Decrypted pack is not a dictionary")
+        except (ValueError, UnicodeError, TypeError) as exc:
+            _LOGGER.debug("Ignoring undecodable packet from %s: %s", addr, exc)
+            return
 
         _LOGGER.debug("Received packet from %s:\n<- %s", addr[0], json.dumps(obj))
         self.packet_received(obj, addr)
 
     async def send(self, obj, addr: IPAddr = None, cipher: Union[CipherBase, None] = None) -> None:
-        """Send encode and send JSON command to the device.
+        """Encode and send a command; completion does not imply a reply.
 
         Args:
             addr (object): (Optional) Address to send the message
             cipher (object): (Optional) Initial cipher to use for SCANNING and BINDING 
         """
+        transport = self._transport
+        if transport is None or self._closing:
+            raise DeviceNotBoundError
         _LOGGER.debug("Sending packet:\n-> %s", json.dumps(obj))
 
         if obj.get("pack"):
@@ -166,10 +180,10 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
                 obj["tag"] = tag
 
         data_bytes = json.dumps(obj).encode()
-        self._transport.sendto(data_bytes, addr)
-
-        task = asyncio.create_task(self._drained.wait())
-        await asyncio.wait_for(task, self._timeout)
+        transport.sendto(data_bytes, addr)
+        await asyncio.wait_for(self._drained.wait(), self._timeout)
+        if self._closing or self._transport is not transport:
+            raise DeviceNotBoundError
 
 
 class BroadcastListenerProtocol(DeviceProtocolBase2):
@@ -186,7 +200,6 @@ class BroadcastListenerProtocol(DeviceProtocolBase2):
 
 class DeviceProtocol2(DeviceProtocolBase2):
     """Protocol handler for direct device communication."""
-    _handlers = {}
 
     def __init__(self, timeout: int = 10, drained: asyncio.Event = None) -> None:
         """Initialize the device protocol object.
@@ -196,6 +209,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
             drained (asyncio.Event): Packet send drain event signal
         """
         DeviceProtocolBase2.__init__(self, timeout, drained)
+        self._handlers = {}
         self._ready = asyncio.Event()
         self._ready.clear()
         
@@ -243,15 +257,16 @@ class DeviceProtocol2(DeviceProtocolBase2):
                 resp = resp.casefold()
             handler = handlers.get(resp, self.handle_unknown_packet)
             param = params.get(resp, lambda o, a: (o, a))(obj, addr)
-            handler(*param)
         except AttributeError as e:
             _LOGGER.exception("Error while handling packet", exc_info=e)
         except KeyError as e:
             _LOGGER.exception("Error while handling packet", exc_info=e)
         else:
-            # Call any registered callbacks for this event
+            handler(*param)
             if resp in handlers:
-                for callback in self._handlers.get(Response(resp), []):
+                for callback in tuple(self._handlers.get(Response(resp), ())):
+                    if self._closing:
+                        break
                     callback(*param)
 
     def handle_unknown_packet(self, obj, addr: IPAddr) -> None:
@@ -272,17 +287,18 @@ class DeviceProtocol2(DeviceProtocolBase2):
         pass
 
     def _generate_payload(self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
+        mac = _canonical_mac(device_info.mac)
         payload = {
             "cid": "app",
             "i": 1 if command in [Commands.BIND, Commands.SCAN] else 0,
             "t": Commands.PACK.value if data is not None else command.value,
             "uid": 0,
-            "tcid": device_info.mac
+            "tcid": mac
         }
         if data is not None:
             payload["pack"] = {
                 "t": command.value,
-                "mac": device_info.mac
+                "mac": mac
             }
             payload["pack"].update(data)
         return payload

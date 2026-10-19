@@ -7,7 +7,7 @@ from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address, IPv4Interface
 
 from greeclimate.cipher import CipherV1, CipherV2
-from greeclimate.device import DeviceInfo
+from greeclimate.deviceinfo import DeviceInfo, _canonical_mac
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
 from greeclimate.taskable import Taskable
 
@@ -18,10 +18,10 @@ class Listener:
     """Base class for device discovery events."""
 
     async def device_found(self, device_info: DeviceInfo) -> None:
-        """Called any time a new (unique) device is found on the network."""
+        """Report a first canonical MAC observation or replay, not enrollment approval."""
 
     async def device_update(self, device_info: DeviceInfo) -> None:
-        """Called any time an up address for a device has changed on the network."""
+        """Report a changed IP or port; metadata-only refreshes emit no event."""
 
 
 class Discovery(BroadcastListenerProtocol, Listener, Taskable):
@@ -50,19 +50,20 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         self._allow_loopback: bool = allow_loopback
         self._device_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []
+        self._endpoint_lock = asyncio.Lock()
 
     # Task management
     @property
     def devices(self) -> list[DeviceInfo]:
-        """Return the current known list of devices."""
+        """Return latest snapshots in first-observation order, keyed by canonical MAC."""
         return self._device_infos
 
     # Listener management
     def add_listener(self, listener: Listener) -> list[Task] | None:
         """Add a listener that will receive discovery events.
 
-        Adding a listener will cause all currently known device to trigger a
-        new device added event on the listen object.
+        Existing devices are replayed using their latest metadata snapshot.
+        Closing cancels listener work and releases registered listeners.
 
         Args:
             listener (Listener): A listener object which will receive events
@@ -70,6 +71,8 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         Returns:
             List[Coro]: List of tasks for device found events or None if lister was added early.
         """
+        if self._closing:
+            return None
         if listener not in self._listeners:
             self._listeners.append(listener)
             return [self._create_task(listener.device_found(x)) for x in self.devices]
@@ -90,32 +93,37 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         return False
 
     async def device_found(self, device_info: DeviceInfo) -> None:
-        """Device is found.
+        """Refresh the canonical identity's snapshot and notify endpoint changes.
 
-        Notify all listeners that a device was found. Exceptions raised by
-        listeners are ignored.
-
-        Args:
-            device_info (DeviceInfo): Information about the newly discovered
-            device
+        First observations emit device_found; changed IP or port emits
+        device_update. Metadata-only observations silently replace the cache
+        entry. Listener failures are isolated; enrollment remains caller-owned.
         """
-
+        if self._closing:
+            return
+        mac = _canonical_mac(device_info.mac)
+        if mac is None:
+            return
+        device_info.mac = mac
         for index, last_info in enumerate(self._device_infos):
-            if device_info == last_info:
-                if device_info.ip != last_info.ip:
-                    # ip address info may have been updated, so store the new info
-                    # and trigger a `device_update` event.
-                    self._device_infos[index] = device_info
-                    tasks = [l.device_update(device_info) for l in self._listeners]
+            if mac == _canonical_mac(last_info.mac):
+                endpoint_changed = (device_info.ip, device_info.port) != (last_info.ip, last_info.port)
+                self._device_infos[index] = device_info
+                if endpoint_changed:
+                    tasks = [listener.device_update(device_info) for listener in self._listeners]
                     await asyncio.gather(*tasks, return_exceptions=True)
                 return
 
         self._device_infos.append(device_info)
-
-        _LOGGER.info("Found gree device %s", str(device_info))
-
-        tasks = [l.device_found(device_info) for l in self._listeners]
+        _LOGGER.info("Found gree device %s", device_info)
+        tasks = [listener.device_found(device_info) for listener in self._listeners]
         await asyncio.gather(*tasks, return_exceptions=True)
+
+    def close(self) -> None:
+        """Cancel listener work and close UDP; a later explicit search may reopen."""
+        self._cancel_tasks()
+        self._listeners.clear()
+        BroadcastListenerProtocol.close(self)
 
     def _decrypt_pack(self, pack):
         """Decrypt a scan reply, falling back to CipherV2 if CipherV1 fails.
@@ -138,15 +146,24 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Event called when a packet is received and decoded."""
-        pack = obj.get("pack")
-        if not pack:
-            _LOGGER.error("Received an unexpected response during discovery")
+        if self._closing:
+            return
+        pack = obj.get("pack") if isinstance(obj, dict) else None
+        if not isinstance(pack, dict):
+            _LOGGER.debug("Ignoring discovery response without dictionary pack")
+            return
+        identity = pack.get("mac")
+        if identity is None or identity == "":
+            identity = pack.get("cid")
+        mac = _canonical_mac(identity)
+        if mac is None:
+            _LOGGER.debug("Ignoring discovery response without usable identity")
             return
 
         device = (
             addr[0],
             addr[1],
-            pack.get("mac") or pack.get("cid"),
+            mac,
             pack.get("name"),
             pack.get("brand"),
             pack.get("model"),
@@ -220,10 +237,12 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             target_address,
         )
 
-        if self._transport is None:
-            self._transport, _ = await self._loop.create_datagram_endpoint(
-                lambda: self, local_addr=("0.0.0.0", 0), allow_broadcast=True
-            )
+        async with self._endpoint_lock:
+            if self._transport is None:
+                await self._transport_closed.wait()
+                await self._loop.create_datagram_endpoint(
+                    lambda: self, local_addr=("0.0.0.0", 0), allow_broadcast=True
+                )
 
         await self.send({"t": "scan"}, (str(target_address), 7000))
 

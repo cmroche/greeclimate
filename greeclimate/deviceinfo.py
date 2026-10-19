@@ -1,3 +1,10 @@
+def _canonical_mac(value: object) -> str | None:
+    """Normalize wire identities without restricting child identity length."""
+    if not isinstance(value, str):
+        return None
+    return value.replace(":", "").replace("-", "").replace(".", "").lower() or None
+
+
 class DeviceInfo:
     """Device information class, used to identify and connect
 

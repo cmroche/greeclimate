@@ -28,10 +28,18 @@ class Taskable:
         """Returns the outstanding tasks waiting completion."""
         return self._tasks
 
+    def _cancel_tasks(self) -> None:
+        """Cancel only this owner's work, excluding the executing task."""
+        current = asyncio.current_task(loop=self._loop)
+        for task in tuple(self._tasks):
+            if task is not current and not task.done():
+                task.cancel()
+
     def _task_done_callback(self, task):
-        if task.exception():
-            _LOGGER.exception("Uncaught exception", exc_info=task.exception())
-        self._tasks.remove(task)
+        if task in self._tasks:
+            self._tasks.remove(task)
+        if not task.cancelled() and (exc := task.exception()) is not None:
+            _LOGGER.error("Uncaught exception", exc_info=exc)
 
     def _create_task(self, coro) -> Task:
         """Create and track tasks that are being created for events."""
