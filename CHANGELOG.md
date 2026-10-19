@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/cmroche/greeclimate/compare/v3.4.1...v3.5.0) (2026-10-19)
+
+
+### Features
+
+* **emulator:** log decrypted payloads instead of encrypted wire data ([#204](https://github.com/cmroche/greeclimate/issues/204)) ([629279e](https://github.com/cmroche/greeclimate/commit/629279ed12275ac7ba26ac302f7bd43a4523f39e))
+
 ## [3.4.1](https://github.com/cmroche/greeclimate/compare/v3.4.0...v3.4.1) (2026-10-17)
 
 
