@@ -18,7 +18,7 @@ class Listener:
     """Base class for device discovery events."""
 
     async def device_found(self, device_info: DeviceInfo) -> None:
-        """Report a first canonical MAC observation or replay, not enrollment approval."""
+        """Report a first observation or replay; mac keeps the validated wire spelling."""
 
     async def device_update(self, device_info: DeviceInfo) -> None:
         """Report a changed IP or port; metadata-only refreshes emit no event."""
@@ -95,6 +95,9 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
     async def device_found(self, device_info: DeviceInfo) -> None:
         """Refresh the canonical identity's snapshot and notify endpoint changes.
 
+        Public mac keeps the first validated wire spelling; identity
+        matching below is canonical.
+
         First observations emit device_found; changed IP or port emits
         device_update. Metadata-only observations silently replace the cache
         entry. Listener failures are isolated; enrollment remains caller-owned.
@@ -104,9 +107,11 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         mac = _canonical_mac(device_info.mac)
         if mac is None:
             return
-        device_info.mac = mac
         for index, last_info in enumerate(self._device_infos):
             if mac == _canonical_mac(last_info.mac):
+                # HA reuses DeviceInfo.mac verbatim for entity unique IDs;
+                # keep the first spelling and match canonically from here on.
+                device_info.mac = last_info.mac
                 endpoint_changed = (device_info.ip, device_info.port) != (last_info.ip, last_info.port)
                 self._device_infos[index] = device_info
                 if endpoint_changed:
@@ -160,10 +165,12 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
             _LOGGER.debug("Ignoring discovery response without usable identity")
             return
 
+        # Public identity keeps the validated wire spelling; protocol and
+        # dedup code canonicalize independently.
         device = (
             addr[0],
             addr[1],
-            mac,
+            identity,
             pack.get("name"),
             pack.get("brand"),
             pack.get("model"),

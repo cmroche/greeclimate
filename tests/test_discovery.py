@@ -13,6 +13,7 @@ from greeclimate.cipher import CipherV1
 from greeclimate.device import Device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
+from greeclimate.network import Commands, DeviceProtocol2
 from .common import (
     DEFAULT_TIMEOUT,
     DISCOVERY_REQUEST,
@@ -552,7 +553,7 @@ async def test_recovery_discovery_canonical_identity_latest_snapshot_and_port():
         }
         latest = await _recovery_observe(discovery, old_peer, metadata)
         assert discovery.devices is cache
-        assert [info.mac for info in cache] == ["02aabb000001", "020000000002"]
+        assert [info.mac for info in cache] == ["02:AA:BB:00:00:01", "020000000002"]
         assert cache[0] is latest
         assert cache[1] is other
         assert (latest.name, latest.brand, latest.model, latest.version, latest.mid) == (
@@ -565,6 +566,7 @@ async def test_recovery_discovery_canonical_identity_latest_snapshot_and_port():
                 discovery, old_peer, {**metadata, "mac": spelling}
             )
             assert cache[0] is latest
+            assert latest.mac == "02:AA:BB:00:00:01"
             assert listener.events.empty()
 
         replay = _RecoveryListener()
@@ -604,7 +606,7 @@ async def test_recovery_discovery_ip_only_source_boundary():
     assert discovery.devices is cache
     assert len(cache) == 1
     assert cache[0] is moved
-    assert (moved.mac, moved.ip, moved.port) == ("02aabb000001", "127.0.0.2", 7000)
+    assert (moved.mac, moved.ip, moved.port) == ("02AA.BB00.0001", "127.0.0.2", 7000)
     assert (old_info.ip, old_info.port) == ("127.0.0.1", 7000)
     discovery.packet_received({"pack": pack}, ("127.0.0.2", 7000))
     await asyncio.wait_for(discovery.observations.get(), DEFAULT_TIMEOUT)
@@ -660,12 +662,12 @@ async def test_recovery_discovery_rejects_invalid_packet_identity(pack):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("identity,expected", [
-    ({"mac": "02:AA:BB:00:00:01", "cid": 123}, "02aabb000001"),
-    ({"mac": "02:AA:BB:00:00:01", "cid": "different"}, "02aabb000001"),
-    ({"cid": "02-AA-BB-00-00-01"}, "02aabb000001"),
-    ({"mac": None, "cid": "02AA.BB00.0001"}, "02aabb000001"),
-    ({"mac": "", "cid": "02AA.BB00.0001"}, "02aabb000001"),
-    ({"mac": "02:00:00:00:00:00:01"}, "02000000000001"),
+    ({"mac": "02:AA:BB:00:00:01", "cid": 123}, "02:AA:BB:00:00:01"),
+    ({"mac": "02:AA:BB:00:00:01", "cid": "different"}, "02:AA:BB:00:00:01"),
+    ({"cid": "02-AA-BB-00-00-01"}, "02-AA-BB-00-00-01"),
+    ({"mac": None, "cid": "02AA.BB00.0001"}, "02AA.BB00.0001"),
+    ({"mac": "", "cid": "02AA.BB00.0001"}, "02AA.BB00.0001"),
+    ({"mac": "02:00:00:00:00:00:01"}, "02:00:00:00:00:00:01"),
 ])
 async def test_recovery_discovery_accepts_valid_identity_precedence(identity, expected):
     async with udp_peer() as peer, _recovery_discovery() as discovery:
@@ -956,3 +958,42 @@ async def test_recovery_discovery_invalid_direct_observation_preserves_cache(mac
         assert discovery.devices == [initial] and listener.events.empty()
     finally:
         discovery.close()
+
+
+@pytest.mark.asyncio
+async def test_recovery_discovery_preserves_first_observed_mac_spelling():
+    async with udp_peer() as peer, udp_peer() as new_peer, _recovery_discovery() as discovery:
+        listener = _RecoveryListener()
+        discovery.add_listener(listener)
+        info = await _recovery_observe(
+            discovery, peer, {"mac": "AA:BB:CC:11:22:33", "name": "spelling"}
+        )
+        assert info.mac == "AA:BB:CC:11:22:33"
+        assert listener.events.get_nowait() == ("found", info)
+
+        moved = await _recovery_observe(
+            discovery, new_peer, {"mac": "aa-bb-cc-11-22-33", "name": "spelling"}
+        )
+        assert len(discovery.devices) == 1
+        assert moved.mac == "AA:BB:CC:11:22:33"
+        assert listener.events.get_nowait() == ("update", moved)
+        assert discovery.devices[0] is moved
+
+        refreshed = await _recovery_observe(
+            discovery, new_peer, {"mac": "AA.BB.CC.11.22.33", "name": "renamed"}
+        )
+        assert refreshed.mac == "AA:BB:CC:11:22:33"
+        assert refreshed.name == "renamed"
+        assert listener.events.empty()
+
+        replay = _RecoveryListener()
+        await asyncio.wait_for(
+            asyncio.gather(*discovery.add_listener(replay)), DEFAULT_TIMEOUT
+        )
+        assert replay.events.get_nowait() == ("found", refreshed)
+        assert replay.events.empty()
+
+        protocol = DeviceProtocol2()
+        payload = protocol._generate_payload(Commands.BIND, discovery.devices[0], {"uid": 0})
+        assert payload["tcid"] == "aabbcc112233"
+        assert payload["pack"]["mac"] == "aabbcc112233"
