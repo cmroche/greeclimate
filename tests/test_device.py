@@ -1677,6 +1677,42 @@ async def test_recovery_conflicting_outer_bind_and_session_identities():
             await asyncio.gather(task, return_exceptions=True)
 
 
+async def test_recovery_noncanonical_public_mac_binds_canonically_and_isolates_senders():
+    async with udp_peer() as (peer, queue):
+        host, port = peer.get_extra_info("sockname")
+        device = Device(DeviceInfo(host, port, "AA:BB:CC:11:22:33", "spelling"), bind_timeout=0.05)
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        task = asyncio.create_task(device.bind(cipher=CipherV1()))
+        try:
+            request, addr = await recovery_receive(queue)
+            assert request["t"] == "bind" and request["mac"] == "aabbcc112233"
+            peer.sendto(recovery_packet(
+                {"t": "bindok", "mac": "aa:bb:cc:11:22:33", "key": RECOVERY_KEY}
+            ), addr)
+            await asyncio.wait_for(task, 2)
+            assert device.device_key == RECOVERY_KEY
+            await recovery_receive(queue, device.device_cipher)
+            peer.sendto(recovery_packet(
+                {"t": "dat", "cols": ["Pow"], "dat": [1]},
+                device.device_cipher, {"cid": "AA-BB-CC-11-22-33"},
+            ), addr)
+            assert await asyncio.wait_for(events.get(), 2) == {"Pow": 1}
+            peer.sendto(recovery_packet(
+                {"t": "dat", "cols": ["Pow"], "dat": [0]},
+                device.device_cipher, {"cid": "020000000002"},
+            ), addr)
+            peer.sendto(recovery_packet(
+                {"t": "dat", "cols": ["Pow"], "dat": [1]},
+                device.device_cipher, {"cid": "AA-BB-CC-11-22-33"},
+            ), addr)
+            assert await asyncio.wait_for(events.get(), 2) == {"Pow": 1}
+            assert events.empty()
+        finally:
+            device.close()
+            await asyncio.gather(task, return_exceptions=True)
+
+
 @pytest.mark.parametrize("stage", ["before-bind", "after-failure"])
 async def test_recovery_retired_device_cannot_reopen(stage):
     async with udp_peer() as (peer, queue):
