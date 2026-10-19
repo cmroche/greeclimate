@@ -22,7 +22,7 @@ The easiest way to grab **greeclimate** is through PyPI
 
 ## Use Gree Climate
 
-Discover caller-selected devices on the LAN and bind immediately after scanning. Some firmware requires this sequence; the library itself can also bind directly using saved identity and endpoint information.
+Discover devices on the LAN and bind immediately after scanning.
 
 ```python
 import asyncio
@@ -133,63 +133,6 @@ await device.update_state()
 Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loopback, and non-loopback `/31` and `/32` networks. `allow_loopback=True` adds loopback host addresses; non-empty `target_addresses` bypasses interface enumeration, while `None` or `[]` uses it.
 
 Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
-
-### Saved devices and caller-owned recovery
-
-No discovery object or persisted key is needed for a fresh direct bind:
-
-```python
-from greeclimate.deviceinfo import DeviceInfo
-from greeclimate.network import Response
-
-
-async def connect(info):
-    device = Device(info)
-    received = asyncio.Queue()
-    on_data = received.put_nowait
-    device.add_handler(Response.DATA, on_data)  # Register before bind's initial poll.
-    try:
-        await device.bind()
-        await device.update_state()
-        state = await asyncio.wait_for(received.get(), timeout=2)
-        return device, on_data, state
-    except BaseException:
-        device.remove_handler(Response.DATA, on_data)
-        device.close()
-        raise
-
-
-# Inside main(): values come from the caller's saved entry, not a saved key.
-saved_ip, saved_port = "192.0.2.10", 7000
-saved_mac, saved_name = "020000000001", "Office"
-info = DeviceInfo(saved_ip, saved_port, saved_mac, saved_name)
-device, on_data, state = await connect(info)
-# Availability is established by the DATA callback, not by sending a request.
-```
-
-`send()`, `update_state()`, `request_version()`, and `push_state_update()` wait for sending/draining, **not** a device response. Observe `Response.DATA` for status or `Response.RESULT` for controls with a caller-owned deadline. Fresh binding waits for an identified bind reply and triggers an initial status request. Await binding before concurrent status/control work.
-
-Keep one independent `Discovery` with a `Listener`; callbacks do not enroll or bind devices. Discovery identities are lowercase with `:`, `-`, and `.` removed. Compare them against the same canonical form in saved entries. Non-string/empty identities are discarded; child identities longer than 12 characters remain supported.
-
-- `device_found(info)` reports the first observation per MAC in that Discovery, including already-owned devices after a restart. Reconcile a known MAC's saved IP **and port** here too. An unknown MAC only offers enrollment: do not construct/bind/control it until the caller approves.
-- `device_update(info)` reports changed IP **or port** for a cached MAC. Every observation refreshes the full metadata snapshot; metadata-only changes are silent. `devices` keeps its list/order, and new listeners receive the latest snapshots.
-- For an owned device's endpoint change, stop routing work to the old Device, detach its callbacks, close it, and construct/bind a replacement from the new snapshot:
-
-```python
-# Inside the caller's serialized recovery handler, for an approved MAC:
-device.remove_handler(Response.DATA, on_data)
-device.close()
-device, on_data, state = await connect(updated_info)
-```
-
-Use the same close/replacement/fresh-bind sequence after communication failure or reboot even when the address is unchanged; an address change does not imply a changed key. Do not mutate an existing DeviceInfo to retarget a connected socket. `Device.close()` is idempotent and permanently retires that Device; later bind/status/control calls raise `DeviceNotBoundError`. It cancels only its own background work and callbacks, leaving discovery and other devices independent. Close replacements when unsuccessful too, as `connect` does above, and close successful Devices when no longer needed.
-
-A fresh-bind failure without explicit close clears provisional state and remains retryable on that object. Neither failure nor timeout runs library-owned discovery, retries, or enrollment. Keep the entry unavailable until a response; the caller chooses when to retry or scan then bind immediately. A targeted `await discovery.scan(wait_for=2, target_addresses=[IPv4Address(saved_ip)])` is available; public scans always use UDP port 7000. Closing Discovery cancels listener work and releases listeners; an explicit later search can reopen it.
-
-Binding requires a matching sender identity in inner `mac`/`cid` or outer `cid`; firmware that omits all bind identities will time out instead of being trusted by IP alone. After an identified bind, MAC-less DATA/RESULT replies remain accepted from the connected peer under the session cipher. Explicit cipher selection and automatic V1-then-V2-on-timeout behavior remain supported.
-
-Use only on a trusted LAN: CipherV1 is unauthenticated, and the existing CipherV2 decoder does **not** verify incoming GCM tags. Identity/endpoint/session checks prevent accidental cross-device routing, not malicious spoofing or every replay under a reused key. Real firmware's scan-before-bind requirements and LAN broadcast behavior depend on the hardware/network.
-
 
 ## Use Gree Emulator
 

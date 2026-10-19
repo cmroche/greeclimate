@@ -40,6 +40,10 @@ Follow the existing style: 4-space indentation, snake_case functions and variabl
 
 Tests use `pytest` with `pytest-asyncio`; `asyncio_mode = auto` is configured in `setup.cfg`. Name test files `test_*.py` and keep issue regressions in `tests/test_issues.py` when they map to reported bugs. Add coverage for state changes, packet parsing, binding behavior, and error handling when changing device or network logic.
 
+## README Guidelines
+
+Keep `README.md` focused on usage examples with concise descriptions. Update examples when behavior changes, but do not add lengthy API explanations, architecture notes, recovery guides, or publishing instructions. Put necessary detail in relevant existing documentation or the PR description instead.
+
 ## Commit & Pull Request Guidelines
 
 History follows conventional commits, for example `feat: add buzzer property`, `fix: handle missing 'val' key`, and `chore(release): 2.1.4 [skip ci]`. Use `feat:`, `fix:`, `chore:`, or another conventional type so semantic-release can classify changes.
