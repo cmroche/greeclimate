@@ -5,8 +5,10 @@ from contextlib import asynccontextmanager
 
 import pytest
 
+from greeclimate import device_profile
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
+from greeclimate.device_profile import DeviceProfile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.mid_profile import match_mid_profile
 from greeclimate.network import Response
@@ -1095,49 +1097,80 @@ def test_device_key_set_get():
 
 
 @pytest.mark.asyncio
-async def test_buzzer_default(cipher, send):
-    """Check that buzzer is enabled by default."""
+@pytest.mark.parametrize("hid,properties", [
+    ("362001064973+U-W04NV17.bin", ("Buzzer_ON_OFF",)),
+    ("362001064973+U-W04NV19.bin", ("Buzzer_ON_OFF",)),
+    ("362001065016+U-W04HMV1.05.bin", ("Buzzer_ON_OFF",)),
+    ("362001065634+U-WB04BRT13V1.50.bin", ("Buzzer_ON_OFF",)),
+    ("362001066763+U-W06A(P3)V6.04.bin", ()),
+    ("362001000762+U-CS532AE(LT)V3.33.bin", None),
+    ("362001064973+U-W04NV20.bin", None),
+    ("362001066763+U-W06A(P3)V6.05.bin", None),
+    ("362001066763+U-WB06A(P3)V6.04.bin", None),
+    ("999999999999+U-SYNTHETICV1.bin", None),
+    ("", None),
+    ("malformed", None),
+    (None, None),
+])
+@pytest.mark.parametrize("enabled", [False, True])
+async def test_buzzer_fields_follow_exact_firmware_on_every_command(hid, properties, enabled, cipher, send):
     device = await generate_device_mock_async()
-    assert device.buzzer is True
+    device.handle_state_update(hid=hid)
+    device.buzzer = enabled
+    assert send.call_count == 0
+    expected = {}
+    if not enabled and properties and "Buzzer_ON_OFF" in properties:
+        expected["Buzzer_ON_OFF"] = 1
+
+    for index, power in enumerate([True, False], start=1):
+        device.power = power
+        await device.push_state_update()
+        pack = send.call_args.args[0]["pack"]
+        assert len(pack["opt"]) == len(pack["p"]) == 1 + len(expected)
+        assert dict(zip(pack["opt"], pack["p"])) == {"Pow": int(power), **expected}
+        assert send.call_count == index
+        assert device.buzzer is enabled
 
 
 @pytest.mark.asyncio
-async def test_buzzer_disabled(cipher, send):
-    """Check that disabling buzzer injects Buzzer_ON_OFF into commands."""
+@pytest.mark.parametrize("enabled", [False, True])
+async def test_buzzer_ctrl_only_profile_does_not_send_on_off(monkeypatch, enabled, cipher, send):
+    hid = "999999999999+U-SYNTHETICV1.bin"
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
+        DeviceProfile("999999999999", None, buzzer_properties=("BuzzerCtrl",), exact_hid=hid),
+    ))
     device = await generate_device_mock_async()
-
+    device.handle_state_update(hid=hid)
+    device.buzzer = enabled
     device.power = True
-    device.buzzer = False
     await device.push_state_update()
-    assert send.call_count == 1
-    assert "Buzzer_ON_OFF" in send.call_args_list[0].args[0]["pack"]["opt"]
-    assert not device.buzzer
-
-    send.reset_mock()
-
-    device.power = False
-    device.buzzer = True
-    await device.push_state_update()
-    assert send.call_count == 1
-    assert "Buzzer_ON_OFF" not in send.call_args_list[0].args[0]["pack"]["opt"]
-    assert device.buzzer
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"Pow": 1, "BuzzerCtrl": int(enabled)}
+    assert pack["opt"].count("BuzzerCtrl") == 1
 
 
 @pytest.mark.asyncio
-async def test_buzzer_disabled_every_command(cipher, send):
-    """Check that Buzzer_ON_OFF is sent with every command when disabled."""
+@pytest.mark.parametrize("direct_assignment", [False, True])
+async def test_buzzer_profile_cache_follows_hid_not_mid(direct_assignment, cipher, send):
     device = await generate_device_mock_async()
+    device.device_info.mid = "9300"
     device.buzzer = False
-
-    device.power = True
-    await device.push_state_update()
-    assert "Buzzer_ON_OFF" in send.call_args_list[0].args[0]["pack"]["opt"]
-
-    send.reset_mock()
-
-    device.mode = 1
-    await device.push_state_update()
-    assert "Buzzer_ON_OFF" in send.call_args_list[0].args[0]["pack"]["opt"]
+    transitions = [
+        ("362001066763+U-W06A(P3)V6.04.bin", {}),
+        ("362001065634+U-WB04BRT13V1.50.bin", {"Buzzer_ON_OFF": 1}),
+        ("362001066763+U-W06A(P3)V6.05.bin", {}),
+        ("362001064973+U-W04NV17.bin", {"Buzzer_ON_OFF": 1}),
+        ("362001066763+U-W06A(P3)V6.04.bin", {}),
+    ]
+    for index, (hid, expected) in enumerate(transitions):
+        if direct_assignment:
+            device.hid = hid
+        else:
+            device.handle_state_update(hid=hid)
+        device.power = index % 2 == 0
+        await device.push_state_update()
+        pack = send.call_args.args[0]["pack"]
+        assert dict(zip(pack["opt"], pack["p"])) == {"Pow": int(index % 2 == 0), **expected}
 
 
 @pytest.mark.asyncio

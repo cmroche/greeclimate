@@ -1,5 +1,7 @@
-"""Firmware-code matching with numeric minimum-version precedence."""
+"""Firmware-code and exact-build matching with independent capability evidence."""
 from itertools import permutations
+import json
+from pathlib import Path
 
 import pytest
 
@@ -10,6 +12,9 @@ from tests.test_device import get_mock_info
 
 KNOWN_HID = "362001000762+U-CS532AE(LT)V3.33.bin"
 CODE = "362001000762"
+BUZZER_PROFILES = json.loads(
+    (Path(__file__).parent / "fixtures" / "buzzer_capabilities.json").read_text(encoding="utf-8")
+)["profiles"]
 
 
 @pytest.mark.parametrize("hid", [
@@ -96,3 +101,74 @@ async def test_only_reported_hid_selects_versioned_quirks(monkeypatch):
     assert device.hid == hid
     device.version = "0"
     assert device.current_temperature == 5
+
+
+@pytest.mark.parametrize("row", BUZZER_PROFILES, ids=lambda row: row["hid"])
+def test_inspected_buzzer_profiles_preserve_temperature_traits(row):
+    profile = match_device_profile(row["hid"])
+    assert profile is not None
+    assert profile.exact_hid == row["hid"]
+    assert profile.buzzer_properties == tuple(row["buzzer_properties"])
+    assert profile.temperature_offset == row["temperature_offset"]
+    assert profile.relearn_temperature_offset is row["relearn_temperature_offset"]
+
+
+@pytest.mark.parametrize("order", list(permutations(range(3))))
+def test_exact_build_outranks_code_and_version_floor(monkeypatch, order):
+    profiles = (
+        DeviceProfile(CODE, 40, relearn_temperature_offset=True),
+        DeviceProfile(CODE, 40, min_version="3"),
+        DeviceProfile(CODE, None, buzzer_properties=(), exact_hid=KNOWN_HID),
+    )
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", tuple(profiles[i] for i in order))
+    assert match_device_profile(KNOWN_HID) is profiles[2]
+    assert match_device_profile(KNOWN_HID.replace("3.33", "3.34")) is profiles[1]
+
+
+@pytest.mark.parametrize("row", BUZZER_PROFILES, ids=lambda row: row["hid"])
+@pytest.mark.parametrize("boundary", ["future", "equivalent_version", "module", "prefix"])
+def test_buzzer_capability_does_not_escape_inspected_build(row, boundary):
+    hid = row["hid"]
+    if boundary == "future":
+        hid = hid.rsplit("V", 1)[0] + "V999.bin"
+    elif boundary == "equivalent_version":
+        hid = hid[:-4] + ".0.bin"
+    elif boundary == "module":
+        hid = hid.replace("+U-", "+U-OTHER")
+    else:
+        hid = hid.replace("+U-", "+")
+    profile = match_device_profile(hid)
+    assert profile is None or profile.buzzer_properties is None
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("hid,expected", [
+    ("362001064973+U-W04NV17.bin", [5, 25, 25]),
+    ("362001064973+U-W04NV19.bin", [5, 25, 25]),
+    ("362001065016+U-W04HMV1.05.bin", [5, 25, -15]),
+])
+async def test_exact_buzzer_profile_keeps_existing_temperature_calibration(hid, expected):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid=hid, TemUn=0, TemRec=0)
+    for raw, temperature in zip([45, 65, 25], expected):
+        device.handle_state_update(TemSen=raw)
+        assert device.current_temperature == temperature
+        assert device.raw_properties["TemSen"] == raw
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("hid", [
+    "362001065634+U-WB04BRT13V1.50.bin",
+    "362001066763+U-W06A(P3)V6.04.bin",
+])
+@pytest.mark.parametrize("samples,expected", [
+    ([35, 45], [35, 45]),
+    ([45, 35], [5, -5]),
+    ([65, 25], [25, -15]),
+])
+async def test_buzzer_only_profile_preserves_guessed_and_learned_temperature(hid, samples, expected):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(hid=hid, TemUn=0, TemRec=0)
+    for raw, temperature in zip(samples, expected):
+        device.handle_state_update(TemSen=raw)
+        assert device.current_temperature == temperature

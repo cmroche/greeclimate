@@ -115,6 +115,31 @@ device.quiet = True
 await device.push_state_update()
 ```
 
+Request a muted power-on command where supported; wait for the reported firmware HID first.
+
+```python
+from greeclimate.network import Response
+
+hid_received = asyncio.Event()
+
+def on_data(data):
+    if data.get("hid"):
+        hid_received.set()
+
+device.add_handler(Response.DATA, on_data)
+try:
+    await device.request_version()
+    await asyncio.wait_for(hid_received.wait(), timeout=5)
+finally:
+    device.remove_handler(Response.DATA, on_data)
+
+device.buzzer = False
+device.power = True
+await device.push_state_update()
+```
+
+`buzzer` is a local preference: changing it alone sends nothing. Buzzer fields are sent only when explicitly enabled by a matching [exact-build profile](docs/OFFSETS.md#exact-build-lan-buzzer-properties); absent, unknown or unsupported profiles add none. Recognized fields do not guarantee physical muting.
+
 Set a dehumidifier's target relative humidity.
 
 ```python

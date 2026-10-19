@@ -456,12 +456,14 @@ class Device(DeviceProtocol2, Taskable):
                     Props.TEMP_UNIT.value
                 )
 
-        if not self._buzzer:
+        profile = self._device_profile
+        buzzer_properties = (profile.buzzer_properties or ()) if profile is not None else ()
+        if not self._buzzer and "Buzzer_ON_OFF" in buzzer_properties:
             self._logger.debug("Disabling buzzer for command")
             props["Buzzer_ON_OFF"] = 1
 
-        # Newer firmwares are using this property to control the buzzer
-        props["BuzzerCtrl"] = 1 if self._buzzer else 0
+        if "BuzzerCtrl" in buzzer_properties:
+            props["BuzzerCtrl"] = 1 if self._buzzer else 0
 
         try:
             await self.send(self.create_command_message(self.device_info, **props))
@@ -583,7 +585,7 @@ class Device(DeviceProtocol2, Taskable):
         if self._learned_temperature_offset is not None:
             return self._learned_temperature_offset
         profile = self._device_profile
-        if profile is not None:
+        if profile is not None and profile.temperature_offset is not None:
             if profile.relearn_temperature_offset and self._guessed_temperature_offset is not None:
                 return self._guessed_temperature_offset
             return profile.temperature_offset
