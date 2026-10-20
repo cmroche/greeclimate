@@ -1,3 +1,10 @@
+## [3.5.3](https://github.com/cmroche/greeclimate/compare/v3.5.2...v3.5.3) (2026-10-20)
+
+
+### Bug Fixes
+
+* **device:** gate buzzer commands by firmware profile ([#209](https://github.com/cmroche/greeclimate/issues/209)) ([a954e24](https://github.com/cmroche/greeclimate/commit/a954e24c52c53b7efade1480656d799c6093f11d))
+
 ## [3.5.2](https://github.com/cmroche/greeclimate/compare/v3.5.1...v3.5.2) (2026-10-19)
 
 
