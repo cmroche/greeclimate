@@ -207,14 +207,6 @@ Maybe the reason you're here is that you're working with Home Assistant and your
 
 There are a few tools to help investigate the various compatibility problems that Gree based devices present.
 
-Malformed DATA/RESULT replies are ignored before updating state or invoking handlers.
-Property names must be nonempty strings (excluding the handler's reserved `self`
-argument), and property/value arrays must be lists of equal length. RESULT replies
-use nonempty `val`, otherwise `p`, including firmware that omits or returns
-empty/null `val`. Unknown property names, duplicate names (last value wins), and
-firmware-specific values remain supported. Application handler exceptions are not
-suppressed.
-
 Below is a series of tests, please run them and use their output in issue reports. Additionally using [Wireshark](https://www.wireshark.org) or tcpdump to capture the network traffic can greatly assist in investigations.
 
 ### Setup
