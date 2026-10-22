@@ -126,6 +126,8 @@ TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_TABLE_F, TE
 HUMIDITY_MIN = 30
 HUMIDITY_MAX = 80
 
+_TEMPERATURE_PROPERTIES = (Props.TEMP_SET.value, Props.TEMP_BIT.value, Props.TEMP_UNIT.value)
+
 
 class Device(DeviceProtocol2, Taskable):
     """Class representing a physical device, it's state and properties.
@@ -190,7 +192,7 @@ class Device(DeviceProtocol2, Taskable):
         self._learned_temperature_offset: Optional[int] = None
         self._guessed_temperature_offset: Optional[int] = None
         self._properties = {}
-        self._dirty = []
+        self._dirty = {}
         self._buzzer = True
 
         self._valid_state: asyncio.Event = asyncio.Event()
@@ -448,15 +450,17 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
 
+        pending = self._dirty.copy()
         props = {}
-        for name in self._dirty:
-            value = self._properties.get(name)
+        for name, value in pending.items():
             self._logger.debug("Sending remote state update %s -> %s", name, value)
             props[name] = value
             if name == Props.TEMP_SET.value:
-                props[Props.TEMP_BIT.value] = self._properties.get(Props.TEMP_BIT.value)
-                props[Props.TEMP_UNIT.value] = self._properties.get(
-                    Props.TEMP_UNIT.value
+                props[Props.TEMP_BIT.value] = pending.get(
+                    Props.TEMP_BIT.value, self._properties.get(Props.TEMP_BIT.value)
+                )
+                props[Props.TEMP_UNIT.value] = pending.get(
+                    Props.TEMP_UNIT.value, self._properties.get(Props.TEMP_UNIT.value)
                 )
 
         profile = self._device_profile
@@ -474,7 +478,14 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
         else:
-            self._dirty.clear()
+            temperature_changed = any(
+                self._dirty.get(name) != pending.get(name) for name in _TEMPERATURE_PROPERTIES
+            )
+            for name, value in pending.items():
+                if temperature_changed and name in _TEMPERATURE_PROPERTIES:
+                    continue
+                if self._dirty.get(name) == value:
+                    self._dirty.pop(name, None)
 
 
     def __eq__(self, other):
@@ -501,12 +512,13 @@ class Device(DeviceProtocol2, Taskable):
         if not self._properties:
             self._properties = {}
 
-        if self._properties.get(name.value) == value:
+        if self._properties.get(name.value) == value and (
+            name.value not in self._dirty or self._dirty[name.value] == value
+        ):
             return
         else:
             self._properties[name.value] = value
-            if name.value not in self._dirty:
-                self._dirty.append(name.value)
+            self._dirty[name.value] = value
 
     @property
     def has_valid_state(self) -> bool:
@@ -567,6 +579,12 @@ class Device(DeviceProtocol2, Taskable):
         else:
             validate(value)
             self.set_property(Props.TEMP_SET, int(value))
+
+        if Props.TEMP_SET.value in self._dirty or Props.TEMP_BIT.value in self._dirty:
+            # A target and its encoding must survive reports and sends as one command.
+            for name in _TEMPERATURE_PROPERTIES:
+                self._dirty.setdefault(name, self._properties.get(name))
+            self._dirty[Props.TEMP_UNIT.value] = self.temperature_units
 
     @property
     def temperature_units(self) -> Optional[int]:
