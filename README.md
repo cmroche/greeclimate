@@ -24,8 +24,6 @@ The easiest way to grab **greeclimate** is through PyPI
 
 Discover devices on the LAN and bind immediately after scanning.
 
-CipherV2 (AES-GCM) replies require a valid authentication tag; missing, malformed or mismatched tags are discarded before discovery, binding or state callbacks. Direct cipher callers must use `cipher.decrypt(pack, tag)` for V2; V1 remains tag-free. Use a trusted LAN: tag verification does not fix Gree's fixed nonce or public pre-bind keys.
-
 ```python
 import asyncio
 
