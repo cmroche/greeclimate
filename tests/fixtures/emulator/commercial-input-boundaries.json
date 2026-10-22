@@ -4,7 +4,7 @@
   "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
   "evidence": {
     "native_sources": [
-      "commercial-nul-input_research.json"
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-nul-input_research.json"
     ],
     "first_request": "Exact ciphertext/envelope from independent native complete command capture; not regenerated from emulator/client. Same-RAM native next-status fixture proves controls1/1/24/3.",
     "malformed_requests": "Independent PyCryptodome construction: doubleNUL, tripleNUL, embeddedNUL+junk and NUL+space; must drop before command Pow0 mutation. Following ordinary status must still reportPow1.",

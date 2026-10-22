@@ -3,7 +3,7 @@
   "mid": "10011",
   "source_sha256": "0d5ee6fda1678084e1fa29e6267941afae304090b5b97f7b4264f9cee7fd461b",
   "evidence": {
-    "native": "wb-native_research.json exact source runtime identity producer0x9b01ef34, UART acquisition0x9b01e3c0, encrypted dispatcher0x9b0230e8 scan/bind/status/cmd and SDK relocation-masked AES-ECB byte match. All19 control names independently accepted for this MID.",
+    "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/wb-native_research.json exact source runtime identity producer0x9b01ef34, UART acquisition0x9b01e3c0, encrypted dispatcher0x9b0230e8 scan/bind/status/cmd and SDK relocation-masked AES-ECB byte match. All19 control names independently accepted for this MID.",
     "model": "Controls, ranges, floors, sensor bias40 and temperature are explicitly synthetic. Unknown/unmodelled status fields are omitted; unsupported commands are rejected atomically. Native packets with terminal NUL succeed; accepting normal JSON without NUL is intentional safe-parser behavior, not native bug-free compatibility."
   },
   "device": {

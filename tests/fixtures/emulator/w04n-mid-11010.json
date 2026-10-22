@@ -3,7 +3,7 @@
   "mid": "11010",
   "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
   "evidence": {
-    "protocol": "Native ARM Thumb standalone LAN0x802fd0c with exact runtime MID supplied both core+0x324 and LAN+0xd8; scan,bind0x802ea38,cmd0x803156c,status0x8031350,outer0x802fbc0 and AES PKCS7 wrappers executed. JSON/string/RTOS/platform-version/ROM AES primitives are boundaries as in w04n-native_research.json. No emulator/client expected-output imports.",
+    "protocol": "Native ARM Thumb standalone LAN0x802fd0c with exact runtime MID supplied both core+0x324 and LAN+0xd8; scan,bind0x802ea38,cmd0x803156c,status0x8031350,outer0x802fbc0 and AES PKCS7 wrappers executed. JSON/string/RTOS/platform-version/ROM AES primitives are boundaries as in https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/w04n-native_research.json. No emulator/client expected-output imports.",
     "classification": "Exact AC-category/default-column branches0x802699c/0x802df3c independently native-executed in catalog evidence. Runtime class30000 finite AC map selected; no non-AC MIDs included. Non-default pointer for11f00..02 retained in classification, not conflated with an automatic default10001 fallback.",
     "appliance": "User-approved synthetic AC: physical mode/fan/cache transformations deliberately bypassed. Selected shared-model cached scalar values injected before status. This fixture proves exact standalone LAN routing/metadata for this explicit MID, not retail identity or mainboard fidelity.",
     "expanded_sha256": "9d2ce9192017933bcdf6b61995b225cae896a7e39c5959ea0c8bd91d6003693b",

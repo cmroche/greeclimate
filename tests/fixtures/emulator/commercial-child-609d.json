@@ -4,7 +4,7 @@
   "initial_state": {},
   "evidence": {
     "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
-    "native": "commercial-additional-routes_research.json: actual router, complete scan, enumeration and status/command parser/builders for this exact MID.",
+    "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-additional-routes_research.json: actual router, complete scan, enumeration and status/command parser/builders for this exact MID.",
     "model": "Literal synthetic controls; room/ambient24C and target24C keep the selected InTem field stationary. Expected packets are native shapes plus explicit model values, not runtime-generated."
   },
   "children": [
