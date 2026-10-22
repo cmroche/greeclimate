@@ -8,14 +8,11 @@ from typing import Optional, Tuple
 class MidProfile:
     mid: Optional[str]
     status_columns: Tuple[str, ...]
+    family: Optional[str] = None
 
 
 # Unknown device type (fallback for missing or unmatched MID).
-FALLBACK_MID_PROFILE = MidProfile(None, (
-    "Pow", "Mod", "Dwet", "DwatSen", "Dfltr", "DwatFul", "Dmod", "SetTem", "TemSen", "TemUn",
-    "TemRec", "WdSpd", "Air", "Blo", "Health", "SwhSlp", "SlpMod", "Lig", "SwingLfRig", "SwUpDn",
-    "Quiet", "Tur", "StHt", "SvSt", "HeatCoolType",
-))
+FALLBACK_MID_PROFILE = MidProfile(None, ("hid",))
 
 
 # docs/MIDS.md records polling presets, not exhaustive hardware capabilities.
@@ -24,33 +21,33 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("0001", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur",
-    )),
+    ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("10f01", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "WdSpd", "Quiet", "Tur",
-    )),
+    ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("10f02", (
         "Pow", "Mod", "SetTem", "TemRec", "TemUn", "WdSpd", "Quiet", "Add0.5", "ModelType",
         "TemSen", "Tur",
-    )),
+    ), family="air_conditioner"),
     # U-Match air conditioner.
     MidProfile("302b", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr", "AutoSetTem", "RemoteLock", "APPNotCtrl",
         "LowDeHumi", "Omod",
-    )),
+    ), family="air_conditioner"),
     # U-Match air conditioner.
     MidProfile("3018", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr",
-    )),
+    ), family="air_conditioner"),
     # U-Match air conditioner.
     MidProfile("3019", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr", "hid", "GoOut", "LowDeHumi",
-    )),
+    ), family="air_conditioner"),
     # U-Match air conditioner.
     MidProfile("3027", (
         "Mod", "SetDeciTem", "WdSpd", "MSysStatus", "TemUn", "FClRes", "CoolSvStTemMinD",
@@ -61,11 +58,11 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("3062", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr", "hid", "GoOut", "LowDeHumi",
-    )),
+    ), family="air_conditioner"),
     # Commercial air conditioner.
     MidProfile("4005", (
         "Pow", "Mod", "SetTem", "TemRec", "TemUn", "RemoteLock", "WdSpd", "Quiet",
-    )),
+    ), family="air_conditioner"),
     # Zone controller.
     MidProfile("5000", (
         "Pow", "Mod", "StTem", "WdSpd", "Dry", "EnSvSt", "StFahFlg", "ColdMod", "HeatSvStTemMax",
@@ -134,17 +131,17 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("10001", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur", "TemSen", "hid",
-    )),
+    ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("10002", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name", "Add0.5",
         "ModelType", "TemSen", "WdSpd", "Quiet", "Tur",
-    )),
+    ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("10007", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur", "TemSen", "hid",
-    )),
+    ), family="air_conditioner"),
     # Unknown device type.
     MidProfile("11000", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "AllErr", "JFErrorCode",
@@ -153,11 +150,11 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Air conditioner.
     MidProfile("11001", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
-    )),
+    ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("11002", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
-    )),
+    ), family="air_conditioner"),
     # Unknown device type.
     MidProfile("11005", (
         "Pow", "Mod", "SetTem", "WdSpd", "Add0.5", "Air", "name", "TemUn", "TemRec", "StHt",
@@ -170,55 +167,55 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Window air conditioner.
     MidProfile("12000", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "host", "name",
-    )),
+    ), family="air_conditioner"),
     # Window air conditioner.
     MidProfile("12001", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "AllErr",
         "ModelType",
-    )),
+    ), family="air_conditioner"),
     # Window air conditioner.
     MidProfile("12002", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "AllErr",
         "ModelType",
-    )),
+    ), family="air_conditioner"),
     # Window air conditioner.
     MidProfile("12003", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "AllErr",
-    )),
+    ), family="air_conditioner"),
     # Mobile air conditioner.
     MidProfile("13000", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType",
-    )),
+    ), family="air_conditioner"),
     # Dehumidifier.
     MidProfile("13800", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr",
-    )),
+    ), family="dehumidifier"),
     # Dehumidifier.
     MidProfile("13802", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr", "TemSen",
-    )),
+    ), family="dehumidifier"),
     # Dehumidifier.
     MidProfile("13803", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr", "TemSen", "DwatFul", "vender",
-    )),
+    ), family="dehumidifier"),
     # Dehumidifier.
     MidProfile("13804", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr", "TemSen", "DwatFul",
-    )),
+    ), family="dehumidifier"),
     # Dehumidifier.
     MidProfile("13805", (
         "Pow", "Dmod", "Dwet", "WdSpd", "DwatFul", "Lig", "SwUpDn", "Health", "Quiet", "PM2P5",
         "airQlt", "DwatSen", "ChildLock", "AppTimer", "AllErr", "ModelType", "Dfltr",
-    )),
+    ), family="dehumidifier"),
     # Dehumidifier.
     MidProfile("13806", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr", "TemSen", "DwatFul", "vender",
-    )),
+    ), family="dehumidifier"),
     # RV air conditioner.
     MidProfile("15000", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "host", "name",
-    )),
+    ), family="air_conditioner"),
     # Unknown device type.
     MidProfile("82000", (
         "subSize", "AllPow",
@@ -236,7 +233,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("809032", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur",
-    )),
+    ), family="air_conditioner"),
     # Air cleaner.
     MidProfile("828100", (
         "Pow", "PM2P5", "mode", "wspd", "light", "wipm25", "wopm25", "estate",

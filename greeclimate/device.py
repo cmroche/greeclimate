@@ -2,12 +2,11 @@ import asyncio
 import enum
 import logging
 import re
-import typing
 from asyncio import AbstractEventLoop
 from collections.abc import Sequence
 from copy import copy
 from enum import IntEnum, unique
-from typing import Union, Optional, Any
+from typing import Union, Optional, Any, List, Dict
 
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo, _canonical_mac
@@ -106,28 +105,6 @@ class DehumidifierMode(IntEnum):
     AnionOnly = 9
 
 
-def generate_temperature_record(temp_f):
-    temSet = round((temp_f - 32.0) * 5.0 / 9.0)
-    temRec = (int)((((temp_f - 32.0) * 5.0 / 9.0) - temSet) > 0)
-    return {"f": temp_f, "temSet": temSet, "temRec": temRec}
-
-
-TEMP_MIN = 8
-TEMP_MAX = 30
-TEMP_OFFSET = 40
-TEMP_SENSOR_MIN = -20
-TEMP_SENSOR_MAX = 50
-TEMP_MIN_F = 46
-TEMP_MAX_F = 86
-TEMP_MIN_TABLE = -60
-TEMP_MAX_TABLE = 60
-TEMP_MIN_TABLE_F = -76
-TEMP_MAX_TABLE_F = 140
-TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_TABLE_F, TEMP_MAX_TABLE_F + 1)]
-HUMIDITY_MIN = 30
-HUMIDITY_MAX = 80
-
-
 def _property_name(name: Union[str, enum.Enum]) -> str:
     if isinstance(name, enum.Enum):
         name = name.value
@@ -144,38 +121,7 @@ _TEMPERATURE_PROPERTIES = (Props.TEMP_SET.value, Props.TEMP_BIT.value, Props.TEM
 
 
 class Device(DeviceProtocol2, Taskable):
-    """Class representing a physical device, it's state and properties.
-
-    Devices can freshly bind using saved DeviceInfo without discovery. Some firmware
-    requires a caller-initiated scan first. Explicit close retires the object; callers
-    replace it and freshly bind for recovery. See `bind` for key-supplied semantics.
-
-    Once a device is bound occasionally call `update_state` to request and update state from
-    the HVAC, as it is possible that it changes state from other sources.
-
-    Attributes:
-        power: A boolean indicating if the unit is on or off
-        mode: An int indicating operating mode, see `Mode` enum for possible values
-        target_temperature: The target temperature, ignore if in Auto, Fan or Steady Heat mode
-        temperature_units: An int indicating unit of measurement, see `TemperatureUnits` enum for possible values
-        current_temperature: The current temperature
-        fan_speed: An int indicating fan speed, see `FanSpeed` enum for possible values
-        fresh_air: A boolean indicating if fresh air valve is open, if present
-        xfan: A boolean to enable the fan to dry the coil, only used for cool and dry modes
-        anion: A boolean to enable the ozone generator, if present
-        sleep: A boolean to enable sleep mode, which adjusts temperature over time
-        light: A boolean to enable the light on the unit, if present
-        horizontal_swing: An int to control the horizontal blade position, see `HorizontalSwing` enum for possible values
-        vertical_swing: An int to control the vertical blade position, see `VerticalSwing` enum for possible values
-        quiet: A boolean to enable quiet operation
-        turbo: A boolean to enable turbo operation (heat or cool faster initially)
-        steady_heat: When enabled unit will maintain a target temperature of 8 degrees C
-        power_save: A boolen to enable power save operation
-        target_humidity: An int to set the target relative humidity
-        current_humidity: The current relative humidity
-        clean_filter: A bool to indicate the filter needs cleaning
-        water_full: A bool to indicate the water tank is full
-    """
+    """Shared binding, state cache and transport lifecycle."""
 
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         """Initialize the device object
@@ -191,6 +137,7 @@ class Device(DeviceProtocol2, Taskable):
         Taskable.__init__(self, loop)
         self._logger = logging.getLogger(__name__)
         self.device_info: DeviceInfo = device_info
+        self._mid_profile = match_mid_profile(device_info.mid if device_info is not None else None)
         
         self._bind_timeout = bind_timeout
         self._closed = False
@@ -203,11 +150,8 @@ class Device(DeviceProtocol2, Taskable):
         self.version = None
         self._matched_hid = None
         self._matched_profile: Optional[DeviceProfile] = None
-        self._learned_temperature_offset: Optional[int] = None
-        self._guessed_temperature_offset: Optional[int] = None
         self._properties = {}
         self._dirty = {}
-        self._buzzer = True
 
         self._valid_state: asyncio.Event = asyncio.Event()
         self._valid_state.clear()
@@ -409,13 +353,9 @@ class Device(DeviceProtocol2, Taskable):
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
-        if columns is None:
-            profile = match_mid_profile(self.device_info.mid)
-            props = list(profile.status_columns)
-            if not self.hid and "hid" not in props:
-                props.append("hid")
-        else:
-            props = columns
+        props = self._status_columns() if columns is None else columns
+        if columns is None and not self.hid and "hid" not in props:
+            props.append("hid")
 
         try:
             await self.send(self.create_status_message(self.device_info, *props))
@@ -437,28 +377,7 @@ class Device(DeviceProtocol2, Taskable):
                 self._hid_logged = True
 
         self._properties.update(kwargs)
-
-        if Props.TEMP_SENSOR.value in kwargs:
-            profile = self._device_profile
-            relearn = profile is not None and profile.relearn_temperature_offset
-            temp = kwargs[Props.TEMP_SENSOR.value]
-            # shortcut: ranges were checked on only some firmware versions; use version-specific profiles if others differ.
-            minimum = 0 if relearn else TEMP_SENSOR_MIN
-            plain_limit = TEMP_OFFSET if relearn else TEMP_SENSOR_MIN + TEMP_OFFSET
-            # shortcut: detection assumes indoor temperatures of -20..50 C; revise if real temperatures exceed this range.
-            if (
-                (relearn or self._learned_temperature_offset is None)
-                and type(temp) is int
-                and minimum <= temp <= TEMP_SENSOR_MAX + TEMP_OFFSET
-                and temp != 0
-            ):
-                if temp < plain_limit:
-                    self._learned_temperature_offset = 0
-                elif temp > TEMP_SENSOR_MAX:
-                    self._learned_temperature_offset = TEMP_OFFSET
-                elif self._learned_temperature_offset is None and self._guessed_temperature_offset is None:
-                    self._guessed_temperature_offset = 0 if temp < TEMP_OFFSET else TEMP_OFFSET
-
+        self._handle_properties_updated(kwargs)
         self._valid_state.set()
 
     async def push_state_update(self):
@@ -474,26 +393,7 @@ class Device(DeviceProtocol2, Taskable):
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
 
         pending = self._dirty.copy()
-        props = {}
-        for name, value in pending.items():
-            self._logger.debug("Sending remote state update %s -> %s", name, value)
-            props[name] = value
-            if name == Props.TEMP_SET.value:
-                props[Props.TEMP_BIT.value] = pending.get(
-                    Props.TEMP_BIT.value, self._properties.get(Props.TEMP_BIT.value)
-                )
-                props[Props.TEMP_UNIT.value] = pending.get(
-                    Props.TEMP_UNIT.value, self._properties.get(Props.TEMP_UNIT.value)
-                )
-
-        profile = self._device_profile
-        buzzer_properties = (profile.buzzer_properties or ()) if profile is not None else ()
-        if not self._buzzer and "Buzzer_ON_OFF" in buzzer_properties:
-            self._logger.debug("Disabling buzzer for command")
-            props["Buzzer_ON_OFF"] = 1
-
-        if "BuzzerCtrl" in buzzer_properties:
-            props["BuzzerCtrl"] = 1 if self._buzzer else 0
+        props = self._command_properties()
 
         try:
             await self.send(self.create_command_message(self.device_info, **props))
@@ -544,255 +444,21 @@ class Device(DeviceProtocol2, Taskable):
         return self._valid_state.is_set()
 
     @property
-    def power(self) -> Optional[bool]:
-        prop = self.get_property(Props.POWER)
-        return bool(prop) if prop is not None else None
-
-    @power.setter
-    def power(self, value: int):
-        self.set_property(Props.POWER, int(value))
-
-    @property
-    def mode(self) -> Optional[int]:
-        return self.get_property(Props.MODE)
-
-    @mode.setter
-    def mode(self, value: int):
-        self.set_property(Props.MODE, int(value))
-
-    def _convert_to_units(self, value, bit):
-        if self.temperature_units != TemperatureUnits.F.value:
-            return value
-
-        if value < TEMP_MIN_TABLE or value > TEMP_MAX_TABLE:
-            raise ValueError(f"Specified temperature {value} is out of range.")
-
-        matching_temset = [t for t in TEMP_TABLE if t["temSet"] == value]
-
-        try:
-            f = next(t for t in matching_temset if t["temRec"] == bit)
-        except StopIteration:
-            f = matching_temset[0]
-
-        return f["f"]
-
-    @property
-    def target_temperature(self) -> Optional[int]:
-        temset = self.get_property(Props.TEMP_SET)
-        temrec = self.get_property(Props.TEMP_BIT)
-        if temset is None or temrec is None:
-            return None
-        return self._convert_to_units(temset, temrec)
-
-    @target_temperature.setter
-    def target_temperature(self, value: int):
-        def validate(val):
-            if val > TEMP_MAX or val < TEMP_MIN:
-                raise ValueError(f"Specified temperature {val} is out of range.")
-
-        if self.temperature_units == 1:
-            rec = generate_temperature_record(value)
-            validate(rec["temSet"])
-            self.set_property(Props.TEMP_SET, rec["temSet"])
-            self.set_property(Props.TEMP_BIT, rec["temRec"])
-        else:
-            validate(value)
-            self.set_property(Props.TEMP_SET, int(value))
-
-        if Props.TEMP_SET.value in self._dirty or Props.TEMP_BIT.value in self._dirty:
-            # A target and its encoding must survive reports and sends as one command.
-            for name in _TEMPERATURE_PROPERTIES:
-                self._dirty.setdefault(name, self._properties.get(name))
-            self._dirty[Props.TEMP_UNIT.value] = self.temperature_units
-
-    @property
-    def temperature_units(self) -> Optional[int]:
-        return self.get_property(Props.TEMP_UNIT)
-
-    @temperature_units.setter
-    def temperature_units(self, value: int):
-        self.set_property(Props.TEMP_UNIT, int(value))
-
-    @property
     def _device_profile(self) -> Optional[DeviceProfile]:
         if self.hid != self._matched_hid:
             self._matched_profile = match_device_profile(self.hid)
             self._matched_hid = self.hid
         return self._matched_profile
 
-    @property
-    def _temperature_offset(self) -> Optional[int]:
-        if self._learned_temperature_offset is not None:
-            return self._learned_temperature_offset
-        profile = self._device_profile
-        if profile is not None and profile.temperature_offset is not None:
-            if profile.relearn_temperature_offset and self._guessed_temperature_offset is not None:
-                return self._guessed_temperature_offset
-            return profile.temperature_offset
-        return self._guessed_temperature_offset
+    def _status_columns(self) -> List[str]:
+        return list(self._mid_profile.status_columns)
 
-    @property
-    def current_temperature(self) -> Optional[int]:
-        prop = self.get_property(Props.TEMP_SENSOR)
-        bit = self.get_property(Props.TEMP_BIT)
-        offset = self._temperature_offset
-        profile = self._device_profile
-        minimum = 0 if profile is not None and profile.relearn_temperature_offset else TEMP_SENSOR_MIN
-        if (
-            offset is not None
-            and type(prop) is int
-            and minimum <= prop <= TEMP_SENSOR_MAX + TEMP_OFFSET
-            and (prop != 0 or offset == 0)
-        ):
-            bit = bit if bit is not None else 0
-            try:
-                return self._convert_to_units(prop - offset, bit)
-            except ValueError:
-                logging.warning("Converting unexpected set temperature value %s", prop)
+    def _command_properties(self) -> Dict[str, Any]:
+        props = {}
+        for name, value in self._dirty.items():
+            self._logger.debug("Sending remote state update %s -> %s", name, value)
+            props[name] = value
+        return props
 
-        return None
-
-    @property
-    def fan_speed(self) -> Optional[int]:
-        return self.get_property(Props.FAN_SPEED)
-
-    @fan_speed.setter
-    def fan_speed(self, value: int):
-        self.set_property(Props.FAN_SPEED, int(value))
-
-    @property
-    def fresh_air(self) -> Optional[bool]:
-        prop = self.get_property(Props.FRESH_AIR)
-        return bool(prop) if prop is not None else None
-
-    @fresh_air.setter
-    def fresh_air(self, value: bool):
-        self.set_property(Props.FRESH_AIR, int(value))
-
-    @property
-    def xfan(self) -> Optional[bool]:
-        prop = self.get_property(Props.XFAN)
-        return bool(prop) if prop is not None else None
-
-    @xfan.setter
-    def xfan(self, value: bool):
-        self.set_property(Props.XFAN, int(value))
-
-    @property
-    def anion(self) -> Optional[bool]:
-        prop = self.get_property(Props.ANION)
-        return bool(prop) if prop is not None else None
-
-    @anion.setter
-    def anion(self, value: bool):
-        self.set_property(Props.ANION, int(value))
-
-    @property
-    def sleep(self) -> Optional[bool]:
-        prop = self.get_property(Props.SLEEP)
-        return bool(prop) if prop is not None else None
-
-    @sleep.setter
-    def sleep(self, value: bool):
-        self.set_property(Props.SLEEP, int(value))
-        self.set_property(Props.SLEEP_MODE, int(value))
-
-    @property
-    def light(self) -> Optional[bool]:
-        prop = self.get_property(Props.LIGHT)
-        return bool(prop) if prop is not None else None
-
-    @light.setter
-    def light(self, value: bool):
-        self.set_property(Props.LIGHT, int(value))
-
-    @property
-    def horizontal_swing(self) -> Optional[int]:
-        return self.get_property(Props.SWING_HORIZ)
-
-    @horizontal_swing.setter
-    def horizontal_swing(self, value: int):
-        self.set_property(Props.SWING_HORIZ, int(value))
-
-    @property
-    def vertical_swing(self) -> Optional[int]:
-        return self.get_property(Props.SWING_VERT)
-
-    @vertical_swing.setter
-    def vertical_swing(self, value: int):
-        self.set_property(Props.SWING_VERT, int(value))
-
-    @property
-    def quiet(self) -> Optional[int]:
-        return self.get_property(Props.QUIET)
-
-    @quiet.setter
-    def quiet(self, value: bool):
-        self.set_property(Props.QUIET, 2 if value else 0)
-
-    @property
-    def turbo(self) -> Optional[bool]:
-        prop = self.get_property(Props.TURBO)
-        return bool(prop) if prop is not None else None
-
-    @turbo.setter
-    def turbo(self, value: bool):
-        self.set_property(Props.TURBO, int(value))
-
-    @property
-    def steady_heat(self) -> Optional[bool]:
-        prop = self.get_property(Props.STEADY_HEAT)
-        return bool(prop) if prop is not None else None
-
-    @steady_heat.setter
-    def steady_heat(self, value: bool):
-        self.set_property(Props.STEADY_HEAT, int(value))
-
-    @property
-    def power_save(self) -> Optional[bool]:
-        prop = self.get_property(Props.POWER_SAVE)
-        return bool(prop) if prop is not None else None
-
-    @power_save.setter
-    def power_save(self, value: bool):
-        self.set_property(Props.POWER_SAVE, int(value))
-
-    @property
-    def target_humidity(self) -> Optional[int]:
-        prop = self.get_property(Props.HUM_SET)
-        return 15 + (prop * 5) if prop is not None else None
-
-    @target_humidity.setter
-    def target_humidity(self, value: int):
-        def validate(val):
-            if val > HUMIDITY_MAX or val < HUMIDITY_MIN:
-                raise ValueError(f"Specified humidity {val} is out of range.")
-
-        validate(value)
-        self.set_property(Props.HUM_SET, (value - 15) // 5)
-
-    @property
-    def dehumidifier_mode(self) -> Optional[int]:
-        return self.get_property(Props.DEHUMIDIFIER_MODE)
-
-    @property
-    def current_humidity(self) -> Optional[int]:
-        return self.get_property(Props.HUM_SENSOR)
-
-    @property
-    def clean_filter(self) -> Optional[bool]:
-        prop = self.get_property(Props.CLEAN_FILTER)
-        return bool(prop) if prop is not None else None
-
-    @property
-    def water_full(self) -> Optional[bool]:
-        prop = self.get_property(Props.WATER_FULL)
-        return bool(prop) if prop is not None else None
-
-    @property
-    def buzzer(self) -> bool:
-        return self._buzzer
-
-    @buzzer.setter
-    def buzzer(self, value: bool):
-        self._buzzer = bool(value)
+    def _handle_properties_updated(self, properties: Dict[str, Any]) -> None:
+        pass
