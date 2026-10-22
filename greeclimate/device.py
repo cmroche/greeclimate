@@ -725,9 +725,10 @@ class Device(DeviceProtocol2, Taskable):
     @target_humidity.setter
     def target_humidity(self, value: int):
         def validate(val):
-            if value > HUMIDITY_MAX or val < HUMIDITY_MIN:
-                raise ValueError(f"Specified temperature {val} is out of range.")
+            if val > HUMIDITY_MAX or val < HUMIDITY_MIN:
+                raise ValueError(f"Specified humidity {val} is out of range.")
 
+        validate(value)
         self.set_property(Props.HUM_SET, (value - 15) // 5)
 
     @property

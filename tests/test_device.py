@@ -190,6 +190,33 @@ def test_device_info_equality(send):
         assert DeviceInfo(*new_props) != DeviceInfo(*props)
 
 
+@pytest.mark.parametrize("value,encoded", [(30, 3), (80, 13)])
+async def test_target_humidity_boundaries(value, encoded):
+    device = Device(DeviceInfo(*get_mock_info()))
+    try:
+        device.target_humidity = value
+        assert device.target_humidity == value
+        assert device.raw_properties["Dwet"] == encoded
+    finally:
+        device.close()
+
+
+@pytest.mark.parametrize("value", [0, 29, 81, 100])
+async def test_target_humidity_rejects_invalid_without_mutation(value):
+    device = Device(DeviceInfo(*get_mock_info()))
+    try:
+        device.target_humidity = 45
+        state = dict(device.raw_properties)
+        pending = list(device._dirty)
+        with pytest.raises(ValueError, match="humidity"):
+            device.target_humidity = value
+        assert device.raw_properties == state
+        assert device._dirty == pending
+        assert device.target_humidity == 45
+    finally:
+        device.close()
+
+
 @pytest.mark.asyncio
 async def test_get_device_info(cipher, send):
     """Initialize device, check properties."""
