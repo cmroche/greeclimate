@@ -85,6 +85,8 @@ device.target_temperature = 25
 await device.push_state_update()
 ```
 
+A push sends a snapshot: changes made while it is awaiting stay queued for the next push, and failed or cancelled sends retain pending changes. Incoming reports still update getters and `raw_properties` without replacing pending commands. Successful sending does not confirm that the device applied the command.
+
 Set a Fahrenheit target by selecting units before setting the temperature.
 
 ```python

@@ -305,6 +305,53 @@ async def test_set_properties_not_dirty(cipher, send):
     await device.push_state_update()
     assert send.call_count == 0
 
+    device.handle_state_update(Pow=1)
+    device.power = True
+    await device.push_state_update()
+    assert send.call_count == 0
+
+    device.power = False
+    device.power = False
+    await device.push_state_update()
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"Pow": 0}
+    device.power = False
+    await device.push_state_update()
+    assert send.call_count == 1
+
+
+@pytest.mark.asyncio
+async def test_set_property_reported_value_replaces_older_intent(cipher, send):
+    device = await generate_device_mock_async()
+    device.handle_state_update(Pow=1)
+    device.power = False
+    device.handle_state_update(Pow=1)
+    device.power = True
+
+    await device.push_state_update()
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"Pow": 1}
+    device.power = True
+    await device.push_state_update()
+    assert send.call_count == 1
+
+
+@pytest.mark.asyncio
+async def test_pending_temperature_fields_survive_reported_state(cipher, send):
+    device = await generate_device_mock_async()
+    device.handle_state_update(SetTem=24, TemRec=0, TemUn=0)
+    device.temperature_units = TemperatureUnits.F
+    device.target_temperature = 72
+    assert device.target_temperature == 72
+
+    device.handle_state_update(SetTem=24, TemRec=0, TemUn=0)
+    assert device.target_temperature == 24
+    await device.push_state_update()
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"SetTem": 22, "TemRec": 1, "TemUn": 1}
+    await device.push_state_update()
+    assert send.call_count == 1
+
 
 @pytest.mark.asyncio
 async def test_set_properties(cipher, send):
