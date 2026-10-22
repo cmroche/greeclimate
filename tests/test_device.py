@@ -2,6 +2,7 @@ import asyncio
 import enum
 import json
 from contextlib import asynccontextmanager
+from unittest.mock import AsyncMock
 
 import pytest
 
@@ -312,6 +313,150 @@ async def test_unknown_mid_uses_full_poll(cipher, send, mid):
     info.mid = "unrecorded"
     await device.update_state()
     assert send.call_args.args[0]["pack"]["cols"] == columns
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("as_tuple", [False, True])
+@pytest.mark.parametrize("reported_hid", [False, True])
+async def test_explicit_status_columns_preserve_order_duplicates_and_spelling(
+        cipher, send, as_tuple, reported_hid):
+    device = await generate_device_mock_async()
+    if reported_hid:
+        device.handle_state_update(hid=get_mock_state()["hid"])
+    expected = ["Pow", "Pow", "pow", " Pow "]
+    columns = tuple(expected) if as_tuple else expected.copy()
+    await device.update_state(columns)
+    sent_columns = send.call_args.args[0]["pack"]["cols"]
+    assert sent_columns == expected
+    assert list(columns) == expected
+    if not as_tuple:
+        columns.append("hid")
+        assert sent_columns == expected
+    await device.update_state(["Dwet"])
+    assert send.call_args.args[0]["pack"]["cols"] == ["Dwet"]
+    assert sent_columns == expected
+
+
+@pytest.mark.asyncio
+async def test_explicit_profile_columns_do_not_append_identity_or_mutate_preset(cipher, send):
+    device = await generate_device_mock_async()
+    columns = match_mid_profile("13805").status_columns
+    original = tuple(columns)
+    assert "hid" not in columns
+    await device.update_state(columns)
+    assert send.call_args.args[0]["pack"]["cols"] == list(original)
+    assert columns == original
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("bound", [False, True])
+@pytest.mark.parametrize("columns,error", [
+    ("Pow", TypeError), ("", TypeError), (b"Pow", TypeError),
+    (1, TypeError), ({"Pow": 1}, TypeError), ({"Pow"}, TypeError),
+    (Props.POWER, TypeError), ([], ValueError), ((), ValueError),
+    ([""], ValueError), (["Pow", ""], ValueError), (["Pow", 1], ValueError),
+    (["Pow", None], ValueError), ([Props.POWER], ValueError),
+    (["self"], ValueError), (["Pow", "self"], ValueError), (("self",), ValueError),
+])
+async def test_invalid_status_columns_fail_before_bind_or_send(cipher, send, columns, error, bound):
+    device = Device(DeviceInfo(*get_mock_info()))
+    if bound:
+        await device.bind(key="0123456789abcdef", cipher=CipherV1())
+    device.bind = AsyncMock()
+    with pytest.raises(error):
+        await device.update_state(columns)
+    device.bind.assert_not_awaited()
+    send.assert_not_awaited()
+
+
+@pytest.mark.parametrize("name", ["Pow", Props.POWER, FakeProps.FAKE])
+async def test_raw_names_and_dirty_retention(name, cipher, send):
+    device = await generate_device_mock_async()
+    device.set_property(name, 1)
+    device.set_property(name, 1)
+    assert device.get_property(name) == 1
+    send.side_effect = asyncio.TimeoutError
+    with pytest.raises(DeviceTimeoutError):
+        await device.push_state_update()
+    send.side_effect = None
+    await device.push_state_update()
+    pack = send.call_args.args[0]["pack"]
+    expected = name.value if isinstance(name, enum.Enum) else name
+    assert pack["opt"] == [expected] and pack["p"] == [1]
+    assert not device._dirty
+
+
+class InvalidRawProperty(enum.Enum):
+    NUMBER = 1
+    EMPTY = ""
+    RESERVED = "self"
+
+
+@pytest.mark.parametrize("name,error", [
+    (None, TypeError), (1, TypeError), (b"Pow", TypeError),
+    (InvalidRawProperty.NUMBER, TypeError), ("", ValueError),
+    (InvalidRawProperty.EMPTY, ValueError),
+    ("self", ValueError), (InvalidRawProperty.RESERVED, ValueError),
+])
+async def test_invalid_raw_names_do_not_stage_or_send(name, error, cipher, send):
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.bind = AsyncMock()
+    with pytest.raises(error):
+        device.get_property(name)
+    with pytest.raises(error):
+        device.set_property(name, 1)
+    assert not device.raw_properties and not device._dirty
+    device.bind.assert_not_awaited()
+    send.assert_not_awaited()
+
+
+async def test_raw_property_spelling_and_live_cache():
+    device = Device(DeviceInfo(*get_mock_info()))
+    properties = device.raw_properties
+    device.set_property(" pow ", 1)
+    device.set_property("Pow", 0)
+    assert properties is device.raw_properties
+    assert properties == {" pow ": 1, "Pow": 0}
+    assert device.get_property("pow") is None
+    assert device.get_property(Props.POWER) == 0
+    device.handle_state_update(Pow=1)
+    assert properties["Pow"] == 1
+
+
+async def test_raw_reserved_name_rejection_preserves_valid_data_and_result():
+    async with recovery_session() as (device, peer, queue, addr):
+        await recovery_receive(queue, device.device_cipher)
+        data, results = asyncio.Queue(), asyncio.Queue()
+        device.add_handler(Response.DATA, data.put_nowait)
+        device.add_handler(Response.RESULT, results.put_nowait)
+
+        with pytest.raises(ValueError):
+            await device.update_state(["Pow", "self"])
+        with pytest.raises(ValueError):
+            device.set_property("self", 1)
+        assert queue.empty()
+        assert "self" not in device.raw_properties and "self" not in device._dirty
+
+        await device.update_state(["Self", " self "])
+        request, _ = await recovery_receive(queue, device.device_cipher)
+        assert request["cols"] == ["Self", " self "]
+        peer.sendto(recovery_packet(
+            {"t": "dat", "cols": ["Self", " self "], "dat": [1, 2]},
+            device.device_cipher,
+        ), addr)
+        assert await asyncio.wait_for(data.get(), 2) == {"Self": 1, " self ": 2}
+        assert device.get_property("Self") == 1
+        assert device.get_property(" self ") == 2
+
+        device.set_property("Self", 3)
+        await device.push_state_update()
+        request, _ = await recovery_receive(queue, device.device_cipher)
+        assert dict(zip(request["opt"], request["p"])) == {"Self": 3}
+        peer.sendto(recovery_packet(
+            {"t": "res", "opt": ["Self"], "val": [4]}, device.device_cipher,
+        ), addr)
+        assert await asyncio.wait_for(results.get(), 2) == {"Self": 4}
+        assert device.get_property("Self") == 4
 
 
 @pytest.mark.asyncio

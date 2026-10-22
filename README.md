@@ -73,6 +73,18 @@ Manually poll for updated device state.
 await device.update_state()
 ```
 
+Request exact status columns and access raw protocol properties by name (or a string-valued enum).
+Explicit columns are sent unchanged, without adding `hid`; raw writes do not validate appliance support.
+The exact name `self` is reserved and rejected before staging a property or sending a status query.
+
+```python
+await device.update_state(["Pow", "Lig"])
+# Read the cache after a DATA reply arrives.
+print(device.get_property("Pow"))
+device.set_property("Lig", 0)
+await device.push_state_update()
+```
+
 Cool to 25°C and send updates to the device.
 
 ```python
