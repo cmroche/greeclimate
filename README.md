@@ -159,6 +159,8 @@ Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loo
 
 Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
 
+CipherV2 packet dumps require DEBUG logging; routine decryption does not emit ciphertext at INFO.
+
 ## Use Gree Emulator
 
 Run these commands from the repository root with Python 3.10+ and dependencies installed; each server runs until Ctrl-C.

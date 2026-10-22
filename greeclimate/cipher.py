@@ -78,7 +78,7 @@ class CipherV2(CipherBase):
         return encoded, tag
 
     def decrypt(self, data) -> dict:
-        _logger.info("Decrypting data: %s", data)
+        _logger.debug("Decrypting data: %s", data)
         cipher = self.__create_cipher()
         decoded = base64.b64decode(data)
         decrypted = cipher.decrypt(decoded).decode()
