@@ -157,6 +157,8 @@ await device.update_state()
 
 Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loopback, and non-loopback `/31` and `/32` networks. `allow_loopback=True` adds loopback host addresses; non-empty `target_addresses` bypasses interface enumeration, while `None` or `[]` uses it.
 
+The library leaves application logging unchanged. Configure Python logging in your application when needed; DEBUG packet logs can contain session keys and must be scrubbed before sharing.
+
 Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
 
 ## Use Gree Emulator
