@@ -51,6 +51,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         self._device_infos: list[DeviceInfo] = []
         self._listeners: list[Listener] = []
         self._endpoint_lock = asyncio.Lock()
+        self._search_generation = 0
 
     # Task management
     @property
@@ -125,7 +126,8 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         await asyncio.gather(*tasks, return_exceptions=True)
 
     def close(self) -> None:
-        """Cancel listener work and close UDP; a later explicit search may reopen."""
+        """Cancel discovery work and close UDP; a later explicit search may reopen."""
+        self._search_generation += 1
         self._cancel_tasks()
         self._listeners.clear()
         BroadcastListenerProtocol.close(self)
@@ -239,17 +241,26 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
 
     async def search_on_interface(self, target_address: IPv4Address) -> None:
         """Search for devices at a broadcast or unicast destination."""
+        generation = self._search_generation
         _LOGGER.debug(
             "Searching for devices at %s",
             target_address,
         )
 
         async with self._endpoint_lock:
+            if generation != self._search_generation:
+                return
             if self._transport is None:
                 await self._transport_closed.wait()
-                await self._loop.create_datagram_endpoint(
+                if generation != self._search_generation:
+                    return
+                transport, _ = await self._loop.create_datagram_endpoint(
                     lambda: self, local_addr=("0.0.0.0", 0), allow_broadcast=True
                 )
+                if generation != self._search_generation:
+                    transport.close()
+                    BroadcastListenerProtocol.close(self)
+                    return
 
         await self.send({"t": "scan"}, (str(target_address), 7000))
 
@@ -271,5 +282,5 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         if not target_addresses:
             target_addresses = self._get_broadcast_addresses()
         await asyncio.gather(
-            *[asyncio.create_task(self.search_on_interface(address)) for address in target_addresses], return_exceptions=True
+            *[self._create_task(self.search_on_interface(address)) for address in target_addresses], return_exceptions=True
         )

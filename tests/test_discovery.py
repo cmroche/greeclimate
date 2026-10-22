@@ -766,6 +766,113 @@ async def test_recovery_discovery_simultaneous_searches_share_endpoint():
 
 
 @pytest.mark.asyncio
+async def test_recovery_discovery_close_cancels_scheduled_searches():
+    discovery = _RecoveryDiscovery()
+    loop = asyncio.get_running_loop()
+    search = None
+    async with udp_peer(port=7000) as peer:
+        try:
+            with patch.object(loop, "create_datagram_endpoint", wraps=loop.create_datagram_endpoint) as create_endpoint:
+                search = asyncio.create_task(discovery.search_devices(
+                    target_addresses=[IPv4Address("127.0.0.1")] * 2
+                ))
+                await asyncio.sleep(0)
+                pending = tuple(discovery.tasks)
+                discovery.close()
+                discovery.close()
+                await asyncio.wait_for(search, DEFAULT_TIMEOUT)
+                create_endpoint.assert_not_called()
+            assert len(pending) == 2
+            assert all(task.cancelled() for task in pending)
+            assert discovery.tasks == []
+            assert discovery._transport is None and discovery._closing
+            with pytest.raises(asyncio.TimeoutError):
+                await asyncio.wait_for(peer[1].get(), 0.05)
+
+            await discovery.search_devices(target_addresses=[IPv4Address("127.0.0.1")])
+            data, _ = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            assert json.loads(data) == DISCOVERY_REQUEST
+            assert discovery._transport is not None and not discovery._closing
+            assert discovery.tasks == []
+        finally:
+            discovery.close()
+            if search is not None:
+                if not search.done():
+                    search.cancel()
+                await asyncio.gather(search, return_exceptions=True)
+            await asyncio.wait_for(discovery._transport_closed.wait(), DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("phase", ["before_connection", "after_connection"])
+@pytest.mark.parametrize("method", ["search_devices", "search_on_interface"])
+async def test_recovery_discovery_close_during_endpoint_creation(phase, method):
+    discovery = _RecoveryDiscovery()
+    loop = asyncio.get_running_loop()
+    create_endpoint = loop.create_datagram_endpoint
+    entered, release, cancelled = asyncio.Event(), asyncio.Event(), asyncio.Event()
+    transports = []
+    search = None
+
+    async def wait_for_close():
+        entered.set()
+        try:
+            await release.wait()
+        except asyncio.CancelledError:
+            # Endpoint completion can win its race with cancellation.
+            cancelled.set()
+            await release.wait()
+
+    async def gated_endpoint(*args, **kwargs):
+        if phase == "before_connection":
+            await wait_for_close()
+        transport, protocol = await create_endpoint(*args, **kwargs)
+        transports.append(transport)
+        if phase == "after_connection":
+            await wait_for_close()
+        return transport, protocol
+
+    async with udp_peer(port=7000) as peer:
+        try:
+            with patch.object(loop, "create_datagram_endpoint", side_effect=gated_endpoint):
+                if method == "search_devices":
+                    search = asyncio.create_task(discovery.search_devices(
+                        target_addresses=[IPv4Address("127.0.0.1")] * 2
+                    ))
+                else:
+                    search = asyncio.create_task(discovery.search_on_interface(IPv4Address("127.0.0.1")))
+                await asyncio.wait_for(entered.wait(), DEFAULT_TIMEOUT)
+                discovery.close()
+                discovery.close()
+                release.set()
+                await asyncio.wait_for(search, DEFAULT_TIMEOUT)
+            await asyncio.wait_for(discovery._transport_closed.wait(), DEFAULT_TIMEOUT)
+            if method == "search_devices":
+                assert cancelled.is_set()
+            assert len(transports) == 1 and transports[0].is_closing()
+            assert discovery._transport is None and discovery._closing
+            assert discovery.tasks == []
+            with pytest.raises(asyncio.TimeoutError):
+                await asyncio.wait_for(peer[1].get(), 0.05)
+
+            await discovery.search_devices(target_addresses=[IPv4Address("127.0.0.1")])
+            data, _ = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            assert json.loads(data) == DISCOVERY_REQUEST
+            assert discovery._transport is not transports[0] and not discovery._closing
+            assert discovery.tasks == []
+        finally:
+            release.set()
+            discovery.close()
+            if search is not None:
+                if not search.done():
+                    search.cancel()
+                await asyncio.gather(search, return_exceptions=True)
+            for transport in transports:
+                transport.close()
+            await asyncio.wait_for(discovery._transport_closed.wait(), DEFAULT_TIMEOUT)
+
+
+@pytest.mark.asyncio
 async def test_recovery_discovery_close_cancels_listener_and_reopens():
     discovery = _RecoveryDiscovery()
     entered = asyncio.Event()
