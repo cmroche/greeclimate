@@ -4,6 +4,7 @@ from asyncio import AbstractEventLoop
 from typing import Any, Dict, Type
 
 from greeclimate.air_conditioner import AirConditionerDevice
+from greeclimate.air_to_water import AirToWaterDevice
 from greeclimate.device import Device
 from greeclimate.dehumidifier import DehumidifierDevice
 from greeclimate.deviceinfo import DeviceInfo
@@ -13,6 +14,7 @@ from greeclimate.mid_profile import KNOWN_MID_PROFILES
 _DEVICE_FAMILIES = {
     "air_conditioner": AirConditionerDevice,
     "dehumidifier": DehumidifierDevice,
+    "air_to_water": AirToWaterDevice,
 }
 DEVICE_TYPES: Dict[str, Type[Device]] = {
     profile.mid: _DEVICE_FAMILIES[profile.family]

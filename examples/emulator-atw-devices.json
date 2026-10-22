@@ -1,0 +1,34 @@
+{
+  "seed": "synthetic-atw-roles-demo",
+  "listen": "127.0.0.1",
+  "port": 7000,
+  "devices": [
+    {
+      "id": "atw-room",
+      "name": "Synthetic ATW Room",
+      "profile": "sim-w06a-p3-v6.04-9300",
+      "mid": "9300",
+      "room_c": 26,
+      "ambient_c": 26,
+      "state": {"Pow": 0, "TemUn": 0, "Mod": 1, "CoWatOutTemSet": 18, "HeWatOutTemSet": 35, "WatBoxTemSet": 50, "CoHomTemSet": 24, "HeHomTemSet": 24}
+    },
+    {
+      "id": "atw-tank",
+      "name": "Synthetic Hot Water Tank",
+      "profile": "sim-w06a-p3-v6.04-9301",
+      "mid": "9301",
+      "room_c": 45,
+      "ambient_c": 22,
+      "state": {"Pow": 0, "TemUn": 0, "Mod": 2, "CoWatOutTemSet": 18, "HeWatOutTemSet": 35, "WatBoxTemSet": 50, "CoHomTemSet": 24, "HeHomTemSet": 24}
+    },
+    {
+      "id": "atw-pool",
+      "name": "Synthetic Mixed Pool Water",
+      "profile": "sim-w06a-p3-v6.04-9302",
+      "mid": "9302",
+      "room_c": 28,
+      "ambient_c": 24,
+      "state": {"Pow": 0, "TemUn": 0, "Mod": 1, "CoWatOutTemSet": 18, "HeWatOutTemSet": 35, "WatBoxTemSet": 50, "CoHomTemSet": 24, "HeHomTemSet": 24}
+    }
+  ]
+}

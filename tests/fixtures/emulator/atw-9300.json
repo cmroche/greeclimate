@@ -1,0 +1,303 @@
+{
+  "profile": "sim-w06a-p3-v6.04-9300",
+  "mid": "9300",
+  "source_sha256": "37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+  "evidence": {
+    "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/atw-lan_research.json scan, bind-generic2, status-order-duplicates-unknown, command duplicate echo and bound bind; https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/atw-properties_research.json independently verifies all three emitted MIDs and shared heater selectors.",
+    "model": "Literal contract defaults, role-specific chosen 100-bias decimal sensors and no-fault AllErr; not physical calibration. Equal ambient/room and final power off prevent elapsed-time noise.",
+    "safe_deviations": "Unsupported/read-only writes reject whole batch before advancing time; inactive and unmodeled sensors omitted instead of native unsafe memory reads."
+  },
+  "device": {
+    "room_c": 26,
+    "ambient_c": 26
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "unknown",
+          "HeWatOutTemSet",
+          "Pow",
+          "RmoHomTemHi",
+          "RmoHomTemLo",
+          "AllErr",
+          "EnvironmentTem",
+          "FlagPool"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "HeWatOutTemSet",
+          "Pow"
+        ],
+        "p": [
+          1,
+          40,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "HeWatOutTemSet",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "AllErr"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "9300",
+          "hid": "362001066763+U-W06A(P3)V6.04.bin",
+          "ModelType": "simulated-atw",
+          "model": "gree",
+          "name": "Emulator Office",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V6.04",
+          "lock": 0
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "Pow",
+            "HeWatOutTemSet",
+            "Pow",
+            "RmoHomTemHi",
+            "RmoHomTemLo",
+            "AllErr"
+          ],
+          "dat": [
+            0,
+            35,
+            0,
+            126,
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "HeWatOutTemSet",
+            "Pow"
+          ],
+          "p": [
+            1,
+            40,
+            0
+          ],
+          "val": [
+            1,
+            40,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "Pow",
+            "HeWatOutTemSet",
+            "Pow"
+          ],
+          "dat": [
+            0,
+            40,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 0,
+    "TemUn": 0,
+    "Mod": 1,
+    "CoWatOutTemSet": 18,
+    "HeWatOutTemSet": 40,
+    "WatBoxTemSet": 50,
+    "CoHomTemSet": 24,
+    "HeHomTemSet": 24,
+    "RmoHomTemHi": 126,
+    "RmoHomTemLo": 0
+  }
+}

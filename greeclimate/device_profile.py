@@ -10,6 +10,7 @@ class DeviceProfile:
     temperature_offset: Optional[int] = None
     relearn_temperature_offset: bool = False
     buzzer_properties: Optional[Tuple[str, ...]] = None
+    cooling_mode_value: Optional[int] = None
     capabilities: Tuple[Tuple[str, str, bool], ...] = ()
 
 
@@ -93,7 +94,15 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001066300", 40),
     DeviceProfile("362001066308", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001066511", 40),
-    DeviceProfile("362001066763", buzzer_properties=()),
+    DeviceProfile(
+        "362001066763", buzzer_properties=(), cooling_mode_value=5,
+        capabilities=(
+            ("air_to_water", "inlet_water_temperature_c", True),
+            ("air_to_water", "outlet_water_temperature_c", True),
+            ("air_to_water", "room_temperature_c", True),
+            ("air_to_water", "tank_temperature_c", True),
+        ),
+    ),  # Sinclair SMH-100IRB / SMH-60IRB
     DeviceProfile("362001066962", 40),
     DeviceProfile("362001067419", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001067422", 40, buzzer_properties=("Buzzer_ON_OFF",)),
@@ -135,6 +144,23 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile(
         "362001065634", buzzer_properties=("Buzzer_ON_OFF",),
         capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
+    DeviceProfile(
+        "362001069999",
+        capabilities=(
+            ("air_to_water", "power", False),
+            ("air_to_water", "mode", False),
+            ("air_to_water", "temperature_units", False),
+            ("air_to_water", "inlet_water_temperature_c", False),
+            ("air_to_water", "outlet_water_temperature_c", False),
+            ("air_to_water", "room_temperature_c", False),
+            ("air_to_water", "tank_temperature_c", False),
+            ("air_to_water", "heating_room_target_temperature_c", False),
+            ("air_to_water", "cooling_room_target_temperature_c", False),
+            ("air_to_water", "heating_water_target_temperature_c", False),
+            ("air_to_water", "cooling_water_target_temperature_c", False),
+            ("air_to_water", "tank_target_temperature_c", False),
+        ),
     ),
     DeviceProfile("362001060368", buzzer_properties=()),
     DeviceProfile(

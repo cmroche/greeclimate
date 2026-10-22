@@ -2,22 +2,22 @@
 
 A MID is the `mid` string in discovery metadata or a gateway's `subList`. Keep its case, letters and leading zeros. It is separate from the firmware identifier (`hid`); see [HIDS.md](HIDS.md) and [gateway observations](#gateway-observations-and-sources).
 
-`DeviceInfo.mid` stores the discovery value separately from `model`; missing MID is `None`. At construction, `Device` matches it exactly against `greeclimate/mid_profile.py` and keeps that profile for its lifetime. `create_device()` selects `AirConditionerDevice` or `DehumidifierDevice` only for explicitly registered families; otherwise it returns neutral `Device`. Matching preserves case and leading zeros without coercion or trimming. Model names and reported HIDs never substitute for a MID or change the selected family.
+`DeviceInfo.mid` stores the discovery value separately from `model`; missing MID is `None`. At construction, `Device` matches it exactly against `greeclimate/mid_profile.py` and keeps that profile for its lifetime. `create_device()` selects `AirConditionerDevice`, `DehumidifierDevice`, or `AirToWaterDevice` only for explicitly registered families; ATW selection requires exactly `"9300"`. Otherwise it returns neutral `Device`. Matching preserves case and leading zeros without coercion or trimming. Model names and reported HIDs never substitute for a MID or change the selected family.
 
 A matched profile requests its fields in the listed order, even fields outside `Props`. `hid` is appended only while firmware identity is unknown and the preset lacks it. A preset that includes `hid` keeps requesting it: MID `60` always polls `["hid"]`. Missing, malformed, unknown or not-established MIDs use `FALLBACK_MID_PROFILE` (`mid=None`), whose neutral polling list is only `["hid"]`. `match_mid_profile()` always returns a profile. `update_state(columns)` sends explicit columns unchanged, without adding identity fields.
 
-Direct family construction remains available when the caller knows the appliance but its MID is missing or unregistered. `AirConditionerDevice` then polls `Pow`, `Mod`, `SetTem`, `TemUn`, `TemRec`, `TemSen`; `DehumidifierDevice` polls `Pow`, `Dmod`, `Dwet`, `DwatSen`, `Dfltr`, `DwatFul`, `TemSen`, `TemUn`, `TemRec`, `WdSpd`, `Lig`, `SwUpDn`, `Health`, `Quiet`. Both append `hid` until reported. A known MID retains its catalog polling list regardless of direct family construction.
+Direct family construction remains available when the caller knows the appliance but its MID is missing or unregistered. `AirConditionerDevice` then polls `Pow`, `Mod`, `SetTem`, `TemUn`, `TemRec`, `TemSen`; `DehumidifierDevice` polls `Pow`, `Dmod`, `Dwet`, `DwatSen`, `Dfltr`, `DwatFul`, `TemSen`, `TemUn`, `TemRec`, `WdSpd`, `Lig`, `SwUpDn`, `Health`, `Quiet`. Both append `hid` until reported. A known MID retains its catalog polling list regardless of direct AC/dehumidifier construction. `AirToWaterDevice` always polls the `9300` preset plus its sensor/status extension, including when constructed directly without MID.
 
 Neutral `Device` exposes no appliance-specific descriptors. Family status-backed getters return `None` for missing required values. Received zero stays valid zero/false, subject to temperature calibration. AC target temperature needs both `SetTem` and `TemRec`; MID does not select temperature encoding. AC `buzzer` and shared `has_valid_state` are non-optional local state. A narrower poll can leave a feature unavailable until its field arrives or is explicitly set; omission does not prove the hardware lacks it. Raw access remains available to every family.
 
-Catalog categories are historical observations, not a promise of a typed implementation. In particular, `9300`, `9301`, and `9302` remain neutral devices with their existing catalog polling lists. The raw polling presets restored from source revision `661896f` below also remain neutral: they have no implemented typed family and do not establish typed controls or sensor calibration.
+Catalog categories are historical observations, not a promise of a typed implementation. `9301` and `9302` remain neutral raw-status devices with their existing catalog polling lists; their simulator profiles do not opt them into typed ATW controls. The additional raw polling presets below also remain neutral: they have no implemented typed family and do not establish typed controls or sensor calibration.
 
 
 The PC emulator preserves each family's status ordering, value alignment, and unsupported-field behavior; there is no universal unknown-field rule. See [emulator contracts](#emulator-contracts) for omission, empty-string, safe-rejection, and explicitly simulated appliance policies.
 
 ## Capability evidence
 
-[`Device.capabilities`](../greeclimate/device.py) returns a fresh, immutable `Mapping[str, Optional[bool]]` snapshot with exactly the 23 keys below. `True` declares protocol feature support; `False` means outside the constructed family's typed API or explicitly excluded by its firmware profile; `None` means not established. Neutral `Device` reports all `None`, even with a recognized MID or HID. A supported feature need not have a cached reading: getters can still return `None`.
+[`Device.capabilities`](../greeclimate/device.py) returns a fresh, immutable `Mapping[str, Optional[bool]]` snapshot with exactly the 32 keys below. `True` declares protocol feature support; `False` means outside the constructed family's typed API or explicitly excluded by its firmware profile; `None` means not established. Neutral `Device` reports all `None`, even with a recognized MID or HID. A supported feature need not have a cached reading: getters can still return `None`.
 
 Evidence is applied in this order:
 
@@ -28,14 +28,14 @@ Evidence is applied in this order:
 
 The MID profile is fixed for the instance even if discovery metadata changes. Firmware identity never selects or changes the device family. Cached reports, raw writes, model/display-version strings, and connection readiness are not capability evidence. Snapshot reads send no network probe and do not change polling, defaults, validation, or setter behavior: neither `None` nor `False` adds a rejection gate. `True` does not guarantee that every value is writable, a command is accepted, or a physical effect occurs.
 
-The table names the public schema and the exact columns used for positive MID evidence. “Both” means AC and dehumidifier; the device filters evidence to its own API.
+The table names the public schema and the exact columns used for positive MID evidence. “Both” means AC and dehumidifier; ATW is air-to-water. The device filters evidence to its own API.
 
 | Capability | Typed family | Required MID columns |
 | --- | --- | --- |
-| `power` | Both | `Pow` |
-| `mode` | AC | `Mod` |
+| `power` | AC, dehumidifier, ATW | `Pow` |
+| `mode` | AC, ATW | `Mod` |
 | `target_temperature` | AC | `SetTem`, `TemRec`, `TemUn` |
-| `temperature_units` | Both | `TemUn` |
+| `temperature_units` | AC, dehumidifier, ATW | `TemUn` |
 | `current_temperature` | Both | `TemSen` |
 | `fan_speed` | Both | `WdSpd` |
 | `fresh_air` | AC | `Air` |
@@ -55,8 +55,29 @@ The table names the public schema and the exact columns used for positive MID ev
 | `current_humidity` | Dehumidifier | `DwatSen` |
 | `clean_filter` | Dehumidifier | `Dfltr` |
 | `water_full` | Dehumidifier | `DwatFul` |
+| `heating_room_target_temperature_c` | ATW (read-only) | `HeHomTemSet`, `TemUn` |
+| `cooling_room_target_temperature_c` | ATW (read-only) | `CoHomTemSet`, `TemUn` |
+| `heating_water_target_temperature_c` | ATW | `HeWatOutTemSet`, `TemUn` |
+| `cooling_water_target_temperature_c` | ATW | `CoWatOutTemSet`, `TemUn` |
+| `tank_target_temperature_c` | ATW | `WatBoxTemSet`, `TemUn` |
+| `inlet_water_temperature_c` | ATW | `AllInWatTemHi`, `AllInWatTemLo`, `TemUn` |
+| `outlet_water_temperature_c` | ATW | `AllOutWatTemHi`, `AllOutWatTemLo`, `TemUn` |
+| `room_temperature_c` | ATW | `RmoHomTemHi`, `RmoHomTemLo`, `TemUn` |
+| `tank_temperature_c` | ATW | `WatBoxTemHi`, `WatBoxTemLo`, `TemUn` |
 
 For example, MID `10001` declares AC target and current temperature before any HID or sensor reply arrives, but its omitted sleep fields leave `sleep=None`. MID `13805` declares `current_humidity=True` but not current temperature or units. `HumSen`, `InTem`, `TemBody`, `Lamp`, and `Quier` are not aliases for the typed fields above. Firmware exclusions can override positive MID evidence; see [firmware-code traits and limitations](HIDS.md#firmware-code-traits-and-limitations). These are conservative client policies, not a claim that every mainboard has been physically tested. Public behavior is covered by [capability regressions](../tests/test_capabilities.py) and [MID regressions](../tests/test_mid_profile.py); private routing research remains separately labeled below.
+
+MID `9300` declares power, mode, read-only temperature units and all five target features. Its historical preset lacks the four sensor high/low pairs: the ATW polling extension does not promote them to MID evidence. Firmware code `362001066763` establishes those sensor paths; code `362001069999` explicitly excludes all ATW features. Neither code selects an appliance family. Cooling configuration is not a capability key or evidence.
+
+## Air-to-water controls
+
+[`AirToWaterDevice`](../greeclimate/air_to_water.py) exposes `power`, `mode` (`AirToWaterMode`), read-only reported `temperature_units`, four read-only Celsius sensors, two read-only room targets, and three writable integer Celsius targets: heating water 20–60, cooling water 7–25, tank 40–80. Sensor pairs decode as `high - 100 + low / 10`; this consumer convention is not physical calibration of every appliance. Missing/noninteger fields or units other than reported Celsius (`TemUn=0`) yield `None`; target reads are not clipped to setter ranges.
+
+Heat, hot water, cool+hot water and heat+hot water encode as 1–4. Omitted `cooling_mode_value` follows the currently reported firmware-code profile: `362001066763` supplies 5, otherwise cooling is unconfigured. Explicit `cooling_mode_value=0`, `5`, or `None` takes precedence for the instance (`None` disables cooling even with a known HID). No module/version floor or model-string inference is used. A later HID change re-resolves automatic cooling and can invalidate a queued cooling command.
+
+A changed mode requires a **received** integer `Pow=0`; staging power-off does not authorize it. An identical cached mode is a no-op. Mode and power-on cannot share a command: push the mode first, then power on. Power alone can be sent before any report. Target writes require **received** integer `TemUn=0`, not a locally staged unit flag, but do not require power-off. Send-time validation rechecks current received power/units and current cooling configuration, rejects unsupported raw command names or invalid values, and retains staged values on failure. Capability `True` bypasses none of these guards; ATW does not switch units or augment commands with AC fields.
+
+Default ATW polling is the ordered, deduplicated union of the complete `9300` preset and its sensor/status extension, plus `hid` while unknown. It is sent in queries of at most 20 columns to stay below the firmware's encrypted request limit; replies arrive independently, not as an atomic snapshot. Explicit `update_state(columns)` delegates the shared validation and sends **one exact query**, preserving spelling, order and duplicates without appending `hid` or splitting. The caller must keep explicit requests within appliance limits. Other families' polling is unchanged.
 
 
 ## Historical polling catalog
@@ -175,9 +196,12 @@ Prefer loopback or an isolated trusted test network: the default listens on `0.0
 | `sim-wb04brt13-v1.50-{MID}` | Standalone `3019`, `3027`, `4005`; host `60`; children `6400`, `6045`, `609d` | Appliance `InTem = clamp(floor(C),0,65535)`, not a `TemSen` alias; `bindok`, command `p` only. Host has exactly one child, MAC parent+`00`; root and child share its cache. |
 | `sim-w06av-v30`, `sim-w06av-v30-ac` | Host `60`; children `6049`, `604a`, `604b`, `604c`, `605c`, `608f`, `6092` | Synthetic child `TemBody = clamp(floor(C),0,255)`, not proven hardware calibration; `bindOk`; at most 255 children, five per enumeration page; status `mac=child`, command `sub=child`; unknown status fields return empty strings. |
 | `sim-w05sa-v1.28`, `-master`, `-zone` | Host `50`; master `5000`; zones `5001` | No ambient sensor; `bindOk`; master slot 0 required with zones, sparse slots 1–8 allowed; child MAC parent+`0`+slot; status uses `mac`, command uses `sub`. |
+| `sim-w06a-p3-v6.04-9300`, `-9301`, `-9302` | Exact matching `9300`, `9301`, `9302` | Single-medium simulation: room / tank / inlet+outlet pairs respectively, encoded as `high-100+low/10`; only `9300` selects a typed ATW client. `bindok`, command `p`/`val`; supported status fields preserve order/duplicates, unsupported names omitted. |
 
 These are simulated appliances, not complete firmware/mainboard emulations. Modeled AC targets are integer Celsius 16–30 where present; zones use `16 + StTem`. Powered auto/cool/dry/heat moves toward the target at 1°C/minute (cool/dry downward only, heat upward only); idle drifts toward ambient at 0.1°C/minute. Units flags do not convert model temperatures. Commands validate the entire batch before mutation; unsupported fields reject the batch without success. Check fresh status rather than equating a successful send with accepted control.
 
 All families use AES-ECB, strict base64, and PKCS#7. WB04A/BRT additionally accept one optional terminal JSON NUL before padding; embedded/multiple NULs remain invalid, and replies do not add one. Unsafe native faults and buffer overruns are not reproduced. Exact ordering, duplicate handling, limits, and packet expectations remain in the public [conformance fixtures](../tests/fixtures/emulator) and [tests](../tests/test_emulator.py). Source attribution points to private research, but the tests load only retained public vectors.
+
+The ATW dialect keeps its native-size boundaries: encrypted request `pack` length must be below 700 bytes, property names at most 19 UTF-8 bytes, status at most 50 names (exactly 50 yields empty data), and commands at most 49 equal nonempty `opt`/`p` entries. Oversize replies and invalid batches safely reject before mutation. The simulator accepts eight bounded integer controls, including room targets/units that the conservative typed client leaves read-only; simulator acceptance does not weaken client reported-state guards. Its chosen sensor calibration and thermal model are simulation policy, not firmware-proven hardware behavior. Public [ATW client tests](../tests/test_atw.py), [ATW emulator tests](../tests/test_emulator_atw.py), and [vectors](../tests/fixtures/emulator/atw-9300.json) run without private research.
 
 
