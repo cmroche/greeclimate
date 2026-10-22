@@ -4,9 +4,12 @@ from unittest.mock import patch
 import pytest
 
 from greeclimate.device import Props, Device, DeviceInfo
+from greeclimate.cipher import CipherV1
 from greeclimate.exceptions import DeviceTimeoutError
-from greeclimate.network import Response
+from greeclimate.network import DeviceProtocol2, Response
+from tests.common import udp_peer
 from tests.test_device import recovery_packet, recovery_receive, recovery_session
+from tests.test_emulator import peer_packet
 
 
 @pytest.mark.asyncio
@@ -326,3 +329,40 @@ async def test_issue_146_interrupted_temperature_send_retains_tuple(cancelled):
             if not task.done():
                 task.cancel()
             await asyncio.gather(task, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("reply", [{"t": "bindok"}, {"t": "vendor-response", "key": "ignored"}])
+async def test_issue_214_invalid_bind_and_unknown_reply_preserve_receive_session(reply):
+    loop = asyncio.get_running_loop()
+    errors, bound = [], []
+    previous_handler = loop.get_exception_handler()
+    loop.set_exception_handler(lambda loop, context: errors.append(context))
+    protocol = DeviceProtocol2()
+    key = b"0123456789abcdef"
+    protocol.device_cipher = CipherV1(key)
+    states, bindings = asyncio.Queue(), asyncio.Queue()
+    protocol.add_handler(Response.DATA, states.put_nowait)
+    protocol.add_handler(Response.BIND_OK, bound.append)
+    protocol.add_handler(Response.BIND_OK, bindings.put_nowait)
+    try:
+        async with udp_peer() as (peer, _):
+            await loop.create_datagram_endpoint(
+                lambda: protocol, remote_addr=peer.get_extra_info("sockname")
+            )
+            endpoint = protocol._transport.get_extra_info("sockname")
+            peer.sendto(peer_packet({}, reply, key), endpoint)
+            peer.sendto(peer_packet({}, {"t": "dat", "cols": ["Pow"], "dat": [1]}, key), endpoint)
+            assert await asyncio.wait_for(states.get(), 1) == {"Pow": 1}
+            assert not protocol.ready.is_set()
+            assert bound == []
+            peer.sendto(peer_packet({}, {"t": "bindok", "key": "accepted"}, key), endpoint)
+            assert await asyncio.wait_for(bindings.get(), 1) == "accepted"
+            assert bound == ["accepted"]
+            assert protocol.ready.is_set()
+            assert states.empty()
+            assert not errors
+    finally:
+        protocol.close()
+        await asyncio.wait_for(protocol._transport_closed.wait(), 1)
+        loop.set_exception_handler(previous_handler)
