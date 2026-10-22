@@ -10,7 +10,7 @@ Direct family construction remains available when the caller knows the appliance
 
 Neutral `Device` exposes no appliance-specific descriptors. Family status-backed getters return `None` for missing required values. Received zero stays valid zero/false, subject to temperature calibration. AC target temperature needs both `SetTem` and `TemRec`; MID does not select temperature encoding. AC `buzzer` and shared `has_valid_state` are non-optional local state. A narrower poll can leave a feature unavailable until its field arrives or is explicitly set; omission does not prove the hardware lacks it. Raw access remains available to every family.
 
-Catalog categories are historical observations, not a promise of a typed implementation. In particular, `9300`, `9301`, and `9302` remain neutral devices with their existing catalog polling lists.
+Catalog categories are historical observations, not a promise of a typed implementation. In particular, `9300`, `9301`, and `9302` remain neutral devices with their existing catalog polling lists. The raw polling presets restored from source revision `661896f` below also remain neutral: they have no implemented typed family and do not establish typed controls or sensor calibration.
 
 
 The PC emulator preserves each family's status ordering, value alignment, and unsupported-field behavior; there is no universal unknown-field rule. See [emulator contracts](#emulator-contracts) for omission, empty-string, safe-rejection, and explicitly simulated appliance policies.
@@ -79,16 +79,33 @@ These are default polling lists, not complete capability or temperature-encoding
 | `80361` | Unknown | `ver`, `MGPowCtrlStat` |
 | `6036` | Unknown | `WPow`, `Wmod`, `FPow`, `WCurTem`, `WtmrMin`, `WtmrHr`, `Watpercent`, `FCurTem`, `SetTem`, `FSetTem`, `GetEr`, `WFConfig`, `IDUID`, `MidType`, `MIdType` |
 | `60` | Multi-unit gateway | `hid` (observed on a WB05BR gateway; other requested fields were empty) |
-| `6049` | Multi-unit gateway indoor unit | Not established |
-| `6092` | Multi-unit gateway indoor unit | Not established |
-| `604c` | Multi-unit gateway indoor unit | Not established |
-| `604b` | Multi-unit gateway indoor unit | Not established |
-| `605c` | Multi-unit gateway indoor unit | Not established |
-| `608f` | Multi-unit gateway indoor unit | Not established |
+| `10014` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10015` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10016` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10017` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f00` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f01` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f02` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f03` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10f05` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `10010` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `10011` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `11011` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `11012` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `6049` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `604a` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `604b` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `604c` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `605c` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `608f` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `6092` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `6045` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `InTem` |
+| `609d` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `InTem` |
+| `50` | Zone controller (raw; no typed family) | `MasterPow`, `Mod`, `WdSpd` |
 
 ## Gateway observations and sources
 
-- [PR #148's hardware log](https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943): a GR-Gcloud gateway has MID `60`, three indoor units have `608f`, and one has `605c`. A separate standalone air conditioner has `10001`. This does not establish the indoor units' retail models or polling fields.
+- [PR #148's hardware log](https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943): a GR-Gcloud gateway has MID `60`, three indoor units have `608f`, and one has `605c`. A separate standalone air conditioner has `10001`. This log does not establish the indoor units' retail models or polling fields; the raw catalog presets above are separate source records.
 - [Issue #101](https://github.com/cmroche/greeclimate/issues/101): a MID `60` gateway advertises six indoor units; its returned five-entry list contains `6049`, `6092` and `604c`.
 - PR #148 links to HACS integration PR #508. Its [W06 packet notes](https://github.com/RobHofmann/HomeAssistant-GreeClimateComponent/pull/508#issuecomment-5795667844) associate MID `60` with `362001067012+U-W06AV30.bin` and show indoor MIDs `608f` and `6092`. An [older four-unit capture](https://github.com/RobHofmann/HomeAssistant-GreeClimateComponent/pull/508#issuecomment-5795708142) shows indoor MID `604b` but does not establish its gateway HID.
 

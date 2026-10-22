@@ -283,7 +283,7 @@ async def test_update_properties(cipher, send):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("device_type", [Device, AirConditionerDevice, DehumidifierDevice])
-@pytest.mark.parametrize("mid", ["13805", "10001", "60", "3027", "6400", "9300", "9301", "9302"])
+@pytest.mark.parametrize("mid", ["13805", "10001", "60", "3027", "6400", "9300", "9301", "9302", "605c"])
 async def test_mid_profile_poll_columns(cipher, send, mid, device_type):
     device = device_type(DeviceInfo(*get_mock_info(), mid=mid))
     await device.bind(key="0123456789abcdef", cipher=CipherV1())
@@ -303,7 +303,21 @@ async def test_mid_profile_poll_columns(cipher, send, mid, device_type):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("mid", ["unrecorded", "605c", None, "", 10001, [], {}])
+@pytest.mark.parametrize("device_type", [Device, AirConditionerDevice, DehumidifierDevice])
+async def test_raw_mid_605c_requests_recorded_columns(cipher, send, device_type):
+    device = device_type(DeviceInfo(*get_mock_info(), mid="605c"))
+    await device.bind(key="0123456789abcdef", cipher=CipherV1())
+
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody", "hid"]
+    device.handle_state_update(hid=get_mock_state()["hid"])
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody"]
+
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", ["unrecorded", None, "", 10001, [], {}])
 async def test_unknown_mid_uses_identity_only_poll(cipher, send, mid):
     info = DeviceInfo(*get_mock_info(), mid=mid)
     info.model = "10001"
@@ -2273,7 +2287,7 @@ async def test_recovery_close_while_retry_waits_for_old_socket(monkeypatch):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("mid", [None, "unrecorded", "605c", 10001])
+@pytest.mark.parametrize("mid", [None, "unrecorded", 10001])
 @pytest.mark.parametrize("device_type,columns", [
     (AirConditionerDevice, ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "TemSen"]),
     (DehumidifierDevice, [

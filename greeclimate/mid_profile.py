@@ -307,6 +307,52 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("60", (
         "hid",
     )),
+    # Unknown device type.
+    MidProfile("10014", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("10015", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("10016", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("10017", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("11f00", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("11f01", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("11f02", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("11f03", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    # Unknown device type.
+    MidProfile("10f05", ("SetTem", "Pow", "TemSen", "Mod")),
+    # Unknown device type.
+    MidProfile("10010", ("SetTem", "Pow", "TemSen", "Mod")),
+    # Unknown device type.
+    MidProfile("10011", ("SetTem", "Pow", "TemSen", "Mod")),
+    # Unknown device type.
+    MidProfile("11011", ("SetTem", "Pow", "TemSen", "Mod")),
+    # Unknown device type.
+    MidProfile("11012", ("SetTem", "Pow", "TemSen", "Mod")),
+    # Gateway.
+    MidProfile("6049", ("Pow", "Mod", "SetTem", "TemBody")),
+    # Gateway.
+    MidProfile("604a", ("Pow", "Mod", "SetTem", "TemBody")),
+    # Gateway.
+    MidProfile("604b", ("Pow", "Mod", "SetTem", "TemBody")),
+    # Gateway.
+    MidProfile("604c", ("Pow", "Mod", "SetTem", "TemBody")),
+    # Gateway.
+    MidProfile("605c", ("Pow", "Mod", "SetTem", "TemBody")),
+    # Gateway.
+    MidProfile("608f", ("Pow", "Mod", "SetTem", "TemBody")),
+    # Gateway.
+    MidProfile("6092", ("Pow", "Mod", "SetTem", "TemBody")),
+    # Gateway.
+    MidProfile("6045", ("Pow", "Mod", "SetTem", "WdSpd", "InTem")),
+    # Gateway.
+    MidProfile("609d", ("Pow", "Mod", "SetTem", "WdSpd", "InTem")),
+    # Zone Controller.
+    MidProfile("50", ("MasterPow", "Mod", "WdSpd")),
 )
 
 
