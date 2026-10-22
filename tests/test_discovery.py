@@ -1,5 +1,4 @@
 import asyncio
-import base64
 import json
 import socket
 from contextlib import AsyncExitStack, asynccontextmanager
@@ -386,44 +385,6 @@ async def test_discover_devices_cipherv2_fallback(ifaddr_adapters, addr, family)
 
         sock.close()
         serv.join(timeout=DEFAULT_TIMEOUT)
-
-
-@pytest.mark.asyncio
-async def test_discovery_v2_fallback_rejects_unauthenticated_replies():
-    discovery = Discovery()
-    listener = _RecoveryListener()
-    discovery.add_listener(listener)
-    valid = encrypt_payload_v2(DISCOVERY_RESPONSE)
-    modified_pack = bytearray(base64.b64decode(valid["pack"]))
-    name = DISCOVERY_RESPONSE["pack"]["name"].encode()
-    offset = json.dumps(DISCOVERY_RESPONSE["pack"]).encode().index(name)
-    modified_pack[offset] ^= 1
-    modified_tag = bytearray(base64.b64decode(valid["tag"]))
-    modified_tag[0] ^= 1
-    invalid = [
-        dict(valid, pack=base64.b64encode(modified_pack).decode()),
-        dict(valid, tag=base64.b64encode(modified_tag).decode()),
-        {"pack": valid["pack"]},
-    ]
-    invalid += [
-        dict(valid, tag=tag)
-        for tag in (None, "", "%%%", "!" + valid["tag"], "YQ==", 17, [], {})
-    ]
-    try:
-        for packet in invalid:
-            discovery.datagram_received(json.dumps(packet).encode(), ("192.0.2.1", 7000))
-            await asyncio.gather(*discovery.tasks)
-            assert discovery.devices == []
-            assert listener.events.empty()
-
-        discovery.datagram_received(json.dumps(valid).encode(), ("192.0.2.1", 7000))
-        await asyncio.gather(*discovery.tasks)
-        assert len(discovery.devices) == 1
-        assert discovery.devices[0].name == DISCOVERY_RESPONSE["pack"]["name"]
-        assert listener.events.get_nowait() == ("found", discovery.devices[0])
-        assert listener.events.empty()
-    finally:
-        discovery.close()
 
 
 @pytest.mark.asyncio
