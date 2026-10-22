@@ -126,6 +126,8 @@ TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_TABLE_F, TE
 HUMIDITY_MIN = 30
 HUMIDITY_MAX = 80
 
+_TEMPERATURE_PROPERTIES = (Props.TEMP_SET.value, Props.TEMP_BIT.value, Props.TEMP_UNIT.value)
+
 
 class Device(DeviceProtocol2, Taskable):
     """Class representing a physical device, it's state and properties.
@@ -473,7 +475,12 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
         else:
+            temperature_changed = any(
+                self._dirty.get(name) != pending.get(name) for name in _TEMPERATURE_PROPERTIES
+            )
             for name, value in pending.items():
+                if temperature_changed and name in _TEMPERATURE_PROPERTIES:
+                    continue
                 if self._dirty.get(name) == value:
                     self._dirty.pop(name, None)
 
@@ -569,6 +576,12 @@ class Device(DeviceProtocol2, Taskable):
         else:
             validate(value)
             self.set_property(Props.TEMP_SET, int(value))
+
+        if Props.TEMP_SET.value in self._dirty or Props.TEMP_BIT.value in self._dirty:
+            # A target and its encoding must survive reports and sends as one command.
+            for name in _TEMPERATURE_PROPERTIES:
+                self._dirty.setdefault(name, self._properties.get(name))
+            self._dirty[Props.TEMP_UNIT.value] = self.temperature_units
 
     @property
     def temperature_units(self) -> Optional[int]:

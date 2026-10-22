@@ -159,3 +159,170 @@ async def test_issue_146_interrupted_send_retains_intent(cancelled):
             if not task.done():
                 task.cancel()
             await asyncio.gather(task, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("response,value_key", [
+    (Response.DATA, "dat"),
+    (Response.RESULT, "val"),
+    (Response.RESULT, "p"),
+])
+@pytest.mark.parametrize("initial,target,expected", [
+    ({"SetTem": 24, "TemRec": 0, "TemUn": 0}, 25,
+     {"SetTem": 25, "TemRec": 0, "TemUn": 0}),
+    ({"SetTem": 22, "TemRec": 1, "TemUn": 1}, 74,
+     {"SetTem": 23, "TemRec": 1, "TemUn": 1}),
+    ({"SetTem": 23, "TemRec": 0, "TemUn": 1}, 74,
+     {"SetTem": 23, "TemRec": 1, "TemUn": 1}),
+])
+async def test_issue_146_late_report_preserves_temperature_tuple(
+    response, value_key, initial, target, expected
+):
+    async with recovery_session() as (device, peer, queue, addr):
+        await recovery_receive(queue, device.device_cipher)
+        device.handle_state_update(**initial)
+        device.target_temperature = target
+        assert device.target_temperature == target
+        events = asyncio.Queue()
+        device.add_handler(response, events.put_nowait)
+        reported = {
+            "SetTem": 26,
+            "TemRec": 1 - initial["TemRec"],
+            "TemUn": 1 - initial["TemUn"],
+        }
+        peer.sendto(recovery_packet({
+            "t": response.value,
+            "cols" if response is Response.DATA else "opt": list(reported),
+            value_key: list(reported.values()),
+        }, device.device_cipher), addr)
+        assert await asyncio.wait_for(events.get(), 2) == reported
+        assert device.raw_properties == reported
+        assert device.get_property(Props.TEMP_SET) == reported["SetTem"]
+        assert device.temperature_units == reported["TemUn"]
+        assert device.has_valid_state
+
+        await device.push_state_update()
+        command, _ = await recovery_receive(queue, device.device_cipher)
+        assert dict(zip(command["opt"], command["p"])) == expected
+        await device.push_state_update()
+        assert queue.empty()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("initial,target", [
+    ({"SetTem": 24, "TemRec": 0, "TemUn": 0}, 24),
+    ({"SetTem": 23, "TemRec": 0, "TemUn": 1}, 73),
+])
+async def test_issue_146_temperature_noop_and_standalone_units(initial, target):
+    async with recovery_session() as (device, peer, queue, addr):
+        await recovery_receive(queue, device.device_cipher)
+        device.handle_state_update(**initial)
+        device.temperature_units = initial["TemUn"]
+        device.target_temperature = target
+        await device.push_state_update()
+        assert queue.empty()
+
+        units = 1 - initial["TemUn"]
+        device.temperature_units = units
+        device.target_temperature = device.target_temperature
+        await device.push_state_update()
+        command, _ = await recovery_receive(queue, device.device_cipher)
+        assert dict(zip(command["opt"], command["p"])) == {"TemUn": units}
+        device.temperature_units = units
+        device.target_temperature = device.target_temperature
+        await device.push_state_update()
+        assert queue.empty()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("initial,first_target,newer_target,newer_units,expected", [
+    ({"SetTem": 24, "TemRec": 0, "TemUn": 0}, 25, 26, None,
+     {"SetTem": 26, "TemRec": 0, "TemUn": 0}),
+    ({"SetTem": 22, "TemRec": 1, "TemUn": 1}, 73, 74, None,
+     {"SetTem": 23, "TemRec": 1, "TemUn": 1}),
+    ({"SetTem": 23, "TemRec": 0, "TemUn": 1}, 74, 75, None,
+     {"SetTem": 24, "TemRec": 0, "TemUn": 1}),
+    ({"SetTem": 24, "TemRec": 0, "TemUn": 0}, 25, None, 1,
+     {"SetTem": 25, "TemRec": 0, "TemUn": 1}),
+])
+async def test_issue_146_newer_temperature_tuple_survives_awaiting_send(
+    initial, first_target, newer_target, newer_units, expected
+):
+    async with recovery_session() as (device, peer, queue, addr):
+        await recovery_receive(queue, device.device_cipher)
+        device.handle_state_update(**initial)
+        device.target_temperature = first_target
+        first = {name: device.raw_properties[name] for name in initial}
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        device.pause_writing()
+        task = asyncio.create_task(device.push_state_update())
+        try:
+            command, _ = await recovery_receive(queue, device.device_cipher)
+            assert dict(zip(command["opt"], command["p"])) == first
+            assert not task.done()
+            reported = {"SetTem": 20, "TemRec": 1, "TemUn": initial["TemUn"]}
+            peer.sendto(recovery_packet({
+                "t": "dat", "cols": list(reported), "dat": list(reported.values()),
+            }, device.device_cipher), addr)
+            assert await asyncio.wait_for(events.get(), 2) == reported
+            assert device.raw_properties == reported
+            if newer_units is not None:
+                device.temperature_units = newer_units
+            if newer_target is not None:
+                device.target_temperature = newer_target
+            device.resume_writing()
+            await asyncio.wait_for(task, 2)
+
+            await device.push_state_update()
+            command, _ = await recovery_receive(queue, device.device_cipher)
+            assert dict(zip(command["opt"], command["p"])) == expected
+            await device.push_state_update()
+            assert queue.empty()
+        finally:
+            device.resume_writing()
+            if not task.done():
+                task.cancel()
+            await asyncio.gather(task, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("cancelled", [False, True])
+async def test_issue_146_interrupted_temperature_send_retains_tuple(cancelled):
+    async with recovery_session() as (device, peer, queue, addr):
+        await recovery_receive(queue, device.device_cipher)
+        device.handle_state_update(SetTem=23, TemRec=0, TemUn=1)
+        device.target_temperature = 74
+        expected = {"SetTem": 23, "TemRec": 1, "TemUn": 1}
+        events = asyncio.Queue()
+        device.add_handler(Response.RESULT, events.put_nowait)
+        device.pause_writing()
+        if not cancelled:
+            device._timeout = 0
+        task = asyncio.create_task(device.push_state_update())
+        try:
+            command, _ = await recovery_receive(queue, device.device_cipher)
+            assert dict(zip(command["opt"], command["p"])) == expected
+            if cancelled:
+                assert not task.done()
+                task.cancel()
+            with pytest.raises(asyncio.CancelledError if cancelled else DeviceTimeoutError):
+                await task
+            reported = {"SetTem": 26, "TemRec": 0, "TemUn": 0}
+            peer.sendto(recovery_packet({
+                "t": "res", "opt": list(reported), "val": list(reported.values()),
+            }, device.device_cipher), addr)
+            assert await asyncio.wait_for(events.get(), 2) == reported
+            device.resume_writing()
+            device._timeout = 1
+
+            await device.push_state_update()
+            command, _ = await recovery_receive(queue, device.device_cipher)
+            assert dict(zip(command["opt"], command["p"])) == expected
+            await device.push_state_update()
+            assert queue.empty()
+        finally:
+            device.resume_writing()
+            if not task.done():
+                task.cancel()
+            await asyncio.gather(task, return_exceptions=True)
