@@ -207,7 +207,7 @@ async def test_target_humidity_rejects_invalid_without_mutation(value):
     try:
         device.target_humidity = 45
         state = dict(device.raw_properties)
-        pending = list(device._dirty)
+        pending = device._dirty.copy()
         with pytest.raises(ValueError, match="humidity"):
             device.target_humidity = value
         assert device.raw_properties == state
