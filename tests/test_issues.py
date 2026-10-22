@@ -1,14 +1,19 @@
 import asyncio
-from unittest.mock import patch
+import base64
+import json
+from unittest.mock import MagicMock, patch
 
 import pytest
 
 from greeclimate.device import Props, Device, DeviceInfo
 from greeclimate.cipher import CipherV1
 from greeclimate.exceptions import DeviceTimeoutError
+from greeclimate.cipher import CipherV2
+from greeclimate.discovery import Discovery
 from greeclimate.network import DeviceProtocol2, Response
-from tests.common import udp_peer
+from tests.common import DISCOVERY_RESPONSE, encrypt_payload_v2, udp_peer
 from tests.test_device import recovery_packet, recovery_receive, recovery_session
+from tests.test_discovery import _RecoveryListener
 from tests.test_emulator import peer_packet
 
 
@@ -366,3 +371,129 @@ async def test_issue_214_invalid_bind_and_unknown_reply_preserve_receive_session
         protocol.close()
         await asyncio.wait_for(protocol._transport_closed.wait(), 1)
         loop.set_exception_handler(previous_handler)
+
+
+@pytest.fixture
+def issue_210_cipher_v2():
+    return CipherV2(b'ThisIsASecretKey')
+
+
+@pytest.fixture
+def issue_210_plain_text():
+    return {"message": "Hello, World!"}
+
+
+@pytest.mark.parametrize("tag", [None, "", "%%%", "YQ==", 1, [], {}])
+def test_issue_210_v2_rejects_missing_or_malformed_tag(issue_210_cipher_v2, issue_210_plain_text, tag):
+    cipher_v2 = issue_210_cipher_v2
+    encrypted, _ = cipher_v2.encrypt(issue_210_plain_text)
+    with pytest.raises((ValueError, TypeError)):
+        cipher_v2.decrypt(encrypted, tag)
+
+
+def test_issue_210_v2_rejects_modified_tag(issue_210_cipher_v2, issue_210_plain_text):
+    cipher_v2 = issue_210_cipher_v2
+    encrypted, tag = cipher_v2.encrypt(issue_210_plain_text)
+    modified = bytearray(base64.b64decode(tag))
+    modified[0] ^= 1
+    with pytest.raises(ValueError):
+        cipher_v2.decrypt(encrypted, base64.b64encode(modified).decode())
+    with pytest.raises(ValueError):
+        cipher_v2.decrypt(encrypted, "!" + tag)
+
+
+def test_issue_210_v2_rejects_modified_ciphertext_that_remains_valid_json(issue_210_cipher_v2):
+    cipher_v2 = issue_210_cipher_v2
+    payload = {"t": "dat", "cols": ["Pow"], "dat": [1]}
+    encrypted, tag = cipher_v2.encrypt(payload)
+    modified = bytearray(base64.b64decode(encrypted))
+    modified[json.dumps(payload).encode().rindex(b"1")] ^= ord("1") ^ ord("0")
+    with pytest.raises(ValueError):
+        cipher_v2.decrypt(base64.b64encode(modified).decode(), tag)
+
+
+@pytest.mark.parametrize("payload,response,expected", [
+    ({"t": "dat", "cols": ["Pow"], "dat": [1]}, Response.DATA, {"Pow": 1}),
+    ({"t": "bindok", "key": "synthetic-key1"}, Response.BIND_OK, "synthetic-key1"),
+])
+@pytest.mark.parametrize("mutation", [
+    "ciphertext", "tag", "missing", "null", "empty", "malformed",
+    "invalid-alphabet", "short", "number", "list", "object",
+])
+def test_issue_210_v2_unauthenticated_packets_never_reach_handlers(payload, response, expected, mutation):
+    protocol = DeviceProtocol2()
+    protocol.device_cipher = CipherV2(b"0123456789abcdef")
+    callbacks = MagicMock()
+    protocol.add_handler(response, callbacks)
+    encrypted, tag = protocol.device_cipher.encrypt(payload)
+    valid = {"pack": encrypted, "tag": tag}
+    invalid = valid.copy()
+    if mutation in ("ciphertext", "tag"):
+        field = "pack" if mutation == "ciphertext" else "tag"
+        modified = bytearray(base64.b64decode(invalid[field]))
+        index = json.dumps(payload).encode().rindex(b"1") if field == "pack" else 0
+        modified[index] ^= 1
+        invalid[field] = base64.b64encode(modified).decode()
+    elif mutation == "missing":
+        del invalid["tag"]
+    else:
+        invalid["tag"] = {
+            "null": None, "empty": "", "malformed": "%%%",
+            "invalid-alphabet": "!" + tag, "short": "YQ==",
+            "number": 17, "list": [], "object": {},
+        }[mutation]
+
+    with patch.object(protocol, "handle_state_update") as state, \
+            patch.object(protocol, "handle_device_bound") as bound:
+        protocol.datagram_received(json.dumps(invalid).encode(), ("192.0.2.1", 7000))
+        state.assert_not_called()
+        bound.assert_not_called()
+        callbacks.assert_not_called()
+        assert not protocol.ready.is_set()
+
+        protocol.datagram_received(json.dumps(valid).encode(), ("192.0.2.1", 7000))
+        callbacks.assert_called_once_with(expected)
+        if response == Response.DATA:
+            state.assert_called_once_with(**expected)
+            bound.assert_not_called()
+        else:
+            bound.assert_called_once_with(expected)
+            state.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_issue_210_discovery_v2_fallback_rejects_unauthenticated_replies():
+    discovery = Discovery()
+    listener = _RecoveryListener()
+    discovery.add_listener(listener)
+    valid = encrypt_payload_v2(DISCOVERY_RESPONSE)
+    modified_pack = bytearray(base64.b64decode(valid["pack"]))
+    name = DISCOVERY_RESPONSE["pack"]["name"].encode()
+    offset = json.dumps(DISCOVERY_RESPONSE["pack"]).encode().index(name)
+    modified_pack[offset] ^= 1
+    modified_tag = bytearray(base64.b64decode(valid["tag"]))
+    modified_tag[0] ^= 1
+    invalid = [
+        dict(valid, pack=base64.b64encode(modified_pack).decode()),
+        dict(valid, tag=base64.b64encode(modified_tag).decode()),
+        {"pack": valid["pack"]},
+    ]
+    invalid += [
+        dict(valid, tag=tag)
+        for tag in (None, "", "%%%", "!" + valid["tag"], "YQ==", 17, [], {})
+    ]
+    try:
+        for packet in invalid:
+            discovery.datagram_received(json.dumps(packet).encode(), ("192.0.2.1", 7000))
+            await asyncio.gather(*discovery.tasks)
+            assert discovery.devices == []
+            assert listener.events.empty()
+
+        discovery.datagram_received(json.dumps(valid).encode(), ("192.0.2.1", 7000))
+        await asyncio.gather(*discovery.tasks)
+        assert len(discovery.devices) == 1
+        assert discovery.devices[0].name == DISCOVERY_RESPONSE["pack"]["name"]
+        assert listener.events.get_nowait() == ("found", discovery.devices[0])
+        assert listener.events.empty()
+    finally:
+        discovery.close()

@@ -45,7 +45,7 @@ def test_decryption_with_modified_data_raises_error(cipher_v1, plain_text):
 
 def test_encryption_then_decryption_yields_original_with_tag(cipher_v2, plain_text):
     encrypted, tag = cipher_v2.encrypt(plain_text)
-    decrypted = cipher_v2.decrypt(encrypted)
+    decrypted = cipher_v2.decrypt(encrypted, tag)
     assert decrypted == plain_text
 
 
