@@ -159,8 +159,6 @@ Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loo
 
 Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
 
-`discovery.close()` cancels pending searches and listener work and closes UDP, including endpoints still being created. A later explicit search on the same instance reopens discovery; register listeners again after reopening.
-
 ## Use Gree Emulator
 
 Run these commands from the repository root with Python 3.10+ and dependencies installed; each server runs until Ctrl-C.
