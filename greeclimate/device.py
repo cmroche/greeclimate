@@ -3,9 +3,10 @@ import enum
 import logging
 import re
 from asyncio import AbstractEventLoop
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from copy import copy
 from enum import IntEnum, unique
+from types import MappingProxyType
 from typing import Union, Optional, Any, List, Dict
 
 from greeclimate.cipher import CipherV1, CipherV2
@@ -105,6 +106,14 @@ class DehumidifierMode(IntEnum):
     AnionOnly = 9
 
 
+_CAPABILITY_NAMES = (
+    "power", "mode", "target_temperature", "temperature_units", "current_temperature",
+    "fan_speed", "fresh_air", "xfan", "anion", "sleep", "light", "horizontal_swing",
+    "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "lan_buzzer_control",
+    "target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter", "water_full",
+)
+
+
 def _property_name(name: Union[str, enum.Enum]) -> str:
     if isinstance(name, enum.Enum):
         name = name.value
@@ -122,6 +131,9 @@ _TEMPERATURE_PROPERTIES = (Props.TEMP_SET.value, Props.TEMP_BIT.value, Props.TEM
 
 class Device(DeviceProtocol2, Taskable):
     """Shared binding, state cache and transport lifecycle."""
+
+    _capability_family = None
+    _capability_names = frozenset()
 
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         """Initialize the device object
@@ -423,6 +435,36 @@ class Device(DeviceProtocol2, Taskable):
     @property
     def raw_properties(self) -> dict:
         return self._properties
+
+    @property
+    def capabilities(self) -> Mapping[str, Optional[bool]]:
+        """Snapshot typed protocol evidence, not physical features or permission.
+
+        True means declared protocol feature support, not every writable value.
+        False means outside this family's typed API or explicitly excluded;
+        None means support has not been established.
+        """
+        capabilities = {
+            name: None if self._capability_family is None or name in self._capability_names else False
+            for name in _CAPABILITY_NAMES
+        }
+        if self._capability_family is not None:
+            mid_profile = self._mid_profile
+            if mid_profile.family == self._capability_family:
+                for name, supported in mid_profile.capabilities.items():
+                    if name in self._capability_names:
+                        capabilities[name] = supported
+            profile = self._device_profile
+            if self._capability_family == "air_conditioner":
+                buzzer_properties = profile.buzzer_properties if profile is not None else None
+                capabilities["lan_buzzer_control"] = (
+                    bool(buzzer_properties) if buzzer_properties is not None else None
+                )
+            if profile is not None:
+                for family, name, supported in profile.capabilities:
+                    if family == self._capability_family and name in self._capability_names:
+                        capabilities[name] = supported
+        return MappingProxyType(capabilities)
 
     def get_property(self, name: Union[str, enum.Enum]) -> Optional[Any]:
         """Look up a raw protocol property without inferring appliance support."""

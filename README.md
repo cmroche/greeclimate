@@ -145,6 +145,16 @@ device.quiet = True
 await device.push_state_update()
 ```
 
+Use capability evidence to offer an optional AC control without treating unknown as unsupported.
+
+```python
+if device.capabilities["quiet"] is True:
+    device.quiet = True
+    await device.push_state_update()
+```
+
+`capabilities` is a fresh, immutable 23-key snapshot: `True` means declared protocol support, `False` means outside the typed family's API or explicitly excluded by firmware, and `None` means not established. Neutral devices report all `None`. Reading it sends no probe; it neither gates setters nor guarantees physical effects or available readings. See [evidence and precedence](docs/MIDS.md#capability-evidence).
+
 Request a muted power-on command where supported; wait for the reported firmware HID first.
 
 ```python

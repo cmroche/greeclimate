@@ -1,7 +1,34 @@
-"""Recorded status polling presets selected by the reported device MID."""
+"""Exact MID polling presets and declared protocol feature support."""
 
 from dataclasses import dataclass
-from typing import Optional, Tuple
+from typing import Dict, Optional, Tuple
+
+
+# Composite features require every field used by their typed encoding/decoder.
+_CAPABILITY_COLUMNS = {
+    "power": ("Pow",),
+    "mode": ("Mod",),
+    "target_temperature": ("SetTem", "TemRec", "TemUn"),
+    "temperature_units": ("TemUn",),
+    "current_temperature": ("TemSen",),
+    "fan_speed": ("WdSpd",),
+    "fresh_air": ("Air",),
+    "xfan": ("Blo",),
+    "anion": ("Health",),
+    "sleep": ("SwhSlp", "SlpMod"),
+    "light": ("Lig",),
+    "horizontal_swing": ("SwingLfRig",),
+    "vertical_swing": ("SwUpDn",),
+    "quiet": ("Quiet",),
+    "turbo": ("Tur",),
+    "steady_heat": ("StHt",),
+    "power_save": ("SvSt",),
+    "target_humidity": ("Dwet",),
+    "dehumidifier_mode": ("Dmod",),
+    "current_humidity": ("DwatSen",),
+    "clean_filter": ("Dfltr",),
+    "water_full": ("DwatFul",),
+}
 
 
 @dataclass(frozen=True)
@@ -10,12 +37,23 @@ class MidProfile:
     status_columns: Tuple[str, ...]
     family: Optional[str] = None
 
+    @property
+    def capabilities(self) -> Dict[str, bool]:
+        """Declared fields establish features, not every writable value or hardware effect."""
+        if self.mid is None or self.family is None:
+            return {}
+        columns = frozenset(self.status_columns)
+        return {
+            name: True for name, required in _CAPABILITY_COLUMNS.items()
+            if columns.issuperset(required)
+        }
+
 
 # Unknown device type (fallback for missing or unmatched MID).
 FALLBACK_MID_PROFILE = MidProfile(None, ("hid",))
 
 
-# docs/MIDS.md records polling presets, not exhaustive hardware capabilities.
+# docs/MIDS.md records feature evidence and limits; omitted fields stay unknown.
 KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Air conditioner.
     MidProfile("0001", (
