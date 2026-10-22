@@ -22,7 +22,7 @@ class CipherBase:
     def encrypt(self, data) -> Tuple[str, Union[str, None]]:
         raise NotImplementedError
 
-    def decrypt(self, data) -> dict:
+    def decrypt(self, data, tag=None) -> dict:
         raise NotImplementedError
 
 
@@ -45,7 +45,7 @@ class CipherV1(CipherBase):
         _logger.debug("Encrypted data: %s", encoded)
         return encoded, None
 
-    def decrypt(self, data) -> dict:
+    def decrypt(self, data, tag=None) -> dict:
         _logger.debug("Decrypting data: %s", data)
         cipher = self.__create_cipher()
         decoded = base64.b64decode(data)
@@ -77,11 +77,14 @@ class CipherV2(CipherBase):
         _logger.debug("Cipher digest: %s", tag)
         return encoded, tag
 
-    def decrypt(self, data) -> dict:
+    def decrypt(self, data, tag=None) -> dict:
         _logger.debug("Decrypting data: %s", data)
         cipher = self.__create_cipher()
         decoded = base64.b64decode(data)
-        decrypted = cipher.decrypt(decoded).decode()
+        if tag is None:
+            raise ValueError("CipherV2 requires an authentication tag")
+        decoded_tag = base64.b64decode(tag, validate=True)
+        decrypted = cipher.decrypt_and_verify(decoded, decoded_tag).decode()
         t = decrypted.replace(decrypted[decrypted.rindex('}') + 1:], '')
         _logger.debug("Decrypted data: %s", t)
         return json.loads(t)

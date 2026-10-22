@@ -1305,7 +1305,8 @@ async def recovery_receive(queue, cipher=None):
     data, addr = await asyncio.wait_for(queue.get(), 2)
     if cipher is None or isinstance(cipher, CipherV1):
         return peer_reply(data, (cipher.key if cipher else "a3K8Bx%2r8Y7#xDh").encode())["inner"], addr
-    return cipher.decrypt(json.loads(data)["pack"]), addr
+    envelope = json.loads(data)
+    return cipher.decrypt(envelope["pack"], envelope.get("tag")), addr
 
 
 async def recovery_negotiate(device, transport, queue, cipher=None, key=RECOVERY_KEY, **reply):

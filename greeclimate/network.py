@@ -128,7 +128,7 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         self._drained.set()
         super().resume_writing()
 
-    def _decrypt_pack(self, pack):
+    def _decrypt_pack(self, pack, tag=None):
         """Decrypt the pack field of a received packet.
 
         Override to customize cipher selection (e.g. trying more than one
@@ -136,7 +136,7 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
         """
         if self._cipher is None:
             raise ValueError("No cipher available for incoming packet")
-        return self._cipher.decrypt(pack)
+        return self._cipher.decrypt(pack, tag)
 
     def datagram_received(self, data: bytes, addr: IPAddr) -> None:
         """Handle an incoming datagram."""
@@ -147,7 +147,7 @@ class DeviceProtocolBase2(asyncio.DatagramProtocol):
             if not isinstance(obj, dict):
                 raise ValueError("Envelope is not a dictionary")
             if "pack" in obj:
-                obj["pack"] = self._decrypt_pack(obj["pack"])
+                obj["pack"] = self._decrypt_pack(obj["pack"], obj.get("tag"))
                 if not isinstance(obj["pack"], dict):
                     raise ValueError("Decrypted pack is not a dictionary")
         except (ValueError, UnicodeError, TypeError) as exc:

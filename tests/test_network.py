@@ -1,4 +1,5 @@
 import asyncio
+import base64
 import json
 import socket
 from threading import Thread
@@ -278,6 +279,55 @@ def test_bindok_handling():
         protocol.datagram_received(json.dumps(response).encode(), ("0.0.0.0", 0))
         assert mock.call_count == 1
         assert mock.call_args[0][0] == "fake-key"
+
+
+@pytest.mark.parametrize("payload,response,expected", [
+    ({"t": "dat", "cols": ["Pow"], "dat": [1]}, Response.DATA, {"Pow": 1}),
+    ({"t": "bindok", "key": "synthetic-key1"}, Response.BIND_OK, "synthetic-key1"),
+])
+@pytest.mark.parametrize("mutation", [
+    "ciphertext", "tag", "missing", "null", "empty", "malformed",
+    "invalid-alphabet", "short", "number", "list", "object",
+])
+def test_v2_unauthenticated_packets_never_reach_handlers(payload, response, expected, mutation):
+    protocol = DeviceProtocol2()
+    protocol.device_cipher = CipherV2(b"0123456789abcdef")
+    callbacks = MagicMock()
+    protocol.add_handler(response, callbacks)
+    encrypted, tag = protocol.device_cipher.encrypt(payload)
+    valid = {"pack": encrypted, "tag": tag}
+    invalid = valid.copy()
+    if mutation in ("ciphertext", "tag"):
+        field = "pack" if mutation == "ciphertext" else "tag"
+        modified = bytearray(base64.b64decode(invalid[field]))
+        index = json.dumps(payload).encode().rindex(b"1") if field == "pack" else 0
+        modified[index] ^= 1
+        invalid[field] = base64.b64encode(modified).decode()
+    elif mutation == "missing":
+        del invalid["tag"]
+    else:
+        invalid["tag"] = {
+            "null": None, "empty": "", "malformed": "%%%",
+            "invalid-alphabet": "!" + tag, "short": "YQ==",
+            "number": 17, "list": [], "object": {},
+        }[mutation]
+
+    with patch.object(protocol, "handle_state_update") as state, \
+            patch.object(protocol, "handle_device_bound") as bound:
+        protocol.datagram_received(json.dumps(invalid).encode(), ("192.0.2.1", 7000))
+        state.assert_not_called()
+        bound.assert_not_called()
+        callbacks.assert_not_called()
+        assert not protocol.ready.is_set()
+
+        protocol.datagram_received(json.dumps(valid).encode(), ("192.0.2.1", 7000))
+        callbacks.assert_called_once_with(expected)
+        if response == Response.DATA:
+            state.assert_called_once_with(**expected)
+            bound.assert_not_called()
+        else:
+            bound.assert_called_once_with(expected)
+            state.assert_not_called()
 
 
 def test_create_bind_message():

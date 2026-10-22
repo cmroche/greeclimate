@@ -106,7 +106,7 @@ def encrypt_payload_v2(data):
     """Encrypt the payload of responses using CipherV2 (AES-GCM)."""
     d = data.copy()
     cipher = CipherV2()
-    d["pack"], _ = cipher.encrypt(d["pack"])
+    d["pack"], d["tag"] = cipher.encrypt(d["pack"])
     return d
 
 
@@ -119,7 +119,7 @@ class FakeCipher(CipherBase):
     def encrypt(self, data) -> Tuple[str, Union[str, None]]:
         return data, None
 
-    def decrypt(self, data) -> dict:
+    def decrypt(self, data, tag=None) -> dict:
         return data
 
 

@@ -132,7 +132,7 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         self._listeners.clear()
         BroadcastListenerProtocol.close(self)
 
-    def _decrypt_pack(self, pack):
+    def _decrypt_pack(self, pack, tag=None):
         """Decrypt a scan reply, falling back to CipherV2 if CipherV1 fails.
 
         Some Gree Wi-Fi modules only speak the GCM-based protocol, even
@@ -144,10 +144,10 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         care of it.
         """
         try:
-            return self._cipher.decrypt(pack)
+            return self._cipher.decrypt(pack, tag)
         except Exception:
             try:
-                return CipherV2().decrypt(pack)
+                return CipherV2().decrypt(pack, tag)
             except Exception:
                 return None
 
