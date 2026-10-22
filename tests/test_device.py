@@ -556,6 +556,22 @@ async def test_temperature_code_defaults_and_literal_identity(hid, sensor, expec
     assert device.raw_properties["TemSen"] == sensor
 
 
+def test_bound_device_logs_mid_and_first_hid_once(caplog):
+    caplog.set_level("INFO", logger="greeclimate.device")
+    device = Device(DeviceInfo(*get_mock_info(), mid="10001"))
+    device.handle_state_update(hid="received-before-bind")
+    device.ready.set()
+    hid = "362001000762+U-CS532AE(LT)V3.31.bin"
+    device.handle_state_update(hid=hid)
+    device.handle_state_update(hid="later-hid")
+
+    records = [record for record in caplog.records if record.name == "greeclimate.device"]
+    assert len(records) == 1
+    assert records[0].levelname == "INFO"
+    assert "MID 10001" in records[0].getMessage()
+    assert f"HID {hid}" in records[0].getMessage()
+
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "samples,expected",

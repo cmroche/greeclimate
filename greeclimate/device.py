@@ -183,6 +183,7 @@ class Device(DeviceProtocol2, Taskable):
         
         """ Device properties """
         self.hid = None
+        self._hid_logged = False
         self.version = None
         self._matched_hid = None
         self._matched_profile: Optional[DeviceProfile] = None
@@ -406,7 +407,9 @@ class Device(DeviceProtocol2, Taskable):
             self.hid = hid
             match = re.search(r"(?<=V)([\d.]+)\.bin$", hid) if isinstance(hid, str) else None
             self.version = match and match.group(1)
-            self._logger.info(f"Device version is {self.version}, hid {self.hid}")
+            if self.ready.is_set() and not self._hid_logged:
+                self._logger.info("Device MID %s has HID %s (version %s)", self.device_info.mid, hid, self.version)
+                self._hid_logged = True
 
         self._properties.update(kwargs)
 
