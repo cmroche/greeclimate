@@ -75,6 +75,7 @@ await device.update_state()
 
 Request exact status columns and access raw protocol properties by name (or a string-valued enum).
 Explicit columns are sent unchanged, without adding `hid`; raw writes do not validate appliance support.
+The exact name `self` is reserved and rejected before staging a property or sending a status query.
 
 ```python
 await device.update_state(["Pow", "Lig"])

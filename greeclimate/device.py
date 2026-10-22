@@ -135,6 +135,8 @@ def _property_name(name: Union[str, enum.Enum]) -> str:
         raise TypeError("Property name must be a string or an enum with a string value")
     if not name:
         raise ValueError("Property name must not be empty")
+    if name == "self":
+        raise ValueError("Property name 'self' is reserved")
     return name
 
 
@@ -400,8 +402,8 @@ class Device(DeviceProtocol2, Taskable):
             if isinstance(columns, (str, bytes)) or not isinstance(columns, Sequence):
                 raise TypeError("Status columns must be a sequence of nonempty strings")
             columns = list(columns)
-            if not columns or any(not isinstance(name, str) or not name for name in columns):
-                raise ValueError("Status columns must contain nonempty strings")
+            if not columns or any(not isinstance(name, str) or not name or name == "self" for name in columns):
+                raise ValueError("Status columns must contain nonempty strings other than 'self'")
         if not self.device_cipher:
             await self.bind()
 
