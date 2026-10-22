@@ -4,7 +4,7 @@ import enum
 from asyncio import AbstractEventLoop
 from typing import Any, Dict, List, Optional
 
-from greeclimate.device import _BaseDevice
+from greeclimate.device import Device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.mid_profile import match_mid_profile
 
@@ -64,8 +64,17 @@ def _validate_cooling_mode_value(value: Any) -> Optional[int]:
     return value
 
 
-class AirToWaterDevice(_BaseDevice):
+class AirToWaterDevice(Device):
     """Opt-in ATW controls; reported units and power govern safe writes."""
+
+    _capability_family = "air_to_water"
+    _capability_names = frozenset({
+        "power", "mode", "temperature_units", "inlet_water_temperature_c",
+        "outlet_water_temperature_c", "room_temperature_c", "tank_temperature_c",
+        "heating_room_target_temperature_c", "cooling_room_target_temperature_c",
+        "heating_water_target_temperature_c", "cooling_water_target_temperature_c",
+        "tank_target_temperature_c",
+    })
 
     def __init__(
         self, device_info: DeviceInfo, timeout: int = 120,

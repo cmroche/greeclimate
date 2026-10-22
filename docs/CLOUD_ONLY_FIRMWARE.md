@@ -16,12 +16,4 @@ The version columns show the **latest verified LAN-capable build** and **earlies
 
 ## Important qualifications
 
-- **WB05WR13 has non-monotonic version labels:** the inspected exact-code `2.06` image has LAN support, while the inspected `2.04` image does not. Do not interpret `2.04` as a numeric threshold above which all builds are cloud-only.
-- **Uninspected version gaps:** DF13 `3.06–3.26`, WR11 `2.05–2.07`, and UR `2.03`. The first cloud-only release could be within those gaps.
-- **HR13 `1.02` is already affected:** bounded native replay leaves the LAN descriptor at `-1`, polls no LAN descriptor, and follows the outgoing cloud connection path. Its archived metadata explicitly says certification-agency testing only; others must not upgrade.
-- **`commProtVer: V3.2.M` alone does not prove cloud-only operation.** Several verified LAN builds also advertise it.
-- Unknown MIDs and device types are deliberate: runtime MCU-supplied identities and SDK defaults do not establish the attached appliance.
-
-Verification used native disassembly and bounded instruction replay, supplemented by owner reports for WB05WR11 and WB65VR. Native replay is not a full hardware boot or a physical command test.
-
-No firmware was flashed. These findings are not flashing recommendations: some images are test-only, and matching version labels do not establish hardware compatibility.
+- `WB05WR13` non-monotonic version change, possibly means local control was added back after being disabled.

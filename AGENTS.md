@@ -40,9 +40,11 @@ Follow the existing style: 4-space indentation, snake_case functions and variabl
 
 Tests use `pytest` with `pytest-asyncio`; `asyncio_mode = auto` is configured in `setup.cfg`. Name test files `test_*.py` and keep issue regressions in `tests/test_issues.py` when they map to reported bugs. Add coverage for state changes, packet parsing, binding behavior, and error handling when changing device or network logic.
 
-## README Guidelines
+## Documentation Guidelines
 
-Keep `README.md` focused on usage examples with concise descriptions. Update examples when behavior changes, but do not add lengthy API explanations, architecture notes, recovery guides, or publishing instructions. Put necessary detail in relevant existing documentation or the PR description instead.
+Do not change `README.md` unless the user explicitly instructs you to do so or grants permission.
+
+Changes to `MIDS.md` and `HIDS.md` are limited to adding new entries to existing tables. Preserve existing entries and table structures; do not rewrite content, add prose, or create new tables.
 
 ## Commit & Pull Request Guidelines
 

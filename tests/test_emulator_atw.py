@@ -94,9 +94,9 @@ def test_invalid_startup_overrides_fail_before_listening(
 
 
 def test_source_ciphertexts_and_exact_reply_casing():
-    source = json.loads((VECTOR_DIRECTORY / "atw-lan_research.json").read_text())
-    packets = source["independent_packets"]
-    bind = next(packet for packet in packets if packet["name"] == "bind-generic2")
+    bind = json.loads(
+        (Path(__file__).resolve().parent / "fixtures" / "atw-bind-generic2.json").read_text()
+    )
     device = device_for()
     replies = device.profile.handler.handle(device, bind["request_outer"])
     expected = bind["replies"][0]

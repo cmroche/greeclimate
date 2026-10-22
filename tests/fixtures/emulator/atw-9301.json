@@ -3,7 +3,7 @@
   "mid": "9301",
   "source_sha256": "37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
   "evidence": {
-    "native": "atw-lan_research.json scan, bind-generic2, status-order-duplicates-unknown, command duplicate echo and bound bind; atw-properties_research.json independently verifies all three emitted MIDs and shared heater selectors.",
+    "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/atw-lan_research.json scan, bind-generic2, status-order-duplicates-unknown, command duplicate echo and bound bind; https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/atw-properties_research.json independently verifies all three emitted MIDs and shared heater selectors.",
     "model": "Literal contract defaults, role-specific chosen 100-bias decimal sensors and no-fault AllErr; not physical calibration. Equal ambient/room and final power off prevent elapsed-time noise.",
     "safe_deviations": "Unsupported/read-only writes reject whole batch before advancing time; inactive and unmodeled sensors omitted instead of native unsafe memory reads."
   },

@@ -3,7 +3,7 @@
   "mid": "302b",
   "source_sha256": "5a4705122e69dfb99462fdeef1d19e8b7ce7315d6cdad895849c87ef0cfdfea8",
   "evidence": {
-    "native_capture": "hb-native_research.json; exact Thumb JSON/PKCS7 encryption/key selector and outer framing native captures",
+    "native_capture": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/hb-native_research.json; exact Thumb JSON/PKCS7 encryption/key selector and outer framing native captures",
     "simulation_contract": "Sensorless user-approved integer Celsius synthetic appliance model. Exposes only native-named modeled controls; no TemSen fabricated. Physical mainboard behavior and physical temperature calibration are not claimed. Blank scan ver/vender match initialized source RAM, not a guessed firmware string.",
     "expected_value_origin": "Native builders plus separately specified model defaults/state; no production/client imports."
   },

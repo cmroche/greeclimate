@@ -2,7 +2,7 @@
   "profile": "sim-w06dv-v4.01", "mid": "3018",
   "source_sha256": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f",
   "evidence": {
-    "native_protocol": "controller_research.json: byte-matched DV discovery0xa0f54c,bind0xa0f6ac,status parser0xa0f7a0/builder0xa0efd8,command parser0xa0f8c0/setter0xa10b70/builder0xa0f0d8; AES block and PKCS7 padding replay0xa0cb50/0xa0ca78 with documented ROM boundary.",
+    "native_protocol": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/controller_research.json: byte-matched DV discovery0xa0f54c,bind0xa0f6ac,status parser0xa0f7a0/builder0xa0efd8,command parser0xa0f8c0/setter0xa10b70/builder0xa0f0d8; AES block and PKCS7 padding replay0xa0cb50/0xa0ca78 with documented ROM boundary.",
     "model_contract": "Synthetic integer Celsius SetTem and persisted controls. No advertised ambient sensor: TemSen/TemBody unknown; TemSor lacks scalar selector and is not modeled. Thermal state remains internal. Known nonmodeled fields and unknown columns omitted. Quiet restricted to actual setter boolean.",
     "independence": "Recorded before runtime implementation; protocol shapes and base values from firmware replay, changed control state explicitly from approved synthetic model contract, never emulator/client-generated."
   },

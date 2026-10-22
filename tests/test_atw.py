@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, Mock
 import pytest
 
 import greeclimate.device_profile as device_profile
-from greeclimate.atw import AirToWaterDevice, AirToWaterMode
+from greeclimate.air_to_water import AirToWaterDevice, AirToWaterMode
 from greeclimate.cipher import CipherV1
 from greeclimate.device import Mode, Props
 from greeclimate.deviceinfo import DeviceInfo

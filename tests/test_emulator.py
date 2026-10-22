@@ -105,7 +105,7 @@ def test_encrypted_utf8_and_embedded_braces():
 
 
 def test_independent_ciphertext_vector():
-    # Native W06 framing plus the independently resolved ROM AES ABI; gateway_research.json.
+    # Native W06 framing and ROM AES ABI: private gree-research/tests/fixtures/emulator/gateway_research.json.
     cipher = bytes.fromhex(
         "2dbc97948aff4f4fea5a18123522b31271f54078b577168058719ea1ae7834eea3f"
         "66aecff4a7b1944dd5b198d68152d"

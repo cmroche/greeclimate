@@ -11,7 +11,7 @@
       "0x08052ff0",
       "0x08053288"
     ],
-    "native_capture": "w04h_research.json records original ARM Thumb dispatch/builders with JSON/ROM boundary hooks; command p only, generic bind reply and forced device-key status/cmd reply",
+    "native_capture": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/w04h_research.json records original ARM Thumb dispatch/builders with JSON/ROM boundary hooks; command p only, generic bind reply and forced device-key status/cmd reply",
     "simulation_contract": "USER-APPROVED synthetic appliance: independent bounded controls, atomic strict command validation, model-limited known-field omission, immutable configured name, room floor(C)+40. No claim this models actual mainboard setters/cache feedback. Strict w04h-v3.55 remains blocked.",
     "expected_value_origin": "Manually encoded observed firmware envelope shapes and separately specified simulation model; no production/client imports."
   },
