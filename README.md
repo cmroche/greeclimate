@@ -150,7 +150,7 @@ device.power = True
 await device.push_state_update()
 ```
 
-`buzzer` is a local preference: changing it alone sends nothing. Buzzer fields are sent only when explicitly enabled by a matching [exact-build profile](docs/OFFSETS.md#exact-build-lan-buzzer-properties); absent, unknown or unsupported profiles add none. Recognized fields do not guarantee physical muting.
+`buzzer` is a local preference: changing it alone sends nothing. Buzzer fields are sent only when explicitly enabled by a matching [firmware-code profile](docs/HIDS.md#firmware-code-traits-and-limitations); absent, unknown or unsupported profiles add none. Recognized fields do not guarantee physical muting.
 
 Set a dehumidifier's target relative humidity.
 
