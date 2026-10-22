@@ -390,25 +390,41 @@ def test_handle_state_update():
     assert protocol.state == {'key': 'value'}
 
 
-@pytest.mark.parametrize('values_key', ['val', 'p'])
-def test_handle_result_update(values_key):
-
-    # Arrange
+@pytest.mark.parametrize("values", [
+    {"val": ["value"]},
+    {"p": ["value"]},
+    {"val": ["value"], "p": ["ignored"]},
+    {"val": [], "p": ["value"]},
+    {"val": None, "p": ["value"]},
+])
+def test_handle_result_update(values):
     protocol = DeviceProtocol2Test()
-    state = {'key': 'value'}
-
-    # Act
+    callback = MagicMock()
+    protocol.add_handler(Response.RESULT, callback)
     protocol.packet_received({
-        'pack': {
-            't': 'res',
-            'opt': list(state.keys()),
-            values_key: list(state.values())
-        }
+        "pack": {"t": "RES", "opt": ["key"], **values}
     }, ("0.0.0.0", 0))
+    assert protocol.state == {"key": "value"}
+    callback.assert_called_once_with({"key": "value"})
 
-    # Assert
-    assert protocol.state == state
-    assert protocol.state == {'key': 'value'}
+
+@pytest.mark.parametrize("pack, expected", [
+    ({"t": "DAT", "cols": [], "dat": []}, {}),
+    ({"t": "res", "opt": [], "p": []}, {}),
+    ({"t": "dat", "cols": ["Pow", "Pow"], "dat": [0, 1]}, {"Pow": 1}),
+    ({"t": "res", "opt": ["Pow", "Pow"], "p": [0, 1]}, {"Pow": 1}),
+    (
+        {"t": "dat", "cols": ["vendor-field", "hid"], "dat": [None, "firmware.bin"]},
+        {"vendor-field": None, "hid": "firmware.bin"},
+    ),
+])
+def test_response_property_array_variants(pack, expected):
+    protocol = DeviceProtocol2Test()
+    callback = MagicMock()
+    protocol.add_handler(Response(pack["t"].casefold()), callback)
+    protocol.packet_received({"pack": pack}, ("127.0.0.1", 1))
+    assert protocol.state == expected
+    callback.assert_called_once_with(expected)
 
 
 def test_handle_device_bound():
@@ -711,11 +727,14 @@ async def test_recovery_malformed_datagrams_do_not_break_next_reply(cipher_type)
     errors = []
     previous_handler = loop.get_exception_handler()
     loop.set_exception_handler(lambda loop, context: errors.append(context))
-    protocol = DeviceProtocol2()
+    protocol = DeviceProtocol2Test()
+    state_update = MagicMock(wraps=protocol.handle_state_update)
+    protocol.handle_state_update = state_update
     protocol.device_cipher = cipher_type(b"0123456789abcdef")
     replies = asyncio.Queue()
     callback = replies.put_nowait
     protocol.add_handler(Response.DATA, callback)
+    protocol.add_handler(Response.RESULT, callback)
     encrypted, tag = protocol.device_cipher.encrypt(
         {"t": "dat", "cols": ["Pow"], "dat": [1]}
     )
@@ -736,6 +755,32 @@ async def test_recovery_malformed_datagrams_do_not_break_next_reply(cipher_type)
         b'{"pack": "YQ=="}',
         b'{"pack": "AAAAAAAAAAAAAAAAAAAAAA=="}',
     ]
+    malformed_packs = [{"t": []}, {"t": {}}, {"t": 7}]
+    for response, columns, values in [
+        ("dat", "cols", "dat"), ("res", "opt", "val"), ("res", "opt", "p")
+    ]:
+        base = {"t": response, columns: ["Pow"], values: [9]}
+        for field in (columns, values):
+            for invalid in (7, None, "Pow", {"Pow": 9}, False, ""):
+                malformed_packs.append(dict(base, **{field: invalid}))
+            missing = dict(base)
+            del missing[field]
+            malformed_packs.append(missing)
+        for invalid in (7, None, [], {}, "", "self"):
+            malformed_packs.append(dict(base, **{columns: [invalid]}))
+        for bad_columns, bad_values in [
+            (["Pow", "Mod"], [9]), (["Pow"], [9, 2]),
+            ([], [9]), (["Pow"], []),
+        ]:
+            malformed_packs.append(
+                dict(base, **{columns: bad_columns, values: bad_values})
+            )
+    for pack in malformed_packs:
+        encrypted, tag = protocol.device_cipher.encrypt(pack)
+        envelope = {"pack": encrypted}
+        if tag:
+            envelope["tag"] = tag
+        malformed.append(json.dumps(envelope).encode())
     async with udp_peer() as (peer, _):
         transport, _ = await loop.create_datagram_endpoint(
             lambda: protocol, remote_addr=peer.get_extra_info("sockname")
@@ -747,10 +792,14 @@ async def test_recovery_malformed_datagrams_do_not_break_next_reply(cipher_type)
                 peer.sendto(json.dumps(valid).encode(), endpoint)
                 assert await asyncio.wait_for(replies.get(), 1) == {"Pow": 1}
                 assert replies.empty()
+                state_update.assert_called_once_with(Pow=1)
+                assert protocol.state == {"Pow": 1}
+                state_update.reset_mock()
             assert not errors
         finally:
             transport.close()
             protocol.remove_handler(Response.DATA, callback)
+            protocol.remove_handler(Response.RESULT, callback)
             loop.set_exception_handler(previous_handler)
 
 
@@ -766,7 +815,7 @@ async def test_recovery_decrypted_pack_must_be_dictionary(decrypted):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("error_type", [ValueError, KeyError, AttributeError])
+@pytest.mark.parametrize("error_type", [ValueError, KeyError, AttributeError, TypeError])
 async def test_recovery_application_callback_errors_are_not_decode_errors(error_type):
     protocol = DeviceProtocol2()
     protocol.device_cipher = CipherV1(b"0123456789abcdef")

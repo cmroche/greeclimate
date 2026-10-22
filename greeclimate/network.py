@@ -243,8 +243,6 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """
         params = {
             Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
-            Response.DATA.value: lambda o, a: [dict(zip(o["pack"]["cols"], o["pack"]["dat"]))],
-            Response.RESULT.value: lambda o, a: [dict(zip(o["pack"]["opt"], o["pack"].get("val", []) or o["pack"].get("p", [])))],
         }
         handlers = {
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
@@ -252,11 +250,37 @@ class DeviceProtocol2(DeviceProtocolBase2):
             Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
         }
         try:
-            resp = obj.get("pack", {}).get("t")
-            if isinstance(resp, str):
-                resp = resp.casefold()
+            pack = obj.get("pack", {})
+            resp = pack.get("t")
+            if not isinstance(resp, str):
+                return
+            resp = resp.casefold()
             handler = handlers.get(resp, self.handle_unknown_packet)
-            param = params.get(resp, lambda o, a: (o, a))(obj, addr)
+            if resp in (Response.DATA.value, Response.RESULT.value):
+                if resp == Response.DATA.value:
+                    columns, values = pack.get("cols"), pack.get("dat")
+                else:
+                    columns = pack.get("opt")
+                    values = pack.get("val")
+                    if values is not None and not isinstance(values, list):
+                        raise ValueError("RESULT val is not a list")
+                    values = values or pack.get("p", [])
+                if (
+                    not isinstance(columns, list)
+                    or not isinstance(values, list)
+                    or len(columns) != len(values)
+                    # Property names become keyword arguments to a bound handler.
+                    or any(
+                        not isinstance(name, str) or not name or name == "self"
+                        for name in columns
+                    )
+                ):
+                    raise ValueError("Invalid response property arrays")
+                param = [dict(zip(columns, values))]
+            else:
+                param = params.get(resp, lambda o, a: (o, a))(obj, addr)
+        except ValueError as e:
+            _LOGGER.debug("Ignoring malformed response from %s: %s", addr, e)
         except AttributeError as e:
             _LOGGER.exception("Error while handling packet", exc_info=e)
         except KeyError as e:
