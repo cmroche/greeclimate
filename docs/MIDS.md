@@ -89,7 +89,7 @@ These are default polling lists, not complete capability or temperature-encoding
 
 A gateway HID identifies the gateway firmware, not each indoor unit's firmware. Enumeration does not establish child status fields. Synthetic fixtures are not hardware observations.
 
-Detailed firmware MID inventories and routing evidence are preserved in [private gree-research](https://github.com/cmroche/gree-research/blob/main/docs/MIDS.md). Public polling behavior above and executable conformance vectors do not require that repository. A routed MID does not prove appliance identity or calibrate `TemBody`, `TemSor` or `TemSen`; see the public [firmware traits](HIDS.md#firmware-traits).
+Detailed firmware MID inventories and routing evidence are preserved in [private gree-research](https://github.com/cmroche/gree-research/blob/main/docs/MIDS.md). Public polling behavior above and executable conformance vectors do not require that repository. A routed MID does not prove appliance identity or calibrate `TemBody`, `TemSor` or `TemSen`; see the public [firmware traits](HIDS.md#firmware-code-traits-and-limitations).
 
 ## Emulator contracts
 
