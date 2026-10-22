@@ -4,6 +4,7 @@ import logging
 import re
 import typing
 from asyncio import AbstractEventLoop
+from collections.abc import Sequence
 from copy import copy
 from enum import IntEnum, unique
 from typing import Union, Optional, Any
@@ -125,6 +126,17 @@ TEMP_MAX_TABLE_F = 140
 TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_TABLE_F, TEMP_MAX_TABLE_F + 1)]
 HUMIDITY_MIN = 30
 HUMIDITY_MAX = 80
+
+
+def _property_name(name: Union[str, enum.Enum]) -> str:
+    if isinstance(name, enum.Enum):
+        name = name.value
+    if not isinstance(name, str):
+        raise TypeError("Property name must be a string or an enum with a string value")
+    if not name:
+        raise ValueError("Property name must not be empty")
+    return name
+
 
 _TEMPERATURE_PROPERTIES = (Props.TEMP_SET.value, Props.TEMP_BIT.value, Props.TEMP_UNIT.value)
 
@@ -380,19 +392,28 @@ class Device(DeviceProtocol2, Taskable):
         except asyncio.TimeoutError:
             raise DeviceTimeoutError
 
-    async def update_state(self):
+    async def update_state(self, columns: Optional[Sequence[str]] = None) -> None:
         """Send a status request; state changes only when a DATA reply arrives."""
         if self._closed or (self._bind_waiter is not None and not self._bind_waiter.done()):
             raise DeviceNotBoundError
+        if columns is not None:
+            if isinstance(columns, (str, bytes)) or not isinstance(columns, Sequence):
+                raise TypeError("Status columns must be a sequence of nonempty strings")
+            columns = list(columns)
+            if not columns or any(not isinstance(name, str) or not name for name in columns):
+                raise ValueError("Status columns must contain nonempty strings")
         if not self.device_cipher:
             await self.bind()
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
-        profile = match_mid_profile(self.device_info.mid)
-        props = list(profile.status_columns)
-        if not self.hid and "hid" not in props:
-            props.append("hid")
+        if columns is None:
+            profile = match_mid_profile(self.device_info.mid)
+            props = list(profile.status_columns)
+            if not self.hid and "hid" not in props:
+                props.append("hid")
+        else:
+            props = columns
 
         try:
             await self.send(self.create_status_message(self.device_info, *props))
@@ -501,24 +522,20 @@ class Device(DeviceProtocol2, Taskable):
     def raw_properties(self) -> dict:
         return self._properties
 
-    def get_property(self, name) -> Optional[Any]:
-        """Generic lookup of properties tracked from the physical device"""
-        if self._properties:
-            return self._properties.get(name.value)
-        return None
+    def get_property(self, name: Union[str, enum.Enum]) -> Optional[Any]:
+        """Look up a raw protocol property without inferring appliance support."""
+        name = _property_name(name)
+        return self._properties.get(name)
 
-    def set_property(self, name, value):
-        """Generic setting of properties for the physical device"""
-        if not self._properties:
-            self._properties = {}
-
-        if self._properties.get(name.value) == value and (
-            name.value not in self._dirty or self._dirty[name.value] == value
+    def set_property(self, name: Union[str, enum.Enum], value: Any) -> None:
+        """Stage an explicit raw protocol property without appliance validation."""
+        name = _property_name(name)
+        if self._properties.get(name) == value and (
+            name not in self._dirty or self._dirty[name] == value
         ):
             return
-        else:
-            self._properties[name.value] = value
-            self._dirty[name.value] = value
+        self._properties[name] = value
+        self._dirty[name] = value
 
     @property
     def has_valid_state(self) -> bool:
