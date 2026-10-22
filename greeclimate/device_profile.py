@@ -154,6 +154,7 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     ),
     DeviceProfile(
         "362001065634",
+        buzzer_properties=("Buzzer_ON_OFF",),
         capabilities=(("air_conditioner", "current_temperature", False),),
     ),
     DeviceProfile(

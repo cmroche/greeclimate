@@ -1291,7 +1291,7 @@ def test_device_key_set_get():
     ("362001064973+U-W04NV19.bin", ("Buzzer_ON_OFF",)),
     ("362001065016+U-W04HMV1.05.bin", ("Buzzer_ON_OFF",)),
     ("362001063967+U-WFXRV1.2.bin", ("Buzzer_ON_OFF",)),
-    ("362001065634+U-WB04BRT13V1.50.bin", None),
+    ("362001065634+U-WB04BRT13V1.50.bin", ("Buzzer_ON_OFF",)),
     ("362001066763+U-W06A(P3)V6.04.bin", ()),
     ("362001000762+U-CS532AE(LT)V3.33.bin", None),
     ("362001064973+U-W04NV20.bin", ("Buzzer_ON_OFF",)),
@@ -1351,7 +1351,7 @@ async def test_buzzer_profile_cache_follows_hid_not_mid(direct_assignment, ciphe
     device.buzzer = False
     transitions = [
         ("362001066763+U-W06A(P3)V6.04.bin", {}),
-        ("362001065634+U-WB04BRT13V1.50.bin", {}),
+        ("362001065634+U-WB04BRT13V1.50.bin", {"Buzzer_ON_OFF": 1}),
         ("362001066763+U-W06A(P3)V6.05.bin", {}),
         ("362001064973+U-W04NV17.bin", {"Buzzer_ON_OFF": 1}),
         ("362001066763+U-W06A(P3)V6.04.bin", {}),

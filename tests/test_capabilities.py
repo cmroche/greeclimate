@@ -549,7 +549,7 @@ async def test_firmware_code_exclusions_override_mid_evidence(info, hid, exclude
 
 
 @pytest.mark.parametrize("hid,buzzer", [
-    ("362001065634", None),
+    ("362001065634", True),
     ("362001062617+U-W05SAV1.28.bin", None),
     ("362001067012+U-W06AV30.bin", False),
 ])
