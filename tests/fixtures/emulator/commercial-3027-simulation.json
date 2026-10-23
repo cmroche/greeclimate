@@ -3,13 +3,13 @@
   "mid": "3027",
   "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
   "evidence": {
-    "native_input_terminator": "Shared exact-source commercial parser/wrapper: commercial-nul-input_research.json proves full encrypted native command and next status with one JSON NUL before PKCS7. Codec accepts this single optional terminator and safe normal JSON. Embedded/double NUL remains invalid; replies retain ordinary PKCS7.",
+    "native_input_terminator": "Shared exact-source commercial parser/wrapper: https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-nul-input_research.json proves full encrypted native command and next status with one JSON NUL before PKCS7. Codec accepts this single optional terminator and safe normal JSON. Embedded/double NUL remains invalid; replies retain ordinary PKCS7.",
     "native_sources": [
-      "commercial-nul-input_research.json",
-      "commercial_research.json",
-      "commercial-bind_research.json",
-      "commercial-wire_research.json",
-      "commercial-gateway_research.json"
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-nul-input_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-bind_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-wire_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-gateway_research.json"
     ],
     "native_scan_method": "Native complete scan branch/parser/builders/key assembly/PKCS7/base64/wrapper. libc/MAC-I/O boundaries hooked. Identified hardware AES-ECB primitive substituted with independent PyCryptodome AES only; no emulator implementation or firmware ciphertext claim. Runtime RAM metadata seeded explicitly.",
     "protocol": "Exact emitted3027 standalone MID from native mainboard router and scan. Common WB04BRT1.50 scan/bind/status/p-only reply dialect; outerUIDecho with configured/default accountUID0 inside dat.3017/3018/302c are not registered aliases.",

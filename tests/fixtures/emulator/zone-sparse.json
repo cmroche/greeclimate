@@ -3,7 +3,7 @@
   "mid": "50",
   "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
   "evidence": {
-    "native_protocol": "zone-sparse_research.json native online slots0,2,4,6; sparse compaction and exact slot-derived identifiers.",
+    "native_protocol": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/zone-sparse_research.json native online slots0,2,4,6; sparse compaction and exact slot-derived identifiers.",
     "model_contract": "Literal initial shared/local model state; no ambient field."
   },
   "device": {

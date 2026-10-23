@@ -3,7 +3,7 @@
   "mid": "10010",
   "source_sha256": "0d5ee6fda1678084e1fa29e6267941afae304090b5b97f7b4264f9cee7fd461b",
   "evidence": {
-    "native": "wb-additional-mids_research.json: independently executed exact runtime identity, actual AC acquisition branch, full encrypted scan/bind/status, all19 controls and duplicate command for this MID. Shares the proven WB04A framing, not a guessed adjacent-MID range.",
+    "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/wb-additional-mids_research.json: independently executed exact runtime identity, actual AC acquisition branch, full encrypted scan/bind/status, all19 controls and duplicate command for this MID. Shares the proven WB04A framing, not a guessed adjacent-MID range.",
     "model": "Controls, ranges, floors, sensor bias40 and temperature are explicitly synthetic. Unknown/unmodelled status fields are omitted; unsupported commands are rejected atomically. Native packets with terminal NUL succeed; accepting normal JSON without NUL is intentional safe-parser behavior, not native bug-free compatibility."
   },
   "device": {

@@ -3,12 +3,12 @@
   "mid": "4005",
   "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
   "evidence": {
-    "native_input_terminator": "commercial-nul-input_research.json proves full encrypted native command and same-RAM next status with exactly one JSON NUL before PKCS7. Codec accepts that single optional terminator; safe JSON also accepts normal unpadded JSON input instead of reproducing the native absent-key/padding scan loop. Embedded/double NUL remains invalid. Outbound PKCS7 unchanged, without NUL.",
+    "native_input_terminator": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-nul-input_research.json proves full encrypted native command and same-RAM next status with exactly one JSON NUL before PKCS7. Codec accepts that single optional terminator; safe JSON also accepts normal unpadded JSON input instead of reproducing the native absent-key/padding scan loop. Embedded/double NUL remains invalid. Outbound PKCS7 unchanged, without NUL.",
     "native_sources": [
-      "commercial-nul-input_research.json",
-      "commercial_research.json",
-      "commercial-bind_research.json",
-      "commercial-wire_research.json"
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-nul-input_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-bind_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-wire_research.json"
     ],
     "native_scan_method": "Native complete scan branch/parser/builders/key assembly/PKCS7/base64/wrapper. libc/MAC-I/O boundaries hooked. Identified hardware AES-ECB primitive substituted with independent PyCryptodome AES only; no emulator implementation or firmware ciphertext claim. Runtime RAM metadata seeded explicitly.",
     "protocol": "Exact4005 standalone scan/bind/status/p-only response dialect, generic-key selection i1, bound-key i0, reply identity swap, outer UID echo but configured/default account UID0 inside dat.",

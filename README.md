@@ -211,7 +211,12 @@ Capture packet logs on stderr while keeping startup announcements on stdout; scr
 python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1 2> emulator-packets.log
 ```
 
-These are simulated appliances, not complete firmware emulations. The library's `push_state_update()` currently adds an unsupported `BuzzerCtrl` field, so simulator commands can be rejected even when sending succeeds. See the [emulator guide](docs/EMULATOR.md) for configuration, protocol differences, and consumer-compatibility limits.
+These are simulated appliances, not complete firmware emulations. Unsupported command fields reject the entire batch; check a fresh status poll rather than treating a successful send as accepted control. See the [emulator contracts](docs/MIDS.md#emulator-contracts) for configuration, protocol differences, and model limits.
+
+## Device and protocol reference
+
+- [Known MIDs](docs/MIDS.md): current polling contracts and gateway observations.
+- [Known HIDs](docs/HIDS.md): firmware-string segments, matching rules, and sourced firmware codes.
 
 ## Debugging
 

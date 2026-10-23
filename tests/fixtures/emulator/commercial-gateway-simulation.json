@@ -3,12 +3,12 @@
   "mid": "60",
   "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
   "evidence": {
-    "native_input_terminator": "Shared exact-source commercial parser/wrapper: commercial-nul-input_research.json proves full encrypted native command and next status with one JSON NUL before PKCS7. Codec accepts this single optional terminator and safe normal JSON. Embedded/double NUL remains invalid; replies retain ordinary PKCS7.",
+    "native_input_terminator": "Shared exact-source commercial parser/wrapper: https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-nul-input_research.json proves full encrypted native command and next status with one JSON NUL before PKCS7. Codec accepts this single optional terminator and safe normal JSON. Embedded/double NUL remains invalid; replies retain ordinary PKCS7.",
     "native_sources": [
-      "commercial-nul-input_research.json",
-      "commercial_research.json",
-      "commercial-wire_research.json",
-      "commercial-gateway_research.json"
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-nul-input_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-wire_research.json",
+      "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-gateway_research.json"
     ],
     "protocol": "Native host60/subCnt1, exact one ACUnit child6400 with MAC parentMAC+00, subListc/i/list/r keys and fixed ACUnit/gree/lock0. Full source-specific scan and shared parser/reply constructors; not W06 fallback. Parent and child address the same native cache. mac takes precedence over sub; replies echo that selected mac with parentCID for dat. Children have no independent LAN endpoint/key/bind.",
     "simulation_contract": "USER-APPROVED synthetic AC model runs only once on child6400. Parent thermal_targetNone and state{}; child shared bounded namespace identical source-table intersection to standalone commercial models. InTem floor(C) clipped0..65535; no TemBody/TemSen temperature substitution. Units flags stored only. Root name is immutable global metadata; child enumeration name is native constant ACUnit.",
