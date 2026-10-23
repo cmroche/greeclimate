@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/cmroche/greeclimate/compare/v3.7.0...v4.0.0) (2026-10-23)
+
+
+### Bug Fixes
+
+* **release:** recognize breaking-change headers ([a7fcb14](https://github.com/cmroche/greeclimate/commit/a7fcb14facd2ac9366dcbb81772383082bbb1b0c))
+
+
+### BREAKING CHANGES
+
+* **release:** Establish 4.0.0 as the compatibility boundary for the API changes shipped in yanked 3.7.0. Device now provides transport and raw properties only; use create_device() or AirConditionerDevice, DehumidifierDevice, and AirToWaterDevice for typed controls. DeviceProfile now matches firmware codes rather than exact HIDs or version floors; migrate optional constructor traits to keyword arguments. See README.md and docs/HIDS.md for migration guidance.
+
 # [3.7.0](https://github.com/cmroche/greeclimate/compare/v3.6.0...v3.7.0) (2026-10-23)
 
 
