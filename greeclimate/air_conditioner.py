@@ -17,6 +17,13 @@ from greeclimate.deviceinfo import DeviceInfo
 class AirConditionerDevice(Device):
     """Air-conditioner controls; raw properties remain available for explicit use."""
 
+    _capability_family = "air_conditioner"
+    _capability_names = frozenset({
+        "power", "mode", "target_temperature", "temperature_units", "current_temperature",
+        "fan_speed", "fresh_air", "xfan", "anion", "sleep", "light", "horizontal_swing",
+        "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "lan_buzzer_control",
+    })
+
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         super().__init__(device_info, timeout, bind_timeout, loop)
         self._temperature_sensor = _TemperatureSensor()

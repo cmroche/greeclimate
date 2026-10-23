@@ -10,19 +10,47 @@ class DeviceProfile:
     temperature_offset: Optional[int] = None
     relearn_temperature_offset: bool = False
     buzzer_properties: Optional[Tuple[str, ...]] = None
+    capabilities: Tuple[Tuple[str, str, bool], ...] = ()
 
 
 # See docs/HIDS.md for code-scope policy and calibration limitations.
 KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001000748", 40),
     DeviceProfile("362001000762", 40, buzzer_properties=()),
-    DeviceProfile("362001000835", 0, buzzer_properties=()),
+    DeviceProfile(
+        "362001000835", 0, buzzer_properties=(),
+        capabilities=(
+            ("air_conditioner", "steady_heat", False),
+            ("dehumidifier", "current_humidity", False),
+        ),
+    ),
     DeviceProfile("362001000968", 0),
     DeviceProfile("362001003795", 40, buzzer_properties=()),
-    DeviceProfile("362001060200", 0, buzzer_properties=()),
-    DeviceProfile("362001060297", 0, buzzer_properties=()),
-    DeviceProfile("362001060498", 0, buzzer_properties=()),
-    DeviceProfile("362001060499", 0, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile(
+        "362001060200", 0, buzzer_properties=(),
+        capabilities=(
+            ("air_conditioner", "steady_heat", False),
+            ("dehumidifier", "current_humidity", False),
+        ),
+    ),
+    DeviceProfile(
+        "362001060297", 0, buzzer_properties=(),
+        capabilities=(
+            ("air_conditioner", "steady_heat", False),
+            ("dehumidifier", "current_humidity", False),
+        ),
+    ),
+    DeviceProfile(
+        "362001060498", 0, buzzer_properties=(),
+        capabilities=(
+            ("air_conditioner", "steady_heat", False),
+            ("dehumidifier", "current_humidity", False),
+        ),
+    ),
+    DeviceProfile(
+        "362001060499", 0, buzzer_properties=("Buzzer_ON_OFF",),
+        capabilities=(("dehumidifier", "current_humidity", False),),
+    ),
     DeviceProfile("362001060990", 40, buzzer_properties=()),
     DeviceProfile("362001060991", 40, buzzer_properties=()),
     DeviceProfile("362001061023", 40, buzzer_properties=()),
@@ -78,19 +106,54 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001068411", 40),
     DeviceProfile("362001068458", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001071519", 40),
-    DeviceProfile("362001063384", buzzer_properties=()),
-    DeviceProfile("362001067592", buzzer_properties=()),
-    DeviceProfile("362001067012", buzzer_properties=()),
-    DeviceProfile("362001065634", buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile(
+        "362001063384", buzzer_properties=(),
+        capabilities=(
+            ("air_conditioner", "current_temperature", False),
+            ("air_conditioner", "anion", False),
+            ("air_conditioner", "light", False),
+            ("air_conditioner", "steady_heat", False),
+        ),
+    ),
+    DeviceProfile(
+        "362001067592", buzzer_properties=(),
+        capabilities=(
+            ("air_conditioner", "current_temperature", False),
+            ("air_conditioner", "anion", False),
+            ("air_conditioner", "light", False),
+            ("air_conditioner", "steady_heat", False),
+        ),
+    ),
+    DeviceProfile(
+        "362001062617",
+        capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
+    DeviceProfile(
+        "362001067012", buzzer_properties=(),
+        capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
+    DeviceProfile(
+        "362001065634", buzzer_properties=("Buzzer_ON_OFF",),
+        capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
     DeviceProfile("362001060368", buzzer_properties=()),
-    DeviceProfile("362001060429", buzzer_properties=()),
+    DeviceProfile(
+        "362001060429", buzzer_properties=(),
+        capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
     DeviceProfile("362001060965", buzzer_properties=()),
     DeviceProfile("362001061114", buzzer_properties=()),
     DeviceProfile("362001061147", buzzer_properties=()),
     DeviceProfile("362001061272", buzzer_properties=()),
-    DeviceProfile("362001061608", buzzer_properties=()),
+    DeviceProfile(
+        "362001061608", buzzer_properties=(),
+        capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
     DeviceProfile("362001067139", buzzer_properties=()),
-    DeviceProfile("362001067524", buzzer_properties=()),
+    DeviceProfile(
+        "362001067524", buzzer_properties=(),
+        capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
     DeviceProfile("362001060956", buzzer_properties=()),
     DeviceProfile("362001061144", buzzer_properties=()),
     DeviceProfile("362001061167", buzzer_properties=()),
@@ -102,7 +165,27 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001061133", buzzer_properties=()),
     DeviceProfile("362001061148", buzzer_properties=()),
     DeviceProfile("362001061437", buzzer_properties=()),
-    DeviceProfile("362001061649", buzzer_properties=()),
+    DeviceProfile(
+        "362001061649", buzzer_properties=(),
+        capabilities=(
+            ("air_conditioner", "target_temperature", False),
+            ("air_conditioner", "temperature_units", False),
+            ("air_conditioner", "current_temperature", False),
+            ("air_conditioner", "sleep", False),
+            ("air_conditioner", "light", False),
+            ("air_conditioner", "turbo", False),
+            ("air_conditioner", "vertical_swing", False),
+            ("dehumidifier", "target_humidity", False),
+            ("dehumidifier", "dehumidifier_mode", False),
+            ("dehumidifier", "current_humidity", False),
+            ("dehumidifier", "clean_filter", False),
+            ("dehumidifier", "water_full", False),
+            ("dehumidifier", "current_temperature", False),
+            ("dehumidifier", "temperature_units", False),
+            ("dehumidifier", "light", False),
+            ("dehumidifier", "vertical_swing", False),
+        ),
+    ),
     DeviceProfile("362001062071", buzzer_properties=()),
 )
 

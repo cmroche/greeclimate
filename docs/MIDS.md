@@ -15,9 +15,53 @@ Catalog categories are historical observations, not a promise of a typed impleme
 
 The PC emulator preserves each family's status ordering, value alignment, and unsupported-field behavior; there is no universal unknown-field rule. See [emulator contracts](#emulator-contracts) for omission, empty-string, safe-rejection, and explicitly simulated appliance policies.
 
+## Capability evidence
+
+[`Device.capabilities`](../greeclimate/device.py) returns a fresh, immutable `Mapping[str, Optional[bool]]` snapshot with exactly the 23 keys below. `True` declares protocol feature support; `False` means outside the constructed family's typed API or explicitly excluded by its firmware profile; `None` means not established. Neutral `Device` reports all `None`, even with a recognized MID or HID. A supported feature need not have a cached reading: getters can still return `None`.
+
+Evidence is applied in this order:
+
+1. The constructed family sets its applicable names to `None` and other schema names to `False`.
+2. Its retained construction-time [MID profile](../greeclimate/mid_profile.py) supplies positive evidence only when the profile's family matches. Every required field must occur with exact case. Missing columns leave a feature unknown, not unsupported. `MidProfile.capabilities` is this positive field evidence, not the final device snapshot.
+3. AC `lan_buzzer_control` gets its firmware baseline from `buzzer_properties`: `None` or no profile means unknown, `()` means `False`, and a nonempty tuple means `True`. MID columns do not establish this feature.
+4. The currently reported [firmware-code profile](../greeclimate/device_profile.py) applies explicit capability overrides after MID evidence and the buzzer baseline, only for matching-family entries within that family's typed API. Foreign-family and unknown names cannot expand the schema or enable excluded controls. Changing or losing the HID recomputes firmware evidence; old snapshots do not change.
+
+The MID profile is fixed for the instance even if discovery metadata changes. Firmware identity never selects or changes the device family. Cached reports, raw writes, model/display-version strings, and connection readiness are not capability evidence. Snapshot reads send no network probe and do not change polling, defaults, validation, or setter behavior: neither `None` nor `False` adds a rejection gate. `True` does not guarantee that every value is writable, a command is accepted, or a physical effect occurs.
+
+The table names the public schema and the exact columns used for positive MID evidence. “Both” means AC and dehumidifier; the device filters evidence to its own API.
+
+| Capability | Typed family | Required MID columns |
+| --- | --- | --- |
+| `power` | Both | `Pow` |
+| `mode` | AC | `Mod` |
+| `target_temperature` | AC | `SetTem`, `TemRec`, `TemUn` |
+| `temperature_units` | Both | `TemUn` |
+| `current_temperature` | Both | `TemSen` |
+| `fan_speed` | Both | `WdSpd` |
+| `fresh_air` | AC | `Air` |
+| `xfan` | AC | `Blo` |
+| `anion` | Both | `Health` |
+| `sleep` | AC | `SwhSlp`, `SlpMod` |
+| `light` | Both | `Lig` |
+| `horizontal_swing` | AC | `SwingLfRig` |
+| `vertical_swing` | Both | `SwUpDn` |
+| `quiet` | Both | `Quiet` |
+| `turbo` | AC | `Tur` |
+| `steady_heat` | AC | `StHt` |
+| `power_save` | AC | `SvSt` |
+| `lan_buzzer_control` | AC | None: firmware buzzer baseline and explicit overrides |
+| `target_humidity` | Dehumidifier | `Dwet` |
+| `dehumidifier_mode` | Dehumidifier | `Dmod` |
+| `current_humidity` | Dehumidifier | `DwatSen` |
+| `clean_filter` | Dehumidifier | `Dfltr` |
+| `water_full` | Dehumidifier | `DwatFul` |
+
+For example, MID `10001` declares AC target and current temperature before any HID or sensor reply arrives, but its omitted sleep fields leave `sleep=None`. MID `13805` declares `current_humidity=True` but not current temperature or units. `HumSen`, `InTem`, `TemBody`, `Lamp`, and `Quier` are not aliases for the typed fields above. Firmware exclusions can override positive MID evidence; see [firmware-code traits and limitations](HIDS.md#firmware-code-traits-and-limitations). These are conservative client policies, not a claim that every mainboard has been physically tested. Public behavior is covered by [capability regressions](../tests/test_capabilities.py) and [MID regressions](../tests/test_mid_profile.py); private routing research remains separately labeled below.
+
+
 ## Historical polling catalog
 
-These are default polling lists, not complete capability or temperature-encoding rules. An omitted field may support an explicit query; an unsupported query may return a generic zero, not a sensor reading. Firmware routing evidence is separate from device observations.
+These are default polling lists, not exhaustive hardware capability or temperature-encoding rules. Applicable exact fields provide the positive MID evidence described above; omission alone is not an exclusion. An omitted field may support an explicit query; an unsupported query may return a generic zero, not a sensor reading. Firmware routing evidence is separate from device observations.
 
 | MID | Device category | Status fields (polling) |
 | --- | --- | --- |

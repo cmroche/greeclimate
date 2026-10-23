@@ -11,6 +11,13 @@ from greeclimate.deviceinfo import DeviceInfo
 class DehumidifierDevice(Device):
     """Humidity controls and the optional dehumidifier wire properties."""
 
+    _capability_family = "dehumidifier"
+    _capability_names = frozenset({
+        "power", "target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter",
+        "water_full", "current_temperature", "temperature_units", "fan_speed", "light",
+        "vertical_swing", "anion", "quiet",
+    })
+
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         super().__init__(device_info, timeout, bind_timeout, loop)
         self._temperature_sensor = _TemperatureSensor()
