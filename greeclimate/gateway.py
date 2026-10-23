@@ -480,8 +480,6 @@ class GatewayChildDevice(Device):
         if name in self._dirty:
             if self._dirty[name] == value:
                 return
-        elif self._properties.get(name) == value:
-            return
         self._dirty[name] = value
 
     async def push_state_update(self):

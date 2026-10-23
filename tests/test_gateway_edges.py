@@ -52,23 +52,24 @@ async def test_non_record_inventory_slots_advance_pagination_without_creating_ch
         assert gateway.children == tuple(children)
 
 
-async def test_repeated_reported_and_staged_values_do_not_send_duplicate_commands():
+async def test_sent_controls_can_be_reversed_before_fresh_data():
     async with gateway_peer() as (gateway, peer):
         child = (await peer.enumerate(records(1)))[0]
         await _reported(peer, child, Pow=0)
-        for _ in range(2):
-            child.set_property("Pow", 0)
+        results = asyncio.Queue()
+        child.add_handler(Response.RESULT, results.put_nowait)
+        for value in (1, 0):
+            child.set_property("Pow", value)
+            child.set_property("Pow", value)
+            await child.push_state_update()
+            request = await peer.receive()
+            assert request["inner"]["opt"] == ["Pow"]
+            assert request["inner"]["p"] == [value]
+            peer.reply({"t": "res", "mac": child.device_info.mac, "opt": ["Pow"], "p": [value]})
+            assert await asyncio.wait_for(results.get(), 2) == {"Pow": value}
+            assert child.get_property("Pow") == 0
             await child.push_state_update()
             assert peer.queue.empty()
-        child.set_property("Pow", 1)
-        child.set_property("Pow", 1)
-        assert peer.queue.empty()
-        await child.push_state_update()
-        request = await peer.receive()
-        assert request["inner"]["opt"] == ["Pow"] and request["inner"]["p"] == [1]
-        await child.push_state_update()
-        assert peer.queue.empty()
-        assert child.get_property("Pow") == 0
 
 
 @pytest.mark.parametrize("owner", ["child", "gateway"])
