@@ -235,9 +235,8 @@ class AirToWaterDevice(Device):
     def mode(self, value: AirToWaterMode):
         wire_value = self._mode_value(value)
         cached = self.get_property(_AtwProps.MODE)
-        if type(cached) is int and cached == wire_value:
-            return
-        self._require_reported_off()
+        if type(cached) is not int or cached != wire_value:
+            self._require_reported_off()
         self.set_property(_AtwProps.MODE, wire_value)
 
     def _command_properties(self) -> Dict[str, Any]:
@@ -264,4 +263,7 @@ class AirToWaterDevice(Device):
             self._require_reported_off()
             if props.get(_AtwProps.POWER.value) == 1:
                 raise ValueError("Push the ATW mode change before turning power on")
+        if props.get(_AtwProps.POWER.value) == 1:
+            # A send may reach the appliance even if its reply or UDP drain is lost.
+            self._reported_power = None
         return props

@@ -421,6 +421,44 @@ async def test_identical_mode_is_noop_even_when_on(device):
     device.send.assert_not_awaited()
 
 
+@pytest.mark.parametrize("response", ["dat", "res"])
+async def test_reported_mode_replaces_conflicting_queued_mode(device, response):
+    receive(device, {"Pow": 0, "Mod": 1})
+    device.mode = AirToWaterMode.HotWater
+    receive(device, {"Mod": 1}, response=response)
+    device.mode = AirToWaterMode.Heat
+    await device.push_state_update()
+    assert sent_properties(device) == {"Mod": 1}
+
+
+@pytest.mark.parametrize("raw", [False, True])
+@pytest.mark.parametrize("timeout", [False, True])
+async def test_power_on_invalidates_received_off_before_reply(device, raw, timeout):
+    receive(device, {"Pow": 0, "Mod": 1})
+    if raw:
+        device.set_property("Pow", 1)
+    else:
+        device.power = True
+    if timeout:
+        device.send.side_effect = asyncio.TimeoutError
+        with pytest.raises(DeviceTimeoutError):
+            await device.push_state_update()
+        device.send.side_effect = None
+    else:
+        await device.push_state_update()
+    assert sent_properties(device) == {"Pow": 1}
+    with pytest.raises(ValueError, match="off power state must be received"):
+        device.mode = AirToWaterMode.HotWater
+    device.power = False
+    device.set_property("Mod", 2)
+    with pytest.raises(ValueError, match="off power state must be received"):
+        await device.push_state_update()
+    assert device.send.await_count == 1
+    receive(device, {"Pow": 0})
+    await device.push_state_update()
+    assert sent_properties(device) == {"Pow": 0, "Mod": 2}
+
+
 async def test_mode_revalidates_latest_power_and_retains_pending_command(device):
     receive(device, {"Pow": 0, "Mod": 1})
     device.mode = AirToWaterMode.HotWater
