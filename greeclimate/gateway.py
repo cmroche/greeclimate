@@ -131,8 +131,6 @@ class GatewayDevice(Device):
                 return None, False
             return child, True
         target, identified = super()._response_target(obj, pack)
-        if response in ("dat", "sublist") and not identified:
-            return None, False
         if target is self and response == "dat":
             self._validated_root_data = identified
         return target, identified
@@ -165,7 +163,8 @@ class GatewayDevice(Device):
     async def _wait_for_report(self, waiter, request) -> None:
         if request:
             await self.request_version()
-        await asyncio.shield(waiter)
+        await asyncio.wait((waiter,))
+        waiter.result()
 
     async def _qualify(self, context) -> None:
         if self._reported_hid is _NO_HID:
@@ -189,7 +188,7 @@ class GatewayDevice(Device):
             raise ValueError(f"Unsupported gateway HID: {self._reported_hid!r}")
 
     async def get_sub_devices(self) -> list["GatewayChildDevice"]:
-        """Bind, qualify and enumerate, sharing one cancellation-shielded traversal."""
+        """Bind, qualify and enumerate, sharing one root-owned traversal."""
         if self._closed:
             raise DeviceNotBoundError
         task = self._inventory_task
@@ -197,7 +196,8 @@ class GatewayDevice(Device):
             task = _owned_task(self, self._enumerate())
             self._inventory_task = task
         try:
-            return list(await asyncio.shield(task))
+            await asyncio.wait((task,))
+            return list(task.result())
         except asyncio.CancelledError:
             if self._closed or task.cancelled():
                 raise DeviceNotBoundError from None
@@ -411,8 +411,6 @@ class GatewayChildDevice(Device):
         await self._ensure_bound()
 
     async def _ensure_bound(self) -> None:
-        if self._closed or self.gateway._closed:
-            raise DeviceNotBoundError
         self._require_role()
         if self._is_current_member():
             return

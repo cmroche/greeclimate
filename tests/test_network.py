@@ -25,7 +25,13 @@ from .common import (
     DEFAULT_REQUEST, generate_response, FakeCipher,
     udp_peer,
 )
-from .test_device import get_mock_info
+from .test_device import (
+    RECOVERY_MAC,
+    get_mock_info,
+    recovery_packet,
+    recovery_receive,
+    recovery_session,
+)
 from .test_emulator import peer_packet, peer_reply
 
 
@@ -1011,3 +1017,33 @@ async def test_recovery_socket_error_releases_pending_send():
             transport.close()
             protocol.close()
             await asyncio.gather(pending, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+async def test_ordinary_device_sublist_callback_preserves_metadata_and_reported_state():
+    async with recovery_session(CipherV1()) as (device, peer, queue, addr):
+        inventory, data, results = asyncio.Queue(), asyncio.Queue(), asyncio.Queue()
+        device.add_handler(Response.SUBLIST, inventory.put_nowait)
+        device.add_handler(Response.DATA, data.put_nowait)
+        device.add_handler(Response.RESULT, results.put_nowait)
+        await recovery_receive(queue, device.device_cipher)
+        outer = {"cid": RECOVERY_MAC, "tcid": "app", "i": 0}
+        peer.sendto(recovery_packet(
+            {"t": "dat", "mac": RECOVERY_MAC, "cols": ["Pow"], "dat": [1]},
+            device.device_cipher, outer,
+        ), addr)
+        assert await asyncio.wait_for(data.get(), 2) == {"Pow": 1}
+        pack = {
+            "t": "subList", "mac": RECOVERY_MAC, "r": 200, "c": 7, "i": 5,
+            "list": [{"mac": "ab123456000001", "mid": "604a"}],
+        }
+        peer.sendto(recovery_packet(pack, device.device_cipher, outer), addr)
+        assert await asyncio.wait_for(inventory.get(), 2) == pack
+        assert device.raw_properties == {"Pow": 1} and device.has_valid_state
+        assert device.ready.is_set() and data.empty() and results.empty()
+        peer.sendto(recovery_packet(
+            {"t": "dat", "mac": RECOVERY_MAC, "cols": ["Pow"], "dat": [0]},
+            device.device_cipher, outer,
+        ), addr)
+        assert await asyncio.wait_for(data.get(), 2) == {"Pow": 0}
+        assert device.get_property("Pow") == 0 and inventory.empty() and results.empty()
