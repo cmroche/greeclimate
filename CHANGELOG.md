@@ -1,3 +1,22 @@
+# [3.6.0](https://github.com/cmroche/greeclimate/compare/v3.5.3...v3.6.0) (2026-10-23)
+
+
+### Bug Fixes
+
+* authenticate CipherV2 response tags ([#224](https://github.com/cmroche/greeclimate/issues/224)) ([6cb5140](https://github.com/cmroche/greeclimate/commit/6cb5140f26ddfdf97243f1397bcf4da686a35fa9))
+* cancel in-flight discovery on close ([#220](https://github.com/cmroche/greeclimate/issues/220)) ([4e652b8](https://github.com/cmroche/greeclimate/commit/4e652b88cafd2604fe0bcc1cc509a6edada7c700))
+* enforce target humidity bounds ([#222](https://github.com/cmroche/greeclimate/issues/222)) ([44d57bc](https://github.com/cmroche/greeclimate/commit/44d57bcee2ed4c10043f4215d357620a358a4b9a))
+* move CipherV2 packet dumps to debug logging ([#223](https://github.com/cmroche/greeclimate/issues/223)) ([1cb4804](https://github.com/cmroche/greeclimate/commit/1cb4804111ab86e5b2700fca6bcdabaee622e762))
+* preserve application logging on import ([#218](https://github.com/cmroche/greeclimate/issues/218)) ([a011111](https://github.com/cmroche/greeclimate/commit/a011111fcc439c7b5958acc30cf144aac6b6d7cd))
+* preserve pending commands across state and send races ([#219](https://github.com/cmroche/greeclimate/issues/219)) ([06304fc](https://github.com/cmroche/greeclimate/commit/06304fc3ac8feee4ea55d887b5befe00f43a41be))
+* validate response arrays before state dispatch ([#221](https://github.com/cmroche/greeclimate/issues/221)) ([74f9455](https://github.com/cmroche/greeclimate/commit/74f945523419514f1bf93decf88a18a35be43b15))
+
+
+### Features
+
+* **device:** log MID and HID on first receipt ([#225](https://github.com/cmroche/greeclimate/issues/225)) ([ef74e63](https://github.com/cmroche/greeclimate/commit/ef74e637ee510776b41620d55aa6b30fea40012c))
+* **device:** support explicit raw properties and status queries ([#226](https://github.com/cmroche/greeclimate/issues/226)) ([7440f72](https://github.com/cmroche/greeclimate/commit/7440f72e9f9df8413cad640e011469cf50e83a5e))
+
 ## [3.5.3](https://github.com/cmroche/greeclimate/compare/v3.5.2...v3.5.3) (2026-10-20)
 
 
