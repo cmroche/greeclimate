@@ -14,7 +14,12 @@ debug: false
 plugins:
   - - "@semantic-release/commit-analyzer"
     - preset: angular
-  - "@semantic-release/release-notes-generator"
+      parserOpts: &parserOpts
+        headerPattern: '^(\w*)(?:\((.*)\))?!?: (.*)$'
+        breakingHeaderPattern: '^(\w*)(?:\((.*)\))?!: (.*)$'
+  - - "@semantic-release/release-notes-generator"
+    - preset: angular
+      parserOpts: *parserOpts
   - - "semantic-release-pypi"
     - pypiPublish: false
       envDir: venv

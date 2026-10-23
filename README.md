@@ -52,6 +52,8 @@ The following snippets run inside `main()`; device-control snippets go after bin
 
 ### Migrating typed controls
 
+Version 4.0.0 establishes the compatibility boundary for the changes below and the [firmware-profile constructor migration](docs/HIDS.md#firmware-code-traits-and-limitations). Version 3.7.0 shipped these breaking changes under a minor version and has been yanked from PyPI.
+
 `Device` now owns transport, binding, status polling, and raw properties only. Replace `Device(device_info)` with `create_device(device_info)` for typed controls selected from a registered exact MID. Selection is fixed at construction: later MID/model metadata changes or a reported firmware HID never change the family.
 
 For a known appliance whose MID is missing or unregistered, construct its family directly:

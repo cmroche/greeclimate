@@ -86,6 +86,8 @@ jobs:
       - env:
           CI: true
         run: npm ci
+      - name: Test release parsing
+        run: npm test
       - name: Prepare release
         id: release
         env:
