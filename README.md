@@ -22,12 +22,12 @@ The easiest way to grab **greeclimate** is through PyPI
 
 ## Use Gree Climate
 
-Discover devices on the LAN and bind immediately after scanning.
+Discover devices on the LAN and bind immediately after scanning. Use `create_device()` for exact-MID selection of an `AirConditionerDevice`, `DehumidifierDevice`, or neutral `Device`.
 
 ```python
 import asyncio
 
-from greeclimate.device import Device
+from greeclimate.device_factory import create_device
 from greeclimate.discovery import Discovery
 
 
@@ -35,7 +35,7 @@ async def main():
     discovery = Discovery()
     try:
         for device_info in await discovery.scan(wait_for=5):
-            device = Device(device_info)
+            device = create_device(device_info)
             try:
                 await device.bind()
                 print(device_info.name, device_info.ip)
@@ -49,6 +49,24 @@ asyncio.run(main())
 ```
 
 The following snippets run inside `main()`; device-control snippets go after binding and before closing `device`.
+
+### Migrating typed controls
+
+`Device` now owns transport, binding, status polling, and raw properties only. Replace `Device(device_info)` with `create_device(device_info)` for typed controls selected from a registered exact MID. Selection is fixed at construction: later MID/model metadata changes or a reported firmware HID never change the family.
+
+For a known appliance whose MID is missing or unregistered, construct its family directly:
+
+```python
+from greeclimate.air_conditioner import AirConditionerDevice
+from greeclimate.dehumidifier import DehumidifierDevice
+
+device = AirConditionerDevice(device_info)  # Or DehumidifierDevice(device_info).
+```
+
+Unknown MIDs produce a neutral `Device` and default to identity-only `["hid"]` polling. Direct AC instances with an unknown MID poll `Pow`, `Mod`, `SetTem`, `TemUn`, `TemRec`, and `TemSen`; direct dehumidifiers use their own humidity/control baseline. Known MID polling lists are preserved even for untyped families. See [MID polling contracts](docs/MIDS.md).
+
+The AC control examples below require an `AirConditionerDevice`; the humidity example requires a `DehumidifierDevice`. Optional controls still depend on the appliance. Neutral devices retain the raw API example below.
+
 
 Scan a known IP address instead of broadcasting on the LAN.
 
@@ -85,7 +103,7 @@ device.set_property("Lig", 0)
 await device.push_state_update()
 ```
 
-Cool to 25°C and send updates to the device.
+For an AC, cool to 25°C and send updates to the device.
 
 ```python
 from greeclimate.device import Mode, TemperatureUnits
@@ -152,7 +170,7 @@ await device.push_state_update()
 
 `buzzer` is a local preference: changing it alone sends nothing. Buzzer fields are sent only when explicitly enabled by a matching [firmware-code profile](docs/HIDS.md#firmware-code-traits-and-limitations); absent, unknown or unsupported profiles add none. Recognized fields do not guarantee physical muting.
 
-Set a dehumidifier's target relative humidity.
+Set a `DehumidifierDevice`'s target relative humidity (not an AC dry-mode setpoint).
 
 ```python
 device.target_humidity = 45

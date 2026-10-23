@@ -5,7 +5,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from greeclimate.device import Props, Device, DeviceInfo
+from greeclimate.air_conditioner import AirConditionerDevice
+from greeclimate.dehumidifier import DehumidifierDevice
+from greeclimate.device import Props, Device
+from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.cipher import CipherV1
 from greeclimate.exceptions import DeviceTimeoutError
 from greeclimate.cipher import CipherV2
@@ -19,7 +22,7 @@ from tests.test_emulator import peer_packet
 
 @pytest.mark.asyncio
 async def test_issue_69_encoded_40_is_zero_celsius():
-    device = Device(DeviceInfo("127.0.0.1", 7000, "000000000001", "issue69"))
+    device = AirConditionerDevice(DeviceInfo("127.0.0.1", 7000, "000000000001", "issue69"))
     device.handle_state_update(TemSen=40, TemUn=0, TemRec=0)
     assert device.current_temperature == 0
     device.handle_state_update(TemSen=41)
@@ -27,11 +30,12 @@ async def test_issue_69_encoded_40_is_zero_celsius():
     assert device.raw_properties["TemSen"] == 41
 
 
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("delayed_hid", [False, True])
 @pytest.mark.parametrize("initial_zero", [False, True])
-async def test_delayed_w04nv7_hid_preserves_temperature(delayed_hid, initial_zero):
-    device = Device(DeviceInfo("127.0.0.1", 7000, "000000000001", "delayed-hid"))
+async def test_delayed_w04nv7_hid_preserves_temperature(device_type, delayed_hid, initial_zero):
+    device = device_type(DeviceInfo("127.0.0.1", 7000, "000000000001", "delayed-hid"))
     hid = "362001061217+U-W04NV7.bin"
     state = {"TemSen": 28, "TemUn": 0, "TemRec": 0}
     if not delayed_hid:
@@ -78,7 +82,7 @@ async def test_issue_87_quiet_should_set_2():
     (Response.RESULT, {"t": "res", "opt": ["Pow"], "p": [1]}),
 ])
 async def test_issue_146_late_report_does_not_replace_pending_command(response, packet):
-    async with recovery_session() as (device, peer, queue, addr):
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
         device.handle_state_update(Pow=1)
         device.power = False
@@ -99,10 +103,11 @@ async def test_issue_146_late_report_does_not_replace_pending_command(response, 
         assert queue.empty()
 
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize("newer", [{"Pow": 1}, {"Mod": 4}, {"Pow": 1, "Mod": 4}])
 async def test_issue_146_changes_during_send_reach_next_command(newer):
-    async with recovery_session() as (device, peer, queue, addr):
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
         device.handle_state_update(Pow=1, Mod=0)
         device.power = False
@@ -133,10 +138,11 @@ async def test_issue_146_changes_during_send_reach_next_command(newer):
             await asyncio.gather(task, return_exceptions=True)
 
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize("cancelled", [False, True])
 async def test_issue_146_interrupted_send_retains_intent(cancelled):
-    async with recovery_session() as (device, peer, queue, addr):
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
         device.handle_state_update(Pow=1)
         device.power = False
@@ -169,6 +175,7 @@ async def test_issue_146_interrupted_send_retains_intent(cancelled):
             await asyncio.gather(task, return_exceptions=True)
 
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize("response,value_key", [
     (Response.DATA, "dat"),
@@ -186,7 +193,7 @@ async def test_issue_146_interrupted_send_retains_intent(cancelled):
 async def test_issue_146_late_report_preserves_temperature_tuple(
     response, value_key, initial, target, expected
 ):
-    async with recovery_session() as (device, peer, queue, addr):
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
         device.handle_state_update(**initial)
         device.target_temperature = target
@@ -216,13 +223,14 @@ async def test_issue_146_late_report_preserves_temperature_tuple(
         assert queue.empty()
 
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize("initial,target", [
     ({"SetTem": 24, "TemRec": 0, "TemUn": 0}, 24),
     ({"SetTem": 23, "TemRec": 0, "TemUn": 1}, 73),
 ])
 async def test_issue_146_temperature_noop_and_standalone_units(initial, target):
-    async with recovery_session() as (device, peer, queue, addr):
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
         device.handle_state_update(**initial)
         device.temperature_units = initial["TemUn"]
@@ -242,6 +250,7 @@ async def test_issue_146_temperature_noop_and_standalone_units(initial, target):
         assert queue.empty()
 
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize("initial,first_target,newer_target,newer_units,expected", [
     ({"SetTem": 24, "TemRec": 0, "TemUn": 0}, 25, 26, None,
@@ -256,7 +265,7 @@ async def test_issue_146_temperature_noop_and_standalone_units(initial, target):
 async def test_issue_146_newer_temperature_tuple_survives_awaiting_send(
     initial, first_target, newer_target, newer_units, expected
 ):
-    async with recovery_session() as (device, peer, queue, addr):
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
         device.handle_state_update(**initial)
         device.target_temperature = first_target
@@ -294,10 +303,11 @@ async def test_issue_146_newer_temperature_tuple_survives_awaiting_send(
             await asyncio.gather(task, return_exceptions=True)
 
 
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize("cancelled", [False, True])
 async def test_issue_146_interrupted_temperature_send_retains_tuple(cancelled):
-    async with recovery_session() as (device, peer, queue, addr):
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
         device.handle_state_update(SetTem=23, TemRec=0, TemUn=1)
         device.target_temperature = 74
@@ -334,6 +344,7 @@ async def test_issue_146_interrupted_temperature_send_retains_tuple(cancelled):
             if not task.done():
                 task.cancel()
             await asyncio.gather(task, return_exceptions=True)
+
 
 
 @pytest.mark.asyncio

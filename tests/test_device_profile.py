@@ -3,7 +3,8 @@
 import pytest
 
 from greeclimate import device_profile
-from greeclimate.device import Device, DeviceInfo
+from greeclimate.air_conditioner import AirConditionerDevice
+from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.device_profile import DeviceProfile, match_device_profile
 from tests.test_device import get_mock_info
 
@@ -25,7 +26,7 @@ async def test_reported_code_selects_traits_independently_of_display_version(mon
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (DeviceProfile(CODE, 40),))
     info = list(get_mock_info())
     info[-1] = "99.0"
-    device = Device(DeviceInfo(*info))
+    device = AirConditionerDevice(DeviceInfo(*info))
     assert device.current_temperature is None
     for hid, version in [(CODE, None), (CODE + "+incomplete", None),
                          (CODE + "+U-CS532AE.bin", None),
@@ -46,7 +47,7 @@ async def test_reported_code_selects_traits_independently_of_display_version(mon
     ("362001065016+U-W04HMV1.05.bin", [5, 25, -15]),
 ])
 async def test_code_buzzer_profile_keeps_existing_temperature_calibration(hid, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+    device = AirConditionerDevice(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid=hid, TemUn=0, TemRec=0)
     for raw, temperature in zip([45, 65, 25], expected):
         device.handle_state_update(TemSen=raw)
@@ -65,7 +66,7 @@ async def test_code_buzzer_profile_keeps_existing_temperature_calibration(hid, e
     ([65, 25], [25, -15]),
 ])
 async def test_profile_without_temperature_default_preserves_guessed_and_learned_temperature(hid, samples, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+    device = AirConditionerDevice(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid=hid, TemUn=0, TemRec=0)
     for raw, temperature in zip(samples, expected):
         device.handle_state_update(TemSen=raw)

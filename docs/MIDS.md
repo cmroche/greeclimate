@@ -2,11 +2,16 @@
 
 A MID is the `mid` string in discovery metadata or a gateway's `subList`. Keep its case, letters and leading zeros. It is separate from the firmware identifier (`hid`); see [HIDS.md](HIDS.md) and [gateway observations](#gateway-observations-and-sources).
 
-`DeviceInfo.mid` stores the discovery value separately from `model`; missing MID is `None`. On every poll, `Device.update_state()` matches it exactly against the 58 presets in `greeclimate/mid_profile.py`. Missing, malformed, unknown or not-established MIDs use `FALLBACK_MID_PROFILE`, which preserves the previous full `Props` poll and order. `match_mid_profile()` always returns a profile; the fallback has `mid=None`. Model names never substitute for a MID.
+`DeviceInfo.mid` stores the discovery value separately from `model`; missing MID is `None`. At construction, `Device` matches it exactly against `greeclimate/mid_profile.py` and keeps that profile for its lifetime. `create_device()` selects `AirConditionerDevice` or `DehumidifierDevice` only for explicitly registered families; otherwise it returns neutral `Device`. Matching preserves case and leading zeros without coercion or trimming. Model names and reported HIDs never substitute for a MID or change the selected family.
 
-A matched profile requests its fields in the listed order, even fields outside `Props`. `hid` is appended only while firmware identity is unknown and the preset lacks it. A preset that includes `hid` keeps requesting it: MID `60` always polls `["hid"]`. Profiles change polling only, not setters, command responses or `raw_properties` access.
+A matched profile requests its fields in the listed order, even fields outside `Props`. `hid` is appended only while firmware identity is unknown and the preset lacks it. A preset that includes `hid` keeps requesting it: MID `60` always polls `["hid"]`. Missing, malformed, unknown or not-established MIDs use `FALLBACK_MID_PROFILE` (`mid=None`), whose neutral polling list is only `["hid"]`. `match_mid_profile()` always returns a profile. `update_state(columns)` sends explicit columns unchanged, without adding identity fields.
 
-Status-backed getters return `None` for missing required values. Received zero stays valid zero/false, subject to temperature calibration. Target temperature needs both `SetTem` and `TemRec`; MID does not select temperature encoding. `buzzer` and `has_valid_state` are non-optional local state. A narrower poll can leave a feature unavailable until its field arrives or is explicitly set; omission does not prove the hardware lacks it.
+Direct family construction remains available when the caller knows the appliance but its MID is missing or unregistered. `AirConditionerDevice` then polls `Pow`, `Mod`, `SetTem`, `TemUn`, `TemRec`, `TemSen`; `DehumidifierDevice` polls `Pow`, `Dmod`, `Dwet`, `DwatSen`, `Dfltr`, `DwatFul`, `TemSen`, `TemUn`, `TemRec`, `WdSpd`, `Lig`, `SwUpDn`, `Health`, `Quiet`. Both append `hid` until reported. A known MID retains its catalog polling list regardless of direct family construction.
+
+Neutral `Device` exposes no appliance-specific descriptors. Family status-backed getters return `None` for missing required values. Received zero stays valid zero/false, subject to temperature calibration. AC target temperature needs both `SetTem` and `TemRec`; MID does not select temperature encoding. AC `buzzer` and shared `has_valid_state` are non-optional local state. A narrower poll can leave a feature unavailable until its field arrives or is explicitly set; omission does not prove the hardware lacks it. Raw access remains available to every family.
+
+Catalog categories are historical observations, not a promise of a typed implementation. In particular, `9300`, `9301`, and `9302` remain neutral devices with their existing catalog polling lists. The raw polling presets restored from source revision `661896f` below also remain neutral: they have no implemented typed family and do not establish typed controls or sensor calibration.
+
 
 The PC emulator preserves each family's status ordering, value alignment, and unsupported-field behavior; there is no universal unknown-field rule. See [emulator contracts](#emulator-contracts) for omission, empty-string, safe-rejection, and explicitly simulated appliance policies.
 
@@ -74,16 +79,33 @@ These are default polling lists, not complete capability or temperature-encoding
 | `80361` | Unknown | `ver`, `MGPowCtrlStat` |
 | `6036` | Unknown | `WPow`, `Wmod`, `FPow`, `WCurTem`, `WtmrMin`, `WtmrHr`, `Watpercent`, `FCurTem`, `SetTem`, `FSetTem`, `GetEr`, `WFConfig`, `IDUID`, `MidType`, `MIdType` |
 | `60` | Multi-unit gateway | `hid` (observed on a WB05BR gateway; other requested fields were empty) |
-| `6049` | Multi-unit gateway indoor unit | Not established |
-| `6092` | Multi-unit gateway indoor unit | Not established |
-| `604c` | Multi-unit gateway indoor unit | Not established |
-| `604b` | Multi-unit gateway indoor unit | Not established |
-| `605c` | Multi-unit gateway indoor unit | Not established |
-| `608f` | Multi-unit gateway indoor unit | Not established |
+| `10014` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10015` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10016` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10017` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f00` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f01` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f02` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `11f03` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
+| `10f05` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `10010` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `10011` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `11011` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `11012` | Unknown (raw; no typed family) | `SetTem`, `Pow`, `TemSen`, `Mod` |
+| `6049` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `604a` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `604b` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `604c` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `605c` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `608f` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `6092` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `TemBody` |
+| `6045` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `InTem` |
+| `609d` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `InTem` |
+| `50` | Zone controller (raw; no typed family) | `MasterPow`, `Mod`, `WdSpd` |
 
 ## Gateway observations and sources
 
-- [PR #148's hardware log](https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943): a GR-Gcloud gateway has MID `60`, three indoor units have `608f`, and one has `605c`. A separate standalone air conditioner has `10001`. This does not establish the indoor units' retail models or polling fields.
+- [PR #148's hardware log](https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943): a GR-Gcloud gateway has MID `60`, three indoor units have `608f`, and one has `605c`. A separate standalone air conditioner has `10001`. This log does not establish the indoor units' retail models or polling fields; the raw catalog presets above are separate source records.
 - [Issue #101](https://github.com/cmroche/greeclimate/issues/101): a MID `60` gateway advertises six indoor units; its returned five-entry list contains `6049`, `6092` and `604c`.
 - PR #148 links to HACS integration PR #508. Its [W06 packet notes](https://github.com/RobHofmann/HomeAssistant-GreeClimateComponent/pull/508#issuecomment-5795667844) associate MID `60` with `362001067012+U-W06AV30.bin` and show indoor MIDs `608f` and `6092`. An [older four-unit capture](https://github.com/RobHofmann/HomeAssistant-GreeClimateComponent/pull/508#issuecomment-5795708142) shows indoor MID `604b` but does not establish its gateway HID.
 

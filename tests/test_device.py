@@ -8,7 +8,10 @@ import pytest
 
 from greeclimate import device_profile
 from greeclimate.cipher import CipherV1, CipherV2
-from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
+from greeclimate.air_conditioner import AirConditionerDevice
+from greeclimate.dehumidifier import DehumidifierDevice
+from greeclimate.device import Device, Props, TemperatureUnits
+from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.device_profile import DeviceProfile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.mid_profile import match_mid_profile
@@ -157,10 +160,11 @@ def get_mock_state_bad_temp():
     return {"TemSen": 69, "hid": "362001060297+U-CS532AF(MTK).bin"}
 
 
-async def generate_device_mock_async():
-    d = Device(DeviceInfo("1.1.1.1", 7000, "f4911e7aca59", "1e7aca59"))
+async def generate_device_mock_async(device_type=AirConditionerDevice):
+    d = device_type(DeviceInfo("1.1.1.1", 7000, "f4911e7aca59", "1e7aca59"))
     await d.bind(key="St8Vw1Yz4Bc7Ef0H", cipher=CipherV1())
     return d
+
 
 
 def test_device_info_equality(send):
@@ -193,7 +197,7 @@ def test_device_info_equality(send):
 
 @pytest.mark.parametrize("value,encoded", [(30, 3), (80, 13)])
 async def test_target_humidity_boundaries(value, encoded):
-    device = Device(DeviceInfo(*get_mock_info()))
+    device = DehumidifierDevice(DeviceInfo(*get_mock_info()))
     try:
         device.target_humidity = value
         assert device.target_humidity == value
@@ -202,9 +206,10 @@ async def test_target_humidity_boundaries(value, encoded):
         device.close()
 
 
+
 @pytest.mark.parametrize("value", [0, 29, 81, 100])
 async def test_target_humidity_rejects_invalid_without_mutation(value):
-    device = Device(DeviceInfo(*get_mock_info()))
+    device = DehumidifierDevice(DeviceInfo(*get_mock_info()))
     try:
         device.target_humidity = 45
         state = dict(device.raw_properties)
@@ -216,6 +221,7 @@ async def test_target_humidity_rejects_invalid_without_mutation(value):
         assert device.target_humidity == 45
     finally:
         device.close()
+
 
 
 @pytest.mark.asyncio
@@ -257,7 +263,7 @@ async def test_device_bind_no_device_info(cipher, send):
 @pytest.mark.asyncio
 async def test_update_properties(cipher, send):
     """Check that properties can be updates."""
-    device = await generate_device_mock_async()
+    device = await generate_device_mock_async(Device)
 
     for p in Props:
         assert device.get_property(p) is None
@@ -274,10 +280,12 @@ async def test_update_properties(cipher, send):
         assert device.get_property(p) == get_mock_state()[p.value]
 
 
+
 @pytest.mark.asyncio
-@pytest.mark.parametrize("mid", ["13805", "10001", "60"])
-async def test_mid_profile_poll_columns(cipher, send, mid):
-    device = Device(DeviceInfo(*get_mock_info(), mid=mid))
+@pytest.mark.parametrize("device_type", [Device, AirConditionerDevice, DehumidifierDevice])
+@pytest.mark.parametrize("mid", ["13805", "10001", "60", "3027", "6400", "9300", "9301", "9302", "605c"])
+async def test_mid_profile_poll_columns(cipher, send, mid, device_type):
+    device = device_type(DeviceInfo(*get_mock_info(), mid=mid))
     await device.bind(key="0123456789abcdef", cipher=CipherV1())
     profile = match_mid_profile(mid)
     columns = list(profile.status_columns)
@@ -285,6 +293,7 @@ async def test_mid_profile_poll_columns(cipher, send, mid):
 
     await device.update_state()
     assert send.call_args.args[0]["pack"]["cols"] == initial
+    device.device_info.mid = "60"
     device.handle_state_update(hid=get_mock_state()["hid"])
     await device.update_state()
     assert send.call_args.args[0]["pack"]["cols"] == columns
@@ -292,35 +301,51 @@ async def test_mid_profile_poll_columns(cipher, send, mid):
     assert profile.status_columns == tuple(columns)
 
 
+
 @pytest.mark.asyncio
-@pytest.mark.parametrize("mid", ["unrecorded", None, "605c"])
-async def test_unknown_mid_uses_full_poll(cipher, send, mid):
+@pytest.mark.parametrize("device_type", [Device, AirConditionerDevice, DehumidifierDevice])
+async def test_raw_mid_605c_requests_recorded_columns(cipher, send, device_type):
+    device = device_type(DeviceInfo(*get_mock_info(), mid="605c"))
+    await device.bind(key="0123456789abcdef", cipher=CipherV1())
+
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody", "hid"]
+    device.handle_state_update(hid=get_mock_state()["hid"])
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody"]
+
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", ["unrecorded", None, "", 10001, [], {}])
+async def test_unknown_mid_uses_identity_only_poll(cipher, send, mid):
     info = DeviceInfo(*get_mock_info(), mid=mid)
     info.model = "10001"
     device = Device(info)
     await device.bind(key="0123456789abcdef", cipher=CipherV1())
-    columns = [prop.value for prop in Props]
 
     await device.update_state()
-    assert send.call_args.args[0]["pack"]["cols"] == columns + ["hid"]
+    assert send.call_args.args[0]["pack"]["cols"] == ["hid"]
     device.handle_state_update(hid=get_mock_state()["hid"])
     await device.update_state()
-    assert send.call_args.args[0]["pack"]["cols"] == columns
+    assert send.call_args.args[0]["pack"]["cols"] == ["hid"]
 
-    info.mid = "60"
+    info.mid = "10001"
     await device.update_state()
     assert send.call_args.args[0]["pack"]["cols"] == ["hid"]
     info.mid = "unrecorded"
     await device.update_state()
-    assert send.call_args.args[0]["pack"]["cols"] == columns
+    assert send.call_args.args[0]["pack"]["cols"] == ["hid"]
+
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("device_type", [Device, AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.parametrize("as_tuple", [False, True])
 @pytest.mark.parametrize("reported_hid", [False, True])
 async def test_explicit_status_columns_preserve_order_duplicates_and_spelling(
-        cipher, send, as_tuple, reported_hid):
-    device = await generate_device_mock_async()
+        cipher, send, device_type, as_tuple, reported_hid):
+    device = await generate_device_mock_async(device_type)
     if reported_hid:
         device.handle_state_update(hid=get_mock_state()["hid"])
     expected = ["Pow", "Pow", "pow", " Pow "]
@@ -337,15 +362,17 @@ async def test_explicit_status_columns_preserve_order_duplicates_and_spelling(
     assert sent_columns == expected
 
 
+
 @pytest.mark.asyncio
 async def test_explicit_profile_columns_do_not_append_identity_or_mutate_preset(cipher, send):
-    device = await generate_device_mock_async()
+    device = await generate_device_mock_async(Device)
     columns = match_mid_profile("13805").status_columns
     original = tuple(columns)
     assert "hid" not in columns
     await device.update_state(columns)
     assert send.call_args.args[0]["pack"]["cols"] == list(original)
     assert columns == original
+
 
 
 @pytest.mark.asyncio
@@ -371,7 +398,7 @@ async def test_invalid_status_columns_fail_before_bind_or_send(cipher, send, col
 
 @pytest.mark.parametrize("name", ["Pow", Props.POWER, FakeProps.FAKE])
 async def test_raw_names_and_dirty_retention(name, cipher, send):
-    device = await generate_device_mock_async()
+    device = await generate_device_mock_async(Device)
     device.set_property(name, 1)
     device.set_property(name, 1)
     assert device.get_property(name) == 1
@@ -384,6 +411,7 @@ async def test_raw_names_and_dirty_retention(name, cipher, send):
     expected = name.value if isinstance(name, enum.Enum) else name
     assert pack["opt"] == [expected] and pack["p"] == [1]
     assert not device._dirty
+
 
 
 class InvalidRawProperty(enum.Enum):
@@ -462,11 +490,12 @@ async def test_raw_reserved_name_rejection_preserves_valid_data_and_result():
 @pytest.mark.asyncio
 async def test_update_properties_timeout(cipher, send):
     """Check that timeouts are handled when properties are updates."""
-    device = await generate_device_mock_async()
+    device = await generate_device_mock_async(Device)
 
     send.side_effect = asyncio.TimeoutError
     with pytest.raises(DeviceTimeoutError):
         await device.update_state()
+
 
 
 @pytest.mark.asyncio
@@ -545,7 +574,6 @@ async def test_set_properties(cipher, send):
     device.turbo = True
     device.steady_heat = True
     device.power_save = True
-    device.target_humidity = 30
 
     await device.push_state_update()
     send.assert_called_once()
@@ -556,6 +584,7 @@ async def test_set_properties(cipher, send):
             Props.TEMP_SET,
             Props.TEMP_BIT,
             Props.UNKNOWN_HEATCOOLTYPE,
+            Props.HUM_SET,
             Props.HUM_SENSOR,
             Props.DEHUMIDIFIER_MODE,
             Props.WATER_FULL,
@@ -563,6 +592,7 @@ async def test_set_properties(cipher, send):
         ):
             assert device.get_property(p) is not None
             assert device.get_property(p) == get_mock_state_on()[p.value]
+
 
 
 @pytest.mark.asyncio
@@ -607,11 +637,6 @@ async def test_uninitialized_properties(cipher, send):
     assert device.current_temperature is None
     assert device.temperature_units is None
     assert device.fan_speed is None
-    assert device.target_humidity is None
-    assert device.dehumidifier_mode is None
-    assert device.current_humidity is None
-    assert device.clean_filter is None
-    assert device.water_full is None
     assert device.fresh_air is None
     assert device.xfan is None
     assert device.anion is None
@@ -623,6 +648,7 @@ async def test_uninitialized_properties(cipher, send):
     assert device.turbo is None
     assert device.steady_heat is None
     assert device.power_save is None
+
 
 
 @pytest.mark.asyncio
@@ -638,30 +664,30 @@ async def test_mid_profile_partial_state_and_extra_fields():
             "dat": [0, 9, 6, 0, 0, 1, 3],
         }, device.device_cipher), addr)
         await asyncio.wait_for(events.get(), 2)
-        assert device.power is False
-        assert device.dehumidifier_mode == 9
-        assert device.target_humidity == 45
-        assert device.current_humidity == 0
-        assert device.water_full is False
-        assert device.clean_filter is True
+        assert device.get_property("Pow") == 0
+        assert device.get_property("Dmod") == 9
+        assert device.get_property("Dwet") == 6
+        assert device.get_property("DwatSen") == 0
+        assert device.get_property("DwatFul") == 0
+        assert device.get_property("Dfltr") == 1
         assert device.raw_properties["airQlt"] == 3
-        assert device.mode is None
-        assert device.target_temperature is None
-        assert device.current_temperature is None
-        assert device.fresh_air is None
+        assert device.get_property("Mod") is None
+        assert device.get_property("SetTem") is None
+        assert device.get_property("TemSen") is None
 
         peer.sendto(recovery_packet({
             "t": "dat", "cols": ["TemSen", "TemUn", "TemRec"], "dat": [65, 0, 0],
         }, device.device_cipher), addr)
         await asyncio.wait_for(events.get(), 2)
-        assert device.current_temperature == 25
-        device.fresh_air = True
-        assert device.fresh_air is True
+        assert device.get_property("TemSen") == 65
+        device.set_property("Air", 1)
+        assert device.get_property("Air") == 1
         peer.sendto(recovery_packet({
             "t": "res", "opt": ["Air"], "val": [0],
         }, device.device_cipher), addr)
         await asyncio.wait_for(events.get(), 2)
-        assert device.fresh_air is False
+        assert device.get_property("Air") == 0
+
 
 
 @pytest.mark.asyncio
@@ -743,12 +769,17 @@ async def test_update_current_temp_bad(cipher, send):
 
 
 
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "hid,sensor,expected,version",
     [
         ("362001060200+U-CS849AV10.bin", 45, 45, "10"),
         ("362001000762+U-CS532AE(LT)V3.33.bin", 25, -15, "3.33"),
+        ("362001000762", 25, -15, None),
+        ("362001000762+", 25, -15, None),
+        ("362001000762+U-CS532AE.bin", 25, -15, None),
+        ("362001000762+incomplete", 25, -15, None),
         ("362001061665+U-W05TV2.07.bin", 25, -15, "2.07"),
         ("362001000748+U-CS532Z(LT)V3.75.bin", 25, -15, "3.75"),
         ("362001000748+U-CS532Z(LT)V3.74.bin", 25, -15, "3.74"),
@@ -763,16 +794,19 @@ async def test_update_current_temp_bad(cipher, send):
         ("362001061383+U-BL3332_JDV18.bin", 25, 25, "18"),
         ("362001060498+U-CS845B(MTK2)V6.bin", 45, 45, "6"),
         ("362001061060+U-W04HV3.55.bin", 25, -15, "3.55"),
+        ("362001063525+U-G06V1.2.bin", 25, -15, "1.2"),
+        ("362001000968", 45, 45, None),
     ],
 )
-async def test_temperature_code_defaults_and_literal_identity(hid, sensor, expected, version):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_temperature_code_defaults_and_literal_identity(device_type, hid, sensor, expected, version):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid=hid, TemSen=sensor, TemUn=0, TemRec=0)
 
     assert device.current_temperature == expected
     assert device.version == version
     assert device.hid == hid
     assert device.raw_properties["TemSen"] == sensor
+
 
 
 def test_bound_device_logs_mid_and_first_hid_once(caplog):
@@ -791,6 +825,7 @@ def test_bound_device_logs_mid_and_first_hid_once(caplog):
     assert f"HID {hid}" in records[0].getMessage()
 
 
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "samples,expected",
@@ -809,8 +844,8 @@ def test_bound_device_logs_mid_and_first_hid_once(caplog):
         ([65, 0, 19], [25, None, -21]),
     ],
 )
-async def test_temperature_guess_promotion_and_permanent_lock(samples, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_temperature_guess_promotion_and_permanent_lock(device_type, samples, expected):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(SetTem=25, TemUn=0, TemRec=0)
     assert device.current_temperature is None
 
@@ -818,16 +853,18 @@ async def test_temperature_guess_promotion_and_permanent_lock(samples, expected)
         device.handle_state_update(TemSen=sensor)
         assert device.current_temperature == temperature
         assert device.raw_properties["TemSen"] == sensor
-        assert device.target_temperature == 25
+        assert device.get_property("SetTem") == 25
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("invalid", [None, "28", 28.5, True, False, "", -21, 91, 218])
-async def test_invalid_temperature_defers_inference(invalid):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_invalid_temperature_defers_inference(device_type, invalid):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(SetTem=25, TemUn=0, TemRec=0, TemSen=invalid)
     assert device.current_temperature is None
-    assert device.target_temperature == 25
+    assert device.get_property("SetTem") == 25
     assert device.raw_properties["TemSen"] == invalid
 
     device.handle_state_update(TemSen=28)
@@ -836,15 +873,17 @@ async def test_invalid_temperature_defers_inference(invalid):
     assert device.current_temperature == 25
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("invalid", [None, "28", 28.5, True, False, "", -21, 91, 218])
 @pytest.mark.parametrize("first,expected", [(28, 25), (40, -15), (19, 25), (65, -15)])
-async def test_unusable_temperature_preserves_selected_encoding(invalid, first, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_unusable_temperature_preserves_selected_encoding(device_type, invalid, first, expected):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(SetTem=25, TemSen=first, TemUn=0, TemRec=0)
     device.handle_state_update(TemSen=invalid)
     assert device.current_temperature is None
-    assert device.target_temperature == 25
+    assert device.get_property("SetTem") == 25
     device.handle_state_update(TemSen=25)
     assert device.current_temperature == expected
     device.handle_state_update(Pow=1)
@@ -852,6 +891,8 @@ async def test_unusable_temperature_preserves_selected_encoding(invalid, first, 
     assert device.raw_properties["TemSen"] == 25
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "hid,initial,sensor,expected",
@@ -861,8 +902,8 @@ async def test_unusable_temperature_preserves_selected_encoding(invalid, first, 
         ("999999999999+U-UNKNOWNV1.bin", None, 28, 28),
     ],
 )
-async def test_zero_temperature_does_not_learn_or_guess(hid, initial, sensor, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_zero_temperature_does_not_learn_or_guess(device_type, hid, initial, sensor, expected):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid=hid, TemSen=0, SetTem=25, TemUn=0, TemRec=0)
     assert device.current_temperature == initial
     assert device.raw_properties["TemSen"] == 0
@@ -870,10 +911,12 @@ async def test_zero_temperature_does_not_learn_or_guess(hid, initial, sensor, ex
     assert device.current_temperature == expected
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("hid_first", [False, True])
-async def test_trait_overrides_guess_until_learning(hid_first):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_trait_overrides_guess_until_learning(device_type, hid_first):
+    device = device_type(DeviceInfo(*get_mock_info()))
     hid = "362001000762+U-CS532AE(LT)V3.33.bin"
     if hid_first:
         device.handle_state_update(hid=hid)
@@ -889,9 +932,11 @@ async def test_trait_overrides_guess_until_learning(hid_first):
     assert device.current_temperature == 65
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
-async def test_trait_keeps_first_ambiguous_guess_as_fallback():
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_trait_keeps_first_ambiguous_guess_as_fallback(device_type):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid="362001000762+U-CS532AE(LT)V3.33.bin", TemSen=25)
     assert device.current_temperature == -15
     device.handle_state_update(hid="999999999999+U-UNKNOWNV1.bin")
@@ -900,6 +945,8 @@ async def test_trait_keeps_first_ambiguous_guess_as_fallback():
     assert device.current_temperature == 45
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("arrival", ["before", "same", "after"])
 @pytest.mark.parametrize(
@@ -910,9 +957,9 @@ async def test_trait_keeps_first_ambiguous_guess_as_fallback():
     ],
 )
 async def test_learning_overrides_trait_in_every_arrival_order(
-    arrival, hid, sensor, initial, ambiguous, opposite, final
+    device_type, arrival, hid, sensor, initial, ambiguous, opposite, final
 ):
-    device = Device(DeviceInfo(*get_mock_info()))
+    device = device_type(DeviceInfo(*get_mock_info()))
     if arrival == "before":
         device.handle_state_update(hid=hid)
     packet = {"TemSen": sensor, "TemUn": 0}
@@ -930,13 +977,15 @@ async def test_learning_overrides_trait_in_every_arrival_order(
     assert device.current_temperature == ambiguous
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("hid_first", [False, True])
 @pytest.mark.parametrize("replacement", [
     "999999999999+U-UNKNOWNV1.bin", "888888888888+U-OTHERV2.bin",
 ])
-async def test_unknown_hid_preserves_guess_until_learning(hid_first, replacement):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_unknown_hid_preserves_guess_until_learning(device_type, hid_first, replacement):
+    device = device_type(DeviceInfo(*get_mock_info()))
     hid = "999999999999+U-UNKNOWNV1.bin"
     if hid_first:
         device.handle_state_update(hid=hid)
@@ -948,6 +997,8 @@ async def test_unknown_hid_preserves_guess_until_learning(hid_first, replacement
     assert device.hid == replacement
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "replacement,version",
@@ -962,8 +1013,8 @@ async def test_unknown_hid_preserves_guess_until_learning(hid_first, replacement
     ],
 )
 @pytest.mark.parametrize("first,expected", [(19, 25), (65, -15)])
-async def test_temperature_lock_survives_hid_replacement(first, expected, replacement, version):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_temperature_lock_survives_hid_replacement(device_type, first, expected, replacement, version):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid="999999999999+U-UNKNOWNV1.bin", TemSen=first, TemUn=0)
     device.handle_state_update(TemSen=25)
     assert device.current_temperature == expected
@@ -974,10 +1025,12 @@ async def test_temperature_lock_survives_hid_replacement(first, expected, replac
     assert device.raw_properties["TemSen"] == 25
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
-async def test_temperature_learning_is_per_device():
-    direct = Device(DeviceInfo(*get_mock_info()))
-    biased = Device(DeviceInfo(*get_mock_info()))
+async def test_temperature_learning_is_per_device(device_type):
+    direct = device_type(DeviceInfo(*get_mock_info()))
+    biased = device_type(DeviceInfo(*get_mock_info()))
     direct.handle_state_update(TemSen=19)
     biased.handle_state_update(TemSen=65)
     for device in (direct, biased):
@@ -986,13 +1039,15 @@ async def test_temperature_learning_is_per_device():
     assert biased.current_temperature == -15
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("hid,version", [
     ("invalid+U-CS532AEV3.33.bin", "3.33"),
     (None, None), (123, None), ([], None), ({}, None),
 ])
-async def test_invalid_hid_cannot_supply_temperature_trait(hid, version):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_invalid_hid_cannot_supply_temperature_trait(device_type, hid, version):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid=hid, TemSen=25)
     assert device.current_temperature == 25
     assert device.hid == hid
@@ -1000,10 +1055,11 @@ async def test_invalid_hid_cannot_supply_temperature_trait(hid, version):
     assert device.raw_properties["TemSen"] == 25
 
 
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("direct_assignment", [False, True])
-async def test_temperature_profile_follows_hid_changes(direct_assignment):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_temperature_profile_follows_hid_changes(device_type, direct_assignment):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(TemSen=45, TemUn=0)
     for hid, expected in [
         ("362001060200+U-CS849AV10.bin", 45),
@@ -1022,33 +1078,39 @@ async def test_temperature_profile_follows_hid_changes(direct_assignment):
         assert device.current_temperature == expected
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("use_raw_dict", [False, True])
-async def test_local_sensor_mutation_does_not_learn(use_raw_dict):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_local_sensor_mutation_does_not_learn(device_type, use_raw_dict):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(SetTem=25, TemRec=0)
     if use_raw_dict:
         device.raw_properties["TemSen"] = 65
     else:
         device.set_property(Props.TEMP_SENSOR, 65)
     assert device.current_temperature is None
-    assert device.target_temperature == 25
+    assert device.get_property("SetTem") == 25
     device.handle_state_update(Pow=1)
     assert device.current_temperature is None
     device.handle_state_update(TemSen=65)
     assert device.current_temperature == 25
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("reported_version", ["4", "4.0", "7", None])
-async def test_version_metadata_does_not_control_temperature(reported_version):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_version_metadata_does_not_control_temperature(device_type, reported_version):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(TemSen=65, TemUn=0, TemRec=0)
     device.version = reported_version
     assert device.current_temperature == 25
     assert device.version == reported_version
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "hid,sensor",
@@ -1057,13 +1119,15 @@ async def test_version_metadata_does_not_control_temperature(reported_version):
         ("362001060297+U-CS532AF(MTK)V4.bin", 25),
     ],
 )
-async def test_temperature_offset_precedes_fahrenheit_conversion(hid, sensor):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_temperature_offset_precedes_fahrenheit_conversion(device_type, hid, sensor):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid=hid, TemSen=sensor, TemUn=1, TemRec=0)
     assert device.current_temperature == 77
     assert device.raw_properties["TemSen"] == sensor
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("samples,expected", [
     ([65, 25, 45, 15, 55], [25, 25, 45, 15, 15]),
@@ -1078,19 +1142,21 @@ async def test_temperature_offset_precedes_fahrenheit_conversion(hid, sensor):
     ([65, 0, 45], [25, None, 5]),
     ([0, 45, 25], [None, 5, 25]),
 ])
-async def test_runtime_temperature_relearning(samples, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_runtime_temperature_relearning(device_type, samples, expected):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid="362001064973+U-W04NV19.bin", TemUn=0, TemRec=0)
     for raw, temperature in zip(samples, expected):
         device.handle_state_update(TemSen=raw)
         assert device.current_temperature == temperature
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("invalid", [None, True, False, "25", 25.5, -1, -20, 91])
 @pytest.mark.parametrize("first,expected", [(None, 5), (25, 45), (65, 5)])
-async def test_runtime_invalid_samples_preserve_inference(invalid, first, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_runtime_invalid_samples_preserve_inference(device_type, invalid, first, expected):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid="362001064973+U-W04NV19.bin", TemUn=0)
     if first is not None:
         device.handle_state_update(TemSen=first)
@@ -1100,13 +1166,15 @@ async def test_runtime_invalid_samples_preserve_inference(invalid, first, expect
     assert device.current_temperature == expected
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("first,samples,expected", [
     (15, [55], [15]),
     (25, [45, 65], [45, 25]),
 ])
-async def test_runtime_hid_arrival_retains_unknown_inference(first, samples, expected):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_runtime_hid_arrival_retains_unknown_inference(device_type, first, samples, expected):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(TemSen=first, TemUn=0)
     assert device.current_temperature == first
     device.handle_state_update(hid="362001064973+U-W04NV19.bin")
@@ -1116,10 +1184,12 @@ async def test_runtime_hid_arrival_retains_unknown_inference(first, samples, exp
         assert device.current_temperature == temperature
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("use_raw_dict", [False, True])
-async def test_runtime_only_incoming_samples_relearn(use_raw_dict):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_runtime_only_incoming_samples_relearn(device_type, use_raw_dict):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid="362001064973+U-W04NV19.bin", TemSen=65, TemUn=0)
     if use_raw_dict:
         device.raw_properties["TemSen"] = 25
@@ -1134,25 +1204,30 @@ async def test_runtime_only_incoming_samples_relearn(use_raw_dict):
     assert device.current_temperature == 25
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
 @pytest.mark.parametrize("replacement", [
     "362001000762+U-CS532AE(LT)V3.33.bin", "999999999999+U-UNKNOWNV1.bin",
 ])
-async def test_leaving_runtime_profile_freezes_latest_inference(replacement):
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_leaving_runtime_profile_freezes_latest_inference(device_type, replacement):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid="362001064973+U-W04NV19.bin", TemSen=65, TemUn=0)
     device.handle_state_update(TemSen=25)
     device.handle_state_update(hid=replacement, TemSen=65)
     assert device.current_temperature == 65
 
 
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
 @pytest.mark.asyncio
-async def test_runtime_relearning_precedes_fahrenheit_conversion():
-    device = Device(DeviceInfo(*get_mock_info()))
+async def test_runtime_relearning_precedes_fahrenheit_conversion(device_type):
+    device = device_type(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid="362001064973+U-W04NV19.bin", TemUn=1, TemRec=0)
     for raw in (65, 25):
         device.handle_state_update(TemSen=raw)
         assert device.current_temperature == 77
+
 
 
 @pytest.mark.asyncio
@@ -1234,7 +1309,7 @@ async def test_send_temperature_out_of_range_farenheit_set(temperature, cipher, 
 
 @pytest.mark.asyncio
 async def test_ambient_fahrenheit_conversion_failure_preserves_lock():
-    device = Device(DeviceInfo(*get_mock_info()))
+    device = AirConditionerDevice(DeviceInfo(*get_mock_info()))
     device.handle_state_update(SetTem=25, TemSen=19, TemRec=0)
     assert device.current_temperature == 19
     device.temperature_units = TemperatureUnits.F
@@ -1243,6 +1318,7 @@ async def test_ambient_fahrenheit_conversion_failure_preserves_lock():
     assert device.target_temperature == 77
     device.handle_state_update(TemSen=25)
     assert device.current_temperature == 77
+
 
 
 @pytest.mark.asyncio
@@ -1316,9 +1392,10 @@ async def test_device_equality(send):
     # Change the info of the second device
     info2 = DeviceInfo(*get_mock_info())
     device2 = Device(info2)
-    device2.power = True
+    device2.set_property("Pow", 1)
     await device2.bind(key="fake_key", cipher=CipherV1())
     assert device1 != device2
+
 
 
 def test_device_key_set_get():
@@ -1414,7 +1491,7 @@ async def test_buzzer_profile_cache_follows_hid_not_mid(direct_assignment, ciphe
 @pytest.mark.asyncio
 async def has_valid_state_with_valid_properties(cipher, send):
     """Check that the device has a valid state with valid properties."""
-    device = await generate_device_mock_async()
+    device = await generate_device_mock_async(Device)
 
     def fake_send(*args, **kwargs):
         state = get_mock_state()
@@ -1423,17 +1500,19 @@ async def has_valid_state_with_valid_properties(cipher, send):
 
     await device.update_state()
     assert device.has_valid_state is True
+
    
    
 @pytest.mark.asyncio
 async def test_request_version_timeout_error(cipher, send):
     """Check that request_version raises DeviceTimeoutError when a timeout occurs."""
-    device = await generate_device_mock_async()
+    device = await generate_device_mock_async(Device)
 
     send.side_effect = asyncio.TimeoutError
 
     with pytest.raises(DeviceTimeoutError):
         await device.request_version() 
+ 
 
 
 RECOVERY_MAC = "020000000001"
@@ -1474,10 +1553,10 @@ async def recovery_negotiate(device, transport, queue, cipher=None, key=RECOVERY
 
 
 @asynccontextmanager
-async def recovery_session(cipher=None, key=RECOVERY_KEY):
+async def recovery_session(cipher=None, key=RECOVERY_KEY, device_type=Device):
     async with udp_peer() as (transport, queue):
         host, port = transport.get_extra_info("sockname")
-        device = Device(DeviceInfo(host, port, RECOVERY_MAC, "saved"), bind_timeout=0.05)
+        device = device_type(DeviceInfo(host, port, RECOVERY_MAC, "saved"), bind_timeout=0.05)
         try:
             addr = await recovery_negotiate(device, transport, queue, cipher, key)
             yield device, transport, queue, addr
@@ -1486,6 +1565,7 @@ async def recovery_session(cipher=None, key=RECOVERY_KEY):
             if hasattr(device, "_transport_closed"):
                 await asyncio.wait_for(device._transport_closed.wait(), 2)
             await asyncio.gather(*device.tasks, return_exceptions=True)
+
 
 
 @pytest.mark.parametrize("cipher_type", [CipherV1, CipherV2])
@@ -1501,11 +1581,11 @@ async def test_recovery_saved_info_data_and_control(cipher_type):
             {"t": "dat", "cols": ["Pow", "SetTem"], "dat": [1, 24]}, device.device_cipher
         ), addr)
         assert await asyncio.wait_for(data.get(), 2) == {"Pow": 1, "SetTem": 24}
-        assert device.power and device.get_property(Props.TEMP_SET) == 24
-        device.power = True
+        assert device.get_property("Pow") == 1 and device.get_property(Props.TEMP_SET) == 24
+        device.set_property("Pow", 1)
         await device.push_state_update()
         assert queue.empty()
-        device.power = False
+        device.set_property("Pow", 0)
         await device.push_state_update()
         request, _ = await recovery_receive(queue, device.device_cipher)
         assert request["t"] == "cmd" and dict(zip(request["opt"], request["p"]))["Pow"] == 0
@@ -1513,12 +1593,13 @@ async def test_recovery_saved_info_data_and_control(cipher_type):
             {"t": "res", "opt": ["Pow"], "p": [0]}, device.device_cipher
         ), addr)
         assert await asyncio.wait_for(results.get(), 2) == {"Pow": 0}
-        assert not device.power
+        assert device.get_property("Pow") == 0
         assert supplied.key == cipher_type().key
         await device.bind()
         await device.update_state()
         request, _ = await recovery_receive(queue, device.device_cipher)
         assert request["t"] == "status" and queue.empty()
+
 
 
 @pytest.mark.parametrize("identity", [
@@ -1678,11 +1759,12 @@ async def test_recovery_same_endpoint_instances_and_shared_cipher():
                 {"t": "dat", "cols": ["Pow"], "dat": [1]}, devices[1].device_cipher
             ), addresses[1])
             assert await asyncio.wait_for(events.get(), 2) == {"Pow": 1}
-            assert devices[1].power
+            assert devices[1].get_property("Pow") == 1
         finally:
             for device in devices:
                 device.close()
             await asyncio.gather(*binds, return_exceptions=True)
+
 
 
 async def test_recovery_endpoint_replacement_does_not_retarget_connected_socket():
@@ -1705,12 +1787,13 @@ async def test_recovery_endpoint_replacement_does_not_retarget_connected_socket(
                     {"t": "dat", "cols": ["SetTem"], "dat": [28]}, replacement.device_cipher
                 ), addr)
                 assert await asyncio.wait_for(events.get(), 2) == {"SetTem": 28}
-                replacement.power = True
+                replacement.set_property("Pow", 1)
                 await replacement.push_state_update()
                 command, _ = await recovery_receive(new_queue, replacement.device_cipher)
                 assert command["t"] == "cmd" and old_queue.empty()
             finally:
                 replacement.close()
+
 
 
 async def test_recovery_same_address_reboot_new_session():
@@ -1812,7 +1895,7 @@ async def test_recovery_implicit_bind(operation):
         host, port = peer.get_extra_info("sockname")
         device = Device(DeviceInfo(host, port, RECOVERY_MAC, "implicit"), bind_timeout=0.1)
         if operation == "push_state_update":
-            device.power = True
+            device.set_property("Pow", 1)
         task = asyncio.create_task(getattr(device, operation)())
         try:
             request, addr = await recovery_receive(queue)
@@ -1824,6 +1907,7 @@ async def test_recovery_implicit_bind(operation):
         finally:
             device.close()
             await asyncio.gather(task, return_exceptions=True)
+
 
 
 @pytest.mark.parametrize("paused_send", [False, True])
@@ -1943,10 +2027,11 @@ async def test_recovery_conflicting_outer_bind_and_session_identities():
                 {"t": "dat", "cols": ["Pow"], "dat": [1]}, device.device_cipher
             ), addr)
             assert await asyncio.wait_for(events.get(), 2) == {"Pow": 1}
-            assert events.empty() and device.power
+            assert events.empty() and device.get_property("Pow") == 1
         finally:
             device.close()
             await asyncio.gather(task, return_exceptions=True)
+
 
 
 async def test_recovery_noncanonical_public_mac_binds_canonically_and_isolates_senders():
@@ -2094,7 +2179,7 @@ async def test_recovery_rejected_packet_cannot_change_state(boundary):
             packet = {}
         device.packet_received(packet, endpoint)
         device.handle_device_bound("fedcba9876543210")
-        assert device.power is True and events.empty()
+        assert device.get_property("Pow") == 1 and events.empty()
         if boundary == "closed":
             assert not device.ready.is_set() and device.device_cipher is None
         else:
@@ -2103,7 +2188,8 @@ async def test_recovery_rejected_packet_cannot_change_state(boundary):
                 {"t": "dat", "cols": ["Pow"], "dat": [0]}, device.device_cipher
             ), addr)
             assert await asyncio.wait_for(events.get(), 2) == {"Pow": 0}
-            assert device.power is False
+            assert device.get_property("Pow") == 0
+
 
 
 async def test_recovery_status_before_identified_bind_is_not_available():
@@ -2118,16 +2204,17 @@ async def test_recovery_status_before_identified_bind_is_not_available():
             peer.sendto(recovery_packet({"t": "dat", "cols": ["Pow"], "dat": [0]}), addr)
             peer.sendto(recovery_packet({"t": "bindok", "mac": RECOVERY_MAC, "key": RECOVERY_KEY}), addr)
             await asyncio.wait_for(task, 2)
-            assert events.empty() and not device.has_valid_state and device.power is None
+            assert events.empty() and not device.has_valid_state and device.get_property("Pow") is None
             await recovery_receive(queue, device.device_cipher)
             peer.sendto(recovery_packet(
                 {"t": "dat", "cols": ["Pow"], "dat": [1]}, device.device_cipher
             ), addr)
             assert await asyncio.wait_for(events.get(), 2) == {"Pow": 1}
-            assert device.has_valid_state and device.power is True
+            assert device.has_valid_state and device.get_property("Pow") == 1
         finally:
             device.close()
             await asyncio.gather(task, return_exceptions=True)
+
 
 
 async def test_recovery_close_from_bind_callback_cannot_report_success():
@@ -2197,3 +2284,65 @@ async def test_recovery_close_while_retry_waits_for_old_socket(monkeypatch):
             connection_lost(None)
             if task is not None:
                 await asyncio.gather(task, return_exceptions=True)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", [None, "unrecorded", 10001])
+@pytest.mark.parametrize("device_type,columns", [
+    (AirConditionerDevice, ["Pow", "Mod", "SetTem", "TemUn", "TemRec", "TemSen"]),
+    (DehumidifierDevice, [
+        "Pow", "Dmod", "Dwet", "DwatSen", "Dfltr", "DwatFul", "TemSen", "TemUn",
+        "TemRec", "WdSpd", "Lig", "SwUpDn", "Health", "Quiet",
+    ]),
+])
+async def test_direct_family_unknown_mid_uses_family_baseline(cipher, send, mid, device_type, columns):
+    device = device_type(DeviceInfo(*get_mock_info(), mid=mid))
+    await device.bind(key="0123456789abcdef", cipher=CipherV1())
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == columns + ["hid"]
+    device.handle_state_update(hid=get_mock_state()["hid"])
+    await device.update_state()
+    assert send.call_args.args[0]["pack"]["cols"] == columns
+    assert send.call_args_list[0].args[0]["pack"]["cols"] == columns + ["hid"]
+
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
+@pytest.mark.parametrize("temperature", [60, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 86])
+async def test_family_ambient_fractional_fahrenheit(device_type, temperature):
+    sensor = round((temperature - 32.0) * 5.0 / 9.0)
+    bit = int(((temperature - 32.0) * 5.0 / 9.0) - sensor > 0)
+    device = device_type(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(
+        hid="362001000762+U-CS532AE(LT)V3.31.bin",
+        TemSen=sensor + 40, TemUn=1, TemRec=bit,
+    )
+    assert device.current_temperature == temperature
+
+
+@pytest.mark.parametrize("device_type", [AirConditionerDevice, DehumidifierDevice])
+async def test_family_ambient_missing_fraction_bit_defaults_to_zero(device_type):
+    device = device_type(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(TemSen=65, TemUn=1)
+    assert device.current_temperature == 77
+
+
+async def test_neutral_device_has_no_appliance_descriptors():
+    device = Device(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(Pow=1, SetTem=23, Dwet=6, hid=get_mock_state()["hid"])
+    for name in (
+        "power", "mode", "target_temperature", "temperature_units", "current_temperature",
+        "fan_speed", "fresh_air", "xfan", "anion", "sleep", "light", "horizontal_swing",
+        "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "buzzer",
+        "target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter", "water_full",
+    ):
+        assert not hasattr(device, name)
+    device.power = False
+    assert device.get_property("Pow") == 1 and not device._dirty
+
+
+async def test_ac_has_no_dehumidifier_descriptors():
+    device = AirConditionerDevice(DeviceInfo(*get_mock_info()))
+    device.handle_state_update(Dwet=6, Dmod=9, DwatSen=0, Dfltr=0, DwatFul=1)
+    for name in ("target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter", "water_full"):
+        assert not hasattr(device, name)
+    assert device.get_property("Dwet") == 6
