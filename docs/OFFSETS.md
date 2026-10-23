@@ -35,24 +35,25 @@ Results apply to the inspected sensor path, not every device sharing its code or
 
 ## Trait selection
 
-[`device_profile.py`](../greeclimate/device_profile.py) defines **61 firmware-code fallbacks**: seven offset-0, 49 offset-40, and five offset-40 bootstrap defaults with continuous re-learning. It retains all 14 original defaults. Every production entry has `min_version=None`, so it applies across revisions/module tokens, including uninspected builds. This extrapolates confirmed and standard-UART findings; it is not further calibration.
+[`device_profile.py`](../greeclimate/device_profile.py) holds one consolidated profile per firmware code, combining temperature defaults, continuous re-learning and buzzer namespaces. These traits apply across revisions/module tokens, including uninspected builds. This is code-scoped client policy, not further calibration; see [firmware-code traits and limitations](HIDS.md#firmware-code-traits-and-limitations).
 
 The frozen, direct-submodule API is:
 
-- `DeviceProfile(firmware_code, temperature_offset, min_version=None, relearn_temperature_offset=False)`
+- `DeviceProfile(firmware_code, temperature_offset=None, relearn_temperature_offset=False, buzzer_properties=None)`
 - `match_device_profile(hid)`
 
-The old MID, module, literal-version and settings fields and two-argument matcher are removed, with no aliases or package-root exports.
+`exact_hid`, `min_version` and version-floor selection are removed, with no aliases or package-root exports. When migrating older constructors, use keyword arguments for optional traits rather than reusing the old positional `min_version`/relearning argument list. For example: `DeviceProfile("362001064973", temperature_offset=40, relearn_temperature_offset=True, buzzer_properties=("Buzzer_ON_OFF",))`.
 
-Matching requires a complete, valid HID. Missing, nonstring, malformed, bare-code and unknown-code inputs return no profile. Module/qualifier syntax is checked but does not restrict matching. For a matching code, choose the greatest eligible `min_version`, otherwise its no-minimum fallback; the first row wins ties. Select one whole profile, never merge profiles.
+Matching uses the exact code before the first `+`, or a bare firmware code. For example, both `362001064973` and `362001064973+incomplete` select the same profile. The suffix, module, qualifier and version are not validated or compared. Missing, nonstring and unknown-code inputs return no profile; codes are not trimmed or normalized. Select one whole profile, never merge profiles.
 
-Version comparison uses only the HID's numeric dotted version: `1.10 > 1.9`, `1.05 == 1.5`, `1.2 == 1.2.0`; all-zero versions are equal. Raw HID/public version strings stay unchanged. Discovery `ver`, OTA `commProtVer`, MID and mutable `Device.version` do not select a version floor.
+The reported HID and public `Device.version` remain metadata. Discovery `ver`, OTA `commProtVer`, MID and display versions do not select a profile or constrain its traits.
 
 **Continuous re-learning** covers the entire SN (`362001061381`), JD (`362001061383`), TMAC (`362001062557`), JDNEW (`362001064270`) and W04N (`362001064973`) families. Offset 40 is only a bootstrap estimate. Earlier normalized SN V11, TMAC V10 and W04N V17 get the same policy: a first 25 learns 0; a first 45 provisionally displays 5°C.
 
 Registry identity limits:
 
-- Excluded: route-only gateway `362001068423`, fallback/default HID `362001000968`, unconfirmed primary dispatch `362001061615`, cellular/initialization identity `362001063525`, and mislabelled download codes `362001061217`, `362001061646`, `362001064307`.
+- Excluded: route-only gateway `362001068423`, unconfirmed primary dispatch `362001061615`, and mislabelled download codes `362001061217`, `362001061646`, `362001064307`.
+- Fallback/default identity `362001000968` has client offset 0 and cellular/initialization identity `362001063525` has offset 40. These are code-scoped registry policies, not evidence that every image or mainboard sharing either identity uses that encoding.
 - RT13 V1.54 uses recovered primary code `362001065279`; RT11 V1.44 retains `362001065280`. W05K V1.05/V1.07 agree under `362001061234`; both WB05UR V2.04 images agree under `362001068295`.
 - A mislabelled QCOM download does not justify a `362001064307` profile. Debug/burn identifiers need not be generated HIDs. API/discovery versions do not replace the reported HID, and there is no universal MID-to-offset mapping.
 
@@ -199,7 +200,7 @@ Shared limits apply throughout:
 - `EnvironmentTem`, `TemBody`, `TemSor`, `EnvTem` and other alternate fields have separate transports; unchanged transport establishes neither their Celsius calibration nor a `TemSen` offset. Opaque bridged payloads are outside local namespace proofs.
 - A shared cache/getter cannot prove a measured producer or its units. Missing strings alone do not prove unsupported queries; opaque bytes alone do not prove encryption or a CPU.
 
-Original W04N V7 is absent and unverified. A complete HID with code `362001064973` receives code-wide re-learning/provisional fallback, not a verified fixed encoding. No firmware binaries, private captures or temporary analysis files are needed at runtime.
+Original W04N V7 is absent and unverified. Firmware code `362001064973`, alone or before a `+` suffix, receives code-wide re-learning/provisional fallback, not a verified fixed encoding. No firmware binaries, private captures or temporary analysis files are needed at runtime.
 
 ## Per-payload findings
 

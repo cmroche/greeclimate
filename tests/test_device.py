@@ -988,8 +988,6 @@ async def test_temperature_learning_is_per_device():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("hid,version", [
-    ("362001000762", None),
-    ("362001000762+U-CS532AE.bin", None),
     ("invalid+U-CS532AEV3.33.bin", "3.33"),
     (None, None), (123, None), ([], None), ({}, None),
 ])
@@ -1338,17 +1336,22 @@ def test_device_key_set_get():
     ("362001065016+U-W04HMV1.05.bin", ("Buzzer_ON_OFF",)),
     ("362001065634+U-WB04BRT13V1.50.bin", ("Buzzer_ON_OFF",)),
     ("362001066763+U-W06A(P3)V6.04.bin", ()),
-    ("362001000762+U-CS532AE(LT)V3.33.bin", None),
-    ("362001064973+U-W04NV20.bin", None),
-    ("362001066763+U-W06A(P3)V6.05.bin", None),
-    ("362001066763+U-WB06A(P3)V6.04.bin", None),
+    ("362001000762+U-CS532AE(LT)V3.33.bin", ()),
+    ("362001064973+U-W04NV20.bin", ("Buzzer_ON_OFF",)),
+    ("362001066763+U-W06A(P3)V6.05.bin", ()),
+    ("362001066763+U-WB06A(P3)V6.04.bin", ()),
+    ("362001065634+U-WB04BRT13V1.44.bin", ("Buzzer_ON_OFF",)),
+    ("362001065634", ("Buzzer_ON_OFF",)),
+    ("362001065634+incomplete", ("Buzzer_ON_OFF",)),
+    ("362001060499+U-OTHER(MTK)V999.bin", ("Buzzer_ON_OFF",)),
+    ("362001061649+U-OTHER(MTK)V999.bin", ()),
     ("999999999999+U-SYNTHETICV1.bin", None),
     ("", None),
     ("malformed", None),
     (None, None),
 ])
 @pytest.mark.parametrize("enabled", [False, True])
-async def test_buzzer_fields_follow_exact_firmware_on_every_command(hid, properties, enabled, cipher, send):
+async def test_buzzer_fields_follow_firmware_code_on_every_command(hid, properties, enabled, cipher, send):
     device = await generate_device_mock_async()
     device.handle_state_update(hid=hid)
     device.buzzer = enabled
@@ -1372,7 +1375,7 @@ async def test_buzzer_fields_follow_exact_firmware_on_every_command(hid, propert
 async def test_buzzer_ctrl_only_profile_does_not_send_on_off(monkeypatch, enabled, cipher, send):
     hid = "999999999999+U-SYNTHETICV1.bin"
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
-        DeviceProfile("999999999999", None, buzzer_properties=("BuzzerCtrl",), exact_hid=hid),
+        DeviceProfile("999999999999", buzzer_properties=("BuzzerCtrl",)),
     ))
     device = await generate_device_mock_async()
     device.handle_state_update(hid=hid)
