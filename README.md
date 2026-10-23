@@ -22,7 +22,7 @@ The easiest way to grab **greeclimate** is through PyPI
 
 ## Use Gree Climate
 
-Discover devices on the LAN and bind immediately after scanning. Use `create_device()` for exact-MID selection of an `AirConditionerDevice`, `DehumidifierDevice`, or neutral `Device`.
+Discover devices on the LAN and bind immediately after scanning. Use `create_device()` for exact-MID selection of an `AirConditionerDevice`, `DehumidifierDevice`, `AirToWaterDevice` (`9300` only), or neutral `Device`.
 
 ```python
 import asyncio
@@ -59,13 +59,14 @@ For a known appliance whose MID is missing or unregistered, construct its family
 ```python
 from greeclimate.air_conditioner import AirConditionerDevice
 from greeclimate.dehumidifier import DehumidifierDevice
+from greeclimate.air_to_water import AirToWaterDevice
 
-device = AirConditionerDevice(device_info)  # Or DehumidifierDevice(device_info).
+device = AirConditionerDevice(device_info)  # Or DehumidifierDevice / AirToWaterDevice.
 ```
 
 Unknown MIDs produce a neutral `Device` and default to identity-only `["hid"]` polling. Direct AC instances with an unknown MID poll `Pow`, `Mod`, `SetTem`, `TemUn`, `TemRec`, and `TemSen`; direct dehumidifiers use their own humidity/control baseline. Known MID polling lists are preserved even for untyped families. See [MID polling contracts](docs/MIDS.md).
 
-The AC control examples below require an `AirConditionerDevice`; the humidity example requires a `DehumidifierDevice`. Optional controls still depend on the appliance. Neutral devices retain the raw API example below.
+The AC control examples below require an `AirConditionerDevice`; the humidity example requires a `DehumidifierDevice`, and the air-to-water example requires an `AirToWaterDevice`. Optional controls still depend on the appliance. Neutral devices retain the raw API example below.
 
 
 Scan a known IP address instead of broadcasting on the LAN.
@@ -92,7 +93,7 @@ await device.update_state()
 ```
 
 Request exact status columns and access raw protocol properties by name (or a string-valued enum).
-Explicit columns are sent unchanged, without adding `hid`; raw writes do not validate appliance support.
+Explicit columns are sent unchanged as one query, without adding `hid`; raw writes do not validate appliance support, but typed ATW instances still enforce their send-time command guards.
 The exact name `self` is reserved and rejected before staging a property or sending a status query.
 
 ```python
@@ -153,7 +154,7 @@ if device.capabilities["quiet"] is True:
     await device.push_state_update()
 ```
 
-`capabilities` is a fresh, immutable 23-key snapshot: `True` means declared protocol support, `False` means outside the typed family's API or explicitly excluded by firmware, and `None` means not established. Neutral devices report all `None`. Reading it sends no probe; it neither gates setters nor guarantees physical effects or available readings. See [evidence and precedence](docs/MIDS.md#capability-evidence).
+`capabilities` is a fresh, immutable 32-key snapshot: `True` means declared protocol support, `False` means outside the typed family's API or explicitly excluded by firmware, and `None` means not established. Neutral devices report all `None`. Reading it sends no probe; it neither gates setters nor guarantees physical effects or available readings. See [evidence and precedence](docs/MIDS.md#capability-evidence).
 
 Request a muted power-on command where supported; wait for the reported firmware HID first.
 
@@ -186,6 +187,33 @@ Set a `DehumidifierDevice`'s target relative humidity (not an AC dry-mode setpoi
 device.target_humidity = 45
 await device.push_state_update()
 ```
+
+Set an air-to-water heating-water target only after receiving Celsius status.
+
+```python
+from greeclimate.air_to_water import AirToWaterDevice
+from greeclimate.network import Response
+
+if not isinstance(device, AirToWaterDevice):
+    raise TypeError("This example requires an air-to-water heat pump")
+celsius_received = asyncio.Event()
+
+def on_atw_data(data):
+    if device.temperature_units == 0:
+        celsius_received.set()
+
+device.add_handler(Response.DATA, on_atw_data)
+try:
+    await device.update_state()
+    await asyncio.wait_for(celsius_received.wait(), timeout=5)
+finally:
+    device.remove_handler(Response.DATA, on_atw_data)
+
+device.heating_water_target_temperature_c = 35
+await device.push_state_update()
+```
+
+ATW default polling preserves the `9300` preset plus sensor fields in deduplicated order, using queries of at most 20 columns to fit the firmware's encrypted request limit. Explicit `update_state(columns)` remains one exact query and must fit the device limits. Mode changes require a **received off** power state; sending or staging power-off alone is not enough, and mode plus power-on must be separate commands. Target writes require **received Celsius** and are revalidated at send time. Cooling resolves to wire value 5 for firmware code `362001066763`; explicit `cooling_mode_value=0`, `5`, or `None` overrides automatic resolution (`None` disables cooling). See [ATW controls](docs/MIDS.md#air-to-water-controls).
 
 Turn the device off, then request a fresh status update.
 
@@ -227,6 +255,12 @@ Run the supplied mixed-device configuration, including gateways and child device
 python -m gree_emulator --config examples/emulator-devices.json
 ```
 
+Run the simulated air-to-water heat pump (the `9301` and `9302` profiles remain raw-client families).
+
+```bash
+python -m gree_emulator --profile sim-w06a-p3-v6.04-9300 --mid 9300 --seed demo --listen 127.0.0.1
+```
+
 Expose the simulated ACs to LAN discovery on UDP port 7000, on a trusted test network only.
 
 ```bash
@@ -245,6 +279,7 @@ These are simulated appliances, not complete firmware emulations. Unsupported co
 
 - [Known MIDs](docs/MIDS.md): current polling contracts and gateway observations.
 - [Known HIDs](docs/HIDS.md): firmware-string segments, matching rules, and sourced firmware codes.
+- [Cloud-only firmware findings](docs/CLOUD_ONLY_FIRMWARE.md): inspected LAN/cloud boundaries, not upgrade recommendations.
 
 ## Debugging
 

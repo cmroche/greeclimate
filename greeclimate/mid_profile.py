@@ -28,6 +28,15 @@ _CAPABILITY_COLUMNS = {
     "current_humidity": ("DwatSen",),
     "clean_filter": ("Dfltr",),
     "water_full": ("DwatFul",),
+    "inlet_water_temperature_c": ("AllInWatTemHi", "AllInWatTemLo", "TemUn"),
+    "outlet_water_temperature_c": ("AllOutWatTemHi", "AllOutWatTemLo", "TemUn"),
+    "room_temperature_c": ("RmoHomTemHi", "RmoHomTemLo", "TemUn"),
+    "tank_temperature_c": ("WatBoxTemHi", "WatBoxTemLo", "TemUn"),
+    "heating_room_target_temperature_c": ("HeHomTemSet", "TemUn"),
+    "cooling_room_target_temperature_c": ("CoHomTemSet", "TemUn"),
+    "heating_water_target_temperature_c": ("HeWatOutTemSet", "TemUn"),
+    "cooling_water_target_temperature_c": ("CoWatOutTemSet", "TemUn"),
+    "tank_target_temperature_c": ("WatBoxTemSet", "TemUn"),
 }
 
 
@@ -152,7 +161,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "AllErr", "host", "name", "ColHtWter", "HetHtWter", "LefHom", "TemRecB", "RomHomTemExt",
         "CoHomTemSet", "HeHomTemSet", "ModelType", "Emegcy", "EndTemCotSwh", "WDTemSet", "SvSt",
         "ZoneCtr",
-    )),
+    ), family="air_to_water"),
     # Hot-water equipment.
     MidProfile("9301", (
         "Pow", "Mod", "CoWatOutTemSet", "HeWatOutTemSet", "WatBoxTemSet", "TemUn", "TemRec",

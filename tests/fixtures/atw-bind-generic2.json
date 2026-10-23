@@ -1,0 +1,32 @@
+{
+  "source": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/atw-lan_research.json",
+  "name": "bind-generic2",
+  "request_outer": {
+    "t": "pack",
+    "i": 2,
+    "uid": 17,
+    "cid": "research-peer",
+    "tcid": "020000000001",
+    "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+  },
+  "replies": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 17,
+        "cid": "020000000001",
+        "tcid": "research-peer",
+        "pack": "T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk="
+      },
+      "inner": {
+        "t": "bindok",
+        "mac": "020000000001",
+        "key": "0123456789abcdef",
+        "r": 200
+      },
+      "datagram": "{\"t\":\"pack\",\"i\":1,\"uid\":17,\"cid\":\"020000000001\",\"tcid\":\"research-peer\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly6p+DJCzNUGfGhYJlu/WnTB+MGHmrmHeawsJNTEi7Ocp4zD1k6jjxiwE2rMrTg7Xnk=\"}",
+      "plaintext_hex": "7b2274223a2262696e646f6b222c226d6163223a22303230303030303030303031222c226b6579223a2230313233343536373839616263646566222c2272223a3230307d0c0c0c0c0c0c0c0c0c0c0c0c"
+    }
+  ]
+}

@@ -111,6 +111,10 @@ _CAPABILITY_NAMES = (
     "fan_speed", "fresh_air", "xfan", "anion", "sleep", "light", "horizontal_swing",
     "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "lan_buzzer_control",
     "target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter", "water_full",
+    "inlet_water_temperature_c", "outlet_water_temperature_c", "room_temperature_c",
+    "tank_temperature_c", "heating_room_target_temperature_c", "cooling_room_target_temperature_c",
+    "heating_water_target_temperature_c", "cooling_water_target_temperature_c",
+    "tank_target_temperature_c",
 )
 
 
