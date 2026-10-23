@@ -1,3 +1,11 @@
+# [3.7.0](https://github.com/cmroche/greeclimate/compare/v3.6.0...v3.7.0) (2026-10-23)
+
+
+### Features
+
+* add air-to-water support ([#231](https://github.com/cmroche/greeclimate/issues/231)) ([9e18224](https://github.com/cmroche/greeclimate/commit/9e182243995a207c188df91eaf8b6c558f5945d2))
+* **device:** expose MID-based device capabilities ([#230](https://github.com/cmroche/greeclimate/issues/230)) ([61edacf](https://github.com/cmroche/greeclimate/commit/61edacff5c2ed78a4268fbfe978d0f721049300b))
+
 # [3.6.0](https://github.com/cmroche/greeclimate/compare/v3.5.3...v3.6.0) (2026-10-23)
 
 
