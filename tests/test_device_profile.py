@@ -80,28 +80,34 @@ async def test_profile_without_temperature_default_preserves_guessed_and_learned
         assert device.current_temperature == temperature
 
 
-@pytest.mark.parametrize("code,buzzer,offset,relearn", [
-    ("362001000762", (), 40, False),
-    ("362001060499", ("Buzzer_ON_OFF",), 0, False),
-    ("362001061383", ("Buzzer_ON_OFF",), 40, True),
-    ("362001064973", ("Buzzer_ON_OFF",), 40, True),
-    ("362001065016", ("Buzzer_ON_OFF",), 40, False),
-    ("362001065634", ("Buzzer_ON_OFF",), None, False),
-    ("362001066763", (), None, False),
-    ("362001061649", (), None, False),
-    ("362001000968", None, 0, False),
-    ("362001063525", None, 40, False),
+@pytest.mark.parametrize("code,buzzer,offset,relearn,dialect", [
+    ("362001000762", (), 40, False, None),
+    ("362001060499", ("Buzzer_ON_OFF",), 0, False, None),
+    ("362001061383", ("Buzzer_ON_OFF",), 40, True, None),
+    ("362001064973", ("Buzzer_ON_OFF",), 40, True, None),
+    ("362001065016", ("Buzzer_ON_OFF",), 40, False, None),
+    ("362001065279", ("Buzzer_ON_OFF",), 40, False, None),
+    ("362001065634", ("Buzzer_ON_OFF",), None, False, "commercial"),
+    ("362001066763", (), None, False, None),
+    ("362001061649", (), None, False, None),
+    ("362001000968", None, 0, False, None),
+    ("362001063525", None, 40, False, None),
+    ("362001061433", (), None, False, "w06"),
+    ("362001067012", (), None, False, "w06"),
+    ("362001066326", None, None, False, "wb"),
+    ("362001066380", None, None, False, "wb"),
 ])
 @pytest.mark.parametrize("suffix", [
     "", "+", "+incomplete", "+U-W04NV17.bin", "+OTHER(MTK)V999.0.bin",
 ])
-def test_code_traits_apply_independently_of_module_and_version(code, buzzer, offset, relearn, suffix):
+def test_code_traits_apply_independently_of_module_and_version(code, buzzer, offset, relearn, dialect, suffix):
     profile = match_device_profile(code + suffix)
     assert profile is not None
     assert profile.firmware_code == code
     assert profile.buzzer_properties == buzzer
     assert profile.temperature_offset == offset
     assert profile.relearn_temperature_offset is relearn
+    assert profile.gateway_dialect == dialect
 
 
 def test_firmware_codes_have_one_consolidated_record():

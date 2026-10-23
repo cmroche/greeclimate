@@ -13,6 +13,7 @@ from greeclimate.device import Device, TemperatureUnits
 from greeclimate.device_factory import create_device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
+from greeclimate.gateway import GatewayDevice
 
 pytestmark = pytest.mark.asyncio
 
@@ -58,6 +59,7 @@ def command(unit):
         "13800", "13802", "13803", "13804", "13805", "13806",
     )),
     ("9300", AirToWaterDevice),
+    ("60", GatewayDevice),
 ])
 async def test_factory_selects_exact_implemented_family_without_binding(monkeypatch, mid, device_type):
     bind = AsyncMock()
@@ -105,7 +107,7 @@ async def test_dehumidifier_factory_result_encodes_only_humidity_command():
 @pytest.mark.parametrize("mid", [
     None, "", "unknown", 9300, 10001, "9300 ", " 10001", "10001 ", "10F01",
     "302B", "010001", "100010", [], {}, "13801", "11000", "11005", "11010",
-    "3027", "6000", "6400", "807002", "9301", "9302", "60", "82000", "82002",
+    "3027", "6000", "6400", "807002", "9301", "9302", "50", "82000", "82002",
     "5000", "5001", "605d", "6098", "828100", "828214", "910001",
 ])
 @pytest.mark.parametrize("hid", [KNOWN_HID, "362001064973+U-W04NV17.bin"])
@@ -129,7 +131,7 @@ async def test_unmatched_mid_remains_raw_only_after_known_hid_and_model(mid, hid
 
 
 
-@pytest.mark.parametrize("mid", [None, "10001", "13805", "9300"])
+@pytest.mark.parametrize("mid", [None, "10001", "13805", "9300", "60"])
 async def test_factory_forwards_timeouts_and_loop(mid):
     loop = asyncio.get_running_loop()
     unit = create_device(info(mid), timeout=23, bind_timeout=7, loop=loop)
@@ -141,7 +143,7 @@ async def test_factory_forwards_timeouts_and_loop(mid):
         unit.close()
 
 
-@pytest.mark.parametrize("mid", [None, "10001", "13805", "9300"])
+@pytest.mark.parametrize("mid", [None, "10001", "13805", "9300", "60"])
 async def test_selected_constructor_rejects_unsupported_settings(mid):
     with pytest.raises(TypeError):
         create_device(info(mid), unsupported_setting=True)

@@ -6,6 +6,7 @@ from greeclimate.cipher import CipherV1
 from greeclimate.device import Device
 from greeclimate.device_factory import create_device
 from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.gateway import GatewayDevice
 
 from greeclimate.mid_profile import (
     FALLBACK_MID_PROFILE,
@@ -106,6 +107,6 @@ async def test_gateway_or_missing_mid_stays_identity_only_despite_known_firmware
     unit.handle_state_update(hid=hid, Pow=1, TemSen=65)
     await unit.update_state()
     assert unit.send.call_args.args[0]["pack"]["cols"] == ["hid"]
-    assert type(unit) is Device
+    assert type(unit) is (GatewayDevice if mid == "60" else Device)
     assert all(value is None for value in unit.capabilities.values())
     unit.close()

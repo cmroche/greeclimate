@@ -12,6 +12,7 @@ class DeviceProfile:
     buzzer_properties: Optional[Tuple[str, ...]] = None
     cooling_mode_value: Optional[int] = None
     capabilities: Tuple[Tuple[str, str, bool], ...] = ()
+    gateway_dialect: Optional[str] = None
 
 
 # See docs/HIDS.md for code-scope policy and calibration limitations.
@@ -93,8 +94,8 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001066140", 40),
     DeviceProfile("362001066300", 40),
     DeviceProfile("362001066308", 40, buzzer_properties=("Buzzer_ON_OFF",)),
-    DeviceProfile("362001066326"),
-    DeviceProfile("362001066380"),
+    DeviceProfile("362001066326", gateway_dialect="wb"),
+    DeviceProfile("362001066380", gateway_dialect="wb"),
     DeviceProfile("362001066511", 40),
     DeviceProfile(
         "362001066763", buzzer_properties=(), cooling_mode_value=5,
@@ -142,14 +143,17 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile(
         "362001061433", buzzer_properties=(),
         capabilities=(("air_conditioner", "current_temperature", False),),
+        gateway_dialect="w06",
     ),
     DeviceProfile(
         "362001067012", buzzer_properties=(),
         capabilities=(("air_conditioner", "current_temperature", False),),
+        gateway_dialect="w06",
     ),
     DeviceProfile(
         "362001065634", buzzer_properties=("Buzzer_ON_OFF",),
         capabilities=(("air_conditioner", "current_temperature", False),),
+        gateway_dialect="commercial",
     ),
     DeviceProfile(
         "362001069999",

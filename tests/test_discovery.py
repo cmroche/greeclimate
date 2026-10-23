@@ -10,10 +10,11 @@ import ifaddr
 import pytest
 
 from greeclimate.cipher import CipherV1
-from greeclimate.device import Device
+from greeclimate.device_factory import create_device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.discovery import Discovery, Listener
-from greeclimate.network import Commands, DeviceProtocol2
+from greeclimate.gateway import GatewayDevice
+from greeclimate.network import Commands, DeviceProtocol2, Response
 from .common import (
     DEFAULT_TIMEOUT,
     DISCOVERY_REQUEST,
@@ -1079,18 +1080,32 @@ async def test_recovery_discovery_enrollment_requires_explicit_selection():
     async with udp_peer() as peer, _recovery_discovery() as discovery:
         listener = _RecoveryListener()
         discovery.add_listener(listener)
-        for mac in ("020000000001", "020000000002"):
-            info = await _recovery_observe(
-                discovery, peer, {"mac": mac, "name": "not-yet-approved"}
-            )
-            assert listener.events.get_nowait() == ("found", info)
-        assert len(discovery.devices) == 2
-        with pytest.raises(asyncio.TimeoutError):
-            await asyncio.wait_for(peer[1].get(), 0.05)
+        with patch.object(GatewayDevice, "bind", new_callable=AsyncMock) as automatic_bind, \
+                patch.object(GatewayDevice, "get_sub_devices", new_callable=AsyncMock) as automatic_inventory:
+            for mac, hints in (
+                ("020000000001", {"subCnt": 0}),
+                ("020000000002", {}),
+            ):
+                info = await _recovery_observe(
+                    discovery, peer,
+                    {"mac": mac, "name": "not-yet-approved", "mid": "60", **hints},
+                )
+                assert listener.events.get_nowait() == ("found", info)
+            await asyncio.gather(*discovery.tasks)
+            assert len(discovery.devices) == 2
+            loop = asyncio.get_running_loop()
+            with patch.object(loop, "create_datagram_endpoint", wraps=loop.create_datagram_endpoint) as endpoints:
+                roots = [create_device(info, bind_timeout=DEFAULT_TIMEOUT) for info in discovery.devices]
+                assert all(isinstance(root, GatewayDevice) for root in roots)
+                endpoints.assert_not_called()
+            automatic_bind.assert_not_called()
+            automatic_inventory.assert_not_called()
+        assert peer[1].empty()
 
         selected = discovery.devices[1]
-        device = Device(selected, bind_timeout=DEFAULT_TIMEOUT)
+        device = roots[1]
         bind = asyncio.create_task(device.bind(cipher=CipherV1()))
+        inventory = None
         try:
             data, source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
             request = peer_reply(data, b"a3K8Bx%2r8Y7#xDh")
@@ -1098,9 +1113,10 @@ async def test_recovery_discovery_enrollment_requires_explicit_selection():
             assert request["inner"]["mac"] == selected.mac
             assert request["outer"]["tcid"] == selected.mac
             key = b"0123456789abcdef"
+            outer = {"t": "pack", "cid": selected.mac, "tcid": "app", "i": 0}
             peer[0].sendto(
                 peer_packet(
-                    {"t": "pack", "cid": selected.mac},
+                    outer,
                     {"t": "bindok", "mac": selected.mac, "r": 200, "key": key.decode()},
                 ),
                 source,
@@ -1112,11 +1128,60 @@ async def test_recovery_discovery_enrollment_requires_explicit_selection():
             assert status["inner"]["t"] == "status"
             assert status["inner"]["mac"] == selected.mac
             assert status["outer"]["tcid"] == selected.mac
+            peer[0].sendto(peer_packet(
+                outer,
+                {"t": "dat", "mac": selected.mac, "cols": ["hid"],
+                 "dat": ["362001067012+U-W06AV30.bin"]},
+                key,
+            ), source)
+            inventory = asyncio.create_task(device.get_sub_devices())
+            data, inventory_source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            request = peer_reply(data, key)
+            assert inventory_source == source
+            assert request["inner"] == {"t": "subDev", "mac": selected.mac, "i": 0}
+            child_mac = "aabbccddeeff00"
+            peer[0].sendto(peer_packet(
+                {**outer, "uid": request["outer"]["uid"]},
+                {"t": "sublist", "r": 200, "c": 1, "i": 0,
+                 "list": [{"mac": child_mac, "mid": "604a"}]},
+                key,
+            ), source)
+            children = await asyncio.wait_for(inventory, DEFAULT_TIMEOUT)
+            assert len(children) == 1 and children[0].gateway is device
+            child = children[0]
+            assert child.device_info.mac == child_mac
+            assert discovery.devices == [root.device_info for root in roots]
+            assert listener.events.empty() and peer[1].empty()
+
+            discovery.close()
+            await asyncio.wait_for(discovery.closed_transports.get(), DEFAULT_TIMEOUT)
+            updates = asyncio.Queue()
+            child.add_handler(Response.DATA, updates.put_nowait)
+            await child.update_state(["Pow"])
+            data, child_source = await asyncio.wait_for(peer[1].get(), DEFAULT_TIMEOUT)
+            request = peer_reply(data, key)
+            assert child_source == source
+            assert request["outer"]["tcid"] == selected.mac
+            assert request["inner"] == {"t": "status", "mac": child_mac, "cols": ["Pow"]}
+            peer[0].sendto(peer_packet(
+                outer, {"t": "dat", "mac": child_mac, "cols": ["Pow"], "dat": [1]}, key,
+            ), source)
+            assert await asyncio.wait_for(updates.get(), DEFAULT_TIMEOUT) == {"Pow": 1}
+            assert device.ready.is_set() and child.ready.is_set()
+            assert child.has_valid_state and child.get_property("Pow") == 1
+            assert len(discovery.devices) == 2 and listener.events.empty()
         finally:
-            device.close()
-            if not bind.done():
-                bind.cancel()
-            await asyncio.gather(bind, return_exceptions=True)
+            for root in roots:
+                root.close()
+            for task in (bind, inventory):
+                if task is not None and not task.done():
+                    task.cancel()
+            await asyncio.gather(
+                *(task for task in (bind, inventory) if task is not None),
+                return_exceptions=True,
+            )
+            await asyncio.wait_for(device._transport_closed.wait(), DEFAULT_TIMEOUT)
+            await asyncio.gather(*(task for root in roots for task in root.tasks), return_exceptions=True)
 
 
 @pytest.mark.asyncio

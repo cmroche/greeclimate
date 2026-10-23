@@ -427,6 +427,41 @@ def test_response_property_array_variants(pack, expected):
     callback.assert_called_once_with(expected)
 
 
+@pytest.mark.parametrize("response, arrays, hook, value", [
+    (Response.DATA, {"cols": ["Pow"], "dat": [0]}, "handle_data_update", 0),
+    (Response.RESULT, {"opt": ["Pow"], "p": [1]}, "handle_result_update", 1),
+])
+def test_response_specific_hook_preserves_normalized_callback(response, arrays, hook, value):
+    protocol = DeviceProtocol2Test()
+    callback = MagicMock()
+    update = MagicMock()
+    setattr(protocol, hook, update)
+    protocol.add_handler(response, callback)
+
+    protocol.packet_received({
+        "pack": {"t": response.value.upper(), **arrays}
+    }, ("127.0.0.1", 1))
+
+    expected = {"Pow": value}
+    update.assert_called_once_with(**expected)
+    callback.assert_called_once_with(expected)
+    assert protocol.state == {}
+
+
+def test_sublist_dispatch_retains_page_metadata():
+    protocol = DeviceProtocol2Test()
+    protocol.handle_sublist = MagicMock()
+    callback = MagicMock()
+    protocol.add_handler(Response.SUBLIST, callback)
+    pack = {"t": "subList", "r": 200, "c": 7, "i": 5, "list": [{"mac": "aabbccddeeff00"}]}
+
+    protocol.packet_received({"pack": pack}, ("127.0.0.1", 1))
+
+    protocol.handle_sublist.assert_called_once_with(pack)
+    callback.assert_called_once_with(pack)
+    assert protocol.state == {}
+
+
 def test_handle_device_bound():
     # Arrange
     protocol = DeviceProtocol2Test()
