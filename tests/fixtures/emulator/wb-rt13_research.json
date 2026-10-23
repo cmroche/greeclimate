@@ -1,0 +1,44 @@
+{
+  "family": "Standalone WB05RT13; not WB05BR, WB04A or a generic MID10001 alias",
+  "evidence_class": "Exact-source static trace and public instruction-matched constant leaf vectors. Native leaf replay is a separate callable for the integration owner; no native execution result is claimed here.",
+  "images": [
+    {"version": "1.45", "hid": "362001065279+U-WB05RT13V1.45.bin", "sha256": "2f12c03c97e4e7302acbc8ee72cda18e31e7d9843519d5a3fb1bdcb1a4f2ffec", "key_leaf_offset": 255936, "nonce_leaf_offset": 256004, "aad_leaf_offset": 256054, "receive_bytes": 1460},
+    {"version": "1.54", "hid": "362001065279+U-WB05RT13V1.54.bin", "sha256": "86799311e40abaa97be624e11d8e16c45cafb7dd113b8b690728d075d77c8a39", "key_leaf_offset": 264256, "nonce_leaf_offset": 264324, "aad_leaf_offset": 264374, "receive_bytes": 1536},
+    {"version": "1.64", "hid": "362001065279+U-WB05RT13V1.64.bin", "sha256": "c4b744a28a5a6b2d2d7ace4a0a2845a336ce629a72367af41bde708f0bd1dbc1", "key_leaf_offset": 264540, "nonce_leaf_offset": 264608, "aad_leaf_offset": 264658, "receive_bytes": 1536}
+  ],
+  "sources": [
+    "https://github.com/cmroche/gree-research/blob/main/docs/GATEWAY_PR148.md",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/wb-standalone-decompilation/manifest.json",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/Realtek-1/n01/decompiled.c",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/Realtek-1/source-facts.json",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/wb-standalone-decompilation/86799311e40abaa97be624e11d8e16c45cafb7dd113b8b690728d075d77c8a39/selected-lan.c",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/wb-standalone-decompilation/c4b744a28a5a6b2d2d7ace4a0a2845a336ce629a72367af41bde708f0bd1dbc1/selected-lan.c"
+  ],
+  "crypto_trace": [
+    "The originally selected 31-function review misses the software authenticated wrappers. It only traced ECB block wrappers and explicitly left CipherV2 unknown; the implementation does not infer crypto from its mbedtls string catalog or PR separate-peer report.",
+    "V1.45 n01/decompiled.c:855-867 UDP ingress writes crypto-mode byte=2 before calling selector0x9b02f9f0. V1.54 equivalent socket task0x9b032624 also selects mode2. Mode1 TCP/MQTT paths are not exposed as alternative LAN control fallbacks.",
+    "V1.54 FUN_9b030d7c parses outer i/uid/cid/tcid/pack/tag. Mode2 base64-decodes ciphertext and tag; i0 uses device key, i1 initializes the GCM generic key at0x9b038840, then invokes0x9b038a24. Other selector values fail.",
+    "V1.54 FUN_9b038a24 initializes a396-byte GCM context, selects cipher-id2/keybits128 using0x9b01a90a, and invokes authenticated decrypt0x9b01ade2(ctx,len,nonce,12,aad,13,tag,16,input,output). Encrypt wrapper0x9b0389b0 uses0x9b01ad98 with mode1, same nonce/AAD and16-byte tag. Fixed values are assembled by the three exact Thumb leaves below, byte-identical in all three original images.",
+    "V1.54 FUN_9b03178c serializes replies through the corresponding authenticated encrypt wrapper and base64-encodes pack plus tag. FUN_9b0316b0 echoes request selector/uid and reverses cid/tcid for replies. Response key follows request selector, even for status or commands sent with generic slot1.",
+    "Discovery is deliberately a distinct path: FUN_9b031928 scan builds dev, invokes ECB PKCS7 encrypt0x9b028e54 using key getter0x9b02f43c, then forces outer i1 uid0 cid/tcid empty and suppresses GCM tag. Key getter follows halfword pointers in0x10003154..0x10003170; source bytes resolve the standard discovery key. The scan inner cid is device MAC, not empty.",
+    "Authenticated payloads have no PKCS7 padding. Runtime requires valid strict16-byte tag/authentication before JSON. Strict duplicate-key, UTF-8 and terminal-garbage rejection intentionally avoids native parser ambiguities. No trailing-brace stripping, nonce invention or fallback decryption is used."
+  ],
+  "property_trace": [
+    "Old exact-source FUN_9b02e3f0 emits res/mac/p/opt/r200; FUN_9b02e638 emits dat/uid/mac/cid/dat/cols/r200. New exact-source equivalents0x9b030086 and0x9b0302cc preserve that dialect. Bind0x9b02ef94 emits r200/tbindok/mac/key, defaulting missing inner mac to local identity.",
+    "V1.54 FUN_9b02fd40 parses cols first, opt as fallback, through a512-byte packed-name buffer and64-entry output index arrays; status unknown names are omitted in0x9b0302cc. Command-side unknown fields, malformed arrays and unmodeled fields use explicit whole-batch safe rejection rather than reproducing native partial staging or buffer corruption.",
+    "V1.54 property-name table0x10000a4c verifies Pow/Mod/SetTem/WdSpd/Tur/Quiet/SwUpDn/SwingLfRig/TemUn/TemRec/Lig/Air/Blo/Health/SvSt/StHt/SwhSlp/SlpMod and index50 Buzzer_ON_OFF; index77 is TemSen. V1.45 table0x10000a44 has the same modeled names. BuzzerCtrl appears in other internal/MQTT paths but is not substituted for the ordinary mainboard property.",
+    "V1.45 existing acquisition replay0x9b029ec8 writes unsigned UART frame byte+0x2e unchanged to cache property77; complete status exports preserve it as integer. New exact instructions0x9b02ae50/0x9b02ae56 and0x9b02af20/0x9b02af26 perform the same unsigned load to property77. No Celsius subtraction occurs in this transport."
+  ],
+  "version_scope": [
+    "All three identities are exact embedded strings, firmware code362001065279. Only requested MID10001 is registered; no extra MID follows from a generic MID association.",
+    "V1.45 receive buffer0x5b4 differs from V1.54/V1.64 buffer0x600. Key/nonce/AAD leaf bytes are identical at distinct source offsets. V1.54/V1.64 bind, crypto parser, reply envelope and block wrappers are text-identical after relocated address normalization.",
+    "V1.64 status adds formatting for a conditional auxiliary diagnostic/report branch, and scan reset handling gains a restart guard. Those branches are not represented by the explicitly selected ordinary AC control/status simulation; no whole-firmware implementation equivalence is claimed. Normal property parser changes between1.54/1.64 are a diagnostic source-line constant only."
+  ],
+  "synthetic_policy": "Fresh per-device controls and keys; atomic immediate command readback with last duplicate winning; existing linear thermal step; TemSen=floor(room Celsius)+40 clamped0..255 under commonUART policy. Source-proven transport does not calibrate the physical mainboard. Board-supplied advertisement values bc13zero/verV3.4.M/vender1/ModelType0 are chosen synthetic metadata, not initialized firmware defaults or a copied physical capture.",
+  "constant_initializers": [
+    {"name": "generic_gcm_key", "source_va_v1_54": "0x9b038840", "thumb_hex": "3c23c373792343707b230370782383704123c37043714c23037248230371592383717023c3725f23c3716d23437236238372432343732f23837362230373002303747047", "expected_hex": "7b7978414841595f4c6d367062432f3c"},
+    {"name": "nonce", "source_va_v1_54": "0x9b038884", "thumb_hex": "4023437054230370782383704423c370672343716c230372492303715a2383711323c3725123c3715e234372632383727047", "expected_hex": "5440784449675a516c5e6313"},
+    {"name": "aad", "source_va_v1_54": "0x9b0388b6", "thumb_hex": "7523437071230370612383706c23c3706f2343712d2303726323732203716d23c2728371c371652274238272437203737047", "expected_hex": "7175616c636f6d6d2d74657374"}
+  ],
+  "replay_boundary": "probe_exact_firmware_constants(paths) in tests/test_emulator_wb_rt13.py hashes all3 supplied images, locates each unique byte-pinned leaf, runs its actual Thumb instructions under Unicorn with only scratch RAM and return LR, and asserts the literal protocol constants. Ordinary public tests use bounded MOVS/STRB/BX translation without Unicorn or vendor images. This probe does not execute AES, application routing, radio, full boot or physical mainboard."
+}

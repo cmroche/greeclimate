@@ -93,6 +93,8 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001066140", 40),
     DeviceProfile("362001066300", 40),
     DeviceProfile("362001066308", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001066326"),
+    DeviceProfile("362001066380"),
     DeviceProfile("362001066511", 40),
     DeviceProfile(
         "362001066763", buzzer_properties=(), cooling_mode_value=5,
@@ -135,6 +137,10 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     ),
     DeviceProfile(
         "362001062617",
+        capabilities=(("air_conditioner", "current_temperature", False),),
+    ),
+    DeviceProfile(
+        "362001061433", buzzer_properties=(),
         capabilities=(("air_conditioner", "current_temperature", False),),
     ),
     DeviceProfile(

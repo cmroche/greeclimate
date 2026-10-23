@@ -4,7 +4,7 @@
   "source_sha256": "6b52f31a74a74c5a88f3d8b68f8b4afc89fcd8d59e3d11a287a4ec37825bf79b",
   "evidence": {
     "native_protocol": "W06AV30 byte-matched discovery0xa138c8,bind0xa13c04,reply envelope0xa0b49c..b513,enumeration0xa139fc/request0xa145b8,command parser0xa13f24/builder0xa13608,status0xa13200. Crypto and hashes:https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/gateway_research.json.",
-    "model_contract": "Explicitly synthetic common AC controls; no physical cache/frame emulation. TemBody=floor(room_c),clamp0..255, NOT a proved hardware Celsius encoding. SetTem integerC16..30. Unsupported known/nonmodeled fields omitted; truly unknown names preserve native empty string.",
+    "model_contract": "Explicitly synthetic common AC controls; no physical cache/frame emulation. TemBody=floor(room_c),clamp0..255, NOT a proved hardware Celsius encoding. SetTem integerC16..30. Unsupported known/nonmodeled fields omitted; truly unknown names return empty string as MODEL POLICY, not replayed native dat rendering.",
     "independence": "Expected metadata obtained from actual firmware instruction replay; model expectations are explicit literal contract values recorded before implementation; never generated from emulator/client."
   },
   "device": {

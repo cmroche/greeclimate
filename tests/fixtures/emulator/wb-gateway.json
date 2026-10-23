@@ -1,0 +1,47 @@
+{
+  "profile": "sim-wb05br-v1.13",
+  "mid": "60",
+  "source_sha256": "897f4ebe52618702c5dc1310fa06a9349ccbf98dd988aa0b74a42303e6206d6e",
+  "evidence": {
+    "native": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/wb-reconciliation/findings.md; exact-image list and alias probes, not a full boot. Four-child memberships are literal equivalents of the executed native traversal.",
+    "source": "V1.13 json_create_dev0xe04117c,bind0xe040a14,bindOk0xe040fa8,status0xe03fd84/dat0xe041650,cmd0xe0407fc/res0xe041388,list0xe040d80,pack0xe041a20,ECB wrappers0xe038c24/0xe038eb0. See wb-gateway_research.json for separated evidence and policies.",
+    "policy": "Synthetic sensorless children use independently observed PR hardware MIDs608f/605c; native list traversal receives generic MAC|MID cache records. Pow0..1,Mod0..4,SetTem16..30 integerC,WdSpd0..5 commit atomically and immediately; every other sensor/control remains unmodeled. No physical board, native crypto replay, WB1.10 identity or thermal calibration claim. Public keys/identities here are synthetic test constants, never captured credentials."
+  },
+  "device": {"id": "gateway", "mac": "020000000001", "name": "WB Gateway", "key": "0123456789abcdef"},
+  "initial_state": {},
+  "children": [
+    {"profile": "sim-wb05br-v1.13-ac", "mid": "608f", "device": {"id": "one", "mac": "0244668800017f", "name": "One"}, "initial_state": {}},
+    {"profile": "sim-wb05br-v1.13-ac", "mid": "608f", "device": {"id": "two", "mac": "024466880002a1", "name": "Two"}, "initial_state": {}},
+    {"profile": "sim-wb05br-v1.13-ac", "mid": "608f", "device": {"id": "three", "mac": "02446688000302", "name": "Three"}, "initial_state": {}},
+    {"profile": "sim-wb05br-v1.13-ac", "mid": "605c", "device": {"id": "four", "mac": "024466880004ff", "name": "Four"}, "initial_state": {}}
+  ],
+  "requests": [
+    {"outer": {"t": "scan"}},
+    {"outer": {"t": "pack", "i": 1, "uid": 7, "cid": "app", "tcid": "020000000001"}, "inner": {"t": "bind", "mac": "020000000001"}},
+    {"outer": {"t": "subList", "i": 0, "uid": 7, "cid": "app", "tcid": "020000000001"}},
+    {"outer": {"t": "pack", "i": 0, "uid": 7, "cid": "app", "tcid": "020000000001"}, "inner": {"t": "subList", "mac": "020000000001", "i": 0}, "key": "0123456789abcdef"},
+    {"outer": {"t": "subList", "i": 1, "uid": 7, "cid": "app", "tcid": "020000000001", "pack": "deliberately ignored"}},
+    {"outer": {"t": "pack", "i": 0, "uid": 7, "cid": "app", "tcid": "020000000001"}, "inner": {"t": "subDev", "mac": "020000000001", "cid": "020000000001", "i": 0}, "key": "0123456789abcdef"},
+    {"outer": {"t": "pack", "i": 0, "uid": 7, "cid": "app", "tcid": "020000000001"}, "inner": {"t": "cmd", "mac": "020000000001", "sub": "0244668800017f", "opt": ["Pow", "Mod", "SetTem", "WdSpd"], "p": [1, 4, 23, 2], "val": [0, 0, 30, 0]}, "key": "0123456789abcdef"},
+    {"outer": {"t": "pack", "i": 0, "uid": 7, "cid": "app", "tcid": "020000000001"}, "inner": {"t": "status", "mac": "0244668800017f", "cols": ["SetTem", "Pow", "SetTem", "TemSor", "TemSen"]}, "key": "0123456789abcdef"},
+    {"outer": {"t": "pack", "i": 0, "uid": 7, "cid": "app", "tcid": "020000000001"}, "inner": {"t": "status", "mac": "024466880002a1", "cols": ["Pow", "Mod", "SetTem", "WdSpd"]}, "key": "0123456789abcdef"}
+  ],
+  "expected_replies": [
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "", "uid": 0, "i": 1}, "inner": {"t": "dev", "bc": "", "catalog": "gree", "series": "gree", "model": "gree", "lock": 0, "vender": "1", "mid": "60", "name": "WB Gateway", "ver": "V3.2.M", "mac": "020000000001", "subCnt": 4}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 1}, "inner": {"t": "bindOk", "r": 200, "mac": "020000000001", "key": "0123456789abcdef"}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 0}, "inner": {"t": "subList", "i": 0, "c": 4, "r": 200, "list": [{"mac": "0244668800017f", "mid": "608f"}, {"mac": "024466880002a1", "mid": "608f"}, {"mac": "02446688000302", "mid": "608f"}, {"mac": "024466880004ff", "mid": "605c"}]}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 0}, "inner": {"t": "subList", "i": 0, "c": 4, "r": 200, "list": [{"mac": "0244668800017f", "mid": "608f"}, {"mac": "024466880002a1", "mid": "608f"}, {"mac": "02446688000302", "mid": "608f"}, {"mac": "024466880004ff", "mid": "605c"}]}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 1}, "inner": {"t": "subList", "i": 1, "c": 4, "r": 200, "list": [{"mac": "024466880002a1", "mid": "608f"}, {"mac": "02446688000302", "mid": "608f"}, {"mac": "024466880004ff", "mid": "605c"}]}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 0}, "inner": {"t": "subList", "i": 0, "c": 4, "r": 200, "list": [{"mac": "0244668800017f", "mid": "608f"}, {"mac": "024466880002a1", "mid": "608f"}, {"mac": "02446688000302", "mid": "608f"}, {"mac": "024466880004ff", "mid": "605c"}]}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 0}, "inner": {"t": "res", "mac": "0244668800017f", "opt": ["Pow", "Mod", "SetTem", "WdSpd"], "p": [1, 4, 23, 2], "val": [1, 4, 23, 2], "r": 200}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 0}, "inner": {"t": "dat", "mac": "0244668800017f", "cols": ["SetTem", "Pow", "SetTem", "TemSor", "TemSen"], "dat": [23, 1, 23, "", ""], "r": 200}}],
+    [{"outer": {"t": "pack", "cid": "020000000001", "tcid": "app", "uid": 7, "i": 0}, "inner": {"t": "dat", "mac": "024466880002a1", "cols": ["Pow", "Mod", "SetTem", "WdSpd"], "dat": [0, 1, 24, 0], "r": 200}}]
+  ],
+  "expected_state": {},
+  "expected_children": {
+    "0244668800017f": {"Pow": 1, "Mod": 4, "SetTem": 23, "WdSpd": 2},
+    "024466880002a1": {"Pow": 0, "Mod": 1, "SetTem": 24, "WdSpd": 0},
+    "02446688000302": {"Pow": 0, "Mod": 1, "SetTem": 24, "WdSpd": 0},
+    "024466880004ff": {"Pow": 0, "Mod": 1, "SetTem": 24, "WdSpd": 0}
+  }
+}
