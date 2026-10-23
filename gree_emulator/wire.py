@@ -12,6 +12,8 @@ from Crypto.Util.Padding import pad, unpad
 
 
 _LOGGER = logging.getLogger(__name__)
+_GCM_NONCE = bytes.fromhex("5440784449675a516c5e6313")
+_GCM_AAD = b"qualcomm-test"
 
 
 class InvalidPacket(ValueError):
@@ -72,7 +74,7 @@ def _json(data: bytes) -> dict:
 
 def decode_outer(data: bytes) -> dict:
     outer = _json(data)
-    if outer.get("t") not in ("scan", "pack"):
+    if outer.get("t") not in ("scan", "pack", "subList"):
         raise InvalidPacket("unsupported envelope")
     for key in ("cid", "tcid"):
         if key in outer and not isinstance(outer[key], str):
@@ -86,7 +88,7 @@ def decode_outer(data: bytes) -> dict:
 
 
 def decode_pack(outer: dict, key: bytes, codec: str) -> dict:
-    if codec not in ("aes-ecb-pkcs7", "aes-ecb-pkcs7-nul-input"):
+    if codec not in ("aes-ecb-pkcs7", "aes-ecb-pkcs7-nul-input", "aes-gcm"):
         raise ValueError(f"unknown codec: {codec}")
     payload = outer.get("pack")
     if not isinstance(payload, str):
@@ -95,15 +97,32 @@ def decode_pack(outer: dict, key: bytes, codec: str) -> dict:
         encrypted = base64.b64decode(payload, validate=True)
     except (ValueError, binascii.Error) as exc:
         raise InvalidPacket("invalid base64") from exc
-    if not encrypted or len(encrypted) % AES.block_size:
-        raise InvalidPacket("invalid AES block length")
-    plain = AES.new(key, AES.MODE_ECB).decrypt(encrypted)
-    try:
-        plain = unpad(plain, AES.block_size)
-    except ValueError as exc:
-        raise InvalidPacket("invalid padding") from exc
-    if codec == "aes-ecb-pkcs7-nul-input" and plain.endswith(b"\0"):
-        plain = plain[:-1]
+    if codec == "aes-gcm":
+        tag = outer.get("tag")
+        if not isinstance(tag, str):
+            raise InvalidPacket("missing authentication tag")
+        try:
+            tag = base64.b64decode(tag, validate=True)
+        except (ValueError, binascii.Error) as exc:
+            raise InvalidPacket("invalid tag base64") from exc
+        if len(tag) != 16:
+            raise InvalidPacket("invalid authentication tag length")
+        cipher = AES.new(key, AES.MODE_GCM, nonce=_GCM_NONCE, mac_len=16)
+        cipher.update(_GCM_AAD)
+        try:
+            plain = cipher.decrypt_and_verify(encrypted, tag)
+        except ValueError as exc:
+            raise InvalidPacket("invalid authentication tag") from exc
+    else:
+        if not encrypted or len(encrypted) % AES.block_size:
+            raise InvalidPacket("invalid AES block length")
+        plain = AES.new(key, AES.MODE_ECB).decrypt(encrypted)
+        try:
+            plain = unpad(plain, AES.block_size)
+        except ValueError as exc:
+            raise InvalidPacket("invalid padding") from exc
+        if codec == "aes-ecb-pkcs7-nul-input" and plain.endswith(b"\0"):
+            plain = plain[:-1]
     inner = _json(plain)
     _LOGGER.info("RX payload: %r", inner)
     return inner
@@ -112,11 +131,17 @@ def decode_pack(outer: dict, key: bytes, codec: str) -> dict:
 def encode_reply(reply: Reply) -> bytes:
     outer = dict(reply.outer)
     if reply.inner is not None:
-        if reply.codec not in ("aes-ecb-pkcs7", "aes-ecb-pkcs7-nul-input"):
+        if reply.codec not in ("aes-ecb-pkcs7", "aes-ecb-pkcs7-nul-input", "aes-gcm"):
             raise ValueError(f"unknown codec: {reply.codec}")
         plain = json.dumps(reply.inner, ensure_ascii=False, separators=(",", ":"),
                            allow_nan=False).encode("utf-8")
-        encrypted = AES.new(reply.key, AES.MODE_ECB).encrypt(pad(plain, AES.block_size))
+        if reply.codec == "aes-gcm":
+            cipher = AES.new(reply.key, AES.MODE_GCM, nonce=_GCM_NONCE, mac_len=16)
+            cipher.update(_GCM_AAD)
+            encrypted, tag = cipher.encrypt_and_digest(plain)
+            outer["tag"] = base64.b64encode(tag).decode("ascii")
+        else:
+            encrypted = AES.new(reply.key, AES.MODE_ECB).encrypt(pad(plain, AES.block_size))
         outer["pack"] = base64.b64encode(encrypted).decode("ascii")
     return json.dumps(outer, ensure_ascii=False, separators=(",", ":"),
                       allow_nan=False).encode("utf-8")

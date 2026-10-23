@@ -1,4 +1,4 @@
-"""W06AV30 gateway LAN protocol around explicitly synthetic indoor AC models.
+"""Exact W06AV builds around explicitly synthetic indoor AC models.
 
 The physical TemBody encoding and mainboard transitions remain unverified. The
 sim-* models deliberately report floor(Celsius), not a claimed vendor encoding.
@@ -39,6 +39,14 @@ Watpercent WSunEn WAutoSetTemEn WUTHEn WUTHSetTem WUTHCycle WUTHTmrMin WUTHTmrHr
 WFastWat FPow Fstate FSetTem FSetTemMax FAutoSetTemEn FFastHeat FIndoorEn FOutHomeEn ExtraMod
 WCurTem FCurTem WatTemWrap
 """.split())
+# V7's 0x447ce0 table ends before the water-heater namespace. V16/V20/V30
+# retain the same finite names (at different addresses), not shared capabilities.
+V7_FIELDS = KNOWN_FIELDS - frozenset("""
+WFConfig WPow Wstate Wmod WtmrMin WtmrHr WSetTemMax Watpercent WSunEn WAutoSetTemEn
+WUTHEn WUTHSetTem WUTHCycle WUTHTmrMin WUTHTmrHr WUTHOngoing WFastWat FPow Fstate
+FSetTem FSetTemMax FAutoSetTemEn FFastHeat FIndoorEn FOutHomeEn ExtraMod WCurTem
+FCurTem WatTemWrap
+""".split())
 INITIAL_STATE = {name: value for name, value in simulated.INITIAL_STATE.items()
                  if name in CONTROL_FIELDS}
 
@@ -57,7 +65,7 @@ def _reply(device, inner, index, uid, peer):
 
 
 def _metadata(device):
-    return {"mac": device.mac, "mid": device.mid, "hid": HID,
+    return {"mac": device.mac, "mid": device.mid, "hid": device.profile.hid,
             "name": device.name, "vender": "1", "ver": "V1.1.0.0",
             "bc": "", "host": "", "lock": 0}
 
@@ -79,8 +87,10 @@ def _child(device, mac):
 
 
 class GatewayFamily:
-    def __init__(self, child=False):
+    def __init__(self, child=False, *, five_field_children=False, known_fields=KNOWN_FIELDS):
         self.child = child
+        self.five_field_children = five_field_children
+        self.known_fields = known_fields
 
     def validate_state(self, state):
         if not self.child:
@@ -99,6 +109,13 @@ class GatewayFamily:
         if device.profile.parent_profiles:
             device.state["TemBody"] = max(0, min(255, floor(device.room_c)))
 
+    def _child_metadata(self, child):
+        record = {"mac": child.mac, "mid": child.mid}
+        if self.five_field_children:
+            # Configured names represent the populated native child-name cache.
+            record.update(name=child.name, model="gree", lock=0)
+        return record
+
     def advertise(self, device, outer):
         if device.profile.parent_profiles:
             return []
@@ -106,7 +123,9 @@ class GatewayFamily:
                  "catalog": "gree", "mac": device.mac, "mid": device.mid,
                  "model": "gree", "name": device.name, "series": "gree",
                  "vender": "1", "ver": "V1.1.0.0", "lock": 0,
-                 "hid": HID, "subCnt": len(device.children)}
+                 "hid": device.profile.hid, "subCnt": len(device.children)}
+        # This model selects the count-enabled source branch. Native alias-MID
+        # rewrites/gf001 branches do not apply to the admitted CHILD_MIDS.
         return [_reply(device, inner, 1, 0, "")]
 
     def handle(self, device, outer):
@@ -138,7 +157,7 @@ class GatewayFamily:
             if inner.get("mac") != device.mac or type(start) is not int or not -(2**31) <= start < 2**31:
                 raise InvalidPacket("enumeration requires gateway mac and integer i")
             start &= 255
-            children = [{"mac": child.mac, "mid": child.mid}
+            children = [self._child_metadata(child)
                         for child in device.children[start:start + 5]]
             return [_reply(device, {"t": "subList", "c": len(device.children),
                                     "i": start, "r": 200, "list": children}, 0, uid, peer)]
@@ -155,7 +174,9 @@ class GatewayFamily:
                 if name in available:
                     selected.append(name)
                     values.append(available[name])
-                elif name not in KNOWN_FIELDS:
+                # Unknown-empty / known-omitted rendering is safe model policy;
+                # native final dat serialization has not been replayed.
+                elif name not in self.known_fields:
                     selected.append(name)
                     values.append("")
             return [_reply(device, {"t": "dat", "mac": target.mac, "r": 200,
@@ -169,7 +190,9 @@ class GatewayFamily:
                     or not names or len(names) > 49 or len(names) != len(values)
                     or any(not isinstance(name, str) or name not in CONTROL_FIELDS for name in names)):
                 raise InvalidPacket("gateway command requires modeled opt and p arrays")
-            # 0xa13f24 receives p; 0xa13608 emits distinct p and val arrays.
+            # Native res echoes p/val without mainboard confirmation. The model
+            # instead validates and applies controls atomically; never replay
+            # the native unsupported-field staging/uninitialized GetEr slot.
             reply = _reply(device, {"t": "res", "mac": target.mac, "r": 200,
                                     "opt": names, "p": values, "val": values}, 0, uid, peer)
             simulated.apply_command(target, names, values)
@@ -177,10 +200,30 @@ class GatewayFamily:
         return []
 
 
-PROFILES = (
-    Profile(id="sim-w06av-v30", mids=("60",), hid=HID, source_sha256=SOURCE_SHA256,
-            initial_state={}, handler=GatewayFamily(), max_children=255, max_request_bytes=1024),
-    Profile(id="sim-w06av-v30-ac", mids=CHILD_MIDS, hid=HID, source_sha256=SOURCE_SHA256,
-            initial_state=INITIAL_STATE, handler=GatewayFamily(child=True), identity_bytes=7,
-            parent_profiles=("sim-w06av-v30",)),
+# Identities are embedded payload HIDs, not the regional OTA filenames.
+BUILDS = (
+    ("v7", "362001061433+U-W06AV7.bin",
+     "954010b17a5bd2c27008164a638aad633a0798137863bea07767a950d2143924", True, V7_FIELDS),
+    ("v16", "362001067012+U-W06AV16.bin",
+     "0187ddc8c6f8f151319cb100a8b2bf15a9f63526ef84cf7ea95412248d37eb21", True, KNOWN_FIELDS),
+    ("v16-eu", "362001067012+U-W06AV16.bin",
+     "5bfd8e251fe74905685eb32b41dcf941be0fa78ee60ddc5b26160f7b15ede644", True, KNOWN_FIELDS),
+    ("v16-kf", "362001067012+U-W06AV16.bin",
+     "31b02d6c8388d1ed2b96b9037abe9ea93e867100497627d1ac687e55dcd45469", True, KNOWN_FIELDS),
+    ("v20", "362001067012+U-W06AV20.bin",
+     "654fa6509d50345568887f5843dc07af6c19112bb995bd8bdfa52ff9ad9ae862", False, KNOWN_FIELDS),
+    ("v30", HID, SOURCE_SHA256, False, KNOWN_FIELDS),
+)
+PROFILES = tuple(
+    profile
+    for version, hid, sha256, five_fields, fields in BUILDS
+    for profile in (
+        Profile(id=f"sim-w06av-{version}", mids=("60",), hid=hid, source_sha256=sha256,
+                initial_state={}, handler=GatewayFamily(
+                    five_field_children=five_fields, known_fields=fields),
+                max_children=255, max_request_bytes=1024),
+        Profile(id=f"sim-w06av-{version}-ac", mids=CHILD_MIDS, hid=hid, source_sha256=sha256,
+                initial_state=INITIAL_STATE, handler=GatewayFamily(child=True),
+                identity_bytes=7, parent_profiles=(f"sim-w06av-{version}",)),
+    )
 )

@@ -1,0 +1,45 @@
+{
+  "scope": "Six exact WB05BR images; sanitized static-source/native-slice attribution for simulated gateway profiles, not WB05BR1.10 substitution or physical calibration",
+  "sources": {
+    "index": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/wb-gateway-decompilation/export-index.json",
+    "native": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/wb-reconciliation/findings.md",
+    "pagination": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/pr-pagination/pagination-results.json",
+    "hardware": "https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943"
+  },
+  "builds": [
+    {"version": "1.13", "hid": "362001066380+U-WB05BRV1.13.bin", "sha256": "897f4ebe52618702c5dc1310fa06a9349ccbf98dd988aa0b74a42303e6206d6e", "full_c_sha256": "10bf1da01e8d48cb0e33c46ef2e56925e425e8792aade25f2266cd0e91c89f5f", "encrypt": "0xe038c24", "decrypt": "0xe038eb0", "list": "0xe040d80", "pack": "0xe041a20", "generic_key_constant_offset": 805708},
+    {"version": "1.16", "hid": "362001066326+U-WB05BRV1.16.bin", "sha256": "8d09158d365e633e093a17ee0b4477b381fee78c8189f20bbbdd77a8ad79a23b", "full_c_sha256": "569b2ec75796f7e6c276f07d02e4cdff0683a5935bf65c1383e3240edc24c3d8", "encrypt": "0xe039e44", "decrypt": "0xe03a138", "list": "0xe043e90", "pack": "0xe044d54", "generic_key_constant_offset": 839849},
+    {"version": "1.18", "hid": "362001066326+U-WB05BRV1.18.bin", "sha256": "92213de63cf4d486dcc6d5ddddd81218b9e83debfc3b20845d8e5cc9c99c0786", "full_c_sha256": "1b1bd054b3277e76508af71a451ad23ceb2208855cbf52a861ba3628353d753e", "encrypt": "0xe039e44", "decrypt": "0xe03a138", "list": "0xe043e90", "pack": "0xe044d54", "generic_key_constant_offset": 839817},
+    {"version": "1.22", "hid": "362001066380+U-WB05BRV1.22.bin", "sha256": "7684d712ddb4b6b330b2ac1697c04ed7a381643b86ab8afa86c81d5306fe74c4", "full_c_sha256": "2e06f739573723cd3129a97912645c466108557e64eebee95ee80bfcf4d8c4fa", "encrypt": "0xe0448fc", "decrypt": "0xe044bf0", "list": "0xe04ead8", "pack": "0xe04f99c", "generic_key_constant_offset": 870537},
+    {"version": "1.31", "hid": "362001066380+U-WB05BRV1.31.bin", "sha256": "35c6a04be944e945b4660c2ff6f77a4bc5251420654fdb4b0ab1917dd473e56e", "full_c_sha256": "3819df381fe07c5247cfd0ad3fd5498314f533ecab0d012ef0d96b835bcd182a", "encrypt": "0xe0468cc", "decrypt": "0xe046b58", "list": "0xe04ef98", "pack": "0xe04fc90", "generic_key_constant_offset": 864253},
+    {"version": "1.38", "hid": "362001066380+U-WB05BRV1.38.bin", "sha256": "47b25da11516d27cfc0af1fe4f027a860edc00a0b2c6b0ed14566ffab34d2b1d", "full_c_sha256": "f2a8e880625c6e77e52f743ed84e6fa8b4f454c4e2482add63d43482dba3f39a", "encrypt": "0xe048094", "decrypt": "0xe048388", "list": "0xe052a60", "pack": "0xe05392c", "generic_key_constant_offset": 892937}
+  ],
+  "native_slice_facts": {
+    "execution": "Previously executed research, not rerun by this implementation: ARM Thumb dispatcher, list traversal, alias ownership transfer and key-index lookup with explicit JSON/config/ROM boundary substitutions.",
+    "list": "Numeric i selects child offsets i..i+4, retains total c; native synthetic cache MID608f is emitted verbatim from MAC|MID records. Seven-child prior native runs recover 7/7 at offsets0/5, unlike fixed0/1.",
+    "four_child_memberships": {"plain_i0": [0, 1, 2, 3], "packed_device_i0": [0, 1, 2, 3], "plain_generic_i1": [1, 2, 3], "packed_subDev_i0": [0, 1, 2, 3]},
+    "key_slots": "Runtime array index0 is issued session key; index1 wraps bind replies. Missing/negative or out-of-range native indices are not modeled as fallback keys."
+  },
+  "static_source_facts": {
+    "crypto": "V1.38 resolved source assertion names explicitly identify aes128ecb_base64_encrypt_encode/decode_decrypt. Each six-image selected C independently processes AES128 keys and 16-byte blocks without IV or chaining. V1.13 native instruction listing0xe038cfa..0xe038d06 sets both memset byte and count to16-remainder; always emits final block. Decrypt drops final padding count. Safe shared codec validates all PKCS7 bytes rather than copying native unchecked trailing bytes. No GCM inferred from the unrelated standalone WB05RT13.",
+    "key_initialization": "All six source images contain the public generic key as element1 of a JSON initializer whose element0 is null. V1.13 initializer0xe0aab25 is referenced by key config record0x1001d810 (default pointer0x1001d814). Values are deliberately not reproduced here; runtime-generated device keys and fixture constants are not captured keys.",
+    "discovery": "V1.13 json_create_dev0xe04117c/full-C126970..127046 and V1.38json_create_dev0xe052ea8/full-C143695..143807 emit bc,catalog,series,model,lock,vender,mid,name,ver,mac,subCnt. No inferred brand/innercid/hid. V1.13 version getter0xe03de7c consults needMqtt; configured default1 at0x1001d978 selects literalV3.2.M rather than V1.1.",
+    "routing": "Direct outer subList does not decrypt pack. Packed request parses inner JSON but preserves outer uid/i/cid/tcid in request metadata, separate from inner JSON page i. subDev rewrites to subList. status/cmd parsers require key index0; bind requires index1 and root mac. Command response chooses sub before mac.",
+    "business_shapes": "V1.13 status/dat0xe03fd84/0xe041650 and cmd/res0xe0407fc/0xe041388 establish dat cols/dat arrays, unknown values as empty strings, child mac and command opt/p/val arrays with r200. Actual mainboard custom callbacks are not replayed; chosen model values are not source-calibrated appliance values.",
+    "identity": "V1.13 inventory0xe00a0ac/full-C42191..42250 uses a 14-character child formatter of six hardware bytes followed by00, then %s|%x# records. Parser/list source transports cache identities; synthetic config therefore validates complete14hex IDs without requiring common parent prefix or fixed suffix. Native inventory branch rewrites608d/6091/6099/60a9 to6079, but those MIDs are deliberately not registered without native/hardware qualification.",
+    "finite_controls": "V1.13 category descriptor0x1001d19c includes39-entry20-byte records at0xe09cc1c; exact names include Pow,Mod,SetTem,WdSpd. Other categories/mainboard behavior are not generalized into extra supported control fields."
+  },
+  "hardware_facts": {
+    "identity_boundary": "The Oct14 PR capture reports parentMID60, versionV3.2.M and CipherV1; exact WB05BR1.10 image/numeric HID remain unavailable. These six build profiles do not claim its recovered identity.",
+    "child_mids": ["608f", "605c"],
+    "child_mid_attribution": "The independent PR hardware list contains three608f and one605c. Synthetic identities in the public vector reproduce this MID composition, not private MACs or captures. Both use the same explicitly declared sensorless model; no new physical polling or typed-client claim follows."
+  },
+  "simulation_policy": {
+    "controls": {"Pow": [0, 1], "Mod": [0, 4], "SetTem": [16, 30], "WdSpd": [0, 5]},
+    "units": "SetTem is explicitly synthetic integer Celsius, not recovered mainboard/Fahrenheit storage.",
+    "state": "Each child owns a fresh cache. Validated command batches commit atomically and immediately; val reflects this model. Unknown/read-only controls are safely rejected, not acknowledged as applied. Root contains metadata only. TemSor,TemBody,TemSen and every other unmodeled appliance field return empty strings; no setpoint-as-ambient fallback.",
+    "limits": "100 synthetic children, matching the V1.13 inventory traversal of slots12..111. Replies are bounded by the UDP payload limit before control mutation. No unrelated firmware buffer-size limit is invented.",
+    "safe_deviations": "Strict types, exact root/child selectors, nonnegative signed32-bit page offsets, slots0/1 only, strictPKCS7, no embeddedNUL peer/field names and atomic range validation replace unsafe native parsing/cache assumptions."
+  },
+  "not_exercised_here": ["tests", "builds", "lint", "formatters", "research executions", "native AES/ROM replay", "full firmware boot", "physical hardware", "mainboard calibration", "WB05BR1.10"]
+}

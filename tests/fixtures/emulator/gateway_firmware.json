@@ -1,0 +1,768 @@
+{
+  "profile": "sim-w06av-v7",
+  "mid": "60",
+  "source_sha256": "954010b17a5bd2c27008164a638aad633a0798137863bea07767a950d2143924",
+  "evidence": {
+    "native_protocol": "Exact-image W06 PR148 w06-reconciliation/findings.md (six-image subDev five-entry loops, routing, res echo); w06-decompilation/954010.../selected.c a0da04 five-field enumeration; Xtensa-2 per-image gateway-network-tables.json. Public source: https://github.com/cmroche/gree-research/blob/main/docs/GATEWAY_PR148.md",
+    "model_contract": "Safe synthetic atomic integer-Celsius controls and floor(room_c) TemBody. Known omission/unknown empty rendering is model policy, not replayed native dat serialization. Names represent populated configured child cache; count-enabled discovery branch. ACK/readback is not mainboard confirmation.",
+    "independence": "Literal existing V30 vectors preserved; V7 identity and name/model/lock records amended from exact-source builder, not emulator outputs. Private source execution is not required."
+  },
+  "device": {
+    "id": "gateway",
+    "mac": "020000000001",
+    "name": "Emulator Gateway",
+    "key": "0123456789abcdef"
+  },
+  "children": [
+    {
+      "profile": "sim-w06av-v7-ac",
+      "mid": "6049",
+      "device": {
+        "id": "child-1",
+        "mac": "02000000000001",
+        "name": "Indoor 1",
+        "room_c": 22,
+        "ambient_c": 22
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v7-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-2",
+        "mac": "02000000000002",
+        "name": "Indoor 2",
+        "room_c": 22,
+        "ambient_c": 22
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v7-ac",
+      "mid": "604b",
+      "device": {
+        "id": "child-3",
+        "mac": "02000000000003",
+        "name": "Indoor 3",
+        "room_c": 22,
+        "ambient_c": 22
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v7-ac",
+      "mid": "604c",
+      "device": {
+        "id": "child-4",
+        "mac": "02000000000004",
+        "name": "Indoor 4",
+        "room_c": 22,
+        "ambient_c": 22
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v7-ac",
+      "mid": "605c",
+      "device": {
+        "id": "child-5",
+        "mac": "02000000000005",
+        "name": "Indoor 5",
+        "room_c": 22,
+        "ambient_c": 22
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v7-ac",
+      "mid": "608f",
+      "device": {
+        "id": "child-6",
+        "mac": "02000000000006",
+        "name": "Indoor 6",
+        "room_c": 22,
+        "ambient_c": 22
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06av-v7-ac",
+      "mid": "6092",
+      "device": {
+        "id": "child-7",
+        "mac": "02000000000007",
+        "name": "Indoor 7",
+        "room_c": 22,
+        "ambient_c": 22
+      },
+      "initial_state": {}
+    }
+  ],
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 5
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 7
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001"
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000009",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "02000000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem"
+        ],
+        "p": [
+          1,
+          1,
+          22
+        ],
+        "val": [
+          0,
+          4,
+          30
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000001",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "TemBody",
+          "TemSen",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000002",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "TemBody"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000001",
+        "opt": [
+          "Pow"
+        ],
+        "val": [
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000001",
+        "opt": [
+          "Pow",
+          "SetTem"
+        ],
+        "p": [
+          0,
+          31
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000000002"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000002",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000001",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "60",
+          "model": "gree",
+          "name": "Emulator Gateway",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V1.1.0.0",
+          "lock": 0.0,
+          "hid": "362001061433+U-W06AV7.bin",
+          "subCnt": 7
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindOk",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 7,
+          "i": 0,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000001",
+              "mid": "6049",
+              "name": "Indoor 1",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000002",
+              "mid": "604a",
+              "name": "Indoor 2",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000003",
+              "mid": "604b",
+              "name": "Indoor 3",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000004",
+              "mid": "604c",
+              "name": "Indoor 4",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000005",
+              "mid": "605c",
+              "name": "Indoor 5",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 7,
+          "i": 5,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000006",
+              "mid": "608f",
+              "name": "Indoor 6",
+              "model": "gree",
+              "lock": 0
+            },
+            {
+              "mac": "02000000000007",
+              "mid": "6092",
+              "name": "Indoor 7",
+              "model": "gree",
+              "lock": 0
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 7,
+          "i": 7,
+          "r": 200,
+          "list": []
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "02000000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem"
+          ],
+          "p": [
+            1,
+            1,
+            22
+          ],
+          "val": [
+            1,
+            1,
+            22
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "02000000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "TemBody",
+            "TemSen",
+            "Pow"
+          ],
+          "dat": [
+            1,
+            1,
+            22,
+            22,
+            "",
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "02000000000002",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "SetTem",
+            "TemBody"
+          ],
+          "dat": [
+            0,
+            24,
+            22
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "02000000000001",
+          "r": 200,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            1
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {},
+  "expected_children": {
+    "02000000000001": {
+      "Pow": 1,
+      "Mod": 1,
+      "SetTem": 22,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000002": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000003": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000004": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000005": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000006": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    },
+    "02000000000007": {
+      "Pow": 0,
+      "Mod": 0,
+      "SetTem": 24,
+      "WdSpd": 0,
+      "Air": 0,
+      "Blo": 0,
+      "SwhSlp": 0,
+      "SwingLfRig": 0,
+      "SwUpDn": 0,
+      "Quiet": 0,
+      "Tur": 0,
+      "SvSt": 0,
+      "TemBody": 22
+    }
+  },
+  "variants": [
+    {
+      "profile": "sim-w06av-v7",
+      "hid": "362001061433+U-W06AV7.bin",
+      "source_sha256": "954010b17a5bd2c27008164a638aad633a0798137863bea07767a950d2143924",
+      "five_fields": true,
+      "water_fields": false
+    },
+    {
+      "profile": "sim-w06av-v16",
+      "hid": "362001067012+U-W06AV16.bin",
+      "source_sha256": "0187ddc8c6f8f151319cb100a8b2bf15a9f63526ef84cf7ea95412248d37eb21",
+      "five_fields": true,
+      "water_fields": true
+    },
+    {
+      "profile": "sim-w06av-v16-eu",
+      "hid": "362001067012+U-W06AV16.bin",
+      "source_sha256": "5bfd8e251fe74905685eb32b41dcf941be0fa78ee60ddc5b26160f7b15ede644",
+      "five_fields": true,
+      "water_fields": true
+    },
+    {
+      "profile": "sim-w06av-v16-kf",
+      "hid": "362001067012+U-W06AV16.bin",
+      "source_sha256": "31b02d6c8388d1ed2b96b9037abe9ea93e867100497627d1ac687e55dcd45469",
+      "five_fields": true,
+      "water_fields": true
+    },
+    {
+      "profile": "sim-w06av-v20",
+      "hid": "362001067012+U-W06AV20.bin",
+      "source_sha256": "654fa6509d50345568887f5843dc07af6c19112bb995bd8bdfa52ff9ad9ae862",
+      "five_fields": false,
+      "water_fields": true
+    },
+    {
+      "profile": "sim-w06av-v30",
+      "hid": "362001067012+U-W06AV30.bin",
+      "source_sha256": "6b52f31a74a74c5a88f3d8b68f8b4afc89fcd8d59e3d11a287a4ec37825bf79b",
+      "five_fields": false,
+      "water_fields": true
+    }
+  ]
+}

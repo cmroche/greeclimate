@@ -647,3 +647,73 @@ async def test_atw_mid_targets_do_not_infer_auto_poll_sensor_support_or_bypass_s
     assert all(atw.capabilities[name] is True for name in ATW_NAMES)
     assert snapshot["inlet_water_temperature_c"] is None
 
+
+@pytest.mark.parametrize("hid", [
+    "362001061433+U-W06AV7.bin",
+    "362001067012+U-W06AV16.bin",
+    "362001067012+U-W06AV20.bin",
+    "362001067012+U-W06AV30.bin",
+])
+async def test_gateway_hid_excludes_typed_sensor_without_calibrating_raw_body(info, hid):
+    info.mid = "10001"
+    unit = create_device(info)
+    assert unit.capabilities["current_temperature"] is True
+    unit.handle_state_update(hid=hid, TemBody=85)
+    excluded = unit.capabilities
+    assert excluded["current_temperature"] is False
+    assert excluded["lan_buzzer_control"] is False
+    assert unit.current_temperature is None
+    assert unit.get_property("TemBody") == 85
+    assert excluded["target_temperature"] is True
+    unit.handle_state_update(hid="unidentified+U-W06AV7.bin")
+    assert unit.capabilities["current_temperature"] is True
+    assert unit.capabilities["lan_buzzer_control"] is None
+    assert excluded["current_temperature"] is False
+
+
+@pytest.mark.parametrize("hid", [
+    "362001066380+U-WB05BRV1.13.bin",
+    "362001066326+U-WB05BRV1.16.bin",
+    "362001066326+U-WB05BRV1.18.bin",
+    "362001066380+U-WB05BRV1.22.bin",
+    "362001066380+U-WB05BRV1.31.bin",
+    "362001066380+U-WB05BRV1.38.bin",
+])
+async def test_wb_gateway_identity_does_not_generalize_later_build_namespace(info, hid):
+    unit = AirConditionerDevice(info)
+    unit.handle_state_update(hid="362001061433+U-W06AV7.bin")
+    assert unit.capabilities["current_temperature"] is False
+    assert unit.capabilities["lan_buzzer_control"] is False
+    unit.handle_state_update(hid=hid, TemSor=85)
+    assert all(unit.capabilities[name] is None for name in AC_NAMES)
+    assert unit.current_temperature is None
+    assert unit.get_property("TemSor") == 85
+    unit.version = "999"
+    assert all(unit.capabilities[name] is None for name in AC_NAMES)
+
+
+@pytest.mark.parametrize("hid,buzzer", [
+    ("362001061433+U-W06AV7.bin", False),
+    ("362001067012+U-W06AV16.bin", False),
+    ("362001066326+U-WB05BRV1.18.bin", None),
+    ("362001066380+U-WB05BRV1.38.bin", None),
+    ("362001065279+U-WB05RT13V1.54.bin", True),
+    ("362001065279+U-WB05RT13V1.64.bin", True),
+])
+async def test_firmware_namespace_only_adds_evidenced_buzzer_command(info, hid, buzzer):
+    info.mid = "10001"
+    unit = create_device(info)
+    assert type(unit) is AirConditionerDevice
+    await unit.bind(key="0123456789abcdef", cipher=CipherV1())
+    unit.send = AsyncMock()
+    unit.handle_state_update(hid=hid, Pow=0)
+    unit.buzzer = False
+    unit.power = True
+    await unit.push_state_update()
+    expected = {"Pow": 1}
+    if buzzer is True:
+        expected["Buzzer_ON_OFF"] = 1
+    assert sent_properties(unit) == expected
+    assert unit.capabilities["lan_buzzer_control"] is buzzer
+    assert unit.capabilities["power"] is True
+    unit.close()

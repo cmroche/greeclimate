@@ -23,11 +23,11 @@ class Profile:
 
 
 # Families import Profile, so registration follows its definition.
-from . import atw, commercial, controller, gateway, hb, w04, w04n, wb, zones  # noqa: E402
+from . import atw, commercial, controller, gateway, hb, w04, w04n, wb, wb_gateway, wb_rt13, zones  # noqa: E402
 
 
 PROFILES = {
     profile.id: profile
-    for family in (w04, w04n, wb, hb, commercial, controller, gateway, zones, atw)
+    for family in (w04, w04n, wb, hb, commercial, controller, gateway, zones, atw, wb_gateway, wb_rt13)
     for profile in family.PROFILES
 }
