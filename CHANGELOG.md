@@ -1,3 +1,11 @@
+# [4.1.0](https://github.com/cmroche/greeclimate/compare/v4.0.0...v4.1.0) (2026-10-24)
+
+
+### Features
+
+* **emulator:** add new device profiles ([#233](https://github.com/cmroche/greeclimate/issues/233)) ([e5503ae](https://github.com/cmroche/greeclimate/commit/e5503aea1379c25e2cb4a81d0075179cdb1085f2))
+* **gateway:** add explicit child enumeration and raw controls ([#234](https://github.com/cmroche/greeclimate/issues/234)) ([0040757](https://github.com/cmroche/greeclimate/commit/004075717018d647a64b92fc8d69f11031089247))
+
 # [4.0.0](https://github.com/cmroche/greeclimate/compare/v3.7.0...v4.0.0) (2026-10-23)
 
 
