@@ -22,12 +22,14 @@ class Commands(Enum):
     PACK = "pack"
     SCAN = "scan"
     STATUS = "status"
+    SUBDEV = "subDev"
 
 
 class Response(Enum):
     BIND_OK = "bindok"
     DATA = "dat"
     RESULT = "res"
+    SUBLIST = "sublist"
 
 
 @dataclass
@@ -243,11 +245,13 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """
         params = {
             Response.BIND_OK.value: lambda o, a: [o["pack"]["key"]],
+            Response.SUBLIST.value: lambda o, a: [o["pack"]],
         }
         handlers = {
             Response.BIND_OK.value: lambda *args: self.__handle_device_bound(*args),
-            Response.DATA.value: lambda *args: self.__handle_state_update(*args),
-            Response.RESULT.value: lambda *args: self.__handle_state_update(*args),
+            Response.DATA.value: lambda data: self.handle_data_update(**data),
+            Response.RESULT.value: lambda data: self.handle_result_update(**data),
+            Response.SUBLIST.value: self.handle_sublist,
         }
         try:
             pack = obj.get("pack", {})
@@ -303,8 +307,17 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device bound events. """
         self._ready.set()
 
-    def __handle_state_update(self, data) -> None:
+    def handle_data_update(self, **data) -> None:
+        """Handle reported DATA; default to the existing state-update hook."""
         self.handle_state_update(**data)
+
+    def handle_result_update(self, **data) -> None:
+        """Handle command RESULT; default to the existing state-update hook."""
+        self.handle_state_update(**data)
+
+    def handle_sublist(self, pack) -> None:
+        """Handle an inventory response with its pagination metadata intact."""
+        pass
 
     def handle_state_update(self, **kwargs) -> None:
         """ Implement this function to handle device state updates. """

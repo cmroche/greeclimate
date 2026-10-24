@@ -98,7 +98,7 @@
 | `828214` | Fan | `Pow`, `WdSpd`, `Mod`, `Rotate`, `LRAngle`, `TmrHour`, `TmrMin`, `TmrOn`, `TmrAction`, `JFerr`, `LRHeadAngle`, `Quiet`, `OSD`, `estate`, `rssi`, `StepWdSpd` |
 | `80361` | Unknown | `ver`, `MGPowCtrlStat` |
 | `6036` | Unknown | `WPow`, `Wmod`, `FPow`, `WCurTem`, `WtmrMin`, `WtmrHr`, `Watpercent`, `FCurTem`, `SetTem`, `FSetTem`, `GetEr`, `WFConfig`, `IDUID`, `MidType`, `MIdType` |
-| `60` | Multi-unit gateway | `hid` (observed on a WB05BR gateway; other requested fields were empty) |
+| `60` | Multi-unit gateway (`GatewayDevice`; explicit orchestration) | `hid` (root metadata; not child climate state) |
 | `10014` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
 | `10015` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
 | `10016` | Unknown (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `TemSen` |
@@ -123,3 +123,10 @@
 | `609d` | Gateway (raw; no typed family) | `Pow`, `Mod`, `SetTem`, `WdSpd`, `InTem` |
 | `50` | Zone controller (raw; no typed family) | `MasterPow`, `Mod`, `WdSpd` |
 
+### Child roles and raw state
+
+| Qualified root dialect | Child role | Client surface |
+| --- | --- | --- |
+| W06AV / WB05BR | Full returned seven-byte identity; W06 child polling MIDs `6049/604a/604b/604c/605c/608f/6092` | `GatewayChildDevice`, raw status/control; defaults `Pow`, `Mod`, `SetTem`, `TemBody` |
+| WB04BRT13 V1.50 MID `60` facade | ACUnit, root identity + `00`, MID `6400`, `6045` or `609d` | Qualified raw status/control using that MID's polling preset |
+| WB04BRT13 V1.50 MID `60` facade | Filter + `01`, or other returned identity/MID (including unqualified category `6200`) | Retained metadata only; `ready` stays clear; bind, status/version requests and command staging/sending raise `ValueError` |

@@ -298,6 +298,19 @@ class Device(DeviceProtocol2, Taskable):
         self._cancel_tasks()
         DeviceProtocol2.connection_lost(self, exc)
 
+    def _response_target(self, obj, pack):
+        """Select a recipient without relaxing direct-device sender identity."""
+        expected = _canonical_mac(self.device_info.mac)
+        identified = False
+        for value in (pack.get("mac"), pack.get("cid"), obj.get("cid")):
+            if value is None or value == "":
+                continue
+            if expected is None or _canonical_mac(value) != expected:
+                self._logger.debug("Ignoring packet with conflicting sender identity")
+                return None, False
+            identified = True
+        return self, identified
+
     def packet_received(self, obj, addr: IPAddr) -> None:
         """Dispatch only packets belonging to this connected peer and session."""
         if self._closed or self._closing or self._transport is None:
@@ -310,21 +323,15 @@ class Device(DeviceProtocol2, Taskable):
         if not isinstance(pack, dict):
             self._logger.debug("Ignoring device packet without dictionary pack")
             return
-        expected = _canonical_mac(self.device_info.mac)
-        identified = False
-        for value in (pack.get("mac"), pack.get("cid"), obj.get("cid")):
-            if value is None or value == "":
-                continue
-            if expected is None or _canonical_mac(value) != expected:
-                self._logger.debug("Ignoring packet with conflicting sender identity")
-                return
-            identified = True
+        target, identified = self._response_target(obj, pack)
+        if target is None:
+            return
 
         response = pack.get("t")
         response = response.casefold() if isinstance(response, str) else None
         if response == "bindok":
             waiter = self._bind_waiter
-            if waiter is None or waiter.done() or not identified:
+            if target is not self or waiter is None or waiter.done() or not identified:
                 self._logger.debug("Ignoring bind reply outside identified negotiation")
                 return
             key = pack.get("key")
@@ -339,14 +346,18 @@ class Device(DeviceProtocol2, Taskable):
         elif not self.ready.is_set() or self.device_cipher is None:
             self._logger.debug("Ignoring packet without a negotiated session")
             return
-        DeviceProtocol2.packet_received(self, obj, addr)
+        DeviceProtocol2.packet_received(target, obj, addr)
+
+    async def _ensure_bound(self) -> None:
+        """Lazily bind after an operation's entry and argument checks."""
+        if not self.device_cipher:
+            await self.bind()
 
     async def request_version(self) -> None:
         """Send a firmware-version request; observe DATA for the reply."""
         if self._closed or (self._bind_waiter is not None and not self._bind_waiter.done()):
             raise DeviceNotBoundError
-        if not self.device_cipher:
-            await self.bind()
+        await self._ensure_bound()
 
         try:
             await self.send(self.create_status_message(self.device_info, "hid"))
@@ -364,8 +375,7 @@ class Device(DeviceProtocol2, Taskable):
             columns = list(columns)
             if not columns or any(not isinstance(name, str) or not name or name == "self" for name in columns):
                 raise ValueError("Status columns must contain nonempty strings other than 'self'")
-        if not self.device_cipher:
-            await self.bind()
+        await self._ensure_bound()
 
         self._logger.debug("Updating device properties for (%s)", str(self.device_info))
 
@@ -403,8 +413,7 @@ class Device(DeviceProtocol2, Taskable):
         if not self._dirty:
             return
 
-        if not self.device_cipher:
-            await self.bind()
+        await self._ensure_bound()
 
         self._logger.debug("Pushing state updates to (%s)", str(self.device_info))
 

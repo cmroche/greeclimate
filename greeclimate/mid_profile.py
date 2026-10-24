@@ -353,7 +353,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Multi-unit gateway.
     MidProfile("60", (
         "hid",
-    )),
+    ), family="gateway"),
     # Unknown device type.
     MidProfile("10014", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
     # Unknown device type.

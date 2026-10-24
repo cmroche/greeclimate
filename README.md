@@ -22,7 +22,7 @@ The easiest way to grab **greeclimate** is through PyPI
 
 ## Use Gree Climate
 
-Discover devices on the LAN and bind immediately after scanning. Use `create_device()` for exact-MID selection of an `AirConditionerDevice`, `DehumidifierDevice`, `AirToWaterDevice` (`9300` only), or neutral `Device`.
+Simple example showing how to discover and bind to devices on the LAN
 
 ```python
 import asyncio
@@ -48,29 +48,6 @@ async def main():
 asyncio.run(main())
 ```
 
-The following snippets run inside `main()`; device-control snippets go after binding and before closing `device`.
-
-### Migrating typed controls
-
-Version 4.0.0 establishes the compatibility boundary for the changes below and the [firmware-profile constructor migration](docs/HIDS.md#firmware-code-traits-and-limitations). Version 3.7.0 shipped these breaking changes under a minor version and has been yanked from PyPI.
-
-`Device` now owns transport, binding, status polling, and raw properties only. Replace `Device(device_info)` with `create_device(device_info)` for typed controls selected from a registered exact MID. Selection is fixed at construction: later MID/model metadata changes or a reported firmware HID never change the family.
-
-For a known appliance whose MID is missing or unregistered, construct its family directly:
-
-```python
-from greeclimate.air_conditioner import AirConditionerDevice
-from greeclimate.dehumidifier import DehumidifierDevice
-from greeclimate.air_to_water import AirToWaterDevice
-
-device = AirConditionerDevice(device_info)  # Or DehumidifierDevice / AirToWaterDevice.
-```
-
-Unknown MIDs produce a neutral `Device` and default to identity-only `["hid"]` polling. Direct AC instances with an unknown MID poll `Pow`, `Mod`, `SetTem`, `TemUn`, `TemRec`, and `TemSen`; direct dehumidifiers use their own humidity/control baseline. Known MID polling lists are preserved even for untyped families. See [MID polling contracts](docs/MIDS.md).
-
-The AC control examples below require an `AirConditionerDevice`; the humidity example requires a `DehumidifierDevice`, and the air-to-water example requires an `AirToWaterDevice`. Optional controls still depend on the appliance. Neutral devices retain the raw API example below.
-
-
 Scan a known IP address instead of broadcasting on the LAN.
 
 ```python
@@ -94,9 +71,7 @@ Manually poll for updated device state.
 await device.update_state()
 ```
 
-Request exact status columns and access raw protocol properties by name (or a string-valued enum).
-Explicit columns are sent unchanged as one query, without adding `hid`; raw writes do not validate appliance support, but typed ATW instances still enforce their send-time command guards.
-The exact name `self` is reserved and rejected before staging a property or sending a status query.
+Request exact status columns and access raw protocol properties by name.
 
 ```python
 await device.update_state(["Pow", "Lig"])
@@ -104,6 +79,45 @@ await device.update_state(["Pow", "Lig"])
 print(device.get_property("Pow"))
 device.set_property("Lig", 0)
 await device.push_state_update()
+```
+
+Iterate through children from a Gateway device
+
+```python
+from greeclimate.gateway import GatewayDevice
+from greeclimate.network import Response
+
+gateway = create_device(device_info)
+if not isinstance(gateway, GatewayDevice):
+    raise TypeError("Select a MID 60 gateway")
+try:
+    await gateway.bind()
+    for child in await gateway.get_sub_devices():
+        if not child.ready.is_set():  # Metadata-only commercial records.
+            continue
+        data_received = asyncio.Event()
+
+        def on_child_data(data):
+            if {"Pow", "Mod", "SetTem"} <= data.keys():
+                data_received.set()
+
+        child.add_handler(Response.DATA, on_child_data)
+        try:
+            await child.update_state(["Pow", "Mod", "SetTem"])
+            await asyncio.wait_for(data_received.wait(), timeout=5)
+            print(child.device_info.name, dict(child.raw_properties))
+            child.set_property("Mod", 2)
+            child.set_property("SetTem", 22)
+            child.set_property("Pow", 1)
+            await child.push_state_update()
+            data_received.clear()
+            await child.update_state(["Pow", "Mod", "SetTem"])
+            await asyncio.wait_for(data_received.wait(), timeout=5)
+            print(child.get_property("Pow"), child.get_property("SetTem"))
+        finally:
+            child.remove_handler(Response.DATA, on_child_data)
+finally:
+    gateway.close()  # Also closes every owned child.
 ```
 
 For an AC, cool to 25°C and send updates to the device.
@@ -156,67 +170,6 @@ if device.capabilities["quiet"] is True:
     await device.push_state_update()
 ```
 
-`capabilities` is a fresh, immutable 32-key snapshot: `True` means declared protocol support, `False` means outside the typed family's API or explicitly excluded by firmware, and `None` means not established. Neutral devices report all `None`. Reading it sends no probe; it neither gates setters nor guarantees physical effects or available readings. See [evidence and precedence](docs/MIDS.md#capability-evidence).
-
-Request a muted power-on command where supported; wait for the reported firmware HID first.
-
-```python
-from greeclimate.network import Response
-
-hid_received = asyncio.Event()
-
-def on_data(data):
-    if data.get("hid"):
-        hid_received.set()
-
-device.add_handler(Response.DATA, on_data)
-try:
-    await device.request_version()
-    await asyncio.wait_for(hid_received.wait(), timeout=5)
-finally:
-    device.remove_handler(Response.DATA, on_data)
-
-device.buzzer = False
-device.power = True
-await device.push_state_update()
-```
-
-`buzzer` is a local preference: changing it alone sends nothing. Buzzer fields are sent only when explicitly enabled by a matching [firmware-code profile](docs/HIDS.md#firmware-code-traits-and-limitations); absent, unknown or unsupported profiles add none. Recognized fields do not guarantee physical muting.
-
-Set a `DehumidifierDevice`'s target relative humidity (not an AC dry-mode setpoint).
-
-```python
-device.target_humidity = 45
-await device.push_state_update()
-```
-
-Set an air-to-water heating-water target only after receiving Celsius status.
-
-```python
-from greeclimate.air_to_water import AirToWaterDevice
-from greeclimate.network import Response
-
-if not isinstance(device, AirToWaterDevice):
-    raise TypeError("This example requires an air-to-water heat pump")
-celsius_received = asyncio.Event()
-
-def on_atw_data(data):
-    if device.temperature_units == 0:
-        celsius_received.set()
-
-device.add_handler(Response.DATA, on_atw_data)
-try:
-    await device.update_state()
-    await asyncio.wait_for(celsius_received.wait(), timeout=5)
-finally:
-    device.remove_handler(Response.DATA, on_atw_data)
-
-device.heating_water_target_temperature_c = 35
-await device.push_state_update()
-```
-
-ATW default polling preserves the `9300` preset plus sensor fields in deduplicated order, using queries of at most 20 columns to fit the firmware's encrypted request limit. Explicit `update_state(columns)` remains one exact query and must fit the device limits. Mode changes require a **received off** power state; sending or staging power-off alone is not enough, and mode plus power-on must be separate commands. Target writes require **received Celsius** and are revalidated at send time. Cooling resolves to wire value 5 for firmware code `362001066763`; explicit `cooling_mode_value=0`, `5`, or `None` overrides automatic resolution (`None` disables cooling). See [ATW controls](docs/MIDS.md#air-to-water-controls).
-
 Turn the device off, then request a fresh status update.
 
 ```python
@@ -225,13 +178,7 @@ await device.push_state_update()
 await device.update_state()
 ```
 
-Automatic discovery uses IPv4 subnet broadcasts via `ifaddr`, skipping IPv6, loopback, and non-loopback `/31` and `/32` networks. `allow_loopback=True` adds loopback host addresses; non-empty `target_addresses` bypasses interface enumeration, while `None` or `[]` uses it.
-
-Legacy `bcast_ifaces` (`scan`) and `broadcastAddrs` (`search_devices`) keywords and positional calls remain supported; combining an alias with non-`None` `target_addresses` raises `ValueError`.
-
 ## Use Gree Emulator
-
-Run these commands from the repository root with Python 3.10+ and dependencies installed; each server runs until Ctrl-C.
 
 List supported simulated profiles and their exact MID values.
 
@@ -274,8 +221,6 @@ Capture packet logs on stderr while keeping startup announcements on stdout; scr
 ```bash
 python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 127.0.0.1 2> emulator-packets.log
 ```
-
-These are simulated appliances, not complete firmware emulations. Unsupported command fields reject the entire batch; check a fresh status poll rather than treating a successful send as accepted control. See the [emulator contracts](docs/MIDS.md#emulator-contracts) for configuration, protocol differences, and model limits.
 
 ## Device and protocol reference
 
