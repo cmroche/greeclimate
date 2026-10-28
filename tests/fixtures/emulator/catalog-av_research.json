@@ -1,0 +1,655 @@
+{
+  "schema_version": 1,
+  "evidence": {
+    "class": "independent literal source-converter vectors and explicitly chosen synthetic caches",
+    "sources": "PR148/w06-reconciliation/inputs.json, selected.c, selected-instructions.txt, comparison-results.json; CatalogQuirks/AV/probe.py; root metadata helpers0xa0ca54/0xa0cb60 and startup0xa11bc4/0xa11e34",
+    "qualification": "Current parent source-hashes.json matches originals. Source probes authored; runtime verification belongs to integration owner.",
+    "safe_model": "Strict int32 atomic batches; fixed synthetic persistent child report cache; no calibration, mainboard acceptance, thermostat physics, scheduler execution or flash operation. V7 out-of-table metadata read avoided; established final metadata serialization retained."
+  },
+  "versions": [
+    "v7",
+    "v16",
+    "v16-eu",
+    "v16-kf"
+  ],
+  "sources": {
+    "954010b17a5bd2c27008164a638aad633a0798137863bea07767a950d2143924": {
+      "version": "v7",
+      "ordinary_table": "0x448d20",
+      "alternate_table": "0x4491a0"
+    },
+    "0187ddc8c6f8f151319cb100a8b2bf15a9f63526ef84cf7ea95412248d37eb21": {
+      "version": "v16",
+      "ordinary_table": "0x448ff0",
+      "alternate_table": "0x4497a0"
+    },
+    "5bfd8e251fe74905685eb32b41dcf941be0fa78ee60ddc5b26160f7b15ede644": {
+      "version": "v16-eu",
+      "ordinary_table": "0x448ff0",
+      "alternate_table": "0x4497a0"
+    },
+    "31b02d6c8388d1ed2b96b9037abe9ea93e867100497627d1ac687e55dcd45469": {
+      "version": "v16-kf",
+      "ordinary_table": "0x448ff0",
+      "alternate_table": "0x4497a0"
+    }
+  },
+  "ordinary": [
+    {
+      "name": "GetEr",
+      "selector": 0,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Pow",
+      "selector": 1,
+      "requested": 1,
+      "expected": 1
+    },
+    {
+      "name": "MasSub",
+      "selector": 2,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "SvSt",
+      "selector": 3,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Blo",
+      "selector": 4,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Air",
+      "selector": 5,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Mod",
+      "selector": 6,
+      "requested": 11,
+      "expected": 11
+    },
+    {
+      "name": "Quiet",
+      "selector": 7,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "SwhSlp",
+      "selector": 8,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WdSpd",
+      "selector": 9,
+      "requested": 6,
+      "expected": 6
+    },
+    {
+      "name": "SetTem",
+      "selector": 10,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "CoolSvStTemMin",
+      "selector": 11,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "HeatSvStTemMax",
+      "selector": 12,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "HumiSvStTemMin",
+      "selector": 13,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "MasIDUMod",
+      "selector": 14,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "GoOut",
+      "selector": 15,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "AidHeat",
+      "selector": 16,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "SetCoolHumi",
+      "selector": 17,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "SetDeciTem",
+      "selector": 18,
+      "requested": 183,
+      "expected": 183
+    },
+    {
+      "name": "SysSta",
+      "selector": 19,
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "AllErr",
+      "selector": 20,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "OutHome",
+      "selector": 21,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "AssHt",
+      "selector": 22,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Add0.5",
+      "selector": 23,
+      "requested": 257,
+      "expected": 0
+    },
+    {
+      "name": "Tur",
+      "selector": 24,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Heat3DSvStTemMax",
+      "selector": 25,
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "Heat2SvStTemMax",
+      "selector": 26,
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "TemBody",
+      "selector": 27,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "HumiEnable",
+      "selector": 28,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "SwUpDn",
+      "selector": 29,
+      "requested": 1,
+      "expected": 1
+    },
+    {
+      "name": "SwingLfRig",
+      "selector": 30,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Add0.1",
+      "selector": 31,
+      "requested": 257,
+      "expected": 0
+    },
+    {
+      "name": "LowDeHumi",
+      "selector": 32,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "CleanTime",
+      "selector": 33,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "CleanState",
+      "selector": 34,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "AutoClean",
+      "selector": 35,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "ErrType1",
+      "selector": 36,
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "ErrType2",
+      "selector": 37,
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "WFConfig",
+      "selector": 38,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WPow",
+      "selector": 39,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Wstate",
+      "selector": 40,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Wmod",
+      "selector": 41,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WtmrMin",
+      "selector": 42,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WtmrHr",
+      "selector": 43,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WSetTemMax",
+      "selector": 44,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "Watpercent",
+      "selector": 45,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WSunEn",
+      "selector": 46,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WAutoSetTemEn",
+      "selector": 47,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WUTHEn",
+      "selector": 48,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WUTHSetTem",
+      "selector": 49,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "WUTHCycle",
+      "selector": 50,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WUTHTmrMin",
+      "selector": 51,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WUTHTmrHr",
+      "selector": 52,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WUTHOngoing",
+      "selector": 53,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WFastWat",
+      "selector": 54,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "FPow",
+      "selector": 55,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Fstate",
+      "selector": 56,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "FSetTem",
+      "selector": 57,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "FSetTemMax",
+      "selector": 58,
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "FAutoSetTemEn",
+      "selector": 59,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "FFastHeat",
+      "selector": 60,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "FIndoorEn",
+      "selector": 61,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "FOutHomeEn",
+      "selector": 62,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "ExtraMod",
+      "selector": 63,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WCurTem",
+      "selector": 64,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "FCurTem",
+      "selector": 65,
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WatTemWrap",
+      "selector": 66,
+      "requested": 257,
+      "expected": 1
+    }
+  ],
+  "alternate": [
+    {
+      "name": "GetEr",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Pow",
+      "requested": 1,
+      "expected": 1
+    },
+    {
+      "name": "Tur",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "ModS",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "FanMod",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "WdSpd",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "RunMod",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "IDUAirQu",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "ODUViti",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "Inloop",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "InVitiGr",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "InVitiGrCg",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "IFDtiGr",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "VitiGr",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "TemSor",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "HumSor",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "InEffClRes",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "InEffReRes",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "AirQu",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "PM2P5",
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "VOC",
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "CO2",
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "PctCle",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "PctRe",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "IFDClRes",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "EffReRes",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "GasAvail",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "GasLED",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "GasMod",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "GasMas",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "PM2P5Sta",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "SorErr",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "CommErr",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "ErrType",
+      "requested": 257,
+      "expected": 257
+    },
+    {
+      "name": "Mod",
+      "requested": 11,
+      "expected": 11
+    },
+    {
+      "name": "SetTem",
+      "requested": 18,
+      "expected": 18
+    },
+    {
+      "name": "ExWdSpd",
+      "requested": 257,
+      "expected": ""
+    },
+    {
+      "name": "TemRec",
+      "requested": 257,
+      "expected": 1
+    },
+    {
+      "name": "TemUn",
+      "requested": 257,
+      "expected": 1
+    }
+  ],
+  "metadata_columns": [
+    "hid",
+    "name",
+    "host",
+    "time",
+    "appsw",
+    "rssi",
+    "deveephidownver"
+  ],
+  "metadata_common": [
+    "020000000001",
+    "dis.gree.com",
+    "2017-6-15 00:00:00",
+    "12345678",
+    219,
+    ""
+  ]
+}

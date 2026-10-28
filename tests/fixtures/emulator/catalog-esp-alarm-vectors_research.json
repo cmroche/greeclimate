@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "profile": "sim-mstwb801a-v1",
+  "source_sha256": "5102a8e6c0efc5fe850a3767709c60fd20433b4a0e25bc165e3cb5917f5d095f",
+  "qualification": "Literal parser/transport expectations source-inspected fromcanonicalXtensa; parentbyte-assertedcompleteleaftranslations passed35vectors plusinitialization/table/identityhashassertions. NotnativeJSON/atoi/AES/socket/fullboot.",
+  "mac": "02000000a260",
+  "key": "0123456789abcdef",
+  "fields": [
+    "Pow",
+    "WorkState",
+    "AlarmCancel",
+    "AlarmTmrEnable",
+    "AlarmTime"
+  ],
+  "transactions": [
+    {
+      "opt": [
+        "Pow",
+        "WorkState",
+        "AlarmCancel",
+        "AlarmTmrEnable",
+        "AlarmTime"
+      ],
+      "p": [
+        1,
+        -7,
+        2147483647,
+        -2147483648,
+        "27minutes"
+      ],
+      "ack": [
+        "1",
+        "-7",
+        "2147483647",
+        "-2147483648",
+        "27minutes"
+      ],
+      "dat": [
+        -7,
+        -7,
+        2147483647,
+        -2147483648,
+        27
+      ]
+    },
+    {
+      "opt": [
+        "Pow",
+        "Pow",
+        "AlarmTime",
+        "unknown"
+      ],
+      "p": [
+        7,
+        -2,
+        "not-a-number",
+        "42"
+      ],
+      "ack": [
+        "7",
+        "-2",
+        "not-a-number",
+        "42"
+      ],
+      "cols": [
+        "Pow",
+        "AlarmTime",
+        "Pow",
+        "unknown"
+      ],
+      "dat": [
+        -2,
+        0,
+        -2,
+        0
+      ]
+    },
+    {
+      "opt": [
+        "WorkState",
+        "AlarmCancel",
+        "AlarmTmrEnable",
+        "AlarmTime"
+      ],
+      "p": [
+        1.9,
+        -2.9,
+        "  +17suffix",
+        "-19"
+      ],
+      "ack": [
+        "1",
+        "-2",
+        "  +17suffix",
+        "-19"
+      ],
+      "cols": [
+        "WorkState",
+        "AlarmCancel",
+        "AlarmTmrEnable",
+        "AlarmTime"
+      ],
+      "dat": [
+        1,
+        -2,
+        17,
+        -19
+      ]
+    },
+    {
+      "opt": [
+        "AlarmTime",
+        "WorkState"
+      ],
+      "p": [
+        "1e3",
+        1000.0
+      ],
+      "ack": [
+        "1e3",
+        "1000"
+      ],
+      "cols": [
+        "AlarmTime",
+        "WorkState"
+      ],
+      "dat": [
+        1,
+        1000
+      ]
+    }
+  ],
+  "metadata": {
+    "cols": [
+      "host",
+      "name",
+      "rssi",
+      "hid",
+      "InHid",
+      "OEEPHid",
+      "AllErr",
+      "TemSen",
+      "mid",
+      "lock"
+    ],
+    "dat": [
+      "ts.dis.gree.com",
+      "alarm-board",
+      "",
+      "362001062978+U-MSTWB801AV1.01.bin",
+      "",
+      "",
+      "",
+      0,
+      0,
+      0
+    ]
+  },
+  "safe_policy": {
+    "batch_limit": 64,
+    "empty_batches": "reject",
+    "bool_null_containers": "reject atomically instead of skipped native array slots",
+    "overflowing_atoi_string": "reject; no portable native overflow result",
+    "wrong_target": "reject; source parses but does not compare target",
+    "padding": "strict PKCS7 unlike source unchecked last-byte subtraction",
+    "duplicate_json_members": "reject unlike native cJSON lookup",
+    "synthetic_initial_values": [
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "physical_alarm_actions": "none",
+    "numeric_overflow": "reject outside signed32 rather than asserting unqualified cJSON cast overflow",
+    "initial_values_qualification": "Source initializer40102be8 setsfourcanonicalcells[1,0,0,0]; PowandWorkStatealiasfirstcell, not independentfields.",
+    "lifecycle": "restart/reset noACK, source delaysRTOS ticks and hbok180000ticks; model usesexplicit1ms synthetic tick until native tickrate qualified. Restart keeps sessionkey; reset deterministicSHA256->12bytes->base64 replaces source randomentropy. TM validatescalendar but doesnotassignrequestedclock (sourceconversionreturn discarded), status time remainsunknown0. OTA externalHTTP/flash rejected withoutfakeACK."
+  },
+  "aliases": {
+    "WorkState": "Pow"
+  }
+}

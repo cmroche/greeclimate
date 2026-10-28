@@ -1,0 +1,125 @@
+{
+  "profile": "sim-w05sa-v1.28",
+  "mid": "50",
+  "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+  "evidence": {
+    "table": "0x100078fc, numeric slots0..444, first-match NoD slot27",
+    "get": "0x0805f124",
+    "set": "0x0805f3f2 STRH; ACK built before0x0805d0fe energy clamp",
+    "metadata": "0x0805ef82 actual11 getters; recognized remaining footer names produce cols without dat",
+    "provenance": "private CatalogQuirks/RealtekEarly/zone-exports/aae6c0782b8d"
+  },
+  "device": {
+    "id": "zones",
+    "mac": "020000000001",
+    "name": "Zones",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Demand",
+          "ErVavle",
+          "NoD",
+          "StTem2"
+        ],
+        "p": [
+          -1,
+          65536,
+          511,
+          24
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Demand",
+          "ErVavle",
+          "NoD",
+          "StTem2",
+          "TemSen",
+          "hid",
+          "model"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {"t": "pack", "i": 0, "uid": 7, "cid": "020000000001", "tcid": "app"},
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Demand",
+            "ErVavle",
+            "NoD",
+            "StTem2"
+          ],
+          "p": [
+            65535,
+            0,
+            511,
+            24
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {"t": "pack", "i": 0, "uid": 7, "cid": "020000000001", "tcid": "app"},
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Demand",
+            "ErVavle",
+            "NoD",
+            "StTem2",
+            "hid",
+            "model"
+          ],
+          "dat": [
+            65535,
+            0,
+            511,
+            24,
+            "362001062617+U-W05SAV1.28.bin"
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Demand": 65535,
+    "ErVavle": 0,
+    "NoD": 511,
+    "StTem2": 24
+  }
+}

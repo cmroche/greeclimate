@@ -1,0 +1,367 @@
+{
+  "profile": "sim-hi3861-v113-heater",
+  "mid": "828a00",
+  "mids": [
+    "828a00",
+    "828a01",
+    "828a02",
+    "828a03",
+    "828a04",
+    "828a05"
+  ],
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789AbCdEf"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh",
+      "provenance": "translated normal wire"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "hid",
+          "ver",
+          "bc",
+          "mid",
+          "vender",
+          "host",
+          "time",
+          "rssi",
+          "ReportClientID",
+          "AppTimer",
+          "BuzzerCtrl"
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "translated getter values with explicit synthetic time/RSSI input"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "SetTemp",
+          "FanLevel",
+          "EnvTemp"
+        ],
+        "p": [
+          1,
+          257,
+          258,
+          999
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "source requested ACK, not physical board completion"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "Pow",
+          "SetTemp",
+          "FanLevel",
+          "EnvTemp"
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "chosen immediate synthetic boardecho; NOT source-original received-report timing"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "828a00",
+          "model": "gree",
+          "name": "",
+          "lock": 0,
+          "series": "gree",
+          "vender": "1",
+          "ver": "V3.0.0"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789AbCdEf"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "362001063856+U-Hi3861-OldV1.13.bin",
+            "V3.0.0",
+            "67726565",
+            "",
+            "",
+            "dis.gree.com",
+            "2026-01-01 00:00:00",
+            -50,
+            0,
+            0,
+            0
+          ],
+          "cols": [
+            "hid",
+            "ver",
+            "bc",
+            "mid",
+            "vender",
+            "host",
+            "time",
+            "rssi",
+            "ReportClientID",
+            "AppTimer",
+            "BuzzerCtrl"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            257,
+            258,
+            999
+          ],
+          "opt": [
+            "Pow",
+            "SetTemp",
+            "FanLevel",
+            "EnvTemp"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            1,
+            1,
+            2,
+            0
+          ],
+          "cols": [
+            "Pow",
+            "SetTemp",
+            "FanLevel",
+            "EnvTemp"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Humidification": 0,
+    "Swing": 0,
+    "ChildLock": 0,
+    "HeatLevel": 0,
+    "SetTemp": 1,
+    "EnvTemp": 0,
+    "WorkTimeHour": 0,
+    "WorkTimeSec": 0,
+    "RealHeatLevel": 0,
+    "FanLevel": 2,
+    "HeatMode": 0,
+    "TmrOn": 0,
+    "TmrAction": 0,
+    "TmrHour": 0,
+    "TmrMin": 0,
+    "estate": 0,
+    "estate2": 0,
+    "estate3": 0,
+    "JFerr": 0,
+    "MidType": 0
+  },
+  "source_columns": [
+    "Pow",
+    "Humidification",
+    "Swing",
+    "ChildLock",
+    "HeatLevel",
+    "SetTemp",
+    "EnvTemp",
+    "WorkTimeHour",
+    "WorkTimeSec",
+    "RealHeatLevel",
+    "FanLevel",
+    "HeatMode",
+    "TmrOn",
+    "TmrAction",
+    "TmrHour",
+    "TmrMin",
+    "estate",
+    "estate2",
+    "estate3",
+    "JFerr",
+    "MidType"
+  ],
+  "startup_dat": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "raw_report_vector": {
+    "flags": [
+      146,
+      147,
+      148,
+      149
+    ],
+    "bytes_hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "midtype": 9,
+    "error_flags": [
+      64,
+      16
+    ],
+    "expected_dat": [
+      1,
+      0,
+      1,
+      0,
+      5,
+      165,
+      165,
+      165,
+      165,
+      165,
+      165,
+      165,
+      1,
+      1,
+      5,
+      37,
+      165,
+      165,
+      165,
+      3,
+      9
+    ],
+    "provenance": "independent descriptor/endian/mask derivation from evidence.json over explicitly supplied raw report bytes; not calibrated hardware"
+  }
+}

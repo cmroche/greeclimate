@@ -1,0 +1,583 @@
+{
+  "profile": "sim-w06dv-v3.02",
+  "mid": "3018",
+  "source_sha256": "0deb40c2057cdd348e98194ecf9bfae70dfdd190204d7235ef6376e0146ff25b",
+  "evidence": {
+    "source": "session-qca_research.json:0deb40c2057c; scan/bind/parse_status/parse_command/encrypted-envelope and exact ROM AES/PKCS7 substitution boundary.",
+    "independence": "Source shapes from bounded byte-asserted Xtensa probes; literal existing sensorless simulator contract controls/final state. No emulator/client-derived expectations.",
+    "model_policy": "DV3.02 discovery omits HID; requested status returns its initialized full HID. Raw cache defaults, disconnected epoch clock, strict types and atomic rejection are synthetic policy."
+  },
+  "device": {
+    "id": "controller",
+    "mac": "020000000001",
+    "name": "Lab Controller",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "Unknown",
+          "TemSen",
+          "TemBody",
+          "TemSor"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "SetTem",
+          "TemUn",
+          "TemRec"
+        ],
+        "p": [
+          1,
+          4,
+          22,
+          25,
+          1,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "SetTem",
+          "Pow",
+          "Mod",
+          "TemUn",
+          "TemRec",
+          "SetTem",
+          "mid",
+          "hid",
+          "name"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "Quiet"
+        ],
+        "p": [
+          0,
+          2
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": []
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "000000000000",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "fedcba9876543210"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000099"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "BuzzerCtrl"
+        ],
+        "p": [
+          0,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow"
+        ],
+        "p": []
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "hid",
+          "TemBody",
+          "Unknown",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "3018",
+          "model": "gree",
+          "name": "Lab Controller",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V1.0.0.0",
+          "lock": 0
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "Pow",
+            "SetTem",
+            "TemSor"
+          ],
+          "dat": [
+            0,
+            24,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "SetTem",
+            "TemUn",
+            "TemRec"
+          ],
+          "p": [
+            1,
+            4,
+            22,
+            25,
+            1,
+            1
+          ],
+          "val": [
+            1,
+            4,
+            22,
+            25,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "SetTem",
+            "Pow",
+            "Mod",
+            "TemUn",
+            "TemRec",
+            "SetTem",
+            "mid",
+            "hid",
+            "name"
+          ],
+          "dat": [
+            25,
+            1,
+            4,
+            1,
+            1,
+            25,
+            "3018",
+            "362001067592+U-W06DV3.02.bin",
+            "Lab Controller"
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [],
+          "dat": []
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [],
+          "dat": []
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "Pow",
+            "hid",
+            "Pow"
+          ],
+          "dat": [
+            1,
+            "362001067592+U-W06DV3.02.bin",
+            1
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Blo": 0,
+    "SwhSlp": 0,
+    "Air": 0,
+    "SvSt": 0,
+    "Quiet": 0,
+    "Tur": 0,
+    "Mod": 4,
+    "SetTem": 25,
+    "WdSpd": 0,
+    "SwUpDn": 0,
+    "SwingLfRig": 0,
+    "TemUn": 1,
+    "TemRec": 1,
+    "HeatCoolType": 0,
+    "AllErr": 0,
+    "HeatSvStTemMax": 0,
+    "CoolSvStTemMin": 0,
+    "TemRecH": 0,
+    "TemRecC": 0,
+    "SlpMod": 0
+  }
+}

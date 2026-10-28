@@ -1,0 +1,819 @@
+{
+  "schema_version": 1,
+  "qualification": "Literal outputs copied from original snapshot-diagnostic-map2-results.json, not emulator-derived; serial cache/readout defaults deliberately chosen from synthetic frame input. Timer readout cache defaults zero separately.",
+  "mac": "020000000001",
+  "session_key": "0123456789abcdef",
+  "sources": [
+    {
+      "sha256": "94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+      "snapshot_entry": "0x8053aa8",
+      "vectors": [
+        {
+          "mid": "828140",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "Pow": 0,
+            "Mode": 0,
+            "Wspd": 1,
+            "Light": 2,
+            "AirChildLock": 1,
+            "RefreshWater": 1,
+            "PM25": 1543,
+            "PM25Level": 6,
+            "FiltUPercent": 10,
+            "ReplaceFilter": 0,
+            "SetHumidity": 13,
+            "EnvHumidity": 14,
+            "estate": 0,
+            "estate1": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 214
+        },
+        {
+          "mid": "828140",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "TmrOn": 0,
+            "TmrAction": 0,
+            "TmrHour": 0,
+            "TmrMin": 1,
+            "estate": 0,
+            "estate1": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 95
+        },
+        {
+          "mid": "828200",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828200",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828202",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828202",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828203",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828203",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828401",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828401",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828402",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828402",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828900",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828900",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828a04",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "Pow": 0,
+            "AirChildLock": 0,
+            "SetTemp": 1,
+            "HeatMod": 7,
+            "TemEnv": 2,
+            "TimeWork": 184,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "JFerr": 0
+          },
+          "native_return_u32": 121
+        },
+        {
+          "mid": "828a04",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "TimeStart": 0,
+            "TmrAction": 0,
+            "TmrHour": 0,
+            "TmrMin": 1,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "JFerr": 0
+          },
+          "native_return_u32": 97
+        }
+      ]
+    },
+    {
+      "sha256": "ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b",
+      "snapshot_entry": "0x8050918",
+      "vectors": [
+        {
+          "mid": "828140",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "Pow": 0,
+            "Mode": 0,
+            "Wspd": 1,
+            "Light": 2,
+            "AirChildLock": 1,
+            "RefreshWater": 1,
+            "PM25": 1543,
+            "PM25Level": 6,
+            "FiltUPercent": 10,
+            "ReplaceFilter": 0,
+            "SetHumidity": 13,
+            "EnvHumidity": 14,
+            "estate": 0,
+            "estate1": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 214
+        },
+        {
+          "mid": "828140",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "TmrOn": 0,
+            "TmrAction": 0,
+            "TmrHour": 0,
+            "TmrMin": 1,
+            "estate": 0,
+            "estate1": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 95
+        },
+        {
+          "mid": "828200",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828200",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828202",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828202",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828203",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828203",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828401",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828401",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828402",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828402",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828900",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828900",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828a04",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "Pow": 0,
+            "AirChildLock": 0,
+            "SetTemp": 1,
+            "HeatMod": 7,
+            "TemEnv": 2,
+            "TimeWork": 184,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 111
+        },
+        {
+          "mid": "828a04",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "TimeStart": 0,
+            "TmrAction": 0,
+            "TmrHour": 0,
+            "TmrMin": 1,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 87
+        }
+      ]
+    },
+    {
+      "sha256": "3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9",
+      "snapshot_entry": "0x8052078",
+      "vectors": [
+        {
+          "mid": "828140",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "Pow": 0,
+            "Mode": 0,
+            "Wspd": 1,
+            "Light": 2,
+            "AirChildLock": 1,
+            "RefreshWater": 1,
+            "PM25": 1543,
+            "PM25Level": 6,
+            "FiltUPercent": 10,
+            "ReplaceFilter": 0,
+            "SetHumidity": 13,
+            "EnvHumidity": 14,
+            "estate": 0,
+            "estate1": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 214
+        },
+        {
+          "mid": "828140",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "TmrOn": 0,
+            "TmrAction": 0,
+            "TmrHour": 0,
+            "TmrMin": 1,
+            "estate": 0,
+            "estate1": 0,
+            "estate2": 0,
+            "estate3": 0
+          },
+          "native_return_u32": 95
+        },
+        {
+          "mid": "828200",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828200",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828202",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828202",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828203",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828203",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828401",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828401",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828402",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828402",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "mode": 0,
+            "Pow": 0,
+            "Lig": 0,
+            "StTmr": 62,
+            "TmrOn": 0,
+            "TmrEn": 0,
+            "ModeTmr": 550,
+            "SchTmr": 184,
+            "SchOnOff": 0,
+            "SchEn": 0,
+            "Rice": 5,
+            "Textre": 0,
+            "Prsure": 0,
+            "sealve": 6,
+            "KpTpTmr": 428,
+            "KpTpOnOFF": 0,
+            "KpTpEn": 0,
+            "StpRic": 11,
+            "Volt": 3085,
+            "ElcP": 14,
+            "TmpUp": 15,
+            "TmpDn": 16,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "estate4": 0
+          },
+          "native_return_u32": 291
+        },
+        {
+          "mid": "828900",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828900",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": null,
+          "native_return_u32": 4294967295
+        },
+        {
+          "mid": "828a04",
+          "serial_input": "7e7e1c94000102030405060708090a0b0c0d0e0f101112131415161718c00000",
+          "literal_snapshot": {
+            "Pow": 0,
+            "AirChildLock": 0,
+            "SetTemp": 1,
+            "HeatMod": 7,
+            "TemEnv": 2,
+            "TimeWork": 184,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "JFerr": 0
+          },
+          "native_return_u32": 121
+        },
+        {
+          "mid": "828a04",
+          "serial_input": "7e7e1c93000102030405060708090a0b0c0d0e0f101112131415161718bf0000",
+          "literal_snapshot": {
+            "TimeStart": 0,
+            "TmrAction": 0,
+            "TmrHour": 0,
+            "TmrMin": 1,
+            "estate": 0,
+            "estate2": 0,
+            "estate3": 0,
+            "JFerr": 0
+          },
+          "native_return_u32": 97
+        }
+      ]
+    }
+  ],
+  "surver_vectors": [
+    {
+      "source_sha256": "94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+      "mid": "828140",
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "CEhzUX0zTasZ5GMlfxHXhw=="
+      },
+      "literal_complete_reply_hex": "7b2274223a227061636b222c2269223a312c22756964223a34322c22636964223a22303230303030303030303031222c2274636964223a22617070222c227061636b223a22394c64795753332f6d476133694738345962586452774c3362477777356f76386c684845547a366d43512f68492b3031446f5775663164664d31664f526f30575234626457563155326a733941645043354b4c6d5a413d3d227d",
+      "literal_decrypted_inner_hex": "212165794941414149414141414141575679496e304141674941414141414151414141414141414141414141446941514541414141410a"
+    },
+    {
+      "source_sha256": "ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b",
+      "mid": "828140",
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "CEhzUX0zTasZ5GMlfxHXhw=="
+      },
+      "literal_complete_reply_hex": "7b2274223a227061636b222c2269223a312c22756964223a34322c22636964223a22303230303030303030303031222c2274636964223a22617070222c227061636b223a22394c64795753332f6d476133694738345962586452774c3362477777356f76386c684845547a366d43512f68492b3031446f5775663164664d31664f526f30575234626457563155326a733941645043354b4c6d5a413d3d227d",
+      "literal_decrypted_inner_hex": "212165794941414149414141414141575679496e304141674941414141414151414141414141414141414141446941514541414141410a"
+    },
+    {
+      "source_sha256": "3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9",
+      "mid": "828140",
+      "request_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "CEhzUX0zTasZ5GMlfxHXhw=="
+      },
+      "literal_complete_reply_hex": "7b2274223a227061636b222c2269223a312c22756964223a34322c22636964223a22303230303030303030303031222c2274636964223a22617070222c227061636b223a22394c64795753332f6d476133694738345962586452774c3362477777356f76386c684845547a366d43512f68492b3031446f5775663164664d31664f526f30575234626457563155326a733941645043354b4c6d5a413d3d227d",
+      "literal_decrypted_inner_hex": "212165794941414149414141414141575679496e304141674941414141414151414141414141414141414141446941514541414141410a"
+    }
+  ],
+  "surver_qualification": "Original UDP dispatcher -> registered SDK9 callback -> original RTC status0 and AES negative-length return0 -> original !!+base64(header39)+LF -> original outer AES pack i1 -> UDP sendto. Only SDK ROM AES ECB primitives use software AES; OS/NIC boundaries adapted. Not bare UDP or physical AES."
+}

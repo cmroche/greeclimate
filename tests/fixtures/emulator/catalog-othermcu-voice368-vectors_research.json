@@ -1,0 +1,243 @@
+{
+  "profile": "sim-is-t3bbw03-v3.68",
+  "source_sha256": "633ddc7cf1f64c7d02faba8e7dd614dc20b0d1c4549bb7d0b4c86eabff8130b7",
+  "hid": "362001062573+IS-T3BBW03V3.68.img",
+  "mac": "020000000368",
+  "key": "0123456789abcdef",
+  "mid": "80222",
+  "advertisement": {
+    "t": "dev",
+    "cid": "",
+    "bc": "gree",
+    "catalog": "gree",
+    "mid": "80222",
+    "lock": 0,
+    "model": "gree",
+    "name": "voice368",
+    "series": "gree",
+    "vender": "2",
+    "ver": "V1.2.1",
+    "brand": "gree",
+    "mac": "020000000368"
+  },
+  "initial_getters": {
+    "Pow": [
+      0
+    ],
+    "Mod": [
+      1
+    ],
+    "SwhSlp": [
+      0
+    ],
+    "SwhSw": [
+      0
+    ],
+    "WdSpd": [
+      1
+    ],
+    "SetTem": [
+      26
+    ],
+    "Blo": [
+      0
+    ],
+    "Health": [
+      0
+    ],
+    "Lig": [
+      1
+    ],
+    "TemUn": [
+      0
+    ],
+    "TemRec": [
+      0
+    ],
+    "Air": [
+      0
+    ],
+    "SwUpDn": [
+      0
+    ],
+    "SwingLfRig": [
+      0
+    ],
+    "SvSt": [
+      0
+    ],
+    "StHt": [
+      0
+    ],
+    "Intellblo1": [
+      0
+    ],
+    "AirOpen": [
+      0
+    ],
+    "SlpMod": [
+      0
+    ],
+    "Tur": [
+      0
+    ],
+    "Quiet": [
+      0
+    ],
+    "VoltErr": [
+      0
+    ],
+    "CurrErr": [
+      0
+    ],
+    "PowerErr": [
+      0
+    ],
+    "RelayErr": [
+      0
+    ],
+    "ACCntlrShape": [
+      0
+    ],
+    "AppTimer": [
+      0
+    ],
+    "RealTimePower": [
+      0
+    ],
+    "Savpow": [
+      0
+    ],
+    "ProTimePow": [
+      0
+    ],
+    "ProTimeLen": [
+      0
+    ],
+    "ProTimeReminder": [
+      0
+    ],
+    "SendButton": [
+      0
+    ],
+    "AddButton": [
+      0
+    ],
+    "DelButton": [
+      0
+    ],
+    "Studied": [
+      0
+    ],
+    "ConBtnNum": [
+      0
+    ],
+    "ConBtnName": [
+      0
+    ],
+    "RefBtnList": [
+      [],
+      []
+    ],
+    "Electnumzero": [
+      0
+    ],
+    "hid": [
+      "362001062573+IS-T3BBW03V3.68.img"
+    ],
+    "time": [
+      "1970-01-01 00:00:00"
+    ],
+    "MidType": [
+      0
+    ],
+    "VoiceVolume": [
+      0
+    ],
+    "VoiceGate": [
+      0
+    ]
+  },
+  "commands": [
+    {
+      "opt": [
+        "Pow",
+        "Quiet",
+        "WdSpd",
+        "SwUpDn"
+      ],
+      "p": [
+        1,
+        2,
+        6,
+        3
+      ],
+      "expected_ack_p": [
+        1,
+        2,
+        6,
+        3
+      ],
+      "fresh_cols": [
+        "Pow",
+        "Quiet",
+        "Tur",
+        "SwhSw",
+        "WdSpd",
+        "SwUpDn"
+      ],
+      "fresh_dat": [
+        1,
+        0,
+        1,
+        1,
+        6,
+        3
+      ]
+    },
+    {
+      "opt": [
+        "SetTem",
+        "Mod"
+      ],
+      "p": [
+        65536,
+        -1
+      ],
+      "expected_ack_p": [
+        0,
+        65535
+      ],
+      "fresh_cols": [
+        "SetTem",
+        "Mod",
+        "TemSen",
+        "Buzzer_ON_OFF"
+      ],
+      "fresh_dat": [
+        0,
+        65535
+      ]
+    },
+    {
+      "opt": [
+        "DelButton"
+      ],
+      "p": [
+        []
+      ],
+      "expected_ack_p": [
+        26
+      ],
+      "fresh_cols": [
+        "DelButton",
+        "RefBtnList"
+      ],
+      "fresh_dat": [
+        0,
+        [],
+        []
+      ]
+    }
+  ]
+}

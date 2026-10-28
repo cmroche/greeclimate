@@ -1,0 +1,638 @@
+{
+  "profile": "sim-w06a-p3-v5.08-9300",
+  "mid": "9300",
+  "source_sha256": "07cfbe377aadee70b1bf4576bdd3a4013f7b2d4b014e9757ec036bc1dbcfe1fb",
+  "evidence": {
+    "source": "session-qca_research.json:07cfbe377aad; scan/bind/parse_status/parse_command/encrypted-envelope; heater namespace selected separately for9300/9301/9302.",
+    "independence": "Recorded source probe outputs plus literal existing role-specific model policy; never expected values computed by emulator/client.",
+    "model_policy": "Initialized HID is full source label; discovery omits hid. Independent ModelType starts empty, actual initialized ver isV5.0.0.0 and host dis.gree.com. Configured name, selected-medium thermal pairs, epoch clock and disconnected Wi-Fi are synthetic. Other report words and staged controls start at zero. Emegcy staging and report are separate. Strict whole-batch validation is safe model policy."
+  },
+  "device": {
+    "room_c": 26,
+    "ambient_c": 26
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "unknown",
+          "HeWatOutTemSet",
+          "Pow",
+          "RmoHomTemHi",
+          "RmoHomTemLo",
+          "AllErr",
+          "EnvironmentTem",
+          "FlagPool"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "HeWatOutTemSet",
+          "Pow"
+        ],
+        "p": [
+          1,
+          40,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "HeWatOutTemSet",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "RmoHomTemHi"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 17,
+        "cid": "research-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "hid",
+          "ModelType",
+          "ver",
+          "Pow",
+          "unknown",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "fedcba9876543210"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000099"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow"
+        ],
+        "p": []
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "BuzzerCtrl"
+        ],
+        "p": [
+          1,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "9300",
+          "ModelType": "",
+          "model": "gree",
+          "name": "Emulator Office",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V5.0.0.0",
+          "lock": 0
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "Pow",
+            "HeWatOutTemSet",
+            "Pow",
+            "RmoHomTemHi",
+            "RmoHomTemLo",
+            "AllErr",
+            "EnvironmentTem"
+          ],
+          "dat": [
+            0,
+            35,
+            0,
+            126,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "HeWatOutTemSet",
+            "Pow"
+          ],
+          "p": [
+            1,
+            40,
+            0
+          ],
+          "val": [
+            1,
+            40,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "Pow",
+            "HeWatOutTemSet",
+            "Pow"
+          ],
+          "dat": [
+            0,
+            40,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 17,
+          "cid": "020000000001",
+          "tcid": "research-peer"
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "hid",
+            "ModelType",
+            "ver",
+            "Pow",
+            "Pow"
+          ],
+          "dat": [
+            "362001066763+W06A(P3)V5.08.bin",
+            "",
+            "V5.0.0.0",
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [],
+          "dat": []
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "020000000001",
+          "cols": [
+            "Pow",
+            "Pow"
+          ],
+          "dat": [
+            0,
+            0
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "FastHtWter": 0,
+    "ColHtWter": 0,
+    "HetHtWter": 0,
+    "SvSt": 0,
+    "Quiet": 0,
+    "Emegcy": 0,
+    "LefHom": 0,
+    "SwDisFct": 0,
+    "Reset": 0,
+    "AllErr": 0,
+    "TemRec": 0,
+    "TemRecB": 0,
+    "Pow": 0,
+    "TemUn": 0,
+    "Mod": 1,
+    "CoWatOutTemSet": 18,
+    "HeWatOutTemSet": 40,
+    "WatBoxTemSet": 50,
+    "CoHomTemSet": 24,
+    "HeHomTemSet": 24,
+    "RmoHomTemHi": 126,
+    "RmoHomTemLo": 0
+  }
+}

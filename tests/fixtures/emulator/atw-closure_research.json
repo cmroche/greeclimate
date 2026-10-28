@@ -1,0 +1,1574 @@
+{
+  "schema_version": 1,
+  "qualification": "All6 exact source namespaces closed:1502 network records (first250 byte-identical),1026 source-byte-asserted instruction-translation cases PASS:732 primary setters,24 D-info producers,264 alternate setters/reports,5 native response builders and1 complete legacy credential parser-to-ACK case. Remaining metadata/timer/URL-acceptance parser schema is exact-source-static. Not nativeCPU/fullboot or calibrated hardware.",
+  "bounded_namespace": {
+    "network": "250records/244unique names for98931/07cf/b15e/8a1b;251records/245names for37ab/075e, including literal leading-space ModTmr5. Every recognized scalar, prefix/fallback and zero-cardinality metadata retained.",
+    "primary": "20/21 controls,25 unsigned16 report words,35 metadata names. Emegcy getter independent of control slot6.",
+    "alternate": "Native D-info producer qualifies runtime806004. Separate roomless raw presets:10controls,15unsigned16/bit report words, same source network table; no sameMID union or AC typing.",
+    "local_dispatch": [
+      "bind",
+      "status",
+      "cmd",
+      "setT",
+      "updateT",
+      "queryT",
+      "deleteT",
+      "upgrade"
+    ],
+    "model_boundary": "Synthetic report/clock/cache state, safe strict atomic parser and memory-only timers/OTA-URL acceptance. No fullboot, measured physics, automatic timer execution, transfer or flash completion claim.",
+    "metadata_by_source": {
+      "98931d02d022bb4c435c7202bbae71a0b987ca1b1a06a08e592701c93ba4b647": [
+        "name",
+        "lock",
+        "time",
+        "apssid",
+        "appsw"
+      ],
+      "07cfbe377aadee70b1bf4576bdd3a4013f7b2d4b014e9757ec036bc1dbcfe1fb": [
+        "name",
+        "lock",
+        "time",
+        "apssid",
+        "appsw"
+      ],
+      "b15e7350fbc3699e1fbb48a66423a23ffc6f4e69854a0f2f36d886fe117c5c2a": [
+        "name",
+        "lock",
+        "time"
+      ],
+      "37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a": [
+        "name",
+        "lock",
+        "time"
+      ],
+      "075e1090f8df33a5699af9812d1ac6fe5a76334b7cbaf59c051c5df8cdd8cca8": [
+        "name",
+        "lock",
+        "time"
+      ],
+      "8a1b2de448c789172809e5ee2610c1e47fc938d6242ac36596bc4a0da109b6b6": [
+        "name",
+        "lock",
+        "time"
+      ]
+    }
+  },
+  "firmwares": [
+    {
+      "source_sha256": "98931d02d022bb4c435c7202bbae71a0b987ca1b1a06a08e592701c93ba4b647",
+      "hid": "362001066763+W06A(P3)V5.07.bin",
+      "runtime_ver": "V5.0.0.0",
+      "initializer": "0xa0dda8",
+      "profile_prefix": "sim-w06a-p3-v5.07-",
+      "alternate_profile": "sim-w06a-p3-v5.07-raw-806004",
+      "metadata_credentials_writable": true,
+      "has_evu": false,
+      "discovery_hid": false,
+      "controls": [
+        "FastHtWter",
+        "ColHtWter",
+        "HetHtWter",
+        "TemUn",
+        "SvSt",
+        "Quiet",
+        "Emegcy",
+        "LefHom",
+        "Mod",
+        "SwDisFct",
+        "CoWatOutTemSet",
+        "HeWatOutTemSet",
+        "CoHomTemSet",
+        "HeHomTemSet",
+        "WatBoxTemSet",
+        "Reset",
+        "AllErr",
+        "Pow",
+        "TemRec",
+        "TemRecB"
+      ],
+      "staged_status_vector": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "source_evidence": "CatalogQuirks/Xtensa/source-contracts.json#98931d02d022bb4c435c7202bbae71a0b987ca1b1a06a08e592701c93ba4b647; Xtensa-1/98931d02d022/descriptor-tables-linked.json and descriptor-probes-raw-aware.json",
+      "assessment_status": "lan_qualified",
+      "property_coverage": {
+        "network_table": {
+          "base": "0x4469e0",
+          "records": 250,
+          "stride": 35,
+          "unique_names": 244,
+          "first250_records_sha256": "007979aa1b82f2c3e015e1d106c6d7d9ecef79d9e9fcb79a4e30be9ea868120d"
+        },
+        "closure": {
+          "status_complete": true,
+          "control_complete": true,
+          "sensor_complete": true,
+          "metadata_complete": true,
+          "local_operations": [
+            "bind",
+            "status",
+            "cmd",
+            "setT",
+            "updateT",
+            "queryT",
+            "deleteT",
+            "upgrade"
+          ],
+          "primary_controls": [
+            "FastHtWter",
+            "ColHtWter",
+            "HetHtWter",
+            "TemUn",
+            "SvSt",
+            "Quiet",
+            "Emegcy",
+            "LefHom",
+            "Mod",
+            "SwDisFct",
+            "CoWatOutTemSet",
+            "HeWatOutTemSet",
+            "CoHomTemSet",
+            "HeHomTemSet",
+            "WatBoxTemSet",
+            "Reset",
+            "AllErr",
+            "Pow",
+            "TemRec",
+            "TemRecB"
+          ],
+          "primary_sensor_count": 25,
+          "alternate_controls": [
+            "SvSt",
+            "Quiet",
+            "LefHom",
+            "Mod",
+            "Pow",
+            "HeWatOutTemSet",
+            "HeWatOutTemSetFloor",
+            "CoWatOutTemSet",
+            "Reset",
+            "FactoryTest"
+          ],
+          "alternate_sensor_count": 15,
+          "timer_selector_count": 24,
+          "metadata_setter_names": [
+            "name",
+            "lock",
+            "time",
+            "apssid",
+            "appsw"
+          ]
+        },
+        "evidence": "Source-static complete network tables/dispatch and initialized metadata; source-byte-asserted native-instruction translations for732 primary setter cases,24 D-info cases,264 alternate setter/report cases. Known prefix/fallback numeric outputs retained with explicit synthetic0; not calibration-derived omissions.",
+        "unresolved_local_routes": []
+      },
+      "mid_roles": {
+        "9300/9301/9302": "Mainboard category-selected runtime values, not compiled fixed MID",
+        "806004": "Actual D-info producer executes uint32LE0x806004 -> sprintf(%x) -> emitted806004. Configured/runtime raw-only branch with10controls/15reports; no AC typing.",
+        "width": "D-info MID unpadded lowercasehex1..8characters; no leading-zero preservation/filename inference or sameMID namespace union."
+      },
+      "local_operations": {
+        "metadata_mutations": [
+          "name",
+          "lock",
+          "time",
+          "apssid",
+          "appsw"
+        ],
+        "timer": "10slots,setT/updateT/queryT/deleteT. Source query repeats sameindex and emitsone listT,totalconstant10. Seven uint32week entries; responsecommandoptPow and unsigned32p; source separate24-name timer selector. Strict atomic memory model; no automatic execution/flash persistence.",
+        "upgrade": "Source-local URL acceptance queues <=159byte URL+pending and emits genericret/r200/mac before transfer/flash. No downloader, validation or firmware-flash completion claim."
+      },
+      "quirks": {
+        "temperature_offset": {
+          "decision": "no_change",
+          "reason": "Raw Hi/Lo bytes and unsigned16 alternate words are source-defined; physical scalar calibration/units not established. Synthetic thermal100bias is explicit model policy, not source-offset proof."
+        },
+        "relearn_temperature_offset": {
+          "decision": "no_change",
+          "reason": "No measured initialization/update-dependent calibration evidence; raw integer encodings remain explicit."
+        },
+        "buzzer_properties": {
+          "decision": "retain_existing_empty_tuple",
+          "value": [],
+          "scope": "Complete finite local network+raw selectors have no buzzer property or hidden general property-forwarding fallback."
+        },
+        "cooling_mode_value": {
+          "decision": "no_change",
+          "reason": "Mod unsigned byte staging alone does not prove physical meaning. Do not add Q11 or806004 AC cooling traits; preserve independently reported existing P3 client rule."
+        },
+        "capabilities": {
+          "decision": "no_new_typed_overrides",
+          "reason": "Full raw readout availability, including stationary prefix values, is not proof of physical components/calibrated sensors.9302 polling preset mismatch is not permission to forge its pool fields."
+        },
+        "gateway_dialect": {
+          "decision": "no_change",
+          "reason": "No LAN child enumeration among8 exact inner operations; root runtime identity is board supplied, not gateway/child inference."
+        }
+      },
+      "unknowns": [
+        "Physical mainboard initialization/calibration and optional component meaning remain unknown; all established getter serializers still have declared synthetic readout.",
+        "External transfer/flash completion and automatic timer firing are not implied by local source acceptance ACKs."
+      ],
+      "blockers": [],
+      "emulator_gap": {
+        "status": "implemented",
+        "profile_ids": [
+          "sim-w06a-p3-v5.07-9300",
+          "sim-w06a-p3-v5.07-9301",
+          "sim-w06a-p3-v5.07-9302",
+          "sim-w06a-p3-v5.07-raw-806004"
+        ],
+        "closed_unique_property_names": 244,
+        "deviations": [
+          "strict whole-batch validation before clock/mutation",
+          "stationary synthetic0 for source-recognized prefix/fallback scalar reads, never omission",
+          "selected thermal pairs, held other sensor/metadata readouts and canonical synthetic clock instead of calibrated hardware",
+          "safe name79/AP31/timer-name31 byte bounds instead of native overflow paths",
+          "per-device memory timer lifecycle; local URL queue acceptance, not automatic timers or transfer/flash completion"
+        ]
+      },
+      "evidence": {
+        "source_contract": "CatalogQuirks/Xtensa/source-contracts.json#98931d02d022bb4c435c7202bbae71a0b987ca1b1a06a08e592701c93ba4b647",
+        "source_export": "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/Xtensa-1/98931d02d022/decompiled.c",
+        "namespace_export": "atw-namespace-export.json",
+        "table_hashes": "atw-network-table-hashes.json",
+        "primary_cases": "atw-closure-probes.json",
+        "mid_producer": "atw-mid-probes-fixed.json",
+        "alternate_cases": "atw-alternate-probes.json",
+        "metadata_timer_upgrade_builders": "atw-builders-probes.json",
+        "metadata_credential_mutation": "atw-credential-probes.json for07cf; exact original C index17/18 branches retained for eachsource",
+        "implementation": "gree_emulator/profiles/atw.py",
+        "tests": [
+          "tests/test_emulator_atw.py",
+          "tests/test_emulator_atw_closure.py"
+        ],
+        "fixtures": [
+          "tests/fixtures/emulator/atw-closure_research.json",
+          "tests/fixtures/emulator/atw-namespace_research.json"
+        ]
+      }
+    },
+    {
+      "source_sha256": "07cfbe377aadee70b1bf4576bdd3a4013f7b2d4b014e9757ec036bc1dbcfe1fb",
+      "hid": "362001066763+W06A(P3)V5.08.bin",
+      "runtime_ver": "V5.0.0.0",
+      "initializer": "0xa0dde0",
+      "profile_prefix": "sim-w06a-p3-v5.08-",
+      "alternate_profile": "sim-w06a-p3-v5.08-raw-806004",
+      "metadata_credentials_writable": true,
+      "has_evu": false,
+      "discovery_hid": false,
+      "controls": [
+        "FastHtWter",
+        "ColHtWter",
+        "HetHtWter",
+        "TemUn",
+        "SvSt",
+        "Quiet",
+        "Emegcy",
+        "LefHom",
+        "Mod",
+        "SwDisFct",
+        "CoWatOutTemSet",
+        "HeWatOutTemSet",
+        "CoHomTemSet",
+        "HeHomTemSet",
+        "WatBoxTemSet",
+        "Reset",
+        "AllErr",
+        "Pow",
+        "TemRec",
+        "TemRecB"
+      ],
+      "staged_status_vector": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "source_evidence": "CatalogQuirks/Xtensa/source-contracts.json#07cfbe377aadee70b1bf4576bdd3a4013f7b2d4b014e9757ec036bc1dbcfe1fb; Xtensa-1/07cfbe377aad/descriptor-tables-linked.json and descriptor-probes-raw-aware.json",
+      "assessment_status": "lan_qualified",
+      "property_coverage": {
+        "network_table": {
+          "base": "0x4469e0",
+          "records": 250,
+          "stride": 35,
+          "unique_names": 244,
+          "first250_records_sha256": "007979aa1b82f2c3e015e1d106c6d7d9ecef79d9e9fcb79a4e30be9ea868120d"
+        },
+        "closure": {
+          "status_complete": true,
+          "control_complete": true,
+          "sensor_complete": true,
+          "metadata_complete": true,
+          "local_operations": [
+            "bind",
+            "status",
+            "cmd",
+            "setT",
+            "updateT",
+            "queryT",
+            "deleteT",
+            "upgrade"
+          ],
+          "primary_controls": [
+            "FastHtWter",
+            "ColHtWter",
+            "HetHtWter",
+            "TemUn",
+            "SvSt",
+            "Quiet",
+            "Emegcy",
+            "LefHom",
+            "Mod",
+            "SwDisFct",
+            "CoWatOutTemSet",
+            "HeWatOutTemSet",
+            "CoHomTemSet",
+            "HeHomTemSet",
+            "WatBoxTemSet",
+            "Reset",
+            "AllErr",
+            "Pow",
+            "TemRec",
+            "TemRecB"
+          ],
+          "primary_sensor_count": 25,
+          "alternate_controls": [
+            "SvSt",
+            "Quiet",
+            "LefHom",
+            "Mod",
+            "Pow",
+            "HeWatOutTemSet",
+            "HeWatOutTemSetFloor",
+            "CoWatOutTemSet",
+            "Reset",
+            "FactoryTest"
+          ],
+          "alternate_sensor_count": 15,
+          "timer_selector_count": 24,
+          "metadata_setter_names": [
+            "name",
+            "lock",
+            "time",
+            "apssid",
+            "appsw"
+          ]
+        },
+        "evidence": "Source-static complete network tables/dispatch and initialized metadata; source-byte-asserted native-instruction translations for732 primary setter cases,24 D-info cases,264 alternate setter/report cases. Known prefix/fallback numeric outputs retained with explicit synthetic0; not calibration-derived omissions.",
+        "unresolved_local_routes": []
+      },
+      "mid_roles": {
+        "9300/9301/9302": "Mainboard category-selected runtime values, not compiled fixed MID",
+        "806004": "Actual D-info producer executes uint32LE0x806004 -> sprintf(%x) -> emitted806004. Configured/runtime raw-only branch with10controls/15reports; no AC typing.",
+        "width": "D-info MID unpadded lowercasehex1..8characters; no leading-zero preservation/filename inference or sameMID namespace union."
+      },
+      "local_operations": {
+        "metadata_mutations": [
+          "name",
+          "lock",
+          "time",
+          "apssid",
+          "appsw"
+        ],
+        "timer": "10slots,setT/updateT/queryT/deleteT. Source query repeats sameindex and emitsone listT,totalconstant10. Seven uint32week entries; responsecommandoptPow and unsigned32p; source separate24-name timer selector. Strict atomic memory model; no automatic execution/flash persistence.",
+        "upgrade": "Source-local URL acceptance queues <=159byte URL+pending and emits genericret/r200/mac before transfer/flash. No downloader, validation or firmware-flash completion claim."
+      },
+      "quirks": {
+        "temperature_offset": {
+          "decision": "no_change",
+          "reason": "Raw Hi/Lo bytes and unsigned16 alternate words are source-defined; physical scalar calibration/units not established. Synthetic thermal100bias is explicit model policy, not source-offset proof."
+        },
+        "relearn_temperature_offset": {
+          "decision": "no_change",
+          "reason": "No measured initialization/update-dependent calibration evidence; raw integer encodings remain explicit."
+        },
+        "buzzer_properties": {
+          "decision": "retain_existing_empty_tuple",
+          "value": [],
+          "scope": "Complete finite local network+raw selectors have no buzzer property or hidden general property-forwarding fallback."
+        },
+        "cooling_mode_value": {
+          "decision": "no_change",
+          "reason": "Mod unsigned byte staging alone does not prove physical meaning. Do not add Q11 or806004 AC cooling traits; preserve independently reported existing P3 client rule."
+        },
+        "capabilities": {
+          "decision": "no_new_typed_overrides",
+          "reason": "Full raw readout availability, including stationary prefix values, is not proof of physical components/calibrated sensors.9302 polling preset mismatch is not permission to forge its pool fields."
+        },
+        "gateway_dialect": {
+          "decision": "no_change",
+          "reason": "No LAN child enumeration among8 exact inner operations; root runtime identity is board supplied, not gateway/child inference."
+        }
+      },
+      "unknowns": [
+        "Physical mainboard initialization/calibration and optional component meaning remain unknown; all established getter serializers still have declared synthetic readout.",
+        "External transfer/flash completion and automatic timer firing are not implied by local source acceptance ACKs."
+      ],
+      "blockers": [],
+      "emulator_gap": {
+        "status": "implemented",
+        "profile_ids": [
+          "sim-w06a-p3-v5.08-9300",
+          "sim-w06a-p3-v5.08-9301",
+          "sim-w06a-p3-v5.08-9302",
+          "sim-w06a-p3-v5.08-raw-806004"
+        ],
+        "closed_unique_property_names": 244,
+        "deviations": [
+          "strict whole-batch validation before clock/mutation",
+          "stationary synthetic0 for source-recognized prefix/fallback scalar reads, never omission",
+          "selected thermal pairs, held other sensor/metadata readouts and canonical synthetic clock instead of calibrated hardware",
+          "safe name79/AP31/timer-name31 byte bounds instead of native overflow paths",
+          "per-device memory timer lifecycle; local URL queue acceptance, not automatic timers or transfer/flash completion"
+        ]
+      },
+      "evidence": {
+        "source_contract": "CatalogQuirks/Xtensa/source-contracts.json#07cfbe377aadee70b1bf4576bdd3a4013f7b2d4b014e9757ec036bc1dbcfe1fb",
+        "source_export": "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/Xtensa-1/07cfbe377aad/decompiled.c",
+        "namespace_export": "atw-namespace-export.json",
+        "table_hashes": "atw-network-table-hashes.json",
+        "primary_cases": "atw-closure-probes.json",
+        "mid_producer": "atw-mid-probes-fixed.json",
+        "alternate_cases": "atw-alternate-probes.json",
+        "metadata_timer_upgrade_builders": "atw-builders-probes.json",
+        "metadata_credential_mutation": "atw-credential-probes.json for07cf; exact original C index17/18 branches retained for eachsource",
+        "implementation": "gree_emulator/profiles/atw.py",
+        "tests": [
+          "tests/test_emulator_atw.py",
+          "tests/test_emulator_atw_closure.py"
+        ],
+        "fixtures": [
+          "tests/fixtures/emulator/atw-closure_research.json",
+          "tests/fixtures/emulator/atw-namespace_research.json"
+        ]
+      }
+    },
+    {
+      "source_sha256": "b15e7350fbc3699e1fbb48a66423a23ffc6f4e69854a0f2f36d886fe117c5c2a",
+      "hid": "362001066763+W06A(P3)V6.0.bin",
+      "runtime_ver": "V5.0.0.0",
+      "initializer": "0xa11840",
+      "profile_prefix": "sim-w06a-p3-v6.0-",
+      "alternate_profile": "sim-w06a-p3-v6.0-raw-806004",
+      "metadata_credentials_writable": false,
+      "has_evu": false,
+      "discovery_hid": true,
+      "controls": [
+        "FastHtWter",
+        "ColHtWter",
+        "HetHtWter",
+        "TemUn",
+        "SvSt",
+        "Quiet",
+        "Emegcy",
+        "LefHom",
+        "Mod",
+        "SwDisFct",
+        "CoWatOutTemSet",
+        "HeWatOutTemSet",
+        "CoHomTemSet",
+        "HeHomTemSet",
+        "WatBoxTemSet",
+        "Reset",
+        "AllErr",
+        "Pow",
+        "TemRec",
+        "TemRecB"
+      ],
+      "staged_status_vector": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "source_evidence": "CatalogQuirks/Xtensa/source-contracts.json#b15e7350fbc3699e1fbb48a66423a23ffc6f4e69854a0f2f36d886fe117c5c2a; Xtensa-1/b15e7350fbc3/descriptor-tables-linked.json and descriptor-probes-raw-aware.json",
+      "assessment_status": "lan_qualified",
+      "property_coverage": {
+        "network_table": {
+          "base": "0x44ba40",
+          "records": 250,
+          "stride": 35,
+          "unique_names": 244,
+          "first250_records_sha256": "007979aa1b82f2c3e015e1d106c6d7d9ecef79d9e9fcb79a4e30be9ea868120d"
+        },
+        "closure": {
+          "status_complete": true,
+          "control_complete": true,
+          "sensor_complete": true,
+          "metadata_complete": true,
+          "local_operations": [
+            "bind",
+            "status",
+            "cmd",
+            "setT",
+            "updateT",
+            "queryT",
+            "deleteT",
+            "upgrade"
+          ],
+          "primary_controls": [
+            "FastHtWter",
+            "ColHtWter",
+            "HetHtWter",
+            "TemUn",
+            "SvSt",
+            "Quiet",
+            "Emegcy",
+            "LefHom",
+            "Mod",
+            "SwDisFct",
+            "CoWatOutTemSet",
+            "HeWatOutTemSet",
+            "CoHomTemSet",
+            "HeHomTemSet",
+            "WatBoxTemSet",
+            "Reset",
+            "AllErr",
+            "Pow",
+            "TemRec",
+            "TemRecB"
+          ],
+          "primary_sensor_count": 25,
+          "alternate_controls": [
+            "SvSt",
+            "Quiet",
+            "LefHom",
+            "Mod",
+            "Pow",
+            "HeWatOutTemSet",
+            "HeWatOutTemSetFloor",
+            "CoWatOutTemSet",
+            "Reset",
+            "FactoryTest"
+          ],
+          "alternate_sensor_count": 15,
+          "timer_selector_count": 24,
+          "metadata_setter_names": [
+            "name",
+            "lock",
+            "time"
+          ]
+        },
+        "evidence": "Source-static complete network tables/dispatch and initialized metadata; source-byte-asserted native-instruction translations for732 primary setter cases,24 D-info cases,264 alternate setter/report cases. Known prefix/fallback numeric outputs retained with explicit synthetic0; not calibration-derived omissions.",
+        "unresolved_local_routes": []
+      },
+      "mid_roles": {
+        "9300/9301/9302": "Mainboard category-selected runtime values, not compiled fixed MID",
+        "806004": "Actual D-info producer executes uint32LE0x806004 -> sprintf(%x) -> emitted806004. Configured/runtime raw-only branch with10controls/15reports; no AC typing.",
+        "width": "D-info MID unpadded lowercasehex1..8characters; no leading-zero preservation/filename inference or sameMID namespace union."
+      },
+      "local_operations": {
+        "metadata_mutations": [
+          "name",
+          "lock",
+          "time"
+        ],
+        "timer": "10slots,setT/updateT/queryT/deleteT. Source query repeats sameindex and emitsone listT,totalconstant10. Seven uint32week entries; responsecommandoptPow and unsigned32p; source separate24-name timer selector. Strict atomic memory model; no automatic execution/flash persistence.",
+        "upgrade": "Source-local URL acceptance queues <=159byte URL+pending and emits genericret/r200/mac before transfer/flash. No downloader, validation or firmware-flash completion claim."
+      },
+      "quirks": {
+        "temperature_offset": {
+          "decision": "no_change",
+          "reason": "Raw Hi/Lo bytes and unsigned16 alternate words are source-defined; physical scalar calibration/units not established. Synthetic thermal100bias is explicit model policy, not source-offset proof."
+        },
+        "relearn_temperature_offset": {
+          "decision": "no_change",
+          "reason": "No measured initialization/update-dependent calibration evidence; raw integer encodings remain explicit."
+        },
+        "buzzer_properties": {
+          "decision": "retain_existing_empty_tuple",
+          "value": [],
+          "scope": "Complete finite local network+raw selectors have no buzzer property or hidden general property-forwarding fallback."
+        },
+        "cooling_mode_value": {
+          "decision": "no_change",
+          "reason": "Mod unsigned byte staging alone does not prove physical meaning. Do not add Q11 or806004 AC cooling traits; preserve independently reported existing P3 client rule."
+        },
+        "capabilities": {
+          "decision": "no_new_typed_overrides",
+          "reason": "Full raw readout availability, including stationary prefix values, is not proof of physical components/calibrated sensors.9302 polling preset mismatch is not permission to forge its pool fields."
+        },
+        "gateway_dialect": {
+          "decision": "no_change",
+          "reason": "No LAN child enumeration among8 exact inner operations; root runtime identity is board supplied, not gateway/child inference."
+        }
+      },
+      "unknowns": [
+        "Physical mainboard initialization/calibration and optional component meaning remain unknown; all established getter serializers still have declared synthetic readout.",
+        "External transfer/flash completion and automatic timer firing are not implied by local source acceptance ACKs."
+      ],
+      "blockers": [],
+      "emulator_gap": {
+        "status": "implemented",
+        "profile_ids": [
+          "sim-w06a-p3-v6.0-9300",
+          "sim-w06a-p3-v6.0-9301",
+          "sim-w06a-p3-v6.0-9302",
+          "sim-w06a-p3-v6.0-raw-806004"
+        ],
+        "closed_unique_property_names": 244,
+        "deviations": [
+          "strict whole-batch validation before clock/mutation",
+          "stationary synthetic0 for source-recognized prefix/fallback scalar reads, never omission",
+          "selected thermal pairs, held other sensor/metadata readouts and canonical synthetic clock instead of calibrated hardware",
+          "safe name79/AP31/timer-name31 byte bounds instead of native overflow paths",
+          "per-device memory timer lifecycle; local URL queue acceptance, not automatic timers or transfer/flash completion"
+        ]
+      },
+      "evidence": {
+        "source_contract": "CatalogQuirks/Xtensa/source-contracts.json#b15e7350fbc3699e1fbb48a66423a23ffc6f4e69854a0f2f36d886fe117c5c2a",
+        "source_export": "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/Xtensa-1/b15e7350fbc3/decompiled.c",
+        "namespace_export": "atw-namespace-export.json",
+        "table_hashes": "atw-network-table-hashes.json",
+        "primary_cases": "atw-closure-probes.json",
+        "mid_producer": "atw-mid-probes-fixed.json",
+        "alternate_cases": "atw-alternate-probes.json",
+        "metadata_timer_upgrade_builders": "atw-builders-probes.json",
+        "metadata_credential_mutation": "atw-credential-probes.json for07cf; exact original C index17/18 branches retained for eachsource",
+        "implementation": "gree_emulator/profiles/atw.py",
+        "tests": [
+          "tests/test_emulator_atw.py",
+          "tests/test_emulator_atw_closure.py"
+        ],
+        "fixtures": [
+          "tests/fixtures/emulator/atw-closure_research.json",
+          "tests/fixtures/emulator/atw-namespace_research.json"
+        ]
+      }
+    },
+    {
+      "source_sha256": "37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+      "hid": "362001066763+U-W06A(P3)V6.04.bin",
+      "runtime_ver": "V5.0.0.0",
+      "initializer": "0xa119b4",
+      "profile_prefix": "sim-w06a-p3-v6.04-",
+      "alternate_profile": "sim-w06a-p3-v6.04-raw-806004",
+      "metadata_credentials_writable": false,
+      "has_evu": true,
+      "discovery_hid": true,
+      "controls": [
+        "FastHtWter",
+        "ColHtWter",
+        "HetHtWter",
+        "TemUn",
+        "SvSt",
+        "Quiet",
+        "Emegcy",
+        "LefHom",
+        "Mod",
+        "SwDisFct",
+        "CoWatOutTemSet",
+        "HeWatOutTemSet",
+        "CoHomTemSet",
+        "HeHomTemSet",
+        "WatBoxTemSet",
+        "Reset",
+        "AllErr",
+        "Pow",
+        "TemRec",
+        "TemRecB",
+        "EVU"
+      ],
+      "staged_status_vector": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "source_evidence": "CatalogQuirks/Xtensa/source-contracts.json#37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a; Xtensa-1/37ab39b75436/descriptor-tables-linked.json and descriptor-probes-raw-aware.json",
+      "assessment_status": "lan_qualified",
+      "property_coverage": {
+        "network_table": {
+          "base": "0x44ba60",
+          "records": 251,
+          "stride": 35,
+          "unique_names": 245,
+          "first250_records_sha256": "007979aa1b82f2c3e015e1d106c6d7d9ecef79d9e9fcb79a4e30be9ea868120d"
+        },
+        "closure": {
+          "status_complete": true,
+          "control_complete": true,
+          "sensor_complete": true,
+          "metadata_complete": true,
+          "local_operations": [
+            "bind",
+            "status",
+            "cmd",
+            "setT",
+            "updateT",
+            "queryT",
+            "deleteT",
+            "upgrade"
+          ],
+          "primary_controls": [
+            "FastHtWter",
+            "ColHtWter",
+            "HetHtWter",
+            "TemUn",
+            "SvSt",
+            "Quiet",
+            "Emegcy",
+            "LefHom",
+            "Mod",
+            "SwDisFct",
+            "CoWatOutTemSet",
+            "HeWatOutTemSet",
+            "CoHomTemSet",
+            "HeHomTemSet",
+            "WatBoxTemSet",
+            "Reset",
+            "AllErr",
+            "Pow",
+            "TemRec",
+            "TemRecB",
+            "EVU"
+          ],
+          "primary_sensor_count": 25,
+          "alternate_controls": [
+            "SvSt",
+            "Quiet",
+            "LefHom",
+            "Mod",
+            "Pow",
+            "HeWatOutTemSet",
+            "HeWatOutTemSetFloor",
+            "CoWatOutTemSet",
+            "Reset",
+            "FactoryTest"
+          ],
+          "alternate_sensor_count": 15,
+          "timer_selector_count": 24,
+          "metadata_setter_names": [
+            "name",
+            "lock",
+            "time"
+          ]
+        },
+        "evidence": "Source-static complete network tables/dispatch and initialized metadata; source-byte-asserted native-instruction translations for732 primary setter cases,24 D-info cases,264 alternate setter/report cases. Known prefix/fallback numeric outputs retained with explicit synthetic0; not calibration-derived omissions.",
+        "unresolved_local_routes": []
+      },
+      "mid_roles": {
+        "9300/9301/9302": "Mainboard category-selected runtime values, not compiled fixed MID",
+        "806004": "Actual D-info producer executes uint32LE0x806004 -> sprintf(%x) -> emitted806004. Configured/runtime raw-only branch with10controls/15reports; no AC typing.",
+        "width": "D-info MID unpadded lowercasehex1..8characters; no leading-zero preservation/filename inference or sameMID namespace union."
+      },
+      "local_operations": {
+        "metadata_mutations": [
+          "name",
+          "lock",
+          "time"
+        ],
+        "timer": "10slots,setT/updateT/queryT/deleteT. Source query repeats sameindex and emitsone listT,totalconstant10. Seven uint32week entries; responsecommandoptPow and unsigned32p; source separate24-name timer selector. Strict atomic memory model; no automatic execution/flash persistence.",
+        "upgrade": "Source-local URL acceptance queues <=159byte URL+pending and emits genericret/r200/mac before transfer/flash. No downloader, validation or firmware-flash completion claim."
+      },
+      "quirks": {
+        "temperature_offset": {
+          "decision": "no_change",
+          "reason": "Raw Hi/Lo bytes and unsigned16 alternate words are source-defined; physical scalar calibration/units not established. Synthetic thermal100bias is explicit model policy, not source-offset proof."
+        },
+        "relearn_temperature_offset": {
+          "decision": "no_change",
+          "reason": "No measured initialization/update-dependent calibration evidence; raw integer encodings remain explicit."
+        },
+        "buzzer_properties": {
+          "decision": "retain_existing_empty_tuple",
+          "value": [],
+          "scope": "Complete finite local network+raw selectors have no buzzer property or hidden general property-forwarding fallback."
+        },
+        "cooling_mode_value": {
+          "decision": "no_change",
+          "reason": "Mod unsigned byte staging alone does not prove physical meaning. Do not add Q11 or806004 AC cooling traits; preserve independently reported existing P3 client rule."
+        },
+        "capabilities": {
+          "decision": "no_new_typed_overrides",
+          "reason": "Full raw readout availability, including stationary prefix values, is not proof of physical components/calibrated sensors.9302 polling preset mismatch is not permission to forge its pool fields."
+        },
+        "gateway_dialect": {
+          "decision": "no_change",
+          "reason": "No LAN child enumeration among8 exact inner operations; root runtime identity is board supplied, not gateway/child inference."
+        }
+      },
+      "unknowns": [
+        "Physical mainboard initialization/calibration and optional component meaning remain unknown; all established getter serializers still have declared synthetic readout.",
+        "External transfer/flash completion and automatic timer firing are not implied by local source acceptance ACKs."
+      ],
+      "blockers": [],
+      "emulator_gap": {
+        "status": "implemented",
+        "profile_ids": [
+          "sim-w06a-p3-v6.04-9300",
+          "sim-w06a-p3-v6.04-9301",
+          "sim-w06a-p3-v6.04-9302",
+          "sim-w06a-p3-v6.04-raw-806004"
+        ],
+        "closed_unique_property_names": 245,
+        "deviations": [
+          "strict whole-batch validation before clock/mutation",
+          "stationary synthetic0 for source-recognized prefix/fallback scalar reads, never omission",
+          "selected thermal pairs, held other sensor/metadata readouts and canonical synthetic clock instead of calibrated hardware",
+          "safe name79/AP31/timer-name31 byte bounds instead of native overflow paths",
+          "per-device memory timer lifecycle; local URL queue acceptance, not automatic timers or transfer/flash completion"
+        ]
+      },
+      "evidence": {
+        "source_contract": "CatalogQuirks/Xtensa/source-contracts.json#37ab39b75436448b7153fbbd781a21c93b83f74a236354c93aafcf9b10ed039a",
+        "source_export": "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/Xtensa-1/37ab39b75436/decompiled.c",
+        "namespace_export": "atw-namespace-export.json",
+        "table_hashes": "atw-network-table-hashes.json",
+        "primary_cases": "atw-closure-probes.json",
+        "mid_producer": "atw-mid-probes-fixed.json",
+        "alternate_cases": "atw-alternate-probes.json",
+        "metadata_timer_upgrade_builders": "atw-builders-probes.json",
+        "metadata_credential_mutation": "atw-credential-probes.json for07cf; exact original C index17/18 branches retained for eachsource",
+        "implementation": "gree_emulator/profiles/atw.py",
+        "tests": [
+          "tests/test_emulator_atw.py",
+          "tests/test_emulator_atw_closure.py"
+        ],
+        "fixtures": [
+          "tests/fixtures/emulator/atw-closure_research.json",
+          "tests/fixtures/emulator/atw-namespace_research.json"
+        ]
+      }
+    },
+    {
+      "source_sha256": "075e1090f8df33a5699af9812d1ac6fe5a76334b7cbaf59c051c5df8cdd8cca8",
+      "hid": "362001066763+U-W06A(P3)V6.05.bin",
+      "runtime_ver": "V5.0.0.0",
+      "initializer": "0xa11988",
+      "profile_prefix": "sim-w06a-p3-v6.05-",
+      "alternate_profile": "sim-w06a-p3-v6.05-raw-806004",
+      "metadata_credentials_writable": false,
+      "has_evu": true,
+      "discovery_hid": true,
+      "controls": [
+        "FastHtWter",
+        "ColHtWter",
+        "HetHtWter",
+        "TemUn",
+        "SvSt",
+        "Quiet",
+        "Emegcy",
+        "LefHom",
+        "Mod",
+        "SwDisFct",
+        "CoWatOutTemSet",
+        "HeWatOutTemSet",
+        "CoHomTemSet",
+        "HeHomTemSet",
+        "WatBoxTemSet",
+        "Reset",
+        "AllErr",
+        "Pow",
+        "TemRec",
+        "TemRecB",
+        "EVU"
+      ],
+      "staged_status_vector": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "source_evidence": "CatalogQuirks/Xtensa/source-contracts.json#075e1090f8df33a5699af9812d1ac6fe5a76334b7cbaf59c051c5df8cdd8cca8; Xtensa-1/075e1090f8df/descriptor-tables-linked.json and descriptor-probes-raw-aware.json",
+      "assessment_status": "lan_qualified",
+      "property_coverage": {
+        "network_table": {
+          "base": "0x44ba60",
+          "records": 251,
+          "stride": 35,
+          "unique_names": 245,
+          "first250_records_sha256": "007979aa1b82f2c3e015e1d106c6d7d9ecef79d9e9fcb79a4e30be9ea868120d"
+        },
+        "closure": {
+          "status_complete": true,
+          "control_complete": true,
+          "sensor_complete": true,
+          "metadata_complete": true,
+          "local_operations": [
+            "bind",
+            "status",
+            "cmd",
+            "setT",
+            "updateT",
+            "queryT",
+            "deleteT",
+            "upgrade"
+          ],
+          "primary_controls": [
+            "FastHtWter",
+            "ColHtWter",
+            "HetHtWter",
+            "TemUn",
+            "SvSt",
+            "Quiet",
+            "Emegcy",
+            "LefHom",
+            "Mod",
+            "SwDisFct",
+            "CoWatOutTemSet",
+            "HeWatOutTemSet",
+            "CoHomTemSet",
+            "HeHomTemSet",
+            "WatBoxTemSet",
+            "Reset",
+            "AllErr",
+            "Pow",
+            "TemRec",
+            "TemRecB",
+            "EVU"
+          ],
+          "primary_sensor_count": 25,
+          "alternate_controls": [
+            "SvSt",
+            "Quiet",
+            "LefHom",
+            "Mod",
+            "Pow",
+            "HeWatOutTemSet",
+            "HeWatOutTemSetFloor",
+            "CoWatOutTemSet",
+            "Reset",
+            "FactoryTest"
+          ],
+          "alternate_sensor_count": 15,
+          "timer_selector_count": 24,
+          "metadata_setter_names": [
+            "name",
+            "lock",
+            "time"
+          ]
+        },
+        "evidence": "Source-static complete network tables/dispatch and initialized metadata; source-byte-asserted native-instruction translations for732 primary setter cases,24 D-info cases,264 alternate setter/report cases. Known prefix/fallback numeric outputs retained with explicit synthetic0; not calibration-derived omissions.",
+        "unresolved_local_routes": []
+      },
+      "mid_roles": {
+        "9300/9301/9302": "Mainboard category-selected runtime values, not compiled fixed MID",
+        "806004": "Actual D-info producer executes uint32LE0x806004 -> sprintf(%x) -> emitted806004. Configured/runtime raw-only branch with10controls/15reports; no AC typing.",
+        "width": "D-info MID unpadded lowercasehex1..8characters; no leading-zero preservation/filename inference or sameMID namespace union."
+      },
+      "local_operations": {
+        "metadata_mutations": [
+          "name",
+          "lock",
+          "time"
+        ],
+        "timer": "10slots,setT/updateT/queryT/deleteT. Source query repeats sameindex and emitsone listT,totalconstant10. Seven uint32week entries; responsecommandoptPow and unsigned32p; source separate24-name timer selector. Strict atomic memory model; no automatic execution/flash persistence.",
+        "upgrade": "Source-local URL acceptance queues <=159byte URL+pending and emits genericret/r200/mac before transfer/flash. No downloader, validation or firmware-flash completion claim."
+      },
+      "quirks": {
+        "temperature_offset": {
+          "decision": "no_change",
+          "reason": "Raw Hi/Lo bytes and unsigned16 alternate words are source-defined; physical scalar calibration/units not established. Synthetic thermal100bias is explicit model policy, not source-offset proof."
+        },
+        "relearn_temperature_offset": {
+          "decision": "no_change",
+          "reason": "No measured initialization/update-dependent calibration evidence; raw integer encodings remain explicit."
+        },
+        "buzzer_properties": {
+          "decision": "retain_existing_empty_tuple",
+          "value": [],
+          "scope": "Complete finite local network+raw selectors have no buzzer property or hidden general property-forwarding fallback."
+        },
+        "cooling_mode_value": {
+          "decision": "no_change",
+          "reason": "Mod unsigned byte staging alone does not prove physical meaning. Do not add Q11 or806004 AC cooling traits; preserve independently reported existing P3 client rule."
+        },
+        "capabilities": {
+          "decision": "no_new_typed_overrides",
+          "reason": "Full raw readout availability, including stationary prefix values, is not proof of physical components/calibrated sensors.9302 polling preset mismatch is not permission to forge its pool fields."
+        },
+        "gateway_dialect": {
+          "decision": "no_change",
+          "reason": "No LAN child enumeration among8 exact inner operations; root runtime identity is board supplied, not gateway/child inference."
+        }
+      },
+      "unknowns": [
+        "Physical mainboard initialization/calibration and optional component meaning remain unknown; all established getter serializers still have declared synthetic readout.",
+        "External transfer/flash completion and automatic timer firing are not implied by local source acceptance ACKs."
+      ],
+      "blockers": [],
+      "emulator_gap": {
+        "status": "implemented",
+        "profile_ids": [
+          "sim-w06a-p3-v6.05-9300",
+          "sim-w06a-p3-v6.05-9301",
+          "sim-w06a-p3-v6.05-9302",
+          "sim-w06a-p3-v6.05-raw-806004"
+        ],
+        "closed_unique_property_names": 245,
+        "deviations": [
+          "strict whole-batch validation before clock/mutation",
+          "stationary synthetic0 for source-recognized prefix/fallback scalar reads, never omission",
+          "selected thermal pairs, held other sensor/metadata readouts and canonical synthetic clock instead of calibrated hardware",
+          "safe name79/AP31/timer-name31 byte bounds instead of native overflow paths",
+          "per-device memory timer lifecycle; local URL queue acceptance, not automatic timers or transfer/flash completion"
+        ]
+      },
+      "evidence": {
+        "source_contract": "CatalogQuirks/Xtensa/source-contracts.json#075e1090f8df33a5699af9812d1ac6fe5a76334b7cbaf59c051c5df8cdd8cca8",
+        "source_export": "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/Xtensa-1/075e1090f8df/decompiled.c",
+        "namespace_export": "atw-namespace-export.json",
+        "table_hashes": "atw-network-table-hashes.json",
+        "primary_cases": "atw-closure-probes.json",
+        "mid_producer": "atw-mid-probes-fixed.json",
+        "alternate_cases": "atw-alternate-probes.json",
+        "metadata_timer_upgrade_builders": "atw-builders-probes.json",
+        "metadata_credential_mutation": "atw-credential-probes.json for07cf; exact original C index17/18 branches retained for eachsource",
+        "implementation": "gree_emulator/profiles/atw.py",
+        "tests": [
+          "tests/test_emulator_atw.py",
+          "tests/test_emulator_atw_closure.py"
+        ],
+        "fixtures": [
+          "tests/fixtures/emulator/atw-closure_research.json",
+          "tests/fixtures/emulator/atw-namespace_research.json"
+        ]
+      }
+    },
+    {
+      "source_sha256": "8a1b2de448c789172809e5ee2610c1e47fc938d6242ac36596bc4a0da109b6b6",
+      "hid": "362001067139+U-W06AQ11V1.01.bin",
+      "runtime_ver": "V1.0.0.0",
+      "initializer": "0xa11840",
+      "profile_prefix": "sim-w06aq11-v1.01-",
+      "alternate_profile": "sim-w06aq11-v1.01-raw-806004",
+      "metadata_credentials_writable": false,
+      "has_evu": false,
+      "discovery_hid": true,
+      "controls": [
+        "FastHtWter",
+        "ColHtWter",
+        "HetHtWter",
+        "TemUn",
+        "SvSt",
+        "Quiet",
+        "Emegcy",
+        "LefHom",
+        "Mod",
+        "SwDisFct",
+        "CoWatOutTemSet",
+        "HeWatOutTemSet",
+        "CoHomTemSet",
+        "HeHomTemSet",
+        "WatBoxTemSet",
+        "Reset",
+        "AllErr",
+        "Pow",
+        "TemRec",
+        "TemRecB"
+      ],
+      "staged_status_vector": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        0,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "source_evidence": "CatalogQuirks/Xtensa/source-contracts.json#8a1b2de448c789172809e5ee2610c1e47fc938d6242ac36596bc4a0da109b6b6; Xtensa-3/20/source_evidence.c, decompiled.c0xa10db8/0xa10ff8/0xa11158/0xa11840",
+      "assessment_status": "lan_qualified",
+      "property_coverage": {
+        "network_table": {
+          "base": "0x44ba40",
+          "records": 250,
+          "stride": 35,
+          "unique_names": 244,
+          "first250_records_sha256": "007979aa1b82f2c3e015e1d106c6d7d9ecef79d9e9fcb79a4e30be9ea868120d"
+        },
+        "closure": {
+          "status_complete": true,
+          "control_complete": true,
+          "sensor_complete": true,
+          "metadata_complete": true,
+          "local_operations": [
+            "bind",
+            "status",
+            "cmd",
+            "setT",
+            "updateT",
+            "queryT",
+            "deleteT",
+            "upgrade"
+          ],
+          "primary_controls": [
+            "FastHtWter",
+            "ColHtWter",
+            "HetHtWter",
+            "TemUn",
+            "SvSt",
+            "Quiet",
+            "Emegcy",
+            "LefHom",
+            "Mod",
+            "SwDisFct",
+            "CoWatOutTemSet",
+            "HeWatOutTemSet",
+            "CoHomTemSet",
+            "HeHomTemSet",
+            "WatBoxTemSet",
+            "Reset",
+            "AllErr",
+            "Pow",
+            "TemRec",
+            "TemRecB"
+          ],
+          "primary_sensor_count": 25,
+          "alternate_controls": [
+            "SvSt",
+            "Quiet",
+            "LefHom",
+            "Mod",
+            "Pow",
+            "HeWatOutTemSet",
+            "HeWatOutTemSetFloor",
+            "CoWatOutTemSet",
+            "Reset",
+            "FactoryTest"
+          ],
+          "alternate_sensor_count": 15,
+          "timer_selector_count": 24,
+          "metadata_setter_names": [
+            "name",
+            "lock",
+            "time"
+          ]
+        },
+        "evidence": "Source-static complete network tables/dispatch and initialized metadata; source-byte-asserted native-instruction translations for732 primary setter cases,24 D-info cases,264 alternate setter/report cases. Known prefix/fallback numeric outputs retained with explicit synthetic0; not calibration-derived omissions.",
+        "unresolved_local_routes": []
+      },
+      "mid_roles": {
+        "9300/9301/9302": "Mainboard category-selected runtime values, not compiled fixed MID",
+        "806004": "Actual D-info producer executes uint32LE0x806004 -> sprintf(%x) -> emitted806004. Configured/runtime raw-only branch with10controls/15reports; no AC typing.",
+        "width": "D-info MID unpadded lowercasehex1..8characters; no leading-zero preservation/filename inference or sameMID namespace union."
+      },
+      "local_operations": {
+        "metadata_mutations": [
+          "name",
+          "lock",
+          "time"
+        ],
+        "timer": "10slots,setT/updateT/queryT/deleteT. Source query repeats sameindex and emitsone listT,totalconstant10. Seven uint32week entries; responsecommandoptPow and unsigned32p; source separate24-name timer selector. Strict atomic memory model; no automatic execution/flash persistence.",
+        "upgrade": "Source-local URL acceptance queues <=159byte URL+pending and emits genericret/r200/mac before transfer/flash. No downloader, validation or firmware-flash completion claim."
+      },
+      "quirks": {
+        "temperature_offset": {
+          "decision": "no_change",
+          "reason": "Raw Hi/Lo bytes and unsigned16 alternate words are source-defined; physical scalar calibration/units not established. Synthetic thermal100bias is explicit model policy, not source-offset proof."
+        },
+        "relearn_temperature_offset": {
+          "decision": "no_change",
+          "reason": "No measured initialization/update-dependent calibration evidence; raw integer encodings remain explicit."
+        },
+        "buzzer_properties": {
+          "decision": "retain_existing_empty_tuple",
+          "value": [],
+          "scope": "Complete finite local network+raw selectors have no buzzer property or hidden general property-forwarding fallback."
+        },
+        "cooling_mode_value": {
+          "decision": "no_change",
+          "reason": "Mod unsigned byte staging alone does not prove physical meaning. Do not add Q11 or806004 AC cooling traits; preserve independently reported existing P3 client rule."
+        },
+        "capabilities": {
+          "decision": "no_new_typed_overrides",
+          "reason": "Full raw readout availability, including stationary prefix values, is not proof of physical components/calibrated sensors.9302 polling preset mismatch is not permission to forge its pool fields."
+        },
+        "gateway_dialect": {
+          "decision": "no_change",
+          "reason": "No LAN child enumeration among8 exact inner operations; root runtime identity is board supplied, not gateway/child inference."
+        }
+      },
+      "unknowns": [
+        "Physical mainboard initialization/calibration and optional component meaning remain unknown; all established getter serializers still have declared synthetic readout.",
+        "External transfer/flash completion and automatic timer firing are not implied by local source acceptance ACKs."
+      ],
+      "blockers": [],
+      "emulator_gap": {
+        "status": "implemented",
+        "profile_ids": [
+          "sim-w06aq11-v1.01-9300",
+          "sim-w06aq11-v1.01-9301",
+          "sim-w06aq11-v1.01-9302",
+          "sim-w06aq11-v1.01-raw-806004"
+        ],
+        "closed_unique_property_names": 244,
+        "deviations": [
+          "strict whole-batch validation before clock/mutation",
+          "stationary synthetic0 for source-recognized prefix/fallback scalar reads, never omission",
+          "selected thermal pairs, held other sensor/metadata readouts and canonical synthetic clock instead of calibrated hardware",
+          "safe name79/AP31/timer-name31 byte bounds instead of native overflow paths",
+          "per-device memory timer lifecycle; local URL queue acceptance, not automatic timers or transfer/flash completion"
+        ]
+      },
+      "evidence": {
+        "source_contract": "CatalogQuirks/Xtensa/source-contracts.json#8a1b2de448c789172809e5ee2610c1e47fc938d6242ac36596bc4a0da109b6b6",
+        "source_export": "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/Xtensa-3/20/decompiled.c",
+        "namespace_export": "atw-namespace-export.json",
+        "table_hashes": "atw-network-table-hashes.json",
+        "primary_cases": "atw-closure-probes.json",
+        "mid_producer": "atw-mid-probes-fixed.json",
+        "alternate_cases": "atw-alternate-probes.json",
+        "metadata_timer_upgrade_builders": "atw-builders-probes.json",
+        "metadata_credential_mutation": "atw-credential-probes.json for07cf; exact original C index17/18 branches retained for eachsource",
+        "implementation": "gree_emulator/profiles/atw.py",
+        "tests": [
+          "tests/test_emulator_atw.py",
+          "tests/test_emulator_atw_closure.py"
+        ],
+        "fixtures": [
+          "tests/fixtures/emulator/atw-closure_research.json",
+          "tests/fixtures/emulator/atw-namespace_research.json"
+        ]
+      }
+    }
+  ],
+  "sensors": [
+    "AllInWatTemHi",
+    "AllInWatTemLo",
+    "AllOutWatTemHi",
+    "AllOutWatTemLo",
+    "HepOutWatTemHi",
+    "HepOutWatTemLo",
+    "WatBoxTemHi",
+    "WatBoxTemLo",
+    "RmoHomTemHi",
+    "RmoHomTemLo",
+    "WatBoxElcHeRunSta",
+    "SyAnFroRunSta",
+    "ElcHe1RunSta",
+    "ElcHe2RunSta",
+    "AnFrzzRunSta",
+    "VersatiSeries",
+    "WatBoxExt",
+    "BordTest",
+    "RomHomTemExt",
+    "FocModSwh",
+    "ColColetSwh",
+    "EndTemCotSwh",
+    "Emegcy",
+    "HanFroSwh",
+    "WatSyExhSwh"
+  ],
+  "empty_metadata": [
+    "SwhWifi",
+    "SwhWifiRes",
+    "SwhWifiConf",
+    "AutoUpdate",
+    "AutoConnCloud",
+    "datDump",
+    "datRep",
+    "datFailRep",
+    "datPeroid",
+    "subCnt",
+    "useTCP",
+    "country",
+    "city",
+    "cnty",
+    "cityid",
+    "lat",
+    "lon"
+  ],
+  "value_metadata": [
+    "lock",
+    "vender",
+    "bc",
+    "mid",
+    "model",
+    "series",
+    "apssid",
+    "appsw",
+    "brand",
+    "catalog",
+    "hid",
+    "host",
+    "mac",
+    "name",
+    "time",
+    "ver",
+    "ModelType",
+    "rssi"
+  ],
+  "report_vector": {
+    "case": "descriptor byte/bit boundaries and all25 getters",
+    "frame_hex": "0000000000ff7f80ff0064097a070305ff807f010203040506070809",
+    "cols": [
+      "AllInWatTemHi",
+      "AllInWatTemLo",
+      "AllOutWatTemHi",
+      "AllOutWatTemLo",
+      "HepOutWatTemHi",
+      "HepOutWatTemLo",
+      "WatBoxTemHi",
+      "WatBoxTemLo",
+      "RmoHomTemHi",
+      "RmoHomTemLo",
+      "WatBoxElcHeRunSta",
+      "SyAnFroRunSta",
+      "ElcHe1RunSta",
+      "ElcHe2RunSta",
+      "AnFrzzRunSta",
+      "VersatiSeries",
+      "WatBoxExt",
+      "BordTest",
+      "RomHomTemExt",
+      "FocModSwh",
+      "ColColetSwh",
+      "EndTemCotSwh",
+      "Emegcy",
+      "HanFroSwh",
+      "WatSyExhSwh"
+    ],
+    "dat": [
+      0,
+      255,
+      127,
+      128,
+      255,
+      0,
+      100,
+      9,
+      122,
+      7,
+      1,
+      1,
+      1,
+      0,
+      1,
+      255,
+      128,
+      127,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "independence": "Literal descriptor operations from source decoder0xa05dfc, not emulator-produced values; extra frame tail deliberately ignored."
+  },
+  "model_policy": "Complete finite recognized namespace with explicit synthetic backing. Source primary20/21 vsalternate10 setter tables stay separate; source25 vs15 report caches retain unsigned16 widths. Metadata mutation ACKs read final cache while raw ACKs echo requested ints before low8 storage. Source initialized ver/HID/host and independent empty ModelType preserved. Timers model local record lifecycle/serialization only, and upgrade ret acknowledges URL queuing only. Strict atomic safety deviations are explicit, not native success or physical simulation claims.",
+  "scope": "Every source-reachable local network/getter/raw/metadata namespace and all8 local dispatch operations assessed and modeled. Native prefix reads and invalid sensor fallbacks serialize stationary chosen0 instead of disappearing. Alternate806004 is a separately evidenced runtime input/raw model, not typed AC. See atw-namespace_research.json for complete independent literal schema/vectors.",
+  "checks": [
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_atw_closure.py",
+      "script_sha256": "cad3c41ef31ccc97ba78ce7dc6fc3bb863ec8dec8cfb3e76e647b7c290abe1e0",
+      "result": "PASS",
+      "source_hashes": 6,
+      "vectors": 732,
+      "errors": 0,
+      "artifact": "atw-closure-probes.json",
+      "boundaries": "Original primary setters/selectors; ROMstrcmp only, exact instruction bytes, no CPU/fullboot claim"
+    },
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/export_atw_namespace.py",
+      "script_sha256": "a364c75fa065379931a27b9ed4138a140a9ac8c632123c38c869074911a75586",
+      "result": "PASS",
+      "source_hashes": 6,
+      "network_records": 1502,
+      "artifact": "atw-namespace-export.json",
+      "boundaries": "Original table/resource bytes and source-static dispatch; independent first250-record block hashes in atw-network-table-hashes.json"
+    },
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_atw_mid.py",
+      "script_sha256": "fac9e1bd3432108cee51936ba0272de7291ac5858e8031bee36ec5fed49203e0",
+      "result": "PASS",
+      "source_hashes": 6,
+      "vectors": 24,
+      "errors": 0,
+      "artifact": "atw-mid-probes-fixed.json",
+      "boundaries": "Original D-info decoder; ROMsprintf(%x) primitive, supplied board words; comparison-only MID claim superseded"
+    },
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_atw_alternate.py",
+      "script_sha256": "ab4b9d2bd1fc4799b2ebfad45d76bb922e192867726f58d88a43bb747514368a",
+      "result": "PASS",
+      "source_hashes": 6,
+      "vectors": 264,
+      "errors": 0,
+      "artifact": "atw-alternate-probes.json",
+      "boundaries": "All10 alternate setters and full15-word report decoders; ROMstrcmp only; original instruction bytes"
+    },
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_atw_builders.py",
+      "script_sha256": "7e700603a38813e33002780536e236d63f9a63426c976af46312a511fd5c750f",
+      "result": "PASS",
+      "source_hashes": 1,
+      "vectors": 5,
+      "errors": 0,
+      "artifact": "atw-builders-probes.json",
+      "boundaries": "Original07cf metadata final-cache ACK, listT total10/uint32 data, resT/ret acceptance builders; cJSON/libc/compiler primitives and supplied final records"
+    },
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_atw_builders.py --credentials-only",
+      "script_sha256": "a187964beed7482a40284f741db4823067ccbcda2d9f9bb1add81cce4f4d3057",
+      "result": "PASS",
+      "source_hashes": 1,
+      "vectors": 1,
+      "errors": 0,
+      "artifact": "atw-credential-probes.json",
+      "boundaries": "Original07cf complete credential parser mutation through final-cache ACK; only cJSON/libc/compiler primitives, no property hooks or physical WiFi claim"
+    },
+    {
+      "command": "venv/bin/python3.14 -m pytest tests/test_emulator_atw.py tests/test_emulator_atw_closure.py tests/test_emulator.py",
+      "result": "NOT RUN",
+      "boundaries": "Main owns final runtime/tests/CLI verification; no worker tests/build/lint/formatters executed"
+    }
+  ],
+  "proposed_changes": {
+    "device_profiles": "No new code-wide temperature/buzzer/cooling/capability traits; HID build differences are not version trait shims.",
+    "mid_profiles": {
+      "existing": "Preserve existing global9300/9301/9302 ordered presets and taxonomy; source-specific missing pool names must not be forged to satisfy unrelated9302 catalog.",
+      "806004": {
+        "mid": "806004",
+        "status_columns": [
+          "SvSt",
+          "Quiet",
+          "LefHom",
+          "Mod",
+          "Pow",
+          "HeWatOutTemSet",
+          "HeWatOutTemSetFloor",
+          "CoWatOutTemSet",
+          "Reset",
+          "FactoryTest",
+          "EnvironmentTem",
+          "AirInTem",
+          "AirOutTem",
+          "DefrostTem",
+          "AllInWatTem",
+          "AllOutWatTem",
+          "AntifreezeTem",
+          "CodeCoalGasTem",
+          "CodeCoalLiquidTem",
+          "HighPressureTem",
+          "FloorHeat",
+          "TemUn",
+          "AllErr",
+          "LowPressureTem",
+          "DryContact"
+        ],
+        "family": null,
+        "role": "source-produced configurable runtime raw-only MID, not compiled fixed ID or typed AC"
+      }
+    },
+    "emulator": "24 exactsource presets:18 single-medium heater MID presets plus6 roomless raw806004 presets; complete250/251-record getter surface, local metadata setters, timers and upgrade URL acceptance.",
+    "registry": "Parent integration owns shared catalog/assessment/source-contract/boundary/doc registrations."
+  },
+  "supplemental_evidence": "atw-namespace_research.json; private atw-network-table-hashes.json; atw-mid-probes-fixed.json and atw-alternate-probes.json. atw-mid-probes.json retains first adapter failure (%x unsupported), not a firmware fault.",
+  "preserved_failures": [
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_atw_mid.py",
+      "script_sha256": "56c0f000c884d60398dcaf7c59e30000f254373a02225fe29996a2a5154fe9ae",
+      "artifact": "atw-mid-probes.json",
+      "result": "FAILED adapter assertions: ROM format actually%x, not hypothesized%u/%d. Source MID input encodes0x806004, not decimal806004. Original instructions were never patched; fixed primitive and literal ABI expectations qualify24 passing cases. Not a native firmware fault."
+    },
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_atw_builders.py",
+      "script_sha256": "5a0cf6579cb7f0e18fd38f7ba0c2656abfbe76bcc58516b3351a625801555785",
+      "artifact": "atw-builders-setup-failure.json",
+      "result": "FAILED setup before target execution: historical packet harness expected missing0xa05fd4 l32r. Applied byte-identical nonbranch instruction recovery from exact source exports before replay. No branch/store/BL skips; not native firmware fault."
+    }
+  ]
+}

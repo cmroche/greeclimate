@@ -1,0 +1,517 @@
+{
+  "profile": "sim-mc-etsbh01-v1.38",
+  "mid": "80901",
+  "provenance": "Independent original AArch64 instruction replay, not emulator-produced expectations.",
+  "contract": {
+    "mid": "80901",
+    "firmware_code": "362001063066",
+    "hid": "362001063066+MC-ETSBH01V1.38.img",
+    "source_sha256": "d605815976c047153c82f5affcc33f39f6b60f4ddc8d5cfb224282876a52d12e",
+    "executable_sha256": "9d43ae7bcca965c9b0a4e026ae0dd3138399be530842346ab66ec1c1d499b61f",
+    "qualification": "Actionable synthetic root-only roomless linkpad controller with genuine mate/remate bootstrap; not ordinary bind, child controller, calibrated mesh/CAN/485 or appliance simulation",
+    "execution": {
+      "actual_instructions": "Unicorn AArch64 original UDP handler, root dispatch, selectors, mbedTLS AES including round/key-schedule routines, base64, whitespace compaction, JSON constructor call sites, root property cache setters/getters and empty-topology serializer",
+      "instruction_matched_translation": "None",
+      "substituted_boundaries": "cJSON parse/node/serialize API with original 64-bit type/valueint layout; libc/mutex/logging/string/memory/stdio primitives; source save_file runs through substituted fwrite/fsync without real filesystem writes; queue/FIFO I/O source runs with declared success. central_root.py supplies literal zero child SQLite count and accepts delete against a declared synthetic empty child database. No crypto primitive, root property handler, key selection or topology serializer hook.",
+      "evidence": [
+        "transactions.json",
+        "central-mate.json",
+        "central-root.json",
+        "properties.json",
+        "probe.py",
+        "central_root.py"
+      ]
+    },
+    "wire": {
+      "cipher": "AES-128-ECB/full-block PKCS#7 output padding/base64; no IV/tag/GCM",
+      "default_key_ascii": "{yxAHAY_Lm6pbCtd",
+      "default_key_hex": "7b7978414841595f4c6d367062437464",
+      "i1": "default key",
+      "i0": "persisted device key",
+      "device_key_lifecycle": "gree_init0x4585b4 loads persisted private_key from0x625ce8 to0x626411; if empty calls create_DeviceKey0x456bc0 for16 alphanumeric bytes and persists it. linkpad_status_init0x456e80 copies persisted key to remate metadata0x627795. mate itself does not rotate key.",
+      "max_request_bytes": 2048,
+      "receive_limit_evidence": "gree_indoor0x455a3c calls recvfrom(...,0x800,...). Source receive loop can split concatenated outer JSON before queue dispatch. Safe simulator accepts one strict outer JSON and rejects raw datagrams over2048 rather than imitating truncation/adhered JSON parsing.",
+      "reply_scratch": "indoor_reqJSON_udp0x44f030 has1024-byte plaintext scratch and1024-byte base64 scratch; final outer JSON is allocated cJSON output plus LF, no native fixed outer1024 allocation. Simulator must preflight inner and base64 includingNUL; any total output limit is explicit synthetic policy.",
+      "scan": "Clear {t:scan} yields i1/default-key encrypted dev metadata in transactions.json. cid inside dev is empty, name linkpad, mid80901, verV1.2.1, all brand/catalog/model/series/bc gree, vender2, lock0, mac root.",
+      "mate_request": {
+        "t": "mate",
+        "host": "synthetic-host"
+      },
+      "mate_target_selector": "None. indoor_handle_recvdata0x455418 branches on t:mate, reads host string and ignores cid/tcid/mac. Multiple listening80901 roots all respond to the same clear mate request, just as scan; route/broadcast to mate-capable roots, not to a fabricated tcid. Existing non-mate profiles must not receive invented bind support.",
+      "mate_effect": "Copies host string into persisted configuration and writes linkpad status, then emits selector8 remate with default key i1. Synthetic host should be bounded/sanitized; no real credentials or disk deployment state.",
+      "mate_reply": {
+        "t": "remate",
+        "cid": "",
+        "bc": "gree",
+        "catalog": "gree",
+        "mid": "80901",
+        "lock": 0,
+        "model": "gree",
+        "series": "gree",
+        "vender": "2",
+        "ver": "V1.2.1",
+        "brand": "gree",
+        "mac": "ROOT",
+        "private_key": "PERSISTED16BYTEKEY",
+        "ssid": "",
+        "submac": "",
+        "devicename": "linkpad",
+        "devType": 2,
+        "sub485Type": 1,
+        "subMid": "60",
+        "subCnt": 0
+      },
+      "ordinary_bind": "No branch in finite parseIndoorPTJson dispatch; independently sent encrypted t:bind returns no datagram. Never fabricate bindok.",
+      "outer_reply": {
+        "t": "pack",
+        "i": "scan/mate1; dat/res/subList0",
+        "uid": "last numeric pack uid; initial0, scan/mate preserve it",
+        "cid": "ROOT",
+        "tcid": "app",
+        "pack": "base64 ciphertext"
+      },
+      "terminator": "One LF after compact outer JSON",
+      "status_routing": "Root-safe requests use outer tcidROOT and inner macROOT. Native status also routes longer IDs through485 prefix/CAN caches; no root/child table inheritance. Strict root-only model rejects non-root targets instead of initializing/querying an absent child DB.",
+      "command_routing": "Root cmd has no sub, requires outer tcidROOT; inner mac is not consulted. p is root command parameter cache/strings, not appliance state. Replies res/mac/r200/opt/p. Unknown names omitted natively; safe simulator may reject unknown/invalid batches atomically.",
+      "status_reply": "dat/mac/r200/cols/dat; requested order and duplicates preserved. Exact-case property names. Root native cols ignores non-string or names length>=16. All known duplicate No placeholder entries match without values: never treat those as capabilities.",
+      "topology": "Inner {t:subDev,i:INDEX} yields subList/r200/c:0/i:INDEX/list:[] for every nonnegative model index. Native nonempty pagination five entries references separate CAN/485 state; root-only model permits no configured children. Distinct lowercase subdev addresses mesh topology, not this CAN/485 enumeration. subMid60 in remate is child-type metadata, not another emitted root MID."
+    },
+    "root_model": {
+      "roomless": true,
+      "thermal_target": null,
+      "max_children": 0,
+      "safe_readable_fields": {
+        "Mesh": 0,
+        "Meshota": "",
+        "SubOnline": [],
+        "Proaddr": "",
+        "Random": "00000000",
+        "Unbind": "",
+        "Subcount": 0,
+        "Pow": 1,
+        "Meshid": "0000",
+        "Onoff": "OK",
+        "text": "ok",
+        "hid": "362001063066+MC-ETSBH01V1.38.img",
+        "mac": "ROOT",
+        "InHid": 0,
+        "OEEPHid": 0,
+        "BtHid": 0,
+        "GcloudHid": 0
+      },
+      "readable_values_boundary": "Mesh/meshota/proaddr/random are source globals supplied synthetic zero/empty startup values, not physical readings; child-derived SubOnline/Subcount are empty-topology policy. Unbind and Meshid have independently exercised mutable string source operations. Pow getter is literal1 even after commandPow0.",
+      "numeric_command_semantics": "Native matches first table occurrence and stores low16 cJSON valueint atARRBUF[index]; immediate res.p is that uint16. Hardware routing is selected by first opt index only. Root getters do NOT generally read ARRBUF. E.g Pow0 gives p[0], fresh statusPow remains1; never invent appliance power state or thermal activity.",
+      "minimal_modeled_commands": {
+        "Pow": "strict integer0..65535 -> immediate ack same value, next status1",
+        "Meshid": "exactly4 hex characters -> lowercase canonical4hex ACK and getter after native sscanf stores2bytes; uppercase2A7B ACK2a7b",
+        "Unbind": "exactly12hex synthetic MAC -> source stores unbind_mac and deletes matching child DB row; empty-topology model only records command/getter, count stays0"
+      },
+      "remaining_native_namespace": "Full60-entry root table,40unique names. All recognized numeric parameter writes have uint16 ACKs independent of getter values (Pow retains existing strict0..65535 safe admission; other numeric parameters signed32->low16). BleON,Reota,Lpn, metadata and21No slots append names without dat; they remain unavailable, not fabricated balanced values. time is an actual UTC host wallclock readout chosen for reproducibility across host timezone; string commands ACK current time and never set it.",
+      "external_boundaries": "Nonempty CAN/485/mesh topology/status, hardware mesh acknowledgements, companion schema/calibration and appliance actuation remain unqualified. lowercase subdev emits sublist with missing i0 and signed32 i reduceduint8. Timer CRUD/query is qualified separately in session-central-timers_research.json. Source multirow cJSON array reuse/corruption remains an original fault qualifier; the model chooses independent per-row arrays, not a native-success claim. Invalid timer fields/codec JSON raise InvalidPacket with no mutation or UID change; not invented native error responses. Numeric first-selector Mesh ACKs requested low16 and changes virtual provisioning-state getter to2; later Mesh options do not trigger that callback. No mesh IO is fabricated.",
+      "timer_model": {
+        "evidence": "ContainerControllers/assessment.json callback_closure; source-disassembly.json0x610688 schema,0x5228a8 encode,0x522808 decode; original probe-results.json timer_transactions",
+        "state": "Per-device volatile in-memory multiple TIMERIDs, source SQL REPLACE equivalent: remove old row then append replacement; absent update inserts, delete unknown succeeds, restart empties. Query pagination preserves resulting row order and reports total independently. No actual DB or physical scheduled actuation.",
+        "wire": "setT/updateT/deleteT -> resT/r200; queryT -> listT/index/total/list. tz8/sec0 fixed. Source first cmd record and first mac/opt/p only. CMD comma->underscore and quote->pipe then inverse is deliberately lossy inside names.",
+        "order": "Source set/update ACK before SQLite write, delete SQL before ACK; chosen safe model validates entire operation and preflights reply before committing volatile state. No claim of database durability.",
+        "safe_limits": "id0..999, name128UTF8bytes/NUL-free, seven signed32week integers, hour0..23/minute0..59, short option and12hex target. Pipe collisions producing invalid JSON are rejected atomically. Query reply scratch limits remain preflighted; storage is not capped at one timer. Each row owns independent arrays as explicit chosen safe source-fault deviation."
+      }
+    }
+  },
+  "boundary": "SQLite count queries supplied literal0 and delete queries accepted against declared synthetic empty child topology; no hook on root properties, dispatch, crypto, key selection or topology serializer. libc sscanf%2X substituted. Native API calls record injected values. No physical CAN/485/mesh node inputs or semantics claimed.",
+  "device": {
+    "mac": "020000000001",
+    "key": "0123456789abcdef"
+  },
+  "vectors": [
+    {
+      "label": "mate",
+      "input_outer": {
+        "t": "mate",
+        "host": "synthetic-host"
+      },
+      "independent_decrypted": [
+        {
+          "t": "remate",
+          "cid": "",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "80901",
+          "lock": 0,
+          "model": "gree",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V1.2.1",
+          "brand": "gree",
+          "mac": "020000000001",
+          "private_key": "0123456789abcdef",
+          "ssid": "",
+          "submac": "",
+          "devicename": "linkpad",
+          "devType": 2,
+          "sub485Type": 1,
+          "subMid": "60",
+          "subCnt": 0
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":0,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"N9sZfkZ5tRRirh0IvceEUeOAnRzOEQmLHxIMUM24iiGf6iMK3Pku9tH+A2/x4uxHrowgl/nyU3px57TeR/CAgI9Zf/dypn1tbQu0NEu+L//y5E46ZJa4qjXRGFPdCyn4rdNxH0QiaI1g5KZ28BYnM2WfJphSxM/k8gSrC3y5dBHereAia9TH0fpC31T4LpOu2nJFwR+6DFs8ltarvV+UjPDMeRJVMpKNi4P1D4LHAfnjOwICBZd+3vu46//K3TOg8p1OYgUVtzerb1Bte4EUpPMMjE2Q1Gj5DVH2x3dsMRqFT978u1fGCUtFCkuMJJ2lQO7bjZBi8zXRT8zH4XxkVlyR7SuEHwbx+I5sN4GV+D0TCTIBowW/W+0A2+9UVqPpcRRVnrt6TlFzDHUMQX3Z0w==\"}\n"
+      ],
+      "instruction_trace_sha256": "46d4c066e23a0c2bcbb86529845f197f3bbedc89935359827b1a7bda138b9b3e",
+      "instructions": 198207
+    },
+    {
+      "label": "ordinary_bind_silent",
+      "input_outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "kwF3OiM3gyG3WFP6mPvo28sEIPZsUTbfZkMG45LabGenM/yeg7wlP8oiM9sRGDxF"
+      },
+      "independent_decrypted": [],
+      "datagrams": [],
+      "instruction_trace_sha256": "0157efd301a93fc3a1f2ad85d20958bf4dcb87c07e5fb8ff8d2cd53a74b5d9cc",
+      "instructions": 46284
+    },
+    {
+      "label": "root_status",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMUAvxqACioqXc3a/92jiQIr2v52cmnpeBD6oJ0/9lbIAME+iYamxHalkLPJAjYu74V5EtfoTiYJCqvlhEhzBBOEEHF+BNrk/uHox4z/2MUtQsUg3VcDUQyMEbN2hOED1HLSqL5nbXrrXQnt2+N/oeXw35r3oNiRymYiYQyM2Qm/AgonzbwoFYZ6numlujl9x1redMwmxuIFt58ZicrTB3cDN3Ii4GGpJMWRzZwn6hY+1A=="
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Mesh",
+            "Meshota",
+            "SubOnline",
+            "Proaddr",
+            "Random",
+            "Unbind",
+            "Subcount",
+            "Pow",
+            "Meshid",
+            "Onoff",
+            "text",
+            "hid",
+            "mac",
+            "InHid",
+            "OEEPHid",
+            "BtHid",
+            "GcloudHid"
+          ],
+          "dat": [
+            0,
+            "",
+            [],
+            "",
+            "00000000",
+            "",
+            0,
+            1,
+            "0000",
+            "OK",
+            "ok",
+            "362001063066+MC-ETSBH01V1.38.img",
+            "020000000001",
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/4SKaqcir3XdpDRXuYbqvg0IIAq6lL4sr2MePRwuiN9e6oDvC+pnivkE5aCuqS8ar16cTuyPNBH40zIpJL0ao6CHPeb+NtyIm82MmJkfucGAG1Yh2gVBj9g6wP266vurs+Rc0CMLZx1qJ3BXS5axsHG9UGee9OKe3Adeuew9h9WhdljHPrvAcX77X+ZGrpVjC3KukO2+gFvPVgmO1yDU+i6jPtheZEuKC92M/HhgwfZ+9iZMiVJ5sLcSipePT7TeOr3NX3SDL2yAdX5ZhyqG9m5IJT8U1TDe9mXWw5eI7/PwE74dk4QdqUKxx7IFaZwVQmBg+O9d8tkWioYLUpc0mQ/no8pAp2H0f50Yvv+xATiM=\"}\n"
+      ],
+      "instruction_trace_sha256": "72912f380f79d9c958ca7808f987d3800ed4ae712e78345065a5abb2e3ea1c91",
+      "instructions": 349556
+    },
+    {
+      "label": "pow_zero",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9Zkf7aiIpuekVfksT61IMZIDAArrT/UdKRiPguShYqH2"
+      },
+      "independent_decrypted": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            0
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLItjps1zpbrwB08o+7ySxTHg==\"}\n"
+      ],
+      "instruction_trace_sha256": "62067a1ef30767219847f5a34fc88408d940d1fe7be5d927d6721245cbf00c59",
+      "instructions": 73071
+    },
+    {
+      "label": "pow_fresh",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            1
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/BF8GZNc3Q1oiRGS+gfxzRwMACutP9R0pGI+C5KFiofY=\"}\n"
+      ],
+      "instruction_trace_sha256": "d2f64262172e34a03e7057feafa9462dfdfd56cf69e0d303e79babbb8df00a23",
+      "instructions": 95251
+    },
+    {
+      "label": "meshid",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9dnma3bh8B/J5Dcq9DFsC24fvPN/plgvP+wufWnVeo9A"
+      },
+      "independent_decrypted": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Meshid"
+          ],
+          "p": [
+            "2a7b"
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIjV4xoUiGmf/L1xHtpW6AaValbb4+R6sNb0aTnR/vFUA=\"}\n"
+      ],
+      "instruction_trace_sha256": "83652508910b6606cf036251a92a2bed2351345d04ccf4dab1330a415e5ba726",
+      "instructions": 79688
+    },
+    {
+      "label": "meshid_fresh",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMUAvxqACioqXc3a/92jiQIrrgwXhy3kI/iZW44HSkapUQ=="
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Meshid"
+          ],
+          "dat": [
+            "2a7b"
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/THv58wCfBZzoCBVragTmBx+883+mWC8/7C59adV6j0A=\"}\n"
+      ],
+      "instruction_trace_sha256": "50019a0d09b665404037111cf394310a1525d07810e97067a446cf49ee63eb67",
+      "instructions": 95619
+    },
+    {
+      "label": "unbind_empty",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "HFx/SMy/URlHd+hiK+H+9TJhRrfywFwz4YXwyIoS/cIhKDsSZZ7K+LYjY9CJ9xCSAwAK60/1HSkYj4LkoWKh9g=="
+      },
+      "independent_decrypted": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Unbind"
+          ],
+          "p": [
+            "020000000099"
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIvuH8THijkLL3MlWt2j0B5Zdl+kJ8i+DPhaaTUIyhqMc=\"}\n"
+      ],
+      "instruction_trace_sha256": "610bea38ded831f00bcf024e3caf6a28be312eb2e5fec1bc94d0f02c9262264f",
+      "instructions": 94510
+    },
+    {
+      "label": "unbind_fresh",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMWxL20W981Yz/CaWWkZHE+hEHF+BNrk/uHox4z/2MUtQqe2Q56nVG9AKkg+Rq6QzzM="
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Unbind",
+            "Subcount",
+            "SubOnline"
+          ],
+          "dat": [
+            "020000000099",
+            0,
+            []
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/16cTuyPNBH40zIpJL0ao6HgLfWngCtxqIfLE4NxX71NsiZH0yBGj3vuTkAykpwMsj9IGvSj7Jr4yLv4g/Isjow==\"}\n"
+      ],
+      "instruction_trace_sha256": "09df9a55e8e1b4c853ce16da7ad621df7a6d2b663eec9a2b1ce229f1210a4619",
+      "instructions": 126149
+    },
+    {
+      "label": "subdev0",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "p65hJbKqaDWtFTXK/Uj+FF7I6E/jJM6ga2v2jaToyk4="
+      },
+      "independent_decrypted": [
+        {
+          "t": "subList",
+          "r": 200,
+          "c": 0,
+          "i": 0,
+          "list": []
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"+Z3VdEiQSUJya61QNRvoSYFwGZAR+NRjXiIzxCVFTVtxx4ZCmmiOVp95sACAiqF7\"}\n"
+      ],
+      "instruction_trace_sha256": "a7c5ada0f0f2da3ae4e3eaba0d3a00d9481a199604c476a83e2871d7893539af",
+      "instructions": 50832
+    },
+    {
+      "label": "subdev5",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "p65hJbKqaDWtFTXK/Uj+FOaOga4j1GaZ0bbBt0LQm8Y="
+      },
+      "independent_decrypted": [
+        {
+          "t": "subList",
+          "r": 200,
+          "c": 0,
+          "i": 5,
+          "list": []
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"+Z3VdEiQSUJya61QNRvoSYFwGZAR+NRjXiIzxCVFTVsFLUJ6Sh6YMvzbyeBXDh13\"}\n"
+      ],
+      "instruction_trace_sha256": "a7c5ada0f0f2da3ae4e3eaba0d3a00d9481a199604c476a83e2871d7893539af",
+      "instructions": 50832
+    },
+    {
+      "label": "scan_uid_persists",
+      "input_outer": {
+        "t": "scan"
+      },
+      "independent_decrypted": [
+        {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "80901",
+          "lock": 0,
+          "model": "gree",
+          "name": "linkpad",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V1.2.1",
+          "brand": "gree",
+          "mac": "020000000001"
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"app\",\"pack\":\"6XHOeecapkCr2BKkJ4iInCHGXWQLQHj0AqfVqcQAyqH9ZJAX7jExUipLZt/NASA40ZKo8ghziiCF2A2XzW3FNoVmZammEhR1njGt+Q/7bARmcXOiO8fC3JoMOBg6r1az/ihNi+iv/Uvs8zgcw46L+bv0AxtLapM2TIswzdLm/W04/4he7OQpUUmPlC7CusX6umVGNlhuiHjC1okVuASR2fiDa3MUVRYvHO4xhz2DSQCu7gLFmVmIrJ+ocuyAneuH\"}\n"
+      ],
+      "instruction_trace_sha256": "4a41dec56dfde0403c739d62cb7ed2f045455ba52325cf6e1d9a1f5a88bfaaae",
+      "instructions": 76578
+    }
+  ],
+  "safe_model_deviations": [
+    "Strict one-object JSON; duplicate keys, concatenated JSON, nonfinite numbers and malformed cipher/padding rejected.",
+    "Clear mate host is1..255 printable nonwhitespace ASCII characters; mate ignores cid/tcid/mac/i/uid regardless of their type.",
+    "Invalid/unsupported command batches are atomic rather than native unknown-name omission or unchecked conversions.",
+    "Only balanced17 root getters; unsupported side-effect/name-only fields are omitted, not fabricated.",
+    "Root-only status rejects non-root identities and sub routing; no mesh/CAN/485 DB or children.",
+    "Pow integer0..65535 acknowledgment only; Meshid exactly4hex canonical getter; Unbind exactly12hex copied getter.",
+    "Synthetic zero/empty root globals and child count, no physical hardware state or appliance temperature."
+  ],
+  "cli_config": {
+    "seed": "central-fixture",
+    "listen": "127.0.0.1",
+    "port": 0,
+    "devices": [
+      {
+        "id": "central",
+        "profile": "sim-mc-etsbh01-v1.38",
+        "mid": "80901",
+        "mac": "020000000001"
+      }
+    ]
+  }
+}

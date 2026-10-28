@@ -1,27 +1,20 @@
-"""WB04AV1.49 LAN framing with explicitly synthetic AC controls and temperature."""
+"""WB04AV1.49 complete raw LAN cache with explicitly synthetic AC reports."""
 
 import json
+from time import monotonic
 
 from ..wire import InvalidPacket, Reply, decode_pack
-from . import Profile, simulated
+from . import Profile, simulated, wb_operations, wb_raw
 
 
 HID = "362001062295+U-WB04AV1.49.bin"
 SOURCE_SHA256 = "0d5ee6fda1678084e1fa29e6267941afae304090b5b97f7b4264f9cee7fd461b"
 GENERIC_KEY = b"a3K8Bx%2r8Y7#xDh"
 CODEC = "aes-ecb-pkcs7-nul-input"
-# Exact source table 0x10000a38 intersected with the shared simulation controls.
-CONTROLS = frozenset("""
-Pow Mod SetTem WdSpd TemUn TemRec Air Blo Health SwhSlp SlpMod Lig SwingLfRig
-SwUpDn Quiet Tur StHt SvSt Buzzer_ON_OFF
-""".split())
+# Complete495-row native table; local callbacks take precedence over raw fields.
+CONTROLS = wb_raw.WB04_FIELDS - wb_raw.LOCAL_FIELDS
 INITIAL_STATE = {name: value for name, value in simulated.INITIAL_STATE.items()
                  if name in CONTROLS}
-
-
-def _metadata(device):
-    return {"hid": HID, "mid": device.mid, "ver": "V3.0.0", "vender": "2",
-            "name": device.name, "bc": "00000", "host": ""}
 
 
 def _reply(device, inner, index, uid=0, peer="", *, scan=False):
@@ -38,10 +31,7 @@ def _reply(device, inner, index, uid=0, peer="", *, scan=False):
 
 class WB04A:
     def validate_state(self, state):
-        for name in state:
-            if not name.startswith("_") and name not in CONTROLS:
-                raise ValueError(f"unsupported WB state field {name!r}")
-        simulated.validate_state(state)
+        wb_raw.validate_state(state, wb_raw.WB04_FIELDS)
 
     def thermal_target(self, device):
         return simulated.thermal_target(device)
@@ -70,33 +60,59 @@ class WB04A:
         if type(uid) is not int or not isinstance(peer, str):
             raise InvalidPacket("invalid WB reply route")
         kind = inner.get("t")
+        if not isinstance(kind, str):
+            raise InvalidPacket("WB operation type must be a string")
         if kind == "bind":
             if inner.get("mac") != device.mac:
                 raise InvalidPacket("missing WB bind identity")
             return [_reply(device, {"r": 200, "t": "bindok", "mac": device.mac,
                                     "key": device.key.decode("ascii")}, 1, uid, peer)]
         if kind == "status":
-            columns = inner.get("cols")
+            columns, read_mode = wb_operations._wb04_columns(inner)
             if (not isinstance(columns, list) or len(columns) > 32
                     or any(not isinstance(name, str) or not name
                            or len(name.encode()) >= 32 for name in columns)):
                 raise InvalidPacket("invalid WB status columns")
-            # Unmodelled fields are omitted, not fabricated from the UART cache.
-            values = {**_metadata(device), **{name: value for name, value in device.state.items()
-                                              if name in CONTROLS or name == "TemSen"}}
-            selected = [name for name in columns if name in values]
-            return [_reply(device, {"t": "dat", "uid": 0, "mac": device.mac,
-                                    "cid": device.mac, "dat": [values[name] for name in selected],
-                                    "cols": selected, "r": 200}, 0, uid, peer)]
+            staged = ({} if read_mode else
+                      wb_raw.stage_command(device, columns, inner.get("p"), wb_raw.WB04_FIELDS))
+            metadata = wb_raw.metadata(device, model_type_string=False)
+            selected, values = wb_raw.status(
+                device, columns, metadata, wb_raw.WB04_FIELDS, staged)
+            reply = _reply(device, {"t": "dat", "uid": 0, "mac": device.mac,
+                                    "cid": device.mac, "dat": values,
+                                    "cols": selected, "r": 200}, 0, uid, peer)
+            if staged:
+                device.advance(monotonic())
+                device.state.update(staged)
+            return [reply]
         if kind == "cmd":
-            options, values = inner.get("opt"), inner.get("p")
+            options, read_mode = wb_operations._wb04_columns(inner)
+            values = inner.get("p")
             if (not isinstance(options, list) or len(options) > 32
-                    or any(not isinstance(name, str) or name not in CONTROLS for name in options)):
-                raise InvalidPacket("unsupported WB command field")
+                    or any(not isinstance(name, str) or not name or "\0" in name for name in options)):
+                raise InvalidPacket("invalid WB command fields")
+            if read_mode:
+                if any(name not in wb_raw.WB04_FIELDS | wb_raw.LOCAL_FIELDS for name in options):
+                    raise InvalidPacket("unsupported WB command field")
+                staged, values = {}, [0] * len(options)
+            else:
+                staged = wb_raw.stage_command(device, options, values, wb_raw.WB04_FIELDS)
+            options, values = wb_raw.command_response(device, options, values, staged,
+                                                      model_type_string=False)
             reply = _reply(device, {"t": "res", "mac": device.mac,
                                     "p": values, "opt": options, "r": 200}, 0, uid, peer)
-            simulated.apply_command(device, options, values)
+            device.advance(monotonic())
+            device.state.update(staged)
             return [reply]
+        if (device.profile.source_sha256 == wb_operations.WB04_SOURCE_SHA256
+                and kind in wb_operations.WB04_OPERATIONS):
+            response, staged = wb_operations.operation(
+                device, inner, raw_fields=wb_raw.WB04_FIELDS, clock=False)
+            reply = _reply(device, response, index, uid, peer) if response is not None else None
+            if kind == "freqCount" and staged:
+                device.advance(monotonic())
+            device.state.update(staged)
+            return [reply] if reply is not None else []
         return []
 
 

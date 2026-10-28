@@ -1,0 +1,463 @@
+{
+  "schema_version": 1,
+  "profile": "sim-w05g-v4.4",
+  "source_sha256": "3c0ac3e4a236e9d679e8e879ba181703fcd7b9947276852a521620fb432443fe",
+  "mid": "80300",
+  "hid": "362001061996+U-W05G(RELT)V4.4.bin",
+  "source_checks": [
+    "CatalogQuirks/RealtekMiddle/g44-native-results.json",
+    "CatalogQuirks/RealtekMiddle/g44-bank1-native-results.json",
+    "CatalogQuirks/RealtekMiddle/g44-commands-native-results.json",
+    "CatalogQuirks/RealtekMiddle/g44-scan-native-results.json",
+    "CatalogQuirks/RealtekMiddle/controller-report-instructions.json"
+  ],
+  "initial_getters": [
+    {
+      "name": "BleLink",
+      "columns": [
+        "BleLink"
+      ],
+      "values": [
+        "000000000000"
+      ]
+    },
+    {
+      "name": "Mesh",
+      "columns": [
+        "Mesh"
+      ],
+      "values": [
+        0.0
+      ]
+    },
+    {
+      "name": "Meshota",
+      "columns": [
+        "Meshota"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "Reota",
+      "columns": [
+        "Reota"
+      ],
+      "values": []
+    },
+    {
+      "name": "SubOnline",
+      "columns": [
+        "SubOnline"
+      ],
+      "values": [
+        "[]"
+      ]
+    },
+    {
+      "name": "Proaddr",
+      "columns": [
+        "Proaddr"
+      ],
+      "values": [
+        "0000"
+      ]
+    },
+    {
+      "name": "Random",
+      "columns": [
+        "Random"
+      ],
+      "values": [
+        "00000000"
+      ]
+    },
+    {
+      "name": "Unbind",
+      "columns": [
+        "Unbind"
+      ],
+      "values": [
+        "000000000000"
+      ]
+    },
+    {
+      "name": "Subcount",
+      "columns": [
+        "Subcount"
+      ],
+      "values": [
+        0.0
+      ]
+    },
+    {
+      "name": "Pow",
+      "columns": [
+        "Pow"
+      ],
+      "values": []
+    },
+    {
+      "name": "Lpn",
+      "columns": [
+        "Lpn"
+      ],
+      "values": []
+    },
+    {
+      "name": "Meshid",
+      "columns": [
+        "Meshid"
+      ],
+      "values": [
+        "0000"
+      ]
+    },
+    {
+      "name": "Onoff",
+      "columns": [
+        "Onoff"
+      ],
+      "values": [
+        "OK"
+      ]
+    },
+    {
+      "name": "Sceneid",
+      "columns": [
+        "Sceneid"
+      ],
+      "values": [
+        0.0
+      ]
+    },
+    {
+      "name": "Scene",
+      "columns": [
+        "Scene"
+      ],
+      "values": [
+        "FAIL"
+      ]
+    },
+    {
+      "name": "Scenecontrol",
+      "columns": [
+        "Scenecontrol"
+      ],
+      "values": [
+        0.0
+      ]
+    },
+    {
+      "name": "BleKey",
+      "columns": [
+        "BleKey"
+      ],
+      "values": [
+        "",
+        0.0
+      ]
+    },
+    {
+      "name": "BleStatus",
+      "columns": [
+        "BleStatus"
+      ],
+      "values": [
+        0.0
+      ]
+    },
+    {
+      "name": "AdminRadom",
+      "columns": [
+        "AdminRadom"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "NoD",
+      "columns": [
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD"
+      ],
+      "values": []
+    },
+    {
+      "name": "apssid",
+      "columns": [
+        "apssid"
+      ],
+      "values": []
+    },
+    {
+      "name": "appsw",
+      "columns": [
+        "appsw"
+      ],
+      "values": []
+    },
+    {
+      "name": "host",
+      "columns": [
+        "host"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "name",
+      "columns": [
+        "name"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "time",
+      "columns": [
+        "time"
+      ],
+      "values": [
+        "2026-01-01 00:00:00"
+      ]
+    },
+    {
+      "name": "lat",
+      "columns": [
+        "lat"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "lon",
+      "columns": [
+        "lon"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "vender",
+      "columns": [
+        "vender"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "bc",
+      "columns": [
+        "bc"
+      ],
+      "values": []
+    },
+    {
+      "name": "mid",
+      "columns": [
+        "mid"
+      ],
+      "values": []
+    },
+    {
+      "name": "model",
+      "columns": [
+        "model"
+      ],
+      "values": []
+    },
+    {
+      "name": "series",
+      "columns": [
+        "series"
+      ],
+      "values": []
+    },
+    {
+      "name": "brand",
+      "columns": [
+        "brand"
+      ],
+      "values": []
+    },
+    {
+      "name": "catalog",
+      "columns": [
+        "catalog"
+      ],
+      "values": []
+    },
+    {
+      "name": "country",
+      "columns": [
+        "country"
+      ],
+      "values": []
+    },
+    {
+      "name": "hid",
+      "columns": [
+        "hid"
+      ],
+      "values": [
+        "362001061996+U-W05G(RELT)V4.4.bin"
+      ]
+    },
+    {
+      "name": "mac",
+      "columns": [
+        "mac"
+      ],
+      "values": [
+        "020000000001"
+      ]
+    },
+    {
+      "name": "ver",
+      "columns": [
+        "ver"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "HidSvrVer",
+      "columns": [
+        "HidSvrVer"
+      ],
+      "values": []
+    },
+    {
+      "name": "InHid",
+      "columns": [
+        "InHid"
+      ],
+      "values": []
+    },
+    {
+      "name": "InHidSvrVer",
+      "columns": [
+        "InHidSvrVer"
+      ],
+      "values": []
+    },
+    {
+      "name": "OEEPHid",
+      "columns": [
+        "OEEPHid"
+      ],
+      "values": []
+    },
+    {
+      "name": "OEEPHidSvrVer",
+      "columns": [
+        "OEEPHidSvrVer"
+      ],
+      "values": []
+    },
+    {
+      "name": "BtHid",
+      "columns": [
+        "BtHid"
+      ],
+      "values": [
+        ""
+      ]
+    },
+    {
+      "name": "BuzzerCtrl",
+      "columns": [],
+      "values": []
+    },
+    {
+      "name": "Buzzer_ON_OFF",
+      "columns": [],
+      "values": []
+    },
+    {
+      "name": "TemSen",
+      "columns": [],
+      "values": []
+    },
+    {
+      "name": "__unknown__",
+      "columns": [],
+      "values": []
+    }
+  ],
+  "model_policies": [
+    "Independent zero uint16 scratch, virtual UTC2026 clock and empty external BLE registry; MAC supplied as synthetic platform identity rather than zero BSS.",
+    "Atomic strict input validation replaces unsafe native array/pointer paths; original NoD columns repeat17 times and ragged dat shapes remain.",
+    "Binary/dump writes enqueue exact local250-byte records with per-device routing origin; no BLE/mainboard delivery or downstream appliance schema invented.",
+    "subDev/meshstatus expose empty supplied BLE registry, not an inferred Gree gateway or guessed child MID."
+  ],
+  "operation_vectors": {
+    "subDev": {
+      "t": "subList",
+      "r": 200,
+      "c": 0,
+      "i": 0,
+      "list": []
+    },
+    "meshstatus": {
+      "t": "substatus",
+      "mac": "020000000001",
+      "meshmac": [],
+      "status": []
+    },
+    "onoffse": {
+      "t": "onoffse",
+      "res": 200
+    },
+    "dump_frame_prefix": [
+      170,
+      170,
+      2,
+      0,
+      0,
+      0,
+      0,
+      2,
+      1,
+      13,
+      0,
+      1,
+      0,
+      18,
+      52,
+      0,
+      0,
+      5,
+      10,
+      3,
+      2,
+      3
+    ]
+  },
+  "native_faults": "Original bare Onoff string with missing Scenecontrol companion faults at0x80618a4; source G44 valid finite numeric commands return, unlike R241 universal one-past-end tail. Other source primitive/peripheral stops are retained separately, not promoted to native command faults."
+}

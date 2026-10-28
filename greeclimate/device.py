@@ -469,10 +469,7 @@ class Device(DeviceProtocol2, Taskable):
                         capabilities[name] = supported
             profile = self._device_profile
             if self._capability_family == "air_conditioner":
-                buzzer_properties = profile.buzzer_properties if profile is not None else None
-                capabilities["lan_buzzer_control"] = (
-                    bool(buzzer_properties) if buzzer_properties is not None else None
-                )
+                capabilities["lan_buzzer_control"] = bool(profile and profile.buzzer_properties)
             if profile is not None:
                 for family, name, supported in profile.capabilities:
                     if family == self._capability_family and name in self._capability_names:

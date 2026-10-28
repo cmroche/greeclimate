@@ -1,0 +1,1742 @@
+{
+  "schema_version": 1,
+  "profile": "sim-w05r-v2.35",
+  "source_sha256": "91d53e5611049c71460df61f2a92705a58c67ee4e211bd202dad20da5958a149",
+  "provenance": "Sanitized literal extraction of parent-corrected probe-results.json; expected values do not import emulator/client code. Partial ACKs/cache are NOT completed native commands. Full sweep and eight phases passed under declared primitive adapters; RTC/flash/native NULL boundaries remain qualifiers.",
+  "synthetic_numeric_completion": {
+    "Electnumzero": {
+      "ack": [0],
+      "clear_when_cached": 1,
+      "effective_cache": 0,
+      "scope": "Explicit in-memory persistence policy completes the source clear/reset branch. The literal numeric vector65537 stops at original flash platform0x804fcae BEFORE the clear/ACK, so its p[] and cache1 are partial observations, not final getter/cardinality expectations. They remain unchanged below.",
+      "source": "Original callback0x805db78 case0x20: cached1 -> flash erase -> cached0 -> accumulator flag0 -> constant ACK0; hardware completion not claimed."
+    }
+  },
+  "namespace": [
+    "Pow",
+    "Mod",
+    "SwhSlp",
+    "SwhSw",
+    "WdSpd",
+    "SetTem",
+    "Blo",
+    "Health",
+    "Lig",
+    "Air",
+    "SwUpDn",
+    "SwingLfRig",
+    "SvSt",
+    "SlpMod",
+    "Tur",
+    "Quiet",
+    "StHt",
+    "IntradayElect",
+    "IntradayElectPow",
+    "IntradayElectLim",
+    "AutoPowDown",
+    "ProTimeReminder",
+    "RealTimePower",
+    "AppTimer",
+    "ProTimeLen",
+    "ProTimePow",
+    "Studied",
+    "AddButton",
+    "ConBtnNum",
+    "ConBtnName",
+    "DelButton",
+    "SendButton",
+    "Electnumzero",
+    "hid",
+    "RefBtnList",
+    "time"
+  ],
+  "matrix": [
+    {
+      "name": "Pow",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "Mod",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "SwhSlp",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "SwhSw",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "WdSpd",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "SetTem",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "Blo",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "Health",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "Lig",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "Air",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "SwUpDn",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "SwingLfRig",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "SvSt",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "SlpMod",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "Tur",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "Quiet",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "StHt",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "IntradayElect",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "IntradayElectPow",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "IntradayElectLim",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "AutoPowDown",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "ProTimeReminder",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "RealTimePower",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "AppTimer",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "ProTimeLen",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "ProTimePow",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "ProTimePow ACK first, then timer cancellation/start and flash persistence; resets ProTimeReminder cache21",
+      "ack_vs_stored": "ACK stored low16 first; reset ProTimeReminder21 to0; zero cancels two timers, nonzero sets timer flag and requests timer start; persistence writes cache25/cache24 and36 cache slots. Bounded model records synthetic timer request/cancel and in-memory persisted cache snapshot only. No untraced automatic IR/timer completion or real flash success. Native currently faults0xe000e100 via0x804fcae AFTER ACK."
+    },
+    {
+      "name": "Studied",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Studied emits cached value; when2 resets cache26 to0 and sets learning flag2",
+      "ack_vs_stored": "ACK low16; value2 resets scratch26 to0 and sets learning state2. Example request2 => p[2], next cache getter0."
+    },
+    {
+      "name": "AddButton",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "AddButton sets learning flag1 and resets Studied; emits callback result constant, not simple cache",
+      "ack_vs_stored": "Set learning state1/deferred flag and reset Studied26; ACK26 constant regardless numeric requested low16 in scratch27. This prepares learning, does not fabricate an acquired IR waveform."
+    },
+    {
+      "name": "ConBtnNum",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "ACK uses unsigned low16 cache after each matching element; later duplicate wins fresh cache"
+    },
+    {
+      "name": "ConBtnName",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "ConBtnName string pointer accepted only here; validates ConBtnNum/AddButton and25-slot refs; ACK may emit ID plus name; flash persistence, unsafe string copy",
+      "ack_vs_stored": "Getter remains numeric scratch29; string command appends TWO p values for ONE opt: valid ID+name or26+name. Native flash stop or original NULL-tail fault is not successful native res."
+    },
+    {
+      "name": "DelButton",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "DelButton valid indices1..25 perform flash lookup/erase/update; response success/failure constants",
+      "ack_vs_stored": "For IDs1..25, native flash helpers populate stack word then branch on EXACT0xffffffff: equals sentinel => ACK26, clear reference/name and rewrite flash; otherwise ACK27 without clear. Invalid IDs also ACK26 natively. Do not infer present/missing waveform polarity from this sentinel alone. Safe model prevalidates1..25 and uses explicit synthetic flash-result word (default0xffffffff) to reproduce the branch, with in-memory reference/name mutation only; no original flash success claim."
+    },
+    {
+      "name": "SendButton",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "SendButton sets deferred send flag, ACK requested uint16; physical IR follows dispatcher",
+      "ack_vs_stored": "Set deferred send flag; ACK scratch31 uint16; leave requested cache for fresh getter. Synthetic event is not physical IR transmission."
+    },
+    {
+      "name": "Electnumzero",
+      "getter": "Indices0..32 use LDRH and emit uint16 cache unchanged",
+      "setter": "Electnumzero1 erases flash and resets accumulation; ACK constant, not requested integer",
+      "ack_vs_stored": "If scratch32==1, erase persistent accumulator, reset scratch32 and accumulator flag to0, then ACK0; other numbers still ACK0 without implied erase. Model clears synthetic accumulation only for1 and preserves the source scratch getter distinction."
+    },
+    {
+      "name": "hid",
+      "getter": "Exact embedded HID literal; no HID replacement by numeric cache write",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "cmd callback returns literal HID, not written integer"
+    },
+    {
+      "name": "RefBtnList",
+      "getter": "Scan25 refs; include IDs other than0/65535 and parallel16-byte button names; empty platform dat=[[],[]]; BUG reuses outer request index",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "Numeric command index34 follows default callback: ACK scratch34 uint16, not empty string. Getter emits parallel existing-ID and name arrays (TWO dat values for ONE name). Native getter clobbers outer request index to25; safe model iterates requested names finitely without cycling. Traversal is an explicit safety divergence, not a changed shape."
+    },
+    {
+      "name": "time",
+      "getter": "RTC calendar formatted %d-%02d-%02d %02d:%02d:%02d; not numeric cache35",
+      "setter": "Numeric stores any matched index; nonnumeric retains cache; indices0..16 flag deferred IR send, not physical completion",
+      "ack_vs_stored": "cmd formats current RTC; numeric scratch write does not set RTC"
+    }
+  ],
+  "native_status": [
+    {
+      "name": "Pow",
+      "cols": [
+        "Pow"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Mod",
+      "cols": [
+        "Mod"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SwhSlp",
+      "cols": [
+        "SwhSlp"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SwhSw",
+      "cols": [
+        "SwhSw"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "WdSpd",
+      "cols": [
+        "WdSpd"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SetTem",
+      "cols": [
+        "SetTem"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Blo",
+      "cols": [
+        "Blo"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Health",
+      "cols": [
+        "Health"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Lig",
+      "cols": [
+        "Lig"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Air",
+      "cols": [
+        "Air"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SwUpDn",
+      "cols": [
+        "SwUpDn"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SwingLfRig",
+      "cols": [
+        "SwingLfRig"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SvSt",
+      "cols": [
+        "SvSt"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SlpMod",
+      "cols": [
+        "SlpMod"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Tur",
+      "cols": [
+        "Tur"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Quiet",
+      "cols": [
+        "Quiet"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "StHt",
+      "cols": [
+        "StHt"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "IntradayElect",
+      "cols": [
+        "IntradayElect"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "IntradayElectPow",
+      "cols": [
+        "IntradayElectPow"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "IntradayElectLim",
+      "cols": [
+        "IntradayElectLim"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "AutoPowDown",
+      "cols": [
+        "AutoPowDown"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ProTimeReminder",
+      "cols": [
+        "ProTimeReminder"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "RealTimePower",
+      "cols": [
+        "RealTimePower"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "AppTimer",
+      "cols": [
+        "AppTimer"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ProTimeLen",
+      "cols": [
+        "ProTimeLen"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ProTimePow",
+      "cols": [
+        "ProTimePow"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Studied",
+      "cols": [
+        "Studied"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "AddButton",
+      "cols": [
+        "AddButton"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ConBtnNum",
+      "cols": [
+        "ConBtnNum"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ConBtnName",
+      "cols": [
+        "ConBtnName"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "DelButton",
+      "cols": [
+        "DelButton"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SendButton",
+      "cols": [
+        "SendButton"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Electnumzero",
+      "cols": [
+        "Electnumzero"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "hid",
+      "cols": [
+        "hid"
+      ],
+      "dat": [
+        "362001061917+W05RV2.35.bin"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "RefBtnList",
+      "cols": [
+        "RefBtnList"
+      ],
+      "dat": [
+        [],
+        []
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "time",
+      "cols": [
+        "time"
+      ],
+      "dat": [],
+      "native_stop": null,
+      "native_pc": "0x226c"
+    }
+  ],
+  "numeric": [
+    {
+      "name": "Pow",
+      "value": -1,
+      "opt": [
+        "Pow"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Pow",
+      "value": 65537,
+      "opt": [
+        "Pow"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Mod",
+      "value": -1,
+      "opt": [
+        "Mod"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Mod",
+      "value": 65537,
+      "opt": [
+        "Mod"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwhSlp",
+      "value": -1,
+      "opt": [
+        "SwhSlp"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwhSlp",
+      "value": 65537,
+      "opt": [
+        "SwhSlp"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwhSw",
+      "value": -1,
+      "opt": [
+        "SwhSw"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwhSw",
+      "value": 65537,
+      "opt": [
+        "SwhSw"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "WdSpd",
+      "value": -1,
+      "opt": [
+        "WdSpd"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "WdSpd",
+      "value": 65537,
+      "opt": [
+        "WdSpd"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SetTem",
+      "value": -1,
+      "opt": [
+        "SetTem"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SetTem",
+      "value": 65537,
+      "opt": [
+        "SetTem"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Blo",
+      "value": -1,
+      "opt": [
+        "Blo"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Blo",
+      "value": 65537,
+      "opt": [
+        "Blo"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Health",
+      "value": -1,
+      "opt": [
+        "Health"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Health",
+      "value": 65537,
+      "opt": [
+        "Health"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Lig",
+      "value": -1,
+      "opt": [
+        "Lig"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Lig",
+      "value": 65537,
+      "opt": [
+        "Lig"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Air",
+      "value": -1,
+      "opt": [
+        "Air"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Air",
+      "value": 65537,
+      "opt": [
+        "Air"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwUpDn",
+      "value": -1,
+      "opt": [
+        "SwUpDn"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwUpDn",
+      "value": 65537,
+      "opt": [
+        "SwUpDn"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwingLfRig",
+      "value": -1,
+      "opt": [
+        "SwingLfRig"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SwingLfRig",
+      "value": 65537,
+      "opt": [
+        "SwingLfRig"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SvSt",
+      "value": -1,
+      "opt": [
+        "SvSt"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SvSt",
+      "value": 65537,
+      "opt": [
+        "SvSt"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SlpMod",
+      "value": -1,
+      "opt": [
+        "SlpMod"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SlpMod",
+      "value": 65537,
+      "opt": [
+        "SlpMod"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Tur",
+      "value": -1,
+      "opt": [
+        "Tur"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Tur",
+      "value": 65537,
+      "opt": [
+        "Tur"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Quiet",
+      "value": -1,
+      "opt": [
+        "Quiet"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Quiet",
+      "value": 65537,
+      "opt": [
+        "Quiet"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "StHt",
+      "value": -1,
+      "opt": [
+        "StHt"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "StHt",
+      "value": 65537,
+      "opt": [
+        "StHt"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "IntradayElect",
+      "value": -1,
+      "opt": [
+        "IntradayElect"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "IntradayElect",
+      "value": 65537,
+      "opt": [
+        "IntradayElect"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "IntradayElectPow",
+      "value": -1,
+      "opt": [
+        "IntradayElectPow"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "IntradayElectPow",
+      "value": 65537,
+      "opt": [
+        "IntradayElectPow"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "IntradayElectLim",
+      "value": -1,
+      "opt": [
+        "IntradayElectLim"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "IntradayElectLim",
+      "value": 65537,
+      "opt": [
+        "IntradayElectLim"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "AutoPowDown",
+      "value": -1,
+      "opt": [
+        "AutoPowDown"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "AutoPowDown",
+      "value": 65537,
+      "opt": [
+        "AutoPowDown"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ProTimeReminder",
+      "value": -1,
+      "opt": [
+        "ProTimeReminder"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ProTimeReminder",
+      "value": 65537,
+      "opt": [
+        "ProTimeReminder"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "RealTimePower",
+      "value": -1,
+      "opt": [
+        "RealTimePower"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "RealTimePower",
+      "value": 65537,
+      "opt": [
+        "RealTimePower"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "AppTimer",
+      "value": -1,
+      "opt": [
+        "AppTimer"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "AppTimer",
+      "value": 65537,
+      "opt": [
+        "AppTimer"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ProTimeLen",
+      "value": -1,
+      "opt": [
+        "ProTimeLen"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ProTimeLen",
+      "value": 65537,
+      "opt": [
+        "ProTimeLen"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ProTimePow",
+      "value": -1,
+      "opt": [
+        "ProTimePow"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": null,
+      "native_pc": "0x804fcae"
+    },
+    {
+      "name": "ProTimePow",
+      "value": 65537,
+      "opt": [
+        "ProTimePow"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": null,
+      "native_pc": "0x804fcae"
+    },
+    {
+      "name": "Studied",
+      "value": -1,
+      "opt": [
+        "Studied"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Studied",
+      "value": 65537,
+      "opt": [
+        "Studied"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "AddButton",
+      "value": -1,
+      "opt": [
+        "AddButton"
+      ],
+      "p": [
+        26.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "AddButton",
+      "value": 65537,
+      "opt": [
+        "AddButton"
+      ],
+      "p": [
+        26.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ConBtnNum",
+      "value": -1,
+      "opt": [
+        "ConBtnNum"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ConBtnNum",
+      "value": 65537,
+      "opt": [
+        "ConBtnNum"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "ConBtnName",
+      "value": -1,
+      "opt": [
+        "ConBtnName"
+      ],
+      "p": [
+        26.0
+      ],
+      "cache": 65535,
+      "native_stop": "libc-null-string-precondition",
+      "native_pc": "0x8056a60"
+    },
+    {
+      "name": "ConBtnName",
+      "value": 65537,
+      "opt": [
+        "ConBtnName"
+      ],
+      "p": [
+        26.0
+      ],
+      "cache": 1,
+      "native_stop": "libc-null-string-precondition",
+      "native_pc": "0x8056a60"
+    },
+    {
+      "name": "DelButton",
+      "value": -1,
+      "opt": [
+        "DelButton"
+      ],
+      "p": [
+        26.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "DelButton",
+      "value": 65537,
+      "opt": [
+        "DelButton"
+      ],
+      "p": [],
+      "cache": 1,
+      "native_stop": null,
+      "native_pc": "0x804fcae"
+    },
+    {
+      "name": "SendButton",
+      "value": -1,
+      "opt": [
+        "SendButton"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "SendButton",
+      "value": 65537,
+      "opt": [
+        "SendButton"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Electnumzero",
+      "value": -1,
+      "opt": [
+        "Electnumzero"
+      ],
+      "p": [
+        0.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "Electnumzero",
+      "value": 65537,
+      "opt": [
+        "Electnumzero"
+      ],
+      "p": [],
+      "cache": 1,
+      "native_stop": null,
+      "native_pc": "0x804fcae"
+    },
+    {
+      "name": "hid",
+      "value": -1,
+      "opt": [
+        "hid"
+      ],
+      "p": [
+        "362001061917+W05RV2.35.bin"
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "hid",
+      "value": 65537,
+      "opt": [
+        "hid"
+      ],
+      "p": [
+        "362001061917+W05RV2.35.bin"
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "RefBtnList",
+      "value": -1,
+      "opt": [
+        "RefBtnList"
+      ],
+      "p": [
+        65535.0
+      ],
+      "cache": 65535,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "RefBtnList",
+      "value": 65537,
+      "opt": [
+        "RefBtnList"
+      ],
+      "p": [
+        1.0
+      ],
+      "cache": 1,
+      "native_stop": "native-null-read",
+      "native_pc": "0x805e07c"
+    },
+    {
+      "name": "time",
+      "value": -1,
+      "opt": [
+        "time"
+      ],
+      "p": [],
+      "cache": 65535,
+      "native_stop": null,
+      "native_pc": "0x226c"
+    },
+    {
+      "name": "time",
+      "value": 65537,
+      "opt": [
+        "time"
+      ],
+      "p": [],
+      "cache": 1,
+      "native_stop": null,
+      "native_pc": "0x226c"
+    }
+  ],
+  "synthetic_policy": {
+    "profile_id": "sim-w05r-v2.35",
+    "readable_names": [
+      "Pow",
+      "Mod",
+      "SwhSlp",
+      "SwhSw",
+      "WdSpd",
+      "SetTem",
+      "Blo",
+      "Health",
+      "Lig",
+      "Air",
+      "SwUpDn",
+      "SwingLfRig",
+      "SvSt",
+      "SlpMod",
+      "Tur",
+      "Quiet",
+      "StHt",
+      "IntradayElect",
+      "IntradayElectPow",
+      "IntradayElectLim",
+      "AutoPowDown",
+      "ProTimeReminder",
+      "RealTimePower",
+      "AppTimer",
+      "ProTimeLen",
+      "ProTimePow",
+      "Studied",
+      "AddButton",
+      "ConBtnNum",
+      "ConBtnName",
+      "DelButton",
+      "SendButton",
+      "Electnumzero",
+      "hid",
+      "RefBtnList",
+      "time"
+    ],
+    "numeric_command_names": [
+      "Pow",
+      "Mod",
+      "SwhSlp",
+      "SwhSw",
+      "WdSpd",
+      "SetTem",
+      "Blo",
+      "Health",
+      "Lig",
+      "Air",
+      "SwUpDn",
+      "SwingLfRig",
+      "SvSt",
+      "SlpMod",
+      "Tur",
+      "Quiet",
+      "StHt",
+      "IntradayElect",
+      "IntradayElectPow",
+      "IntradayElectLim",
+      "AutoPowDown",
+      "ProTimeReminder",
+      "RealTimePower",
+      "AppTimer",
+      "ProTimeLen",
+      "ProTimePow",
+      "Studied",
+      "AddButton",
+      "ConBtnNum",
+      "ConBtnName",
+      "DelButton",
+      "SendButton",
+      "Electnumzero",
+      "hid",
+      "RefBtnList",
+      "time"
+    ],
+    "string_command_names": [
+      "ConBtnName"
+    ],
+    "defaults": {
+      "uint16_cache_slots0_through35": 0,
+      "button_ids": [],
+      "button_names": [],
+      "synthetic_clock": "2026-01-01 00:00:00 UTC + monotonic elapsed seconds"
+    },
+    "model_split": "Every known getter has source-defined serialization; include all36. Optional physical-action simulation is not needed for reads. All36 numeric scratch writes are reachable in valid-element source translation; special callbacks must preserve ACK/effective differences.",
+    "action_contracts": {
+      "first17": "low16 requested cache and deferred IR flag. No physical IR waveform claim.",
+      "ProTimeLen": "uint16 requested cache/ACK; no extra callback side effect.",
+      "ProTimePow": "ACK low16 before callback; set ProTimeReminder0; zero cancels synthetic timer, nonzero stages duration; private simulated persistence, not flash hardware.",
+      "Studied": "ACK requested value first; when2 effective Studied becomes0 and learning state2. Treat this as source control/cache transition, not received physical waveform.",
+      "AddButton": "Store requested slot, set learn flag1, reset Studied0; ACK literal26 (double literal0x805def8), not slot. Safe model caps slot1..25 before mutation.",
+      "ConBtnName": "Accept string only with selected ConBtnNum1..25 and matching AddButton/valid ref gate. Update independent simulated ref ID/name arrays, not generic uint16 string. Source invalid ACK includes26 then requested string; success returns source-selected ID/name. Native unbounded16-byte copy is replaced with explicit UTF8 byte bound15+NUL.",
+      "DelButton": "Simulate25-slot metadata registry/persistence only. Native result literals26 and27 at0x805def8/0x805e028 are not boolean/HTTP codes. Preserve source failure/success branches according to supplied registry/flash-input outcome, not claim learned waveform deletion.",
+      "SendButton": "ACK low16 then stages deferred IR send flag. No invented outgoing physical waveform/child transport success.",
+      "Electnumzero": "If requested1 reset effective slot32 and energy accumulation; ACK literal0 from0x805e0dc, not requested1; persistence is synthetic.",
+      "RefBtnList": "Getter emits TWO independent arrays for one column, numeric setter ACKs low16 slot34. Safe loop policy must explicitly exclude native outer-index overwrite/cycling; do not mislabel ordinary zip status.",
+      "time": "Numeric scratch slot35 is unrelated to clock; getter/ACK formats synthetic clock. No requested numeric timestamp pretending to set source RTC.",
+      "hid": "Numeric scratch slot33 is unrelated to immutable emitted literal; ACK/getter remains HID."
+    },
+    "native_fault": "Whole original command still faults at NULL tail0x805e07c; all successful modeled command replies are declared safe valid-element translations, never native full-command success."
+  },
+  "clock_policy": {
+    "epoch": "2026-01-01 00:00:00",
+    "origin": "First accepted transaction uses device monotonic last_step; subsequent elapsed integer seconds. UTC synthetic, not wall clock/native RTC.",
+    "native_boundary": "BKUP_Read0x226c"
+  },
+  "source_boundaries": [
+    {
+      "kind": "physical_calibration",
+      "scope": "See quirks.physical_calibration; no inferred sensor/meter/clock/actuation calibration. Does not block established bounded wire getters."
+    },
+    {
+      "kind": "original_primitive_IO",
+      "scope": "Supplied clock/cache/GPIO/OS inputs are explicit; unprovided original primitives or board accesses remain recorded stops, not fake successful getters/actions."
+    },
+    {
+      "kind": "original_NULL_tail",
+      "boundary": "0x805e07c reads0x10",
+      "scope": "Original complete cmd/res remains native NULL-read fault after callback effects. Safe bounded model iteration is explicit source translation; not original successful res."
+    },
+    {
+      "kind": "NULL_string_precondition",
+      "boundary": "cJSON string primitive0x8056a60 withNULL",
+      "scope": "Numeric ConBtnName can append26 then hit missing string pointer. Empty string is never substituted."
+    },
+    {
+      "kind": "original_flash_platform",
+      "boundary": "0x804fcae reads NVIC0xe000e100 size4",
+      "scope": "ProTimePow requested-1/65537 appends65535/1 before native stop; not completed persistent timer/flash action."
+    },
+    {
+      "kind": "RTC_input",
+      "boundary": "BKUP_Read ROM0x226c",
+      "scope": "Known time formatting modeled with explicit synthetic calendar; original getter completion not fabricated."
+    },
+    {
+      "kind": "valid_name_copy_extension",
+      "boundary": "SDK_strcpy0xd888 via guarded0x801e2d4/0x801e2d8",
+      "scope": "Parent valid-name strcpy extension replay observed opt[ConBtnName],p[1,new-name] then original platform stop0x804fcae. Original numeric-name NULL-string precondition and whole-command NULL tail remain; no flash success claimed."
+    }
+  ]
+}

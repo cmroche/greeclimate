@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "source_sha256": "c8b8bc33f76cc835d2b265dd56d6ed320353f647d3e6bfa1253815e4e32035ba",
+  "mac": "020000000123",
+  "key": "synthetic-key-01",
+  "readable": ["Pow", "Mod", "Quiet", "OutMode", "AssHt", "SvSt", "AcSvSt", "SvStDebug", "WtTemp", "Temp", "ColSetTem", "HtSetTem", "ColWtSetTem", "HtWtSetTem", "Er", "err", "lock", "enAcSvSt", "host", "hid", "Ocmd", "TemUn", "AntiF", "DebugOK", "HWMax", "HWMin", "HSMax", "HSMin", "CWMax", "CWMin", "CSMax", "CSMin", "Machine", "as1", "as2", "as3"],
+  "write_only": ["ClrEr", "name"],
+  "scalar_columns": ["Pow", "Mod", "Quiet", "OutMode", "AssHt", "SvSt", "AcSvSt", "SvStDebug", "WtTemp", "Temp", "ColSetTem", "HtSetTem", "ColWtSetTem", "HtWtSetTem", "Er", "lock", "enAcSvSt", "host", "hid", "Ocmd", "TemUn", "AntiF", "DebugOK", "HWMax", "HWMin", "HSMax", "HSMin", "CWMax", "CWMin", "CSMax", "CSMin", "Machine"],
+  "uniform_reports": [
+    {"byte": 0, "dat": [0, 0, 0, 0, 0, 0, 0, 0, -100, -100, -100, -100, -100, -100, 0, 0, 0, "", "362001060629+W05F(QCOM)V4.2.bin", 0, 0, 0, 0, -100, -100, -100, -100, -100, -100, -100, -100, 0]},
+    {"byte": 40, "dat": [0, 40, 1, 1, 0, 0, 0, 0, -60, -60, -60, -60, -60, -60, 0, 0, 0, "", "362001060629+W05F(QCOM)V4.2.bin", 1, 0, 1, 0, -60, -60, -60, -60, -60, -60, -60, -60, 1]},
+    {"byte": 100, "dat": [0, 100, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, "", "362001060629+W05F(QCOM)V4.2.bin", 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]},
+    {"byte": 140, "dat": [0, 140, 1, 0, 0, 1, 0, 0, 40, 40, 40, 40, 40, 40, 0, 0, 1, "", "362001060629+W05F(QCOM)V4.2.bin", 1, 0, 1, 0, 40, 40, 40, 40, 40, 40, 40, 40, 1]},
+    {"byte": 255, "dat": [1, 255, 1, 1, 1, 1, 1, 1, 155, 155, 155, 155, 155, 155, 0, 0, 1, "", "362001060629+W05F(QCOM)V4.2.bin", 1, 0, 1, 1, 155, 155, 155, 155, 155, 155, 155, 155, 1]}
+  ],
+  "commands": [
+    {"opt": ["Pow", "Mod", "ColSetTem", "HtSetTem", "ColWtSetTem", "HtWtSetTem"], "p": [1, 2, 256, -1, 35, 45], "cols": ["Pow", "Mod", "ColSetTem", "HtSetTem", "ColWtSetTem", "HtWtSetTem"], "immediate": [1, 2, 0, 255, 35, 45], "after_12_seconds": [0, 1, 22, 22, 22, 22]},
+    {"opt": ["Quiet", "OutMode", "AssHt", "SvSt", "AcSvSt", "ClrEr", "Ocmd"], "p": [1, 1, 1, 1, 1, 1, 1], "cols": ["Quiet", "OutMode", "AssHt", "SvSt", "AcSvSt", "Ocmd"], "immediate": [0, 0, 0, 0, 0, 0], "after_12_seconds": [0, 0, 0, 0, 0, 0]}
+  ],
+  "qualification": "Literal getter expectations independently derived from original0xa05608 and original0xa09070 nonzero numeric-boolean constructor; no emulator/client generated expectations. Commands acknowledge accepted requested p, not final mainboard values. Synthetic board reports are stationary with22C raw readouts; pending six controls expire at12seconds under0xa09c38. Actual board calibration and serial completion are not implied."
+}

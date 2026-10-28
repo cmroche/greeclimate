@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "source_sha256": "4daa8f69d8d742db1d8ef197cc9f04429bd7a62dcdd388a901d54f83a5cdb883",
+  "hid": "362001063222+U-ESP32_GR_CANV2.01.bin",
+  "original_evidence": "Private CatalogQuirks/MediaTekESP/Can and ESP-1/can-selector-probes.txt, can-write-probes.txt, can-callbacks.c, can-write-callbacks.c, can-setter.c; fresh canonical esp-transport-etkhs72d/esp5-transport.txt",
+  "namespace": {
+    "schema0": {
+      "table": "0x3ffc0cd0",
+      "descriptor_count": 40,
+      "named_count": 39
+    },
+    "schema1": {
+      "table": "0x3ffc0648",
+      "descriptor_count": 38,
+      "named_count": 37
+    },
+    "terminators": "Each table includes one empty-name sentinel; an empty-name descriptor is not an additional property.",
+    "getter": "0x400da95c returns unsigned16, unknown zero; original callback and raw descriptor semantics preserved individually.",
+    "setter": "0x400da83c truncates requested values to unsigned16, mutates raw bank BEFORE invoking optional descriptor conversion callback. Raw fresh status is not outgoing CAN enum translation.",
+    "shared": "Descriptor scratch is shared by schema across all children; Add0.1 uses the SetTem sibling cache while Add0.5's identical relative displacement uses SetDeciTem. Owner1 CleanTime/CleanState/AutoClean/SysSta use the shared system112-byte bank.",
+    "sensor_channel": "GasN selects three bits shared by the alternate schema sensor-array getters; source channel mask is not a separate property table.",
+    "identity": "Root MID60. Schema1 physical types605d/6079/6084/608d/608e/6091/6099/60a0 emit6079, while metadata MIdType preserves actual physical hexadecimal type. Internal types are not additional emitted MIDs. Native enumeration zeros the seventh child-identity byte before fourteen-hex-digit serialization; actual configured/generated child identities therefore end00."
+  },
+  "fixtures": {
+    "catalog-esp-can-native-read_research.json": "234 independent historical original-instruction getter observations, three uniform raw-bank inputs per property plus unknowns.",
+    "catalog-esp-can-native-write_research.json": "468 independent historical original-instruction setter observations, six inputs per property plus unknowns; native steps2000 zero-mask boundary retained.",
+    "tests/test_emulator_catalog_esp.py": "Complete literal native vector replay against modeled semantics plus shared-state/sequence/channel isolation and chosen strict safe-input policy."
+  },
+  "deviations": [
+    "Strict bounded names, parser admission and whole-request atomic mutation are chosen safety policy, not native validation guarantees.",
+    "MidType writes reach a native zero-mask search loop; the bounded model rejects before mutation instead of hanging.",
+    "Source XOR masked stores are preserved; they are deliberately not conventional clear-and-mask stores.",
+    "Synthetic raw banks do not represent calibrated temperatures, mainboard acceptance or physical CAN actuation.",
+    "Native empty status/control arrays and zero-count timer query can reach NULL serialization; safe model rejects instead of inventing native success.",
+    "Timers use in-memory synthetic NVS; CLIrestart resets cache/timers. Actual source flash persistence, BLEhardwareMAC/MTU negotiation and physical CAN actuation are not claimed."
+  ],
+  "verification": "Four decoded canonical source exports and13 original-byte-guarded selector/normalizer translations executed successfully. Runtime/regression/CLI tests authored NOT run by worker; parent owns final checks. Historical234getter+468setter instruction observations remain separately labeled historical.",
+  "bounded_wire_model": {
+    "module": "gree_emulator/profiles/catalog_esp.py",
+    "profiles": 14,
+    "root_mid": "60",
+    "root_id": "sim-esp32-gr-can-v2.01",
+    "canonical_fixture": "catalog-esp-can.json",
+    "literal_request_count": 71,
+    "request_bytes": 1024,
+    "outer": "Source request-local UID; UDPtcid=requestcid or EMPTYSTRING; scan UID0. No LF. i0private/i1generic/i2plaintext have exact operation context gates.",
+    "operations": [
+      "scan",
+      "wlan",
+      "bind",
+      "status",
+      "cmd",
+      "subDev",
+      "subBDev",
+      "upgrade",
+      "hbok",
+      "loginRes",
+      "tm",
+      "queryT",
+      "setT",
+      "updateT",
+      "deleteT",
+      "espLog"
+    ],
+    "timers": "10records; enable0 active, weekSunday0, one-shot becomesenable1. Native first-hole page collapse and vacant-delete count underflow retained; onlyfirstcommand returned. Native scheduler armsone-minute-before; no midnightwrap.",
+    "subBDev": "Default compressedpagecount0 matches LANstartup; BLE-MTU-derived callback is outside modeled UDP ingress. OrdinarysubDev pages5 fully implemented.",
+    "clock": "Synthetic2000-01-01; cmdtimeoffset0, tm+8hours, nativeOctober00 formatting retained.",
+    "upgrade": "ACKmeansURLcache/asyncqueue acceptance only, not networkfetch, firmwareflash or installsuccess. No actual network/flash operation occurs."
+  }
+}

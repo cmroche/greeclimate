@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "qualification": "Original UDP callback followed by original packet router; only independently source-pinned standard select/recvfrom providers supply queued datagrams. Global protocol mode is NEVER externally written. Cipher observers only read entry arguments; no cipher/property/parser/branch/result substitutes.",
+  "actual_wire": {
+    "UDP_callback_mode": 2,
+    "discovery": "legacy AES-ECB PKCS7 generic a3K8Bx%2r8Y7#xDh",
+    "pack": "AES-128-GCM required; tagless ECB packs rejected",
+    "GCM_generic_key_ASCII": "{yxAHAY_Lm6pbC/<",
+    "GCM_nonce_hex": "5440784449675a516c5e6313",
+    "GCM_AAD_ASCII": "qualcomm-test",
+    "public_profiles": "Two canonical exact-source profiles, not alternate externally configured cipher presets"
+  },
+  "sources": [
+    {
+      "historical_index": 20,
+      "source_sha256": "ae9d42c6272c71a7c2ee4fd500ad4427c99b64a01aafc61daa109025eb37e9ec",
+      "scan": {
+        "input": {
+          "t": "scan"
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [
+          {
+            "entry": "0x100050d6",
+            "API": "rtl_crypto_aes_ecb_init",
+            "arguments": [
+              268560096,
+              16,
+              0,
+              0
+            ],
+            "key_input_hex": "61334b38427825327238593723784468",
+            "source_mode": 2,
+            "observer_only": true
+          }
+        ],
+        "router_completed": false,
+        "router_return_r0": 268456372,
+        "router_boundary_pc": "0x1010a870",
+        "router_error": "Unprovided ROM instructions at 0x1010a870"
+      },
+      "session_GCM": {
+        "input": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "peer",
+          "tcid": "020000000001",
+          "pack": "i3fKw/EEZf5wEbrPdpe/74zwHJNKvBhyvV/aJ5JKtx0uMzOtJl2tM9qX3jhp7vCMfNQ=",
+          "tag": "+Zt1R9GJjA/1m0rWqq/2CA=="
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [
+          {
+            "entry": "0xe05d1ba",
+            "arguments": [
+              536903680,
+              268591648,
+              268552156,
+              50
+            ],
+            "key_address": "0x1002565c",
+            "key_input_hex": "30313233343536373839616263646566",
+            "source_mode": 2,
+            "observer_only": true
+          }
+        ],
+        "router_completed": false,
+        "router_return_r0": 553648160,
+        "router_boundary_pc": "0x1011e568",
+        "router_error": "Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)"
+      },
+      "generic_GCM": {
+        "input": {
+          "t": "pack",
+          "i": 1,
+          "uid": 42,
+          "cid": "peer",
+          "tcid": "020000000001",
+          "pack": "JtoKliwtuoSy8onEeGVXWs4iqtkA0hX2MFRkDerblvjANCFNjg4yOcqvjK70BZKcvuI=",
+          "tag": "YugtmUg7s+BMysNM/pjdsw=="
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [
+          {
+            "entry": "0xe05d1ba",
+            "arguments": [
+              536903680,
+              268591648,
+              268552156,
+              50
+            ],
+            "key_address": "0x1001c6fc",
+            "key_input_hex": "7b7978414841595f4c6d367062432f3c",
+            "source_mode": 2,
+            "observer_only": true
+          }
+        ],
+        "router_completed": false,
+        "router_return_r0": 553648160,
+        "router_boundary_pc": "0x1011e568",
+        "router_error": "Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)"
+      },
+      "tagless_ECB_rejected": {
+        "input": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "peer",
+          "tcid": "020000000001",
+          "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [],
+        "router_completed": true,
+        "router_return_r0": 4294967295,
+        "router_boundary_pc": "0x2001f000",
+        "router_error": null
+      }
+    },
+    {
+      "historical_index": 21,
+      "source_sha256": "078ff7ab76a0c86335c535f802d463a281ca1a26f4bdde91e24faaa1efd9076c",
+      "scan": {
+        "input": {
+          "t": "scan"
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [
+          {
+            "entry": "0x100050d6",
+            "API": "rtl_crypto_aes_ecb_init",
+            "arguments": [
+              268551616,
+              16,
+              0,
+              0
+            ],
+            "key_input_hex": "61334b38427825327238593723784468",
+            "source_mode": 2,
+            "observer_only": true
+          }
+        ],
+        "router_completed": false,
+        "router_return_r0": 268456372,
+        "router_boundary_pc": "0x1010a870",
+        "router_error": "Unprovided ROM instructions at 0x1010a870"
+      },
+      "session_GCM": {
+        "input": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "peer",
+          "tcid": "020000000001",
+          "pack": "i3fKw/EEZf5wEbrPdpe/74zwHJNKvBhyvV/aJ5JKtx0uMzOtJl2tM9qX3jhp7vCMfNQ=",
+          "tag": "+Zt1R9GJjA/1m0rWqq/2CA=="
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [
+          {
+            "entry": "0xe05e39a",
+            "arguments": [
+              536903680,
+              268578064,
+              268543448,
+              50
+            ],
+            "key_address": "0x1002214c",
+            "key_input_hex": "30313233343536373839616263646566",
+            "source_mode": 2,
+            "observer_only": true
+          }
+        ],
+        "router_completed": false,
+        "router_return_r0": 553648160,
+        "router_boundary_pc": "0x1011e568",
+        "router_error": "Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)"
+      },
+      "generic_GCM": {
+        "input": {
+          "t": "pack",
+          "i": 1,
+          "uid": 42,
+          "cid": "peer",
+          "tcid": "020000000001",
+          "pack": "JtoKliwtuoSy8onEeGVXWs4iqtkA0hX2MFRkDerblvjANCFNjg4yOcqvjK70BZKcvuI=",
+          "tag": "YugtmUg7s+BMysNM/pjdsw=="
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [
+          {
+            "entry": "0xe05e39a",
+            "arguments": [
+              536903680,
+              268578064,
+              268543448,
+              50
+            ],
+            "key_address": "0x1001a4f4",
+            "key_input_hex": "7b7978414841595f4c6d367062432f3c",
+            "source_mode": 2,
+            "observer_only": true
+          }
+        ],
+        "router_completed": false,
+        "router_return_r0": 553648160,
+        "router_boundary_pc": "0x1011e568",
+        "router_error": "Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)"
+      },
+      "tagless_ECB_rejected": {
+        "input": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "peer",
+          "tcid": "020000000001",
+          "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw2egG25oDL4XgMoDqgSfZKQ=="
+        },
+        "mode_before_receive": 0,
+        "receive_completed": true,
+        "receive_result": 1,
+        "mode_after_receive": 2,
+        "mode_after_router": 2,
+        "original_cipher_entry_observations": [],
+        "router_completed": true,
+        "router_return_r0": 4294967295,
+        "router_boundary_pc": "0x2001f000",
+        "router_error": null
+      }
+    }
+  ]
+}

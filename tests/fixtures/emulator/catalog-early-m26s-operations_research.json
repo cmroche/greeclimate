@@ -1,0 +1,7745 @@
+{
+  "schema_version": 1,
+  "source_sha256": "7be5a21d861a0bcc1045d72a49dfab91e527b74e6f0bf8e16dd4b096dbf9b19e",
+  "banks": [
+    {
+      "bank": 1,
+      "segments": [
+        {
+          "offset": 88,
+          "address": 134262816,
+          "size": 437164,
+          "sha256": "a8ee6423b296f8589146b850f0c34f51f68e5251a0a554f61e63ea108e3ee71b",
+          "kind": "81958711 destination header"
+        },
+        {
+          "offset": 437284,
+          "address": 268455936,
+          "size": 8876,
+          "sha256": "74e5846e48b42c945305b3d994a8475c524c18666133753281166733546391db",
+          "kind": "81958711 destination header"
+        }
+      ]
+    },
+    {
+      "bank": 2,
+      "segments": [
+        {
+          "offset": 446196,
+          "address": 135266336,
+          "size": 437164,
+          "sha256": "12db0c7e38b483672ddeaa3fb0123c3a226766741eec8ba1a38d80eba66f2c27",
+          "kind": "81958711 destination header"
+        },
+        {
+          "offset": 883392,
+          "address": 268455936,
+          "size": 8876,
+          "sha256": "8d041087d27d878eeeb4ab6cd8a9a2f243ed2e8ae25515c5abc263bef1a87bcb",
+          "kind": "81958711 destination header"
+        }
+      ]
+    }
+  ],
+  "bank1_peripheral": {
+    "report_client": [
+      {
+        "input": "synthetic-peer",
+        "status": [
+          [
+            "ReportClientID"
+          ],
+          [
+            "synthetic-peer"
+          ]
+        ]
+      },
+      {
+        "input": "",
+        "status": [
+          [
+            "ReportClientID"
+          ],
+          [
+            "synthetic-peer"
+          ]
+        ]
+      }
+    ],
+    "operations": [
+      {
+        "request": {
+          "t": "wlan",
+          "ssid": "synthetic",
+          "psw": "",
+          "host": "www.gree.com",
+          "lat": "0",
+          "lon": "0"
+        },
+        "expected": [
+          {
+            "t": "ret",
+            "r": 200,
+            "mac": "020000000001"
+          }
+        ],
+        "stop_pc": "0x2100f000",
+        "error": null
+      },
+      {
+        "request": {
+          "t": "upgrade",
+          "url": "http://example.invalid/m26s.bin"
+        },
+        "expected": [],
+        "stop_pc": "0x2100f000",
+        "error": null
+      },
+      {
+        "request": {
+          "t": "surver",
+          "mac": "020000000001"
+        },
+        "expected": [],
+        "stop_pc": "0x2100f000",
+        "error": null
+      }
+    ]
+  },
+  "bank2_metadata": [
+    {
+      "name": "apssid",
+      "output": [
+        [
+          "apssid"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "appsw",
+      "output": [
+        [
+          "appsw"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "host",
+      "output": [
+        [
+          "host"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "name",
+      "output": [
+        [
+          "name"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "time",
+      "output": [
+        [
+          "time"
+        ],
+        [
+          "2026-01-01 00:00:00"
+        ]
+      ]
+    },
+    {
+      "name": "lat",
+      "output": [
+        [
+          "lat"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "lon",
+      "output": [
+        [
+          "lon"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "vender",
+      "output": [
+        [
+          "vender"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "bc",
+      "output": [
+        [
+          "bc"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "mid",
+      "output": [
+        [
+          "mid"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "model",
+      "output": [
+        [
+          "model"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "series",
+      "output": [
+        [
+          "series"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "brand",
+      "output": [
+        [
+          "brand"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "catalog",
+      "output": [
+        [
+          "catalog"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "country",
+      "output": [
+        [
+          "country"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "hid",
+      "output": [
+        [
+          "hid"
+        ],
+        [
+          "362001063147+U-M26SV3.05.bin"
+        ]
+      ]
+    },
+    {
+      "name": "mac",
+      "output": [
+        [
+          "mac"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "rssi",
+      "output": [
+        [
+          "rssi"
+        ],
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "name": "ver",
+      "output": [
+        [
+          "ver"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "HidSvrVer",
+      "output": [
+        [
+          "HidSvrVer"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "InHid",
+      "output": [
+        [
+          "InHid"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "InHidSvrVer",
+      "output": [
+        [
+          "InHidSvrVer"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "OEEPHid",
+      "output": [
+        [
+          "OEEPHid"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "OEEPHidSvrVer",
+      "output": [
+        [
+          "OEEPHidSvrVer"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "YCode1",
+      "output": [
+        [
+          "YCode1"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "YCode2",
+      "output": [
+        [
+          "YCode2"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "YCode3",
+      "output": [
+        [
+          "YCode3"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "YCode4",
+      "output": [
+        [
+          "YCode4"
+        ],
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "name": "YCode5",
+      "output": [
+        [
+          "YCode5"
+        ],
+        [
+          ""
+        ]
+      ]
+    }
+  ],
+  "bank2_selected": [
+    {
+      "mid": "8600",
+      "selector": 0,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wmod",
+          "output": [
+            [
+              "Wmod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WsetTmp",
+          "output": [
+            [
+              "WsetTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WsetTmpC",
+          "output": [
+            [
+              "WsetTmpC"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PrvHeat",
+          "output": [
+            [
+              "PrvHeat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wout",
+          "output": [
+            [
+              "Wout"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvSt",
+          "output": [
+            [
+              "SvSt"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WschOn",
+          "output": [
+            [
+              "WschOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HydPrs",
+          "output": [
+            [
+              "HydPrs"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SenTmpC",
+          "output": [
+            [
+              "SenTmpC"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SenTmp",
+          "output": [
+            [
+              "SenTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UseTime",
+          "output": [
+            [
+              "UseTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UseTimeAll",
+          "output": [
+            [
+              "UseTimeAll"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TapNum",
+          "output": [
+            [
+              "TapNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TapNumAll",
+          "output": [
+            [
+              "TapNumAll"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PersonNum",
+          "output": [
+            [
+              "PersonNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Machine",
+          "output": [
+            [
+              "Machine"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AboveSeaLev",
+          "output": [
+            [
+              "AboveSeaLev"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvLineType",
+          "output": [
+            [
+              "SvLineType"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvLine",
+          "output": [
+            [
+              "SvLine"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOnHour",
+          "output": [
+            [
+              "TmrOnHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOnMin",
+          "output": [
+            [
+              "TmrOnMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOffHour",
+          "output": [
+            [
+              "TmrOffHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOffMin",
+          "output": [
+            [
+              "TmrOffMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOff",
+          "output": [
+            [
+              "TmrOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Werr",
+          "output": [
+            [
+              "Werr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate4",
+          "output": [
+            [
+              "estate4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate5",
+          "output": [
+            [
+              "estate5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate6",
+          "output": [
+            [
+              "estate6"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828211",
+      "selector": 1,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WdSpd",
+          "output": [
+            [
+              "WdSpd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "StepWdSpd",
+          "output": [
+            [
+              "StepWdSpd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mod",
+          "output": [
+            [
+              "Mod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Rotate",
+          "output": [
+            [
+              "Rotate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Cycle",
+          "output": [
+            [
+              "Cycle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SwUpDn",
+          "output": [
+            [
+              "SwUpDn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SwingLfRig",
+          "output": [
+            [
+              "SwingLfRig"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wet",
+          "output": [
+            [
+              "Wet"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Anion",
+          "output": [
+            [
+              "Anion"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotwindOnOff",
+          "output": [
+            [
+              "HotwindOnOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotWind",
+          "output": [
+            [
+              "HotWind"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrAction",
+          "output": [
+            [
+              "TmrAction"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SmartMod",
+          "output": [
+            [
+              "SmartMod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WetLevel",
+          "output": [
+            [
+              "WetLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Light",
+          "output": [
+            [
+              "Light"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UpDnAngle",
+          "output": [
+            [
+              "UpDnAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LRAngle",
+          "output": [
+            [
+              "LRAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Quiet",
+          "output": [
+            [
+              "Quiet"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OSD",
+          "output": [
+            [
+              "OSD"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LRHeadAngle",
+          "output": [
+            [
+              "LRHeadAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UpDuHeadAngle",
+          "output": [
+            [
+              "UpDuHeadAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temperature",
+          "output": [
+            [
+              "Temperature"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PM25",
+          "output": [
+            [
+              "PM25"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828101",
+      "selector": 2,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "wspd",
+          "output": [
+            [
+              "wspd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "mode",
+          "output": [
+            [
+              "mode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PM2P5",
+          "output": [
+            [
+              "PM2P5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "light",
+          "output": [
+            [
+              "light"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AirChildLock",
+          "output": [
+            [
+              "AirChildLock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FiltUT",
+          "output": [
+            [
+              "FiltUT"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FiltBT",
+          "output": [
+            [
+              "FiltBT"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "wipm25",
+          "output": [
+            [
+              "wipm25"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "wopm25",
+          "output": [
+            [
+              "wopm25"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode",
+          "output": [
+            [
+              "ErrorCode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FiltUPercent",
+          "output": [
+            [
+              "FiltUPercent"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FiltUPercent1",
+          "output": [
+            [
+              "FiltUPercent1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FiltUPercent2",
+          "output": [
+            [
+              "FiltUPercent2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MeshWarning1",
+          "output": [
+            [
+              "MeshWarning1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "sterilize",
+          "output": [
+            [
+              "sterilize"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FomadeValue",
+          "output": [
+            [
+              "FomadeValue"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOff",
+          "output": [
+            [
+              "TmrOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "StTmr",
+          "output": [
+            [
+              "StTmr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RemLifePerErr1",
+          "output": [
+            [
+              "RemLifePerErr1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RemLifePerErr2",
+          "output": [
+            [
+              "RemLifePerErr2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828402",
+      "selector": 3,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "mode",
+          "output": [
+            [
+              "mode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "StTmr",
+          "output": [
+            [
+              "StTmr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrEn",
+          "output": [
+            [
+              "TmrEn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SchTmr",
+          "output": [
+            [
+              "SchTmr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SchOnOff",
+          "output": [
+            [
+              "SchOnOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SchEn",
+          "output": [
+            [
+              "SchEn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Textre",
+          "output": [
+            [
+              "Textre"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Rice",
+          "output": [
+            [
+              "Rice"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "sealve",
+          "output": [
+            [
+              "sealve"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Prsure",
+          "output": [
+            [
+              "Prsure"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "KpTpTmr",
+          "output": [
+            [
+              "KpTpTmr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "KpTpOnOff",
+          "output": [
+            [
+              "KpTpOnOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "KpTpEn",
+          "output": [
+            [
+              "KpTpEn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Lig",
+          "output": [
+            [
+              "Lig"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ModeTmr",
+          "output": [
+            [
+              "ModeTmr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "StpRic",
+          "output": [
+            [
+              "StpRic"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Runlight",
+          "output": [
+            [
+              "Runlight"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AddMark",
+          "output": [
+            [
+              "AddMark"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Volt",
+          "output": [
+            [
+              "Volt"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ElcP",
+          "output": [
+            [
+              "ElcP"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmpUp",
+          "output": [
+            [
+              "TmpUp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmpDn",
+          "output": [
+            [
+              "TmpDn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate4",
+          "output": [
+            [
+              "estate4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828c01",
+      "selector": 4,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mode",
+          "output": [
+            [
+              "Mode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterSetTemp",
+          "output": [
+            [
+              "WaterSetTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterValueSelect",
+          "output": [
+            [],
+            []
+          ]
+        },
+        {
+          "name": "BurnState",
+          "output": [
+            [
+              "BurnState"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SelfTestOkState",
+          "output": [
+            [
+              "SelfTestOkState"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Fan",
+          "output": [
+            [
+              "Fan"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "BurnOffValve2",
+          "output": [
+            [
+              "BurnOffValve2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "BurnOffValve1",
+          "output": [
+            [
+              "BurnOffValve1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterRateValve",
+          "output": [
+            [
+              "WaterRateValve"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "GasRateValve",
+          "output": [
+            [
+              "GasRateValve"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "GasSafeValve",
+          "output": [
+            [
+              "GasSafeValve"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Firearm",
+          "output": [
+            [
+              "Firearm"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterPump",
+          "output": [
+            [
+              "WaterPump"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterFlow",
+          "output": [
+            [
+              "WaterFlow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "InputWaterInt",
+          "output": [
+            [
+              "InputWaterInt"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "InputWaterFloat",
+          "output": [
+            [
+              "InputWaterFloat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OutputWaterInt",
+          "output": [
+            [
+              "OutputWaterInt"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OutputWaterFloat",
+          "output": [
+            [],
+            []
+          ]
+        },
+        {
+          "name": "EnvTempInt",
+          "output": [
+            [
+              "EnvTempInt"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "EnvTempFloat",
+          "output": [
+            [
+              "EnvTempFloat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WindSensor",
+          "output": [
+            [
+              "WindSensor"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TempLimiter",
+          "output": [
+            [
+              "TempLimiter"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Windswitch",
+          "output": [
+            [
+              "Windswitch"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FireNeedle",
+          "output": [
+            [
+              "FireNeedle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate4",
+          "output": [
+            [
+              "estate4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate5",
+          "output": [
+            [
+              "estate5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828a00",
+      "selector": 5,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Humidification",
+          "output": [
+            [
+              "Humidification"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Swing",
+          "output": [
+            [
+              "Swing"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ChildLock",
+          "output": [
+            [
+              "ChildLock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HeatLevel",
+          "output": [
+            [
+              "HeatLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Anion",
+          "output": [
+            [
+              "Anion"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetTemp",
+          "output": [
+            [
+              "SetTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "EnvTemp",
+          "output": [
+            [
+              "EnvTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WorkTimeHour",
+          "output": [
+            [
+              "WorkTimeHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WorkTimeSec",
+          "output": [
+            [
+              "WorkTimeSec"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RealHeatLevel",
+          "output": [
+            [
+              "RealHeatLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FanLevel",
+          "output": [
+            [
+              "FanLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HeatMode",
+          "output": [
+            [
+              "HeatMode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrAction",
+          "output": [
+            [
+              "TmrAction"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828901",
+      "selector": 6,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PauseStart",
+          "output": [
+            [
+              "PauseStart"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wash",
+          "output": [
+            [
+              "Wash"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mod",
+          "output": [
+            [
+              "Mod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Disinfect",
+          "output": [
+            [
+              "Disinfect"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Lock",
+          "output": [
+            [
+              "Lock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Lighting",
+          "output": [
+            [
+              "Lighting"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Purifier",
+          "output": [
+            [
+              "Purifier"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Dry",
+          "output": [
+            [
+              "Dry"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LayerWash",
+          "output": [
+            [
+              "LayerWash"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PurifierTime",
+          "output": [
+            [
+              "PurifierTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WashDone",
+          "output": [
+            [
+              "WashDone"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RmTmrHour",
+          "output": [
+            [
+              "RmTmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RmTmrMin",
+          "output": [
+            [
+              "RmTmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WorkStatus",
+          "output": [
+            [
+              "WorkStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrStatus",
+          "output": [
+            [
+              "TmrStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetWaterHard",
+          "output": [
+            [
+              "SetWaterHard"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterHardPram",
+          "output": [
+            [
+              "WaterHardPram"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetDetergent",
+          "output": [
+            [
+              "SetDetergent"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DeterLevel",
+          "output": [
+            [
+              "DeterLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828904",
+      "selector": 7,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PauseStart",
+          "output": [
+            [
+              "PauseStart"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wash",
+          "output": [
+            [
+              "Wash"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mod",
+          "output": [
+            [
+              "Mod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Loading",
+          "output": [
+            [
+              "Loading"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Lock",
+          "output": [
+            [
+              "Lock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Clean",
+          "output": [
+            [
+              "Clean"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Disinfect",
+          "output": [
+            [
+              "Disinfect"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Sterilize",
+          "output": [
+            [
+              "Sterilize"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Dry",
+          "output": [
+            [
+              "Dry"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PurifierTime",
+          "output": [
+            [
+              "PurifierTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrStatus",
+          "output": [
+            [
+              "TmrStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DIY",
+          "output": [
+            [
+              "DIY"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetTemp",
+          "output": [
+            [
+              "SetTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RinsSetTemp",
+          "output": [
+            [
+              "RinsSetTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetWaterHard",
+          "output": [
+            [
+              "SetWaterHard"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterHardPram",
+          "output": [
+            [
+              "WaterHardPram"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetDetergent",
+          "output": [
+            [
+              "SetDetergent"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DeterLevel",
+          "output": [
+            [
+              "DeterLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WashDone",
+          "output": [
+            [
+              "WashDone"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RmTmrHour",
+          "output": [
+            [
+              "RmTmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RmTmrMin",
+          "output": [
+            [
+              "RmTmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WorkStatus",
+          "output": [
+            [
+              "WorkStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828d04",
+      "selector": 8,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ChildLock",
+          "output": [
+            [
+              "ChildLock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RunStat",
+          "output": [
+            [
+              "RunStat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Pause",
+          "output": [
+            [
+              "Pause"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mod",
+          "output": [
+            [
+              "Mod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "List1",
+          "output": [
+            [
+              "List1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "List2",
+          "output": [
+            [
+              "List2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "List3",
+          "output": [
+            [
+              "List3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "List4",
+          "output": [
+            [
+              "List4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "List5",
+          "output": [
+            [
+              "List5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetHour",
+          "output": [
+            [
+              "SetHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetMin",
+          "output": [
+            [
+              "SetMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetTmp",
+          "output": [
+            [
+              "SetTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DisTmp",
+          "output": [
+            [
+              "DisTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DisSetHour",
+          "output": [
+            [
+              "DisSetHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DisSetMin",
+          "output": [
+            [
+              "DisSetMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DisTmrHour",
+          "output": [
+            [
+              "DisTmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "DisTmrMin",
+          "output": [
+            [
+              "DisTmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmpCtrl",
+          "output": [
+            [
+              "TmpCtrl"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MachStat",
+          "output": [
+            [
+              "MachStat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate4",
+          "output": [
+            [
+              "estate4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate5",
+          "output": [
+            [
+              "estate5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CloudMenu",
+          "output": [
+            [
+              "CloudMenu"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "names": [
+            "CloudMenu"
+          ],
+          "values": [
+            [
+              256,
+              -1,
+              257
+            ]
+          ],
+          "status": [
+            [
+              "CloudMenu"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "828140",
+      "selector": 9,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wspd",
+          "output": [
+            [
+              "Wspd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mode",
+          "output": [
+            [
+              "Mode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PM25",
+          "output": [
+            [
+              "PM25"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PM25Level",
+          "output": [
+            [
+              "PM25Level"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Light",
+          "output": [
+            [
+              "Light"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetHumidity",
+          "output": [
+            [
+              "SetHumidity"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "EnvHumidity",
+          "output": [
+            [
+              "EnvHumidity"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ReplaceFilter",
+          "output": [
+            [
+              "ReplaceFilter"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RefreshWater",
+          "output": [
+            [
+              "RefreshWater"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AirChildLock",
+          "output": [
+            [
+              "AirChildLock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FiltUPercent",
+          "output": [
+            [
+              "FiltUPercent"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrAction",
+          "output": [
+            [
+              "TmrAction"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828600",
+      "selector": 10,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "wspd",
+          "output": [
+            [
+              "wspd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "mode",
+          "output": [
+            [
+              "mode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "light",
+          "output": [
+            [
+              "light"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "gesture",
+          "output": [
+            [
+              "gesture"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RightCooker",
+          "output": [
+            [
+              "RightCooker"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LeftCooker",
+          "output": [
+            [
+              "LeftCooker"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CookerBattery",
+          "output": [
+            [
+              "CookerBattery"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828301",
+      "selector": 11,
+      "fields": [
+        {
+          "name": "WorkStatus",
+          "output": [
+            [
+              "WorkStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TotalPureWater",
+          "output": [
+            [
+              "TotalPureWater"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterNum",
+          "output": [
+            [
+              "FilterNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter1",
+          "output": [
+            [
+              "LifeTimeFilter1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter2",
+          "output": [
+            [
+              "LifeTimeFilter2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter3",
+          "output": [
+            [
+              "LifeTimeFilter3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter4",
+          "output": [
+            [
+              "LifeTimeFilter4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter5",
+          "output": [
+            [
+              "LifeTimeFilter5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning1",
+          "output": [
+            [
+              "FilterWarning1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning2",
+          "output": [
+            [
+              "FilterWarning2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning3",
+          "output": [
+            [
+              "FilterWarning3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning4",
+          "output": [
+            [
+              "FilterWarning4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning5",
+          "output": [
+            [
+              "FilterWarning5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays1",
+          "output": [
+            [
+              "LifeFilterDays1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays2",
+          "output": [
+            [
+              "LifeFilterDays2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays3",
+          "output": [
+            [
+              "LifeFilterDays3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays4",
+          "output": [
+            [
+              "LifeFilterDays4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays5",
+          "output": [
+            [
+              "LifeFilterDays5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OriginTDS",
+          "output": [
+            [
+              "OriginTDS"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PurifyTDS",
+          "output": [
+            [
+              "PurifyTDS"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind1",
+          "output": [
+            [
+              "FilterKind1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind2",
+          "output": [
+            [
+              "FilterKind2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind3",
+          "output": [
+            [
+              "FilterKind3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind4",
+          "output": [
+            [
+              "FilterKind4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind5",
+          "output": [
+            [
+              "FilterKind5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode1",
+          "output": [
+            [
+              "ErrorCode1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode2",
+          "output": [
+            [
+              "ErrorCode2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "829100",
+      "selector": 12,
+      "fields": [
+        {
+          "name": "SetTemp",
+          "output": [
+            [
+              "SetTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Cruise",
+          "output": [
+            [
+              "Cruise"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mode",
+          "output": [
+            [
+              "Mode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotMode",
+          "output": [
+            [
+              "HotMode"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PreBoost",
+          "output": [
+            [
+              "PreBoost"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CruiseState",
+          "output": [
+            [
+              "CruiseState"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "BurnState",
+          "output": [
+            [
+              "BurnState"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FirstAntif",
+          "output": [
+            [
+              "FirstAntif"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SecAntif",
+          "output": [
+            [
+              "SecAntif"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PreBacter",
+          "output": [
+            [
+              "PreBacter"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AddOxygen",
+          "output": [
+            [
+              "AddOxygen"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "EnvironmentTemp",
+          "output": [
+            [
+              "EnvironmentTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "KitRecomTemp",
+          "output": [
+            [
+              "KitRecomTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "BathRecomTemp",
+          "output": [
+            [
+              "BathRecomTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "BathtubTemp",
+          "output": [
+            [
+              "BathtubTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotBacKValue",
+          "output": [
+            [
+              "HotBacKValue"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OutWaterTemp",
+          "output": [
+            [
+              "OutWaterTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "InWaterTemp",
+          "output": [
+            [
+              "InWaterTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MaximumTime",
+          "output": [
+            [
+              "MaximumTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UsedTime",
+          "output": [
+            [
+              "UsedTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "GasSafeLife",
+          "output": [
+            [
+              "GasSafeLife"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CasSafeTimes",
+          "output": [
+            [
+              "CasSafeTimes"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "BatWatVolume",
+          "output": [
+            [
+              "BatWatVolume"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MaxSPATemp",
+          "output": [
+            [
+              "MaxSPATemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MinSPATemp",
+          "output": [
+            [
+              "MinSPATemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SPASetTime",
+          "output": [
+            [
+              "SPASetTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "BatRealVol",
+          "output": [
+            [
+              "BatRealVol"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "GasSum",
+          "output": [
+            [
+              "GasSum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CurrentGas",
+          "output": [
+            [
+              "CurrentGas"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode1",
+          "output": [
+            [
+              "ErrorCode1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode2",
+          "output": [
+            [
+              "ErrorCode2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode3",
+          "output": [
+            [
+              "ErrorCode3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "829000",
+      "selector": 13,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Status",
+          "output": [
+            [
+              "Status"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SaltStatus",
+          "output": [
+            [
+              "SaltStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter",
+          "output": [
+            [
+              "LifeTimeFilter"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MotorStatus",
+          "output": [
+            [
+              "MotorStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RecycleTotalT",
+          "output": [
+            [
+              "RecycleTotalT"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "InsFlowRate",
+          "output": [
+            [
+              "InsFlowRate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CycleFlowRate",
+          "output": [
+            [
+              "CycleFlowRate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SaltTotalT",
+          "output": [
+            [
+              "SaltTotalT"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning",
+          "output": [
+            [
+              "FilterWarning"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "NextClean",
+          "output": [
+            [
+              "NextClean"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TotalWater",
+          "output": [
+            [
+              "TotalWater"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TodayWater",
+          "output": [
+            [
+              "TodayWater"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RemainWater",
+          "output": [
+            [
+              "RemainWater"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RecycleHour",
+          "output": [
+            [
+              "RecycleHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RecycleMin",
+          "output": [
+            [
+              "RecycleMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CleanCycle",
+          "output": [
+            [
+              "CleanCycle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrAction",
+          "output": [
+            [
+              "TmrAction"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828308",
+      "selector": 14,
+      "fields": [
+        {
+          "name": "Heat",
+          "output": [
+            [
+              "Heat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ChildLock",
+          "output": [
+            [
+              "ChildLock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Filter1",
+          "output": [
+            [
+              "Filter1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Filter2",
+          "output": [
+            [
+              "Filter2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Filter3",
+          "output": [
+            [
+              "Filter3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Filter4",
+          "output": [
+            [
+              "Filter4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TakeWaterID",
+          "output": [
+            [
+              "TakeWaterID"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetTempValue",
+          "output": [
+            [
+              "SetTempValue"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetTemp",
+          "output": [
+            [
+              "SetTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "CapTime",
+          "output": [
+            [
+              "CapTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WaterSwitch",
+          "output": [
+            [
+              "WaterSwitch"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TakeWaterID",
+          "output": [
+            [
+              "TakeWaterID"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WorkStatus",
+          "output": [
+            [
+              "WorkStatus"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning1",
+          "output": [
+            [
+              "FilterWarning1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning2",
+          "output": [
+            [
+              "FilterWarning2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning3",
+          "output": [
+            [
+              "FilterWarning3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterWarning4",
+          "output": [
+            [
+              "FilterWarning4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter1",
+          "output": [
+            [
+              "LifeTimeFilter1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter2",
+          "output": [
+            [
+              "LifeTimeFilter2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter3",
+          "output": [
+            [
+              "LifeTimeFilter3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeTimeFilter4",
+          "output": [
+            [
+              "LifeTimeFilter4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays1",
+          "output": [
+            [
+              "LifeFilterDays1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays2",
+          "output": [
+            [
+              "LifeFilterDays2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays3",
+          "output": [
+            [
+              "LifeFilterDays3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LifeFilterDays4",
+          "output": [
+            [
+              "LifeFilterDays4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "InWaterTemp",
+          "output": [
+            [
+              "InWaterTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OrigionTDS",
+          "output": [
+            [
+              "OrigionTDS"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PurifierTDS",
+          "output": [
+            [
+              "PurifierTDS"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PretreatWater1",
+          "output": [
+            [
+              "PretreatWater1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PretreatWater2",
+          "output": [
+            [
+              "PretreatWater2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TotalPureWater",
+          "output": [
+            [
+              "TotalPureWater"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ROPurifySpeed",
+          "output": [
+            [
+              "ROPurifySpeed"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ROFlushSpeed",
+          "output": [
+            [
+              "ROFlushSpeed"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TakeWaterSpeed",
+          "output": [
+            [
+              "TakeWaterSpeed"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterNum",
+          "output": [
+            [
+              "FilterNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind1",
+          "output": [
+            [
+              "FilterKind1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind2",
+          "output": [
+            [
+              "FilterKind2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind3",
+          "output": [
+            [
+              "FilterKind3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FilterKind4",
+          "output": [
+            [
+              "FilterKind4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temp1",
+          "output": [
+            [
+              "Temp1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temp2",
+          "output": [
+            [
+              "Temp2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temp3",
+          "output": [
+            [
+              "Temp3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temp4",
+          "output": [
+            [
+              "Temp4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temp5",
+          "output": [
+            [
+              "Temp5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temp6",
+          "output": [
+            [
+              "Temp6"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode1",
+          "output": [
+            [
+              "ErrorCode1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode2",
+          "output": [
+            [
+              "ErrorCode2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "ErrorCode3",
+          "output": [
+            [
+              "ErrorCode3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828a04",
+      "selector": 15,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Humidification",
+          "output": [
+            [
+              "Humidification"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Swing",
+          "output": [
+            [
+              "Swing"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AirChildLock",
+          "output": [
+            [
+              "AirChildLock"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Anion",
+          "output": [
+            [
+              "Anion"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HeatLevel",
+          "output": [
+            [
+              "HeatLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SetTemp",
+          "output": [
+            [
+              "SetTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "EnvTemp",
+          "output": [
+            [
+              "EnvTemp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WorkTimeHour",
+          "output": [
+            [
+              "WorkTimeHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WorkTimeSec",
+          "output": [
+            [
+              "WorkTimeSec"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "RealHeatLevel",
+          "output": [
+            [
+              "RealHeatLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "FanLevel",
+          "output": [
+            [
+              "FanLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HeatMod",
+          "output": [
+            [
+              "HeatMod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TimeStart",
+          "output": [
+            [
+              "TimeStart"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrAction",
+          "output": [
+            [
+              "TmrAction"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828c00",
+      "selector": 0,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wmod",
+          "output": [
+            [
+              "Wmod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WsetTmp",
+          "output": [
+            [
+              "WsetTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WsetTmpC",
+          "output": [
+            [
+              "WsetTmpC"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PrvHeat",
+          "output": [
+            [
+              "PrvHeat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wout",
+          "output": [
+            [
+              "Wout"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvSt",
+          "output": [
+            [
+              "SvSt"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WschOn",
+          "output": [
+            [
+              "WschOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HydPrs",
+          "output": [
+            [
+              "HydPrs"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SenTmpC",
+          "output": [
+            [
+              "SenTmpC"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SenTmp",
+          "output": [
+            [
+              "SenTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UseTime",
+          "output": [
+            [
+              "UseTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UseTimeAll",
+          "output": [
+            [
+              "UseTimeAll"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TapNum",
+          "output": [
+            [
+              "TapNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TapNumAll",
+          "output": [
+            [
+              "TapNumAll"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PersonNum",
+          "output": [
+            [
+              "PersonNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Machine",
+          "output": [
+            [
+              "Machine"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AboveSeaLev",
+          "output": [
+            [
+              "AboveSeaLev"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvLineType",
+          "output": [
+            [
+              "SvLineType"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvLine",
+          "output": [
+            [
+              "SvLine"
+            ],
+            [
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          ]
+        },
+        {
+          "name": "TmrOnHour",
+          "output": [
+            [
+              "TmrOnHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOnMin",
+          "output": [
+            [
+              "TmrOnMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOffHour",
+          "output": [
+            [
+              "TmrOffHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOffMin",
+          "output": [
+            [
+              "TmrOffMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOff",
+          "output": [
+            [
+              "TmrOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Werr",
+          "output": [
+            [
+              "Werr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate4",
+          "output": [
+            [
+              "estate4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate5",
+          "output": [
+            [
+              "estate5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate6",
+          "output": [
+            [
+              "estate6"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "names": [
+            "SvLine"
+          ],
+          "values": [
+            [
+              256,
+              -1,
+              257
+            ]
+          ],
+          "status": [
+            [
+              "SvLine"
+            ],
+            [
+              [
+                0,
+                255,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          ]
+        },
+        {
+          "names": [
+            "SvLine"
+          ],
+          "values": [
+            9
+          ],
+          "status": [
+            [
+              "SvLine"
+            ],
+            [
+              [
+                0,
+                255,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          ]
+        },
+        {
+          "names": [
+            "WschOn"
+          ],
+          "values": [
+            1
+          ],
+          "status": [
+            [
+              "WschOn"
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "828c02",
+      "selector": 0,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wmod",
+          "output": [
+            [
+              "Wmod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WsetTmp",
+          "output": [
+            [
+              "WsetTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WsetTmpC",
+          "output": [
+            [
+              "WsetTmpC"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PrvHeat",
+          "output": [
+            [
+              "PrvHeat"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wout",
+          "output": [
+            [
+              "Wout"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvSt",
+          "output": [
+            [
+              "SvSt"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WschOn",
+          "output": [
+            [
+              "WschOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HydPrs",
+          "output": [
+            [
+              "HydPrs"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SenTmpC",
+          "output": [
+            [
+              "SenTmpC"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SenTmp",
+          "output": [
+            [
+              "SenTmp"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UseTime",
+          "output": [
+            [
+              "UseTime"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UseTimeAll",
+          "output": [
+            [
+              "UseTimeAll"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TapNum",
+          "output": [
+            [
+              "TapNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TapNumAll",
+          "output": [
+            [
+              "TapNumAll"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PersonNum",
+          "output": [
+            [
+              "PersonNum"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Machine",
+          "output": [
+            [
+              "Machine"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "AboveSeaLev",
+          "output": [
+            [
+              "AboveSeaLev"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvLineType",
+          "output": [
+            [
+              "SvLineType"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SvLine",
+          "output": [
+            [
+              "SvLine"
+            ],
+            [
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          ]
+        },
+        {
+          "name": "TmrOnHour",
+          "output": [
+            [
+              "TmrOnHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOnMin",
+          "output": [
+            [
+              "TmrOnMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOffHour",
+          "output": [
+            [
+              "TmrOffHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOffMin",
+          "output": [
+            [
+              "TmrOffMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOff",
+          "output": [
+            [
+              "TmrOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Werr",
+          "output": [
+            [
+              "Werr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate4",
+          "output": [
+            [
+              "estate4"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate5",
+          "output": [
+            [
+              "estate5"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate6",
+          "output": [
+            [
+              "estate6"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "names": [
+            "SvLine"
+          ],
+          "values": [
+            [
+              256,
+              -1,
+              257
+            ]
+          ],
+          "status": [
+            [
+              "SvLine"
+            ],
+            [
+              [
+                0,
+                255,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          ]
+        },
+        {
+          "names": [
+            "SvLine"
+          ],
+          "values": [
+            9
+          ],
+          "status": [
+            [
+              "SvLine"
+            ],
+            [
+              [
+                0,
+                255,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ]
+          ]
+        },
+        {
+          "names": [
+            "WschOn"
+          ],
+          "values": [
+            1
+          ],
+          "status": [
+            [
+              "WschOn"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "mid": "828212",
+      "selector": 1,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WdSpd",
+          "output": [
+            [
+              "WdSpd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "StepWdSpd",
+          "output": [
+            [
+              "StepWdSpd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mod",
+          "output": [
+            [
+              "Mod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Rotate",
+          "output": [
+            [
+              "Rotate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Cycle",
+          "output": [
+            [
+              "Cycle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SwUpDn",
+          "output": [
+            [
+              "SwUpDn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SwingLfRig",
+          "output": [
+            [
+              "SwingLfRig"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wet",
+          "output": [
+            [
+              "Wet"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Anion",
+          "output": [
+            [
+              "Anion"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotwindOnOff",
+          "output": [
+            [
+              "HotwindOnOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotWind",
+          "output": [
+            [
+              "HotWind"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrAction",
+          "output": [
+            [
+              "TmrAction"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SmartMod",
+          "output": [
+            [
+              "SmartMod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WetLevel",
+          "output": [
+            [
+              "WetLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Light",
+          "output": [
+            [
+              "Light"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UpDnAngle",
+          "output": [
+            [
+              "UpDnAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LRAngle",
+          "output": [
+            [
+              "LRAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Quiet",
+          "output": [
+            [
+              "Quiet"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OSD",
+          "output": [
+            [
+              "OSD"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LRHeadAngle",
+          "output": [
+            [
+              "LRHeadAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UpDuHeadAngle",
+          "output": [
+            [
+              "UpDuHeadAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temperature",
+          "output": [
+            [
+              "Temperature"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PM25",
+          "output": [
+            [
+              "PM25"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": []
+    },
+    {
+      "mid": "828214",
+      "selector": 1,
+      "fields": [
+        {
+          "name": "Pow",
+          "output": [
+            [
+              "Pow"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WdSpd",
+          "output": [
+            [
+              "WdSpd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "StepWdSpd",
+          "output": [
+            [
+              "StepWdSpd"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Mod",
+          "output": [
+            [
+              "Mod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Rotate",
+          "output": [
+            [
+              "Rotate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Cycle",
+          "output": [
+            [
+              "Cycle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SwUpDn",
+          "output": [
+            [
+              "SwUpDn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SwingLfRig",
+          "output": [
+            [
+              "SwingLfRig"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Wet",
+          "output": [
+            [
+              "Wet"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Anion",
+          "output": [
+            [
+              "Anion"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotwindOnOff",
+          "output": [
+            [
+              "HotwindOnOff"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "HotWind",
+          "output": [
+            [
+              "HotWind"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrHour",
+          "output": [
+            [
+              "TmrHour"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrMin",
+          "output": [
+            [
+              "TmrMin"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrOn",
+          "output": [
+            [
+              "TmrOn"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "TmrAction",
+          "output": [
+            [
+              "TmrAction"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "SmartMod",
+          "output": [
+            [
+              "SmartMod"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "WetLevel",
+          "output": [
+            [
+              "WetLevel"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Light",
+          "output": [
+            [
+              "Light"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UpDnAngle",
+          "output": [
+            [
+              "UpDnAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LRAngle",
+          "output": [
+            [
+              "LRAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Quiet",
+          "output": [
+            [
+              "Quiet"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "OSD",
+          "output": [
+            [
+              "OSD"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "LRHeadAngle",
+          "output": [
+            [
+              "LRHeadAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "UpDuHeadAngle",
+          "output": [
+            [
+              "UpDuHeadAngle"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "Temperature",
+          "output": [
+            [
+              "Temperature"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "PM25",
+          "output": [
+            [
+              "PM25"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate",
+          "output": [
+            [
+              "estate"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate1",
+          "output": [
+            [
+              "estate1"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate2",
+          "output": [
+            [
+              "estate2"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "estate3",
+          "output": [
+            [
+              "estate3"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "JFerr",
+          "output": [
+            [
+              "JFerr"
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        {
+          "name": "MidType",
+          "output": [
+            [
+              "MidType"
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "names": [
+            "Mod",
+            "WdSpd"
+          ],
+          "values": [
+            7,
+            99
+          ],
+          "status": [
+            [
+              "Mod",
+              "WdSpd"
+            ],
+            [
+              7,
+              3
+            ]
+          ]
+        },
+        {
+          "names": [
+            "Mod",
+            "WdSpd"
+          ],
+          "values": [
+            0,
+            99
+          ],
+          "status": [
+            [
+              "Mod",
+              "WdSpd"
+            ],
+            [
+              0,
+              99
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "bank2_timers": [
+    {
+      "request": {
+        "t": "setT",
+        "id": 257,
+        "name": "one",
+        "enable": 0,
+        "hr": 1,
+        "min": 2,
+        "sec": 3,
+        "tz": 256,
+        "week": [],
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "Pow"
+            ],
+            "p": [
+              257
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "t": "resT",
+        "r": 200
+      },
+      "outer_lf": false
+    },
+    {
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 10
+      },
+      "expected": {
+        "t": "listT",
+        "total": 10,
+        "index": 0,
+        "list": [
+          {
+            "id": 1,
+            "name": "one",
+            "enable": 0,
+            "hr": 1,
+            "min": 2,
+            "sec": 3,
+            "week": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cmd": [
+              {
+                "mac": [
+                  "020000000001"
+                ],
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  257
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outer_lf": false
+    },
+    {
+      "request": {
+        "t": "updateT",
+        "id": 1,
+        "name": "two",
+        "enable": 1,
+        "hr": 2,
+        "min": 3,
+        "sec": 4,
+        "tz": 0,
+        "week": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "Pow"
+            ],
+            "p": [
+              -1
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "t": "resT",
+        "r": 200
+      },
+      "outer_lf": false
+    },
+    {
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 10
+      },
+      "expected": {
+        "t": "listT",
+        "total": 10,
+        "index": 0,
+        "list": [
+          {
+            "id": 1,
+            "name": "two",
+            "enable": 1,
+            "hr": 2,
+            "min": 3,
+            "sec": 4,
+            "week": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cmd": [
+              {
+                "mac": [
+                  "020000000001"
+                ],
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  -1
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "outer_lf": false
+    },
+    {
+      "request": {
+        "t": "deleteT",
+        "id": 1
+      },
+      "expected": {
+        "t": "resT",
+        "r": 200
+      },
+      "outer_lf": false
+    },
+    {
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 10
+      },
+      "expected": {
+        "t": "listT",
+        "total": 10,
+        "index": 0
+      },
+      "outer_lf": false
+    }
+  ],
+  "bank2_peripheral": {
+    "report_client": [
+      {
+        "input": "synthetic-peer",
+        "status": [
+          [
+            "ReportClientID"
+          ],
+          [
+            "synthetic-peer"
+          ]
+        ]
+      },
+      {
+        "input": "",
+        "status": [
+          [
+            "ReportClientID"
+          ],
+          [
+            "synthetic-peer"
+          ]
+        ]
+      }
+    ],
+    "operations": [
+      {
+        "request": {
+          "t": "wlan",
+          "ssid": "synthetic",
+          "psw": "",
+          "host": "www.gree.com",
+          "lat": "0",
+          "lon": "0"
+        },
+        "expected": [
+          {
+            "t": "ret",
+            "r": 200,
+            "mac": "020000000001"
+          }
+        ],
+        "stop_pc": "0x2100f000",
+        "error": null
+      },
+      {
+        "request": {
+          "t": "upgrade",
+          "url": "http://example.invalid/m26s.bin"
+        },
+        "expected": [],
+        "stop_pc": "0x2100f000",
+        "error": null
+      },
+      {
+        "request": {
+          "t": "surver",
+          "mac": "020000000001"
+        },
+        "expected": [],
+        "stop_pc": "0x2100f000",
+        "error": null
+      }
+    ]
+  },
+  "qualification": "Both original independent bank images and their own initialized RAM executed; hook/entry address adaptation does not alter original loaded instructions. Earlier absent-ROM or Python-adapter failures are preserved privately and superseded per operation."
+}

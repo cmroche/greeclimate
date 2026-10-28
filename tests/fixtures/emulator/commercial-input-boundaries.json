@@ -9,7 +9,10 @@
     "first_request": "Exact ciphertext/envelope from independent native complete command capture; not regenerated from emulator/client. Same-RAM native next-status fixture proves controls1/1/24/3.",
     "malformed_requests": "Independent PyCryptodome construction: doubleNUL, tripleNUL, embeddedNUL+junk and NUL+space; must drop before command Pow0 mutation. Following ordinary status must still reportPow1.",
     "safe_json_difference": "Ordinary JSON command (noNUL) accepted deliberately by safe decoder, rather than reproducing native absent-key scan through PKCS7; finalPow0. Replies ordinary PKCS7 with noNUL.",
-    "model_sensor": "Only finalInTem26 is explicitly synthetic floor(roomC), not native physical calibration."
+    "model_sensor": "Only finalInTem26 is explicitly synthetic floor(roomC), not native physical calibration.",
+    "complete_raw_namespace": "Original source350-record table:343 named fields plus7 null records. All declared numeric fields use unsigned16 cache storage, not AC preset validation. See catalog-wb-commercial_research.json for all three independently qualified source builds.",
+    "simulation_contract": "Configured names/MIDs/HID and explicit synthetic RTC/platform buffers, RSSI=-50, and InTem=floor(room Celsius) are model backing, not hardware defaults. Other raw fields start0 unless configured. Name/ModelType/AppTimer/ver setters do not mutate. Physical calibration and UART/update/reset execution are not claimed.",
+    "intentional_safety_differences": "Unsafe JSON/length/NULL-tail behavior is rejected atomically. Native cols takes precedence over opt and does not mutate; opt+p writes low16 then reads. Metadata callbacks can retain a column without appending dat; unknown fields are omitted. Command numeric p retains requested integers."
   },
   "device": {
     "id": "office",

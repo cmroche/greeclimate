@@ -1,0 +1,27 @@
+{
+  "profile": "sim-w05sa-v1.28",
+  "mid": "50",
+  "source_sha256": "aae6c0782b8d2a3d7fd5c071fbd23ab292dc1d42cf864c1307df961d9305e864",
+  "evidence": {
+    "source": "0x0805ef82 getter switch, 0x100078fc name table slots445..475; known footer without getter appends cols but no dat",
+    "model": "Literal chosen synthetic metadata cache and frozen clock, not firmware startup or RTC calibration"
+  },
+  "device": {"id": "zones", "mac": "020000000001", "name": "Zones", "key": "0123456789abcdef"},
+  "initial_state": {},
+  "requests": [{
+    "outer": {"t": "pack", "i": 0, "uid": 7, "cid": "app", "tcid": "020000000001"},
+    "inner": {"t": "status", "mac": "020000000001", "cols": [
+      "apssid", "appsw", "host", "name", "time", "lat", "lon", "vender", "bc", "mid", "model", "series",
+      "brand", "catalog", "country", "hid", "mac", "ver", "HidSvrVer", "InHid", "InHidSvrVer", "OEEPHid", "OEEPHidSvrVer"
+    ]},
+    "key": "0123456789abcdef"
+  }],
+  "expected_replies": [[{
+    "outer": {"t": "pack", "i": 0, "uid": 7, "cid": "020000000001", "tcid": "app"},
+    "inner": {"t": "dat", "mac": "020000000001", "r": 200, "cols": [
+      "apssid", "appsw", "host", "name", "time", "lat", "lon", "vender", "bc", "mid", "model", "series",
+      "brand", "catalog", "country", "hid", "mac", "ver", "HidSvrVer", "InHid", "InHidSvrVer", "OEEPHid", "OEEPHidSvrVer"
+    ], "dat": ["", "Zones", "2000-01-01 00:00:00", "", "", "", "gree", "50", "362001062617+U-W05SAV1.28.bin", "020000000001", ""]}
+  }]],
+  "expected_state": {}
+}

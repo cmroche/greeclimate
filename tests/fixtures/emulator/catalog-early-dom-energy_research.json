@@ -1,0 +1,547 @@
+{
+  "schema_version": 1,
+  "qualification": "Original helper/status instructions, actual source pointers; pending flags input0x80 and requestword0x1234 are explicit synthetic platform context, not forced helper output. Bounded LAN requests contain at most30 names, so ordinal67/68/69/71/72 cannot be passed by the safe model.",
+  "model_boundary": "Pending flags start0; each safe30-name query passes only request ordinals0..29, never helper selectors67/68/69/71/72. Do not reinterpret helper argument as matched property-table slot. Native status can build DOM arrays and still return0 to suppress LAN response when pending bits1/2/4 are already set.",
+  "views": [
+    {
+      "source_sha256": "473069c36c8f11b7c2b75826efb3c038a3b006a328b6b87910633c8cd8e08a3d",
+      "bank": 0,
+      "vectors": [
+        {
+          "ordinal": 0,
+          "helper_completed": true,
+          "pending_flags": 128,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 1,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 67,
+          "helper_completed": true,
+          "pending_flags": 129,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 68,
+          "helper_completed": true,
+          "pending_flags": 130,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 69,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 71,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 72,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source_sha256": "bd7af53fbd800b6a7193ba5028b478cd4fe0f6a91a6e432bfabd8cf5b39a0cd6",
+      "bank": 0,
+      "vectors": [
+        {
+          "ordinal": 0,
+          "helper_completed": true,
+          "pending_flags": 128,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 1,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 67,
+          "helper_completed": true,
+          "pending_flags": 129,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 68,
+          "helper_completed": true,
+          "pending_flags": 130,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 69,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 71,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 72,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source_sha256": "e6d18004924ee352a5e82d062a87166cb5f31811ec7437044fd716c6f63d208b",
+      "bank": 0,
+      "vectors": [
+        {
+          "ordinal": 0,
+          "helper_completed": true,
+          "pending_flags": 128,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 1,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 67,
+          "helper_completed": true,
+          "pending_flags": 129,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 68,
+          "helper_completed": true,
+          "pending_flags": 130,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 69,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 71,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 72,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source_sha256": "473069c36c8f11b7c2b75826efb3c038a3b006a328b6b87910633c8cd8e08a3d",
+      "bank": 1,
+      "vectors": [
+        {
+          "ordinal": 0,
+          "helper_completed": true,
+          "pending_flags": 128,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 1,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 67,
+          "helper_completed": true,
+          "pending_flags": 129,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 68,
+          "helper_completed": true,
+          "pending_flags": 130,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 69,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 71,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 72,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source_sha256": "bd7af53fbd800b6a7193ba5028b478cd4fe0f6a91a6e432bfabd8cf5b39a0cd6",
+      "bank": 1,
+      "vectors": [
+        {
+          "ordinal": 0,
+          "helper_completed": true,
+          "pending_flags": 128,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 1,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 67,
+          "helper_completed": true,
+          "pending_flags": 129,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 68,
+          "helper_completed": true,
+          "pending_flags": 130,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 69,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 71,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 72,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source_sha256": "e6d18004924ee352a5e82d062a87166cb5f31811ec7437044fd716c6f63d208b",
+      "bank": 1,
+      "vectors": [
+        {
+          "ordinal": 0,
+          "helper_completed": true,
+          "pending_flags": 128,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 1,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 67,
+          "helper_completed": true,
+          "pending_flags": 129,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 68,
+          "helper_completed": true,
+          "pending_flags": 130,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 69,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 4660,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 71,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        },
+        {
+          "ordinal": 72,
+          "helper_completed": true,
+          "pending_flags": 132,
+          "request_word": 37428,
+          "status_completed": true,
+          "status_return": 0,
+          "cols": [
+            "Pow"
+          ],
+          "dat": [
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

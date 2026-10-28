@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "qualification": "Exact-original static wire closure plus existing bounded original-instruction metadata/framing/reply-port vectors. Runtime vectors authored independently; no native full-session or hardware claim.",
+  "profile": "sim-zts31a-v310-host",
+  "source_sha256": "e90804f455d9c6a93e9c56e6b3da6f78f4f64a5ab960bf6fb3b0d9b6bff295a1",
+  "package_sha256": "5ba439396454e99496d2de6744cf26769ca2c70a43bb5a0b116925936f5eb0bc",
+  "source": "CatalogQuirks/Containers/host310-device-closure.json",
+  "identity": {"hid":"362001068423+ZTS31AV3.10.img","mid":"70501","protocol":"V3.2.MF","version":"1","role":"host response identity, not typed AC"},
+  "wire": {
+    "request_entry":"request_handle_task0x26444 -> request_handle0x219ae",
+    "target":"cid differs from host, tcid empty or host; msgId required, uint32 response",
+    "selectors":{"0":"registered sender's private key","1":"source generic key","2":"unencrypted JSON string; dispatch authorization still enforced"},
+    "dispatch":"39 case-insensitive names, request selector <= table key_type",
+    "reply":"t=pack,i=response key selector,cid=host,tcid=request sender,msgId; no uid",
+    "cipher":"AES-128-ECB, PKCS7, Base64. Compact JSON plaintext followed by exactly one LF before padding. UDP outer has no LF.",
+    "ports":{"receive":5000,"ordinary_reply":5001,"miniApp_role5":"request sender port"},
+    "receive_capacity":5120,
+    "receive_capacity_evidence":"socket_handle_task0x2f896 initializes request_type.size0x1400 for every receive; socket_connect_read0x2ea08 passes it directly to recvfrom. Source5120-byte exact fill may lack a C terminator; strict JSON model avoids overread.",
+    "native_reply_port_evidence":"CatalogQuirks/Containers/reply-port-native-vectors.json: unregistered,role3,role5 original sendto paths",
+    "absent_inbound":["scan","bind","subDev"],
+    "scan":"DATA_TYPE_ONLY_SEND outbound only; no inbound appliance advertisement"
+  },
+  "metadata": {
+    "names":["host","ver","hid","mid","rssi","time","active"],
+    "evidence":"request_handle_status0x181f4; local-status-native-vectors.json",
+    "ordering":"preserve requested order and duplicate columns; omit unknowns; case-sensitive cols lookup",
+    "host_identity":"target host selects host protocol/HID/MID; other target uses requester peer metadata",
+    "rssi":"only DEV_TYPE_UDP3, full signed32, per-peer hb.RSSI cache; no clipping",
+    "cache_list":"Without per-entry cols, return full raw cache. With cols, original gree_cjson_array_to_keypair0x1479e always returns-1, so skip entry even after object filling; empty result r500. Original147e4/147e8 initializes-1;149b0 loads it into returnedr0.",
+    "not_physics":"No TemSen, room model, AC modes, temperature bias or calibrated sensor claim"
+  },
+  "registration": {
+    "entry":"request_handle_UBind0x1647c",
+    "field_count":23,
+    "peer_fields":["mid","ver","devkey","lock","hid","scene"],
+    "miniApp_authorized_host_fields":["homeId","roomList","dis","Gnetkey","province","city","domain","lng","lat","GnetID","orderID"],
+    "host_unprotected_fields":["devCnt","nluHost","nluPort"],
+    "auxiliary_service_inputs":["idSync","pairMod","soVer"],
+    "authorization":"miniApp role5 and matching2/3 or exact nonempty Gnetkey; GnetID presence without authorization suppresses registration response",
+    "key_ownership":"miniApp stores host private key and UBindok uses generic selector1; ordinary sender provides devkey and UBindok uses that peer key selector0; no shared ordinary peer keys",
+    "fallback":"Default mid_config=null uses original product_get_subdev_type0x378ea branch order; not a fabricated MID union or emitted-appliance list.",
+    "configured_override":"Explicit synthetic preloaded mid_config may contain actual source fields type_value0..14 and timers_max; no MID or configuration inferred from filename.",
+    "integer_widths":{"lock":"uint8","scene":"uint8","GnetID_peer":"uint16 macId","homeId":"uint32","GnetID_host":"uint32","nluPort":"uint16 argument, not an established successful port-only write"},
+    "configuration_setters":"host310-config-functions.json: province/city/domain/lng/lat/orderID ignore empty strings. DWARF capacities Gnetkey9,dis/nluHost33,location/orderID64.",
+    "nlu_safety":"With nluinfo_flag0, UBind.nluPort passes NULL to strcmp before the source NULL guard; chosen atomic model rejects without ACK/mutation. With preloaded nluinfo_flag1, separate nluHost/nluPort updates are source no-ops.",
+    "capacity":"original register array admits indices<999; miniApp kept last; strict safe batch validation before mutation"
+  },
+  "synthetic_policy": {
+    "host":"synthetic.invalid",
+    "time":"2026-01-01 00:00:00 fixed injected host clock, not measured appliance time",
+    "active":0,
+    "activation":0,
+    "matching":2,
+    "orderID":"synthetic-zts31a, never read from vendor filesystem",
+    "fastconMac":"chosen synthetic host MAC, not a hardware identity claim",
+    "rssi_initial":0,
+    "config_buffer":"per-host in-memory NUL-free string, empty initially, no filesystem or flash write",
+    "restart":"all host config/peer keys/cache/room synchronization reset",
+    "network":"enNet0 is synthetic connected state, not a real cloud session",
+    "mid_config":"null by default; explicit type_value/timers_max preloaded cache is a labelled application configuration input",
+    "nlu_cache":{"nluinfo_flag":0,"nluHost":"","nluPort":0},
+    "heartbeat_clock":"labelled synthetic100Hz Linux times clock, uint32 difference, threshold9001 ticks and46s host checks",
+    "retry_lifecycle":"source10x1s miniApp retransmission, validated sender-address ownership, acknowledgement cancellation; current sync index retries up to6afterprogress; original ten-event syncDone burst retained"
+  },
+  "safe_deviations":[
+    "Strict JSON/duplicate-member parser replaces native brace counter with quoted-brace bug and exact-capacity overrun",
+    "Case-alias ambiguity rejected rather than native first case-insensitive match",
+    "Signed32 integers, bounded strings/arrays and explicit16-byte ASCII keys prevent native unchecked copies and unsafe coercion",
+    "Known cache/configuration batches validate atomically; native partial mutations/faults are not relabeled native success",
+    "UDP response payload bounded at65507 bytes; not inferred as native receive capacity",
+    "Strict PKCS7 rejects native decrypt's unchecked repeated padding bytes/zero padding; canonical outer routing keys remain the shared strict parser contract",
+    "Sender address is committed only after successful key/target/schema admission; plaintext NONE or rejected UBind cannot redirect a pending retry",
+    "No hardware flash, OTA download, dynamic vendor plugin loading or external board ACK is fabricated"
+  ],
+  "plugin807002": {
+    "configured_fields":31,
+    "scope":"same plugin/configuration namespace for3.09/3.10; loader route only, not emitted appliance MID",
+    "boundary":"Selected MAC->MID/binParam plus companion binary receive/ACK schema remains separate from host metadata/config cache"
+  },
+  "operation_coverage": {
+    "registration_metadata":["UBind","status","hb","Utm"],
+    "raw_receipts_cache":["cmd","jsonCmd","binStatus","dat","jsonStatus"],
+    "configuration":["configStatus","485Configure","upRoomInfo","roomListPush","sceneSinglepush","updownFlag","activation"],
+    "timer_configuration":["AddTiming","UpdateTiming","DeleteTiming"],
+    "lifecycle":["syncDev","syncDevList","devListPush","upDevList","connect","syncPersistent","devListPushRes","DevOnlineRes","DevOnlineDone","CheckResRes","CheckResDone","ret","res"],
+    "source_no_direct_udp_reply":["DevCheck","checksub","CheckSceneExe","switchBindPush","upgrade","binSubStatus","binSubEvent"],
+    "ack_vs_effective":"cmd/jsonCmd and scene/updown receipts are emitted by original host independently of downstream result; fresh appliance raw cache remains unchanged without incoming status. Never synthesize a companion result or flash.",
+    "timers":"Absent MID configuration produces actual TimerRsp r500, not timeout; configured MID defaults timers_max5, duplicate501/full503. Ordinary delete is idempotent200; role6 delete returns500 because caller passes NULL switch name. mday<128 only on Add, not Update; serialized Sw selector includes its closing quote.",
+    "source":"host310-functions.json; host310-peer-fallback-functions.json; host310-lifecycle-functions.json; host310-config-functions.json"
+  },
+  "runtime":"gree_emulator/profiles/catalog_zts.py",
+  "vectors":"catalog-zts-vectors_research.json",
+  "checks":[
+    {"command":"venv/bin/python3.14 -m pytest -q tests/test_emulator_catalog_zts.py","status":"authored, not run by worker","proves":"independent raw encrypted peer registration, key/port ownership, metadata/RSSI, cache/config/rooms, reset, malformed atomicity and no invented companion ACK"},
+    {"command":"venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/Containers/probe_host_wire.py --repo .","status":"parent reported old5checkrevision PASS,bg283,1.57s; current7check revision adds timed retry/cancel,address-attack and empty-tcid coverage, authored not run by worker","proves":"actual CLI two-host raw-peer process, separate UDP5001 receiver, miniApp sender port, encryption/LF, malformed recovery, isolation and clean shutdown","boundaries":"baseline observed before final timer/event lifecycle additions; no tests/full boot/hardware claim"}
+  ]
+}

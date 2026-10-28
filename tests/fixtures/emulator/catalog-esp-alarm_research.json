@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "profile": "sim-mstwb801a-v1",
+  "source_sha256": "5102a8e6c0efc5fe850a3767709c60fd20433b4a0e25bc165e3cb5917f5d095f",
+  "source_qualification": "Exactoriginalcanonicalsegments/roots/ABI inspected; parentoriginal-byte-assertedcompleteleaftranslation passed35vectors andinitializer/table/hashassertions withnohooks. Parser/transport source-inspected, notnativehardwareAES/fulltransaction/fullboot/physicalalarm.",
+  "property_namespace": [
+    "Pow",
+    "WorkState",
+    "AlarmCancel",
+    "AlarmTmrEnable",
+    "AlarmTime"
+  ],
+  "metadata_namespace": [
+    "host",
+    "name",
+    "rssi",
+    "hid",
+    "InHid",
+    "OEEPHid",
+    "AllErr"
+  ],
+  "aliases": {
+    "WorkState": "Pow"
+  },
+  "source_initial_getters": [
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  "source_transport": {
+    "source_receiver": "401038f8 actual recvfrom context2 receives up to caller0x5b4=1460bytes; context1TCP accumulates1024 untilLF",
+    "socket_admission": "Model max_request_bytes1460; exact UDP datagram size must be checked by shared server, not JSON reserialization. Model strict matching target despite source parse-without-comparison. Inner mac ignored source, no invented child topology.",
+    "crypto": "Source AES128 ECB with PKCS7 encryption4010bec0/40109a3c; decrypt4010c0cc strips unchecked final-byte count. Existing PyCryptodome performs model crypto; not native hardware crypto qualification.",
+    "keys": "i narroweduint8;0persistent sessionkey RAM3ffc84e1;nonzero except2generic RAM3ffc84d0;2plaintext pack bypass. Generic key a3K8Bx%2r8Y7#xDh. Bind repliesi1 and doesnot rotate existing key.",
+    "envelope": "UDP outertpack,cidMAC,tcidapp; UID signed32 cache. Scan andbind replyi1; status/cmdi0 regardless request index. UDP noLF; TCP emitsoneLF, not provided by UDPserver.",
+    "discovery": "tdev,cidMAC,macMAC,mid80260,bc/brand/catalog/model/seriesgree,vender string1,verV1.0,lock0,subCnt0,noHID. Configured name is explicit synthetic generated-name replacement.",
+    "reply_preflight": "Common scratch1024; model serialized encrypted outer<1024 before cache commit.",
+    "lifecycle": "Source initializationfourcells[1,0,0,0], Pow/WorkState alias. Restart/reset scheduleevents6001/6002 via401024bc, defaultdelay5000RTOS ticks, NOACK; downstream40100afc reset erasesESP_MDFnamespace then restarts. Model lazily applies restart at firstsubsequentvalidLANtransaction, keepskeyonrestart, regenerates16bytebase64key onreset usingchosenreproducibleSHA256entropy. Native tickrate unresolved: explicitmodel1ms synthetic tick, NOTphysicalcalibration. hbok arms/rearms180000tickwatchdog\u2192restart (model180s); loginRes genuineemptyhandler. tm parses%Y-%m-%d %H:%M:%S, callsROM4005a5e8 conversion but discardsreturn, then4010d138 setsTZCST-8 and rewritesexistingROMcurrentseconds withmicroseconds0, NOACK. Model validatescalendar withoutassigningrequestedtime; unknownLANtimegetter remains0. No physicalalarm/sensorphase/timercallback actuation invented.",
+    "plaintext": "Source commonhandler dispatches directplaintext11operations as well as encryptedpack/i2plaintextpack. Handler-ownedplaintext_types integrated via parentserver; no wlan/mate/subList support inferred.",
+    "ota": "Source upgrade constructsret/r200/mac,i1 then synchronouslycalls40109854\u219240155158 networkOTA and mayrestart; ota invokes sameboundarywithNOreply. Model explicitlyrejects both externalHTTP/flash withoutfakeacceptance orfirmwareflashing."
+  },
+  "policy": {
+    "temperature_offset": {
+      "proposed": null,
+      "decision": "No LAN temperature decoder; TemSen is unknown getter0, not protocol bias or calibration."
+    },
+    "relearn_temperature_offset": {
+      "proposed": false,
+      "decision": "No sensor encoding exists in complete scalar namespace; no changing offset evidence."
+    },
+    "buzzer_properties": {
+      "proposed": [],
+      "decision": "Finite five-field scalar setter namespace plus metadata has no usable named LAN buzzer property; unknown names are acknowledged no-ops, not support. Scope all1 known build for code."
+    },
+    "cooling_mode_value": {
+      "proposed": null,
+      "decision": "Raw alarm family has no mode selector or typed AC semantics."
+    },
+    "capabilities": {
+      "proposed": [],
+      "decision": "No typed family; do not derive AC power from raw Pow."
+    },
+    "gateway_dialect": {
+      "proposed": null,
+      "decision": "Standalone six-byte MAC; no child enrollment/enumeration in dispatch table."
+    },
+    "numeric_types": "Source cJSON array extractor produces numeric decimal strings and copies strings; bool/null/nested arrays skip slots, risking holes/faults. Model rejects those atomically. Out-of-signed32 numeric/atoi overflow deliberately rejected, not a claimed native range.",
+    "order_duplicates": "Preserve requested order and duplicates; native sequential writes with requested-string p ACK. Safe model validates whole batch and preflights response before committing.",
+    "unknown_readonly": "All nonmetadata unknown status names serialize0; unknown/metadata command names are acknowledged no-ops. Unknown zero does not establish any feature.",
+    "batch_policy": "Model1..64 names\u226464UTF8bytes, scalar strings\u226464bytes, no control chars/container-prefix injection; chosen safety bounds not native table capacity. Empty/native mismatched arrays unsafe, reject.",
+    "parser_policy": "Strict UTF8/JSON, duplicate member rejection and strictPKCS7; source decrypt subtracts unchecked final padding byte and formatter does not escape arbitrary strings."
+  },
+  "checks": [
+    {
+      "command": [
+        "/Users/cliffordroche/Projects/HVAC/greefirmware/.research/cs532ae-v3.33/tools/ghidra_12.1.4_PUBLIC/support/analyzeHeadless",
+        "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP/esp-transport-na8alsu5",
+        "esp4",
+        "-process",
+        "362001062978+V1.01-test.bin",
+        "-readOnly",
+        "-noanalysis",
+        "-scriptPath",
+        "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Can;/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP",
+        "-postScript",
+        "CanExport.java",
+        "/Users/cliffordroche/Projects/HVAC/gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Alarm/canonical-v3.txt",
+        "0x40102b5c",
+        "0x40102b78",
+        "0x40102b94",
+        "0x40102bb0",
+        "0x40102bcc",
+        "0x40102be8",
+        "0x40100c68",
+        "0x40102c70",
+        "0x40100130",
+        "0x401024bc",
+        "0x40109854",
+        "0x40102cd0",
+        "0x40100afc",
+        "-max-cpu",
+        "1"
+      ],
+      "purpose": "Freshcanonical original-byte rooteddecompilation includingindirectcallbacks/init/TM/downstreamlifecycle",
+      "proves": "Source/ABI/mapqualifiedinstructionsandcallclosure; notsemanticruntimeexecution",
+      "boundaries": "Invalidguessed40102b5c/deeperdecoderwarningsnotnativefaults; readonlylocalanalysisdiscarded",
+      "execution": "parent_observed",
+      "result": "Alarm/canonical-v3.json source_export_success true; actualcanonical-v3.txt read"
+    },
+    {
+      "command": "venv/bin/python3.14 ../gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Alarm/probe.py --source '/Users/cliffordroche/Downloads/gree-research-inputs/firmware/362001062978+V1.01-test.bin' --exports ../gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP/esp-transport-na8alsu5/esp4-setter-start.txt ../gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Alarm/canonical-v3.txt --output ../gree-research/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Alarm/probe-v3-results.json",
+      "purpose": "Assert original fullsource/segments/table/identities; execute complete scalar leaf callback byteasserted translations",
+      "proves": "Leaf cache mutation width and independent requested/stored values, not full dispatch transaction",
+      "boundaries": "Completeleafinstructiontranslation only; nativeJSON/atoi/transport/AES/fullboot/physicalalarm explicitlynotexercised.",
+      "execution": "parent_observed",
+      "result": "Alarm/probe-v3-results.json actual35vectors allmatched, originalsource/segment/table/identitybytesasserted, initialcanonicalcache[1,0,0,0], WorkState=Pow, primitivehooks[]."
+    },
+    {
+      "command": "venv/bin/python3.14 -m pytest tests/test_emulator_catalog_esp_alarm.py",
+      "purpose": "Independent rawconsumer literal regressions",
+      "proves": "Bounded public family behavior through actual encrypted packets and freshstatus",
+      "boundaries": "Not physicalhardware or originalnative firmware",
+      "execution": "not_run_by_worker"
+    }
+  ],
+  "independent_vectors": "catalog-esp-alarm-vectors_research.json",
+  "private_assessment": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Alarm/assessment.json",
+  "limits": [
+    {
+      "operation": "Original fullOTA fetch/flash and device reboot execution",
+      "prerequisite": "ExternalHTTPresponse/flashperipheral/vendorrestart runtime; flashing explicitly prohibited.",
+      "bounded_behavior": "Bothupgrade/otaexplicitlyrejected,no nativeACKsuccess fabricated; rawproperty/LANmodeldoesnotdependonOTA."
+    },
+    {
+      "operation": "Nativeabsoluteepoch/timezone andphysicaltimerfrequency fidelity",
+      "prerequisite": "ROM4005a5e8 calendarconversion ABI andnativeFreeRTOS tickconfiguration/scheduling companion.",
+      "bounded_behavior": "No LANtimegetter invented; TM validatescalendar/noACK and doesnotassignrequestedtime, delay/watchdog explicitsynthetic1ms tick, rawfourcellwiresemanticscomplete."
+    }
+  ],
+  "coverage_matrix": [
+    {
+      "names": [
+        "Pow",
+        "WorkState",
+        "AlarmCancel",
+        "AlarmTmrEnable",
+        "AlarmTime"
+      ],
+      "source": "Canonicaltable3ffc0154 / get40102bfc / set40102c3c / init40102be8",
+      "vectors": "catalog-esp-alarm-vectors_research.json transactions+aliases",
+      "implementation": "catalog_esp_alarm.Alarm.handle",
+      "test": "test_all_five_fields_string_ack_and_independently_fresh_status; test_source_power_alias_and_no_separate_work_state_override"
+    },
+    {
+      "names": [
+        "host",
+        "name",
+        "rssi",
+        "hid",
+        "InHid",
+        "OEEPHid",
+        "AllErr"
+      ],
+      "source": "40103190 sevenexplicitbranches +401081b0 initializedproductcopy",
+      "vectors": "catalog-esp-alarm-vectors_research.json metadata",
+      "test": "test_complete_metadata_and_unknowns_are_not_typed_ac_support"
+    },
+    {
+      "operations": [
+        "scan",
+        "bind",
+        "status",
+        "cmd"
+      ],
+      "source": "40101580/401038f8/40103b08/40103454/401033fc/40103190/40102f04",
+      "test": "test_discovery_exact_fixed_mid_and_bind_session_lifecycle; test_actual_cli_plaintext_and_targeted_encrypted_admission; parser/key/atomicregressions"
+    },
+    {
+      "operations": [
+        "restart",
+        "reset",
+        "tm",
+        "hbok",
+        "loginRes"
+      ],
+      "source": "40102d48/40102cf8/40102c70/40103560/4018e678\u219240100afc/40102cd0",
+      "test": "test_no_reply_management_time_watchdog_and_deferred_restart; test_factory_reset_regenerates_synthetic_key_without_fake_ota_ack"
+    },
+    {
+      "operations": [
+        "upgrade",
+        "ota"
+      ],
+      "source": "40102e28/40102d98\u219240109854\u219240155158 externalHTTP/flash",
+      "model": "Explicitrejection, nofakeACK; nofirmwareflash",
+      "test": "test_factory_reset_regenerates_synthetic_key_without_fake_ota_ack"
+    }
+  ]
+}

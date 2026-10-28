@@ -1,0 +1,534 @@
+{
+  "profile": "sim-wb05br-v1.31",
+  "mid": "60",
+  "source_sha256": "35c6a04be944e945b4660c2ff6f77a4bc5251420654fdb4b0ab1917dd473e56e",
+  "evidence": {
+    "native": "SessionQuirks/RealtekGateways/probe-results.json converter/getter slices; ADR transport-results and transport-decoded-command-results for exact ECB metadata/type1 boundary.",
+    "policy": "Synthetic raw board report bridge applies staged tuples immediately after ACK construction. ACK values below are chosen parameter-IO policy, not a native physical board result. Callback context comes only from the ordered opt/p named members, with first-duplicate lookup; same-named top-level packet extras are ignored. Whole-batch typed validation precedes mutation. No temperature calibration claim."
+  },
+  "device": {
+    "id": "gateway",
+    "mac": "020000000001",
+    "name": "WB Gateway",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "children": [
+    {
+      "profile": "sim-wb05br-v1.31-ac",
+      "mid": "608f",
+      "device": {
+        "id": "one",
+        "mac": "0244668800017f",
+        "name": "One"
+      },
+      "initial_state": {}
+    }
+  ],
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "sub": "0244668800017f",
+        "opt": [
+          "SetTem",
+          "Add0.1",
+          "Add0.5"
+        ],
+        "p": [
+          22,
+          7,
+          1
+        ]
+      }
+    },
+    {
+      "key": "0123456789abcdef",
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "0244668800017f",
+        "cols": [
+          "SetTem",
+          "Add0.1",
+          "Add0.5"
+        ]
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "cid": "020000000001",
+          "tcid": "app",
+          "uid": 7,
+          "i": 1
+        },
+        "inner": {
+          "t": "bindOk",
+          "r": 200,
+          "mac": "020000000001",
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "cid": "020000000001",
+          "tcid": "app",
+          "uid": 7,
+          "i": 0
+        },
+        "inner": {
+          "t": "res",
+          "mac": "0244668800017f",
+          "opt": [
+            "SetTem",
+            "Add0.1",
+            "Add0.5"
+          ],
+          "p": [
+            22,
+            7,
+            1
+          ],
+          "val": [
+            22,
+            7,
+            1
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "cid": "020000000001",
+          "tcid": "app",
+          "uid": 7,
+          "i": 0
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "0244668800017f",
+          "cols": [
+            "SetTem",
+            "Add0.1",
+            "Add0.5"
+          ],
+          "dat": [
+            22,
+            7,
+            1
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {},
+  "default_status": [
+    {
+      "category": "ac",
+      "mid": "608f",
+      "cols": [
+        "MIdType",
+        "Pow",
+        "Quiet",
+        "Mod",
+        "SetTem",
+        "SetDeciTem",
+        "WdSpd",
+        "Tur",
+        "Air",
+        "Blo",
+        "SvSt",
+        "SwhSlp",
+        "MasSub",
+        "MasIDUMod",
+        "CoolSvStTemMin",
+        "HeatSvStTemMax",
+        "HumiSvStTemMin",
+        "GetEr",
+        "AllErr",
+        "Heat3DSvStTemMax",
+        "Heat2SvStTemMax",
+        "AutoClean",
+        "CleanState",
+        "CleanTime",
+        "GoOut",
+        "AidHeat",
+        "Add0.1",
+        "Add0.5",
+        "SysSta",
+        "SetCoolHumi",
+        "HumiEnable",
+        "TemBody",
+        "SwUpDn",
+        "SwingLfRig",
+        "LowDeHumi",
+        "ErrType1",
+        "ErrType2",
+        "ExtraMod",
+        "FIndoorEn",
+        "IDURunMod",
+        "TotalEle",
+        "ElcEn",
+        "IDUID",
+        "ODUID",
+        "IDUBarcode",
+        "ODUBarcode",
+        "InTem",
+        "InTemEn",
+        "InHumi",
+        "InHumiEn",
+        "UseTime",
+        "UseTimeEn",
+        "IDURatedCap",
+        "FBoxBind"
+      ],
+      "dat": [
+        "608f",
+        0,
+        0,
+        1,
+        24,
+        240,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        "608F",
+        "608F",
+        "SIM",
+        "SIM",
+        20,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "category": "filter",
+      "mid": "6098",
+      "cols": [
+        "MIdType",
+        "WdSpd",
+        "Tur",
+        "ModS",
+        "FanMod",
+        "RunMod",
+        "Inloop",
+        "IDUAirQu",
+        "ODUViti",
+        "PctCle",
+        "PctRe",
+        "IFDtiGr",
+        "InVitiGr",
+        "InVitiGrCg",
+        "VitiGr",
+        "ErrType",
+        "GasQ",
+        "GasN",
+        "TemSor",
+        "HumSor",
+        "AirQu",
+        "PM2P5",
+        "VOC",
+        "CO2",
+        "SorErr",
+        "CommErr",
+        "GasAvail",
+        "GasLED",
+        "GasMod",
+        "GasMas",
+        "PM2P5Sta",
+        "ReportFreq",
+        "GetEr",
+        "Pow",
+        "InEffClRes",
+        "InEffReRes",
+        "IFDClRes",
+        "EffReRes",
+        "Mod",
+        "SetTem",
+        "ExWdSpd",
+        "TemRec",
+        "TemUn",
+        "TotalEle",
+        "ElcEn",
+        "IDUID",
+        "ODUID",
+        "IDUBarcode",
+        "ODUBarcode",
+        "IDURatedCap"
+      ],
+      "dat": [
+        "6098",
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        "",
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        "",
+        0,
+        0,
+        "",
+        "",
+        "",
+        "",
+        1,
+        24,
+        0,
+        0,
+        0,
+        0,
+        1,
+        "6098",
+        "6098",
+        "SIM",
+        "SIM",
+        0
+      ]
+    },
+    {
+      "category": "water_floor",
+      "mid": "6036",
+      "cols": [
+        "MIdType",
+        "SetTem",
+        "GetEr",
+        "WFConfig",
+        "WPow",
+        "Wstate",
+        "Wmod",
+        "WtmrMin",
+        "WtmrHr",
+        "WSetTemMax",
+        "Watpercent",
+        "WSunEn",
+        "WAutoSetTemEn",
+        "WUTHEn",
+        "WUTHSetTem",
+        "WUTHCycle",
+        "WUTHTmrMin",
+        "WUTHTmrHr",
+        "WUTHOngoing",
+        "WFastWat",
+        "FPow",
+        "Fstate",
+        "FSetTem",
+        "FSetTemMax",
+        "FAutoSetTemEn",
+        "FFastHeat",
+        "FIndoorEn",
+        "FOutHomeEn",
+        "ExtraMod",
+        "WCurTem",
+        "FCurTem",
+        "WatTemWrap",
+        "TotalEle",
+        "ElcEn",
+        "IDUID",
+        "ODUID",
+        "IDUBarcode",
+        "ODUBarcode",
+        "WIDURatedCap",
+        "FIDURatedCap",
+        "AISvst",
+        "ElecPrice"
+      ],
+      "dat": [
+        "6036",
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        "6036",
+        "6036",
+        "SIM",
+        "SIM",
+        0,
+        0,
+        0,
+        ""
+      ]
+    },
+    {
+      "category": "energy",
+      "mid": "6083",
+      "cols": [
+        "MIdType",
+        "PvTotEngy",
+        "NewGridTotEngy",
+        "OldGridTotEngy",
+        "PVGenedPwr",
+        "PSSGoCPwr",
+        "TotalEle",
+        "ElcEn",
+        "CalMeth"
+      ],
+      "dat": [
+        "6083",
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ]
+    }
+  ]
+}

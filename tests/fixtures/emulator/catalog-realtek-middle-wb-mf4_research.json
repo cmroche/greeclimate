@@ -1,0 +1,138 @@
+{
+  "scope": "Exact older Realtek WB firmware rows 5, 6, and 16 only; source-local bounded emulator state, not device, boot, typed-AC, or physical-effect claims.",
+  "provenance": {
+    "source_hashes": "Each canonical source SHA-256 and embedded HID below is independently source-qualified; raw table counts and operation contracts are per source.",
+    "source_contracts": [
+      "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-metadata-integration.json",
+      "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-supplemental-instructions.json",
+      "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-callback-integration.json",
+      "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-schedules-integration.json",
+      "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-bin-cmd-integration.json",
+      "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-mf4-integration.json",
+      "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-mf4-numeric-abi-integration.json"
+    ]
+  },
+  "profiles": [
+    {
+      "assessment_index": 5,
+      "id": "sim-realtek-middle-ma170-mf4",
+      "source_sha256": "6289946d46d91d750b3694d638abdeecaa9ca3096c65c6336494542409bca43b",
+      "hid": "362001065701+U-WB04MAV1.70.bin",
+      "actual_dev_mid_buffer": "0x100180bb",
+      "status_metadata_mid_buffer": "0x100012d4",
+      "raw_name_count": 301,
+      "registered_operations": ["bind", "status", "freqCount", "cmd", "upgrade", "ReportCtrl", "ReportLimit", "reset", "lifeCycle", "binCmd", "scan", "UBindok", "hbok", "setT", "queryT", "deleteT", "updateT"]
+    },
+    {
+      "assessment_index": 6,
+      "id": "sim-realtek-middle-ma183-mf4",
+      "source_sha256": "25379aee6b1a67d7def5cdaf48f96dd7d6b2cfcf7decbca992a41a9b76650b80",
+      "hid": "362001065701+U-WB04MAV1.83.bin",
+      "actual_dev_mid_buffer": "0x10018d3b",
+      "status_metadata_mid_buffer": "0x100012d4",
+      "raw_name_count": 301,
+      "registered_operations": ["bind", "status", "freqCount", "cmd", "upgrade", "dump", "ReportCtrl", "ReportLimit", "reset", "lifeCycle", "binCmd", "scan", "UBindok", "hbok", "networkInfo", "loginInfoRes", "statusCheck", "setT", "queryT", "deleteT", "updateT"]
+    },
+    {
+      "assessment_index": 16,
+      "id": "sim-realtek-middle-wb05hr-mf4",
+      "source_sha256": "39586875ea7bef599afc1dd758405d992615dd9b0b497a28acb63ca06ed26ed4",
+      "hid": "362001066962+U-WB05HRV1.27.bin",
+      "actual_dev_mid_buffer": "0x10014eff",
+      "status_metadata_mid_buffer": "0x10009d78",
+      "raw_name_count": 305,
+      "registered_operations": ["bind", "status", "cmd", "upgrade", "dump", "setT", "queryT", "deleteT", "updateT"]
+    }
+  ],
+  "wire": {
+    "udp_port": 7000,
+    "pack_codec": "AES-ECB with PKCS7 padding",
+    "generic_framing": "Rows5/6/16 normal inner JSON ends at '}' without trailing LF; the SDK may put an optional pretty-print LF before that final brace. The dispatcher copies the exact callback length and AES-ECB adds only PKCS7 padding. Generic outer UDP JSON has no LF; row6 statusCheck is the sole outer-LF-after-encryption exception, but this model rejects its unsafe timestamp/send branch atomically.",
+    "key_selector": {
+      "0": "Per-device private key from the local context.",
+      "1": "Exact source key a3K8Bx%2r8Y7#xDh independently established for each listed image."
+    },
+    "cipher_source_proof": {
+      "selector": "Numeric outer i=0 selects private key; i=1 selects generic key; Replies reuse request i/key.",
+      "private_key_buffers": {"rows_5_6": "0x100013d4", "row_16": "0x10009e78"},
+      "generic_key": {
+        "row_5": "Original slot 0x100030f8 -> literal 0x9b80f5aa.",
+        "row_6": "Original slot 0x10003d38 -> literal 0x9b811af0.",
+        "row_16": "GetScanKey 0x9b01fd5c assembles eight constant halfwords from original initialized data at 0x100011c0..0x100011dc to spell a3K8Bx%2r8Y7#xDh; no UID, MMIO, or runtime-input dependency."
+      },
+      "plaintext_framing": {
+        "row_5": {"object_end": "0x9b0368e8", "length_getter": "0x9b035dfc", "trailing_lf": false},
+        "row_6": {"object_end": "0x9b037ae8", "length_getter": "0x9b036ffc", "trailing_lf": false},
+        "row_16": {"object_end": "0x9b0269d4", "length_getter": "0x9b025ee8", "trailing_lf": false}
+      }
+    },
+    "reply_route": "The profile returns a logical Reply preserving i/uid, setting cid to the virtual device MAC and tcid from request cid; rows5/16 retain peer/source-port routing. Row6 Replies are explicitly routed by the emulator server to 255.255.255.255:5000 via the separate native sender socket contract. The native UDP dispatcher does not enforce tcid or inner-MAC equality.",
+    "actual_mid": "The source dev/tdev MID is separate from the property getter mid buffer and device.mid. A configured virtual mcu_mid_raw uint32 emits lowercase hex; zero uses the source case-4 retry fallback 10001 after retry count exceeds five. This is a source-qualified virtual input, not a universal physical appliance identity.",
+    "hid": "The embedded firmware literal is returned from the profile, and is not a user-overridable runtime alias.",
+    "tdev_lock": "Native tdev builder emits numeric literal zero, independent of the status lock getter and UBind lock readout.",
+    "status_mid": "The status mid getter reads its own synthetic NUL-text property buffer, default empty; it never aliases the advertised dev MID."
+  },
+  "raw_names": {
+    "ma170_ma183": 301,
+    "wb05hr": 305,
+    "matching": "Exact case-sensitive first property-table match; request order and duplicates are preserved. NoD is a numeric raw field, not a global skip.",
+    "status": "Metadata values precede numeric cache values; DevID and MafIdf keep their requested cols but append no dat element. Unknown columns do not fabricate zero values.",
+    "numeric_storage": "First matching numeric cache word stores low16; valid cmd numeric p echoes the parsed signed request word, not the narrowed stored cache. Special getters remain separate from write-cache slots.",
+    "numeric_abi": {
+      "accepted_tokens": "For rows 5/6/16 cmd p, only positive digit-start numeric tokens without a decimal point reach the numeric helper (source tag 2); negative integers, fractions, quoted strings, booleans, and null do not convert. Positive exponent tokens such as 1e3 reach the helper as tag 2.",
+      "conversion": "The source-local helper consumes a decimal digit prefix into wrapping signed int32, with no overflow or full-token check; static p:[1e3] conversion is 1. The model atomically rejects non-tag-2 values rather than reproducing unsafe native count/shift behavior.",
+      "ack": "Valid numeric cmd p is formatted from signed parsed int32 words, while first-match cache stores low16; source string/no-op/readback branches remain separate."
+    }
+  },
+  "chosen_virtual_readouts": {
+    "raw": {"default": 0, "SetTem": 24, "TemSen": 62},
+    "status_text": {"host": "synthetic.invalid", "name": "Synthetic module", "time": "2026-01-01 00:00:00", "vender": "", "bc": "", "mid": ""},
+    "tdev_runtime_text": {"bc": "", "vender": "", "brand": "gree", "catalog": "gree", "model": "gree", "series": ""},
+    "tdev_name_alias": "Rows 5/6 status name getters and tdev name share context+0x174; row16 shares context+0x170. The chosen context name is explicit virtual text, not a recovered boot default.",
+    "special": {"rssi": -55, "AppTimer": 0, "AutoUpdate": 0, "lock": 0, "MidType": 0},
+    "row_16_time_words": {"gate_word_address": "0x10009c50", "clock_offset_address": "0x10015498", "hr_persist_gate_word": 0, "hr_clock_offset_word": 0, "policy": "Chosen virtual readouts, not recovered constructor values; persistence occurs only when gate > 0x5b03b45b and updates (old offset + new epoch - old clock) modulo 2^32."},
+    "constructor_versions": {
+      "rows_5_6": {"module": "V3.4.M", "companion": "V3.4.MF4", "dev_version_initial": "V3.4.M"},
+      "row_16": {"module": "V3.0.0", "dev_version_initial": "V3.0.0"},
+      "row_17": {"module": "V3.2.M", "dev_version_initial": "V3.2.M"}
+    },
+    "strings": {"ModelType": "", "FaultDisplay": ""},
+    "policy": "Cold primary bc/vender readouts are empty and tdev fields alias those same status getters; only source-gated 0x44 input populates vender, while LAN numeric vender commands only write their shadow cache. Cold GnetID/mode defaults are zero; row5/6 primary/tdev version becomes V3.4.MF4 only after its source-specific gate passes, with cold version V3.4.M; row16 version is V3.0.0. UBind always uses the companion version."
+  },
+  "special_getters": {
+    "rows_5_6_16": ["host", "name", "time", "vender", "bc", "mid", "hid", "ver", "AppTimer", "AutoUpdate", "lock", "rssi", "MidType"],
+    "row_16_additional_strings": ["ModelType", "FaultDisplay"],
+    "row_5_6_modeltype": "Numeric first-match cache field; no string getter.",
+    "row_5_ver": "Companion-version readout when GnetID is nonzero; otherwise module-version readout.",
+    "row_6_ver": "Companion-version readout when MCU mode equals two; otherwise module-version readout.",
+    "row_16_ver": "Module-version text getter, separate from emitted dev version."
+  },
+  "schedules": {
+    "all_rows": "setT replaces matching ID or inserts at list head below count 10; updateT replaces only an existing node but ACKs a missing ID; queryT scans numeric IDs 0 through 9 and skips holes; deleteT decrements the count even when missing and a non-head match drops the preceding linked-list prefix.",
+    "record": "Enable 1 stores 0 and other numeric values store 1; query inverts the stored byte. Week consumes seven numeric values as bit contributions. Successful sec parsing stores zero; tz is parsed and ignored. Only the first nested cmd object is consumed; Pow has a source-local numeric byte mapping. Initial setT delta uses modulo 86400; an HR time update recalculates only stored-byte-1 records to signed targetSeconds-currentSeconds without modulo.",
+    "numeric_lexing": "Rows5/6/16 schedule scalar and array helpers accept signed integers and decimal fractions, truncate toward zero, and wrap to signed int32. Scalar 1e3 yields 1; array 1e3 may split into 1,3 because the next helper blindly skips one separator byte. Arrays consume only caller-expected values; malformed records are rejected atomically.",
+    "safe_bounds": "Malformed schedule records are rejected atomically rather than inheriting native partial/zero records or failed-seconds prior-temporary reuse. Query pages and nested opt/p arrays are bounded; schedule effects remain local with no task-registration, physical-actuation, or reboot-persistence claim."
+  },
+  "local_operation_edges": {
+    "upgrade": "Rows5/6/16 use SDK text tokens, accept quoted strings and literal null/true/false, cap at 119 bytes, and emit only a local intent ACK; missing/invalid/too-long URL is rejected without a reply and no OTA runs.",
+    "time": "Rows5/6 ignore the supplied text, persist their source-specific flags and acknowledge the unchanged clock. Row16 parses/updates the virtual RTC, recalculates only schedule nodes whose stored enable byte is 1 using a signed delta, and conditionally persists modulo-32-bit clock-offset delta when global gate word 0x10009c50 exceeds 0x5b03b45b; ACK p is the current-clock getter.",
+    "scan": "Rows5/6 encrypted scan UBind is gated by GnetID!=0 and MCU mode==2 respectively; cold defaults are zero. UBind emits companion version, signed-int8 lock, configured private devkey and numeric scene 0.",
+    "report_ctrl": "Rows5/6 accept actual boolean reportAnyway; nonboolean values are ignored. A slashless configured context is rejected atomically instead of reaching the native unsafe prefix path.",
+    "network_info": "Row6 reads eight raw gnetkey bytes (not hex-decoded bytes); the virtual model requires eight available bytes and has no external network effect."
+  },
+  "safe_model_deviations": {
+    "atomic_rejection": ["reset response depends on an unresolved constant string pointer 0xc8", "statusCheck has an unsafe timestamp pointer and broadcast send", "ReportLimit CtrlFunc passes output pointer 0x4", "nonzero loginInfoRes GnetID enters a native double-free path", "binCmd scene-fragment handling has unbounded native writes and an unqualified application schema"],
+    "bounded_storage": ["ReportClientID frame text is capped at 26 bytes", "binCmd validates base64, 0x7e7e marker, staged frame length, and 60-byte copy bound", "UBind requires three explicitly configured 12-hex virtual identities and the 512-byte source-local envelope bound", "ReportLimit NRA accepts one to sixteen rows of exactly three numeric values"],
+    "no_external_effects": "Device-originated UART/GPIO/OTA/network operations only record local state or intent; protocol Replies use the emulator server's source-qualified route, including row6 broadcast. No device/cloud/BLE facade, physical GPIO/UART action, firmware download, or flash operation is performed."
+  },
+  "row_17": {
+    "source_sha256": "933d010e805970c9ab6b527fa752e7aa660c5901702283aeff53dc5079c5817a",
+    "hid": "362001067540+U-WB05WR13V2.04.bin",
+    "actual_dev_mid_buffer": "0x1002a6f2",
+    "status_metadata_mid_buffer": "0x1001e8fc",
+    "raw_name_count": 293,
+    "registered_operations": ["bind", "status", "cmd", "upgrade", "dump", "binCmd", "setT", "queryT", "deleteT", "updateT"],
+    "admission": "Row17 source identity and ECB/GCM key schedule are qualified, but its authenticated source-visible ingress is MQTT/TLS callbacks that force mode1; no UDP bind/recvfrom/registered UDP receiver exists. No exact row17 LAN profile is admitted without a source-compatible UDP registration/receiver path."
+  },
+  "verification": "Focused tests are specified but intentionally not executed by the worker. No build, tests, formatter, lint, runtime, device, network, or flash verification is claimed."
+}

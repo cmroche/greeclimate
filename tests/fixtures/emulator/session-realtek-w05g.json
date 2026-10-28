@@ -1,0 +1,232 @@
+{
+  "profile": "sim-w05g-v4.3",
+  "mid": "80300",
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwBKDMuXDsa6P/74spQSFNNQ=="
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          7,
+          65537
+        ]
+      },
+      "provenance": "Original native command adapted only to matching inner.mac; independently native expected ACK is unchanged. Session-key encryption here is not the native original ciphertext."
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000002",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWIn9OkTA4QVad+NJ/tle4m5jBN5JO6zJg6xVwDI3nMAYQ=="
+      },
+      "provenance": "Unchanged native wrong-outer-target ciphertext; rejection is intentional."
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LzkV5AUdYbSFi2nWykv3iruapXJWv3Dc768F/NhLpMyD714H19LXKQRZh/J78LzNarYfM0yfjAgzN+x3lPNAHQ=="
+      },
+      "provenance": "Unchanged native wrong-key ciphertext; rejection is intentional."
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "hid",
+          "Pow"
+        ]
+      },
+      "provenance": "Matching root identity and session key; native Pow getters emit no data, so the independently native initial-status body is unchanged after the positive command."
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "80300",
+          "model": "gree",
+          "name": "",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V1.1.13",
+          "brand": "gree",
+          "mac": "020000000001",
+          "lock": 0
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "hid",
+            "Pow"
+          ],
+          "dat": [
+            "362001061996+U-W05G(RELT)V4.3.bin"
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "p": [
+            7,
+            65537
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "hid",
+            "Pow"
+          ],
+          "dat": [
+            "362001061996+U-W05G(RELT)V4.3.bin"
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "BleLink": 0, "Mesh": 0, "Meshota": 0, "Reota": 0, "SubOnline": 0,
+    "Proaddr": 0, "Random": 0, "Unbind": 0, "Subcount": 0, "Pow": 1, "Lpn": 0,
+    "Meshid": 0, "Onoff": 0, "Sceneid": 0, "Scene": 0, "Scenecontrol": 0,
+    "BleKey": 0, "BleStatus": 0, "AdminRadom": 0, "NoD": 0, "apssid": 0,
+    "appsw": 0, "host": 0, "name": 0, "time": 0, "lat": 0, "lon": 0, "vender": 0,
+    "bc": 0, "mid": 0, "model": 0, "series": 0, "brand": 0, "catalog": 0,
+    "country": 0, "hid": 0, "mac": 0, "ver": 0, "HidSvrVer": 0, "InHid": 0,
+    "InHidSvrVer": 0, "OEEPHid": 0, "OEEPHidSvrVer": 0, "BtHid": 0
+  },
+  "provenance": "Scan/bind/initial status and negative requests retain native ciphertext. Positive command adapts the conflicting inner identity only, preserving the native ACK and uint16 cache result; it is not native-exact ciphertext. Fresh status preserves independently native empty Pow getter output. Original conflicting command and its native output remain unchanged in session-realtek-w05g_research.json."
+}

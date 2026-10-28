@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "qualification": "Original tables/constructors and both-bank source execution; AN initialized Mod1/WdSpd1/SetTem26/Lig1 retained. Remaining zero mesh/board inputs, learned-button storage and model epoch clock are synthetic, not physical initialization/calibration.",
+  "mac": "020000000001",
+  "key": "0123456789abcdef",
+  "source_qualification": {"direct_operations": 368, "direct_completed": 368, "wire_operations": 64, "wire_returns": 58, "actual_wire_packets": 52, "an_null_rom_boundaries": 6, "scope": "Original firmware instructions only; no emulator/tests execution by source owner", "clock_boundary": "Original ROM RTC zero input with uninitialized calendar base serializes 2036-02-06 06:28:16 in both sources/banks; model epoch1970 clock is an explicit chosen input, not that native observation", "limits": ["Direct zero-low-ROM callback return is not proof of actual-ROM command continuation", "Six AN original wire commands reach libc NULL-string precondition/no packet; chosen atomic noACK is not a claimed physical fault", "G child physical payload schema requires actual independent WB05 companion362001066543"]},
+  "sources": [
+    {
+      "build": "an",
+      "profile": "sim-w05an-v108-controller",
+      "mid": "80221",
+      "hid": "362001064472+W05ANV1.08.bin",
+      "sha256": "f45077d6a23c52e52a244bfc35fb2e5ec46b9be817779731df21aa15d1822b3f",
+      "table": "0x10005b78",
+      "getter": "0x80624f2",
+      "setter": "0x80625f4",
+      "banks": [0, 1],
+      "fields": ["Pow", "Mod", "SwhSlp", "SwhSw", "WdSpd", "SetTem", "Blo", "Health", "Lig", "Air", "SwUpDn", "SwingLfRig", "SvSt", "SlpMod", "Tur", "Quiet", "StHt", "IntradayElect", "IntradayElectPow", "IntradayElectLim", "AutoPowDown", "ProTimeReminder", "RealTimePower", "AppTimer", "ProTimeLen", "ProTimePow", "Studied", "AddButton", "ConBtnNum", "ConBtnName", "DelButton", "SendButton", "Electnumzero", "hid", "RefBtnList", "time"],
+      "zero_getters": ["Pow", "SwhSlp", "SwhSw", "Blo", "Health", "Air", "SwUpDn", "SwingLfRig", "SvSt", "SlpMod", "Tur", "Quiet", "StHt", "IntradayElect", "IntradayElectPow", "IntradayElectLim", "AutoPowDown", "ProTimeReminder", "RealTimePower", "AppTimer", "ProTimeLen", "ProTimePow", "Studied", "AddButton", "ConBtnNum", "ConBtnName", "DelButton", "SendButton", "Electnumzero"],
+      "initialized_getters": {"Mod": 1, "WdSpd": 1, "SetTem": 26, "Lig": 1},
+      "status": {"request": ["Pow", "hid", "Pow", "missing"], "columns": ["Pow", "hid", "Pow"], "data": [0, "362001064472+W05ANV1.08.bin", 0]},
+      "ref_buttons": {"request": ["RefBtnList", "Pow"], "columns": ["RefBtnList"], "data": [[], []]},
+      "startup_flash_fallback_u16": [0, 1, 0, 0, 1, 26, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "command": {"request": {"t": "cmd", "opt": ["Pow", "Pow"], "p": [65537, -1]}, "replies": [], "fresh_data": [65535, 65535]},
+      "fault_boundary": "Original setter loops index <= count and dereferences missing final JSON item at0x10. Actual low-ROM bytes/continuation are unavailable; noACK is chosen bounded atomic model policy, not a claimed physical firmware fault."
+    },
+    {
+      "build": "g",
+      "profile": "sim-w05g-v13-mesh-root",
+      "mid": "80300",
+      "hid": "362001066542+U-W05G(RELT)V1.3.bin",
+      "sha256": "de187be0f0ad5bf1100c31831124ac385c4a90d7d725fb01a2908966523ea7ac",
+      "table": "0x1000636c",
+      "getter": "0x8057e76",
+      "setter": "0x8057ef0",
+      "banks": [0, 1],
+      "fields": ["Ble", "BleStatus", "Mesh", "Mesh_t", "Meshota", "Reota", "SubOnline", "Random", "Unbind", "Subcount", "Pow", "Lpn", "Meshid", "Onoff", "Sceneid", "Scene", "Scenecontrol", "BleKey", "AdminRadom", "HfvRadom", "NoD", "apssid", "appsw", "host", "name", "time", "lat", "lon", "vender", "bc", "mid", "model", "series", "brand", "catalog", "country", "hid", "mac", "ver", "HidSvrVer", "InHid", "InHidSvrVer", "OEEPHid", "OEEPHidSvrVer", "BtHid"],
+      "readouts": {"Ble": "000000000000", "BleStatus": 0, "Mesh": "000000000000", "Mesh_t": 0, "Meshota": "", "SubOnline": "[]", "Random": "00000000", "Unbind": "000000000000", "Subcount": 0, "Meshid": "0000", "Onoff": "OK", "Scene": "FAIL", "BleKey": "", "AdminRadom": "", "HfvRadom": ""},
+      "empty_getters": ["Reota", "Pow", "Lpn", "Sceneid", "Scenecontrol", "NoD", "apssid", "appsw", "bc", "mid", "model", "series", "brand", "catalog", "country", "HidSvrVer", "InHid", "InHidSvrVer", "OEEPHid", "OEEPHidSvrVer"],
+      "status": {"request": ["Pow", "BleStatus", "hid", "Pow", "SubOnline"], "columns": ["Pow", "BleStatus", "hid", "Pow", "SubOnline"], "data": [0, "362001066542+U-W05G(RELT)V1.3.bin", "[]"]},
+      "command": {"request": {"t": "cmd", "opt": ["Pow", "Pow"], "p": [65537, -1]}, "reply": {"t": "res", "mac": "020000000001", "r": 200, "opt": ["Pow", "Pow"], "p": [65537, -1]}, "fresh_data": []},
+      "sublist": {"t": "subList", "r": 200, "c": 0, "i": 0, "list": []},
+      "meshstatus": {"t": "substatus", "mac": "020000000001", "meshmac": [], "status": []},
+      "boundary": "Empty synthetic mesh root; no invented child MID or downstream binary response. Complete child schema requires actual WB05 362001066543 companion implementation/input."
+    }
+  ],
+  "wire": {"key": "a3K8Bx%2r8Y7#xDh", "codec": "aes-ecb-pkcs7", "result": 200, "outer_lf": true, "identity_width": 12, "upgrade_receipt": {"t": "ret", "r": 200, "mac": "020000000001"}},
+  "safe_policy": ["Strict int32/text/hex validation and matching arrays; atomic mutation", "Bound late RefBtnList loop and native response scratch buffers", "No physical firmware upgrade/network/IR/BLE action"]
+}

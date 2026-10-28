@@ -1,0 +1,3998 @@
+{
+  "schema_version": 1,
+  "qualification": "Independent literal source-initialized cache words, selected descriptor names/masks and callback-derived finite mutation/fresh-status expectations; frozen zero companion inputs are explicit synthetic policy, not calibration.",
+  "tables": [
+    {
+      "table": "r-air",
+      "table_address": "0x10005e34",
+      "profile": "sim-w04r-v203-air",
+      "source_sha256": "37d3a80eb74a476996763ff458a0b528518b6e09ead2abd43f497bedf452974d",
+      "hid": "362001061329+U-W04RV2.03.bin",
+      "mids": [
+        "828140"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "Wspd",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "Mode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "PM25",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012330",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "PM25Level",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012214",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "Light",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "SetHumidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 255,
+          "read_byte": 14,
+          "read_mask": 255
+        },
+        {
+          "name": "EnvHumidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 15,
+          "read_mask": 255
+        },
+        {
+          "name": "ReplaceFilter",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 13,
+          "read_mask": 3
+        },
+        {
+          "name": "RefreshWater",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 4,
+          "read_mask": 2
+        },
+        {
+          "name": "AirChildLock",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 1,
+          "read_byte": 4,
+          "read_mask": 1
+        },
+        {
+          "name": "FiltUPercent",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 11,
+          "read_mask": 255
+        },
+        {
+          "name": "TmrHour",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 1,
+          "write_mask": 31,
+          "read_byte": 1,
+          "read_mask": 31
+        },
+        {
+          "name": "TmrMin",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 2,
+          "write_mask": 63,
+          "read_byte": 2,
+          "read_mask": 63
+        },
+        {
+          "name": "TmrOn",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "TmrAction",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 1,
+          "write_mask": 96,
+          "read_byte": 1,
+          "read_mask": 96
+        },
+        {
+          "name": "estate",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate1",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "estate3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012198",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid"
+      ]
+    },
+    {
+      "table": "r-sdk-air",
+      "table_address": "0x10005cb4",
+      "profile": "sim-w04r-v203-sdk-air",
+      "source_sha256": "37d3a80eb74a476996763ff458a0b528518b6e09ead2abd43f497bedf452974d",
+      "hid": "362001061329+U-W04RV2.03.bin",
+      "mids": [
+        "828140"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "WindSpeed",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "WorkMode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "PowerSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "ChildLockSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 1,
+          "read_byte": 4,
+          "read_mask": 1
+        },
+        {
+          "name": "PM25",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012330",
+          "write_callback": null,
+          "write_byte": 7,
+          "write_mask": 255,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "PM25Level",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012214",
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "LightSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 1,
+          "read_byte": 3,
+          "read_mask": 1
+        },
+        {
+          "name": "HumiditySetting",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 255,
+          "read_byte": 14,
+          "read_mask": 255
+        },
+        {
+          "name": "CurrentHumidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 15,
+          "write_mask": 255,
+          "read_byte": 15,
+          "read_mask": 255
+        },
+        {
+          "name": "TimeMeter",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 255,
+          "read_byte": 5,
+          "read_mask": 255
+        },
+        {
+          "name": "WaterTankMin",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 21,
+          "write_mask": 63,
+          "read_byte": 21,
+          "read_mask": 255
+        },
+        {
+          "name": "WaterTankHour",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 20,
+          "write_mask": 31,
+          "read_byte": 20,
+          "read_mask": 255
+        },
+        {
+          "name": "FilterScreen1",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 11,
+          "write_mask": 255,
+          "read_byte": 11,
+          "read_mask": 255
+        },
+        {
+          "name": "ReplaceFilterReminder",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 13,
+          "write_mask": 3,
+          "read_byte": 13,
+          "read_mask": 3
+        },
+        {
+          "name": "RefreshWaterReminder",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 2,
+          "read_byte": 4,
+          "read_mask": 2
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid"
+      ]
+    },
+    {
+      "table": "r-fan",
+      "table_address": "0x10006044",
+      "profile": "sim-w04r-v203-fan",
+      "source_sha256": "37d3a80eb74a476996763ff458a0b528518b6e09ead2abd43f497bedf452974d",
+      "hid": "362001061329+U-W04RV2.03.bin",
+      "mids": [
+        "828202",
+        "828203",
+        "828204"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "WdSpd",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "Mod",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "Rotate",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "Cycle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 224,
+          "read_byte": 5,
+          "read_mask": 224
+        },
+        {
+          "name": "TmrHour",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 1,
+          "write_mask": 31,
+          "read_byte": 1,
+          "read_mask": 31
+        },
+        {
+          "name": "TmrMin",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 2,
+          "write_mask": 63,
+          "read_byte": 2,
+          "read_mask": 63
+        },
+        {
+          "name": "TmrOn",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "TmrAction",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012260",
+          "write_callback": "0x8012284",
+          "write_byte": 1,
+          "write_mask": 96,
+          "read_byte": 1,
+          "read_mask": 96
+        },
+        {
+          "name": "SwUpDn",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 2,
+          "read_byte": 5,
+          "read_mask": 2
+        },
+        {
+          "name": "SwingLfRig",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "Wet",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 64,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "Anion",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 4,
+          "read_byte": 5,
+          "read_mask": 4
+        },
+        {
+          "name": "HotWind",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 6,
+          "write_mask": 255,
+          "read_byte": 6,
+          "read_mask": 255
+        },
+        {
+          "name": "estate",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate1",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "estate3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012184",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012198",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid"
+      ]
+    },
+    {
+      "table": "r-sdk-fan",
+      "table_address": "0x10006224",
+      "profile": "sim-w04r-v203-sdk-fan",
+      "source_sha256": "37d3a80eb74a476996763ff458a0b528518b6e09ead2abd43f497bedf452974d",
+      "hid": "362001061329+U-W04RV2.03.bin",
+      "mids": [
+        "828202",
+        "828203",
+        "828204"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "WindSpeed",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 31,
+          "read_byte": 2,
+          "read_mask": 31
+        },
+        {
+          "name": "Humidification",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 64,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "WorkMode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x80121b8",
+          "write_callback": "0x80121dc",
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "OscillatingSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "PowerSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "WaterShortage",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x80121a8",
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 16,
+          "read_byte": 1,
+          "read_mask": 16
+        },
+        {
+          "name": "VerticalAngle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 2,
+          "read_byte": 5,
+          "read_mask": 2
+        },
+        {
+          "name": "HorizontalAngle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "SmartMode",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x80121f8",
+          "write_callback": "0x80122c8",
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid"
+      ]
+    },
+    {
+      "table": "w-air",
+      "table_address": "0x10005dd8",
+      "profile": "sim-w04w-v125-air",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828140"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "Wspd",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "Mode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "PM25",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801255c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "PM25Level",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012570",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "Light",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "SetHumidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 255,
+          "read_byte": 14,
+          "read_mask": 255
+        },
+        {
+          "name": "EnvHumidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 15,
+          "read_mask": 255
+        },
+        {
+          "name": "ReplaceFilter",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 13,
+          "read_mask": 3
+        },
+        {
+          "name": "RefreshWater",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 4,
+          "read_mask": 2
+        },
+        {
+          "name": "AirChildLock",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 1,
+          "read_byte": 4,
+          "read_mask": 1
+        },
+        {
+          "name": "FiltUPercent",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 11,
+          "read_mask": 255
+        },
+        {
+          "name": "TmrHour",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 31,
+          "read_byte": 1,
+          "read_mask": 31
+        },
+        {
+          "name": "TmrMin",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 2,
+          "write_mask": 63,
+          "read_byte": 2,
+          "read_mask": 63
+        },
+        {
+          "name": "TmrOn",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "TmrAction",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 96,
+          "read_byte": 1,
+          "read_mask": 96
+        },
+        {
+          "name": "estate",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate1",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "estate3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801243c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-sdk-air",
+      "table_address": "0x10005fe8",
+      "profile": "sim-w04w-v125-sdk-air",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828140"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "WindSpeed",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "WorkMode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "PowerSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "ChildLockSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 1,
+          "read_byte": 4,
+          "read_mask": 1
+        },
+        {
+          "name": "PM25",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801255c",
+          "write_callback": null,
+          "write_byte": 7,
+          "write_mask": 255,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "PM25Level",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012570",
+          "write_callback": null,
+          "write_byte": 7,
+          "write_mask": 7,
+          "read_byte": 7,
+          "read_mask": 7
+        },
+        {
+          "name": "LightSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 1,
+          "read_byte": 3,
+          "read_mask": 1
+        },
+        {
+          "name": "HumiditySetting",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 255,
+          "read_byte": 14,
+          "read_mask": 255
+        },
+        {
+          "name": "CurrentHumidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 15,
+          "write_mask": 255,
+          "read_byte": 15,
+          "read_mask": 255
+        },
+        {
+          "name": "FilterScreen1",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 11,
+          "write_mask": 255,
+          "read_byte": 11,
+          "read_mask": 255
+        },
+        {
+          "name": "ReplaceFilterReminder",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 13,
+          "write_mask": 3,
+          "read_byte": 13,
+          "read_mask": 3
+        },
+        {
+          "name": "RefreshWaterReminder",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 2,
+          "read_byte": 4,
+          "read_mask": 2
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-fan",
+      "table_address": "0x10006630",
+      "profile": "sim-w04w-v125-fan",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828202",
+        "828203",
+        "828204",
+        "828209"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "WdSpd",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "Mod",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "Rotate",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "Cycle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 224,
+          "read_byte": 5,
+          "read_mask": 224
+        },
+        {
+          "name": "TmrHour",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 31,
+          "read_byte": 1,
+          "read_mask": 31
+        },
+        {
+          "name": "TmrMin",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 2,
+          "write_mask": 63,
+          "read_byte": 2,
+          "read_mask": 63
+        },
+        {
+          "name": "TmrOn",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "TmrAction",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 96,
+          "read_byte": 1,
+          "read_mask": 96
+        },
+        {
+          "name": "SwUpDn",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 2,
+          "read_byte": 5,
+          "read_mask": 2
+        },
+        {
+          "name": "SwingLfRig",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "UpDnAngle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 7,
+          "write_mask": 255,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "LRAngle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 8,
+          "write_mask": 255,
+          "read_byte": 8,
+          "read_mask": 255
+        },
+        {
+          "name": "Wet",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 64,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "Anion",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 4,
+          "read_byte": 5,
+          "read_mask": 4
+        },
+        {
+          "name": "HotWind",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 6,
+          "write_mask": 255,
+          "read_byte": 6,
+          "read_mask": 255
+        },
+        {
+          "name": "estate",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate1",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "estate3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "JFerr",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012de0",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801243c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-sdk-fan-basic",
+      "table_address": "0x10005ce8",
+      "profile": "sim-w04w-v125-sdk-fan-basic",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828202",
+        "828203",
+        "828204"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "WindSpeed",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 31,
+          "read_byte": 2,
+          "read_mask": 31
+        },
+        {
+          "name": "Humidification",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 64,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "WorkMode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012ca0",
+          "write_callback": "0x801245c",
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "OscillatingSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "PowerSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "WaterShortage",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801244c",
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 16,
+          "read_byte": 1,
+          "read_mask": 16
+        },
+        {
+          "name": "VerticalAngle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 5,
+          "write_mask": 2,
+          "read_byte": 5,
+          "read_mask": 2
+        },
+        {
+          "name": "HorizontalAngle",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "SmartMode",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012478",
+          "write_callback": "0x8012cc0",
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-sdk-fan",
+      "table_address": "0x10006858",
+      "profile": "sim-w04w-v125-sdk-fan",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828209"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "powerstate",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "windspeed",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "mode",
+          "initial": 0,
+          "command_one": 39,
+          "read_callback": "0x8012490",
+          "write_callback": "0x8012d14",
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "angleAutoLROnOff",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012504",
+          "write_callback": "0x8012d78",
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "angleAutoUDOnOff",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x80124ec",
+          "write_callback": "0x80124c4",
+          "write_byte": 5,
+          "write_mask": 2,
+          "read_byte": 5,
+          "read_mask": 2
+        },
+        {
+          "name": "angleLR",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012db8",
+          "write_callback": "0x801251c",
+          "write_byte": 8,
+          "write_mask": 255,
+          "read_byte": 8,
+          "read_mask": 255
+        },
+        {
+          "name": "errorCode",
+          "initial": 0,
+          "command_one": 149,
+          "read_callback": "0x8012f08",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 255,
+          "read_byte": 0,
+          "read_mask": 255
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-humidifier",
+      "table_address": "0x10006e58",
+      "profile": "sim-w04w-v125-humidifier",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828502"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "Mode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "FogLevel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "WaterTankLight",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "Humidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 255,
+          "read_byte": 4,
+          "read_mask": 255
+        },
+        {
+          "name": "Estate1",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 255,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "Estate2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "Estate3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 255,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801243c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-sdk-humidifier",
+      "table_address": "0x10006f48",
+      "profile": "sim-w04w-v125-sdk-humidifier",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828502"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "powerstate",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "mode",
+          "initial": 0,
+          "command_one": 39,
+          "read_callback": "0x80125e8",
+          "write_callback": "0x80125bc",
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "fog",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": "0x801260c",
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "illumination",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "humidity",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 255,
+          "read_byte": 4,
+          "read_mask": 255
+        },
+        {
+          "name": "errorCode",
+          "initial": 0,
+          "command_one": 149,
+          "read_callback": "0x8012f60",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 255,
+          "read_byte": 0,
+          "read_mask": 255
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-heater",
+      "table_address": "0x10006348",
+      "profile": "sim-w04w-v125-heater",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828a00",
+        "828a01"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "Humidification",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 64,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "Swing",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 32,
+          "read_byte": 1,
+          "read_mask": 32
+        },
+        {
+          "name": "ChildLock",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 16,
+          "read_byte": 1,
+          "read_mask": 16
+        },
+        {
+          "name": "Anion",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "HeatLevel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "SetTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "EnvTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "WorkTimeHour",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 4,
+          "read_mask": 255
+        },
+        {
+          "name": "WorkTimeSec",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 5,
+          "read_mask": 255
+        },
+        {
+          "name": "RealHeatLevel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 6,
+          "read_mask": 255
+        },
+        {
+          "name": "FanLevel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "HeatMode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 255,
+          "read_byte": 8,
+          "read_mask": 255
+        },
+        {
+          "name": "TmrOn",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "TmrAction",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 96,
+          "read_byte": 1,
+          "read_mask": 96
+        },
+        {
+          "name": "TmrHour",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 31,
+          "read_byte": 1,
+          "read_mask": 31
+        },
+        {
+          "name": "TmrMin",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 2,
+          "write_mask": 63,
+          "read_byte": 2,
+          "read_mask": 63
+        },
+        {
+          "name": "estate",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "estate3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "JFerr",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012de0",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801243c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-heater-04",
+      "table_address": "0x10006120",
+      "profile": "sim-w04w-v125-heater-04",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828a04"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "Humidification",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 64,
+          "read_byte": 1,
+          "read_mask": 64
+        },
+        {
+          "name": "Swing",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 32,
+          "read_byte": 1,
+          "read_mask": 32
+        },
+        {
+          "name": "AirChildLock",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 16,
+          "read_byte": 1,
+          "read_mask": 16
+        },
+        {
+          "name": "Anion",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "HeatLevel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 7,
+          "read_byte": 1,
+          "read_mask": 7
+        },
+        {
+          "name": "SetTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "EnvTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "WorkTimeHour",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 4,
+          "read_mask": 255
+        },
+        {
+          "name": "WorkTimeSec",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 5,
+          "read_mask": 255
+        },
+        {
+          "name": "RealHeatLevel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 6,
+          "read_mask": 255
+        },
+        {
+          "name": "FanLevel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "HeatMod",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 255,
+          "read_byte": 8,
+          "read_mask": 255
+        },
+        {
+          "name": "TimeStart",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "TmrAction",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 96,
+          "read_byte": 1,
+          "read_mask": 96
+        },
+        {
+          "name": "TmrHour",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 1,
+          "write_mask": 31,
+          "read_byte": 1,
+          "read_mask": 31
+        },
+        {
+          "name": "TmrMin",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012b34",
+          "write_callback": "0x8012b58",
+          "write_byte": 2,
+          "write_mask": 63,
+          "read_byte": 2,
+          "read_mask": 63
+        },
+        {
+          "name": "estate",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "estate2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "estate3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012428",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "JFerr",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012de0",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801243c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-sdk-heater",
+      "table_address": "0x10006570",
+      "profile": "sim-w04w-v125-sdk-heater",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "828a00",
+        "828a01",
+        "828a04"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "powerstate",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "angleAutoLROnOff",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 32,
+          "read_byte": 1,
+          "read_mask": 32
+        },
+        {
+          "name": "childLockOnOff",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 16,
+          "read_byte": 1,
+          "read_mask": 16
+        },
+        {
+          "name": "anionOnOff",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "targetTemperature",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 255,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "mode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012a78",
+          "write_callback": "0x801298c",
+          "write_byte": 4,
+          "write_mask": 255,
+          "read_byte": 8,
+          "read_mask": 255
+        },
+        {
+          "name": "errorCode",
+          "initial": 0,
+          "command_one": 149,
+          "read_callback": "0x8012b9c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 255,
+          "read_byte": 0,
+          "read_mask": 255
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-gas",
+      "table_address": "0x10006af8",
+      "profile": "sim-w04w-v125-gas",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "829100"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "SetTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 255,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "Cruise",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 8,
+          "read_byte": 0,
+          "read_mask": 0
+        },
+        {
+          "name": "Mode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 7,
+          "read_byte": 2,
+          "read_mask": 7
+        },
+        {
+          "name": "HotMode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 112,
+          "read_byte": 2,
+          "read_mask": 112
+        },
+        {
+          "name": "Pow",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "PreBoost",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 255,
+          "read_byte": 4,
+          "read_mask": 255
+        },
+        {
+          "name": "CruiseState",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 15,
+          "read_mask": 2
+        },
+        {
+          "name": "BurnState",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 15,
+          "read_mask": 1
+        },
+        {
+          "name": "EnvironmentTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 16,
+          "read_mask": 255
+        },
+        {
+          "name": "KitRecomTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 17,
+          "read_mask": 255
+        },
+        {
+          "name": "BathRecomTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 18,
+          "read_mask": 255
+        },
+        {
+          "name": "BathtubTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 19,
+          "read_mask": 255
+        },
+        {
+          "name": "HotBacKValue",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 20,
+          "read_mask": 255
+        },
+        {
+          "name": "OutWaterTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 5,
+          "read_mask": 255
+        },
+        {
+          "name": "InWaterTemp",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 6,
+          "read_mask": 255
+        },
+        {
+          "name": "MaximumTime",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "UsedTime",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 8,
+          "read_mask": 255
+        },
+        {
+          "name": "GasSafeLife",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012638",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 9,
+          "read_mask": 0
+        },
+        {
+          "name": "CasSafeTimes",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012654",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 12,
+          "read_mask": 0
+        },
+        {
+          "name": "ErrorCode1",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8013110",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "ErrorCode2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8013110",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 2,
+          "read_mask": 255
+        },
+        {
+          "name": "ErrorCode3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8013110",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "JFerr",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012de0",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801243c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-sdk-gas",
+      "table_address": "0x10006d50",
+      "profile": "sim-w04w-v125-sdk-gas",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "829100"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "singleCycle",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012888",
+          "write_callback": "0x801282c",
+          "write_byte": 2,
+          "write_mask": 7,
+          "read_byte": 2,
+          "read_mask": 7
+        },
+        {
+          "name": "stepActionOnOff",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x80126b8",
+          "write_callback": "0x8012658",
+          "write_byte": 2,
+          "write_mask": 7,
+          "read_byte": 2,
+          "read_mask": 7
+        },
+        {
+          "name": "allDay",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x80127f8",
+          "write_callback": "0x8012798",
+          "write_byte": 2,
+          "write_mask": 7,
+          "read_byte": 2,
+          "read_mask": 7
+        },
+        {
+          "name": "noneColdWater",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x80128f4",
+          "write_callback": "0x80128f0",
+          "write_byte": 2,
+          "write_mask": 7,
+          "read_byte": 2,
+          "read_mask": 7
+        },
+        {
+          "name": "mode",
+          "initial": 0,
+          "command_one": 39,
+          "read_callback": "0x8012750",
+          "write_callback": "0x80126e8",
+          "write_byte": 2,
+          "write_mask": 112,
+          "read_byte": 2,
+          "read_mask": 112
+        },
+        {
+          "name": "waterHeaterCondition",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x80128ac",
+          "write_callback": null,
+          "write_byte": 15,
+          "write_mask": 3,
+          "read_byte": 15,
+          "read_mask": 3
+        },
+        {
+          "name": "turboMode",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 4,
+          "write_mask": 255,
+          "read_byte": 4,
+          "read_mask": 255
+        },
+        {
+          "name": "targetTemperature",
+          "initial": 0,
+          "command_one": -100,
+          "read_callback": "0x80128dc",
+          "write_callback": "0x80128c4",
+          "write_byte": 1,
+          "write_mask": 255,
+          "read_byte": 1,
+          "read_mask": 255
+        },
+        {
+          "name": "powerstate",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 3,
+          "write_mask": 255,
+          "read_byte": 3,
+          "read_mask": 255
+        },
+        {
+          "name": "errorCode",
+          "initial": 0,
+          "command_one": 149,
+          "read_callback": "0x8013004",
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 255,
+          "read_byte": 1,
+          "read_mask": 255
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-fridge",
+      "table_address": "0x10006918",
+      "profile": "sim-w04w-v125-fridge",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "28c96"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 1,
+      "properties": [
+        {
+          "name": "intel",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 128,
+          "read_byte": 1,
+          "read_mask": 128
+        },
+        {
+          "name": "fastFrz",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 32,
+          "read_byte": 1,
+          "read_mask": 32
+        },
+        {
+          "name": "fastCool",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 8,
+          "read_byte": 1,
+          "read_mask": 8
+        },
+        {
+          "name": "deepFrz",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 1,
+          "write_mask": 2,
+          "read_byte": 1,
+          "read_mask": 2
+        },
+        {
+          "name": "coldSto",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 2,
+          "write_mask": 16,
+          "read_byte": 2,
+          "read_mask": 16
+        },
+        {
+          "name": "coldStoSetTem",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 6,
+          "write_mask": 255,
+          "read_byte": 6,
+          "read_mask": 255
+        },
+        {
+          "name": "freezeSetTem",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 7,
+          "write_mask": 255,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "temVarSetTem",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": null,
+          "write_callback": null,
+          "write_byte": 8,
+          "write_mask": 255,
+          "read_byte": 8,
+          "read_mask": 255
+        },
+        {
+          "name": "ErrorCode1",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012910",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 1,
+          "read_mask": 0
+        },
+        {
+          "name": "ErrorCode2",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012910",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 3,
+          "read_mask": 0
+        },
+        {
+          "name": "ErrorCode3",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012910",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 5,
+          "read_mask": 0
+        },
+        {
+          "name": "JFerr",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x8012de0",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        },
+        {
+          "name": "MidType",
+          "initial": 0,
+          "command_one": 0,
+          "read_callback": "0x801243c",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    },
+    {
+      "table": "w-sdk-fridge",
+      "table_address": "0x10006a68",
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "source_sha256": "7ce72a73489d3f8a44f57351cfdf939d208d855c6b2e0a59dc0e84514d8d1fad",
+      "hid": "362001061704+U-W04WV1.25.bin",
+      "mids": [
+        "28c96"
+      ],
+      "mid_role": "Source companion-frame bytes4..7 form a packed little-endian selector and the actual discovery MID string via %x; these are explicitly configured synthetic identities, not recovered bootdefaults. MidType is a separate big-endian frame28..29 input.",
+      "selector_flag": 0,
+      "properties": [
+        {
+          "name": "mode",
+          "initial": 0,
+          "command_one": 16,
+          "read_callback": "0x8012e8c",
+          "write_callback": "0x8012e20",
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        },
+        {
+          "name": "fridgeSwitch",
+          "initial": 0,
+          "command_one": 1,
+          "read_callback": "0x8012948",
+          "write_callback": "0x8012930",
+          "write_byte": 2,
+          "write_mask": 16,
+          "read_byte": 2,
+          "read_mask": 16
+        },
+        {
+          "name": "fridgeTargetTemperature",
+          "initial": 0,
+          "command_one": -50,
+          "read_callback": "0x8012974",
+          "write_callback": "0x801295c",
+          "write_byte": 6,
+          "write_mask": 255,
+          "read_byte": 6,
+          "read_mask": 255
+        },
+        {
+          "name": "freezerTargetTemperature",
+          "initial": 0,
+          "command_one": -50,
+          "read_callback": "0x8012974",
+          "write_callback": "0x801295c",
+          "write_byte": 7,
+          "write_mask": 255,
+          "read_byte": 7,
+          "read_mask": 255
+        },
+        {
+          "name": "errorCode",
+          "initial": 0,
+          "command_one": 149,
+          "read_callback": "0x8012eb8",
+          "write_callback": null,
+          "write_byte": 0,
+          "write_mask": 0,
+          "read_byte": 0,
+          "read_mask": 0
+        }
+      ],
+      "metadata_names": [
+        "apssid",
+        "appsw",
+        "host",
+        "name",
+        "time",
+        "lat",
+        "lon",
+        "vender",
+        "bc",
+        "mid",
+        "model",
+        "series",
+        "brand",
+        "catalog",
+        "country",
+        "hid",
+        "mac",
+        "ver",
+        "HidSvrVer",
+        "InHid",
+        "InHidSvrVer",
+        "OEEPHid",
+        "OEEPHidSvrVer",
+        "rssi"
+      ],
+      "metadata_readable": [
+        "host",
+        "name",
+        "time",
+        "hid",
+        "rssi"
+      ]
+    }
+  ],
+  "namespace_record_counts": {
+    "37d3a80eb74a": 64,
+    "7ce72a73489d": 189
+  },
+  "default_vector": {
+    "request": {
+      "t": "status",
+      "cols": [
+        "Pow",
+        "Mod",
+        "TmrOn",
+        "MidType",
+        "hid",
+        "mid"
+      ]
+    },
+    "response": {
+      "t": "dat",
+      "mac": "020000000061",
+      "r": 200,
+      "cols": [
+        "Pow",
+        "Mod",
+        "TmrOn",
+        "MidType",
+        "hid",
+        "mid"
+      ],
+      "dat": [
+        0,
+        0,
+        0,
+        0,
+        "362001061329+U-W04RV2.03.bin"
+      ]
+    }
+  },
+  "model_policy": "Frozen synthetic companion inputs; native local cache/callback mutations retained. Inclusive full-command NULL-tail fault yields no ACK; the safe server preserves finite validated mutations and fresh status.",
+  "boundary_vectors": [
+    {
+      "profile": "sim-w04r-v203-fan",
+      "name": "Pow",
+      "input": 1,
+      "fresh_cols": [
+        "Pow"
+      ],
+      "fresh_dat": [
+        1
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-fan",
+      "name": "Pow",
+      "input": 255,
+      "fresh_cols": [
+        "Pow"
+      ],
+      "fresh_dat": [
+        255
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-fan",
+      "name": "Pow",
+      "input": 256,
+      "fresh_cols": [
+        "Pow"
+      ],
+      "fresh_dat": [
+        256
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-fan",
+      "name": "Pow",
+      "input": -1,
+      "fresh_cols": [
+        "Pow"
+      ],
+      "fresh_dat": [
+        -1
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-fan",
+      "name": "Pow",
+      "input": 65536,
+      "fresh_cols": [
+        "Pow"
+      ],
+      "fresh_dat": [
+        65536
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-fan",
+      "name": "TmrHour",
+      "input": 5,
+      "fresh_cols": [
+        "TmrHour"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-sdk-fan",
+      "name": "WorkMode",
+      "input": 3,
+      "fresh_cols": [
+        "WorkMode"
+      ],
+      "fresh_dat": [
+        1
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-sdk-fan",
+      "name": "SmartMode",
+      "input": 1,
+      "fresh_cols": [
+        "SmartMode"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04r-v203-sdk-fan",
+      "name": "WaterShortage",
+      "input": 1,
+      "fresh_cols": [
+        "WaterShortage"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "mode",
+      "input": 39,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        39
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "mode",
+      "input": 245,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        245
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "mode",
+      "input": 246,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        246
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "mode",
+      "input": 890,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        890
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "mode",
+      "input": 1,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        39
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "singleCycle",
+      "input": 1,
+      "fresh_cols": [
+        "singleCycle"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "stepActionOnOff",
+      "input": 1,
+      "fresh_cols": [
+        "stepActionOnOff"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "allDay",
+      "input": 1,
+      "fresh_cols": [
+        "allDay"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "noneColdWater",
+      "input": 1,
+      "fresh_cols": [
+        "noneColdWater"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-gas",
+      "name": "targetTemperature",
+      "input": 23,
+      "fresh_cols": [
+        "targetTemperature"
+      ],
+      "fresh_dat": [
+        -100
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "mode",
+      "input": 32,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        16
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "mode",
+      "input": 41,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        16
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "mode",
+      "input": 914,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        16
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "mode",
+      "input": 16,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        16
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "fridgeSwitch",
+      "input": 1,
+      "fresh_cols": [
+        "fridgeSwitch"
+      ],
+      "fresh_dat": [
+        1
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "fridgeTargetTemperature",
+      "input": 23,
+      "fresh_cols": [
+        "fridgeTargetTemperature"
+      ],
+      "fresh_dat": [
+        -50
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "freezerTargetTemperature",
+      "input": -18,
+      "fresh_cols": [
+        "freezerTargetTemperature"
+      ],
+      "fresh_dat": [
+        -50
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "mode",
+      "input": 0,
+      "fresh_cols": [
+        "mode"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "fridgeSwitch",
+      "input": 0,
+      "fresh_cols": [
+        "fridgeSwitch"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    },
+    {
+      "profile": "sim-w04w-v125-sdk-fridge",
+      "name": "fridgeTargetTemperature",
+      "input": 0,
+      "fresh_cols": [
+        "fridgeTargetTemperature"
+      ],
+      "fresh_dat": [
+        0
+      ]
+    }
+  ]
+}

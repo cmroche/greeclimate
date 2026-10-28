@@ -1,17 +1,21 @@
-"""WB04BRT13 V1.50 standalone LAN dialects with explicitly synthetic controls."""
+"""Commercial WB dialects with complete raw tables and labelled synthetic backing."""
 
 import json
+import base64
+import binascii
 from math import floor
+from time import monotonic
 
 from ..wire import InvalidPacket, Reply, decode_pack
-from . import Profile, simulated
+from . import Profile, simulated, wb_raw
+from .wb_brt_fields import FIELDS
 
 GENERIC_KEY = b"a3K8Bx%2r8Y7#xDh"
 CODEC = "aes-ecb-pkcs7-nul-input"
 HID = "362001065634+U-WB04BRT13V1.50.bin"
 SOURCE_SHA256 = "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660"
 PACKET_LIMIT = 1460  # Native packet builders0x9b02dee8/0x9b02dd40 use0x5b4.
-# Exact native property table0x10000c8c; BuzzerCtrl is absent in this build.
+# The original AC defaults are policy, not a restriction on the native U16 table.
 _CONTROL_NAMES = frozenset((
     "Pow", "Mod", "SetTem", "WdSpd", "TemUn", "TemRec", "Air", "Blo",
     "Health", "SwhSlp", "SlpMod", "Lig", "SwingLfRig", "SwUpDn", "Quiet",
@@ -47,7 +51,11 @@ def _reply(outer, inner, key):
 
 
 class Commercial:
-    def __init__(self, gateway=False, child=False):
+    def __init__(self, version="1.50", gateway=False, child=False):
+        self.version = version
+        self.fields = FIELDS[version]
+        self.local_fields = wb_raw.LOCAL_COMMAND_FIELDS | ({"ver"} if version != "1.14" else set())
+        self.empty_fields = wb_raw.EMPTY_FIELDS | {"MOta", "MidType"}
         self.gateway = gateway
         self.child = child
 
@@ -56,10 +64,7 @@ class Commercial:
             if state:
                 raise ValueError("commercial host60 has no independent AC state")
             return
-        for name in state:
-            if name not in INITIAL_STATE and not name.startswith("_"):
-                raise ValueError(f"state field {name!r} is unsupported by simulated commercial")
-        simulated.validate_state(state)
+        wb_raw.validate_state(state, self.fields)
 
     def validate_topology(self, device):
         if not self.gateway:
@@ -67,7 +72,7 @@ class Commercial:
         if len(device.children) != 1:
             raise ValueError(f"commercial host {device.mac} requires exactly one AC child")
         child = device.children[0]
-        if child.profile.id != f"sim-wb04brt13-v1.50-{child.mid}" or child.mid not in ("6400", "6045", "609d"):
+        if child.profile.id != f"sim-wb04brt13-v{self.version}-{child.mid}" or child.mid not in ("6400", "6045", "609d"):
             raise ValueError(f"commercial child {child.mac} requires an evidenced AC child profile")
         if child.mac != device.mac + "00":
             raise ValueError(f"commercial child MAC {child.mac} must be {device.mac}00")
@@ -89,12 +94,68 @@ class Commercial:
             "t": "dev", "cid": "", "bc": "00000", "brand": "gree",
             "catalog": "gree", "mac": device.mac, "mid": device.mid,
             "model": "Commercial Simulator", "name": device.name, "lock": 0,
-            "series": "", "vender": "", "ver": "V1.50", "mqttVer": "",
+            "series": "", "vender": "", "ver": f"V{self.version}", "mqttVer": "",
         }
         if self.gateway:
             inner["subCnt"] = 1
         return [_reply({"t": "pack", "i": 1, "uid": 0, "cid": "", "tcid": ""},
                        inner, GENERIC_KEY)]
+
+    def metadata(self, device, target):
+        values = wb_raw.metadata(device)
+        values["mid"] = target.mid
+        values.pop("MidType")
+        if self.version == "1.14":
+            values["mqttver"] = ""
+        return values
+
+    def local_operation(self, device, inner):
+        # Receipts enqueue local work only; no network update, reset or UART hardware runs.
+        operation = inner["t"]
+        if operation == "upgrade":
+            url = inner.get("url")
+            if not isinstance(url, str) or "\0" in url or len(url.encode()) >= 120:
+                raise InvalidPacket("commercial upgrade requires a bounded url")
+            return {"t": "ret", "r": 200}, {"_brt_upgrade_url": url}
+        if operation == "reset" and self.version == "1.50":
+            if inner.get("mac", "")[:12] != device.mac:
+                return None, {}
+            return {"t": "res", "r": 200}, {"_brt_reset_pending": True}
+        if operation != "binCmd":
+            return None, {}
+        staged = {}
+        keys = ["hex01"] if self.version == "1.14" else ["hex01", "hex6B"]
+        keys += [name for name in ("hex6A",) if name in inner and self.version != "1.14"]
+        decoded = {}
+        for name in keys:
+            value = inner.get(name)
+            if not isinstance(value, str):
+                raise InvalidPacket("commercial binary command requires its source frame fields")
+            try:
+                decoded[name] = base64.b64decode(value, validate=True)
+            except (ValueError, binascii.Error) as exc:
+                raise InvalidPacket("invalid commercial base64 frame") from exc
+            if len(decoded[name]) > (60 if name in ("hex01", "hex6B") else 512):
+                raise InvalidPacket("commercial frame exceeds source storage")
+        raw = decoded["hex01"]
+        if raw[:2] != b"~~":
+            raise InvalidPacket("commercial UART frame requires source header")
+        length = (raw[2] if len(raw) > 2 else 0) + 2
+        if length > 60:
+            raise InvalidPacket("commercial UART frame exceeds source storage")
+        frame = bytearray(60)
+        frame[:length] = raw[:length].ljust(length, b"\0")
+        frame[7] = 175
+        staged["_wb_uart_frame"] = bytes(frame)
+        for name in ("hex6A", "hex6B"):
+            if name in decoded:
+                staged["_brt_" + name] = decoded[name]
+        if self.version == "1.14" and "ReportClientID" in inner:
+            value = inner["ReportClientID"]
+            if not isinstance(value, str) or "\0" in value or len(value.encode()) >= 64:
+                raise InvalidPacket("invalid commercial report client")
+            staged["_wb_report_client"] = value
+        return {"t": "res", "r": 200}, staged
 
     def handle(self, device, outer):
         if self.child:
@@ -131,35 +192,38 @@ class Commercial:
             reply = {"t": "subList", "r": 200, "c": 1, "i": start, "list": children}
         elif operation == "status":
             names = _columns(inner.get("cols", inner.get("opt")))
-            if "cols" not in inner:
-                values = inner.get("p")
-                if (not isinstance(values, list) or len(values) != len(names)
-                        or any(type(value) is not int for value in values)
-                        or any(name in ("hid", "mid", "name", "lock", "bc", "ver", "vender")
-                               for name in names)):
-                    raise InvalidPacket("commercial opt status requires numeric p values")
+            staged = (wb_raw.stage_command(target, names, inner.get("p"), self.fields,
+                                           clock=True, local_fields=self.local_fields)
+                      if "cols" not in inner else {})
             target.profile.handler.encode_room(target)
-            metadata = {
-                "hid": HID, "mid": target.mid, "name": device.name, "lock": 0,
-                "bc": "00000", "ver": "V1.50", "vender": "",
-            }
-            values = {**target.state, **metadata}
-            cols = [name for name in names if name in values and not name.startswith("_")]
+            cols, values = wb_raw.status(target, names, self.metadata(device, target),
+                                         self.fields, staged, empty=self.empty_fields)
             reply = {"t": "dat", "uid": 0, "mac": target_mac,
-                     "cid": device.mac, "dat": [values[name] for name in cols],
-                     "cols": cols, "r": 200}
-        elif operation == "cmd":
-            names = _columns(inner.get("opt"))
-            if "cols" in inner or any(name not in INITIAL_STATE for name in names):
-                raise InvalidPacket("unsupported or ambiguous simulated commercial command")
-            reply = {"t": "res", "mac": target_mac, "p": inner.get("p"),
-                     "opt": list(names), "r": 200}
+                     "cid": device.mac, "dat": values, "cols": cols, "r": 200}
             response = _reply(envelope, reply, key)
-            # Validate every property before thermal advance or any state mutation.
-            simulated.apply_command(target, names, inner.get("p"))
+            target.state.update(staged)
+            return [response]
+        elif operation == "cmd":
+            names = _columns(inner.get("cols", inner.get("opt")))
+            values = [0] * len(names) if "cols" in inner else inner.get("p")
+            staged = ({} if "cols" in inner else
+                      wb_raw.stage_command(target, names, values, self.fields, clock=True,
+                                           local_fields=self.local_fields))
+            cols, values = wb_raw.command_response(
+                target, names, values, staged, local_fields=self.local_fields,
+                current=self.metadata(device, target))
+            reply = {"t": "res", "mac": target_mac, "p": values, "opt": cols, "r": 200}
+            response = _reply(envelope, reply, key)
+            target.advance(monotonic())
+            target.state.update(staged)
             return [response]
         else:
-            return []
+            reply, staged = self.local_operation(device, inner)
+            if reply is None:
+                return []
+            response = _reply(envelope, reply, key)
+            device.state.update(staged)
+            return [response]
         return [_reply(envelope, reply, key)]
 
 
@@ -175,4 +239,43 @@ PROFILES = tuple(
             INITIAL_STATE, Commercial(child=True), identity_bytes=7,
             parent_profiles=("sim-wb04brt13-v1.50-60",))
     for mid in ("6400", "6045", "609d")
+)
+
+# These older builds retain 3027/4005 in their own original mainboard producer.
+# No 3019 alias is carried backwards from V1.50's normalization branch.
+PROFILES += tuple(
+    Profile(f"sim-wb04brt13-v{version}-{mid}", (mid,),
+            f"362001065634+U-WB04BRT13V{version}.bin", source,
+            {name: value for name, value in INITIAL_STATE.items() if name in FIELDS[version]},
+            Commercial(version), max_request_bytes=PACKET_LIMIT - 1)
+    for version, source in (
+        ("1.14", "62d0760f0f71986517309e71dcf777418d6815550f4558a9e4ddfe8dfb7a4be8"),
+        ("1.38", "61b99017a2c1ac759a521548681737d48421be98f8e6d3bcb1c00de52ae79558"),
+    )
+    for mid in ("3027", "4005")
+)
+
+PROFILES += tuple(
+    Profile(f"sim-wb04brt13-v{version}-60", ("60",),
+            f"362001065634+U-WB04BRT13V{version}.bin", source,
+            {}, Commercial(version, gateway=True), max_children=1,
+            max_request_bytes=PACKET_LIMIT - 1)
+    for version, source in (
+        ("1.14", "62d0760f0f71986517309e71dcf777418d6815550f4558a9e4ddfe8dfb7a4be8"),
+        ("1.38", "61b99017a2c1ac759a521548681737d48421be98f8e6d3bcb1c00de52ae79558"),
+    )
+)
+
+PROFILES += tuple(
+    Profile(f"sim-wb04brt13-v{version}-{mid}", (mid,),
+            f"362001065634+U-WB04BRT13V{version}.bin", source,
+            {name: value for name, value in INITIAL_STATE.items() if name in FIELDS[version]},
+            Commercial(version, child=True), identity_bytes=7,
+            parent_profiles=(f"sim-wb04brt13-v{version}-60",))
+    for version, source, mids in (
+        ("1.14", "62d0760f0f71986517309e71dcf777418d6815550f4558a9e4ddfe8dfb7a4be8", ("6400",)),
+        ("1.38", "61b99017a2c1ac759a521548681737d48421be98f8e6d3bcb1c00de52ae79558",
+         ("6400", "6045", "609d")),
+    )
+    for mid in mids
 )

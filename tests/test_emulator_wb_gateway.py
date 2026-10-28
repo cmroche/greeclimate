@@ -120,7 +120,7 @@ def test_control_changes_only_selected_child_and_fresh_status(version, hid):
                                  "opt": ["Pow", "Mod", "SetTem", "WdSpd"],
                                  "p": [1, 4, 23, 2], "val": [1, 4, 23, 2]}
     for target, identity, expected in (
-        (device, IDENTITIES[0], [23, 1, 23, "", ""]),
+        (device, IDENTITIES[0], [23, 0 if version in ("1.16", "1.18") else 1, 23, "", ""]),
         (device, IDENTITIES[1], [24, 0, 24, "", ""]),
         (independent, IDENTITIES[0], [24, 0, 24, "", ""]),
     ):
@@ -129,14 +129,14 @@ def test_control_changes_only_selected_child_and_fresh_status(version, hid):
         assert fresh[0]["inner"]["dat"] == expected
 
 
-def test_direct_child_mac_routing_and_simulated_duplicate_control_order():
+def test_direct_child_mac_routing_and_first_named_duplicate_control():
     device = gateway()
     reply = exchange(device, outer(), {"t": "cmd", "mac": IDENTITIES[0],
                                        "opt": ["SetTem", "SetTem"], "p": [19, 25]})
     assert reply[0]["inner"]["p"] == [19, 25]
     assert reply[0]["inner"]["val"] == [19, 25]
     assert exchange(device, outer(), {"t": "status", "mac": IDENTITIES[0],
-                                      "cols": ["SetTem"]})[0]["inner"]["dat"] == [25]
+                                      "cols": ["SetTem"]})[0]["inner"]["dat"] == [19]
 
 
 @pytest.mark.parametrize("version,hid", VARIANTS)
@@ -197,9 +197,8 @@ def test_inner_routing_and_type_boundaries(inner, index):
 
 
 @pytest.mark.parametrize("names,values", (
-    (["Pow", "SetTem"], [1, 31]), (["Pow", "Pow"], [True, 1]),
-    (["SetTem", "SetTem"], [15, 20]), (["Pow"], [1.0]),
-    (["Pow", "TemSor"], [1, 20]), (["Pow", "BuzzerCtrl"], [1, 1]),
+    (["Pow", "Mod"], [1, 12]), (["Pow", "Pow"], [True, 1]),
+    (["Pow"], [1.0]), (["Pow"], [2**31]), (["Pow"], [None]),
     (["Pow", "Mod"], [1]), ([], []), (["Pow"], "1"),
 ))
 def test_invalid_command_is_atomic_including_earlier_duplicate_values(names, values):
@@ -248,3 +247,17 @@ def test_child_identity_validation_does_not_impose_a_parent_prefix_or_zero_suffi
     device.children[0].profile = next(profile for profile in PROFILES if profile.id == "sim-wb05br-v1.18-ac")
     with pytest.raises(ValueError, match="exact parent firmware"):
         device.profile.handler.validate_topology(device)
+
+
+@pytest.mark.parametrize("version,hid", VARIANTS)
+def test_complete_raw_tables_retain_exact_build_namespace_differences(version, hid):
+    device = gateway(version)
+    child = device.children[0]
+    reply = exchange(device, outer(), {"t": "status", "mac": child.mac,
+                                      "cols": ["MasIDUMod", "InTem", "SetDeciTem", "IDUID"]})
+    expected = [0, 20, 240, "608F"] if version in ("1.31", "1.38") else [0, "", 240, ""]
+    assert reply[0]["inner"]["dat"] == expected
+    exchange(device, outer(), {"t": "cmd", "mac": child.mac,
+                               "opt": ["AutoClean"], "p": [1]})
+    assert exchange(device, outer(), {"t": "status", "mac": child.mac,
+                                      "cols": ["AutoClean"]})[0]["inner"]["dat"] == [1]

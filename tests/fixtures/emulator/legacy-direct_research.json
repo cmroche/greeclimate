@@ -1,0 +1,8028 @@
+{
+  "schema_version": 1,
+  "source_sha256": "65da0894f3b78fe801519c2145b9f429daf036d5d3f42ded0fa037fc0a9edaba",
+  "profile": "sim-w06m-v1.03",
+  "mac": "020000000001",
+  "name": "legacy",
+  "hid": "362001062071+U-W06MV1.03.bin",
+  "mid": "0",
+  "device_key": "a3K8Bx%2r8Y7GREE",
+  "generic_key": "a3K8Bx%2r8Y7#xDh",
+  "origin": {
+    "native_file": "legacy-direct-run001.json",
+    "native_cases": 644,
+    "failures": 0,
+    "script_sha256": "936fa7933364fa661678a1ce989373e6b15fbfbde7d48d961e01957f1269c05f",
+    "qualification": "Original UDP reply/selector/getter/cJSON constructor/linkage and crypto-wrapper instructions; primitive heap/libc/compiler conversions and SDK-bound AES only. Stop JSON at serialization before delete. U16 mutation slice is separate from full command ingress. AES implementation is explicitly substituted and NIST-checked; no native ROM/socket/physical conformance is inferred.",
+    "table_file": "source-contracts.json exact source pointer_name_tables[0]",
+    "transport_file": "legacy-direct-transport_research.json",
+    "source_addresses": {
+      "table": "0x4501f0",
+      "udp_getter": "0xa112d8",
+      "udp_parser": "0xa0df24"
+    },
+    "safe_policy": "Strict parsing, PKCS7, atomic validation and retained DOM are deliberate model choices. Original ingress run001 faults on cJSON ownership; run002 retains DOM but still has failed output/primitive adapters. Neither is native full-transaction PASS. Metadata mNNN values below are supplied probe state, not source initialized values. Numeric zero is a synthetic stationary cache default, not physical calibration."
+  },
+  "ordered_table": [
+    "Pow",
+    "Mod",
+    "SetTem",
+    "WdSpd",
+    "Tur",
+    "Quiet",
+    "SwUpDn",
+    "SwingLfRig",
+    "Add0.5",
+    "TemUn",
+    "TemRec",
+    "Lig",
+    "Air",
+    "Blo",
+    "Health",
+    "SvSt",
+    "SwhSw",
+    "HeatCoolType",
+    "StHt",
+    "LTemDry",
+    "Wet",
+    "SwhSlp",
+    "SlpMod",
+    "HasTmr",
+    "TmrLpTms",
+    "TmrOff",
+    "TmrOn",
+    "CurTmHor",
+    "CurTmMin",
+    "TmrOnHorLf",
+    "TmrOnMinLf",
+    "TmrOffHorLf",
+    "TmrOffMinLf",
+    "DsplySt",
+    "EnvFun",
+    "JFErrorCode",
+    "AssHt",
+    "SwhFreAir",
+    "AllErr",
+    "Coolmod",
+    "HeatCoolType",
+    "LedLig",
+    "SmartMod",
+    "WetGrade",
+    "ErrorCode1",
+    "LifeTimeFilter1",
+    "LifeTimeFilter2",
+    "LifeTimeFilter3",
+    "LifeTimeFilter4",
+    "TotalPureWater",
+    "FilterWarning1",
+    "FilterWarning2",
+    "FilterWarning3",
+    "FilterWarning4",
+    "WorkStatus",
+    "LifeFilterDays1",
+    "LifeFilterDays2",
+    "LifeFilterDays3",
+    "LifeFilterDays4",
+    "ErrorCode2",
+    "Wind",
+    "UDFanPort",
+    "DnPUDSwing",
+    "DnPLLRSwing",
+    "DnPRLRSwing",
+    "AirQ",
+    "PM2P5",
+    "ElcDatHor",
+    "ElcDatDte",
+    "ElcDatMth",
+    "HumSen",
+    "ElcP",
+    "ElcOnKwh",
+    "ElcAllKwhClr",
+    "ElcAllKwhH",
+    "ElcAllKwhL",
+    "AutoClean",
+    "TemSen",
+    "Emod",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "EnvArea1St",
+    "EnvArea2St",
+    "EnvArea3St",
+    "EnvArea4St",
+    "EnvArea5St",
+    "EnvArea6St",
+    "EnvArea7St",
+    "EnvArea8St",
+    "EnvArea9St",
+    "FbidBloPer",
+    "DIYGra1PoiAmo",
+    "SwhDIYGra1",
+    "Slp1L1",
+    "Slp1H1",
+    "Slp1L2",
+    "Slp1H2",
+    "Slp1L3",
+    "Slp1H3",
+    "Slp1L4",
+    "Slp1H4",
+    "Slp1L5",
+    "Slp1H5",
+    "Slp1L6",
+    "Slp1H6",
+    "Slp1L7",
+    "Slp1H7",
+    "Slp1L8",
+    "Slp1H8",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "MasSub",
+    "MasIDUMod",
+    "GetEr",
+    "HeatSvStTemMax",
+    "HumiSvStTemMin",
+    "CoolSvStTemMin",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "Wmod",
+    "WsetTmp",
+    "WschOn",
+    "WschOnMin",
+    "WschOff",
+    "WschOffMin",
+    "Wtmr1",
+    "Wtmr1Min",
+    "Wtmr2",
+    "Wtmr2Min",
+    "Wtmr3",
+    "Wtmr3Min",
+    "WsenTmpH",
+    "WsenTmpM",
+    "WsenTmpL",
+    "Werr",
+    "WsenNub",
+    "WstpSv",
+    "WstpH",
+    "WatTmp",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "MaeS",
+    "FanMod",
+    "ModS",
+    "VitiGr",
+    "GasN",
+    "TemSor",
+    "HumSor",
+    "PM2P5V",
+    "VOC",
+    "CO2",
+    "PctCle",
+    "PctRe",
+    "IDUAirQu",
+    "AirQu",
+    "ODUViti",
+    "GasAvail",
+    "GasLED",
+    "GasMod",
+    "GasMas",
+    "PM2P5Sta",
+    "SorErr",
+    "CommErr",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "Dmod",
+    "Dfltr",
+    "Dpump",
+    "Dwet",
+    "DwatFul",
+    "DwatSen",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "Smod",
+    "Sfog",
+    "RemWarnLig",
+    "NoD",
+    "NoD",
+    "Wash",
+    "PauseStart",
+    "LayerWash",
+    "Dry",
+    "Hard",
+    "StHard",
+    "WashTmr",
+    "TmrStatus",
+    "NoD",
+    "NoD",
+    "GetWat",
+    "Cool",
+    "Heat",
+    "Stasis",
+    "Srst",
+    "SrstPP",
+    "SrstPF",
+    "SrstCF",
+    "SrstRF",
+    "SrstAF",
+    "PPlif",
+    "PFlif",
+    "CFlif",
+    "RFlif",
+    "AFlif",
+    "WatInTmp",
+    "WatTds",
+    "ClnTds",
+    "VolCln",
+    "AtoCln",
+    "UseTmp",
+    "Percent",
+    "TmpSt",
+    "Vol",
+    "WatLine",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "mode",
+    "wspd",
+    "light",
+    "StTmr",
+    "fltrst",
+    "wipm25",
+    "wopm25",
+    "airQlt",
+    "Purify",
+    "FiltUT",
+    "FiltBT",
+    "estate",
+    "estate2",
+    "MsgPM",
+    "FiltUPercent",
+    "estate3",
+    "estate4",
+    "NoD",
+    "NoD",
+    "NoD",
+    "Rice",
+    "Textre",
+    "Sealve",
+    "WshRic",
+    "Prsure",
+    "Fog",
+    "StpRic",
+    "SchTmr",
+    "SchOnOff",
+    "SchEn",
+    "TmrEn",
+    "SchTmr2",
+    "SchOnOff2",
+    "SchEn2",
+    "KpTpEn",
+    "KpTpOnOff",
+    "KpTpTmr",
+    "ModeTmr",
+    "NoD",
+    "NoD",
+    "AtoMod",
+    "ChildLock",
+    "DnMod",
+    "UpMod",
+    "HumUp",
+    "HumDn",
+    "TmpUp",
+    "TmpDn",
+    "UpTmr",
+    "DnTmr",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "holiday",
+    "union",
+    "Volt",
+    "RightCooker",
+    "LeftCooker",
+    "CookerBattery",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "Rotate",
+    "TmrHour",
+    "TmrMin",
+    "TmrAction",
+    "MidType",
+    "Anion",
+    "NoD",
+    "NoD",
+    "SoakSTime",
+    "SoakSTem",
+    "HeatSTime",
+    "HeatSTem",
+    "BoilSTime",
+    "BoilSTem",
+    "BraizSTim",
+    "BraizSTem",
+    "WarmSTime",
+    "WarmSTem",
+    "FinalSTim",
+    "FinalSTem",
+    "SwhWifi",
+    "SwhWifiRe",
+    "SwhWifiCo",
+    "datDump",
+    "datRep",
+    "datFailRe",
+    "datPeroid",
+    "subCnt",
+    "NoD",
+    "NoD",
+    "UVLight",
+    "FogLevel",
+    "WaterTankLight",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "ACStupPos",
+    "SaveGuid",
+    "NoiseSet",
+    "RoomLen",
+    "RoomWid",
+    "RoomHigh",
+    "CoolNoise",
+    "HeatNoise",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "ElcErg",
+    "ElcGear",
+    "Elc1Kwh",
+    "AutoUpdate",
+    "AutoComnCloud",
+    "lock",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "apssid",
+    "appsw",
+    "host",
+    "name",
+    "time",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "vender",
+    "bc",
+    "mid",
+    "model",
+    "series",
+    "brand",
+    "catalog",
+    "country",
+    "hid",
+    "mac",
+    "ver",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD"
+  ],
+  "native_vectors": [
+    {
+      "operation": "status",
+      "request": "Pow",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Pow",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Mod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Mod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SetTem",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SetTem",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WdSpd",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WdSpd",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Tur",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Tur",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Quiet",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Quiet",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwUpDn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwUpDn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwingLfRig",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwingLfRig",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Add0.5",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Add0.5",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TemUn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TemUn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TemRec",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TemRec",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Lig",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Lig",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Air",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Air",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Blo",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Blo",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Health",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Health",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SvSt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SvSt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwhSw",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwhSw",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HeatCoolType",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HeatCoolType",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "StHt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "StHt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LTemDry",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LTemDry",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wet",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wet",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwhSlp",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwhSlp",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SlpMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SlpMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HasTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HasTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrLpTms",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrLpTms",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrOff",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrOff",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrOn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrOn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CurTmHor",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CurTmHor",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CurTmMin",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CurTmMin",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrOnHorLf",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrOnHorLf",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrOnMinLf",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrOnMinLf",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrOffHorLf",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrOffHorLf",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrOffMinLf",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrOffMinLf",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DsplySt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DsplySt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvFun",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvFun",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "JFErrorCode",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "JFErrorCode",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AssHt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AssHt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwhFreAir",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwhFreAir",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AllErr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AllErr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Coolmod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Coolmod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LedLig",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LedLig",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SmartMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SmartMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WetGrade",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WetGrade",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ErrorCode1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ErrorCode1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeTimeFilter1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeTimeFilter1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeTimeFilter2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeTimeFilter2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeTimeFilter3",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeTimeFilter3",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeTimeFilter4",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeTimeFilter4",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TotalPureWater",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TotalPureWater",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FilterWarning1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FilterWarning1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FilterWarning2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FilterWarning2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FilterWarning3",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FilterWarning3",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FilterWarning4",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FilterWarning4",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WorkStatus",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WorkStatus",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeFilterDays1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeFilterDays1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeFilterDays2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeFilterDays2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeFilterDays3",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeFilterDays3",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LifeFilterDays4",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LifeFilterDays4",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ErrorCode2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ErrorCode2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wind",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wind",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "UDFanPort",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "UDFanPort",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DnPUDSwing",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DnPUDSwing",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DnPLLRSwing",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DnPLLRSwing",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DnPRLRSwing",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DnPRLRSwing",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AirQ",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AirQ",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PM2P5",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PM2P5",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcDatHor",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcDatHor",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcDatDte",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcDatDte",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcDatMth",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcDatMth",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HumSen",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HumSen",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcP",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcP",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcOnKwh",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcOnKwh",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcAllKwhClr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcAllKwhClr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcAllKwhH",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcAllKwhH",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcAllKwhL",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcAllKwhL",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AutoClean",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AutoClean",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TemSen",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TemSen",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Emod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Emod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "NoD",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "NoD",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea1St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea1St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea2St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea2St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea3St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea3St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea4St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea4St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea5St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea5St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea6St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea6St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea7St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea7St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea8St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea8St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "EnvArea9St",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "EnvArea9St",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FbidBloPer",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FbidBloPer",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DIYGra1PoiAmo",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DIYGra1PoiAmo",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwhDIYGra1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwhDIYGra1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L3",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L3",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H3",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H3",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L4",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L4",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H4",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H4",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L5",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L5",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H5",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H5",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L6",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L6",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H6",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H6",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L7",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L7",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H7",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H7",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1L8",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1L8",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Slp1H8",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Slp1H8",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "MasSub",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "MasSub",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "MasIDUMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "MasIDUMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "GetEr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "GetEr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HeatSvStTemMax",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HeatSvStTemMax",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HumiSvStTemMin",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HumiSvStTemMin",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CoolSvStTemMin",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CoolSvStTemMin",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wmod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wmod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WsetTmp",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WsetTmp",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WschOn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WschOn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WschOnMin",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WschOnMin",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WschOff",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WschOff",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WschOffMin",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WschOffMin",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wtmr1",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wtmr1",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wtmr1Min",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wtmr1Min",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wtmr2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wtmr2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wtmr2Min",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wtmr2Min",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wtmr3",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wtmr3",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wtmr3Min",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wtmr3Min",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WsenTmpH",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WsenTmpH",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WsenTmpM",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WsenTmpM",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WsenTmpL",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WsenTmpL",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Werr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Werr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WsenNub",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WsenNub",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WstpSv",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WstpSv",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WstpH",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WstpH",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WatTmp",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WatTmp",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "MaeS",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "MaeS",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FanMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FanMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ModS",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ModS",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "VitiGr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "VitiGr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "GasN",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "GasN",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TemSor",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TemSor",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HumSor",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HumSor",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PM2P5V",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PM2P5V",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "VOC",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "VOC",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CO2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CO2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PctCle",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PctCle",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PctRe",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PctRe",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "IDUAirQu",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "IDUAirQu",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AirQu",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AirQu",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ODUViti",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ODUViti",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "GasAvail",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "GasAvail",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "GasLED",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "GasLED",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "GasMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "GasMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "GasMas",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "GasMas",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PM2P5Sta",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PM2P5Sta",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SorErr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SorErr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CommErr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CommErr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Dmod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Dmod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Dfltr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Dfltr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Dpump",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Dpump",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Dwet",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Dwet",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DwatFul",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DwatFul",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DwatSen",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DwatSen",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Smod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Smod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Sfog",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Sfog",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "RemWarnLig",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "RemWarnLig",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Wash",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Wash",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PauseStart",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PauseStart",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LayerWash",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LayerWash",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Dry",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Dry",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Hard",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Hard",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "StHard",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "StHard",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WashTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WashTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrStatus",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrStatus",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "GetWat",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "GetWat",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Cool",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Cool",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Heat",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Heat",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Stasis",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Stasis",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Srst",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Srst",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SrstPP",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SrstPP",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SrstPF",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SrstPF",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SrstCF",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SrstCF",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SrstRF",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SrstRF",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SrstAF",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SrstAF",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PPlif",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PPlif",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "PFlif",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "PFlif",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CFlif",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CFlif",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "RFlif",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "RFlif",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AFlif",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AFlif",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WatInTmp",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WatInTmp",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WatTds",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WatTds",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ClnTds",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ClnTds",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "VolCln",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "VolCln",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AtoCln",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AtoCln",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "UseTmp",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "UseTmp",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Percent",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Percent",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmpSt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmpSt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Vol",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Vol",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WatLine",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WatLine",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "mode",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "mode",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "wspd",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "wspd",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "light",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "light",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "StTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "StTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "fltrst",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "fltrst",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "wipm25",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "wipm25",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "wopm25",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "wopm25",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "airQlt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "airQlt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Purify",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Purify",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FiltUT",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FiltUT",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FiltBT",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FiltBT",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "estate",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "estate",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "estate2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "estate2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "MsgPM",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "MsgPM",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FiltUPercent",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FiltUPercent",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "estate3",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "estate3",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "estate4",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "estate4",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Rice",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Rice",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Textre",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Textre",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Sealve",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Sealve",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WshRic",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WshRic",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Prsure",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Prsure",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Fog",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Fog",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "StpRic",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "StpRic",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SchTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SchTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SchOnOff",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SchOnOff",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SchEn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SchEn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrEn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrEn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SchTmr2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SchTmr2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SchOnOff2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SchOnOff2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SchEn2",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SchEn2",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "KpTpEn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "KpTpEn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "KpTpOnOff",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "KpTpOnOff",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "KpTpTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "KpTpTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ModeTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ModeTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AtoMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AtoMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ChildLock",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ChildLock",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DnMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DnMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "UpMod",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "UpMod",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HumUp",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HumUp",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HumDn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HumDn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmpUp",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmpUp",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmpDn",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmpDn",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "UpTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "UpTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "DnTmr",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "DnTmr",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "holiday",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "holiday",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "union",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "union",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Volt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Volt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "RightCooker",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "RightCooker",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "LeftCooker",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "LeftCooker",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CookerBattery",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CookerBattery",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Rotate",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Rotate",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrHour",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrHour",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrMin",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrMin",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "TmrAction",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "TmrAction",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "MidType",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "MidType",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Anion",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Anion",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SoakSTime",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SoakSTime",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SoakSTem",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SoakSTem",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HeatSTime",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HeatSTime",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HeatSTem",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HeatSTem",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "BoilSTime",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "BoilSTime",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "BoilSTem",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "BoilSTem",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "BraizSTim",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "BraizSTim",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "BraizSTem",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "BraizSTem",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WarmSTime",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WarmSTime",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WarmSTem",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WarmSTem",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FinalSTim",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FinalSTim",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FinalSTem",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FinalSTem",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwhWifi",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwhWifi",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwhWifiRe",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwhWifiRe",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SwhWifiCo",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SwhWifiCo",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "datDump",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "datDump",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "datRep",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "datRep",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "datFailRe",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "datFailRe",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "datPeroid",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "datPeroid",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "subCnt",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "subCnt",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "UVLight",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "UVLight",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "FogLevel",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "FogLevel",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "WaterTankLight",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "WaterTankLight",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ACStupPos",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ACStupPos",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "SaveGuid",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "SaveGuid",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "NoiseSet",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "NoiseSet",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "RoomLen",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "RoomLen",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "RoomWid",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "RoomWid",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "RoomHigh",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "RoomHigh",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "CoolNoise",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "CoolNoise",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "HeatNoise",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "HeatNoise",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcErg",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcErg",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ElcGear",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ElcGear",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "Elc1Kwh",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "Elc1Kwh",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AutoUpdate",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AutoUpdate",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "AutoComnCloud",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "AutoComnCloud",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "lock",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "lock",
+        "dat": 0.0
+      }
+    },
+    {
+      "operation": "status",
+      "request": "apssid",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "apssid",
+        "dat": "m445"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "appsw",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "appsw",
+        "dat": "m446"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "host",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "host",
+        "dat": "m447"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "name",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "name",
+        "dat": "m448"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "time",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "time",
+        "dat": "m449"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "vender",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "vender",
+        "dat": "m460"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "bc",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "bc",
+        "dat": "m461"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "mid",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "mid",
+        "dat": "m462"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "model",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "model",
+        "dat": "m463"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "series",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "series",
+        "dat": "m464"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "brand",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "brand",
+        "dat": "m465"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "catalog",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "catalog",
+        "dat": "m466"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "country",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "country"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "hid",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "hid",
+        "dat": "m468"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "mac",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "mac",
+        "dat": "020000000001"
+      }
+    },
+    {
+      "operation": "status",
+      "request": "ver",
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": "ver",
+        "dat": "m470"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Pow",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Pow",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Mod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Mod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SetTem",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SetTem",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WdSpd",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WdSpd",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Tur",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Tur",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Quiet",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Quiet",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwUpDn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwUpDn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwingLfRig",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwingLfRig",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Add0.5",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Add0.5",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TemUn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TemUn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TemRec",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TemRec",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Lig",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Lig",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Air",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Air",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Blo",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Blo",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Health",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Health",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SvSt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SvSt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwhSw",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwhSw",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HeatCoolType",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HeatCoolType",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "StHt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "StHt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LTemDry",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LTemDry",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wet",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wet",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwhSlp",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwhSlp",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SlpMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SlpMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HasTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HasTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrLpTms",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrLpTms",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrOff",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrOff",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrOn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrOn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CurTmHor",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CurTmHor",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CurTmMin",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CurTmMin",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrOnHorLf",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrOnHorLf",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrOnMinLf",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrOnMinLf",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrOffHorLf",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrOffHorLf",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrOffMinLf",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrOffMinLf",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DsplySt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DsplySt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvFun",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvFun",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "JFErrorCode",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "JFErrorCode",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AssHt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AssHt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwhFreAir",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwhFreAir",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AllErr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AllErr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Coolmod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Coolmod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LedLig",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LedLig",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SmartMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SmartMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WetGrade",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WetGrade",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ErrorCode1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ErrorCode1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeTimeFilter1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeTimeFilter1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeTimeFilter2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeTimeFilter2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeTimeFilter3",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeTimeFilter3",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeTimeFilter4",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeTimeFilter4",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TotalPureWater",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TotalPureWater",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FilterWarning1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FilterWarning1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FilterWarning2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FilterWarning2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FilterWarning3",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FilterWarning3",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FilterWarning4",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FilterWarning4",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WorkStatus",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WorkStatus",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeFilterDays1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeFilterDays1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeFilterDays2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeFilterDays2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeFilterDays3",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeFilterDays3",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LifeFilterDays4",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LifeFilterDays4",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ErrorCode2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ErrorCode2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wind",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wind",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "UDFanPort",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "UDFanPort",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DnPUDSwing",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DnPUDSwing",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DnPLLRSwing",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DnPLLRSwing",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DnPRLRSwing",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DnPRLRSwing",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AirQ",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AirQ",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PM2P5",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PM2P5",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcDatHor",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcDatHor",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcDatDte",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcDatDte",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcDatMth",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcDatMth",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HumSen",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HumSen",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcP",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcP",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcOnKwh",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcOnKwh",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcAllKwhClr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcAllKwhClr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcAllKwhH",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcAllKwhH",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcAllKwhL",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcAllKwhL",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AutoClean",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AutoClean",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TemSen",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TemSen",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Emod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Emod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "NoD",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "NoD",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea1St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea1St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea2St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea2St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea3St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea3St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea4St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea4St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea5St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea5St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea6St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea6St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea7St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea7St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea8St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea8St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "EnvArea9St",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "EnvArea9St",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FbidBloPer",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FbidBloPer",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DIYGra1PoiAmo",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DIYGra1PoiAmo",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwhDIYGra1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwhDIYGra1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L3",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L3",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H3",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H3",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L4",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L4",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H4",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H4",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L5",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L5",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H5",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H5",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L6",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L6",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H6",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H6",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L7",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L7",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H7",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H7",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1L8",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1L8",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Slp1H8",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Slp1H8",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "MasSub",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "MasSub",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "MasIDUMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "MasIDUMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "GetEr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "GetEr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HeatSvStTemMax",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HeatSvStTemMax",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HumiSvStTemMin",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HumiSvStTemMin",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CoolSvStTemMin",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CoolSvStTemMin",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wmod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wmod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WsetTmp",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WsetTmp",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WschOn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WschOn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WschOnMin",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WschOnMin",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WschOff",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WschOff",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WschOffMin",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WschOffMin",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wtmr1",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wtmr1",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wtmr1Min",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wtmr1Min",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wtmr2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wtmr2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wtmr2Min",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wtmr2Min",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wtmr3",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wtmr3",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wtmr3Min",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wtmr3Min",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WsenTmpH",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WsenTmpH",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WsenTmpM",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WsenTmpM",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WsenTmpL",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WsenTmpL",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Werr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Werr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WsenNub",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WsenNub",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WstpSv",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WstpSv",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WstpH",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WstpH",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WatTmp",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WatTmp",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "MaeS",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "MaeS",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FanMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FanMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ModS",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ModS",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "VitiGr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "VitiGr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "GasN",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "GasN",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TemSor",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TemSor",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HumSor",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HumSor",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PM2P5V",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PM2P5V",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "VOC",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "VOC",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CO2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CO2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PctCle",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PctCle",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PctRe",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PctRe",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "IDUAirQu",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "IDUAirQu",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AirQu",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AirQu",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ODUViti",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ODUViti",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "GasAvail",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "GasAvail",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "GasLED",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "GasLED",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "GasMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "GasMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "GasMas",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "GasMas",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PM2P5Sta",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PM2P5Sta",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SorErr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SorErr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CommErr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CommErr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Dmod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Dmod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Dfltr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Dfltr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Dpump",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Dpump",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Dwet",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Dwet",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DwatFul",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DwatFul",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DwatSen",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DwatSen",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Smod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Smod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Sfog",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Sfog",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "RemWarnLig",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "RemWarnLig",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Wash",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Wash",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PauseStart",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PauseStart",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LayerWash",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LayerWash",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Dry",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Dry",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Hard",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Hard",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "StHard",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "StHard",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WashTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WashTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrStatus",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrStatus",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "GetWat",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "GetWat",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Cool",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Cool",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Heat",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Heat",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Stasis",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Stasis",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Srst",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Srst",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SrstPP",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SrstPP",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SrstPF",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SrstPF",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SrstCF",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SrstCF",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SrstRF",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SrstRF",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SrstAF",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SrstAF",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PPlif",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PPlif",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "PFlif",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "PFlif",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CFlif",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CFlif",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "RFlif",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "RFlif",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AFlif",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AFlif",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WatInTmp",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WatInTmp",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WatTds",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WatTds",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ClnTds",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ClnTds",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "VolCln",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "VolCln",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AtoCln",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AtoCln",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "UseTmp",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "UseTmp",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Percent",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Percent",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmpSt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmpSt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Vol",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Vol",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WatLine",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WatLine",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "mode",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "mode",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "wspd",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "wspd",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "light",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "light",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "StTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "StTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "fltrst",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "fltrst",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "wipm25",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "wipm25",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "wopm25",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "wopm25",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "airQlt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "airQlt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Purify",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Purify",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FiltUT",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FiltUT",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FiltBT",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FiltBT",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "estate",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "estate",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "estate2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "estate2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "MsgPM",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "MsgPM",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FiltUPercent",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FiltUPercent",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "estate3",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "estate3",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "estate4",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "estate4",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Rice",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Rice",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Textre",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Textre",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Sealve",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Sealve",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WshRic",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WshRic",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Prsure",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Prsure",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Fog",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Fog",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "StpRic",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "StpRic",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SchTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SchTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SchOnOff",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SchOnOff",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SchEn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SchEn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrEn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrEn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SchTmr2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SchTmr2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SchOnOff2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SchOnOff2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SchEn2",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SchEn2",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "KpTpEn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "KpTpEn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "KpTpOnOff",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "KpTpOnOff",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "KpTpTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "KpTpTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ModeTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ModeTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AtoMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AtoMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ChildLock",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ChildLock",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DnMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DnMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "UpMod",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "UpMod",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HumUp",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HumUp",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HumDn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HumDn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmpUp",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmpUp",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmpDn",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmpDn",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "UpTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "UpTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "DnTmr",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "DnTmr",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "holiday",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "holiday",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "union",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "union",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Volt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Volt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "RightCooker",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "RightCooker",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "LeftCooker",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "LeftCooker",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CookerBattery",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CookerBattery",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Rotate",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Rotate",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrHour",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrHour",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrMin",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrMin",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "TmrAction",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "TmrAction",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "MidType",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "MidType",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Anion",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Anion",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SoakSTime",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SoakSTime",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SoakSTem",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SoakSTem",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HeatSTime",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HeatSTime",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HeatSTem",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HeatSTem",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "BoilSTime",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "BoilSTime",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "BoilSTem",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "BoilSTem",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "BraizSTim",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "BraizSTim",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "BraizSTem",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "BraizSTem",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WarmSTime",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WarmSTime",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WarmSTem",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WarmSTem",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FinalSTim",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FinalSTim",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FinalSTem",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FinalSTem",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwhWifi",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwhWifi",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwhWifiRe",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwhWifiRe",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SwhWifiCo",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SwhWifiCo",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "datDump",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "datDump",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "datRep",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "datRep",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "datFailRe",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "datFailRe",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "datPeroid",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "datPeroid",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "subCnt",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "subCnt",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "UVLight",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "UVLight",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "FogLevel",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "FogLevel",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "WaterTankLight",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "WaterTankLight",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ACStupPos",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ACStupPos",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "SaveGuid",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "SaveGuid",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "NoiseSet",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "NoiseSet",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "RoomLen",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "RoomLen",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "RoomWid",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "RoomWid",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "RoomHigh",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "RoomHigh",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "CoolNoise",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "CoolNoise",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "HeatNoise",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "HeatNoise",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcErg",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcErg",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ElcGear",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ElcGear",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "Elc1Kwh",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "Elc1Kwh",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AutoUpdate",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AutoUpdate",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "AutoComnCloud",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "AutoComnCloud",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "lock",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "lock",
+        "p": 0.0,
+        "val": 0.0
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "apssid",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "apssid",
+        "p": "m445",
+        "val": "m445"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "appsw",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "appsw",
+        "p": "m446",
+        "val": "m446"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "host",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "host",
+        "p": "m447",
+        "val": "m447"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "name",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "name",
+        "p": "m448",
+        "val": "m448"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "time",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "time",
+        "p": "m449",
+        "val": "m449"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "vender",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "vender",
+        "p": "m460",
+        "val": "m460"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "bc",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "bc",
+        "p": "m461",
+        "val": "m461"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "mid",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "mid",
+        "p": "m462",
+        "val": "m462"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "model",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "model",
+        "p": "m463",
+        "val": "m463"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "series",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "series",
+        "p": "m464",
+        "val": "m464"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "brand",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "brand",
+        "p": "m465",
+        "val": "m465"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "catalog",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "catalog",
+        "p": "m466",
+        "val": "m466"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "country",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "country"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "hid",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "hid",
+        "p": "m468",
+        "val": "m468"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "mac",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "mac",
+        "p": "020000000001",
+        "val": "020000000001"
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": "ver",
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": "ver",
+        "p": "m470",
+        "val": "m470"
+      }
+    },
+    {
+      "operation": "status",
+      "request": [
+        "country",
+        "Pow",
+        "Pow",
+        "hid",
+        "unknown"
+      ],
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": [
+          "country",
+          "Pow",
+          "Pow",
+          "hid"
+        ],
+        "dat": [
+          0.0,
+          0.0,
+          "m468"
+        ]
+      }
+    },
+    {
+      "operation": "cmd",
+      "request": [
+        "country",
+        "Pow",
+        "Pow",
+        "hid",
+        "unknown"
+      ],
+      "response": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200.0,
+        "opt": [
+          "country",
+          "Pow",
+          "Pow",
+          "hid"
+        ],
+        "p": [
+          0.0,
+          0.0,
+          "m468"
+        ],
+        "val": [
+          0.0,
+          0.0,
+          "m468"
+        ]
+      }
+    },
+    {
+      "operation": "status",
+      "request": [
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow",
+        "Pow"
+      ],
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": [],
+        "dat": []
+      }
+    },
+    {
+      "operation": "status",
+      "request": [
+        "Pow",
+        "",
+        "hid"
+      ],
+      "response": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200.0,
+        "cols": [
+          "Pow"
+        ],
+        "dat": [
+          0.0
+        ]
+      }
+    }
+  ],
+  "native_u16": [
+    {
+      "operation": "original-u16-store",
+      "name": "TemSen",
+      "requested": -1,
+      "stored": 65535,
+      "instructions": 4
+    },
+    {
+      "operation": "original-u16-store",
+      "name": "TemSen",
+      "requested": 0,
+      "stored": 0,
+      "instructions": 4
+    },
+    {
+      "operation": "original-u16-store",
+      "name": "TemSen",
+      "requested": 65536,
+      "stored": 0,
+      "instructions": 4
+    },
+    {
+      "operation": "original-u16-store",
+      "name": "TemSen",
+      "requested": 65537,
+      "stored": 1,
+      "instructions": 4
+    },
+    {
+      "operation": "original-u16-store",
+      "name": "TemSen",
+      "requested": 305419896,
+      "stored": 22136,
+      "instructions": 4
+    }
+  ],
+  "schedule_transactions": [
+    {
+      "name": "empty-query",
+      "index": 0,
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 10
+      },
+      "stage": 7,
+      "reply": {
+        "t": "listT",
+        "total": 0,
+        "index": 0,
+        "list": []
+      }
+    },
+    {
+      "name": "top-level-mac-does-not-populate-nested-timer-mac",
+      "index": 0,
+      "request": {
+        "t": "setT",
+        "id": 3,
+        "mac": "020000000001",
+        "name": "no-write"
+      },
+      "stage": 0
+    },
+    {
+      "name": "set-id3-nested-mac-gate",
+      "index": 0,
+      "request": {
+        "t": "setT",
+        "id": 3,
+        "name": "first",
+        "enable": 0,
+        "hr": 6,
+        "min": 8,
+        "sec": 9,
+        "week": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "Pow"
+            ],
+            "p": [
+              -1
+            ]
+          }
+        ]
+      },
+      "stage": 6,
+      "reply": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "name": "set-id0",
+      "index": 0,
+      "request": {
+        "t": "setT",
+        "id": 0,
+        "name": "second",
+        "enable": 256,
+        "hr": 262,
+        "min": 264,
+        "sec": 265,
+        "week": [
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "Pow"
+            ],
+            "p": [
+              1
+            ]
+          }
+        ]
+      },
+      "stage": 6,
+      "reply": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "name": "query-fixed-id-range-sorts-not-insertion",
+      "index": 0,
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 4
+      },
+      "stage": 7,
+      "reply": {
+        "t": "listT",
+        "total": 2,
+        "index": 0,
+        "list": [
+          {
+            "id": 0,
+            "name": "second",
+            "enable": 0,
+            "hr": 6,
+            "min": 8,
+            "sec": 9,
+            "week": [
+              255,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cmd": [
+              {
+                "mac": [
+                  "020000000001"
+                ],
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  1
+                ]
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "name": "first",
+            "enable": 0,
+            "hr": 6,
+            "min": 8,
+            "sec": 9,
+            "week": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cmd": [
+              {
+                "mac": [
+                  "020000000001"
+                ],
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  255
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "update-uninitialized-id-inserts",
+      "index": 0,
+      "request": {
+        "t": "updateT",
+        "id": 1,
+        "name": "partial",
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "unknown"
+            ],
+            "p": [
+              9
+            ]
+          }
+        ]
+      },
+      "stage": 6,
+      "reply": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "name": "full-index256-is-not-zero",
+      "index": 256,
+      "request": {
+        "t": "deleteT",
+        "id": 3
+      },
+      "stage": 0
+    },
+    {
+      "name": "delete-unused-id-still-success",
+      "index": 0,
+      "request": {
+        "t": "deleteT",
+        "id": 9
+      },
+      "stage": 6,
+      "reply": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "name": "delete-id3",
+      "index": 0,
+      "request": {
+        "t": "deleteT",
+        "id": 3
+      },
+      "stage": 6,
+      "reply": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "name": "query-hole-remains",
+      "index": 0,
+      "request": {
+        "t": "queryT",
+        "index": 3,
+        "count": 1
+      },
+      "stage": 7,
+      "reply": {
+        "t": "listT",
+        "total": 2,
+        "index": 3,
+        "list": []
+      }
+    }
+  ],
+  "binary_reports": {
+    "origin": "Original disassembly a0d700: a0d766..a0d7ae, a0d7c6..a0d7df, a0d8de..a0d96c, a0d97d..a0d9c6, a0d9dc..a0db7a. AES is a standard primitive substitution, not native ROM execution. Source original sends199 electricity bytes and71 TDS bytes.",
+    "policy": "Stationary raw report/cache bytes and peer MAC buffer are zero. Source initialized counter45e800=0, counter45e7f8=1, time2016-12-22 00:00:00. Local MAC occupies offsets4 and16. Header length39, generic-key AES ECB PKCS7 payload, no JSON/base64/LF. No calibration implied.",
+    "vectors": [
+      {
+        "names": [
+          "ElcDatHor",
+          "ElcDatDte",
+          "ElcDatMth"
+        ],
+        "payload_length": 157,
+        "frame_length": 199,
+        "plaintext_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "frame_hex": "666700a002000000000100000000000002000000000100000000000000010100100c16000000028d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28d4b28211b45923dc2b31310ae77a0b28b5a9e3160509c07fe11ca78cc697fb0"
+      },
+      {
+        "names": [
+          "WatLine"
+        ],
+        "payload_length": 24,
+        "frame_length": 71,
+        "plaintext_hex": "000000000000000000000000000000000000000000000000",
+        "frame_hex": "6667002002000000000100000000000002000000000100000000000000010100100c16000000028d4b28211b45923dc2b31310ae77a0b2367c8c608bff46e246d86f11c7c048e8"
+      }
+    ]
+  }
+}

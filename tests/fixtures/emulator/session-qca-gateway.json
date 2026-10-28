@@ -1,11 +1,11 @@
 {
-  "profile": "sim-w06av-v30",
+  "profile": "sim-w06bv-v20",
   "mid": "60",
-  "source_sha256": "6b52f31a74a74c5a88f3d8b68f8b4afc89fcd8d59e3d11a287a4ec37825bf79b",
+  "source_sha256": "c449e08599008f5250e96d5c77c24a0d10ac9e1a495c45c62526bfa9e8ecaadb",
   "evidence": {
-    "native_protocol": "W06AV30 byte-matched discovery0xa138c8,bind0xa13c04,reply envelope0xa0b49c..b513,enumeration0xa139fc/request0xa145b8,command parser0xa13f24/builder0xa13608,status0xa13200. Crypto and hashes:https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/gateway_research.json.",
-    "model_contract": "Explicitly synthetic common AC controls; no physical cache/frame emulation. TemBody=floor(room_c),clamp0..255, NOT a proved hardware Celsius encoding. SetTem integerC16..30. Unsupported known/nonmodeled fields omitted; truly unknown names return empty string as MODEL POLICY, not replayed native dat rendering.",
-    "independence": "Expected metadata obtained from actual firmware instruction replay; model expectations are explicit literal contract values recorded before implementation; never generated from emulator/client."
+    "source": "session-qca_research.json:c449e0859900; scan/bindOk/enum offsets0,1,5,7/command/status_request and ECB/PKCS7. Max count100 is source lookup bound, unlike AV255.",
+    "independence": "Native scan/bind/enumeration shapes plus pre-existing literal common-AC model contract; no emulator/client-generated expectations.",
+    "model_policy": "Synthetic persistent raw byte/LE16 board cache, no thermal model or physical calibration. Default ordinary SetTem24, other raw readouts0. Whole-batch strict int32/converter validation and reply preflight are safe model policy. Full namespace/width source evidence in session-qca-gateway-quirks_research.json."
   },
   "device": {
     "id": "gateway",
@@ -15,38 +15,73 @@
   },
   "children": [
     {
-      "profile": "sim-w06av-v30-ac", "mid": "6049",
-      "device": {"id": "child-1", "mac": "02000000000001", "name": "Indoor 1", "room_c": 22, "ambient_c": 22},
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "6049",
+      "device": {
+        "id": "child-1",
+        "mac": "02000000000001",
+        "name": "Indoor 1"
+      },
       "initial_state": {}
     },
     {
-      "profile": "sim-w06av-v30-ac", "mid": "604a",
-      "device": {"id": "child-2", "mac": "02000000000002", "name": "Indoor 2", "room_c": 22, "ambient_c": 22},
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-2",
+        "mac": "02000000000002",
+        "name": "Indoor 2"
+      },
       "initial_state": {}
     },
     {
-      "profile": "sim-w06av-v30-ac", "mid": "604b",
-      "device": {"id": "child-3", "mac": "02000000000003", "name": "Indoor 3", "room_c": 22, "ambient_c": 22},
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604b",
+      "device": {
+        "id": "child-3",
+        "mac": "02000000000003",
+        "name": "Indoor 3"
+      },
       "initial_state": {}
     },
     {
-      "profile": "sim-w06av-v30-ac", "mid": "604c",
-      "device": {"id": "child-4", "mac": "02000000000004", "name": "Indoor 4", "room_c": 22, "ambient_c": 22},
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604c",
+      "device": {
+        "id": "child-4",
+        "mac": "02000000000004",
+        "name": "Indoor 4"
+      },
       "initial_state": {}
     },
     {
-      "profile": "sim-w06av-v30-ac", "mid": "605c",
-      "device": {"id": "child-5", "mac": "02000000000005", "name": "Indoor 5", "room_c": 22, "ambient_c": 22},
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "605c",
+      "device": {
+        "id": "child-5",
+        "mac": "02000000000005",
+        "name": "Indoor 5"
+      },
       "initial_state": {}
     },
     {
-      "profile": "sim-w06av-v30-ac", "mid": "608f",
-      "device": {"id": "child-6", "mac": "02000000000006", "name": "Indoor 6", "room_c": 22, "ambient_c": 22},
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "608f",
+      "device": {
+        "id": "child-6",
+        "mac": "02000000000006",
+        "name": "Indoor 6"
+      },
       "initial_state": {}
     },
     {
-      "profile": "sim-w06av-v30-ac", "mid": "6092",
-      "device": {"id": "child-7", "mac": "02000000000007", "name": "Indoor 7", "room_c": 22, "ambient_c": 22},
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "6092",
+      "device": {
+        "id": "child-7",
+        "mac": "02000000000007",
+        "name": "Indoor 7"
+      },
       "initial_state": {}
     }
   ],
@@ -253,7 +288,7 @@
         ],
         "p": [
           0,
-          31
+          true
         ]
       },
       "key": "0123456789abcdef"
@@ -294,6 +329,141 @@
         ]
       },
       "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 1
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "hid"
+        ]
+      },
+      "key": "fedcba9876543210"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000099"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000001",
+        "opt": [
+          "Pow",
+          "FanMod"
+        ],
+        "p": [
+          0,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000001",
+        "cols": [
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow",
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
     }
   ],
   "expected_replies": [
@@ -320,7 +490,7 @@
           "vender": "1",
           "ver": "V1.1.0.0",
           "lock": 0.0,
-          "hid": "362001067012+U-W06AV30.bin",
+          "hid": "362001067524+U-W06BV20.bin",
           "subCnt": 7
         }
       }
@@ -484,7 +654,7 @@
             1,
             1,
             22,
-            22,
+            0,
             "",
             1
           ]
@@ -512,7 +682,7 @@
           "dat": [
             0,
             24,
-            22
+            0
           ]
         }
       }
@@ -541,114 +711,59 @@
           ]
         }
       }
-    ]
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 7,
+          "i": 1,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000002",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000003",
+              "mid": "604b"
+            },
+            {
+              "mac": "02000000000004",
+              "mid": "604c"
+            },
+            {
+              "mac": "02000000000005",
+              "mid": "605c"
+            },
+            {
+              "mac": "02000000000006",
+              "mid": "608f"
+            }
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    []
   ],
   "expected_state": {},
   "expected_children": {
-    "02000000000001": {
-      "Pow": 1,
-      "Mod": 1,
-      "SetTem": 22,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000002": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000003": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000004": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000005": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000006": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000007": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    }
+    "02000000000001": {},
+    "02000000000002": {},
+    "02000000000003": {},
+    "02000000000004": {},
+    "02000000000005": {},
+    "02000000000006": {},
+    "02000000000007": {}
   }
 }

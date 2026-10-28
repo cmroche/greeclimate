@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile": "sim-zts31a-v310-host",
+  "source_sha256": "e90804f455d9c6a93e9c56e6b3da6f78f4f64a5ab960bf6fb3b0d9b6bff295a1",
+  "package_sha256": "5ba439396454e99496d2de6744cf26769ca2c70a43bb5a0b116925936f5eb0bc",
+  "hid": "362001068423+ZTS31AV3.10.img",
+  "mid": "70501",
+  "mac": "020000000001",
+  "host_key": "fedcba9876543210",
+  "peer_key": "0123456789abcdef",
+  "second_key": "abcdef0123456789",
+  "peer": "020000000002",
+  "second_peer": "020000000003",
+  "miniApp_UBind": {"t":"UBind","mid":"70205","ver":"V1","hid":"synthetic-miniApp","idSync":1},
+  "miniApp_UBindok": {"t":"UBindok","mac":"020000000001","mid":"70501","hid":"362001068423+ZTS31AV3.10.img","ver":"V3.2.MF","orderID":"synthetic-zts31a","fastconMac":"020000000001","key":"fedcba9876543210","devCnt":0,"Gnetkey":"","fIdList":[0],"bIdList":[],"mappVer":0},
+  "peer_UBind": {"t":"UBind","mid":"807001","ver":"V1","hid":"synthetic-peer","devkey":"0123456789abcdef","lock":-1,"scene":258,"GnetID":65537},
+  "peer_UBindok": {"t":"UBindok","mac":"020000000001","mid":"70501","hid":"362001068423+ZTS31AV3.10.img","ver":"V3.2.MF","roomId":0},
+  "root_columns": ["host","ver","hid","mid","rssi","time","active","TemSen","hid"],
+  "miniApp_root_columns": ["host","ver","hid","mid","time","active","hid"],
+  "miniApp_root_values": ["synthetic.invalid","V3.2.MF","362001068423+ZTS31AV3.10.img","70501","2026-01-01 00:00:00",0,"362001068423+ZTS31AV3.10.img"],
+  "rssi_values": [-2147483648,-128,-1,0,127,2147483647],
+  "qualification": "Literal expectations independently transcribed from exact original request_handle_UBind/status/hb/configStatus and peer adapter; synthetic cache values are not vendor defaults or native full-session observations"
+}

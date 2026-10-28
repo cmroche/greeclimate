@@ -1,8 +1,12 @@
-"""W04H LAN framing around an explicitly synthetic, model-limited appliance."""
+"""W04H complete named uint16 cache and metadata; appliance physics is synthetic."""
 
+from copy import deepcopy
+from datetime import datetime, timedelta
 import json
+from math import isfinite
+from time import monotonic
 
-from ..wire import InvalidPacket, Reply, decode_pack
+from ..wire import InvalidPacket, Reply, decode_pack, encode_reply
 from . import Profile, simulated
 
 
@@ -10,7 +14,7 @@ GENERIC_KEY = b"a3K8Bx%2r8Y7#xDh"
 CODEC = "aes-ecb-pkcs7"
 HID = "362001061060+U-W04HV3.55.bin"
 SOURCE_SHA256 = "17b1c7812a3f98fa1e800e786b37606d842ebbf0b38a25c0ec5c173fcaaa9f2e"
-# The firmware's finite lookup table distinguishes omitted model fields from unsafe unknowns.
+# Original first-match lookup: numeric slots0..444, metadata445..475.
 KNOWN_FIELDS = frozenset("""
 Pow Mod SetTem WdSpd Tur Quiet SwUpDn SwingLfRig Add0.5 TemUn TemRec Lig Air Blo
 Health SvSt SwhSw HeatCoolType StHt LTemDry Wet SwhSlp SlpMod HasTmr TmrLpTms
@@ -44,6 +48,27 @@ RoomHigh CoolNoise HeatNoise rssi ElcErg ElcGear Elc1Kwh AutoUpdate AutoComnClou
 lock apssid appsw host name time lat lon vender bc mid model series brand catalog
 country hid mac ver HidSvrVer InHid InHidSvrVer OEEPHid OEEPHidSvrVer
 """.split())
+METADATA_FIELDS = frozenset("""
+apssid appsw host name time lat lon vender bc mid model series brand catalog
+country hid mac ver HidSvrVer InHid InHidSvrVer OEEPHid OEEPHidSvrVer
+""".split())
+CONTROL_FIELDS = KNOWN_FIELDS - METADATA_FIELDS
+TEXT_BOUNDS = {"apssid": (1, 32), "appsw": (0, 32), "host": (1, 20),
+               "lat": (1, 10), "lon": (1, 10), "name": (0, 63)}
+
+
+def _runtime(device, state, now):
+    return state.setdefault("_runtime", {
+        "name": device.name, "host": "", "lat": "", "lon": "",
+        "apssid": "", "appsw": "", "clock": "2026-01-01 00:00:00",
+        "clock_origin": now,
+    })
+
+
+def _integer(value):
+    if type(value) not in (int, float) or (type(value) is float and not isfinite(value)):
+        raise InvalidPacket("W04H numeric controls require finite JSON numbers")
+    return max(-(1 << 31), min((1 << 31) - 1, int(value))) & 65535
 
 
 def _envelope(device, index, uid, peer):
@@ -51,9 +76,17 @@ def _envelope(device, index, uid, peer):
             "cid": device.mac, "tcid": peer}
 
 
-def _metadata(device):
+def _metadata(device, runtime, now):
+    try:
+        clock = datetime.strptime(runtime["clock"], "%Y-%m-%d %H:%M:%S") + timedelta(
+            seconds=max(0, int(now - runtime["clock_origin"])))
+    except (ValueError, OverflowError) as exc:
+        raise InvalidPacket("W04H synthetic calendar is out of range") from exc
+    # Other recognized footer fields append a column but no data in the original.
     return {"hid": HID, "mid": device.mid, "ver": "V3.0.0", "vender": "2",
-            "name": device.name, "mac": device.mac, "host": "", "bc": "00000"}
+            "name": device.name, "mac": device.mac, "host": runtime["host"], "bc": "00000",
+            "lat": runtime["lat"], "lon": runtime["lon"], "InHid": "", "OEEPHid": "",
+            "time": clock.strftime("%Y-%m-%d %H:%M:%S"), "rssi": -51}
 
 
 def _reply(device, inner, index, uid, peer):
@@ -66,21 +99,23 @@ def _reply(device, inner, index, uid, peer):
 
 class W04H:
     def validate_state(self, state):
-        simulated.validate_state(state)
+        for name, value in state.items():
+            if name.startswith("_"):
+                continue
+            if name not in CONTROL_FIELDS or type(value) is not int or not 0 <= value <= 65535:
+                raise ValueError("W04H state requires named unsigned16 cache values")
 
     def thermal_target(self, device):
         return simulated.thermal_target(device)
 
     def encode_room(self, device):
-        simulated.encode_room(device, 40, 255)
+        simulated.encode_room(device, 40, 65535)
 
     def advertise(self, device, outer):
-        metadata = _metadata(device)
-        inner = {"t": "dev", "cid": "", "bc": metadata["bc"], "hid": HID,
-                 "catalog": "gree", "mid": device.mid, "lock": 0,
+        inner = {"t": "dev", "cid": "", "bc": "00000", "hid": HID,
+                 "catalog": "gree", "mid": device.mid, "lock": device.state["lock"],
                  "model": "gree", "name": device.name, "series": "gree",
-                 "vender": metadata["vender"], "ver": metadata["ver"],
-                 "brand": "gree", "mac": device.mac}
+                 "vender": "2", "ver": "V3.0.0", "brand": "gree", "mac": device.mac}
         return [_reply(device, inner, 1, device.state["_uid"], device.state["_peer"])]
 
     def handle(self, device, outer):
@@ -95,6 +130,11 @@ class W04H:
                 raise InvalidPacket("conflicting W04H inner identity")
         uid = outer.get("uid", device.state["_uid"])
         peer = outer.get("cid", device.state["_peer"])
+        if type(uid) is not int or not isinstance(peer, str) or len(peer.encode()) >= 20 or "\0" in peer:
+            raise InvalidPacket("invalid W04H peer route")
+        now = monotonic()
+        state = deepcopy(device.state)
+        runtime = _runtime(device, state, now)
         kind = inner.get("t")
         if kind == "bind":
             if inner.get("mac") != device.mac:
@@ -103,39 +143,62 @@ class W04H:
                                     "key": device.key.decode("ascii")}, 1, uid, peer)
         elif kind == "status":
             columns = inner.get("cols")
-            if not isinstance(columns, list) or len(columns) > 30:
+            if (not isinstance(columns, list) or len(columns) > 30
+                    or any(not isinstance(field, str) for field in columns)):
                 raise InvalidPacket("invalid W04H status columns")
-            if any(not isinstance(field, str) for field in columns):
-                raise InvalidPacket("W04H status columns must be strings")
             requested = []
             for field in columns:
-                if not field or len(field.encode()) >= 16:
+                if not field or len(field.encode()) >= 16 or "\0" in field:
                     break
                 requested.append(field)
             if len(requested) == 30:
                 requested.clear()
             if any(field not in KNOWN_FIELDS for field in requested):
                 raise InvalidPacket("unsafe unknown W04H field")
-            metadata = _metadata(device)
-            values = {**metadata, **{key: value for key, value in device.state.items()
-                                     if not key.startswith("_")}}
-            selected = [field for field in requested if field in values]
+            metadata = _metadata(device, runtime, now)
+            values = {**state, **metadata}
             reply = _reply(device, {"t": "dat", "mac": device.mac, "r": 200,
-                                    "cols": selected, "dat": [values[field] for field in selected]},
-                           0, uid, peer)
+                                    "cols": requested, "dat": [values[field] for field in requested
+                                                              if field in values]}, 0, uid, peer)
         elif kind == "cmd":
             options, values = inner.get("opt"), inner.get("p")
-            if not isinstance(options, list) or not isinstance(values, list) or len(options) != len(values):
+            if (not isinstance(options, list) or not isinstance(values, list)
+                    or len(options) != len(values) or len(options) > 30):
                 raise InvalidPacket("invalid W04H command arrays")
-            if len(options) > 30:
-                raise InvalidPacket("simulated W04H command batch exceeds 30 fields")
-            if any(not isinstance(field, str) or field not in KNOWN_FIELDS for field in options):
-                raise InvalidPacket("unsafe unknown W04H command field")
+            effective = []
+            for field, value in zip(options, values):
+                if not isinstance(field, str) or field not in KNOWN_FIELDS:
+                    raise InvalidPacket("unsafe unknown W04H command field")
+                if field in CONTROL_FIELDS:
+                    state[field] = _integer(value)
+                elif field in TEXT_BOUNDS and isinstance(value, str):
+                    lower, upper = TEXT_BOUNDS[field]
+                    # Safe bound replaces the original unchecked name/temporary-buffer copy.
+                    if "\0" in value or not lower <= len(value.encode()) <= upper:
+                        raise InvalidPacket("invalid W04H metadata string")
+                    runtime[field] = value
+                elif field == "time" and isinstance(value, str):
+                    try:
+                        calendar = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+                    except ValueError as exc:
+                        raise InvalidPacket("invalid W04H calendar") from exc
+                    runtime["clock"], runtime["clock_origin"] = calendar.strftime("%Y-%m-%d %H:%M:%S"), now
+                metadata = _metadata(device, runtime, now)
+                if field in CONTROL_FIELDS:
+                    effective.append(state[field])
+                elif field in metadata:
+                    effective.append(metadata[field])
             reply = _reply(device, {"t": "res", "mac": device.mac, "r": 200,
-                                    "opt": options, "p": values}, 0, uid, peer)
-            simulated.apply_command(device, options, values)
+                                    "opt": options, "p": effective}, 0, uid, peer)
         else:
             return []
+        encode_reply(reply)
+        # Chosen atomic cache/board simulation; original UART completion is not a full boot.
+        device.advance(now)
+        if kind == "cmd":
+            device.state = state
+        else:
+            device.state["_runtime"] = runtime
         device.state["_uid"], device.state["_peer"] = uid, peer
         return [reply]
 
@@ -143,7 +206,7 @@ class W04H:
 HANDLER = W04H()
 PROFILES = (Profile(
     id="sim-w04h-v3.55", mids=("10001",), hid=HID, source_sha256=SOURCE_SHA256,
-    initial_state={**{name: value for name, value in simulated.INITIAL_STATE.items()
-                      if name in KNOWN_FIELDS}, "_uid": 0, "_peer": ""}, handler=HANDLER,
+    initial_state={**dict.fromkeys(CONTROL_FIELDS, 0), "SetTem": 24, "Lig": 1,
+                   "_uid": 0, "_peer": ""}, handler=HANDLER,
     max_request_bytes=1024,
 ),)

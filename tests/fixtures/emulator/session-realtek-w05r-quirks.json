@@ -1,0 +1,333 @@
+{
+  "profile": "sim-w05r-v2.35",
+  "mid": "80221",
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "ConBtnNum",
+          "AddButton",
+          "ConBtnName"
+        ],
+        "p": [
+          1,
+          1,
+          "new-name"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "RefBtnList",
+          "ConBtnName",
+          "RefBtnList"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Studied",
+          "Electnumzero",
+          "SendButton"
+        ],
+        "p": [
+          2,
+          1,
+          -1
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Studied",
+          "Electnumzero",
+          "SendButton"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "DelButton"
+        ],
+        "p": [
+          1
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "RefBtnList"
+        ]
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "ConBtnNum",
+            "AddButton",
+            "ConBtnName"
+          ],
+          "p": [
+            1,
+            26,
+            1,
+            "new-name"
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "RefBtnList",
+            "ConBtnName",
+            "RefBtnList"
+          ],
+          "dat": [
+            [
+              1
+            ],
+            [
+              "new-name"
+            ],
+            0,
+            [
+              1
+            ],
+            [
+              "new-name"
+            ]
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Studied",
+            "Electnumzero",
+            "SendButton"
+          ],
+          "p": [
+            2,
+            0,
+            65535
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Studied",
+            "Electnumzero",
+            "SendButton"
+          ],
+          "dat": [
+            0,
+            0,
+            65535
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "DelButton"
+          ],
+          "p": [
+            26
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "RefBtnList"
+          ],
+          "dat": [
+            [],
+            []
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 0,
+    "Mod": 0,
+    "SwhSlp": 0,
+    "SwhSw": 0,
+    "WdSpd": 0,
+    "SetTem": 0,
+    "Blo": 0,
+    "Health": 0,
+    "Lig": 0,
+    "Air": 0,
+    "SwUpDn": 0,
+    "SwingLfRig": 0,
+    "SvSt": 0,
+    "SlpMod": 0,
+    "Tur": 0,
+    "Quiet": 0,
+    "StHt": 0,
+    "IntradayElect": 0,
+    "IntradayElectPow": 0,
+    "IntradayElectLim": 0,
+    "AutoPowDown": 0,
+    "ProTimeReminder": 0,
+    "RealTimePower": 0,
+    "AppTimer": 0,
+    "ProTimeLen": 0,
+    "ProTimePow": 0,
+    "Studied": 0,
+    "AddButton": 1,
+    "ConBtnNum": 1,
+    "ConBtnName": 0,
+    "DelButton": 1,
+    "SendButton": 65535,
+    "Electnumzero": 0
+  },
+  "provenance": "Independent source callback/scene literals from corrected RealtekControllers full sweep and g_scene_probe.py/r_action_probe.py; synthetic finite atomic R response and in-memory flash/queues. Original R NULL tail and flash platform stops remain qualifiers; no physical IR/BLE claim. Clock intentionally excluded from process-timing-sensitive vectors."
+}

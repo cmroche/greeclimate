@@ -1,0 +1,53 @@
+{
+  "profile": "sim-w06a-p3-v5.08-9300",
+  "mid": "9300",
+  "source_sha256": "07cfbe377aadee70b1bf4576bdd3a4013f7b2d4b014e9757ec036bc1dbcfe1fb",
+  "evidence": {
+    "source": "session-qca-atw-quirks_research.json; setters0xa0d358/0xa0d598 and status0xa0b68c; parent bounded instruction replay.",
+    "independence": "Literal requested/staged boundary values derived from source signed32 input and low-byte storage, not calculated by emulator/client.",
+    "model_policy": "Strict atomic parser; selected-medium consumer-compatible temperature is synthetic. New raw channels default0 without physical units. Unknown Mod8 is idle, Reset15 is not a restart, and Emegcy staging6 is distinct from report22."
+  },
+  "device": {"room_c": 26, "ambient_c": 26},
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {"t": "pack", "i": 0, "uid": 17, "cid": "peer", "tcid": "020000000001"},
+      "inner": {"t": "cmd", "opt": ["FastHtWter", "ColHtWter", "HetHtWter", "TemUn", "SvSt", "Quiet", "Emegcy", "LefHom", "Mod", "SwDisFct", "CoWatOutTemSet", "HeWatOutTemSet", "CoHomTemSet", "HeHomTemSet", "WatBoxTemSet", "Reset", "AllErr", "Pow", "TemRec", "TemRecB"], "p": [256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275]},
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {"t": "pack", "i": 0, "uid": 17, "cid": "peer", "tcid": "020000000001"},
+      "inner": {"t": "status", "mac": "020000000001", "cols": ["FastHtWter", "ColHtWter", "HetHtWter", "TemUn", "SvSt", "Quiet", "Emegcy", "LefHom", "Mod", "SwDisFct", "CoWatOutTemSet", "HeWatOutTemSet", "CoHomTemSet", "HeHomTemSet", "WatBoxTemSet", "Reset", "AllErr", "Pow", "TemRec", "TemRecB"]},
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {"t": "pack", "i": 0, "uid": 17, "cid": "peer", "tcid": "020000000001"},
+      "inner": {"t": "cmd", "opt": ["Pow", "Pow", "Pow"], "p": [255, 256, 257]},
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {"t": "pack", "i": 0, "uid": 17, "cid": "peer", "tcid": "020000000001"},
+      "inner": {"t": "cmd", "opt": ["Pow", "HepOutWatTemLo"], "p": [0, 255]},
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {"t": "pack", "i": 0, "uid": 17, "cid": "peer", "tcid": "020000000001"},
+      "inner": {"t": "status", "mac": "020000000001", "cols": ["Pow", "Emegcy", "Pow", "AllErr", "Reset", "EnvironmentTem", "GetEr", "FlagPool"]},
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {"t": "pack", "i": 0, "uid": 17, "cid": "peer", "tcid": "020000000001"},
+      "inner": {"t": "status", "mac": "020000000001", "cols": ["SwhWifi", "hid", "lat", "rssi", "time", "ModelType", "SwhWifi"]},
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [{"outer": {"t": "pack", "i": 0, "uid": 17, "cid": "020000000001", "tcid": "peer"}, "inner": {"t": "res", "r": 200, "opt": ["FastHtWter", "ColHtWter", "HetHtWter", "TemUn", "SvSt", "Quiet", "Emegcy", "LefHom", "Mod", "SwDisFct", "CoWatOutTemSet", "HeWatOutTemSet", "CoHomTemSet", "HeHomTemSet", "WatBoxTemSet", "Reset", "AllErr", "Pow", "TemRec", "TemRecB"], "p": [256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275], "val": [256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 17, "cid": "020000000001", "tcid": "peer"}, "inner": {"t": "dat", "r": 200, "mac": "020000000001", "cols": ["FastHtWter", "ColHtWter", "HetHtWter", "TemUn", "SvSt", "Quiet", "Emegcy", "LefHom", "Mod", "SwDisFct", "CoWatOutTemSet", "HeWatOutTemSet", "CoHomTemSet", "HeHomTemSet", "WatBoxTemSet", "Reset", "AllErr", "Pow", "TemRec", "TemRecB"], "dat": [0, 1, 2, 3, 4, 5, 0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 17, "cid": "020000000001", "tcid": "peer"}, "inner": {"t": "res", "r": 200, "opt": ["Pow", "Pow", "Pow"], "p": [255, 256, 257], "val": [255, 256, 257]}}],
+    [],
+    [{"outer": {"t": "pack", "i": 0, "uid": 17, "cid": "020000000001", "tcid": "peer"}, "inner": {"t": "dat", "r": 200, "mac": "020000000001", "cols": ["Pow", "Emegcy", "Pow", "AllErr", "Reset", "EnvironmentTem", "GetEr"], "dat": [1, 0, 1, 16, 15, 0, 0]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 17, "cid": "020000000001", "tcid": "peer"}, "inner": {"t": "dat", "r": 200, "mac": "020000000001", "cols": ["SwhWifi", "hid", "lat", "rssi", "time", "ModelType", "SwhWifi"], "dat": ["362001066763+W06A(P3)V5.08.bin", -1, "1970-01-01 00:00:00", ""]}}]
+  ],
+  "expected_state": {"FastHtWter": 0, "ColHtWter": 1, "HetHtWter": 2, "SvSt": 4, "Quiet": 5, "Emegcy": 6, "LefHom": 7, "SwDisFct": 9, "Reset": 15, "AllErr": 16, "TemRec": 18, "TemRecB": 19, "Pow": 1, "TemUn": 3, "Mod": 8, "CoWatOutTemSet": 10, "HeWatOutTemSet": 11, "WatBoxTemSet": 14, "CoHomTemSet": 12, "HeHomTemSet": 13, "RmoHomTemHi": 126, "RmoHomTemLo": 0}
+}

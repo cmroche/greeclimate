@@ -1,0 +1,514 @@
+{
+  "schema_version": 1,
+  "boundary": "Literal expectations derive from exact original-byte-qualified callbacks and producer/formatter translations, never emulator/client output. Zero raw coordinates/occupancy/RSSI and valid synthetic UART flags are declared synthetic, uncalibrated readouts; formatter shape and sentinels are source-known. Refresh timing is synchronous model policy, not RTOS or physical measurement.",
+  "mac": "02000000e201",
+  "key": "0123456789abcdef",
+  "name": "synthetic-radar",
+  "builds": [
+    {
+      "profile": "sim-esp32-gr-v1.1",
+      "source_sha256": "cfb8b5e7d3c2646307384c41661ffb46eafe23ec35c7773cc657311120e0abf7",
+      "hid": "362001061890+U-ESP32_GRV1.1.bin",
+      "cols": [
+        "WorkState",
+        "count",
+        "border",
+        "JFerr",
+        "doorenable",
+        "doortotal",
+        "borderlist",
+        "host",
+        "ver",
+        "name",
+        "rssi",
+        "hid",
+        "InHid",
+        "OEEPHid",
+        "InHidDownPer",
+        "devinhidownver",
+        "induptype"
+      ],
+      "dat": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        [
+          " "
+        ],
+        "ts.dis.gree.com",
+        "V3.0.0",
+        "synthetic-radar",
+        0,
+        "362001061890+U-ESP32_GRV1.1.bin",
+        "362001062639+U-MSTWB8000AV1.0.bin",
+        "",
+        0,
+        "",
+        ""
+      ],
+      "transactions": [
+        {
+          "opt": [
+            "WorkState",
+            "installtype",
+            "doortotal"
+          ],
+          "p": [
+            3,
+            257,
+            258
+          ],
+          "ack_p": [
+            3,
+            257,
+            258
+          ],
+          "r": 200,
+          "cols": [
+            "WorkState",
+            "installtype",
+            "doortotal"
+          ],
+          "dat": [
+            1,
+            0,
+            2
+          ]
+        },
+        {
+          "opt": [
+            "ReportClientID",
+            "track",
+            "time_range",
+            "time",
+            "host"
+          ],
+          "p": [
+            "peer-1",
+            1,
+            "90",
+            "2026-01-01 00:00:00",
+            "localhost"
+          ],
+          "ack_p": [
+            "peer-1",
+            1,
+            "90",
+            "2026-01-01 00:00:00",
+            "localhost"
+          ],
+          "r": 200,
+          "cols": [
+            "ReportClientID",
+            "track",
+            "time_range",
+            "time",
+            "host"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            0,
+            "ts.dis.gree.com"
+          ]
+        },
+        {
+          "opt": [
+            "bordertype",
+            "doorindex"
+          ],
+          "p": [
+            9,
+            0
+          ],
+          "ack_opt": [
+            "bordertype",
+            "doorindex",
+            "borderout",
+            "x",
+            "y",
+            "doorposition"
+          ],
+          "ack_p": [
+            9,
+            0,
+            0,
+            0.0,
+            0.0,
+            0
+          ],
+          "r": 200,
+          "cols": [
+            "border",
+            "doorenable",
+            "count"
+          ],
+          "dat": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "opt": [
+            "unknown",
+            "count",
+            "Pow",
+            "TemSen"
+          ],
+          "p": [
+            "-7",
+            9,
+            1,
+            26
+          ],
+          "ack_p": [
+            -7,
+            9,
+            1,
+            26
+          ],
+          "r": 200,
+          "cols": [
+            "unknown",
+            "count",
+            "Pow",
+            "TemSen"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "opt": [
+            "reset"
+          ],
+          "p": [
+            1
+          ],
+          "ack_p": [
+            1
+          ],
+          "r": 200,
+          "cols": [
+            "doortotal",
+            "border",
+            "borderlist"
+          ],
+          "dat": [
+            0,
+            0,
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "sim-esp32-gr-v2.5",
+      "source_sha256": "e28d1233512b289e626c8ff9ade6a47e8a2b074fcd7e198938aae6632ba94ac9",
+      "hid": "362001061898+U-ESP32_GRV2.5.bin",
+      "cols": [
+        "WorkState",
+        "count",
+        "NumPerson",
+        "Rule",
+        "Week",
+        "timeStatus",
+        "alarmMethod",
+        "recStatus",
+        "alarmInterval",
+        "time_range",
+        "border",
+        "JFerr",
+        "doorenable",
+        "doortotal",
+        "borderlist",
+        "installtype",
+        "setinstalltype",
+        "host",
+        "ver",
+        "name",
+        "rssi",
+        "hid",
+        "InHid",
+        "OEEPHid",
+        "InHidDownPer",
+        "devinhidownver",
+        "induptype"
+      ],
+      "dat": [
+        1,
+        0,
+        0,
+        0,
+        "",
+        0,
+        0,
+        0,
+        0,
+        "",
+        0,
+        0,
+        0,
+        0,
+        {
+          "list": [
+            ""
+          ]
+        },
+        0,
+        0,
+        "dis.gree.com",
+        "V3.0.0",
+        "synthetic-radar",
+        0,
+        "362001061898+U-ESP32_GRV2.5.bin",
+        "362001062639+U-MSTWB8000AV1.0.bin",
+        "",
+        0,
+        "",
+        ""
+      ],
+      "transactions": [
+        {
+          "opt": [
+            "WorkState",
+            "timeStatus",
+            "alarmMethod",
+            "recStatus",
+            "alarmInterval"
+          ],
+          "p": [
+            259,
+            -1,
+            258,
+            257,
+            300
+          ],
+          "ack_p": [
+            259,
+            -1,
+            258,
+            257,
+            300
+          ],
+          "r": 200,
+          "cols": [
+            "WorkState",
+            "timeStatus",
+            "alarmMethod",
+            "recStatus",
+            "alarmInterval"
+          ],
+          "dat": [
+            3,
+            255,
+            2,
+            1,
+            44
+          ]
+        },
+        {
+          "opt": [
+            "Week",
+            "time_range",
+            "ReportClientID",
+            "track"
+          ],
+          "p": [
+            "1,3,7",
+            "08:15-19:45",
+            "peer-2",
+            0
+          ],
+          "ack_p": [
+            "1,3,7",
+            "08:15-19:45",
+            "peer-2",
+            0
+          ],
+          "r": 200,
+          "cols": [
+            "Week",
+            "time_range",
+            "track",
+            "count",
+            "NumPerson"
+          ],
+          "dat": [
+            "1,3,7",
+            "08:15-19:45",
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "opt": [
+            "installtype",
+            "setinstalltype",
+            "doortotal"
+          ],
+          "p": [
+            257,
+            -1,
+            258
+          ],
+          "ack_p": [
+            257,
+            -1,
+            258
+          ],
+          "r": 200,
+          "cols": [
+            "installtype",
+            "setinstalltype",
+            "doortotal"
+          ],
+          "dat": [
+            255,
+            255,
+            2
+          ]
+        },
+        {
+          "opt": [
+            "bordertype",
+            "doorindex"
+          ],
+          "p": [
+            2,
+            0
+          ],
+          "ack_opt": [
+            "bordertype",
+            "doorindex",
+            "borderout",
+            "x",
+            "y",
+            "doorposition"
+          ],
+          "ack_p": [
+            2,
+            0,
+            0,
+            0.0,
+            0.0,
+            0
+          ],
+          "r": 200,
+          "cols": [
+            "border",
+            "doorenable"
+          ],
+          "dat": [
+            0,
+            1
+          ]
+        },
+        {
+          "opt": [
+            "bordertype",
+            "GoBack"
+          ],
+          "p": [
+            2,
+            1
+          ],
+          "ack_p": [
+            2,
+            1
+          ],
+          "r": 200,
+          "cols": [
+            "border",
+            "count"
+          ],
+          "dat": [
+            0,
+            0
+          ]
+        },
+        {
+          "opt": [
+            "border",
+            "reset",
+            "unknown",
+            "Rule"
+          ],
+          "p": [
+            1,
+            1,
+            7,
+            4
+          ],
+          "ack_p": [
+            1,
+            1,
+            7,
+            4
+          ],
+          "r": 200,
+          "cols": [
+            "Rule",
+            "unknown",
+            "border",
+            "doortotal"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "safe_invalid_scalars": [
+    true,
+    false,
+    null,
+    1.5,
+    [],
+    {},
+    "1e3",
+    "1.5",
+    "2147483648"
+  ],
+  "policy": {
+    "max_properties": 32,
+    "max_name_utf8_bytes": 63,
+    "max_command_string_utf8_bytes": 31,
+    "max_reply_bytes_exclusive": 1024,
+    "atomic_validation": true,
+    "duplicate_json_members": "reject",
+    "string_escaping": "native gree_json uses unescaped sprintf string interpolation; the model always escapes JSON strings and rejects embedded NUL as explicit safe serialization policy",
+    "duplicate_properties": "preserve order; sequential writes; echoed requested p, fresh effective readback",
+    "empty_command": "native calloc-backed empty builders serialize opt and p as empty strings, not arrays",
+    "empty_status": "safe model returns empty cols/dat arrays; native zero-item builder pointers remain NULL and reach string first-byte dereference (static source inference, not observed native fault)",
+    "number_to_string": "native gree_json numeric array elements use sprintf%d before dispatch; selected string commands echo decimal strings",
+    "discovery_metadata": "UID and peer cid are cached from completed encrypted transactions; plaintext scans reuse them, ignoring scan uid/cid; malformed transactions leave model metadata unchanged",
+    "late_schedule": "normal source record scheduling normalizes WorkState>1 to3 with explicitly zero synthetic occupancy; requested p remains unchanged",
+    "native_board_queue_timeout": "r404; no appended borderout/x/y/doorposition",
+    "synthetic_board_queue_success": "r200; source ACK appends borderout,x,y and doorposition when cumulative selector slot>4. Chosen raw points0.0,0.0, position0, borderout0; valid synthetic UART flag gives late doorenable1 except source post-mode1 clearing. Late setinstalltype/mode7 suppress appended coordinates. No physical measurement claim.",
+    "unknown_status": "retain column and numeric zero; not physical sensor support",
+    "unknown_command": "echo numeric p without mutation; not supported setter",
+    "physics": "none; no fabricated people, coordinate or thermal measurement",
+    "max_doors": 5,
+    "max_board_records": 10,
+    "native_unsafe_door_count": "Native accepts uint8 through255 but owns only five door records; the model rejects effective counts>5 and out-of-range cumulative ACK/final UART indices atomically, including configuration-induced mode changes.",
+    "boundary_cache": "Early invalid-border sentinel is [\" \"] (one space); early reset clears cache to empty string. Late always emits an object; both zero-door lists use [\"\"]. Install1 emits left/right/farthest; install2 right/farthest; other install values only list. Config refresh is synchronous synthetic policy.",
+    "native_mode_timeouts": "Early modes6 and7 and late mode6 have no queue producer, retain r404. Late mode7 saves/queues successfully without appended coordinates.",
+    "module_management": "loginRes requires generic-key selector1; hbok/tm require plaintext selector2, either JSON-string pack or unwrapped. All are silent; loginRes r200 resets heartbeat timer without key replacement. Unwrapped packets retain cached UID/cid. Model validates tm calendar syntax and retains a synthetic module-time input cache; no physical clock/RTOS/cloud-reconnect execution.",
+    "ota": "Source selector0 upgrade routes are assessed; model explicitly rejects atomically, never downloads/flashes or reports a fake success.",
+    "dump_types": "Late dump parses period through numeric-to-float32 scratch and cnt through a uint8 scratch, then discards both. Safe model accepts finite JSON numeric period, bool/int32-or-decimal cnt; neither changes a property or logging configuration."
+  }
+}

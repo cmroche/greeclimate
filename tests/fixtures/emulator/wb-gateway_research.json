@@ -35,6 +35,7 @@
     "child_mid_attribution": "The independent PR hardware list contains three608f and one605c. Synthetic identities in the public vector reproduce this MID composition, not private MACs or captures. Both use the same explicitly declared sensorless model; no new physical polling or typed-client claim follows."
   },
   "simulation_policy": {
+    "scope": "This legacy sensorless policy applies to1.13/1.16/1.18/1.22/1.38 only. Exact1.31 now uses the complete finite raw category contract and independent vectors in session-wb-br131_research.json and session-wb-br131.json; no tables are generalized across builds.",
     "controls": {"Pow": [0, 1], "Mod": [0, 4], "SetTem": [16, 30], "WdSpd": [0, 5]},
     "units": "SetTem is explicitly synthetic integer Celsius, not recovered mainboard/Fahrenheit storage.",
     "state": "Each child owns a fresh cache. Validated command batches commit atomically and immediately; val reflects this model. Unknown/read-only controls are safely rejected, not acknowledged as applied. Root contains metadata only. TemSor,TemBody,TemSen and every other unmodeled appliance field return empty strings; no setpoint-as-ambient fallback.",

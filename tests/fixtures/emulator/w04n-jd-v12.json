@@ -1,0 +1,326 @@
+{
+  "profile": "sim-w04n-jd-v12",
+  "mid": "10001",
+  "source_sha256": "c83eb36cb6c285a30611cd44b6d2f9394bfdd2be6333e4a886ecf00ac2ebb256",
+  "evidence": {
+    "native_transport": "Original registered LAN/JSON/PKCS7 and source constructor callback literals; W04N/registered-transport-decoded.json; native parser strings W04N/parser-strings-native.json. Only named ROM AES/libc/NIC/RTOS primitives adapted. No business dispatch replacement.",
+    "raw": "Independent original callback/selector literal status results. Original registered-task wire values are captured in CatalogQuirks/RealtekEarly/W04N/NumericClosure/generic-field-wire-native.json: val uses the named request, not the getter. Connected mainboard/thermal defaults remain an explicit synthetic controller policy.",
+    "identity": "Exact native JD registered platform version/HID; scan and status include the qualified JD HID."
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "hid",
+          "mid",
+          "name",
+          "lock",
+          "__unknown__"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          " n a m e "
+        ],
+        "p": [
+          "Source Room"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "name",
+          "hid"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "ACStupPos",
+          "Air",
+          "Buzzer_ON_OFF"
+        ],
+        "p": [
+          255,
+          255,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "ACStupPos",
+          "Air",
+          "Buzzer_ON_OFF"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "00000",
+          "brand": "",
+          "catalog": "",
+          "mac": "020000000001",
+          "mid": "10001",
+          "model": "",
+          "name": "Emulator Office",
+          "lock": 0,
+          "series": "",
+          "vender": "",
+          "ver": "V3.0.0",
+          "hid": "362001064270+U-BL3332_JDNEWV12.bin"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 23,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "362001064270+U-BL3332_JDNEWV12.bin",
+            "10001",
+            "Emulator Office",
+            0
+          ],
+          "cols": [
+            "hid",
+            "mid",
+            "name",
+            "lock"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            "SourceRoom"
+          ],
+          "p": [
+            "SourceRoom"
+          ],
+          "opt": [
+            "name"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 23,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "SourceRoom",
+            "362001064270+U-BL3332_JDNEWV12.bin"
+          ],
+          "cols": [
+            "name",
+            "hid"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            255,
+            255,
+            1
+          ],
+          "p": [
+            255,
+            255,
+            1
+          ],
+          "opt": [
+            "ACStupPos",
+            "Air",
+            "Buzzer_ON_OFF"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 23,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            15,
+            3,
+            1
+          ],
+          "cols": [
+            "ACStupPos",
+            "Air",
+            "Buzzer_ON_OFF"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 0,
+    "ACStupPos": 15,
+    "Air": 3,
+    "Buzzer_ON_OFF": 1
+  }
+}

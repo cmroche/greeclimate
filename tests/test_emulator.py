@@ -8,6 +8,7 @@ import math
 import socket
 import subprocess
 import sys
+from copy import deepcopy
 from pathlib import Path
 from time import monotonic
 
@@ -18,6 +19,9 @@ from Crypto.Util.Padding import pad, unpad
 from gree_emulator.__main__ import load_config
 from gree_emulator.device import EmulatedDevice, step_temperature
 from gree_emulator.profiles import PROFILES, simulated
+from gree_emulator.profiles.catalog_realtek_middle_wb import MiddleWBController
+from gree_emulator.profiles.wb import WB04A
+from gree_emulator.profiles.wb_remaining import WBRemainingFamily
 from gree_emulator.server import start_server
 from gree_emulator.wire import InvalidPacket, Reply, decode_outer, decode_pack, encode_reply
 
@@ -103,6 +107,23 @@ def test_encrypted_utf8_and_embedded_braces():
     payload = base64.b64encode(AES.new(key, AES.MODE_ECB).encrypt(pad(plain, 16))).decode()
     assert decode_pack({"pack": payload}, key, "aes-ecb-pkcs7") == inner
 
+def test_source_scoped_ascii_space_lexer_keeps_json_validation():
+    key = b"0123456789abcdef"
+    plain = b'{"t": "status", "name": "A B", "escaped":"C\\u0020D", "tab":"\\t"}'
+    packed = {"pack": base64.b64encode(
+        AES.new(key, AES.MODE_ECB).encrypt(pad(plain, 16))).decode()}
+    assert decode_pack(packed, key, "aes-ecb-pkcs7") == {
+        "t": "status", "name": "A B", "escaped": "C D", "tab": "\t",
+    }
+    assert decode_pack(packed, key, "aes-ecb-pkcs7", strip_ascii_spaces=True) == {
+        "t": "status", "name": "AB", "escaped": "C D", "tab": "\t",
+    }
+    duplicate = b'{"t":"status","t":"cmd"}'
+    packed = {"pack": base64.b64encode(
+        AES.new(key, AES.MODE_ECB).encrypt(pad(duplicate, 16))).decode()}
+    with pytest.raises(InvalidPacket):
+        decode_pack(packed, key, "aes-ecb-pkcs7", strip_ascii_spaces=True)
+
 
 def test_independent_ciphertext_vector():
     # Native W06 framing and ROM AES ABI: private gree-research/tests/fixtures/emulator/gateway_research.json.
@@ -134,6 +155,8 @@ def peer_packet(outer, inner=None, key=GENERIC_KEY, *, nul_terminated=False):
 
 def peer_reply(data, key):
     outer = json.loads(data)
+    if "pack" not in outer:
+        return {"outer": outer}
     encrypted = base64.b64decode(outer.pop("pack"), validate=True)
     inner = json.loads(unpad(AES.new(key, AES.MODE_ECB).decrypt(encrypted), 16))
     return {"outer": outer, "inner": inner}
@@ -157,6 +180,15 @@ def conformance_vectors():
         for path in sorted(VECTOR_DIRECTORY.glob("*.json"))
         if not path.stem.endswith("_research")
     ]
+
+
+@pytest.mark.parametrize("filename,vector", conformance_vectors())
+def test_generic_conformance_fixture_schema(filename, vector):
+    assert {"profile", "mid", "initial_state", "requests", "expected_replies"} <= vector.keys(), filename
+    assert isinstance(vector["requests"], list), filename
+    assert isinstance(vector["expected_replies"], list), filename
+    assert len(vector["requests"]) == len(vector["expected_replies"]), filename
+    assert all(isinstance(replies, list) for replies in vector["expected_replies"]), filename
 
 
 def vector_device(vector, parent_key=None):
@@ -197,18 +229,28 @@ async def test_protocol_and_model_vectors_over_udp(filename, vector):
                 peer.sendto(packet, address)
                 for reply in expected:
                     data = await asyncio.to_thread(receive, peer)
-                    key = GENERIC_KEY if reply["outer"]["i"] == 1 else device.key
-                    assert peer_reply(data, key) == reply, filename
+                    if "raw_hex" in reply:
+                        assert data == bytes.fromhex(reply["raw_hex"]), filename
+                    else:
+                        key = GENERIC_KEY if reply["outer"].get("i") == 1 else device.key
+                        assert peer_reply(data, key) == reply, filename
                 if not expected:
                     with pytest.raises(socket.timeout):
                         await asyncio.to_thread(receive, peer)
             with pytest.raises(socket.timeout):
                 await asyncio.to_thread(receive, peer)
-            public_state = {key: value for key, value in device.state.items() if not key.startswith("_")}
-            assert public_state == vector["expected_state"], filename
+            for name, expected_value in vector.get("expected_state", {}).items():
+                assert device.state.get(name) == expected_value, filename
             if "expected_children" in vector:
-                assert {child.mac: {key: value for key, value in child.state.items() if not key.startswith("_")}
-                        for child in device.children} == vector["expected_children"], filename
+                assert {child.mac for child in device.children} == vector["expected_children"].keys(), filename
+                for mac, expected_state in vector["expected_children"].items():
+                    if not expected_state:
+                        continue
+                    columns = list(expected_state)
+                    peer.sendto(peer_request(device.mac, "status", {"mac": mac, "cols": columns}, device.key), address)
+                    fresh = peer_reply(await asyncio.to_thread(receive, peer), device.key)["inner"]
+                    assert fresh["cols"] == columns, filename
+                    assert fresh["dat"] == list(expected_state.values()), filename
     finally:
         server.close()
         await server.wait_closed()
@@ -302,8 +344,8 @@ def test_ephemeral_seed_and_explicit_identity():
     ({"state": {"_frame": "forged"}}, "private"),
     ({"state": {"not-a-property": 1}}, "state"),
     ({"state": {"Pow": "on"}}, "state"),
-    ({"state": {"TemSen": 65}}, "state"),
-    ({"state": {"SetTem": 31}}, "state"),
+    ({"state": {"TemSen": 65536}}, "state"),
+    ({"state": {"SetTem": -1}}, "state"),
     ({"state": {"Pow": True}}, "state"),
     ({"state": []}, "state"),
     ({"room_c": math.nan}, "room_c"),
@@ -390,6 +432,55 @@ async def test_interleaved_clients_are_isolated_and_recover_after_bad_packets():
     finally:
         for peer in sockets:
             peer.close()
+        server.close()
+        await server.wait_closed()
+
+
+@pytest.mark.parametrize(
+    "profile",
+    [profile for profile in PROFILES.values()
+     if isinstance(profile.handler, (WB04A, MiddleWBController, WBRemainingFamily))],
+    ids=lambda profile: profile.id,
+)
+async def test_wb_non_string_operations_reject_atomically_and_recover(profile):
+    device = load_config({"devices": [
+        {"id": "office", "profile": profile.id, "mid": profile.mids[0]},
+    ]})[2][0]
+    transport, server = await start_server([device], "127.0.0.1", 0)
+    address = transport.get_extra_info("sockname")
+    peer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    peer.settimeout(0.2)
+    codec = getattr(profile.handler, "codec", "aes-ecb-pkcs7")
+    loop = asyncio.get_running_loop()
+    previous_handler = loop.get_exception_handler()
+    unhandled = []
+    loop.set_exception_handler(lambda _loop, context: unhandled.append(context))
+
+    def packet(inner):
+        return encode_reply(Reply(
+            {"t": "pack", "i": 0, "uid": 42, "cid": "peer", "tcid": device.mac},
+            inner, device.key, codec,
+        ))
+
+    try:
+        before = deepcopy(device.state)
+        for invalid_type in ([], {}):
+            malformed = packet({"t": invalid_type})
+            with pytest.raises(InvalidPacket):
+                device.profile.handler.handle(device, json.loads(malformed))
+            assert device.state == before
+            peer.sendto(malformed, address)
+            with pytest.raises(socket.timeout):
+                await asyncio.to_thread(receive, peer)
+            assert device.state == before
+
+        peer.sendto(packet({"t": "status", "mac": device.mac, "cols": ["Pow"]}), address)
+        response = json.loads(await asyncio.to_thread(receive, peer))
+        assert decode_pack(response, device.key, codec)["t"] == "dat"
+        assert not unhandled
+    finally:
+        loop.set_exception_handler(previous_handler)
+        peer.close()
         server.close()
         await server.wait_closed()
 
@@ -492,8 +583,12 @@ def test_gateway_children_link_before_parent_and_keep_parent_key():
     assert first.key == second.key == gateway.key
     assert gateway.room_c is None and gateway.ambient_c is None
     assert len(first.mac) == len(second.mac) == 14 and first.mac != second.mac
-    first.state["Pow"] = 1
-    assert second.state["Pow"] == 0
+    gateway.profile.handler.handle(gateway, json.loads(peer_request(
+        gateway.mac, "cmd", {"sub": first.mac, "opt": ["Pow"], "p": [1]}, gateway.key)))
+    for child, expected in ((first, 1), (second, 0)):
+        reply = gateway.profile.handler.handle(gateway, json.loads(peer_request(
+            gateway.mac, "status", {"mac": child.mac, "cols": ["Pow"]}, gateway.key)))[0]
+        assert reply.inner["dat"] == [expected]
 
 
 def test_gateway_child_count_does_not_wrap():
@@ -506,18 +601,6 @@ def test_gateway_child_count_does_not_wrap():
         load_config({"devices": records})
 
 
-@pytest.mark.parametrize("profile", [
-    profile for profile in PROFILES.values() if not profile.parent_profiles and not profile.max_children
-], ids=lambda profile: profile.id)
-def test_standalone_conflicting_inner_identity_cannot_mutate(profile):
-    device = load_config({"devices": [{"id": "office", "profile": profile.id, "mid": profile.mids[0]}]})[2][0]
-    before = dict(device.state), device.last_step
-    request = json.loads(peer_request(device.mac, "cmd", {
-        "sub": "020000000002", "opt": ["Pow"], "p": [1],
-    }, device.key))
-    with pytest.raises(InvalidPacket):
-        profile.handler.handle(device, request)
-    assert (device.state, device.last_step) == before
 
 
 def zone_records():

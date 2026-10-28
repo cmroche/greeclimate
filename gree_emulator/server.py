@@ -18,6 +18,21 @@ class EmulatorServer(asyncio.DatagramProtocol):
         child_ids = {child.id for device in devices for child in device.children}
         self.roots = [device for device in devices if device.id not in child_ids]
         self.targets = {device.mac: device for device in self.roots}
+        self.raw_routes = {}
+        self.outer_routes = {}
+        for device in self.roots:
+            handler = device.profile.handler
+            decoder = getattr(handler, "decode_outer", None)
+            self.outer_routes.setdefault(decoder, []).append(device)
+            magic = getattr(handler, "datagram_magic", None)
+            if isinstance(magic, bytes) and magic and callable(
+                getattr(handler, "handle_datagram_from", None)
+            ):
+                self.raw_routes.setdefault(magic, []).append(device)
+        self.plaintext_types = frozenset(
+            kind for device in self.roots
+            for kind in getattr(device.profile.handler, "plaintext_types", ())
+        )
         self.transport = None
         self.ticker = None
         self.closed = asyncio.get_running_loop().create_future()
@@ -31,11 +46,23 @@ class EmulatorServer(asyncio.DatagramProtocol):
         self.ticker.add_done_callback(self._ticker_done)
 
     async def _tick(self):
+        intervals = [getattr(device.profile.handler, "tick_interval", 1)
+                     for device in self.devices]
+        now = time.monotonic()
+        next_ticks = [now + interval for interval in intervals]
+        interval = min(intervals, default=1)
         while True:
-            await asyncio.sleep(1)
+            await asyncio.sleep(interval)
             now = time.monotonic()
-            for device in self.devices:
+            for index, device in enumerate(self.devices):
+                if now < next_ticks[index]:
+                    continue
+                next_ticks[index] = now + intervals[index]
                 device.advance(now)
+                tick = getattr(device.profile.handler, "tick", None)
+                if tick is not None:
+                    for reply, addr in tick(device, now):
+                        self._send(reply, addr)
 
     def _ticker_done(self, task):
         # wait_closed surfaces programming errors instead of leaving a stale simulator.
@@ -43,31 +70,107 @@ class EmulatorServer(asyncio.DatagramProtocol):
 
     def datagram_received(self, data, addr):
         _LOGGER.info("RX from %s:%s (%d bytes)", *addr, len(data))
+        raw_devices = self.raw_routes.get(data[:4])
+        if raw_devices is not None:
+            replies = []
+            for device in raw_devices:
+                if getattr(device.profile.handler, "source_port", addr[1]) != addr[1]:
+                    continue
+                if (device.profile.max_request_bytes is not None
+                        and len(data) > device.profile.max_request_bytes):
+                    continue
+                try:
+                    replies.extend(device.profile.handler.handle_datagram_from(device, data, addr))
+                except InvalidPacket:
+                    continue
+            for reply in replies:
+                self._send(reply, addr)
+            return
+        for decoder, roots in self.outer_routes.items():
+            self._receive_json(data, addr, roots, decoder)
+
+    def _receive_json(self, data, addr, roots, decoder):
         try:
-            outer = decode_outer(data)
+            outer = (decode_outer(data, plaintext_types=self.plaintext_types)
+                     if decoder is None else decoder(data))
             if outer["t"] == "scan":
                 _LOGGER.info("RX payload: %r", outer)
                 if outer.get("tcid"):
                     return
-                replies = [reply for device in self.roots
-                           if device.profile.max_request_bytes is None
-                           or len(data) <= device.profile.max_request_bytes
-                           for reply in device.profile.handler.advertise(device, outer)]
+                replies = []
+                for device in roots:
+                    if (device.profile.max_request_bytes is not None
+                            and len(data) > device.profile.max_request_bytes):
+                        continue
+                    family = device.profile.handler
+                    if getattr(family, "source_port", addr[1]) != addr[1]:
+                        continue
+                    try:
+                        replies.extend(family.advertise(device, outer))
+                    except InvalidPacket:
+                        continue
+            elif outer["t"] in ("mate", "wlan") or outer["t"] in self.plaintext_types:
+                replies = []
+                for device in roots:
+                    family = device.profile.handler
+                    if getattr(family, "source_port", addr[1]) != addr[1]:
+                        continue
+                    admitted = outer["t"] in getattr(family, "plaintext_types", ())
+                    raw_dispatch = (getattr(family, "handle_plaintext_from", None)
+                                    if admitted or outer["t"] == "wlan" else None)
+                    dispatch = (getattr(family, outer["t"], None)
+                                if admitted or outer["t"] in ("mate", "wlan") else None)
+                    if dispatch is None and admitted:
+                        dispatch = family.handle
+                    if (dispatch is None and raw_dispatch is None) or (
+                        device.profile.max_request_bytes is not None
+                        and len(data) > device.profile.max_request_bytes
+                    ):
+                        continue
+                    try:
+                        if raw_dispatch is not None:
+                            replies.extend(raw_dispatch(device, outer, data, addr))
+                        else:
+                            replies.extend(dispatch(device, outer))
+                    except InvalidPacket:
+                        continue
             else:
-                device = self.targets.get(outer.get("tcid"))
-                if device is None or (
-                    device.profile.max_request_bytes is not None
-                    and len(data) > device.profile.max_request_bytes
-                ):
-                    return
-                replies = device.profile.handler.handle(device, outer)
+                target = outer.get("tcid")
+                device = self.targets.get(target)
+                candidates = [root for root in roots
+                              if root is device
+                              or getattr(root.profile.handler, "accept_any_target", False)
+                              or (target == "" and getattr(root.profile.handler, "accept_empty_target", False))]
+                replies = []
+                for device in candidates:
+                    if device.profile.max_request_bytes is not None and len(data) > device.profile.max_request_bytes:
+                        continue
+                    family = device.profile.handler
+                    if getattr(family, "source_port", addr[1]) != addr[1]:
+                        continue
+                    handle_from = getattr(family, "handle_from", None)
+                    try:
+                        replies.extend(family.handle(device, outer) if handle_from is None
+                                       else handle_from(device, outer, addr))
+                    except InvalidPacket:
+                        continue
         except InvalidPacket:
             return
         for reply in replies:
-            data = encode_reply(reply)
-            self.transport.sendto(data, addr)
-            _LOGGER.info("TX to %s:%s (%d bytes): %r", *addr, len(data),
-                         reply.inner if reply.inner is not None else reply.outer)
+            self._send(reply, addr)
+
+    def _send(self, reply, addr):
+        data = encode_reply(reply)
+        target = addr
+        if reply.destination_host is not None or reply.destination_port is not None:
+            target = (
+                addr[0] if reply.destination_host is None else reply.destination_host,
+                addr[1] if reply.destination_port is None else reply.destination_port,
+                *addr[2:],
+            )
+        self.transport.sendto(data, target)
+        _LOGGER.info("TX to %s:%s (%d bytes): %r", target[0], target[1], len(data),
+                     reply.inner if reply.inner is not None else reply.outer)
 
     def error_received(self, exc):
         asyncio.get_running_loop().call_exception_handler(

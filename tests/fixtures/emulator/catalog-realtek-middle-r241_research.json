@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "profile": "sim-w05r-v2.41",
+  "mid": "80221",
+  "hid": "362001061917+W05RV2.41.bin",
+  "source_sha256": "36a09eebfbe20ad9fb8248b00e3b5a13360133a78a683ac47c71974ca0160322",
+  "qualification": "Original exact-build getter and mutation-prefix observations; synthetic zero cache/UTC clock and safe atomic completion are model policy, not successful native commands.",
+  "independent_bank_getters": {
+    "bank0": {"evidence": "CatalogQuirks/RealtekMiddle/r241-native-results.json", "cases": 40, "original_returns": 40},
+    "bank1": {"evidence": "CatalogQuirks/RealtekMiddle/r241-bank1-native-results.json", "cases": 40, "original_returns": 40},
+    "boundary": "Every original selector with its matching original RAM initializer; 36 selected names plus four negative requests, no setter/dispatch/platform hook. Numeric cache and UTC clock are supplied synthetic inputs, not appliance initialization."
+  },
+  "software_timers": {
+    "evidence": "CatalogQuirks/RealtekMiddle/r241-schedule-instructions.json",
+    "native_checks": ["CatalogQuirks/RealtekMiddle/r241-root-native-initial-results.json", "CatalogQuirks/RealtekMiddle/r241-ingress-bank0-virtual-flash-results.json"],
+    "native_qualification": "Original encrypted ingress/parser/list mutation/query constructors; standard cJSON/libc/AES/base64/OS primitives, plus explicitly chosen erased NOR SDK erase/program backing for timer persistence. setT/updateT/deleteT return resT200; setT then independently fresh query serializes the literal stored record. Not native flash hardware/full boot.",
+    "parser": "0x805afd8",
+    "storage": "0x8056a30",
+    "executor": "0x8056b0c/0x8056b6c",
+    "query": "0x805b25c/0x805b406",
+    "fields": ["id", "name", "enable", "hr", "min", "sec", "tz", "week", "cmd"],
+    "transforms": "id/tz low8; enable intbool; week zero-padded to seven int32 words. Original command parser fixes opt count to one at0x805b0c2..0x805b0ca, stages up to30 p but query serializes only the first. Query omits tz and empty list; total is requested count and ordinal end is inclusive.",
+    "model_policy": "Virtual per-device store, ten records, valid calendar/time fields, bounded UTF8 and command identity arrays. Replaying crossed events on the synthetic monotonic RTC, once per event, replaces native RTOS cadence/flash persistence. Scheduled cache writes use low16 and mark virtual IR send pending; no physical IR delivery.",
+    "literal_success": {"t": "resT", "r": 200},
+    "literal_capacity_failure": {"t": "resT", "r": 500},
+    "literal_empty_query": {"t": "listT", "total": 10, "index": 0}
+  },
+  "upgrade_acceptance": {
+    "evidence": "CatalogQuirks/RealtekMiddle/r241-envelope-instructions.json#0x805da1a..0x805da7a",
+    "literal_response": {"t": "ret", "r": 200, "mac": "020000000001"},
+    "model_policy": "Record a bounded URL as a virtual accepted request only; no network download, reboot, flash mutation or full-firmware upgrade claim. Oversized/invalid fields are rejected atomically instead of entering the native empty-URL/unsafe paths."
+  },
+  "surver": {
+    "evidence": "CatalogQuirks/RealtekMiddle/r241-surver-native-results.json",
+    "literal_outer": {"t": "pack", "i": 1, "uid": 42, "cid": "020000000001", "tcid": "", "pack": "fg\u0001"},
+    "qualification": "Original raw-frame builder0x805fa84 emits fg/01/00 for its fixed256-byte frame. Caller0x805fc54 uses three arguments for the four-argument base64 API; genuine capacity preflight returns-42 before reading its invalid source pointer, skips the !! prefix, and the C string truncates at the zero length byte. This malformed native pack is retained, not repaired into an encrypted ACK."
+  },
+  "native_command_fault": {"pc": "0x805e97a", "kind": "one-past-end NULL name access after finite mutation prefix"},
+  "scalar_controls": ["Pow", "Mod", "SwhSlp", "SwhSw", "WdSpd", "SetTem", "Blo", "Health", "Lig", "Air", "SwUpDn", "SwingLfRig", "SvSt", "SlpMod", "Tur", "Quiet", "StHt", "IntradayElect", "IntradayElectPow", "IntradayElectLim", "AutoPowDown", "ProTimeReminder", "RealTimePower", "AppTimer", "ProTimeLen"],
+  "scalar_vectors": [
+    {"requested": 65537, "ack": 1, "fresh": 1},
+    {"requested": -1, "ack": 65535, "fresh": 65535}
+  ],
+  "initial_getters": [
+    ["Pow", [0]], ["Mod", [0]], ["SwhSlp", [0]], ["SwhSw", [0]], ["WdSpd", [0]],
+    ["SetTem", [0]], ["Blo", [0]], ["Health", [0]], ["Lig", [0]], ["Air", [0]],
+    ["SwUpDn", [0]], ["SwingLfRig", [0]], ["SvSt", [0]], ["SlpMod", [0]], ["Tur", [0]],
+    ["Quiet", [0]], ["StHt", [0]], ["IntradayElect", [0]], ["IntradayElectPow", [0]],
+    ["IntradayElectLim", [0]], ["AutoPowDown", [0]], ["ProTimeReminder", [0]],
+    ["RealTimePower", [0]], ["AppTimer", [0]], ["ProTimeLen", [0]], ["ProTimePow", [0]],
+    ["Studied", [0]], ["AddButton", [0]], ["ConBtnNum", [0]], ["ConBtnName", [0]],
+    ["DelButton", [0]], ["SendButton", [0]], ["Electnumzero", [0]],
+    ["hid", ["362001061917+W05RV2.41.bin"]], ["RefBtnList", [[], []]],
+    ["time", ["2026-01-01 00:00:00"]]
+  ],
+  "negative_getters": ["BuzzerCtrl", "Buzzer_ON_OFF", "TemSen", "__unknown__"],
+  "model_lifecycle": "Zero numeric cache, empty IR references and labels, independent virtual flash/clock on each device construction and restart; no ambient field or calibrated appliance physics."
+}

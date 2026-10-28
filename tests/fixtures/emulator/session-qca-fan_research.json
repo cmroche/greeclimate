@@ -1,0 +1,2724 @@
+{
+  "scope": "Final6079 qualification supplement supersedes the initial lack-of-evidence boundary in session-qca_research.json; ordinary AC still excludes6079.",
+  "profile": "sim-w06bv-v20-fan",
+  "contract": {
+    "scope": "Independent6079 sensorless fan child qualification supplement; stable SessionScan-QCA/findings.json remains unchanged",
+    "source": {
+      "ota_code": "362001061436",
+      "path": "downloads/gree-firmware/362001061436/362001061436-apiV20-global.bin",
+      "sha256": "c449e08599008f5250e96d5c77c24a0d10ac9e1a495c45c62526bfa9e8ecaadb",
+      "embedded_hid": "362001067524+U-W06BV20.bin",
+      "embedded_firmware_code": "362001067524",
+      "ota_alias_mismatch": true,
+      "family": "Exact-source W06B V20 gateway alternate-child path, not ordinary AC",
+      "stable_identity_and_outer_lan_evidence": "../findings.json; ../c449e0859900-packets.json; ../c449e0859900-crypto.json"
+    },
+    "artifacts": {
+      "probe": {
+        "path": "probe.py",
+        "sha256": "9793b6bb8609535f90264356538a28ab406b7b3cf7312b27dea2b23f41c53165"
+      },
+      "native_vectors": {
+        "path": "native.json",
+        "sha256": "613a2d291032d433a05d8e517c07a250fba988e1b6717dbf050feac0c6d41fee",
+        "count": 76,
+        "errors": 0
+      },
+      "selected_decompiled_source": {
+        "path": "/Users/cliffordroche/Downloads/gree-research-inputs/session-qca-6079-980yzyl0/selected.c",
+        "sha256": "070c0dc0ab3cba5006a5cc9d084db118edeba48a4a5a6fc14de7f35799a93e07"
+      },
+      "complete_existing_decompilation": "../../Xtensa-3/03/decompiled.c",
+      "decoder_correction": "../decoder-correction.json; all five B4CONSTU immediate corrections inherited and original instruction bytes asserted"
+    },
+    "execution_method": {
+      "kind": "Exact-source bounded byte-asserted Xtensa instruction translation using stable W06B research harness",
+      "native_business_code_executed": true,
+      "full_boot_or_native_cpu": false,
+      "external_boundaries": "cJSON allocation/lookup/serialization; compiler numeric helpers; ROM string/memory/logging; synthetic OS semaphore/delay/current-task table; stop before UART wrapper body at0xa09f48",
+      "supplied_cache": "Two explicitly synthetic ready child records, seven-byte IDs02000000000201 and02000000000301, stored MID6079, readiness byte2, actual and staged bank inputsPow0/FanMod1/WdSpd2/GetEr0",
+      "command_and_response_relationship": "Native command parser, selector/converter, staged cache mutation, UART frame construction execute until UART wrapper entry; native res serializer then executes as an explicitly separate source slice. Native requested-status parser and dat serializer execute against the same resulting cache. No board acknowledgment is synthesized.",
+      "self_checks": "Assert valid command triples produce identical subsequent native dat values, neighboring child remains unchanged, and byte-bound probes reproduce value&255; all76 recorded executions have no interpreter error"
+    },
+    "native_evidence": [
+      {
+        "address": "0xa0a690",
+        "role": "MID classifier",
+        "fact": "6079 and stored IDs608d/6091/6099/60a9 select alternate path. Exact source also classifies605d/6084/608e/60a0/60a4/6098; this does not prove these are emitted enumeration MIDs."
+      },
+      {
+        "address": "0xa116ec",
+        "role": "Enumeration",
+        "fact": "Stable exact-byte probes show stored6099/608d/6091/60a9 emit6079, while6092 stays6092;6079 is a catalog identity rather than a claimed physical product type."
+      },
+      {
+        "address": "0xa119cc",
+        "role": "Requested status parser",
+        "fact": "Child mac selects child index, cols retain caller order and duplicates, alternate selector0xa13b44 used. UART polling handoff is captured."
+      },
+      {
+        "address": "0xa10f24",
+        "role": "Requested dat serializer",
+        "fact": "Ready6079 record uses alternate getter0xa147b8, not unsolicited ordinary-AC builder0xa1321c. Native reply is t=dat,r=200,mac=seven-byte child ID,cols/dat parallel arrays."
+      },
+      {
+        "address": "0xa11bec",
+        "role": "Command parser and staging",
+        "fact": "Child sub selects independent cache, alternate selector0xa13b44 and converter0xa14468 used. Action2 and staged bank flag8 set. Pow1 stages0xaa and Pow0 stages0x55; FanMod/WdSpd are raw bytes."
+      },
+      {
+        "address": "0xa11140",
+        "role": "Command res serializer",
+        "fact": "Native response t=res,r=200,mac child ID,opt requested order,p requested values,val requested values. Duplicate Pow[1,0] retains both response entries, final cached Pow0."
+      },
+      {
+        "address": "0xa147b8",
+        "role": "Alternate getter",
+        "fact": "Descriptors at0x44f750 are28-byte records. Pow index1, FanMod4, WdSpd5, GetEr0. Current bank+0x41 or staged bank+0xb9 selected through flag at0x468dd6, child stride0x136."
+      },
+      {
+        "address": "0xa1321c",
+        "role": "Unsolicited all-status",
+        "fact": "Alternate MID route exits without ordinary-AC data. This function must not be substituted for requested status0xa10f24."
+      }
+    ],
+    "positive_transactions": {
+      "poll": {
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "response": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ]
+        }
+      },
+      "command": {
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ]
+        },
+        "uart_frame_hex": "7e7e0200000000020100000000000000000c5200030501aa08010209010362",
+        "response": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ],
+          "val": [
+            1,
+            2,
+            3
+          ]
+        },
+        "subsequent_dat": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "neighbor_dat": [
+          0,
+          1,
+          2,
+          0
+        ]
+      },
+      "byte_bounds": {
+        "inputs": [
+          -1,
+          0,
+          1,
+          127,
+          255,
+          256,
+          65535,
+          65536
+        ],
+        "native_next_values": [
+          255,
+          0,
+          1,
+          127,
+          255,
+          0,
+          255,
+          0
+        ],
+        "native_res_values": "Original numeric values are echoed rather than truncated cached values"
+      },
+      "unknowns": {
+        "cols": [
+          "WdSpd",
+          "Pow",
+          "WdSpd",
+          "TemSen",
+          "TemBody",
+          "nonexistent"
+        ],
+        "native_dat": [
+          2,
+          0,
+          2,
+          "",
+          0,
+          ""
+        ],
+        "meaning": "TemBody0 is a generic selector fallback, not evidence of an ambient sensor. No physical room-temperature channel is established for6079."
+      }
+    },
+    "emulator_recommendation": {
+      "qualified": true,
+      "id": "sim-w06bv-v20-fan",
+      "parent_profiles": [
+        "sim-w06bv-v20"
+      ],
+      "mids": [
+        "6079"
+      ],
+      "identity_bytes": 7,
+      "semantic_label": "Sensorless synthetic fan child using the independently proved6079 alternate protocol route; not an identified physical brand/model",
+      "default_poll": [
+        "Pow",
+        "FanMod",
+        "WdSpd",
+        "GetEr"
+      ],
+      "controls": {
+        "Pow": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "FanMod": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "WdSpd": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        }
+      },
+      "read_only_state": {
+        "GetEr": 0
+      },
+      "room_temperature": null,
+      "temperature_offset": null,
+      "thermal_target": null,
+      "buzzer_properties": [],
+      "physical_mode_names": null,
+      "physical_speed_units_or_ranges": null,
+      "explicit_simulator_policies": [
+        "Expose only the positively exercised Pow/FanMod/WdSpd controls; no ordinary-AC controls, target temperature, or thermal coupling.",
+        "Strict Pow0..1 and raw uint8 FanMod/WdSpd inputs prevent native cache truncation. These are protocol bounds, not claims of physical fan mode/speed calibration.",
+        "GetEr is read-only synthetic no-fault0; this is simulator policy, not a claim native firmware rejects GetEr writes.",
+        "Reject an invalid batch atomically rather than mimic native partial or unsafe acceptance. Native invalidPow2, missingp, unknownBuzzerCtrl and unknownchild can leave response globals that the separately callable res function echoes; those echoes are not physical command success.",
+        "Omit known but unmodeled fields including TemBody rather than misrepresent fallback0 as ambient measurement. Preserve existing gateway unknown-field-empty policy for unknown names such as TemSen.",
+        "Do not register stored normalization aliases6099/608d/6091/60a9 as independently emitted identities.",
+        "Reuse exact W06B root discovery/bind/pack crypto; do not share ordinary-AC state validation or thermal encode behavior."
+      ]
+    },
+    "remaining_unknowns": [
+      "Actual UART wrapper body, physical subordinate-board acknowledgment, report timing and hardware calibration",
+      "Physical product corresponding to emitted6079 and meanings of its FanMod/WdSpd byte values",
+      "Additional alternate-table fields not necessary for the qualified sensorless fan contract"
+    ],
+    "checks_not_run": [
+      "Build",
+      "Tests",
+      "Lint",
+      "Formatters",
+      "Firmware installation",
+      "Network scans",
+      "Hardware checks"
+    ]
+  },
+  "native_vectors": {
+    "source_sha256": "c449e08599008f5250e96d5c77c24a0d10ac9e1a495c45c62526bfa9e8ecaadb",
+    "source_path": "downloads/gree-firmware/362001061436/362001061436-apiV20-global.bin",
+    "method": "Exact-source bounded byte-asserted Xtensa instruction translation; no nativeCPU/full boot",
+    "stable_harness": "firmware-capabilities/research/SessionScan-QCA/w06b_probe.py",
+    "harness_sha256": "170d2910b01554dcd3c14d95278bd60834fea7b415e520623effd570438e9dd3",
+    "bulk_directory": "/Users/cliffordroche/Downloads/gree-research-inputs/session-qca-6079-980yzyl0",
+    "decode_corrections": [
+      {
+        "pc": "0xa09fe8",
+        "bytes": "f61202",
+        "old_operand": "a2,0x1000,0x00a09fee",
+        "operand": "a2,0x10000,0x00a09fee"
+      },
+      {
+        "pc": "0xa0f5e3",
+        "bytes": "b61d01",
+        "old_operand": "a13,0x1000,0x00a0f5e8",
+        "operand": "a13,0x10000,0x00a0f5e8"
+      },
+      {
+        "pc": "0xa14b0a",
+        "bytes": "f61307",
+        "old_operand": "a3,0x1000,0x00a14b15",
+        "operand": "a3,0x10000,0x00a14b15"
+      },
+      {
+        "pc": "0xa31046",
+        "bytes": "b6130b",
+        "old_operand": "a3,0x1000,0x00a31055",
+        "operand": "a3,0x10000,0x00a31055"
+      },
+      {
+        "pc": "0xa33136",
+        "bytes": "b61a02",
+        "old_operand": "a10,0x1000,0x00a3313c",
+        "operand": "a10,0x10000,0x00a3313c"
+      }
+    ],
+    "boundaries": {
+      "0xa0fecc": "JSON object allocation",
+      "0xa0fe9c": "JSON string creation",
+      "0xa0fe78": "JSON number creation",
+      "0xa0feb8": "JSON array allocation",
+      "0xa0fe54": "JSON object attach",
+      "0xa0fe34": "JSON array append",
+      "0xa0f7cc": "JSON serialization capture",
+      "0xa0f350": "JSON free",
+      "0xa0fe18": "JSON case-insensitive object lookup",
+      "0xa69c24": "JSON collection length",
+      "0xa69c3c": "JSON array item",
+      "0xa6c1a0": "compiler int-to-double",
+      "0xa6c194": "compiler unsigned-byte-to-double",
+      "0xa6c03c": "compiler remainder",
+      "0x9c0888": "ROM strcmp",
+      "0x9c1ac0": "ROM memcpy",
+      "0x9c1d54": "ROM memset",
+      "0x9c09ac": "ROM strcpy",
+      "0x9c0b88": "ROM strncpy",
+      "0x9c0a3c": "ROM strlen",
+      "0x9aac60": "ROM logging",
+      "0x904628": "ROM logging",
+      "0x51df00": "synthetic OS semaphore acquire",
+      "0x51df04": "synthetic OS semaphore release",
+      "0x51df08": "synthetic OS delay (unmapped ROM callback table)",
+      "0x9ba46c": "synthetic OS current-task query (no current task)",
+      "0xa09f48": "UART handoff wrapper entry: capture frame; body not executed",
+      "0x9c1a28": "ROM memcmp"
+    },
+    "roles": {
+      "scan": "0xa115b8",
+      "bind": "0xa118d8",
+      "enum": "0xa116ec",
+      "status": "0xa10f24",
+      "res": "0xa11140",
+      "command": "0xa11bec",
+      "status_request": "0xa119cc",
+      "enum_request": "0xa12374",
+      "selector": "0xa13580",
+      "getter": "0xa145e4",
+      "mid_route": "0xa0a690",
+      "alternate_selector": "0xa13b44",
+      "alternate_getter": "0xa147b8",
+      "encrypt": "0xa0e624",
+      "decrypt": "0xa0e690",
+      "padding": "0xa0e6fc",
+      "child_status_full": "0xa1321c"
+    },
+    "vectors": [
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 729,
+        "trace_sha256": "ddebc98328e4eb40eef0d63e0bd1aa4ad03e2286672d1edc41afdee3ddd1bba3",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 0,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 0
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 3193,
+        "trace_sha256": "74e09c54fcf18c5fc4180a4953c004cc7fa93fb4b44ac29db7173d00ab865ac8",
+        "requested_columns": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 1696,
+        "trace_sha256": "975023e88c042a09ac39455490520de0b17c302ffcebabbfa84e809d7b779314",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "WdSpd",
+            "Pow",
+            "WdSpd",
+            "TemSen",
+            "TemBody",
+            "nonexistent"
+          ]
+        },
+        "action": 0,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 0
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "WdSpd",
+            "Pow",
+            "WdSpd",
+            "TemSen",
+            "TemBody",
+            "nonexistent"
+          ],
+          "dat": [
+            2,
+            0,
+            2,
+            "",
+            0,
+            ""
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 8281,
+        "trace_sha256": "b39dbbc74d3e2cf8efa90ee83e54161cb216081b73c18894310d03e214202813",
+        "requested_columns": [
+          "WdSpd",
+          "Pow",
+          "WdSpd",
+          "TemSen",
+          "TemBody",
+          "nonexistent"
+        ]
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 527,
+        "trace_sha256": "58b0f76d4223066c6883476c4ac6f517157930749207ed39d1e6f6f41d997124",
+        "request": {
+          "mac": "02000000000201",
+          "cols": []
+        },
+        "action": 0,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 0
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 0,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": null,
+        "steps": 817,
+        "trace_sha256": "ab6441b4129ee8bf2b13c621245d93774965d45abd7bef0e1d9e95ab5d632e1a",
+        "requested_columns": []
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e0200000000020100000000000000000c5200030501aa08010209010362",
+        "inner": null,
+        "steps": 1284,
+        "trace_sha256": "bfadd1b97cadf383e9c22cec20099b359f55664faff12dd265848aa76d7ecbd2",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000aa000002030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ],
+          "val": [
+            1,
+            2,
+            3
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2674,
+        "trace_sha256": "8478cd4770cc0180da2fcade360602f0c92a6604f22f80161a4b59a51f637222",
+        "commands": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 3403,
+        "trace_sha256": "0240494f257f111e3fd896464bf208dc085a2acf0886d310bd02e9585826a6cd",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000aa000002030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            1,
+            2,
+            3,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5875,
+        "trace_sha256": "ae727184ffdf89a80ac5048dfb6003ee116e70fafdb1c6d3aa38b3ff728cd03a",
+        "after_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000003010000000000000000045500005b87",
+        "inner": null,
+        "steps": 6613,
+        "trace_sha256": "f6c95bbb4ac951f9831d743f525b62db62af0fbee21104df4d1faed3d9dddab5",
+        "request": {
+          "mac": "02000000000301",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000aa000002030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000301"
+        },
+        "steps": 9086,
+        "trace_sha256": "c9e581e5247d78df549a2fc7d9b0cde887b4b4001dd8b4715a3510db14f4bdae",
+        "neighbor_after_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e0200000000020100000000000000000c52000305015508010009010081",
+        "inner": null,
+        "steps": 1282,
+        "trace_sha256": "c881836a5d796a866009310929fea5804cf34573965eb3eedc2967dd9f0b8616",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0,
+            0
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0,
+            0
+          ],
+          "val": [
+            0,
+            0,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2672,
+        "trace_sha256": "4c10843213f5a92ad3706b7a28a14f44df20ae529f03b44e860038b5578eb5c4",
+        "commands": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 3401,
+        "trace_sha256": "53277b7292afffaf5d3380ac5c69ef6ca24e366991c9accea1518b4e46077f8a",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5869,
+        "trace_sha256": "1591b0017ab3dd8519aa638e7968fd4d42a4e80791bbb6c6f8229a7172c03350",
+        "after_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000003010000000000000000045500005b87",
+        "inner": null,
+        "steps": 6607,
+        "trace_sha256": "50873c70ea4c760d1fe0d311ff5ff18272d4f00ea4414bb833e4959e94d3d579",
+        "request": {
+          "mac": "02000000000301",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000301"
+        },
+        "steps": 9080,
+        "trace_sha256": "1778082e3a495395fe03ce38a4646f66035de5c279d32ece1e56aa810f73e02c",
+        "neighbor_after_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e0200000000020100000000000000000c5200030501aa0801ff0901ff59",
+        "inner": null,
+        "steps": 1284,
+        "trace_sha256": "bfadd1b97cadf383e9c22cec20099b359f55664faff12dd265848aa76d7ecbd2",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            255,
+            255
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000aa0000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            255,
+            255
+          ],
+          "val": [
+            1,
+            255,
+            255
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2674,
+        "trace_sha256": "8478cd4770cc0180da2fcade360602f0c92a6604f22f80161a4b59a51f637222",
+        "commands": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            255,
+            255
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 3403,
+        "trace_sha256": "0240494f257f111e3fd896464bf208dc085a2acf0886d310bd02e9585826a6cd",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000aa0000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            1,
+            255,
+            255,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5875,
+        "trace_sha256": "ae727184ffdf89a80ac5048dfb6003ee116e70fafdb1c6d3aa38b3ff728cd03a",
+        "after_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            255,
+            255
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000003010000000000000000045500005b87",
+        "inner": null,
+        "steps": 6613,
+        "trace_sha256": "f6c95bbb4ac951f9831d743f525b62db62af0fbee21104df4d1faed3d9dddab5",
+        "request": {
+          "mac": "02000000000301",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000aa0000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000301"
+        },
+        "steps": 9086,
+        "trace_sha256": "c9e581e5247d78df549a2fc7d9b0cde887b4b4001dd8b4715a3510db14f4bdae",
+        "neighbor_after_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            255,
+            255
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000095200020501aa050155d0",
+        "inner": null,
+        "steps": 1012,
+        "trace_sha256": "7fb33b0db14fa70f988aaf917e127171114238dd9c74bc82a08beb8be0428477",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "p": [
+            1,
+            0
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "p": [
+            1,
+            0
+          ],
+          "val": [
+            1,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 1707,
+        "trace_sha256": "2b30bdeda0104718220eeb0d0382e2ce6365592cc1e38ceb5520abdb1e366acd",
+        "commands": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "p": [
+            1,
+            0
+          ]
+        },
+        "explicit_res_slice": true
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2436,
+        "trace_sha256": "c9b42b55654379f51fdba19f93f8b3ffb8a964b1396c992c417692d39219d78e",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 4904,
+        "trace_sha256": "53de93ea23399f0dfa32923f7aac3bf05020bb7b4e26c1eb4f629bfed344d94e",
+        "after_edge_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "p": [
+            1,
+            0
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e02000000000201000000000000000003520000e8",
+        "inner": null,
+        "steps": 1210,
+        "trace_sha256": "71c5f568be42968271938e9d96689df424d790c5a6180d521623caf8775a2657",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "BuzzerCtrl"
+          ],
+          "p": [
+            1
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "BuzzerCtrl"
+          ],
+          "p": [
+            ""
+          ],
+          "val": [
+            ""
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 3165,
+        "trace_sha256": "8b4e0fe725fc15068f8299e9fbfeb75e582f8baf3fdda59989670a89f46dd20f",
+        "commands": {
+          "sub": "02000000000201",
+          "opt": [
+            "BuzzerCtrl"
+          ],
+          "p": [
+            1
+          ]
+        },
+        "explicit_res_slice": true
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 3894,
+        "trace_sha256": "42d08b7c3ff99614ef3f8b9d764cd39d875e52e8e79b0eaf8f53881f50486cd8",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 6362,
+        "trace_sha256": "f96912bfc872e4055194bee994ad0887f10aaea667a2ce1798f7d1b9be3db5e3",
+        "after_edge_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "BuzzerCtrl"
+          ],
+          "p": [
+            1
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e02000000000201000000000000000006520001050102e9",
+        "inner": null,
+        "steps": 775,
+        "trace_sha256": "7928f8cb57f5367c243a6fb79c89bf8151958465195b0108b037f25dc51e6a8a",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            2
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000002000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            2
+          ],
+          "val": [
+            2
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 1167,
+        "trace_sha256": "5c96aea6477b4de6199e73b126f395081a77c72364f99d0901b2f97876059134",
+        "commands": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            2
+          ]
+        },
+        "explicit_res_slice": true
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 1896,
+        "trace_sha256": "f1a35f2c5a7af1a2ad875a2608e2caa4b4ec63cd08eb414f3e360f21a55d5da1",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000002000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 4366,
+        "trace_sha256": "f2db90ddff4260c82125cc399debac06c70d38e274968112065ba3f5d4a22982",
+        "after_edge_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            2
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e02000000000201000000000000000003520000e8",
+        "inner": null,
+        "steps": 548,
+        "trace_sha256": "52aaca9c612ffbac2a8cd6920b6fc0e24cd7cd6c023042b034a368564083a287",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow"
+          ],
+          "p": []
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            0
+          ],
+          "val": [
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 940,
+        "trace_sha256": "3657d1d0cbd2c8401a4c026a0d8a2a65e3ee47036081e7f82352e04eedcfa83b",
+        "commands": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow"
+          ],
+          "p": []
+        },
+        "explicit_res_slice": true
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 1669,
+        "trace_sha256": "a2ccfad4fd6e752b39f23ee544cd81ad5e08d1d13eb101624d8b7f8c750cd4c9",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 4137,
+        "trace_sha256": "d8b0571b99982d643a749e5b2aaeffadf7802e00913a8aeeb49fe5f2039b2300",
+        "after_edge_command": {
+          "sub": "02000000000201",
+          "opt": [
+            "Pow"
+          ],
+          "p": []
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": 4294967295,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": null,
+        "steps": 302,
+        "trace_sha256": "0465e4b4a3120f453deff4781a9da2981c3465a533d8222e22a6c76b69ab9d9c",
+        "request": {
+          "sub": "02000000009901",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            1
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 0
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            1
+          ],
+          "val": [
+            1
+          ],
+          "mac": "02000000009901"
+        },
+        "steps": 694,
+        "trace_sha256": "c6a02572c1c74fc61fc90f6c8c46dbca9290c579253c532e2de58821498cdfcc",
+        "commands": {
+          "sub": "02000000009901",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            1
+          ]
+        },
+        "explicit_res_slice": true
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 1423,
+        "trace_sha256": "fcc8b4e9719a77e25c11f5b006a7f90abd1bb0ae694c47649524b58abdcc1610",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 0
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 3887,
+        "trace_sha256": "94bf44f8fd8d9a712ea3ace57bce2085ff64131655475f52aeacc01c89bfc857",
+        "after_edge_command": {
+          "sub": "02000000009901",
+          "opt": [
+            "Pow"
+          ],
+          "p": [
+            1
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000095200020801ff0901ffa9",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            -1,
+            -1
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000550000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            -1,
+            -1
+          ],
+          "val": [
+            -1,
+            -1
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            -1,
+            -1
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000550000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            -1,
+            -1
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e0200000000020100000000000000000952000208010009010077",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0
+          ],
+          "val": [
+            0,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e02000000000201000000000000000009520002080101090101a6",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            1
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            1
+          ],
+          "val": [
+            1,
+            1
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000001010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            1,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e0200000000020100000000000000000952000208017f09017ffc",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            127,
+            127
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "00000000005500007f7f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            127,
+            127
+          ],
+          "val": [
+            127,
+            127
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            127,
+            127
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "00000000005500007f7f0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            127,
+            127,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            127,
+            127
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000095200020801ff0901ffa9",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            255,
+            255
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000550000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            255,
+            255
+          ],
+          "val": [
+            255,
+            255
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            255,
+            255
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000550000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            255,
+            255
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e0200000000020100000000000000000952000208010009010077",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            256,
+            256
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            256,
+            256
+          ],
+          "val": [
+            256,
+            256
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            256,
+            256
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            256,
+            256
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000095200020801ff0901ffa9",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65535,
+            65535
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000550000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65535,
+            65535
+          ],
+          "val": [
+            65535,
+            65535
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65535,
+            65535
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "0000000000550000ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65535,
+            65535
+          ]
+        }
+      },
+      {
+        "role": "command",
+        "entry": "0xa11bec",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e0200000000020100000000000000000952000208010009010077",
+        "inner": null,
+        "steps": 1048,
+        "trace_sha256": "5b621835a8e005e736950910e9e852e61588c42f66794b7f59f32471d606052b",
+        "request": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65536,
+            65536
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "res",
+        "entry": "0xa11140",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65536,
+            65536
+          ],
+          "val": [
+            65536,
+            65536
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 2135,
+        "trace_sha256": "38cba235f7cd5cd7922d6ccb33f5ff9a878d99e56c1c50eae5a6f21b9c3a8a32",
+        "byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65536,
+            65536
+          ]
+        }
+      },
+      {
+        "role": "status_request",
+        "entry": "0xa119cc",
+        "return_value": null,
+        "error": null,
+        "stopped_at_uart": true,
+        "uart_frame_hex": "7e7e020000000002010000000000000000045500005b07",
+        "inner": null,
+        "steps": 2864,
+        "trace_sha256": "160e5eb6053e6413bdf378615a78069a76e686153b5c3f73f0060a27612dd348",
+        "request": {
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ]
+        },
+        "action": 2,
+        "actual_cache": "000000000055000001020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "staged_cache": "000000000055000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "bank_flag": 8
+      },
+      {
+        "role": "status",
+        "entry": "0xa10f24",
+        "return_value": 5369856,
+        "error": null,
+        "stopped_at_uart": false,
+        "uart_frame_hex": null,
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "mac": "02000000000201"
+        },
+        "steps": 5332,
+        "trace_sha256": "b6b539509802d7b860c582e82972134c304190a9c38eb77d1f46e925371e4498",
+        "after_byte_bound": {
+          "sub": "02000000000201",
+          "opt": [
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            65536,
+            65536
+          ]
+        }
+      }
+    ]
+  },
+  "execution_boundary": "Bounded byte-asserted Xtensa translation, not nativeCPU execution. Native command/cache/frame and res/dat serializers execute as separate source slices around UART wrapper entry; no actual UART body, board acknowledgement or hardware calibration.",
+  "model_policy": "Superseded narrow3-control policy: complete39 alternate descriptor cache and source direct int32->byte/LE16 width semantics, metadata and known-unrouted numeric0. No thermal or calibrated readout claim. Strict int32/converter batch validation is safe policy; no fake UART confirmation. See session-qca-gateway-quirks_research.json for full route/source matrix and conversion literals.",
+  "property_completion": {
+    "matrix": "session-qca-gateway-quirks_research.json",
+    "rows": 39,
+    "read_only_metadata": "Synthetic empty companion strings/time, upgrade0, connected RSSI219, root identity context.",
+    "source_raw_defaults": "Zero synthetic sensor/error/channel backing; GetEr additionally reflects alternate ErrType bytes83/84.",
+    "prior_vectors": "Original three-control native vectors preserved as historical subset, not namespace closure."
+  }
+}

@@ -16,62 +16,252 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 
 ## Known firmware codes
 
-| Firmware code | Device / MID | Firmware name parts | Versions | Sources |
-| --- | --- | --- | --- | --- |
-| <a id="36300000257"></a><code>36300000257</code> | Unknown<br>MID: Unknown | prefix None; module <code>CS532R</code>; qualifier None | <code>41</code> (archive) | <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/36300000257">Archive: firmware files</a> |
-| <a id="362001000748"></a><code>362001000748</code> | Gree Amber Standard<br>MID: <code>10001</code> | prefix <code>U-</code>; module <code>CS532Z</code>; qualifier <code>LT</code> | <code>3.58</code> (reported); <code>3.75</code> (reported) | <a href="https://github.com/cmroche/greeclimate/issues/87">Reported: greeclimate #87</a>; <a href="https://github.com/home-assistant/core/files/8457599/gree.1.txt">Reported: HA #69351 log</a> |
-| <a id="362001000762"></a><code>362001000762</code> | Gree Vireo+ (VIR12HP115V1B model number tentative)<br>MID: <code>10001</code> | prefix <code>U-</code>; module <code>CS532AE</code>; qualifier <code>LT</code> | <code>3.31</code> (reported) | <a href="https://github.com/cmroche/greeclimate/issues/30">Reported: greeclimate #30</a> |
-| <a id="362001000835"></a><code>362001000835</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>CS532AX</code>; qualifier <code>MTK</code> | <code>1</code> (reported); <code>3</code> (archive) | <a href="https://github.com/cmroche/greeclimate/issues/34">Reported: greeclimate #34</a>; <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001000835">Archive: firmware files</a> |
-| <a id="362001060200"></a><code>362001060200</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>CS849A</code>; qualifier None | <code>10</code> (archive) | <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001060200">Archive: firmware files</a> |
-| <a id="362001060297"></a><code>362001060297</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>CS532AF</code>; qualifier <code>MTK</code> | <code>2</code> (reported); <code>4</code> (archive) | <a href="https://github.com/cmroche/greeclimate/issues/40">Reported: greeclimate #40</a>; <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001060297">Archive: firmware files</a> |
-| <a id="362001060498"></a><code>362001060498</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>CS845B</code>; qualifier <code>MTK2</code> | <code>6</code> (archive) | <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001060498">Archive: firmware files</a> |
-| <a id="362001060499"></a><code>362001060499</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>CS532BH</code>; qualifier <code>MTK2</code> | <code>5</code> (archive) | <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001060499">Archive: firmware files</a> |
-| <a id="362001061060"></a><code>362001061060</code> | Unknown<br>MID: <code>10011</code> | prefix <code>U-</code>; module <code>W04H</code>; qualifier None | <code>3.29</code> (reported) | <a href="https://github.com/home-assistant/core/issues/67536">Reported: HA #67536</a> |
-| <a id="362001061147"></a><code>362001061147</code> | Unknown<br>MID: <code>9009</code> | prefix <code>U-</code>; module <code>ZX6045R</code>; qualifier None | <code>1.01</code> (reported) | <a href="https://github.com/home-assistant/core/issues/67536">Reported: HA #67536</a> |
-| <a id="362001061217"></a><code>362001061217</code> | Unknown<br>MID: <code>11002</code> | prefix <code>U-</code>; module <code>W04N</code>; qualifier None | <code>7</code> (reported) | <a href="https://github.com/home-assistant/core/issues/67536">Reported: HA #67536</a> |
-| <a id="362001061383"></a><code>362001061383</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>BL3332_JD</code>; qualifier None | <code>1</code> (reported); <code>18</code> (Gree filename) | <a href="https://github.com/cmroche/greeclimate/issues/28">Reported: greeclimate #28</a>; <a href="https://grih.gree.com/wifiModule/Lastversion?firmwareCode=362001061383">Gree: OTA filename</a> |
-| <a id="362001061433"></a><code>362001061433</code> | W06AV gateway firmware; retail model unknown<br>Parent MID: <code>60</code> | prefix <code>U-</code>; module <code>W06A</code>; qualifier None | <code>7</code> (inspected embedded identity) | [Public exact-build vectors](../tests/fixtures/emulator/gateway_firmware.json); [PR #148](https://github.com/cmroche/greeclimate/pull/148) |
-| <a id="362001061665"></a><code>362001061665</code> | Gree GWH09AGA-K6DNA1A/I<br>MID: <code>10001</code> | prefix <code>U-</code>; module <code>W05T</code>; qualifier None | <code>1.21</code> (reported); <code>2.01</code> (reported); <code>2.06</code> (reported) | <a href="https://github.com/home-assistant/core/issues/109230">Reported: HA #109230 (model)</a>; <a href="https://github.com/home-assistant/core/files/14114866/home-assistant_gree_2024-01-31T17-09-45.153Z.log">Reported: HA #109230 log</a>; <a href="https://github.com/user-attachments/files/16629712/home-assistant_gree_2024-08-15T17-11-05.798Z.log">Reported: HA #124007 log</a> |
-| <a id="362001061890"></a><code>362001061890</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>ESP32_GR</code>; qualifier None | <code>1.1</code> (archive) | <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001061890">Archive: firmware files</a> |
-| <a id="362001062107"></a><code>362001062107</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>W04AC</code>; qualifier None | <code>1.08</code> (reported) | <a href="https://github.com/anaryk/ewpe-smart-ha/issues/53">Reported: ewpe-smart-ha #53</a> |
-| <a id="362001063149"></a><code>362001063149</code> | Gree U-Match GUD71PHS1/A-S (XE7A-24/H controller)<br>MID: Unknown | prefix <code>U-</code>; module <code>W05CA</code>; qualifier None | <code>1.40</code> (reported) | <a href="https://github.com/cmroche/greeclimate/issues/189">Reported: greeclimate #189</a> |
-| <a id="362001063794"></a><code>362001063794</code> | Unknown<br>MID: <code>10002</code> | prefix <code>U-</code>; module <code>CS532UZ</code>; qualifier None | <code>1.01</code> (reported) | <a href="https://github.com/home-assistant/core/issues/73950#issuecomment-1207274403">Reported: HA #73950 comment 1207274403</a>; <a href="https://github.com/home-assistant/core/files/9275693/home-assistant-filtered.log">Reported: HA #73950 log</a> |
-| <a id="362001064307"></a><code>362001064307</code> | Gree multisplit heat pump (retail model unknown)<br>MID: <code>10001</code> | prefix <code>U-</code>; module <code>QCOM4004C</code>; qualifier None | <code>1.00</code> (reported) | <a href="https://github.com/home-assistant/core/issues/83112">Reported: HA #83112</a> |
-| <a id="362001065232"></a><code>362001065232</code> | Unknown<br>MID: Unknown | prefix <code>IC程序U-</code>; module <code>ESP32_C3F5</code>; qualifier None | <code>1.07</code> (archive) | <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001065232">Archive: firmware files</a> |
-| <a id="362001065279"></a><code>362001065279</code> | Cooper &amp; Hunter (retail model unknown); Gree Bora A5 GWH09AAB-K6DNA5A/I; Gree Lomo Nordic (archive contributor report); Heiwa Essential ZEN+ mono-split<br>MID: <code>10001</code>; inspected builds do not establish those retail identities | prefix <code>U-</code>; module <code>WB05RT13</code>; qualifier None | <code>1.05</code> (reported); <code>1.16</code> (reported); <code>1.20</code> (reported); <code>1.21</code> (reported; archive); <code>1.22</code> (archive); <code>1.23</code> (reported; archive); <code>1.24</code> (archive); <code>1.25</code> (archive); <code>1.26</code> (archive); <code>1.45</code> (inspected); <code>1.53</code> (archive); <code>1.54</code> (inspected); <code>1.64</code> (inspected) | <a href="https://forum.hacf.fr/t/heiwa-wifi-pro-2/52009">Reported: Heiwa owner</a>; <a href="https://github.com/cmroche/greeclimate/issues/120">Reported: greeclimate #120</a>; <a href="https://github.com/cmroche/greeclimate/issues/70">Reported: greeclimate #70</a>; <a href="https://github.com/eibenp/homebridge-gree-airconditioner/issues/13">Reported: homebridge-gree-airconditioner #13</a>; <a href="https://github.com/home-assistant/core/issues/114786">Reported: HA #114786</a>; <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/pull/11">Archive: Lomo Nordic report</a>; <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001065279">Archive: firmware files</a>; <a href="https://github.com/home-assistant/core/issues/144917">Reported: HA #144917 (Cooper &amp; Hunter)</a>; <a href="https://github.com/user-attachments/files/20213098/home-assistant_gree_2025-05-14T19-09-28.410Z.log">Reported: HA #144917 log</a>; [Public inspected-build research](../tests/fixtures/emulator/wb-rt13_research.json) |
-| <a id="362001065280"></a><code>362001065280</code> | Unknown<br>MID: <code>10001</code> | prefix <code>U-</code>; module <code>WB05RT11</code>; qualifier None | <code>1.09</code> (reported); <code>1.16</code> (reported); <code>1.21</code> (reported; archive) | <a href="https://github.com/home-assistant/core/issues/109230#issuecomment-2097199452">Reported: HA #109230 comment 2097199452</a>; <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001065280">Archive: firmware files</a>; <a href="https://github.com/user-attachments/files/16592810/home-assistant_gree_2024-08-12T23-50-22.106Z.log">Reported: HA #123755 log</a> |
-| <a id="362001065634"></a><code>362001065634</code> | Retail model unknown; inspected V1.50 has a one-child gateway facade<br>V1.44 MID: Unknown; V1.50 parent MID: <code>60</code> | prefix <code>U-</code>; module <code>WB04BRT13</code>; qualifier None | <code>1.44</code> (separately reported); <code>1.50</code> (inspected embedded and retained native-reported identity) | <a href="https://github.com/home-assistant/core/issues/176486#issuecomment-5217448314">Reported: V1.44, HA #176486 comment 5217448314</a>; [V1.50 native HID proof](https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-wire_research.json#L229-L240) (lines 229–240); [exact-source contract](https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/client-gateway-contract/findings.md#v150-hid-is-native-source-backed-not-emulator-only) |
-| <a id="362001065735"></a><code>362001065735</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>QCOM4004CF</code>; qualifier None | <code>3.74</code> (firmware string) | <a href="https://kaspars.net/wp-content/uploads/2022/02/3.74.strings.txt">Firmware: 3.74.strings.txt</a> |
-| <a id="362001065736"></a><code>362001065736</code> | Gree Amber Nordic / Prestige (GWH09YD-S6DBA2A outdoor; S6DBA1A indoor)<br>MID: Unknown | prefix <code>U-</code>; module <code>QCOM4004C</code>; qualifier None | <code>3.76</code> (reported); <code>3.77</code> (firmware string); <code>3.78</code> (firmware string; test firmware) | <a href="https://kaspars.net/blog/gree-amber-nordic-gwh09yd-s6dba1">Reported: Amber owner</a>; <a href="https://kaspars.net/wp-content/uploads/2022/02/3.77.strings.txt">Firmware: 3.77.strings.txt</a>; <a href="https://kaspars.net/wp-content/uploads/2022/02/3.78.strings.txt">Firmware: 3.78.strings.txt</a> |
-| <a id="362001066326"></a><code>362001066326</code> | WB05BR gateway firmware; retail model unknown<br>Parent MID: <code>60</code> | prefix <code>U-</code>; module <code>WB05BR</code>; qualifier None | <code>1.16</code>, <code>1.18</code> (inspected embedded identities) | [Public inspected-build research](../tests/fixtures/emulator/wb-gateway_research.json); [PR #148 hardware context](https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943), not proof of the captured gateway's HID |
-| <a id="362001066380"></a><code>362001066380</code> | WB05BR gateway firmware; retail model unknown<br>Parent MID: <code>60</code> | prefix <code>U-</code>; module <code>WB05BR</code>; qualifier None | <code>1.13</code>, <code>1.22</code>, <code>1.31</code>, <code>1.38</code> (inspected embedded identities) | [Public inspected-build research](../tests/fixtures/emulator/wb-gateway_research.json); [PR #148 hardware context](https://github.com/cmroche/greeclimate/pull/148#issuecomment-6173155943), not proof of the captured gateway's HID |
-| <a id="362001066763"></a><code>362001066763</code> | Sinclair SMH-100IRB; Sinclair SMH-60IRB<br>MID: <code>9300</code> | prefix <code>U-</code>; module <code>W06A</code>; qualifier <code>P3</code> | <code>6.0</code> (Gree filename); <code>6.04</code> (reported) | <a href="https://github.com/cmroche/greeclimate/issues/68">Reported: greeclimate #68</a>; <a href="https://github.com/tomikaa87/gree-remote/issues/43">Reported: gree-remote #43</a>; <a href="https://grih.gree.com/wifiModule/Lastversion?firmwareCode=362001066763">Gree: OTA filename</a>; <a href="../greeclimate/device_profile.py">Local: firmware-code trait profile (historically MID and code)</a> |
-| <a id="362001067012"></a><code>362001067012</code> | Gree VRF system (reported; retail model unknown); inspected W06AV gateway builds do not identify a retail appliance<br>Parent MID: <code>60</code> | prefix <code>U-</code>; module <code>W06A</code>; qualifier None | <code>16</code> (three inspected variants); <code>20</code>, <code>30</code> (reported; inspected) | <a href="https://community.openhab.org/t/new-gree-air-conditioner-binding/36429/481">Reported: VRF discovery</a>; <a href="https://github.com/RobHofmann/HomeAssistant-GreeClimateComponent/pull/508#issuecomment-5795667844">Reported: W06 gateway packet notes linked by PR #148</a>; [Public exact-build vectors](../tests/fixtures/emulator/gateway_firmware.json) |
-| <a id="362001067541"></a><code>362001067541</code> | Gree GWH12ATCXB-D6DNA4B/I (GWHD(24)ND6MO outdoor)<br>MID: Unknown | prefix <code>U-</code>; module <code>WB05WR11</code>; qualifier None | <code>2.04</code> (reported); <code>2.10</code> (reported) | <a href="https://github.com/home-assistant/core/issues/176486#issuecomment-5303115439">Reported: HA #176486 comment 5303115439</a>; <a href="https://github.com/home-assistant/core/issues/176486#issuecomment-6061164102">Reported: HA #176486 comment 6061164102</a> |
-| <a id="362001068254"></a><code>362001068254</code> | Gree Airy GWH09AVCXB-K6DNA1B/I; Gree Airy GWH12AVCXD-K6DNA1A; Gree Clivia (retail model number unknown)<br>MID: <code>10001</code> | prefix <code>U-</code>; module <code>4MWB65VR</code>; qualifier None | <code>2.09</code> (reported); <code>2.11</code> (reported); <code>2.12</code> (reported) | <a href="https://github.com/home-assistant/core/issues/123171">Reported: HA #123171</a>; <a href="https://github.com/home-assistant/core/issues/176486#issuecomment-5154115030">Reported: HA #176486 comment 5154115030</a>; <a href="https://github.com/home-assistant/core/issues/176486#issuecomment-5204293978">Reported: HA #176486 comment 5204293978</a> |
-| <a id="362001069999"></a><code>362001069999</code> | Unknown<br>MID: Unknown | prefix <code>U-</code>; module <code>ESP</code>; qualifier None | <code>2</code> (archive) | <a href="https://github.com/maxim-smirnov/gree-wifimodule-firmware/tree/main/362001069999">Archive: firmware files</a> |
-| <a id="371002000654"></a><code>371002000654</code> | Unknown<br>MID: <code>10001</code> | prefix <code>U-</code>; module <code>CS876Z</code>; qualifier <code>LT</code> | <code>3.67</code> (reported) | <a href="https://github.com/home-assistant/core/issues/58091">Reported: HA #58091</a> |
-
-## Inspected gateway and standalone builds
-
-These are embedded payload identities and exact emulator profile IDs, not new retail-model or hardware assignments. Each gateway row also has a matching `-ac` child profile; child MIDs and protocol boundaries are in [MIDS.md](MIDS.md#emulator-contracts).
-
-| Root / standalone profile | Embedded HID | Exact-build distinction |
+| Firmware code | Device | MID |
 | --- | --- | --- |
-| `sim-w06av-v7` | `362001061433+U-W06AV7.bin` | V7; five-field child records; narrower finite field table |
-| `sim-w06av-v16` | `362001067012+U-W06AV16.bin` | V16 base image; five-field child records |
-| `sim-w06av-v16-eu` | `362001067012+U-W06AV16.bin` | Distinct EU-served image; same embedded V16 identity |
-| `sim-w06av-v16-kf` | `362001067012+U-W06AV16.bin` | Distinct KF-served image; same embedded V16 identity |
-| `sim-w06av-v20` | `362001067012+U-W06AV20.bin` | V20; child records contain only `mac`/`mid` |
-| `sim-w06av-v30` | `362001067012+U-W06AV30.bin` | V30; child records contain only `mac`/`mid` |
-| `sim-wb05br-v1.13` | `362001066380+U-WB05BRV1.13.bin` | WB05BR V1.13 |
-| `sim-wb05br-v1.16` | `362001066326+U-WB05BRV1.16.bin` | WB05BR V1.16; different embedded code |
-| `sim-wb05br-v1.18` | `362001066326+U-WB05BRV1.18.bin` | WB05BR V1.18; same code as V1.16 |
-| `sim-wb05br-v1.22` | `362001066380+U-WB05BRV1.22.bin` | WB05BR V1.22 |
-| `sim-wb05br-v1.31` | `362001066380+U-WB05BRV1.31.bin` | WB05BR V1.31 |
-| `sim-wb05br-v1.38` | `362001066380+U-WB05BRV1.38.bin` | WB05BR V1.38 |
-| `sim-wb05rt13-v1.45` | `362001065279+U-WB05RT13V1.45.bin` | Standalone; 1460-byte receive limit |
-| `sim-wb05rt13-v1.54` | `362001065279+U-WB05RT13V1.54.bin` | Standalone; 1536-byte receive limit |
-| `sim-wb05rt13-v1.64` | `362001065279+U-WB05RT13V1.64.bin` | Standalone; 1536-byte receive limit; ordinary AC path modeled, not all diagnostic/restart branches |
-| `sim-wb04brt13-v1.50-60` | `362001065634+U-WB04BRT13V1.50.bin` | One-child commercial facade; child profiles `sim-wb04brt13-v1.50-6400`, `sim-wb04brt13-v1.50-6045`, `sim-wb04brt13-v1.50-609d`; full source SHA256 `44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660` |
+| <a id="362001000748"></a><code>362001000748</code> | Gree Amber Standard | 10001 |
+| <a id="362001000762"></a><code>362001000762</code> | Gree Vireo+ | 10001 |
+| <a id="362001000835"></a><code>362001000835</code> | Unknown | Unknown |
+| <a id="362001000968"></a><code>362001000968</code> | Unknown | Unknown |
+| <a id="362001003795"></a><code>362001003795</code> | Unknown | Unknown |
+| <a id="362001060009"></a><code>362001060009</code> | Unknown | Unknown |
+| <a id="362001060067"></a><code>362001060067</code> | Unknown | Unknown |
+| <a id="362001060074"></a><code>362001060074</code> | Unknown | Unknown |
+| <a id="362001060168"></a><code>362001060168</code> | Unknown | Unknown |
+| <a id="362001060185"></a><code>362001060185</code> | Unknown | Unknown |
+| <a id="362001060200"></a><code>362001060200</code> | Unknown | Unknown |
+| <a id="362001060266"></a><code>362001060266</code> | Unknown | Unknown |
+| <a id="362001060297"></a><code>362001060297</code> | Unknown | Unknown |
+| <a id="362001060368"></a><code>362001060368</code> | Unknown | Unknown |
+| <a id="362001060383"></a><code>362001060383</code> | Unknown | Unknown |
+| <a id="362001060384"></a><code>362001060384</code> | Unknown | Unknown |
+| <a id="362001060429"></a><code>362001060429</code> | Unknown | Unknown |
+| <a id="362001060498"></a><code>362001060498</code> | Unknown | Unknown |
+| <a id="362001060499"></a><code>362001060499</code> | Unknown | Unknown |
+| <a id="362001060629"></a><code>362001060629</code> | Unknown | 809030 |
+| <a id="362001060705"></a><code>362001060705</code> | Unknown | Unknown |
+| <a id="362001060709"></a><code>362001060709</code> | Unknown | 9100 |
+| <a id="362001060896"></a><code>362001060896</code> | Unknown | Unknown |
+| <a id="362001060946"></a><code>362001060946</code> | Unknown | Unknown |
+| <a id="362001060956"></a><code>362001060956</code> | Unknown | Unknown |
+| <a id="362001060965"></a><code>362001060965</code> | Unknown | Unknown |
+| <a id="362001060990"></a><code>362001060990</code> | Unknown | Unknown |
+| <a id="362001060991"></a><code>362001060991</code> | Unknown | Unknown |
+| <a id="362001061023"></a><code>362001061023</code> | Unknown | Unknown |
+| <a id="362001061024"></a><code>362001061024</code> (filename only) | Unknown | Unknown |
+| <a id="362001061060"></a><code>362001061060</code> | Unknown | 10011 |
+| <a id="362001061068"></a><code>362001061068</code> | Unknown | Unknown |
+| <a id="362001061111"></a><code>362001061111</code> | Unknown | Unknown |
+| <a id="362001061114"></a><code>362001061114</code> | Unknown | Unknown |
+| <a id="362001061133"></a><code>362001061133</code> | Unknown | Unknown |
+| <a id="362001061144"></a><code>362001061144</code> | Unknown | Unknown |
+| <a id="362001061145"></a><code>362001061145</code> (filename only) | Unknown | Unknown |
+| <a id="362001061147"></a><code>362001061147</code> | Unknown | 9009 |
+| <a id="362001061148"></a><code>362001061148</code> | Unknown | Unknown |
+| <a id="362001061163"></a><code>362001061163</code> | Unknown | Unknown |
+| <a id="362001061167"></a><code>362001061167</code> | Unknown | Unknown |
+| <a id="362001061195"></a><code>362001061195</code> (filename only) | Unknown | Unknown |
+| <a id="362001061217"></a><code>362001061217</code> | Unknown | 11002 |
+| <a id="362001061234"></a><code>362001061234</code> | Unknown | Unknown |
+| <a id="362001061264"></a><code>362001061264</code> (filename only) | Unknown | Unknown |
+| <a id="362001061272"></a><code>362001061272</code> | Unknown | Unknown |
+| <a id="362001061321"></a><code>362001061321</code> | Unknown | Unknown |
+| <a id="362001061329"></a><code>362001061329</code> | Unknown | Unknown |
+| <a id="362001061331"></a><code>362001061331</code> | Unknown | Unknown |
+| <a id="362001061359"></a><code>362001061359</code> | Unknown | Unknown |
+| <a id="362001061380"></a><code>362001061380</code> | Unknown | Unknown |
+| <a id="362001061381"></a><code>362001061381</code> | Unknown | Unknown |
+| <a id="362001061383"></a><code>362001061383</code> | Unknown | Unknown |
+| <a id="362001061391"></a><code>362001061391</code> (filename only) | Unknown | Unknown |
+| <a id="362001061394"></a><code>362001061394</code> | Unknown | 9100 |
+| <a id="362001061395"></a><code>362001061395</code> | Unknown | 3019 |
+| <a id="362001061433"></a><code>362001061433</code> | Unknown | 60 (V7) |
+| <a id="362001061436"></a><code>362001061436</code> | Unknown | Unknown |
+| <a id="362001061437"></a><code>362001061437</code> | Unknown | 60 |
+| <a id="362001061446"></a><code>362001061446</code> | Unknown | Unknown |
+| <a id="362001061462"></a><code>362001061462</code> | Unknown | Unknown |
+| <a id="362001061549"></a><code>362001061549</code> | Unknown | Unknown |
+| <a id="362001061608"></a><code>362001061608</code> | Unknown | Unknown |
+| <a id="362001061615"></a><code>362001061615</code> | Unknown | Unknown |
+| <a id="362001061646"></a><code>362001061646</code> (filename only) | Unknown | Unknown |
+| <a id="362001061649"></a><code>362001061649</code> | Unknown | 80241, 80242 (conditional) |
+| <a id="362001061665"></a><code>362001061665</code> | Gree GWH09AGA-K6DNA1A/I | 10001 |
+| <a id="362001061704"></a><code>362001061704</code> | Unknown | Unknown |
+| <a id="362001061734"></a><code>362001061734</code> (filename only) | Unknown | Unknown |
+| <a id="362001061737"></a><code>362001061737</code> | Unknown | Unknown |
+| <a id="362001061820"></a><code>362001061820</code> | Unknown | Unknown |
+| <a id="362001061822"></a><code>362001061822</code> | Unknown | Unknown |
+| <a id="362001061824"></a><code>362001061824</code> | Unknown | Unknown |
+| <a id="362001061861"></a><code>362001061861</code> | Unknown | Unknown |
+| <a id="362001061862"></a><code>362001061862</code> | Unknown | 3018 |
+| <a id="362001061890"></a><code>362001061890</code> | Unknown | 80261 |
+| <a id="362001061894"></a><code>362001061894</code> | Unknown | 3019 |
+| <a id="362001061895"></a><code>362001061895</code> | Unknown | 3019 |
+| <a id="362001061897"></a><code>362001061897</code> (filename only) | Unknown | Unknown |
+| <a id="362001061898"></a><code>362001061898</code> | Unknown | 80261 |
+| <a id="362001061917"></a><code>362001061917</code> | Unknown | 80221 |
+| <a id="362001061996"></a><code>362001061996</code> | Unknown | 80300 |
+| <a id="362001062025"></a><code>362001062025</code> | Unknown | Unknown |
+| <a id="362001062030"></a><code>362001062030</code> | Unknown | 828211, 828901 (conditional) |
+| <a id="362001062033"></a><code>362001062033</code> | Unknown | 80221 |
+| <a id="362001062071"></a><code>362001062071</code> | Unknown | Unknown |
+| <a id="362001062097"></a><code>362001062097</code> | Unknown | Unknown |
+| <a id="362001062107"></a><code>362001062107</code> | Unknown | Unknown |
+| <a id="362001062126"></a><code>362001062126</code> | Unknown | Unknown |
+| <a id="362001062214"></a><code>362001062214</code> | Unknown | Unknown |
+| <a id="362001062233"></a><code>362001062233</code> | Unknown | 9100 |
+| <a id="362001062293"></a><code>362001062293</code> | Unknown | Unknown |
+| <a id="362001062295"></a><code>362001062295</code> | Unknown | Unknown |
+| <a id="362001062353"></a><code>362001062353</code> | Unknown | Unknown |
+| <a id="362001062557"></a><code>362001062557</code> | Unknown | Unknown |
+| <a id="362001062573"></a><code>362001062573</code> | Unknown | 80222 |
+| <a id="362001062617"></a><code>362001062617</code> | Unknown | Unknown |
+| <a id="362001062637"></a><code>362001062637</code> | Unknown | Unknown |
+| <a id="362001062715"></a><code>362001062715</code> | Unknown | Unknown |
+| <a id="362001062765"></a><code>362001062765</code> | Unknown | 80303 |
+| <a id="362001062776"></a><code>362001062776</code> (filename only) | Unknown | Unknown |
+| <a id="362001062842"></a><code>362001062842</code> | Unknown | Unknown |
+| <a id="362001062870"></a><code>362001062870</code> | Unknown | Unknown |
+| <a id="362001062978"></a><code>362001062978</code> | Unknown | 80260 |
+| <a id="362001062992"></a><code>362001062992</code> | Unknown | Unknown |
+| <a id="362001063012"></a><code>362001063012</code> | Unknown | 828503, 828901 (conditional) |
+| <a id="362001063014"></a><code>362001063014</code> | Unknown | Unknown |
+| <a id="362001063062"></a><code>362001063062</code> | Unknown | Unknown |
+| <a id="362001063066"></a><code>362001063066</code> | Unknown | 80901 |
+| <a id="362001063081"></a><code>362001063081</code> (filename only) | Unknown | Unknown |
+| <a id="362001063082"></a><code>362001063082</code> | Unknown | Unknown |
+| <a id="362001063084"></a><code>362001063084</code> (filename only) | Unknown | Unknown |
+| <a id="362001063147"></a><code>362001063147</code> | Unknown | Unknown |
+| <a id="362001063149"></a><code>362001063149</code> | Gree U-Match GUD71PHS1/A-S | Unknown |
+| <a id="362001063153"></a><code>362001063153</code> | Unknown | 828f00 (cloud-only) |
+| <a id="362001063222"></a><code>362001063222</code> | Unknown | 60 |
+| <a id="362001063228"></a><code>362001063228</code> | Unknown | Unknown |
+| <a id="362001063300"></a><code>362001063300</code> | Unknown | 80801 |
+| <a id="362001063384"></a><code>362001063384</code> | Unknown | 3018, 302b (conditional) |
+| <a id="362001063525"></a><code>362001063525</code> | Unknown | Unknown |
+| <a id="362001063533"></a><code>362001063533</code> (filename only) | Unknown | Unknown |
+| <a id="362001063534"></a><code>362001063534</code> | Unknown | Unknown |
+| <a id="362001063794"></a><code>362001063794</code> | Unknown | 10002 |
+| <a id="362001063795"></a><code>362001063795</code> (filename only) | Unknown | Unknown |
+| <a id="362001063856"></a><code>362001063856</code> | Unknown | Unknown |
+| <a id="362001063903"></a><code>362001063903</code> | Unknown | Unknown |
+| <a id="362001063967"></a><code>362001063967</code> | Unknown | Unknown |
+| <a id="362001064182"></a><code>362001064182</code> | Unknown | Unknown |
+| <a id="362001064231"></a><code>362001064231</code> | Unknown | Unknown |
+| <a id="362001064270"></a><code>362001064270</code> | Unknown | Unknown |
+| <a id="362001064304"></a><code>362001064304</code> | Unknown | Unknown |
+| <a id="362001064307"></a><code>362001064307</code> | Gree multisplit heat pump | 10001 |
+| <a id="362001064472"></a><code>362001064472</code> | Unknown | 80221 |
+| <a id="362001064475"></a><code>362001064475</code> | Unknown | 80801 |
+| <a id="362001064605"></a><code>362001064605</code> | Unknown | 828f00 (cloud-only) |
+| <a id="362001064696"></a><code>362001064696</code> | Unknown | 3019 |
+| <a id="362001064754"></a><code>362001064754</code> | Unknown | Unknown |
+| <a id="362001064973"></a><code>362001064973</code> | Unknown | Unknown |
+| <a id="362001065016"></a><code>362001065016</code> | Unknown | Unknown |
+| <a id="362001065029"></a><code>362001065029</code> | Unknown | Unknown |
+| <a id="362001065130"></a><code>362001065130</code> | Unknown | Unknown |
+| <a id="362001065223"></a><code>362001065223</code> | Unknown | Unknown |
+| <a id="362001065232"></a><code>362001065232</code> | Unknown | Unknown |
+| <a id="362001065278"></a><code>362001065278</code> (filename only) | Unknown | Unknown |
+| <a id="362001065279"></a><code>362001065279</code> | Cooper &amp; Hunter; Gree Bora A5; Gree Lomo Nordic; Heiwa Essential ZEN+ | 10001 |
+| <a id="362001065280"></a><code>362001065280</code> | Unknown | 10001 |
+| <a id="362001065281"></a><code>362001065281</code> (filename only) | Unknown | Unknown |
+| <a id="362001065356"></a><code>362001065356</code> (filename only) | Unknown | Unknown |
+| <a id="362001065389"></a><code>362001065389</code> | Unknown | Unknown |
+| <a id="362001065430"></a><code>362001065430</code> | Unknown | Unknown |
+| <a id="362001065434"></a><code>362001065434</code> (filename only) | Unknown | Unknown |
+| <a id="362001065437"></a><code>362001065437</code> | Unknown | Unknown |
+| <a id="362001065517"></a><code>362001065517</code> | Unknown | Unknown |
+| <a id="362001065520"></a><code>362001065520</code> (filename only) | Unknown | Unknown |
+| <a id="362001065547"></a><code>362001065547</code> | Unknown | Unknown |
+| <a id="362001065567"></a><code>362001065567</code> | Unknown | Unknown |
+| <a id="362001065568"></a><code>362001065568</code> (filename only) | Unknown | Unknown |
+| <a id="362001065586"></a><code>362001065586</code> | Unknown | Unknown |
+| <a id="362001065602"></a><code>362001065602</code> | Unknown | Unknown |
+| <a id="362001065634"></a><code>362001065634</code> | Unknown | 60 (V1.50) |
+| <a id="362001065635"></a><code>362001065635</code> (filename only) | Unknown | Unknown |
+| <a id="362001065701"></a><code>362001065701</code> | Unknown | Unknown |
+| <a id="362001065734"></a><code>362001065734</code> | Unknown | Unknown |
+| <a id="362001065735"></a><code>362001065735</code> | Unknown | Unknown |
+| <a id="362001065736"></a><code>362001065736</code> | Gree Amber Nordic / Prestige | Unknown |
+| <a id="362001065811"></a><code>362001065811</code> | Unknown | Unknown |
+| <a id="362001065820"></a><code>362001065820</code> | Unknown | Unknown |
+| <a id="362001065867"></a><code>362001065867</code> | Unknown | Unknown |
+| <a id="362001065909"></a><code>362001065909</code> | Unknown | Unknown |
+| <a id="362001065910"></a><code>362001065910</code> (filename only) | Unknown | Unknown |
+| <a id="362001066012"></a><code>362001066012</code> | Unknown | Unknown |
+| <a id="362001066061"></a><code>362001066061</code> | Unknown | Unknown |
+| <a id="362001066140"></a><code>362001066140</code> | Unknown | Unknown |
+| <a id="362001066141"></a><code>362001066141</code> | Unknown | Unknown |
+| <a id="362001066188"></a><code>362001066188</code> (filename only) | Unknown | Unknown |
+| <a id="362001066221"></a><code>362001066221</code> | Unknown | Unknown |
+| <a id="362001066224"></a><code>362001066224</code> | Unknown | Unknown |
+| <a id="362001066240"></a><code>362001066240</code> | Unknown | Unknown |
+| <a id="362001066251"></a><code>362001066251</code> | Unknown | Unknown |
+| <a id="362001066300"></a><code>362001066300</code> | Unknown | Unknown |
+| <a id="362001066308"></a><code>362001066308</code> | Unknown | Unknown |
+| <a id="362001066312"></a><code>362001066312</code> | Unknown | Unknown |
+| <a id="362001066326"></a><code>362001066326</code> | Unknown | 60 |
+| <a id="362001066352"></a><code>362001066352</code> | Unknown | Unknown |
+| <a id="362001066368"></a><code>362001066368</code> | Unknown | Unknown |
+| <a id="362001066369"></a><code>362001066369</code> | Unknown | Unknown |
+| <a id="362001066380"></a><code>362001066380</code> | Unknown | 60 |
+| <a id="362001066427"></a><code>362001066427</code> (filename only) | Unknown | Unknown |
+| <a id="362001066428"></a><code>362001066428</code> | Unknown | Unknown |
+| <a id="362001066437"></a><code>362001066437</code> (filename only) | Unknown | Unknown |
+| <a id="362001066481"></a><code>362001066481</code> | Unknown | Unknown |
+| <a id="362001066511"></a><code>362001066511</code> | Unknown | Unknown |
+| <a id="362001066515"></a><code>362001066515</code> | Unknown | Unknown |
+| <a id="362001066542"></a><code>362001066542</code> | Unknown | 80300 |
+| <a id="362001066543"></a><code>362001066543</code> | Unknown | Unknown |
+| <a id="362001066657"></a><code>362001066657</code> (filename only) | Unknown | Unknown |
+| <a id="362001066763"></a><code>362001066763</code> | Sinclair SMH-100IRB; Sinclair SMH-60IRB | 9300, 9301, 9302 (conditional) |
+| <a id="362001066962"></a><code>362001066962</code> | Unknown | Unknown |
+| <a id="362001066976"></a><code>362001066976</code> (filename only) | Unknown | Unknown |
+| <a id="362001067012"></a><code>362001067012</code> | Gree VRF system | 60 |
+| <a id="362001067047"></a><code>362001067047</code> | Unknown | Unknown |
+| <a id="362001067081"></a><code>362001067081</code> (filename only) | Unknown | Unknown |
+| <a id="362001067088"></a><code>362001067088</code> | Unknown | Unknown |
+| <a id="362001067139"></a><code>362001067139</code> | Unknown | Unknown |
+| <a id="362001067274"></a><code>362001067274</code> | Unknown | Unknown |
+| <a id="362001067276"></a><code>362001067276</code> | Unknown | Unknown |
+| <a id="362001067277"></a><code>362001067277</code> (filename only) | Unknown | Unknown |
+| <a id="362001067405"></a><code>362001067405</code> | Unknown | Unknown |
+| <a id="362001067419"></a><code>362001067419</code> | Unknown | Unknown |
+| <a id="362001067422"></a><code>362001067422</code> | Unknown | Unknown |
+| <a id="362001067425"></a><code>362001067425</code> | Unknown | Unknown |
+| <a id="362001067427"></a><code>362001067427</code> | Unknown | Unknown |
+| <a id="362001067496"></a><code>362001067496</code> | Unknown | Unknown |
+| <a id="362001067522"></a><code>362001067522</code> | Unknown | Unknown |
+| <a id="362001067524"></a><code>362001067524</code> | Unknown | 60 |
+| <a id="362001067538"></a><code>362001067538</code> (filename only) | Unknown | Unknown |
+| <a id="362001067540"></a><code>362001067540</code> | Unknown | Unknown |
+| <a id="362001067541"></a><code>362001067541</code> | Gree GWH12ATCXB-D6DNA4B/I | Unknown |
+| <a id="362001067592"></a><code>362001067592</code> | Unknown | 3018 |
+| <a id="362001067668"></a><code>362001067668</code> | Unknown | Unknown |
+| <a id="362001067802"></a><code>362001067802</code> | Unknown | Unknown |
+| <a id="362001067919"></a><code>362001067919</code> | Unknown | Unknown |
+| <a id="362001067928"></a><code>362001067928</code> | Unknown | Unknown |
+| <a id="362001068254"></a><code>362001068254</code> | Gree Airy; Gree Clivia | 10001 |
+| <a id="362001068295"></a><code>362001068295</code> | Unknown | Unknown |
+| <a id="362001068380"></a><code>362001068380</code> | Unknown | Unknown |
+| <a id="362001068411"></a><code>362001068411</code> | Unknown | Unknown |
+| <a id="362001068417"></a><code>362001068417</code> | Unknown | Unknown |
+| <a id="362001068423"></a><code>362001068423</code> | Unknown | 70501 (V3.10, peer UDP) |
+| <a id="362001068458"></a><code>362001068458</code> | Unknown | Unknown |
+| <a id="362001068561"></a><code>362001068561</code> | Unknown | Unknown |
+| <a id="362001068796"></a><code>362001068796</code> | Unknown | Unknown |
+| <a id="362001068811"></a><code>362001068811</code> | Unknown | Unknown |
+| <a id="362001068812"></a><code>362001068812</code> | Unknown | Unknown |
+| <a id="362001068839"></a><code>362001068839</code> | Unknown | Unknown |
+| <a id="362001068872"></a><code>362001068872</code> | Unknown | Unknown |
+| <a id="362001068873"></a><code>362001068873</code> | Unknown | Unknown |
+| <a id="362001069264"></a><code>362001069264</code> | Unknown | 6400 |
+| <a id="362001069454"></a><code>362001069454</code> | Unknown | Unknown |
+| <a id="362001069922"></a><code>362001069922</code> | Unknown | Unknown |
+| <a id="362001069999"></a><code>362001069999</code> | Unknown | 9300 (mesh metadata) |
+| <a id="362001071519"></a><code>362001071519</code> | Unknown | Unknown |
+| <a id="362001071823"></a><code>362001071823</code> | Unknown | 70503 (cloud) |
+| <a id="362001071953"></a><code>362001071953</code> | Unknown | Unknown |
+| <a id="36300000257"></a><code>36300000257</code> | Unknown | Unknown |
+| <a id="371002000654"></a><code>371002000654</code> | Unknown | 10001 |
 

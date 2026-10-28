@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "qualification": "Literal original-table schemas and source constructor outputs. The source time metadata is a JSON YYYY-MM-DD HH:MM:SS string; its assessment qualifies native software-timer admission >=1526969436 but no maximum calendar year or clock integer width/wrap. Zero serial/cache and epoch clock are explicit synthetic policy, not native boot observations",
+  "mac": "020000000051",
+  "session_key": "0123456789abcdef",
+  "tables": [
+    {"table": "w05-fan", "mid": "828211", "columns": ["Pow", "Rotate", "Mod", "WdSpd", "RotateAg", "TmrOn", "TmrAction", "TmrHour", "TmrMin", "estate", "MidType"], "initial": [0,0,0,0,0,0,0,0,0,0,0]},
+    {"table": "w05-washer", "mid": "828901", "columns": ["Pow", "PauseStart", "Wash", "Mod", "Disinfect", "Dry", "WashDone", "RmTmrHour", "RmTmrMin", "WorkStatus", "estate1", "estate2", "MidType", "JFerr"], "initial": [0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+    {"table": "w06-metadata", "mid": null, "columns": ["MidType"], "initial": [0]},
+    {"table": "w06-power", "mid": null, "columns": ["Pow", "MidType"], "initial": [0,0]},
+    {"table": "w06-humidifier", "mid": "828503", "columns": ["Pow", "UV", "Mode", "Sleep", "FogLevel", "Humidity", "HumiditySet", "TmrOn", "TmrAction", "TmrHour", "TmrMin", "Estate1", "Estate2", "JFerr", "MidType"], "initial": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+    {"table": "w06-washer", "mid": "828901", "columns": ["Pow", "PauseStart", "Wash", "Mod", "Disinfect", "Dry", "WashDone", "RmTmrHour", "RmTmrMin", "WorkStatus", "estate1", "estate2", "JFerr", "MidType"], "initial": [0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+    {"table": "w06-joylink-fan", "mid": null, "columns": ["Power", "Mode", "Wind", "Horizontal", "Vertical", "Timing", "TimingSetHour", "TimingSetMinute", "Error"], "initial": [0,0,0,0,0,0,0,0,0]},
+    {"table": "w06-joylink-humidifier", "mid": "828503", "columns": ["Power", "UV", "Sleep", "Mode", "Wind", "CurrentHumidity", "HumiditySet", "Timing", "Reserve", "TimingSetHour", "TimingSetMinute", "Error"], "initial": [0,0,0,0,0,0,0,0,0,0,0,0]},
+    {"table": "w06-joylink-washer", "mid": "828901", "columns": ["Power", "Work", "Wash", "Mode", "Dry", "DisInfect", "EndTone", "WorkTimeRemainingHour", "WorkTimeRemainingMinute", "State", "Error"], "initial": [0,0,0,0,0,0,0,0,0,0,0]}
+  ],
+  "metadata_columns": ["apssid", "appsw", "host", "name", "time", "lat", "lon", "vender", "bc", "mid", "model", "series", "brand", "catalog", "country", "hid", "mac", "ver", "HidSvrVer", "InHid", "InHidSvrVer", "OEEPHid", "OEEPHidSvrVer"],
+  "w05_hid": "362001062030+U-W05MV1.18.bin",
+  "w06_hid": "362001063012+U-W06TV1.10.bin",
+  "vectors": [
+    {"request": {"t":"bind","mac":"020000000051"}, "selector":1, "newline":true, "response":{"t":"bindok","mac":"020000000051","r":0,"key":"0123456789abcdef"}},
+    {"request": {"t":"cmd","opt":["Pow","Pow","missing","hid"],"p":[255,-1,9,"cannot replace"]}, "selector":0, "newline":true, "response":{"t":"res","mac":"020000000051","r":0,"opt":["Pow","Pow"],"p":[255,-1]}},
+    {"request": {"t":"status","cols":["Pow","missing","Pow","hid","mid","mac"]}, "selector":0, "newline":true, "response":{"t":"dat","mac":"020000000051","r":0,"cols":["Pow","Pow","hid","mid","mac"],"dat":[-1,-1,"362001062030+U-W05MV1.18.bin","",""]}},
+    {"request": {"t":"status","cols":["SvLine"]}, "selector":0, "newline":true, "response":{"t":"dat","mac":"020000000051","r":0,"cols":["SvLine"],"dat":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]}},
+    {"request": {"t":"queryT","index":0,"count":3}, "selector":0, "newline":false, "response":{"t":"listT","total":3,"index":0}},
+    {"request": {"t":"surver","mac":"020000000051"}, "response":null}
+  ],
+  "primitive_contract": {
+    "aes": {"key_bytes":16,"block_bytes":16,"mode":"ECB","outbound_padding":"PKCS7 including a full block at exact capacity","inbound_safe_policy":"require and remove PKCS7; native does not validate it","minimum_native_nonzero_plaintext":16,"scratch_bytes":1024},
+    "base64": {"alphabet":"RFC4648","source_callers":"W05 app 08065700/08065980; W06 ROM 0003523c/00035110","safe_policy":"strict alphabet and complete AES blocks"},
+    "lf": {"scan_bind_status_cmd":1,"software_timer_replies":0},
+    "selector": "request int32 ==0 selects device key; all nonzero values select generic key; replies use boolean1 for scan/bind,0 for cache/timers",
+    "uid": "int32 echoed; no uint8 session mask"
+  },
+  "deviations": [
+    "Strict atomic parser rejects bool, null, string and float scalar writes rather than native cJSON valueint coercion or faults",
+    "At most34 names avoids the original exact35 empty-output/overflow path; status stops at the first empty or at-least16-byte name, while commands retain long source names",
+    "Known scalar cache stores requested int32, not its UART bitmask width; no invented immediate mainboard ACK or calibrated readout",
+    "Synthetic clock starts1970 UTC and advances monotonically; software timers use in-memory persistence and an explicit daily/weekly synthetic scheduler",
+    "The synthetic datetime clock saturates at 9999-12-31 23:59:59 and stops scheduler day stepping after that final date; this is bounded safety policy, not source wrap behavior",
+    "W06 unassociated selector0/1 and JoyLink fan have literal schemas but no invented emitted MID/profile",
+    "Strict target and crypto checks replace unsafe native unchecked field access and unvalidated inbound padding"
+  ]
+}

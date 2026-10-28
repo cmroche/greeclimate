@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "qualification": "Literal original instruction outcomes under declared persisted-key input, standard four-argument PolarSSL ROM base64 preflight and byte-asserted pure libc formatter adapters. No firmware business/getter/dispatcher mutation is replaced. These malformed diagnostic payload strings are NOT repaired into successful full snapshots.",
+  "mac": "020000000011",
+  "uid": 42,
+  "cases": [
+    {
+      "build": "w05p",
+      "profile": "sim-w05p-v11-numeric",
+      "source_sha256": "8142afc02b0b4a70a65f257c2e0dd32aad634cdc566cca6d9a3a198cf7f0d6be",
+      "request": {"t": "surver", "mac": "020000000011"},
+      "outer": {"t": "pack", "i": 1, "uid": 42, "cid": "020000000011", "tcid": "", "pack": "fg\u0001"},
+      "newline_count": 1,
+      "evidence": "NumericBridges/w05p-bank0-operations-surver-abi4-results.json",
+      "source_effect": "Three arguments supplied to four-argument ROM API; residual slen0xfffffff7 and capacity0 take negative preflight before reading input. Native wrapper skips !! prefix, then JSON-serializes binary header C string fg+01 ending at zero byte3."
+    },
+    {
+      "build": "afjme",
+      "profile": "sim-w05afjme-v125-numeric",
+      "source_sha256": "094b8c03181667225f82649d55e899d007d25a7e4f51d18ab4ed2d342609a253",
+      "request": {"t": "surver", "mac": "020000000011"},
+      "outer": {"t": "pack", "i": 1, "uid": 42, "cid": "020000000011", "tcid": "", "pack": "!!"},
+      "newline_count": 1,
+      "evidence": "NumericBridges/afjme-bank0-operations-initialized-results.json",
+      "source_effect": "Three arguments supplied to four-argument ROM API with residual slen0; no input bytes encoded, source prefix !! retained."
+    },
+    {
+      "build": "afjme",
+      "request": {"t": "upgrade", "url": "http://example.invalid/source.bin"},
+      "outer": {"t": "ret", "r": 200, "mac": "020000000011"},
+      "newline_count": 1,
+      "evidence": "NumericBridges/afjme-bank0-operations-initialized-results.json",
+      "source_effect": "Plaintext receipt before physical OTA work; bounded emulator records URL, never downloads/flashes."
+    }
+  ],
+  "clean_command_ack": {"build": "afjme", "r": 200, "opt_present": false, "p_present": false, "val_present": false, "stored_Pow": 1, "requested_Pow": 65537, "evidence": "NumericBridges/afjme-bank0-lifecycle-command-first-abi4-results.json"},
+  "bind_and_status_r": 200,
+  "physical_limits": ["No physical UART/radio calibration, flash updates, full firmware boot or actual hardware AES execution is claimed", "W05P command NULL-tail precondition remains no fabricated ACK; physical low-ROM continuation needs original0x10 bytes"]
+}

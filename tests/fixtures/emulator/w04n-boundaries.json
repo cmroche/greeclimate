@@ -3,32 +3,11 @@
   "mid": "10001",
   "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
   "evidence": {
-    "protocol": "Source0x8031018 cols/opt selection,0x8031350 requested-order dat/cols,0x803156c duplicate val versus p independently native-executed in w04n-protocol.json.",
-    "model": "User-approved synthetic model boundary expectations, independently authored from approved control ranges/strict batch contract. Invalid or unknown/read-only command drops entire batch without mutation; absent/unmodeled status fields omitted. Display flags do not change Celsius sensor/setpoint interpretation. Not vendor mainboard vectors."
+    "protocol": "Historical transport/address qualification in w04n-protocol.json. Original registered-task wire ACK and first-name-wins behavior are independently captured in CatalogQuirks/RealtekEarly/W04N/NumericClosure/generic-field-wire-native.json and duplicate-name-wire-native.json; callback getter output is not the upstream wire val.",
+    "model": "Strict types, unknown commands, malformed columns and whole-batch atomic rejection remain chosen safe-model policy. Raw callback ranges, recognized no-op writes and status getters now use the N namespace. Display flags do not change synthetic Celsius room encoding."
   },
   "initial_state": {},
   "requests": [
-    {
-      "outer": {
-        "t": "pack",
-        "i": 0,
-        "uid": 0,
-        "cid": "app",
-        "tcid": "020000000001"
-      },
-      "inner": {
-        "t": "cmd",
-        "opt": [
-          "Pow",
-          "SetTem"
-        ],
-        "p": [
-          1,
-          31
-        ]
-      },
-      "key": "0123456789abcdef"
-    },
     {
       "outer": {
         "t": "pack",
@@ -46,27 +25,6 @@
         "p": [
           1,
           0
-        ]
-      },
-      "key": "0123456789abcdef"
-    },
-    {
-      "outer": {
-        "t": "pack",
-        "i": 0,
-        "uid": 0,
-        "cid": "app",
-        "tcid": "020000000001"
-      },
-      "inner": {
-        "t": "cmd",
-        "opt": [
-          "Pow",
-          "TemSen"
-        ],
-        "p": [
-          1,
-          24
         ]
       },
       "key": "0123456789abcdef"
@@ -106,25 +64,6 @@
         ],
         "p": [
           1
-        ]
-      },
-      "key": "0123456789abcdef"
-    },
-    {
-      "outer": {
-        "t": "pack",
-        "i": 0,
-        "uid": 0,
-        "cid": "app",
-        "tcid": "020000000001"
-      },
-      "inner": {
-        "t": "cmd",
-        "opt": [
-          "name"
-        ],
-        "p": [
-          "Renamed"
         ]
       },
       "key": "0123456789abcdef"
@@ -234,9 +173,6 @@
     [],
     [],
     [],
-    [],
-    [],
-    [],
     [
       {
         "outer": {
@@ -252,11 +188,13 @@
           "mac": "020000000001",
           "cid": "020000000001",
           "dat": [
+            0,
             26,
             0,
             26
           ],
           "cols": [
+            "AirQ",
             "TemSen",
             "Pow",
             "TemSen"
@@ -278,8 +216,8 @@
           "t": "res",
           "mac": "020000000001",
           "val": [
-            30,
-            30,
+            16,
+            16,
             1,
             1
           ],
@@ -315,7 +253,7 @@
           "cid": "020000000001",
           "dat": [
             1,
-            30,
+            16,
             26,
             1,
             "Emulator Office"
@@ -359,7 +297,7 @@
   "expected_state": {
     "Pow": 0,
     "Mod": 0,
-    "SetTem": 30,
+    "SetTem": 16,
     "WdSpd": 0,
     "TemUn": 1,
     "TemRec": 1,

@@ -4,7 +4,7 @@
   "source_sha256": "5a4705122e69dfb99462fdeef1d19e8b7ce7315d6cdad895849c87ef0cfdfea8",
   "evidence": {
     "native_capture": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/hb-native_research.json; exact Thumb JSON/PKCS7 encryption/key selector and outer framing native captures",
-    "simulation_contract": "Sensorless user-approved integer Celsius synthetic appliance model. Exposes only native-named modeled controls; no TemSen fabricated. Physical mainboard behavior and physical temperature calibration are not claimed. Blank scan ver/vender match initialized source RAM, not a guessed firmware string.",
+    "simulation_contract": "Complete named uint16 control cache, including reserved first-match No slot, plus every named metadata getter. Source primary/secondary canonical476-entry views have equal scoped catalog/leaf code after relocation. Both actual emitted MIDs3018/302b are available; status mid remains the independently initialized empty string, not a discovery alias. Synthetic sensorless Celsius/RTC/RSSI defaults remain explicit; no physical mainboard calibration, waveform or TemSen sensor is fabricated. Native status/parser name limits are retained.",
     "expected_value_origin": "Native builders plus separately specified model defaults/state; no production/client imports."
   },
   "device": {
@@ -299,7 +299,28 @@
       }
     ],
     [],
-    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "SetTem"
+          ],
+          "p": [
+            15
+          ]
+        }
+      }
+    ],
     [
       {
         "outer": {
@@ -322,7 +343,7 @@
           "dat": [
             1,
             1,
-            22,
+            15,
             5
           ]
         }
@@ -348,20 +369,43 @@
     ]
   ],
   "expected_state": {
-    "Pow": 1,
-    "Mod": 1,
-    "SetTem": 22,
-    "WdSpd": 5,
-    "TemUn": 0,
-    "TemRec": 0,
+    "APPNotCtrl": 0,
     "Air": 0,
+    "AllErr": 0,
+    "AppTimer": 0,
+    "AutoComnCloud": 0,
+    "AutoSetTem": 0,
+    "AutoUpdate": 0,
     "Blo": 0,
-    "SwhSlp": 0,
-    "SlpMod": 0,
-    "SwingLfRig": 0,
-    "SwUpDn": 0,
+    "CoolSvStTemMin": 0,
+    "Demand": 0,
+    "Elc1Kwh": 0,
+    "ElcErg": 0,
+    "ElcGear": 0,
+    "HeatCoolType": 0,
+    "HeatSvStTemMax": 0,
+    "LowDeHumi": 0,
+    "Mod": 1,
+    "No": 0,
+    "Omod": 0,
+    "Pow": 1,
     "Quiet": 0,
+    "RemoteLock": 0,
+    "SetTem": 15,
+    "SlpMod": 0,
+    "SvSt": 0,
+    "SwUpDn": 0,
+    "SwhSlp": 0,
+    "SwingLfRig": 0,
+    "Tcloud": 0,
+    "TemRec": 0,
+    "TemRecC": 0,
+    "TemRecH": 0,
+    "TemUn": 0,
     "Tur": 0,
-    "SvSt": 0
+    "WdSpd": 5,
+    "WifiOff": 0,
+    "WifiRest": 0,
+    "lock": 0
   }
 }

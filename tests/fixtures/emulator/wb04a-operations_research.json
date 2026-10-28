@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "profile": "sim-wb04a-v1.49",
+  "source_sha256": "0d5ee6fda1678084e1fa29e6267941afae304090b5b97f7b4264f9cee7fd461b",
+  "timer": {
+    "set_request": {
+      "t": "setT",
+      "id": 9,
+      "name": "Morning",
+      "enable": 1,
+      "tz": 480,
+      "hr": 6,
+      "min": 30,
+      "sec": 45,
+      "week": [0, 1, 1, 0, 0, 0, 1],
+      "cmd": {
+        "opt": ["Pow", "Mod", "Pow"],
+        "p": [1, 99, 2]
+      }
+    },
+    "response": {"t": "resT", "r": 200},
+    "query_request": {"t": "queryT", "index": 0, "count": 10},
+    "query_response": {
+      "t": "listT",
+      "total": 1,
+      "index": 0,
+      "list": [
+        {
+          "id": 9,
+          "name": "Morning",
+          "enable": 1,
+          "week": [0, 1, 1, 0, 0, 0, 1],
+          "hr": 6,
+          "min": 30,
+          "sec": 0,
+          "cmd": {"mac": ["020000000001"], "opt": ["Pow"], "p": [2]}
+        }
+      ]
+    },
+    "update_request": {
+      "t": "updateT",
+      "id": 9,
+      "name": "Changed",
+      "enable": 2,
+      "tz": 480,
+      "hr": 7,
+      "min": 15,
+      "week": [0, 0, 0, 0, 0, 0, 0],
+      "cmd": {"opt": ["Pow"], "p": [0]}
+    },
+    "update_query_response": {
+      "t": "listT",
+      "total": 1,
+      "index": 0,
+      "list": [
+        {
+          "id": 9,
+          "name": "Changed",
+          "enable": 0,
+          "week": [0, 0, 0, 0, 0, 0, 0],
+          "hr": 7,
+          "min": 15,
+          "sec": 15,
+          "cmd": {"mac": ["020000000001"], "opt": ["Pow"], "p": [0]}
+        }
+      ]
+    },
+    "delete_request": {"t": "deleteT", "id": 9},
+    "empty_query_response": {"t": "listT", "total": 0, "index": 0, "list": []}
+  },
+  "upgrade": {
+    "request": {"t": "upgrade", "url": "https://example.invalid/firmware.bin"},
+    "response": {"t": "ret", "r": 200}
+  },
+  "freqCount": {
+    "request": {"t": "freqCount", "opt": ["SendFreq", "FreqTime"], "p": [1, 7]},
+    "response": [],
+    "state": {"_wb_send_freq_pending": 1, "_wb_frequency_timer_word": 16391}
+  }
+}

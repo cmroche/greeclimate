@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "qualification": "Exact-source bounded host metadata and transport evidence; runtime contract catalog-zts_research.json, not a downstream807002 appliance emulator",
+  "outer_source_sha256": "5ba439396454e99496d2de6744cf26769ca2c70a43bb5a0b116925936f5eb0bc",
+  "executable_source_sha256": "e90804f455d9c6a93e9c56e6b3da6f78f4f64a5ab960bf6fb3b0d9b6bff295a1",
+  "embedded_hid": "362001068423+ZTS31AV3.10.img",
+  "host_initializer": {
+    "hid": {
+      "va": "0xa2e24",
+      "text": "362001068423+ZTS31AV3.10.img"
+    },
+    "protocol_ver": {
+      "va": "0xa2f34",
+      "text": "V3.2.MF"
+    },
+    "mid_str": {
+      "va": "0xa2f44",
+      "text": "70501"
+    },
+    "version": {
+      "va": "0xa2f4c",
+      "text": "1"
+    }
+  },
+  "local_status": {
+    "entry": "0x181f4",
+    "metadata_names": [
+      "host",
+      "ver",
+      "hid",
+      "mid",
+      "rssi",
+      "time",
+      "active"
+    ],
+    "root_names": [
+      "host",
+      "ver",
+      "hid",
+      "mid",
+      "time",
+      "active"
+    ],
+    "peer_rssi": "Only UDP type3; signed32 cache serialized without clipping",
+    "vectors": [
+      {
+        "request_cols": [
+          "host",
+          "ver",
+          "hid",
+          "mid",
+          "rssi",
+          "time",
+          "active",
+          "TemSen",
+          "hid"
+        ],
+        "literal_expected_cols": [
+          "host",
+          "ver",
+          "hid",
+          "mid",
+          "time",
+          "active",
+          "hid"
+        ],
+        "literal_expected_dat": [
+          "synthetic.invalid",
+          "V3.6.M",
+          "362001068423+ZTS31AV3.10.img",
+          "70501",
+          "2026-01-01 00:00:00",
+          7,
+          "362001068423+ZTS31AV3.10.img"
+        ],
+        "native_response": {
+          "mac": "020000000001",
+          "cols": [
+            "host",
+            "ver",
+            "hid",
+            "mid",
+            "time",
+            "active",
+            "hid"
+          ],
+          "dat": [
+            "synthetic.invalid",
+            "V3.6.M",
+            "362001068423+ZTS31AV3.10.img",
+            "70501",
+            "2026-01-01 00:00:00",
+            7.0,
+            "362001068423+ZTS31AV3.10.img"
+          ],
+          "t": "dat",
+          "r": 200.0
+        },
+        "response_key_enum": 0
+      },
+      {
+        "request_cols": [
+          "TemSen",
+          "unknown"
+        ],
+        "literal_expected_cols": [],
+        "literal_expected_dat": [],
+        "native_response": {
+          "mac": "020000000001",
+          "cols": [],
+          "dat": [],
+          "t": "dat",
+          "r": 200.0
+        },
+        "response_key_enum": 0
+      },
+      {
+        "request_cols": [],
+        "literal_expected_cols": [],
+        "literal_expected_dat": [],
+        "native_response": {
+          "mac": "020000000001",
+          "cols": [],
+          "dat": [],
+          "t": "dat",
+          "r": 200.0
+        },
+        "response_key_enum": 0
+      },
+      {
+        "peer_type": "UDP3",
+        "synthetic_signed32_rssi": -2147483648,
+        "literal_expected_cols": [
+          "rssi",
+          "rssi"
+        ],
+        "literal_expected_dat": [
+          -2147483648,
+          -2147483648
+        ],
+        "native_response": {
+          "mac": "020000000002",
+          "cols": [
+            "rssi",
+            "rssi"
+          ],
+          "dat": [
+            -2147483648.0,
+            -2147483648.0
+          ],
+          "t": "dat",
+          "r": 200.0
+        }
+      },
+      {
+        "peer_type": "UDP3",
+        "synthetic_signed32_rssi": -128,
+        "literal_expected_cols": [
+          "rssi",
+          "rssi"
+        ],
+        "literal_expected_dat": [
+          -128,
+          -128
+        ],
+        "native_response": {
+          "mac": "020000000002",
+          "cols": [
+            "rssi",
+            "rssi"
+          ],
+          "dat": [
+            -128.0,
+            -128.0
+          ],
+          "t": "dat",
+          "r": 200.0
+        }
+      },
+      {
+        "peer_type": "UDP3",
+        "synthetic_signed32_rssi": -1,
+        "literal_expected_cols": [
+          "rssi",
+          "rssi"
+        ],
+        "literal_expected_dat": [
+          -1,
+          -1
+        ],
+        "native_response": {
+          "mac": "020000000002",
+          "cols": [
+            "rssi",
+            "rssi"
+          ],
+          "dat": [
+            -1.0,
+            -1.0
+          ],
+          "t": "dat",
+          "r": 200.0
+        }
+      },
+      {
+        "peer_type": "UDP3",
+        "synthetic_signed32_rssi": 0,
+        "literal_expected_cols": [
+          "rssi",
+          "rssi"
+        ],
+        "literal_expected_dat": [
+          0,
+          0
+        ],
+        "native_response": {
+          "mac": "020000000002",
+          "cols": [
+            "rssi",
+            "rssi"
+          ],
+          "dat": [
+            0.0,
+            0.0
+          ],
+          "t": "dat",
+          "r": 200.0
+        }
+      },
+      {
+        "peer_type": "UDP3",
+        "synthetic_signed32_rssi": 127,
+        "literal_expected_cols": [
+          "rssi",
+          "rssi"
+        ],
+        "literal_expected_dat": [
+          127,
+          127
+        ],
+        "native_response": {
+          "mac": "020000000002",
+          "cols": [
+            "rssi",
+            "rssi"
+          ],
+          "dat": [
+            127.0,
+            127.0
+          ],
+          "t": "dat",
+          "r": 200.0
+        }
+      },
+      {
+        "peer_type": "UDP3",
+        "synthetic_signed32_rssi": 2147483647,
+        "literal_expected_cols": [
+          "rssi",
+          "rssi"
+        ],
+        "literal_expected_dat": [
+          2147483647,
+          2147483647
+        ],
+        "native_response": {
+          "mac": "020000000002",
+          "cols": [
+            "rssi",
+            "rssi"
+          ],
+          "dat": [
+            2147483647.0,
+            2147483647.0
+          ],
+          "t": "dat",
+          "r": 200.0
+        }
+      }
+    ],
+    "qualification": "Unchanged complete direct host metadata status handler; synthetic cache and stdio date input,32bit cJSON primitive ABI; no actual socket/crypto/boot/downstream device",
+    "limits": "No claim about JSON textual duplicate-member parser, list peer-cache route or downstream registration identity. Primitive AddItem return values are not consumed in these paths."
+  },
+  "transport": {
+    "receive_udp_port": 5000,
+    "send_udp_port": 5001,
+    "ordinary_udp_reply_destination_port": 5001,
+    "miniApp_udp_reply_destination_port": "received sender port",
+    "scan_role": "outbound discovery request, not incoming appliance advertisement",
+    "tcp_scope": "Source exists; not claimed by current UDP emulator contract"
+  },
+  "boundaries": [
+    "Configured807002 plugin is not a proven emitted downstream appliance MID",
+    "Native cJSON primitive adapter supplied object representation, not JSON text parser",
+    "Synthetic date/cache inputs do not prove physical initialization or hardware calibration",
+    "Root39 operation envelope/key routing is statically qualified in catalog-zts_research.json; native full-session execution is not claimed"
+  ]
+}

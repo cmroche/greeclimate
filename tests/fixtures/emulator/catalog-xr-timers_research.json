@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "ota_code": "063967",
+  "source_sha256": "074938b9fd37de4f2392b110450d5e0c64e37d32af9b810f72c1fd95cb6f46d8",
+  "primary_payload_sha256": "7ffce06473fcb24cdd5b2556aa639da1e59eff07fcedbac66bd114e22abf53a7",
+  "contained_cjson_sha256": "6420946db8c472607f10e11630b6bf8a5300afdb21c62ad8c3ff691c3396b65f",
+  "private_evidence": "CatalogQuirks/OtherMCU/xr-timer-assessment.json",
+  "native_results": "CatalogQuirks/OtherMCU/xr-timer-local-results.json",
+  "qualification": "Literal original-instruction/cJSON expectations, not emulator-generated. Twelve independent source cases PASS. Native inner ingress uses supplied cJSON input tree and captures pre-encryption wrapper input; allocator, libc, calendar, JSON print, flash, locks/logs are explicit primitives. No boot, hardware AES, flash durability or physical mainboard proof.",
+  "base_record": {
+    "id": 1,
+    "name": "timer",
+    "enable": 0,
+    "hr": 0,
+    "min": 0,
+    "sec": 5,
+    "week": [0, 0, 0, 0, 0, 0, 0],
+    "tz": 0,
+    "cmd": [{"mac": ["020000000001"], "opt": ["Pow"], "p": [1]}]
+  },
+  "parser_request": {
+    "t": "setT",
+    "id": 257,
+    "name": "timer",
+    "enable": 0,
+    "hr": 0,
+    "min": 0,
+    "sec": 5,
+    "week": [1, -2, 256, 2147483647],
+    "tz": -1,
+    "cmd": [{"mac": ["a", "b"], "opt": ["Pow", "ignored"], "p": [257, -1]}]
+  },
+  "parser_query_request": {"t": "queryT", "index": 0, "count": 0},
+  "parser_query_response": {
+    "t": "listT",
+    "total": 0,
+    "index": 0,
+    "list": [{
+      "id": 1,
+      "name": "timer",
+      "enable": 0,
+      "hr": 0,
+      "min": 0,
+      "sec": 5,
+      "week": [1, -2, 256, 2147483647, 0, 0, 0],
+      "cmd": [{"mac": ["a", "b"], "opt": ["Pow"], "p": [257]}]
+    }]
+  },
+  "empty_query": {
+    "request": {"t": "queryT", "index": 255, "count": 255},
+    "response": {"t": "listT", "total": 255, "index": 255}
+  },
+  "pagination": {
+    "insertion_ids": [50, 2, 99, 4],
+    "request": {"t": "queryT", "index": 1, "count": 1},
+    "expected_ids": [2, 99],
+    "total": 1,
+    "basis": "Traversal writes ordinal node+1. Callback includes count+1 because comparison is requestedcount < emittedcount; iterator ignores callback returns."
+  },
+  "replacement": {
+    "old_p": 305419896,
+    "new_p": -2,
+    "expected_p": 305420030,
+    "old_mac": "a",
+    "new_mac": "b",
+    "old_opt": "Pow",
+    "new_opt": "Mod",
+    "basis": "0x142a8dc copies old optcount BYTES from p: normally one byte, preserving old high24 bits."
+  },
+  "responses": {
+    "stored": {"t": "resT", "r": 200},
+    "set_full": {"t": "resT", "r": 500},
+    "update_full": null,
+    "delete_known": {"t": "resT", "r": 200},
+    "delete_unknown": {"t": "resT", "r": 200},
+    "correction": "Original ingress disproves older inferred unknown-delete silence. Empty iteration returns8; no-match callback returns0; both satisfy (return&0xf7)==0."
+  },
+  "scheduler": {
+    "clock_epoch": 1780272010,
+    "calendar": "2026-06-01T00:00:10Z, Monday",
+    "active_enable": 0,
+    "week_order": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "clock_threshold_exclusive": 1526969435,
+    "source_threshold_hex": "0x5b03b45b",
+    "midnight_order": {"clock": 1780272000, "stored_seconds": [5, 7], "expected_remaining": [5, 6], "basis": "Each per-node callback refreshes ALL records; later node refresh erases earlier node decrement."},
+    "source_only_cases": [
+      {"name": "one-shot, no staging initialization", "initial_remaining": 0, "expected_remaining": -1780272010, "expected_enable": 1, "expected_output_hex": "000000000000", "expected_dirty": 1},
+      {"name": "isolated Pow-staging leaf plus one-shot callback", "initial_remaining": 0, "expected_remaining": -1780272010, "expected_enable": 1, "expected_output_hex": "000000173b3b", "qualification": "0x142a298 leaf explicitly invoked by probe; no caller of its setup0x142aa60 found in primary. NOT the runtime initialization policy."},
+      {"name": "Monday repeat leaf", "initial_remaining": 2, "week": [0, 1, 0, 0, 0, 0, 0], "expected_remaining": 1, "expected_enable": 0},
+      {"name": "Tuesday repeat on Monday", "initial_remaining": 2, "week": [0, 0, 1, 0, 0, 0, 0], "expected_remaining": 2, "expected_enable": 0}
+    ],
+    "runtime_policy": "UTC virtual clock, original countdown/weekday/enable/one-shot lifecycle and dirty output register. advance returns no root command batches: source only stages UART timer bytes, never dispatches stored cmd as arbitrary local commands. Startup clears on/off flag arrays. tz is retained lowbyte, never used for local day conversion.",
+    "synthetic_output": "Per-device six-byte zero-initialized mainboard-facing timer register; past active set/update may write source sentinel23:59:59 twice. No physical UART or Pow/cache readback inferred."
+  },
+  "wrapper": {
+    "key": "device key at0x1465244 regardless request i",
+    "emitted_i": "cached source flag0x14671de, unchanged by timer operations",
+    "framing": "parent-owned single outer LF",
+    "native_scope": "0x142daa4 source tailbranches contained cJSON_Delete0x4cbf24; missing-bank decompiler warning is not missingROM."
+  },
+  "safe_model_policy": [
+    "Atomic reject malformed types, unsafe strings/NUL, >7week, >10cmd, >10mac-pointer strings, >30p; strict signed32 integers instead of untyped cJSON valueint coercion.",
+    "name<=19UTF8bytes; firstopt required; cmd list must be nonempty to avoid original one-shot log dereference of null first command.",
+    "Reject replacement cmd/mac/string allocation growth; preserve established one-byte p merge for safe existing allocations.",
+    "Bound full serialized in-memory persistence to0x2000bytes before mutation, not native last-write overrun. set failure resT/r500; update failure silent.",
+    "IDs/tz/index/count retain lowbyte semantics in memory-safe per-device containers instead of overflowing original ten-element flag arrays.",
+    "Store persists for owning process/device only; no wholeboot or process-restart flash durability claim."
+  ],
+  "coverage": [
+    "setT", "updateT", "deleteT", "queryT", "id-lowbyte", "tz-lowbyte-query-omits-tz", "replacement-one-byte-p", "insertion-order", "max10", "signed-int32-week7", "first-opt-first-p", "all-cmdmac-strings", "unsigned-seconds-wrap", "query-ordinal-index", "requested-count-total", "count-plus-one", "no-list-empty", "nonempty-out-of-range-empty-list", "source-response-distinctions", "device-key-cached-i-wrapper", "clock-threshold", "explicit-time-refresh", "midnight-refresh", "disabled-enable-one", "weekday-repeat", "one-shot-disable", "fractional-elapsed", "per-device-isolation", "UART-output-not-root-command"
+  ]
+}

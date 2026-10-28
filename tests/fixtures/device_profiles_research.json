@@ -1,0 +1,117 @@
+{
+  "research_commit": "61256dc9cb319a10a1839ad1a46940bc65fbcd51",
+  "client_policy_qualification": "An omitted buzzer namespace means unsupported by this library's opt-in policy, not evidence of native or physical absence.",
+  "identities": [
+    {
+      "firmware_code": "362001061395",
+      "hid": "362001061395+U-W05PV1.1.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/NumericBridges/assessment.json#/firmwares[?source_sha256=8142afc02b0b4a70a65f257c2e0dd32aad634cdc566cca6d9a3a198cf7f0d6be]/embedded_hids/0 @sha256=8142afc02b0b4a70a65f257c2e0dd32aad634cdc566cca6d9a3a198cf7f0d6be",
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/NumericBridges/assessment.json#/firmwares[?source_sha256=8142afc02b0b4a70a65f257c2e0dd32aad634cdc566cca6d9a3a198cf7f0d6be]/properties[name=hid]/evidence (getter 0x0805b514) @sha256=8142afc02b0b4a70a65f257c2e0dd32aad634cdc566cca6d9a3a198cf7f0d6be"
+      ],
+      "qualification": "Static full HID and source metadata getter agree on this identity. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001061549",
+      "hid": "362001061549+RB-N1008711V2.3.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/assessment.json#/firmwares[?source_sha256=7ac1c8bfa4d089d5a71495c9146d400f1f759419aa5fe27fb792529be305cc67]/embedded_hids @sha256=7ac1c8bfa4d089d5a71495c9146d400f1f759419aa5fe27fb792529be305cc67"
+      ],
+      "qualification": "Source-static full HID identity lead; not evidence of a live emitted HID. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001061737",
+      "hid": "362001061737+U-BL3332_JDRSV3.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/5/embedded_identity_lead @sha256=ea6228d5a32564ccf597bd8cb771fb0fd92e73521fec71c7aa897eb9fa534bf3",
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/5/source_aliases_verified/0 @sha256=ea6228d5a32564ccf597bd8cb771fb0fd92e73521fec71c7aa897eb9fa534bf3"
+      ],
+      "qualification": "Owner-verified embedded identity lead and source alias; source semantic/probe closure remains incomplete. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001061820",
+      "hid": "362001061820+U-W05EV16.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c]/properties[name=hid]/evidence @sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b]/properties[name=hid]/evidence @sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b",
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9]/properties[name=hid]/evidence @sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9"
+      ],
+      "qualification": "Conditional W04 source getter identity: configured MID 828401 or 828402 selects the 061820 prefix. This HID is the V16 build's versioned source output; other documented builds have distinct V8/V12 outputs, and the evidence does not assert that all versions are the same physical device. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001061861",
+      "hid": "362001061861+U-W05VV1.4.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/assessment.json#/firmwares[?source_sha256=17ffdb4d62b5611fc24992a97ea8912de8ae659607cd09b38d45c66856601ad4]/embedded_hids @sha256=17ffdb4d62b5611fc24992a97ea8912de8ae659607cd09b38d45c66856601ad4"
+      ],
+      "qualification": "Source-static complete HID identity literal; not proof of full boot or live dispatch. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001062126",
+      "hid": "362001062126+U-W06RV1.40.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/assessment.json#/firmwares[?source_sha256=321b6a7263be80e398ce8f9a0c238f056a8fd208ed3425f3024a425566c81915]/embedded_hids @sha256=321b6a7263be80e398ce8f9a0c238f056a8fd208ed3425f3024a425566c81915"
+      ],
+      "qualification": "Source-static complete HID identity literal; not proof of full boot or live dispatch. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001062353",
+      "hid": "362001062353+U-W05ACV1.00.bin+362001063014+N-W05ACV0.00.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/NumericBridges/assessment.json#/firmwares[?source_sha256=f5ed4e1286d955e0f91a79e85019a91fb0a986143c4dde882be3366afa8a508d]/embedded_hids/0 @sha256=f5ed4e1286d955e0f91a79e85019a91fb0a986143c4dde882be3366afa8a508d",
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/NumericBridges/assessment.json#/firmwares[?source_sha256=f5ed4e1286d955e0f91a79e85019a91fb0a986143c4dde882be3366afa8a508d]/properties[name=hid]/evidence.metadata @sha256=f5ed4e1286d955e0f91a79e85019a91fb0a986143c4dde882be3366afa8a508d"
+      ],
+      "qualification": "Source-native compound HID formatter identifies root U code 362001062353 and separate N-board suffix 362001063014. Register only the root code; the suffix is not a separate profile identity. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001062715",
+      "hid": "362001062715+U-W06ZV1.03.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/assessment.json#/firmwares[?source_sha256=78bb6709a41d5e060b315b1aa44d8ec3c0a0778dd4164df621849390d653780f]/embedded_hids @sha256=78bb6709a41d5e060b315b1aa44d8ec3c0a0778dd4164df621849390d653780f"
+      ],
+      "qualification": "Source-static complete HID identity literal; not proof of full boot or live dispatch. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001063062",
+      "hid": "362001063062+U-W04AV16.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c]/embedded_hids/0 and properties[name=hid]/evidence @sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b]/mid_roles.presets[828a04] and properties[name=hid] @sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b"
+      ],
+      "qualification": "Conditional W04 source getter identity: configured MID 828a04 selects the 063062 prefix for the documented V16 and V8 builds. The selected HID is the V16 build's output; identity is not a universal alias or evidence that versions represent the same physical device. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001063082",
+      "hid": "362001063082+U-W04BV12.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9]/embedded_hids/0,mid_roles.presets[828a04],properties[name=hid]/evidence @sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9"
+      ],
+      "qualification": "Conditional W04 source getter identity: configured MID 828a04 selects the 063082 prefix on this exact V12 image; the image's separate OTA alias 063084 is not the getter identity or a profile candidate. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001065811",
+      "hid": "362001065811+U-WB63DF(RT)V1.00.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/assessment.json#/firmwares[?source_sha256=a53e88d30bf65b3987ff65c362ac8159f63b3f2a36650e816905f2fc4a2cbb85]/embedded_hids @sha256=a53e88d30bf65b3987ff65c362ac8159f63b3f2a36650e816905f2fc4a2cbb85"
+      ],
+      "qualification": "Owner-verified source formatter output; preserve the literal module name '(RT)' in the HID. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "362001067088",
+      "hid": "362001067088+U-WB05IRV1.15.bin",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/assessment.json#/firmwares[?source_sha256=449974949ee0720813a603c8276049c5ce420dcd854aa96c2e9a94b94b76d571]/embedded_hids @sha256=449974949ee0720813a603c8276049c5ce420dcd854aa96c2e9a94b94b76d571"
+      ],
+      "qualification": "Source-static complete HID identity literal; not proof of full boot or live dispatch. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    },
+    {
+      "firmware_code": "36300000257",
+      "hid": "36300000257",
+      "evidence": [
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/OtherMCU/assessment.json#/firmwares[?source_sha256=4785af8b512f8a2c64a0eaef032d73e95a5016e54d4b058feccf0ab16208c9d6]/embedded_hids @sha256=4785af8b512f8a2c64a0eaef032d73e95a5016e54d4b058feccf0ab16208c9d6",
+        "../gree-research/firmware-capabilities/research/CatalogQuirks/OtherMCU/assessment.json#/firmwares[?source_sha256=87d78fba6a69f1492a9180a3df319aa2c51f585e5ad6773803c9ccce71fa22e9]/embedded_hids @sha256=87d78fba6a69f1492a9180a3df319aa2c51f585e5ad6773803c9ccce71fa22e9"
+      ],
+      "qualification": "Source-native formatter retains the exact 11-digit code prefix and literal '36300000257+CS532RV%d.%d.bin'; OTA metadata supplies the version, which is unknown here. Use the bare code as HID input; no versioned HID is claimed. Identity-only admission; no DeviceProfile traits, physical behavior, or physical absence are inferred."
+    }
+  ]
+}

@@ -1,0 +1,357 @@
+{
+  "profile": "sim-w05g-v4.3",
+  "mid": "80300",
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Sceneid"
+        ],
+        "p": [
+          "1"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Onoff",
+          "Scenecontrol"
+        ],
+        "p": [
+          "[\"01021AF\"]",
+          "1"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Scene"
+        ],
+        "p": [
+          "[\"01021af\"]"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Sceneid",
+          "Scene",
+          "Scenecontrol",
+          "BleKey",
+          "Pow",
+          "NoD"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "host",
+          "lat",
+          "Meshid"
+        ],
+        "p": [
+          "host.local",
+          "12.34",
+          "ABCD"
+        ]
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "host",
+          "lat",
+          "Meshid",
+          "Pow"
+        ]
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Sceneid"
+          ],
+          "p": [
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Scenecontrol",
+            "Onoff"
+          ],
+          "p": [
+            1,
+            "OK"
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Scene"
+          ],
+          "p": [
+            "OK"
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Sceneid",
+            "Scene",
+            "Scenecontrol",
+            "BleKey",
+            "Pow",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD",
+            "NoD"
+          ],
+          "dat": [
+            1,
+            "OK",
+            1,
+            "",
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "host",
+            "lat",
+            "Meshid"
+          ],
+          "p": [
+            "host.local",
+            "12.34",
+            "abcd"
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "host",
+            "lat",
+            "Meshid",
+            "Pow"
+          ],
+          "dat": [
+            "host.local",
+            "12.34",
+            "abcd"
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "BleLink": 0,
+    "Mesh": 0,
+    "Meshota": 0,
+    "Reota": 0,
+    "SubOnline": 0,
+    "Proaddr": 0,
+    "Random": 0,
+    "Unbind": 0,
+    "Subcount": 0,
+    "Pow": 0,
+    "Lpn": 0,
+    "Meshid": 0,
+    "Onoff": 0,
+    "Sceneid": 0,
+    "Scene": 0,
+    "Scenecontrol": 0,
+    "BleKey": 0,
+    "BleStatus": 0,
+    "AdminRadom": 0,
+    "NoD": 0,
+    "apssid": 0,
+    "appsw": 0,
+    "host": 0,
+    "name": 0,
+    "time": 0,
+    "lat": 0,
+    "lon": 0,
+    "vender": 0,
+    "bc": 0,
+    "mid": 0,
+    "model": 0,
+    "series": 0,
+    "brand": 0,
+    "catalog": 0,
+    "country": 0,
+    "hid": 0,
+    "mac": 0,
+    "ver": 0,
+    "HidSvrVer": 0,
+    "InHid": 0,
+    "InHidSvrVer": 0,
+    "OEEPHid": 0,
+    "OEEPHidSvrVer": 0,
+    "BtHid": 0
+  },
+  "provenance": "Independent source callback/scene literals from corrected RealtekControllers full sweep and g_scene_probe.py/r_action_probe.py; synthetic finite atomic R response and in-memory flash/queues. Original R NULL tail and flash platform stops remain qualifiers; no physical IR/BLE claim. Clock intentionally excluded from process-timing-sensitive vectors."
+}

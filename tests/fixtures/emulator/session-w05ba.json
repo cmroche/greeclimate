@@ -1,0 +1,24 @@
+{
+  "profile": "sim-w05ba-v1.11",
+  "profile_id": "sim-w05ba-v1.11",
+  "mid": "80801",
+  "device": {"name": "", "mac": "020000000001", "key": "0123456789abcdef"},
+  "initial_state": {},
+  "requests": [
+    {"outer": {"t": "pack", "i": -1, "uid": 42, "cid": "app", "tcid": "020000000001"}, "key": "a3K8Bx%2r8Y7#xDh", "inner": {"t": "bind", "mac": "020000000001"}},
+    {"outer": {"t": "pack", "i": 2, "uid": 42, "cid": "app", "tcid": "020000000001"}, "key": "a3K8Bx%2r8Y7#xDh", "inner": {"t": "status", "mac": "020000000001", "cols": ["hid", "StartTime", "EndTime", "Electnumzero", "rssi"]}},
+    {"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "app", "tcid": "020000000001"}, "key": "0123456789abcdef", "inner": {"t": "cmd", "opt": ["CountDownFlag", "RealTimeVoltage", "StartTime", "EndTime"], "p": [0, -1, -1, 65537]}},
+    {"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "app", "tcid": "020000000001"}, "key": "0123456789abcdef", "inner": {"t": "status", "mac": "020000000001", "cols": ["CountDownFlag", "RealTimeVoltage", "StartTime", "EndTime"]}},
+    {"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "app", "tcid": "020000000001"}, "key": "0123456789abcdef", "inner": {"t": "cmd", "opt": ["Pow"], "p": [1]}},
+    {"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "app", "tcid": "020000000001"}, "key": "0123456789abcdef", "inner": {"t": "status", "mac": "020000000001", "cols": ["Pow", "RealTimeVoltage", "Electnumzero", "hid"]}}
+  ],
+  "expected_replies": [
+    [{"outer": {"t": "pack", "i": 1, "uid": 42, "cid": "020000000001", "tcid": ""}, "inner": {"t": "bindok", "mac": "020000000001", "r": 200, "key": "0123456789abcdef"}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "020000000001", "tcid": ""}, "inner": {"t": "dat", "mac": "020000000001", "r": 200, "cols": ["hid", "StartTime", "EndTime", "Electnumzero", "rssi"], "dat": ["362001064475+W05BAV1.11.bin", [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], 0]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "020000000001", "tcid": ""}, "inner": {"t": "res", "mac": "020000000001", "r": 200, "opt": ["CountDownFlag", "RealTimeVoltage", "StartTime", "EndTime"], "p": [0, 0, 65535, 65535, 1]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "020000000001", "tcid": ""}, "inner": {"t": "dat", "mac": "020000000001", "r": 200, "cols": ["CountDownFlag", "RealTimeVoltage", "StartTime", "EndTime"], "dat": [0, 0, [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "020000000001", "tcid": ""}, "inner": {"t": "res", "mac": "020000000001", "r": 200, "opt": ["Pow"], "p": [1]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 42, "cid": "020000000001", "tcid": ""}, "inner": {"t": "dat", "mac": "020000000001", "r": 200, "cols": ["Pow", "RealTimeVoltage", "Electnumzero", "hid"], "dat": [1, 65535, "362001064475+W05BAV1.11.bin"]}}]
+  ],
+  "expected_state": {"Pow": 1, "CountDownTime": 0, "CountDownState": 0, "CountDownFlag": 0, "RealTimeVoltage": 65535, "RealTimeEleCurrent": 0, "RealTimePower": 0, "EnergyOfTime": 0, "EnergyOfTimeFlag": 0, "StartTime": 65535, "EndTime": 1, "Electnumzero": 0, "hid": 0, "time": 0, "MessagePushFlag": 0, "rssi": 0}
+}

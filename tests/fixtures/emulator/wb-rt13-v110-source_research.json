@@ -1,0 +1,15 @@
+{
+  "source_sha256": "caa7f0ac2ba63b7ecd4aef0073ba5d21b2f06b53f2b13ae04d8f2948b07a766e",
+  "source_path": "362001065281+U-WB05RT13V1.10-test.bin",
+  "hid": "362001065279+U-WB05RT13V1.10.bin",
+  "mids": ["10001"],
+  "mid_qualification": "conditional CASE4 fallback after retry counter exceeds 5 while raw MID remains zero",
+  "metadata_mid_pointer": "0x1000a024",
+  "discovery_mid_buffer": "0x100151f7",
+  "generic_key": "a3K8Bx%2r8Y7#xDh",
+  "codec": "aes-ecb-pkcs7",
+  "buffer_bytes": 1460,
+  "scan_fields": ["cid", "bc", "brand", "catalog", "mac", "mid", "model", "name", "lock", "series", "vender", "ver"],
+  "operations": ["bind", "status", "cmd", "upgrade", "setT", "queryT", "deleteT", "updateT", "dump"],
+  "numeric_fields_export": "wb-rt13-v110-fields_research.json"
+}

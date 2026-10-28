@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "source_sha256": "3b62bc10d437e5ed533f158b70b9ee7f80a729eb9060a97e286d01e8619e0f00",
+  "method": "Original-byte-asserted frame/CBC/padding instructions with supplied single-block AES128 key schedule/encrypt/decrypt primitives; independent expected frames use library CBC, not emulator output. No hardware AES or full session boot claim.",
+  "command": "venv/bin/python ../gree-research/firmware-capabilities/research/CatalogQuirks/Xtensa/probe_mt2_frames.py",
+  "script_sha256": "bea99cd4471f6a756f692e438a76d9909bc11b73542827e9383d5d9f2c3121e1",
+  "boundaries": {
+    "0x9dfb64": "ROM memcpy",
+    "0x9dfdf8": "ROM memset",
+    "0xa0d484": "Supplied AES128 key schedule primitive; original CBC/padding/frame code executes",
+    "0xa0d494": "Supplied AES128 single-block encryption primitive",
+    "0xa0d4a8": "Supplied AES128 single-block decryption primitive"
+  },
+  "vectors": [
+    {
+      "opcode": 1,
+      "options_hex": "",
+      "payload_hex": null,
+      "sequence": 0,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb01",
+      "actual_frame_hex": "aabb01",
+      "trace_sha256": "cd03e030465d090eb6ab63766098f53468444ead9d614c27b69e5ae95997eab7"
+    },
+    {
+      "opcode": 8,
+      "options_hex": "0203",
+      "payload_hex": null,
+      "sequence": 0,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb08020500000203",
+      "actual_frame_hex": "aabb08020500000203",
+      "trace_sha256": "f3cc304059410b43b0d9f8aa0c39265c912ec5367b8ae19f1379a898bdbe4746"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb110213001002034ba42ec678a61e0ad7f8c85c53665f94",
+      "actual_frame_hex": "aabb110213001002034ba42ec678a61e0ad7f8c85c53665f94",
+      "trace_sha256": "7865f276deaf274fed4d0da28404df5b2ce62e1f98a28749161b7bef03d69951"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "00",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb110213001002036719687a85e543abb195cf6f1f4acaa8",
+      "actual_frame_hex": "aabb110213001002036719687a85e543abb195cf6f1f4acaa8",
+      "trace_sha256": "fa7213678d76d24af5210da01ed397c13aabdab7518e56273296ee062bc17dae"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "000102030405060708090a0b0c0d",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb11027e0020020323840ca445c87902d2c330d7b5c12030fc5409b19903802f6ca9e969d6452ab8",
+      "actual_frame_hex": "aabb11027e0020020323840ca445c87902d2c330d7b5c12030fc5409b19903802f6ca9e969d6452ab8",
+      "trace_sha256": "fd4c120a7dd7796fafbd7146233130be0b32d3b7fedf1d0ec5f4afa726620425"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "000102030405060708090a0b0c0d0e",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb11028c0020020323840ca445c87902d2c330d7b5c1203049e4da3752e7aec7bc90b4af2cc49b73",
+      "actual_frame_hex": "aabb11028c0020020323840ca445c87902d2c330d7b5c1203049e4da3752e7aec7bc90b4af2cc49b73",
+      "trace_sha256": "c4a541c97f692ce7aebb553b8aa31dda997dd1df941fdfe5e17b253fe2b14aad"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "000102030405060708090a0b0c0d0e0f",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb11029b0020020323840ca445c87902d2c330d7b5c12030207db429260113a3d441cad57721c2ab",
+      "actual_frame_hex": "aabb11029b0020020323840ca445c87902d2c330d7b5c12030207db429260113a3d441cad57721c2ab",
+      "trace_sha256": "170a52bbf1af65149a8d629039c630d158f682fba10dbcc5945bfbdc4923735b"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb1102040030020323840ca445c87902d2c330d7b5c120301bb7e1426a40a718d9c5d483a24f76ec1d2c741596dbb81b6617c2c025e47274",
+      "actual_frame_hex": "aabb1102040030020323840ca445c87902d2c330d7b5c120301bb7e1426a40a718d9c5d483a24f76ec1d2c741596dbb81b6617c2c025e47274",
+      "trace_sha256": "494b89703348d6f5e8f4a7e4080c60d053e33458285979874bc2d22ea409d4e7"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb1102230030020323840ca445c87902d2c330d7b5c120301bb7e1426a40a718d9c5d483a24f76ec566e2ea462567dc080bd861ef3ac3ae5",
+      "actual_frame_hex": "aabb1102230030020323840ca445c87902d2c330d7b5c120301bb7e1426a40a718d9c5d483a24f76ec566e2ea462567dc080bd861ef3ac3ae5",
+      "trace_sha256": "b3869b1530a016ec188d1bf70ea73767671fb23b66d925aeeb5b096fffdd99c9"
+    },
+    {
+      "opcode": 17,
+      "options_hex": "0203",
+      "payload_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfe",
+      "sequence": 65535,
+      "key_hex": "000102030405060708090a0b0c0d0e0f",
+      "iv_hex": "101112131415161718191a1b1c1d1e1f",
+      "error": null,
+      "expected_frame_hex": "aabb1102950110020323840ca445c87902d2c330d7b5c120301bb7e1426a40a718d9c5d483a24f76ec23e1ebe6ca4266eaf581f3a4e196bd1fffa9a7e6c47dc59b112da13f33a4cf50b08781dbf535baebf00520e3e37db9d5628b77659adf538277d268b45a946bce6d368de420f25e007f686efb8a68c7fd33620383a77af722c97ee608490cbe1e6ab37b48826df84f564732aa68080208c747edb200032450fea85347040217461514e2d520ea211de3b9c0ed456c3c53d0cf6e3efc059a149ab4740db7c3dda62efe8981eba9da812d1c6dbc1f3e372e59542d573b5dbbb070c98abc3fa219aa78a9c7141f64622d12e053cb40a53decd893e990ddad0b82fa1205d9c882212daad1278406a67c5ee4b22cd921652631",
+      "actual_frame_hex": "aabb1102950110020323840ca445c87902d2c330d7b5c120301bb7e1426a40a718d9c5d483a24f76ec23e1ebe6ca4266eaf581f3a4e196bd1fffa9a7e6c47dc59b112da13f33a4cf50b08781dbf535baebf00520e3e37db9d5628b77659adf538277d268b45a946bce6d368de420f25e007f686efb8a68c7fd33620383a77af722c97ee608490cbe1e6ab37b48826df84f564732aa68080208c747edb200032450fea85347040217461514e2d520ea211de3b9c0ed456c3c53d0cf6e3efc059a149ab4740db7c3dda62efe8981eba9da812d1c6dbc1f3e372e59542d573b5dbbb070c98abc3fa219aa78a9c7141f64622d12e053cb40a53decd893e990ddad0b82fa1205d9c882212daad1278406a67c5ee4b22cd921652631",
+      "trace_sha256": "b116371868783c4b506e9fda3821147595ca25ea45430c8a4338468cacf6c834"
+    }
+  ],
+  "errors": []
+}

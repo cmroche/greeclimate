@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "sim-w06dv-v3.02": "0deb40c2057cdd348e98194ecf9bfae70dfdd190204d7235ef6376e0146ff25b",
+    "sim-w06dv-v4.01": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f"
+  },
+  "evidence": {
+    "dv302": "SessionQuirks/QCA/probe-results.json complete-status-whitelist-0..102, corrected time getter in probe-results-last-failed-retry.json and dv-metadata-contract.json; original translated instructions, historical results not rerun by worker",
+    "dv401": "Xtensa-1/eabd04d49c51: network table0x44ba40 has103 records, cardinality0xa66003; status0xa0efd8 metadata0xa0ea84 setter0xa10b70 selector0xa10c68 initialization0xa11200. New authorized CatalogQuirks/Xtensa/probe_controller_closure.py execution exit0: controller-closure-vectors.json has301 passing original-instruction cases, errors[]; all103 getter names plus prefix aliases, capacity and24x8 setter boundaries.",
+    "safe_model": "Strict integer/raw byte state, safe atomic commands, UTF8/NUL bounds, frozen epoch clock; no measured physics or hardware calibration. Table-only scalar names share explicitly synthetic prefix byte0 rather than source out-of-bounds cache[-1]. Their getters do not authorize writes or typed capabilities. Startup SetTem24/internal thermal defaults and empty host are chosen simulator policy, not firmware power-on values."
+  },
+  "empty_metadata": ["SwhWifi", "SwhWifiRes", "SwhWifiConf", "AutoConnCloud", "datDump", "datRep", "datFailRep", "datPeroid", "subCnt", "useTCP", "country", "city", "cnty", "cityid", "lat", "lon"],
+  "string_metadata": {"bc": "", "model": "", "series": "", "apssid": "", "appsw": "", "brand": "", "catalog": "", "host": "", "time": "1970-01-01 00:00:00", "vender": "1", "ver": "V1.0.0.0"},
+  "numeric_metadata": {"AutoUpdate": 0, "lock": 0},
+  "identity_metadata": ["mid", "hid", "mac", "name"],
+  "raw_readouts": ["Lig", "Health", "SwhSw", "StHt", "LTemDry", "Wet", "HasTmr", "TmrLpTms", "TmrOff", "TmrOn", "CurTmHor", "CurTmMin", "TmrOnHorLf", "TmrOnMinLf", "TmrOffHorLf", "TmrOffMinLf", "DsplySt", "EnvFun", "JFErrorCode", "AssHt", "FrshAir", "Coolmod", "MasSub", "MasIDUMod", "GetEr", "HumiSvStTemMin", "MaeS", "FanMod", "ModS", "VitiGr", "GasN", "TemSor", "HumSor", "PM2P5", "VOC", "CO2", "PctCle", "PctRe", "IDUAirQu", "AirQu", "ODUViti", "GasAvail", "GasLED", "GasMod", "GasMas", "PM2P5Sta", "SorErr", "CommErr", "GasQ"],
+  "scalar_initial": {"Pow": 0, "Blo": 0, "SwhSlp": 0, "Air": 0, "SvSt": 0, "Quiet": 0, "Tur": 0, "HeatCoolType": 0, "Mod": 0, "SetTem": 24, "HeatSvStTemMax": 0, "CoolSvStTemMin": 0, "WdSpd": 0, "SwUpDn": 0, "SwingLfRig": 0, "AllErr": 0, "TemUn": 0, "TemRec": 0, "SlpMod": 0, "TemRecH": 0, "TemRecC": 0},
+  "scalar_limits": {"Pow": 1, "Blo": 1, "SwhSlp": 1, "Air": 1, "SvSt": 1, "Quiet": 1, "Tur": 1, "HeatCoolType": 1, "Mod": 4, "SetTem": 2147483647, "HeatSvStTemMax": 2147483647, "CoolSvStTemMin": 2147483647, "WdSpd": 6, "SwUpDn": 2147483647, "SwingLfRig": 2147483647, "AllErr": 2147483647, "TemUn": 2147483647, "TemRec": 2147483647, "SlpMod": 2147483647, "TemRecH": 2147483647, "TemRecC": 2147483647},
+  "no_store": ["HeatCoolType", "AllErr"],
+  "unknown": ["Unknown", "TemSen", "TemBody", "BuzzerCtrl", "BuzCtrl", "Dred"],
+  "source_excluded_commands": ["apssid", "appsw", "AutoUpdate", "lock", "hid", "mid", "TemSor", "Health", "Lig", "StHt"],
+  "v401_metadata": {"command": {"t": "cmd", "opt": ["name", "name", "host", "time"], "p": ["First", "Last", "ignored-host", "2026-02-30 00:00:00"]}, "ack": ["Last", "Last", "", "2026-03-02 00:00:00"], "fresh_columns": ["name", "host", "time"], "fresh_dat": ["Last", "", "2026-03-02 00:00:00"]}
+}
