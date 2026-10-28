@@ -385,6 +385,37 @@ def test_cli_occupied_port():
     assert "Listening" not in result.stdout
 
 
+@pytest.mark.parametrize("atw_first", [True, False])
+async def test_scan_rejection_is_isolated_per_device(atw_first):
+    records = [
+        {"id": "atw", "profile": "sim-w06a-p3-v6.04-9300", "mid": "9300"},
+        {"id": "wb", "profile": "sim-wb04a-v1.49", "mid": "10f05"},
+    ]
+    if not atw_first:
+        records.reverse()
+    devices = load_config({"devices": records})[2]
+    wb = next(device for device in devices if device.id == "wb")
+    transport, server = await start_server(devices, "127.0.0.1", 0)
+    address = transport.get_extra_info("sockname")
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as peer:
+        peer.settimeout(0.2)
+        try:
+            peer.sendto(b'{"t":"scan","T":0}', address)
+            reply = peer_reply(await asyncio.to_thread(receive, peer), GENERIC_KEY)["inner"]
+            assert (reply["mac"], reply["mid"]) == (wb.mac, "10f05")
+            with pytest.raises(socket.timeout):
+                await asyncio.to_thread(receive, peer)
+            peer.sendto(b'{"t":"scan"}', address)
+            advertisements = [
+                peer_reply(await asyncio.to_thread(receive, peer), GENERIC_KEY)["inner"]
+                for _ in devices
+            ]
+            assert {reply["mac"] for reply in advertisements} == {device.mac for device in devices}
+        finally:
+            server.close()
+            await server.wait_closed()
+
+
 async def test_interleaved_clients_are_isolated_and_recover_after_bad_packets():
     devices = load_config({"seed": "ha-lab", "devices": [
         standard_record(room_c=22, ambient_c=22),
