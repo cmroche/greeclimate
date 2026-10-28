@@ -27,8 +27,7 @@ def device(mid="80241"):
     profile, = PROFILES
     return EmulatedDevice("host", FIXTURE["mac"], "", mid,
                           FIXTURE["session_key"].encode(), profile,
-                          dict(profile.initial_state), room_c=None, ambient_c=None,
-                          last_step=1000)
+                          dict(profile.initial_state), room_c=None, ambient_c=None)
 
 
 def request(unit, inner, *, index=0, uid=42, target=None):
@@ -90,10 +89,10 @@ def test_every_known_raw_sensor_width_and_metadata_are_separate():
 ])
 def test_invalid_batches_do_not_change_cache_clock_or_metadata(inner):
     unit = device()
-    before = deepcopy(unit.state)
+    before, clock = deepcopy(unit.state), unit.last_step
     with pytest.raises(InvalidPacket):
         unit.profile.handler.handle(unit, request(unit, inner))
-    assert unit.state == before and unit.last_step == 1000
+    assert unit.state == before and unit.last_step == clock
 
 
 def test_root_identity_not_downstream_alias_and_wrong_key_is_rejected():
@@ -190,7 +189,7 @@ def test_w04hb_every_literal_cache_control_uses_native_uint16_width(name):
     profile, = HB_PROFILES
     unit = EmulatedDevice("hb", FIXTURE["mac"], "", "302b",
                           FIXTURE["session_key"].encode(), profile,
-                          dict(profile.initial_state), last_step=1000)
+                          dict(profile.initial_state))
     _, ack = exchange(unit, {"t": "cmd", "opt": [name, name], "p": [65536, -1]})
     assert ack["opt"] == [name, name] and ack["p"] == [65536, -1]
     _, fresh = exchange(unit, {"t": "status", "cols": [name, name, "TemSen"]})
@@ -215,7 +214,7 @@ def test_w04hb_metadata_preserves_native_zero_item_columns_and_local_strings():
     profile, = HB_PROFILES
     unit = EmulatedDevice("hb", FIXTURE["mac"], "HB name", "302b",
                           FIXTURE["session_key"].encode(), profile,
-                          dict(profile.initial_state), last_step=1000)
+                          dict(profile.initial_state))
     _, metadata = exchange(unit, {"t": "status", "cols": [
         "apssid", "hid", "model", "mac", "name", "vender", "rssi",
     ]})
@@ -250,7 +249,7 @@ def test_w04hb_mid_metadata_is_not_synthesized_from_discovery_mid(mid):
     profile, = HB_PROFILES
     unit = EmulatedDevice("hb", FIXTURE["mac"], "", mid,
                           FIXTURE["session_key"].encode(), profile,
-                          dict(profile.initial_state), last_step=1000)
+                          dict(profile.initial_state))
     _, metadata = exchange(unit, {"t": "status", "cols": ["mid", "model", "mid"]})
     assert metadata["cols"] == ["mid", "model", "mid"] and metadata["dat"] == ["", ""]
     assert unit.profile.handler.advertise(unit, {"t": "scan"})[0].inner["mid"] == mid
@@ -269,9 +268,9 @@ def test_w06kv_metadata_last_zeroes_scratch_without_zeroing_sensor_cache():
 
 def test_w06kv_empty_status_has_no_native_getter_reply():
     unit = device()
-    before = deepcopy(unit.state)
+    before, clock = deepcopy(unit.state), unit.last_step
     assert unit.profile.handler.handle(unit, request(unit, {"t": "status", "cols": []})) == []
-    assert unit.state == before and unit.last_step == 1000
+    assert unit.state == before and unit.last_step == clock
 
 
 def test_w04hb_every_metadata_column_retains_native_append_cardinality(monkeypatch):

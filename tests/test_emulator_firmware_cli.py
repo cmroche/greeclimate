@@ -25,6 +25,7 @@ from greeclimate.device import Device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.gateway import GatewayDevice
+from greeclimate.network import Response
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 
@@ -524,15 +525,23 @@ async def test_registered_model_actual_cli_and_unmodified_client(profile_id):
                 assert client.get_property("Onoff") == "OK"
                 assert client.get_property("Scene") == "FAIL"
             elif root.id == "sim-w04r-v203-sdk-fan":
-                client.set_property("WorkMode", 5)
+                client.set_property("WorkMode", 3)
+                # No command ACK; the source read callback reloads the frozen board value to 1.
                 await client.push_state_update()
-                client._valid_state.clear()
-                await client.update_state()
-                await asyncio.wait_for(client._valid_state.wait(), 2)
-                client._valid_state.clear()
-                await client.update_state(columns=["WorkMode"])
-                await asyncio.wait_for(client._valid_state.wait(), 2)
-                assert client.get_property("WorkMode") == 5
+                fresh_status = asyncio.Queue()
+
+                def on_data_update(properties):
+                    if properties.keys() == {"WorkMode"}:
+                        fresh_status.put_nowait(properties)
+
+                client.add_handler(Response.DATA, on_data_update)
+                try:
+                    await client.update_state(columns=["WorkMode"])
+                    reported = await asyncio.wait_for(fresh_status.get(), 2)
+                finally:
+                    client.remove_handler(Response.DATA, on_data_update)
+                assert reported == {"WorkMode": 1}
+                assert client.get_property("WorkMode") == 1
             if profile.parent_profiles:
                 if not expected_hid or expected_hid.split("+", 1)[0] not in PUBLIC_GATEWAY_CODES:
                     with pytest.raises(ValueError, match="Unsupported gateway HID"):

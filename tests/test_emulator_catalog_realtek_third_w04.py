@@ -247,6 +247,7 @@ async def test_client_cooker_poll_reads_source_case_and_effective_values(monkeyp
     monkeypatch.setattr("gree_emulator.profiles.catalog_realtek_third_w04.monotonic", asyncio.get_running_loop().time)
     profile = next(p for p in PROFILES if p.id == "sim-w04a-v16-828401")
     unit = device(profile)
+    unit.last_step = asyncio.get_running_loop().time()
     fields = ["Pow", "mode", "KpTpOnOFF"]
     exchange(unit, {"t": "cmd", "opt": fields, "p": [3, 31, 3]})
     transport, server = await start_server([unit], "127.0.0.1", 0)
