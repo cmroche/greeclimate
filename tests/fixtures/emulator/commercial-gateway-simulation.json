@@ -11,9 +11,11 @@
       "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-gateway_research.json"
     ],
     "protocol": "Native host60/subCnt1, exact one ACUnit child6400 with MAC parentMAC+00, subListc/i/list/r keys and fixed ACUnit/gree/lock0. Full source-specific scan and shared parser/reply constructors; not W06 fallback. Parent and child address the same native cache. mac takes precedence over sub; replies echo that selected mac with parentCID for dat. Children have no independent LAN endpoint/key/bind.",
-    "simulation_contract": "USER-APPROVED synthetic AC model runs only once on child6400. Parent thermal_targetNone and state{}; child shared bounded namespace identical source-table intersection to standalone commercial models. InTem floor(C) clipped0..65535; no TemBody/TemSen temperature substitution. Units flags stored only. Root name is immutable global metadata; child enumeration name is native constant ACUnit.",
+    "simulation_contract": "Configured names/MIDs/HID and explicit synthetic RTC/platform buffers, RSSI=-50, and InTem=floor(room Celsius) are model backing, not hardware defaults. Other raw fields start0 unless configured. Name/ModelType/AppTimer/ver setters do not mutate. Physical calibration and UART/update/reset execution are not claimed.",
     "independence": "Expected protocol fields copied from independently replayed native builders; expected controls/thermal behavior literal explicit simulation specification, not generated from production/client code.",
-    "safety": "Whole-batch strict validation precedes advance/mutate. Unknown/unmodeled fields omitted, read-only/metadata writes dropped. Packet capacity1460 bytes; oversized reply omitted. Explicit derived child MAC validated by handler.validate_topology after CLI linking. BoardtypeFilter01 variant is not admitted as AC."
+    "safety": "Whole-batch strict validation precedes advance/mutate. Unknown/unmodeled fields omitted, read-only/metadata writes dropped. Packet capacity1460 bytes; oversized reply omitted. Explicit derived child MAC validated by handler.validate_topology after CLI linking. BoardtypeFilter01 variant is not admitted as AC.",
+    "complete_raw_namespace": "Original source350-record table:343 named fields plus7 null records. All declared numeric fields use unsigned16 cache storage, not AC preset validation. See catalog-wb-commercial_research.json for all three independently qualified source builds.",
+    "intentional_safety_differences": "Unsafe JSON/length/NULL-tail behavior is rejected atomically. Native cols takes precedence over opt and does not mutate; opt+p writes low16 then reads. Metadata callbacks can retain a column without appending dat; unknown fields are omitted. Command numeric p retains requested integers."
   },
   "device": {
     "id": "office-host",
@@ -666,10 +668,12 @@
           "cid": "020000000001",
           "dat": [
             26,
+            0,
             0
           ],
           "cols": [
             "InTem",
+            "TemBody",
             "Pow"
           ],
           "r": 200
@@ -840,10 +844,54 @@
         }
       }
     ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            27
+          ],
+          "opt": [
+            "Pow",
+            "InTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
     [],
     [],
-    [],
-    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            "Emulator Office"
+          ],
+          "opt": [
+            "name"
+          ],
+          "r": 200
+        }
+      }
+    ],
     [],
     [],
     [],
@@ -865,7 +913,7 @@
           "mac": "02000000000100",
           "cid": "020000000001",
           "dat": [
-            0,
+            1,
             1,
             21,
             3,
@@ -886,7 +934,7 @@
   "expected_state": {},
   "expected_children": {
     "02000000000100": {
-      "Pow": 0,
+      "Pow": 1,
       "Mod": 1,
       "SetTem": 21,
       "WdSpd": 3,

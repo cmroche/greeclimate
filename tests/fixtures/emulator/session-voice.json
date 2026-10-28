@@ -1,0 +1,576 @@
+{
+  "profile_id": "sim-is-t3bbw03-v3.62",
+  "profile": "sim-is-t3bbw03-v3.62",
+  "mid": "80222",
+  "mac": "020000000001",
+  "name": "",
+  "key": "0123456789abcdef",
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {
+    "Tur": 300,
+    "Quiet": 18,
+    "VoltErr": 5000
+  },
+  "initial_state_evidence": "Preserve native ELF Tur300/Quiet18/VoltErr5000 for this replay, confirmed by independent properties.json. Other modeled fields match the ELF cache. Normal CLI startup uses literal Tur0/Quiet0/VoltErr0, not physical defaults.",
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO5zn6hsrJYIDW3ct6bLyaFZ"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw86EYB+QB29LfX1vYPuI3ywekRYAhMuhPTOPR3Oq9043ZNJ9Q3nuV5AK+TgKBlbyG"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWLR1UX19Yepzga6ySEPB0/2flBxMu/+7y1QOI0de3JEyyuclLv756Q5YshSWNnOp4GxkqwPsj9LSZyqmpyia/AT"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMXeVtiM0X227uRR87ty94GeBVr9QAMnt6hZrSomLC92NU25CfgYtvxgGUvAk2gb4mA="
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000099",
+        "pack": "FpOYBS8AEeklmEYStgCWug7xbFYKG+3f3q5F6GHw7gTRYPeqD4VQksFavcWFzaAj2egG25oDL4XgMoDqgSfZKQ=="
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "iLix+fmS9TokVlKc8vwULtQdONQ12BACZdMzW5IG2/kCIPbK+G0aynHzXQFdNftEGYQwfpaCEagzj9S9n8T5VQ=="
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWKCXoIONxrIChOdmO1Oo0S0Jm6EOVtSLcthNMRol95VxA=="
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "80222",
+          "lock": 0,
+          "model": "gree",
+          "name": "",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V1.2.1",
+          "brand": "gree",
+          "mac": "020000000001"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "Quiet"
+          ],
+          "dat": [
+            0,
+            1,
+            26,
+            18
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "Quiet"
+          ],
+          "p": [
+            1,
+            1,
+            22,
+            2
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Quiet",
+            "Pow",
+            "SetTem",
+            "Mod",
+            "Pow"
+          ],
+          "dat": [
+            0,
+            1,
+            22,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [],
+          "p": []
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Mod": 1,
+    "SwhSlp": 0,
+    "SwhSw": 0,
+    "WdSpd": 1,
+    "SetTem": 22,
+    "Blo": 0,
+    "Health": 0,
+    "Lig": 1,
+    "TemUn": 0,
+    "TemRec": 0,
+    "Air": 0,
+    "SwUpDn": 0,
+    "SwingLfRig": 0,
+    "SvSt": 0,
+    "StHt": 0,
+    "Intellblo1": 0,
+    "AirOpen": 0,
+    "SlpMod": 0,
+    "Tur": 0,
+    "Quiet": 0,
+    "VoltErr": 5000,
+    "CurrErr": 0,
+    "PowerErr": 0,
+    "RelayErr": 0
+  },
+  "native_vectors": [
+    {
+      "label": "scan",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 66027,
+      "instruction_trace_sha256": "b3a9dc7c90de0d5e411ce7941e6f936b8627668f711c8f649597f397f527f6b3",
+      "input_outer": {
+        "t": "scan"
+      },
+      "independent_decrypted": [
+        {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "80222",
+          "lock": 0,
+          "model": "gree",
+          "name": "",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V1.2.1",
+          "brand": "gree",
+          "mac": "020000000001"
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":0,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"LP24Ek0OaYogxs3iQLjL4N9zkK6Z9KWVTRCvhRWqV8Q6Hcv+Un2MiFEJz3NDMsHEyjVLZHqJvA84aKlURD54hUjWYG6qAmiTmdJ5odmZR9FB8dSTl4UezWhnYavtf18JDUBdH0ixUNYGyl4IJt06ykXx02sOElgjvvoafXne9fuM1E2f0pbnScMXknx944FUGZBZ9VYlhAazd6lSWJwfInH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD\"}\n"
+      ]
+    },
+    {
+      "label": "bind_default",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 34423,
+      "instruction_trace_sha256": "5e75bbb17bb82c6eeff4cc9b416b8069c435e0a4e6b644469a1360ac4c76c118",
+      "input_outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO5zn6hsrJYIDW3ct6bLyaFZ"
+      },
+      "independent_decrypted": [
+        {
+          "t": "bindok",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly5P4HhGrVe8a9SPswvX3Oqzm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ=\"}\n"
+      ],
+      "input_inner": {
+        "t": "bind",
+        "mac": "020000000001",
+        "uid": 7
+      }
+    },
+    {
+      "label": "status_before",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 63013,
+      "instruction_trace_sha256": "a3c4157b3360455044f187f88ddf9fc82cf9059d2c63abf6616a571ae15c39ab",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw86EYB+QB29LfX1vYPuI3ywekRYAhMuhPTOPR3Oq9043ZNJ9Q3nuV5AK+TgKBlbyG"
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "Quiet"
+          ],
+          "dat": [
+            0,
+            1,
+            26,
+            18
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/935za29FSSJkDVKDPzGhJu6fX3p5bbha7hH+AY64O6cx9qzuAZO6WSW+7/YpPZ3IN3Ii4GGpJMWRzZwn6hY+1A==\"}\n"
+      ],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "Quiet",
+          "TemSen",
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": "cmd_cache",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 57608,
+      "instruction_trace_sha256": "7de33e441b3e897d79c3d36a9a7b7f661335aba3b59bf63930fad6514f235713",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWLR1UX19Yepzga6ySEPB0/2flBxMu/+7y1QOI0de3JEyyuclLv756Q5YshSWNnOp4GxkqwPsj9LSZyqmpyia/AT"
+      },
+      "independent_decrypted": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "Quiet"
+          ],
+          "p": [
+            1,
+            1,
+            22,
+            2
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIjjShNCjrI+i/WX1GNWXOKwn//JLHsO8Vf6f0o5ztwOPS0CHfNaItybTZvb0mE8mB\"}\n"
+      ],
+      "boundary": "Boundary('Physical IR export boundary after original wifi_to_red normalization; LAN ack already emitted')",
+      "input_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "Quiet"
+        ],
+        "p": [
+          1,
+          1,
+          22,
+          2
+        ]
+      }
+    },
+    {
+      "label": "status_after",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 56178,
+      "instruction_trace_sha256": "808115c65ecdb5fb5170e1384c275da6cd5492877dbbd81a38237848a04e9cfd",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMXeVtiM0X227uRR87ty94GeBVr9QAMnt6hZrSomLC92NU25CfgYtvxgGUvAk2gb4mA="
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Quiet",
+            "Pow",
+            "SetTem",
+            "Mod",
+            "Pow"
+          ],
+          "dat": [
+            0,
+            1,
+            22,
+            1,
+            1
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/t4g1i3WL+QRn9BDkED0kCouruERCb/90Hof354DAgjXUDQvXt9Jq+z535wC4yZdMd6e2lLIcDyxt3OI2o8ipbA==\"}\n"
+      ],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Quiet",
+          "Pow",
+          "SetTem",
+          "Mod",
+          "Pow"
+        ]
+      }
+    },
+    {
+      "label": "wrong_target",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 26242,
+      "instruction_trace_sha256": "a50b7a329599ed5c8d4ff9b724f7ec3355fc90edf40abd27a6501f56d74b731d",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000099",
+        "pack": "FpOYBS8AEeklmEYStgCWug7xbFYKG+3f3q5F6GHw7gTRYPeqD4VQksFavcWFzaAj2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "independent_decrypted": [],
+      "datagrams": [],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000099",
+        "cols": [
+          "Pow"
+        ]
+      }
+    },
+    {
+      "label": "wrong_key",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 26206,
+      "instruction_trace_sha256": "2a8f5c58027334317c8966e3b66ce58834b006ff43befbbe84926f35634960d7",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "iLix+fmS9TokVlKc8vwULtQdONQ12BACZdMzW5IG2/kCIPbK+G0aynHzXQFdNftEGYQwfpaCEagzj9S9n8T5VQ=="
+      },
+      "independent_decrypted": [],
+      "datagrams": [],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow"
+        ]
+      }
+    },
+    {
+      "label": "unknown_command",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 39131,
+      "instruction_trace_sha256": "949fa4e118fdac98633898d04839ce6da54401446a9b8d9b00611322eb65802d",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWKCXoIONxrIChOdmO1Oo0S0Jm6EOVtSLcthNMRol95VxA=="
+      },
+      "independent_decrypted": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [],
+          "p": []
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWJYf6mScsylzLszuDkBSO8F6/GWAZnq0Cbh/RrMNq00kg==\"}\n"
+      ],
+      "boundary": "Boundary('Physical IR export boundary after original wifi_to_red normalization; LAN ack already emitted')",
+      "input_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Unknown"
+        ],
+        "p": [
+          99
+        ]
+      }
+    }
+  ]
+}

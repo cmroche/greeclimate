@@ -1,0 +1,1616 @@
+{
+  "profile": "sim-esp32-gr-v2.5",
+  "mid": "80261",
+  "source_sha256": "e28d1233512b289e626c8ff9ade6a47e8a2b074fcd7e198938aae6632ba94ac9",
+  "evidence": "Independent literal source expectations, including complete getters, ordered ACK/fresh readback, structured raw boundary list, both native empty-list sentinels, safe atomic limits, source no-producer timeouts, codec/selector/metadata recovery. Synthetic zero raw readings and synchronous cache timing are explicit policy; no emulator/client outputs used.",
+  "device": {
+    "mac": "02000000e201",
+    "name": "synthetic-radar",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "02000000e201"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "WorkState",
+          "count",
+          "NumPerson",
+          "Rule",
+          "Week",
+          "timeStatus",
+          "alarmMethod",
+          "recStatus",
+          "alarmInterval",
+          "time_range",
+          "border",
+          "JFerr",
+          "doorenable",
+          "doortotal",
+          "borderlist",
+          "installtype",
+          "setinstalltype",
+          "host",
+          "ver",
+          "name",
+          "rssi",
+          "hid",
+          "InHid",
+          "OEEPHid",
+          "InHidDownPer",
+          "devinhidownver",
+          "induptype"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "WorkState",
+          "timeStatus",
+          "alarmMethod",
+          "recStatus",
+          "alarmInterval"
+        ],
+        "p": [
+          259,
+          -1,
+          258,
+          257,
+          300
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "WorkState",
+          "timeStatus",
+          "alarmMethod",
+          "recStatus",
+          "alarmInterval"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Week",
+          "time_range",
+          "ReportClientID",
+          "track"
+        ],
+        "p": [
+          "1,3,7",
+          "08:15-19:45",
+          "peer-2",
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "Week",
+          "time_range",
+          "track",
+          "count",
+          "NumPerson"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "installtype",
+          "setinstalltype",
+          "doortotal"
+        ],
+        "p": [
+          257,
+          -1,
+          258
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "installtype",
+          "setinstalltype",
+          "doortotal"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "bordertype",
+          "doorindex"
+        ],
+        "p": [
+          2,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "border",
+          "doorenable"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "bordertype",
+          "GoBack"
+        ],
+        "p": [
+          2,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "border",
+          "count"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "border",
+          "reset",
+          "unknown",
+          "Rule"
+        ],
+        "p": [
+          1,
+          1,
+          7,
+          4
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "Rule",
+          "unknown",
+          "border",
+          "doortotal"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [],
+        "p": []
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": []
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "doortotal",
+          "installtype"
+        ],
+        "p": [
+          4,
+          true
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "doortotal",
+          "count",
+          "unknown",
+          "count"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 99,
+        "cid": "plain-peer",
+        "tcid": "02000000e201",
+        "pack": "{\"t\":\"scan\"}"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "subDev"
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "count"
+        ]
+      },
+      "key": "badkeybadkeybadk"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "bordertype",
+          "doorindex"
+        ],
+        "p": [
+          0,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "installtype",
+          "doortotal"
+        ],
+        "p": [
+          1,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "borderlist"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "border"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "border",
+          "borderlist"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "reset"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "doortotal",
+          "border",
+          "borderlist"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "installtype",
+          "doortotal"
+        ],
+        "p": [
+          2,
+          6
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "doortotal"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "bordertype"
+        ],
+        "p": [
+          6
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "bordertype"
+        ],
+        "p": [
+          7
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 88,
+        "cid": "generic-peer",
+        "tcid": "02000000e201"
+      },
+      "inner": {
+        "t": "loginRes",
+        "r": 200,
+        "key": "not-a-new-key"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "scan",
+        "uid": 999,
+        "cid": "ignored"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 89,
+        "cid": "module-peer",
+        "tcid": "02000000e201",
+        "pack": "{\"t\":\"hbok\"}"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 90,
+        "cid": "module-peer",
+        "tcid": "02000000e201",
+        "pack": "{\"t\":\"tm\",\"time\":\"2026-10-23 12:34:56\"}"
+      }
+    },
+    {
+      "outer": {
+        "t": "tm",
+        "time": "2026-10-23 12:34:57",
+        "uid": 123,
+        "cid": "ignored"
+      }
+    },
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 2,
+        "uid": 91,
+        "cid": "invalid-peer",
+        "tcid": "02000000e201",
+        "pack": "{\"t\":\"tm\",\"time\":\"2026-02-30 12:00:00\"}"
+      }
+    },
+    {
+      "outer": {
+        "t": "scan"
+      }
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "02000000e201",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "02000000e201",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "02000000e201",
+          "mid": "80261",
+          "model": "gree",
+          "series": "gree",
+          "name": "synthetic-radar",
+          "vender": "1",
+          "ver": "V3.0.0",
+          "lock": 0
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindok",
+          "r": 200,
+          "mac": "02000000e201",
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "WorkState",
+            "count",
+            "NumPerson",
+            "Rule",
+            "Week",
+            "timeStatus",
+            "alarmMethod",
+            "recStatus",
+            "alarmInterval",
+            "time_range",
+            "border",
+            "JFerr",
+            "doorenable",
+            "doortotal",
+            "borderlist",
+            "installtype",
+            "setinstalltype",
+            "host",
+            "ver",
+            "name",
+            "rssi",
+            "hid",
+            "InHid",
+            "OEEPHid",
+            "InHidDownPer",
+            "devinhidownver",
+            "induptype"
+          ],
+          "dat": [
+            1,
+            0,
+            0,
+            0,
+            "",
+            0,
+            0,
+            0,
+            0,
+            "",
+            0,
+            0,
+            0,
+            0,
+            {
+              "list": [
+                ""
+              ]
+            },
+            0,
+            0,
+            "dis.gree.com",
+            "V3.0.0",
+            "synthetic-radar",
+            0,
+            "362001061898+U-ESP32_GRV2.5.bin",
+            "362001062639+U-MSTWB8000AV1.0.bin",
+            "",
+            0,
+            "",
+            ""
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "WorkState",
+            "timeStatus",
+            "alarmMethod",
+            "recStatus",
+            "alarmInterval"
+          ],
+          "p": [
+            259,
+            -1,
+            258,
+            257,
+            300
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "WorkState",
+            "timeStatus",
+            "alarmMethod",
+            "recStatus",
+            "alarmInterval"
+          ],
+          "dat": [
+            3,
+            255,
+            2,
+            1,
+            44
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "Week",
+            "time_range",
+            "ReportClientID",
+            "track"
+          ],
+          "p": [
+            "1,3,7",
+            "08:15-19:45",
+            "peer-2",
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "Week",
+            "time_range",
+            "track",
+            "count",
+            "NumPerson"
+          ],
+          "dat": [
+            "1,3,7",
+            "08:15-19:45",
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "installtype",
+            "setinstalltype",
+            "doortotal"
+          ],
+          "p": [
+            257,
+            -1,
+            258
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "installtype",
+            "setinstalltype",
+            "doortotal"
+          ],
+          "dat": [
+            255,
+            255,
+            2
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "bordertype",
+            "doorindex",
+            "borderout",
+            "x",
+            "y",
+            "doorposition"
+          ],
+          "p": [
+            2,
+            0,
+            0,
+            0.0,
+            0.0,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "border",
+            "doorenable"
+          ],
+          "dat": [
+            0,
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "bordertype",
+            "GoBack"
+          ],
+          "p": [
+            2,
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "border",
+            "count"
+          ],
+          "dat": [
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "border",
+            "reset",
+            "unknown",
+            "Rule"
+          ],
+          "p": [
+            1,
+            1,
+            7,
+            4
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "Rule",
+            "unknown",
+            "border",
+            "doortotal"
+          ],
+          "dat": [
+            0,
+            0,
+            0,
+            2
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": "",
+          "p": ""
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [],
+          "dat": []
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "doortotal",
+            "count",
+            "unknown",
+            "count"
+          ],
+          "dat": [
+            2,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 99,
+          "cid": "02000000e201",
+          "tcid": "plain-peer"
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "02000000e201",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "02000000e201",
+          "mid": "80261",
+          "model": "gree",
+          "series": "gree",
+          "name": "synthetic-radar",
+          "vender": "1",
+          "ver": "V3.0.0",
+          "lock": 0
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "bordertype",
+            "doorindex",
+            "borderout",
+            "x",
+            "y"
+          ],
+          "p": [
+            0,
+            1,
+            0,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "installtype",
+            "doortotal"
+          ],
+          "p": [
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "borderlist"
+          ],
+          "dat": [
+            {
+              "left": 0.0,
+              "right": 0.0,
+              "farthest": 0.0,
+              "list": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "doorposition": 0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "border"
+          ],
+          "p": [
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "border",
+            "borderlist"
+          ],
+          "dat": [
+            1,
+            {
+              "left": 0.0,
+              "right": 0.0,
+              "farthest": 0.0,
+              "list": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "doorposition": 0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "reset"
+          ],
+          "p": [
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "doortotal",
+            "border",
+            "borderlist"
+          ],
+          "dat": [
+            1,
+            0,
+            {
+              "left": 0.0,
+              "right": 0.0,
+              "farthest": 0.0,
+              "list": [
+                {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "doorposition": 0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000e201",
+          "cols": [
+            "doortotal"
+          ],
+          "dat": [
+            1
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 404,
+          "mac": "02000000e201",
+          "opt": [
+            "bordertype"
+          ],
+          "p": [
+            6
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "02000000e201",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000e201",
+          "opt": [
+            "bordertype"
+          ],
+          "p": [
+            7
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 88,
+          "cid": "02000000e201",
+          "tcid": "generic-peer"
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "02000000e201",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "02000000e201",
+          "mid": "80261",
+          "model": "gree",
+          "series": "gree",
+          "name": "synthetic-radar",
+          "vender": "1",
+          "ver": "V3.0.0",
+          "lock": 0
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 90,
+          "cid": "02000000e201",
+          "tcid": "module-peer"
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "02000000e201",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "02000000e201",
+          "mid": "80261",
+          "model": "gree",
+          "series": "gree",
+          "name": "synthetic-radar",
+          "vender": "1",
+          "ver": "V3.0.0",
+          "lock": 0
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 90,
+          "cid": "02000000e201",
+          "tcid": "module-peer"
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "02000000e201",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "02000000e201",
+          "mid": "80261",
+          "model": "gree",
+          "series": "gree",
+          "name": "synthetic-radar",
+          "vender": "1",
+          "ver": "V3.0.0",
+          "lock": 0
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "doortotal": 1,
+    "border": 1,
+    "_module_time": "2026-10-23 12:34:57"
+  }
+}

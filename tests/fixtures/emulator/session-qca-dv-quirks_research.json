@@ -1,0 +1,17 @@
+{
+  "source_sha256": "0deb40c2057cdd348e98194ecf9bfae70dfdd190204d7235ef6376e0146ff25b",
+  "evidence": "SessionQuirks/QCA/probe-results.json duplicate-last-store-ordered-echo-next-status and signed-i32-to-staged-byte; original setter0xa0cbf0 and selector0xa0cc8c. Literal expectations independent of emulator.",
+  "policy": "Synthetic cache defaults preserve existing SetTem24 and use zero for additional raw bytes. Strict integer types, nonnegative int32 and atomic rejection deliberately replace native coercion/partial mutation. Exactly50filled positional string slots preserve source emptyarrays before whitelist filtering;51fields reject atomically as safe overflow policy. No physical room/sensor calibration. Clock starts frozen at epoch; complete six-integer assignments follow source0xa04fdc uint32 epoch arithmetic and normalized getter formatting, without real clock advancement. Partial assignments reject instead of native stale-local parsing. Recognized fallback names retain numeric readouts from an explicitly synthetic frozen prefix byte0, not unsafe cache[-1] or calibrated features; valueless metadata retain columns without data.",
+  "commands": [
+    {"opt": ["Pow", "Pow"], "p": [1, 0], "poll": ["Pow", "Pow"], "dat": [0, 0]},
+    {"opt": ["SetTem", "SwUpDn", "SwingLfRig", "TemUn", "TemRec", "SlpMod"], "p": [255, 256, 65535, 65536, 2147483647, 257], "poll": ["SetTem", "SwUpDn", "SwingLfRig", "TemUn", "TemRec", "SlpMod"], "dat": [255, 0, 255, 0, 255, 1]},
+    {"opt": ["CoolSvStTemMin", "HeatSvStTemMax", "TemRecH", "TemRecC"], "p": [256, 511, 65536, 65535], "poll": ["CoolSvStTemMin", "HeatSvStTemMax", "TemRecH", "TemRecC"], "dat": [0, 255, 0, 255]},
+    {"opt": ["HeatCoolType", "AllErr"], "p": [1, 65535], "poll": ["HeatCoolType", "AllErr"], "dat": [0, 0]},
+    {"opt": ["Blo", "SwhSlp", "Air", "SvSt", "Quiet", "Tur", "Mod", "WdSpd"], "p": [1, 1, 1, 1, 1, 1, 4, 6], "poll": ["Blo", "SwhSlp", "Air", "SvSt", "Quiet", "Tur", "Mod", "WdSpd"], "dat": [1, 1, 1, 1, 1, 1, 4, 6]}
+  ],
+  "metadata": {
+    "cols": ["SwhWifi", "AutoUpdate", "lock", "vender", "bc", "model", "series", "apssid", "appsw", "brand", "catalog", "host", "time", "ver", "country", "Health", "Lig", "StHt", "TemSen", "TemSor"],
+    "selected": ["SwhWifi", "AutoUpdate", "lock", "vender", "bc", "model", "series", "apssid", "appsw", "brand", "catalog", "host", "time", "ver", "country", "Health", "Lig", "StHt", "TemSor"],
+    "dat": [0, 0, "1", "", "", "", "", "", "", "", "", "1970-01-01 00:00:00", "V1.0.0.0", 0, 0, 0, 0]
+  }
+}

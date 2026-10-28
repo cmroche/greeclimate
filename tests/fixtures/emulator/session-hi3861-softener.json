@@ -1,0 +1,366 @@
+{
+  "profile": "sim-hi3861-v113-softener",
+  "mid": "829000",
+  "mids": [
+    "829000"
+  ],
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789AbCdEf"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh",
+      "provenance": "translated normal wire"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "hid",
+          "ver",
+          "bc",
+          "mid",
+          "vender",
+          "host",
+          "time",
+          "rssi",
+          "ReportClientID",
+          "AppTimer",
+          "BuzzerCtrl"
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "translated getter values with explicit synthetic time/RSSI input"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "Pow",
+          "Status",
+          "BJHour",
+          "MotorStatus"
+        ],
+        "p": [
+          1,
+          7,
+          258,
+          9
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "source requested ACK, not physical board completion"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "Pow",
+          "Status",
+          "BJHour",
+          "MotorStatus"
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "chosen immediate synthetic boardecho; NOT source-original received-report timing"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "829000",
+          "model": "gree",
+          "name": "",
+          "lock": 0,
+          "series": "gree",
+          "vender": "1",
+          "ver": "V3.0.0"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789AbCdEf"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "362001063856+U-Hi3861-OldV1.13.bin",
+            "V3.0.0",
+            "67726565",
+            "",
+            "",
+            "dis.gree.com",
+            "2026-01-01 00:00:00",
+            -50,
+            0,
+            0,
+            0
+          ],
+          "cols": [
+            "hid",
+            "ver",
+            "bc",
+            "mid",
+            "vender",
+            "host",
+            "time",
+            "rssi",
+            "ReportClientID",
+            "AppTimer",
+            "BuzzerCtrl"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            1,
+            7,
+            258,
+            9
+          ],
+          "opt": [
+            "Pow",
+            "Status",
+            "BJHour",
+            "MotorStatus"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            1,
+            3,
+            258,
+            0
+          ],
+          "cols": [
+            "Pow",
+            "Status",
+            "BJHour",
+            "MotorStatus"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Status": 3,
+    "SaltStatus": 0,
+    "RecycleStatus": 0,
+    "MotorStatus": 0,
+    "RecycleRemainT": 0,
+    "RecycleTotalT": 0,
+    "InsFlowRate": 0,
+    "CycleFlowRate": 0,
+    "SaltTotalT": 0,
+    "RecycleHour": 0,
+    "RecycleMin": 0,
+    "BJHour": 258,
+    "BJMin": 0,
+    "BJSec": 0,
+    "TmrOn": 0,
+    "TmrAction": 0,
+    "TmrHour": 0,
+    "TmrMin": 0,
+    "eState": 0,
+    "JFerr": 0,
+    "MidType": 0
+  },
+  "source_columns": [
+    "Pow",
+    "Status",
+    "SaltStatus",
+    "RecycleStatus",
+    "MotorStatus",
+    "RecycleRemainT",
+    "RecycleTotalT",
+    "InsFlowRate",
+    "CycleFlowRate",
+    "SaltTotalT",
+    "RecycleHour",
+    "RecycleMin",
+    "BJHour",
+    "BJMin",
+    "BJSec",
+    "TmrOn",
+    "TmrAction",
+    "TmrHour",
+    "TmrMin",
+    "eState",
+    "JFerr",
+    "MidType"
+  ],
+  "startup_dat": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "raw_report_vector": {
+    "flags": [
+      146,
+      147,
+      148,
+      149
+    ],
+    "bytes_hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "midtype": 9,
+    "error_flags": [
+      64,
+      16
+    ],
+    "expected_dat": [
+      1,
+      1,
+      2,
+      1,
+      1,
+      165,
+      42405,
+      42405,
+      42405,
+      42405,
+      165,
+      165,
+      0,
+      0,
+      0,
+      1,
+      1,
+      5,
+      37,
+      165,
+      3,
+      9
+    ],
+    "provenance": "independent descriptor/endian/mask derivation from evidence.json over explicitly supplied raw report bytes; not calibrated hardware"
+  }
+}

@@ -1,0 +1,1878 @@
+{
+  "source_sha256": "4daa8f69d8d742db1d8ef197cc9f04429bd7a62dcdd388a901d54f83a5cdb883",
+  "method": "Historical original Xtensa native getter probes; ROM strcmp hook, synthetic uniform112-byte board/cache inputs; not new execution or hardware values.",
+  "vectors": [
+    {
+      "schema": 0,
+      "name": "GetEr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 44,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "GetEr",
+      "raw": 85,
+      "expected": 85,
+      "steps": 44,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "GetEr",
+      "raw": 255,
+      "expected": 255,
+      "steps": 44,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AllErr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 59,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AllErr",
+      "raw": 85,
+      "expected": 85,
+      "steps": 59,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AllErr",
+      "raw": 255,
+      "expected": 255,
+      "steps": 59,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Pow",
+      "raw": 0,
+      "expected": 0,
+      "steps": 74,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Pow",
+      "raw": 85,
+      "expected": 85,
+      "steps": 74,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Pow",
+      "raw": 255,
+      "expected": 255,
+      "steps": 74,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MasSub",
+      "raw": 0,
+      "expected": 0,
+      "steps": 89,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MasSub",
+      "raw": 85,
+      "expected": 85,
+      "steps": 89,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MasSub",
+      "raw": 255,
+      "expected": 255,
+      "steps": 89,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SvSt",
+      "raw": 0,
+      "expected": 0,
+      "steps": 104,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SvSt",
+      "raw": 85,
+      "expected": 85,
+      "steps": 104,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SvSt",
+      "raw": 255,
+      "expected": 255,
+      "steps": 104,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Blo",
+      "raw": 0,
+      "expected": 0,
+      "steps": 119,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Blo",
+      "raw": 85,
+      "expected": 85,
+      "steps": 119,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Blo",
+      "raw": 255,
+      "expected": 255,
+      "steps": 119,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Air",
+      "raw": 0,
+      "expected": 0,
+      "steps": 134,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Air",
+      "raw": 85,
+      "expected": 85,
+      "steps": 134,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Air",
+      "raw": 255,
+      "expected": 255,
+      "steps": 134,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Mod",
+      "raw": 0,
+      "expected": 0,
+      "steps": 149,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Mod",
+      "raw": 85,
+      "expected": 85,
+      "steps": 149,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Mod",
+      "raw": 255,
+      "expected": 255,
+      "steps": 149,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "WdSpd",
+      "raw": 0,
+      "expected": 0,
+      "steps": 166,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "WdSpd",
+      "raw": 85,
+      "expected": 85,
+      "steps": 166,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "WdSpd",
+      "raw": 255,
+      "expected": 255,
+      "steps": 166,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwhSlp",
+      "raw": 0,
+      "expected": 0,
+      "steps": 179,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwhSlp",
+      "raw": 85,
+      "expected": 85,
+      "steps": 179,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwhSlp",
+      "raw": 255,
+      "expected": 255,
+      "steps": 179,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Tur",
+      "raw": 0,
+      "expected": 0,
+      "steps": 194,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Tur",
+      "raw": 85,
+      "expected": 85,
+      "steps": 194,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Tur",
+      "raw": 255,
+      "expected": 255,
+      "steps": 194,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Quiet",
+      "raw": 0,
+      "expected": 0,
+      "steps": 212,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Quiet",
+      "raw": 85,
+      "expected": 85,
+      "steps": 212,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Quiet",
+      "raw": 255,
+      "expected": 255,
+      "steps": 212,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetTem",
+      "raw": 0,
+      "expected": 0,
+      "steps": 228,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetTem",
+      "raw": 85,
+      "expected": 2184,
+      "steps": 228,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetTem",
+      "raw": 255,
+      "expected": 6553,
+      "steps": 228,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetDeciTem",
+      "raw": 0,
+      "expected": 0,
+      "steps": 239,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetDeciTem",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 239,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetDeciTem",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 239,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CoolSvStTemMin",
+      "raw": 0,
+      "expected": 0,
+      "steps": 258,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CoolSvStTemMin",
+      "raw": 85,
+      "expected": 2184,
+      "steps": 258,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CoolSvStTemMin",
+      "raw": 255,
+      "expected": 6553,
+      "steps": 258,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HeatSvStTemMax",
+      "raw": 0,
+      "expected": 0,
+      "steps": 273,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HeatSvStTemMax",
+      "raw": 85,
+      "expected": 2184,
+      "steps": 273,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HeatSvStTemMax",
+      "raw": 255,
+      "expected": 6553,
+      "steps": 273,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HumiSvStTemMin",
+      "raw": 0,
+      "expected": 0,
+      "steps": 288,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HumiSvStTemMin",
+      "raw": 85,
+      "expected": 2184,
+      "steps": 288,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HumiSvStTemMin",
+      "raw": 255,
+      "expected": 6553,
+      "steps": 288,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MasIDUMod",
+      "raw": 0,
+      "expected": 0,
+      "steps": 299,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MasIDUMod",
+      "raw": 85,
+      "expected": 85,
+      "steps": 299,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MasIDUMod",
+      "raw": 255,
+      "expected": 255,
+      "steps": 299,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "GoOut",
+      "raw": 0,
+      "expected": 0,
+      "steps": 314,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "GoOut",
+      "raw": 85,
+      "expected": 85,
+      "steps": 314,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "GoOut",
+      "raw": 255,
+      "expected": 255,
+      "steps": 314,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "OutHome",
+      "raw": 0,
+      "expected": 0,
+      "steps": 329,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "OutHome",
+      "raw": 85,
+      "expected": 85,
+      "steps": 329,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "OutHome",
+      "raw": 255,
+      "expected": 255,
+      "steps": 329,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AidHeat",
+      "raw": 0,
+      "expected": 0,
+      "steps": 344,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AidHeat",
+      "raw": 85,
+      "expected": 85,
+      "steps": 344,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AidHeat",
+      "raw": 255,
+      "expected": 255,
+      "steps": 344,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AssHt",
+      "raw": 0,
+      "expected": 1,
+      "steps": 361,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AssHt",
+      "raw": 85,
+      "expected": 0,
+      "steps": 361,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AssHt",
+      "raw": 255,
+      "expected": 0,
+      "steps": 361,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetCoolHumi",
+      "raw": 0,
+      "expected": 0,
+      "steps": 374,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetCoolHumi",
+      "raw": 85,
+      "expected": 85,
+      "steps": 374,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SetCoolHumi",
+      "raw": 255,
+      "expected": 255,
+      "steps": 374,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "TemBody",
+      "raw": 0,
+      "expected": 0,
+      "steps": 393,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "TemBody",
+      "raw": 85,
+      "expected": 1,
+      "steps": 393,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "TemBody",
+      "raw": 255,
+      "expected": 1,
+      "steps": 393,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HumiEnable",
+      "raw": 0,
+      "expected": 0,
+      "steps": 412,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HumiEnable",
+      "raw": 85,
+      "expected": 0,
+      "steps": 412,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "HumiEnable",
+      "raw": 255,
+      "expected": 1,
+      "steps": 412,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwUpDn",
+      "raw": 0,
+      "expected": 0,
+      "steps": 419,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwUpDn",
+      "raw": 85,
+      "expected": 84,
+      "steps": 421,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwUpDn",
+      "raw": 255,
+      "expected": 254,
+      "steps": 421,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwingLfRig",
+      "raw": 0,
+      "expected": 0,
+      "steps": 444,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwingLfRig",
+      "raw": 85,
+      "expected": 0,
+      "steps": 444,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SwingLfRig",
+      "raw": 255,
+      "expected": 0,
+      "steps": 444,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Add0.1",
+      "raw": 0,
+      "expected": 0,
+      "steps": 454,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Add0.1",
+      "raw": 85,
+      "expected": 5,
+      "steps": 454,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Add0.1",
+      "raw": 255,
+      "expected": 5,
+      "steps": 454,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Add0.5",
+      "raw": 0,
+      "expected": 0,
+      "steps": 472,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Add0.5",
+      "raw": 85,
+      "expected": 1,
+      "steps": 472,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Add0.5",
+      "raw": 255,
+      "expected": 1,
+      "steps": 472,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "ErrType1",
+      "raw": 0,
+      "expected": 0,
+      "steps": 479,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "ErrType1",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 479,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "ErrType1",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 479,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "ErrType2",
+      "raw": 0,
+      "expected": 0,
+      "steps": 494,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "ErrType2",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 494,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "ErrType2",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 494,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Heat3DSvStTemMax",
+      "raw": 0,
+      "expected": 0,
+      "steps": 513,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Heat3DSvStTemMax",
+      "raw": 85,
+      "expected": 2184,
+      "steps": 513,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Heat3DSvStTemMax",
+      "raw": 255,
+      "expected": 6553,
+      "steps": 513,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Heat2SvStTemMax",
+      "raw": 0,
+      "expected": 0,
+      "steps": 528,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Heat2SvStTemMax",
+      "raw": 85,
+      "expected": 2184,
+      "steps": 528,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "Heat2SvStTemMax",
+      "raw": 255,
+      "expected": 6553,
+      "steps": 528,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "LowDeHumi",
+      "raw": 0,
+      "expected": 0,
+      "steps": 539,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "LowDeHumi",
+      "raw": 85,
+      "expected": 85,
+      "steps": 539,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "LowDeHumi",
+      "raw": 255,
+      "expected": 255,
+      "steps": 539,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CleanTime",
+      "raw": 0,
+      "expected": 0,
+      "steps": 558,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CleanTime",
+      "raw": 85,
+      "expected": 85,
+      "steps": 558,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CleanTime",
+      "raw": 255,
+      "expected": 255,
+      "steps": 558,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CleanState",
+      "raw": 0,
+      "expected": 0,
+      "steps": 573,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CleanState",
+      "raw": 85,
+      "expected": 85,
+      "steps": 573,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "CleanState",
+      "raw": 255,
+      "expected": 255,
+      "steps": 573,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AutoClean",
+      "raw": 0,
+      "expected": 0,
+      "steps": 583,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AutoClean",
+      "raw": 85,
+      "expected": 85,
+      "steps": 583,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "AutoClean",
+      "raw": 255,
+      "expected": 255,
+      "steps": 583,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SysSta",
+      "raw": 0,
+      "expected": 0,
+      "steps": 603,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SysSta",
+      "raw": 85,
+      "expected": 85,
+      "steps": 603,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "SysSta",
+      "raw": 255,
+      "expected": 255,
+      "steps": 603,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MidType",
+      "raw": 0,
+      "expected": 0,
+      "steps": 609,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MidType",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 609,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "MidType",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 609,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "unknown-probe",
+      "raw": 0,
+      "expected": 0,
+      "steps": 612,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "unknown-probe",
+      "raw": 85,
+      "expected": 0,
+      "steps": 612,
+      "error": ""
+    },
+    {
+      "schema": 0,
+      "name": "unknown-probe",
+      "raw": 255,
+      "expected": 0,
+      "steps": 612,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GetEr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 45,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GetEr",
+      "raw": 85,
+      "expected": 1,
+      "steps": 41,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GetEr",
+      "raw": 255,
+      "expected": 1,
+      "steps": 41,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Pow",
+      "raw": 0,
+      "expected": 0,
+      "steps": 59,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Pow",
+      "raw": 85,
+      "expected": 85,
+      "steps": 59,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Pow",
+      "raw": 255,
+      "expected": 255,
+      "steps": 59,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Tur",
+      "raw": 0,
+      "expected": 0,
+      "steps": 74,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Tur",
+      "raw": 85,
+      "expected": 85,
+      "steps": 74,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Tur",
+      "raw": 255,
+      "expected": 255,
+      "steps": 74,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ModS",
+      "raw": 0,
+      "expected": 0,
+      "steps": 89,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ModS",
+      "raw": 85,
+      "expected": 85,
+      "steps": 89,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ModS",
+      "raw": 255,
+      "expected": 255,
+      "steps": 89,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "FanMod",
+      "raw": 0,
+      "expected": 0,
+      "steps": 104,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "FanMod",
+      "raw": 85,
+      "expected": 85,
+      "steps": 104,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "FanMod",
+      "raw": 255,
+      "expected": 255,
+      "steps": 104,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "WdSpd",
+      "raw": 0,
+      "expected": 0,
+      "steps": 124,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "WdSpd",
+      "raw": 85,
+      "expected": 85,
+      "steps": 124,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "WdSpd",
+      "raw": 255,
+      "expected": 255,
+      "steps": 124,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "RunMod",
+      "raw": 0,
+      "expected": 0,
+      "steps": 134,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "RunMod",
+      "raw": 85,
+      "expected": 85,
+      "steps": 134,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "RunMod",
+      "raw": 255,
+      "expected": 255,
+      "steps": 134,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IDUAirQu",
+      "raw": 0,
+      "expected": 0,
+      "steps": 149,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IDUAirQu",
+      "raw": 85,
+      "expected": 85,
+      "steps": 149,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IDUAirQu",
+      "raw": 255,
+      "expected": 255,
+      "steps": 149,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ODUViti",
+      "raw": 0,
+      "expected": 0,
+      "steps": 164,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ODUViti",
+      "raw": 85,
+      "expected": 85,
+      "steps": 164,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ODUViti",
+      "raw": 255,
+      "expected": 255,
+      "steps": 164,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Inloop",
+      "raw": 0,
+      "expected": 0,
+      "steps": 179,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Inloop",
+      "raw": 85,
+      "expected": 85,
+      "steps": 179,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "Inloop",
+      "raw": 255,
+      "expected": 255,
+      "steps": 179,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InVitiGr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 194,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InVitiGr",
+      "raw": 85,
+      "expected": 85,
+      "steps": 194,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InVitiGr",
+      "raw": 255,
+      "expected": 255,
+      "steps": 194,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InVitiGrCg",
+      "raw": 0,
+      "expected": 0,
+      "steps": 209,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InVitiGrCg",
+      "raw": 85,
+      "expected": 85,
+      "steps": 209,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InVitiGrCg",
+      "raw": 255,
+      "expected": 255,
+      "steps": 209,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IFDtiGr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 224,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IFDtiGr",
+      "raw": 85,
+      "expected": 85,
+      "steps": 224,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IFDtiGr",
+      "raw": 255,
+      "expected": 255,
+      "steps": 224,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "VitiGr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 239,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "VitiGr",
+      "raw": 85,
+      "expected": 85,
+      "steps": 239,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "VitiGr",
+      "raw": 255,
+      "expected": 255,
+      "steps": 239,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "TemSor",
+      "raw": 0,
+      "expected": 0,
+      "steps": 262,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "TemSor",
+      "raw": 85,
+      "expected": 85,
+      "steps": 262,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "TemSor",
+      "raw": 255,
+      "expected": 255,
+      "steps": 262,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "HumSor",
+      "raw": 0,
+      "expected": 0,
+      "steps": 277,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "HumSor",
+      "raw": 85,
+      "expected": 85,
+      "steps": 277,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "HumSor",
+      "raw": 255,
+      "expected": 255,
+      "steps": 277,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InEffClRes",
+      "raw": 0,
+      "expected": 0,
+      "steps": 284,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InEffClRes",
+      "raw": 85,
+      "expected": 85,
+      "steps": 284,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InEffClRes",
+      "raw": 255,
+      "expected": 255,
+      "steps": 284,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InEffReRes",
+      "raw": 0,
+      "expected": 0,
+      "steps": 299,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InEffReRes",
+      "raw": 85,
+      "expected": 85,
+      "steps": 299,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "InEffReRes",
+      "raw": 255,
+      "expected": 255,
+      "steps": 299,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "AirQu",
+      "raw": 0,
+      "expected": 0,
+      "steps": 322,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "AirQu",
+      "raw": 85,
+      "expected": 85,
+      "steps": 322,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "AirQu",
+      "raw": 255,
+      "expected": 255,
+      "steps": 322,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PM2P5",
+      "raw": 0,
+      "expected": 0,
+      "steps": 338,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PM2P5",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 338,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PM2P5",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 338,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "VOC",
+      "raw": 0,
+      "expected": 0,
+      "steps": 353,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "VOC",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 353,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "VOC",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 353,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "CO2",
+      "raw": 0,
+      "expected": 0,
+      "steps": 368,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "CO2",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 368,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "CO2",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 368,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PctCle",
+      "raw": 0,
+      "expected": 0,
+      "steps": 374,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PctCle",
+      "raw": 85,
+      "expected": 85,
+      "steps": 374,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PctCle",
+      "raw": 255,
+      "expected": 255,
+      "steps": 374,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PctRe",
+      "raw": 0,
+      "expected": 0,
+      "steps": 389,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PctRe",
+      "raw": 85,
+      "expected": 85,
+      "steps": 389,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PctRe",
+      "raw": 255,
+      "expected": 255,
+      "steps": 389,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IFDClRes",
+      "raw": 0,
+      "expected": 0,
+      "steps": 404,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IFDClRes",
+      "raw": 85,
+      "expected": 85,
+      "steps": 404,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "IFDClRes",
+      "raw": 255,
+      "expected": 255,
+      "steps": 404,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "EffReRes",
+      "raw": 0,
+      "expected": 0,
+      "steps": 419,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "EffReRes",
+      "raw": 85,
+      "expected": 85,
+      "steps": 419,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "EffReRes",
+      "raw": 255,
+      "expected": 255,
+      "steps": 419,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasQ",
+      "raw": 0,
+      "expected": 0,
+      "steps": 438,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasQ",
+      "raw": 85,
+      "expected": 21,
+      "steps": 438,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasQ",
+      "raw": 255,
+      "expected": 31,
+      "steps": 438,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasAvail",
+      "raw": 0,
+      "expected": 0,
+      "steps": 459,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasAvail",
+      "raw": 85,
+      "expected": 1,
+      "steps": 459,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasAvail",
+      "raw": 255,
+      "expected": 1,
+      "steps": 459,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasLED",
+      "raw": 0,
+      "expected": 0,
+      "steps": 474,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasLED",
+      "raw": 85,
+      "expected": 1,
+      "steps": 474,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasLED",
+      "raw": 255,
+      "expected": 1,
+      "steps": 474,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasMod",
+      "raw": 0,
+      "expected": 0,
+      "steps": 489,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasMod",
+      "raw": 85,
+      "expected": 1,
+      "steps": 489,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasMod",
+      "raw": 255,
+      "expected": 1,
+      "steps": 489,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasMas",
+      "raw": 0,
+      "expected": 0,
+      "steps": 504,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasMas",
+      "raw": 85,
+      "expected": 1,
+      "steps": 504,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "GasMas",
+      "raw": 255,
+      "expected": 1,
+      "steps": 504,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PM2P5Sta",
+      "raw": 0,
+      "expected": 0,
+      "steps": 519,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PM2P5Sta",
+      "raw": 85,
+      "expected": 1,
+      "steps": 519,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "PM2P5Sta",
+      "raw": 255,
+      "expected": 1,
+      "steps": 519,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "SorErr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 534,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "SorErr",
+      "raw": 85,
+      "expected": 1,
+      "steps": 534,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "SorErr",
+      "raw": 255,
+      "expected": 1,
+      "steps": 534,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "CommErr",
+      "raw": 0,
+      "expected": 0,
+      "steps": 549,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "CommErr",
+      "raw": 85,
+      "expected": 1,
+      "steps": 549,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "CommErr",
+      "raw": 255,
+      "expected": 1,
+      "steps": 549,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ErrType",
+      "raw": 0,
+      "expected": 0,
+      "steps": 554,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ErrType",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 554,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "ErrType",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 554,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "MIdType",
+      "raw": 0,
+      "expected": 0,
+      "steps": 569,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "MIdType",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 569,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "MIdType",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 569,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "MidType",
+      "raw": 0,
+      "expected": 0,
+      "steps": 579,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "MidType",
+      "raw": 85,
+      "expected": 21845,
+      "steps": 579,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "MidType",
+      "raw": 255,
+      "expected": 65535,
+      "steps": 579,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "unknown-probe",
+      "raw": 0,
+      "expected": 0,
+      "steps": 582,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "unknown-probe",
+      "raw": 85,
+      "expected": 0,
+      "steps": 582,
+      "error": ""
+    },
+    {
+      "schema": 1,
+      "name": "unknown-probe",
+      "raw": 255,
+      "expected": 0,
+      "steps": 582,
+      "error": ""
+    }
+  ]
+}

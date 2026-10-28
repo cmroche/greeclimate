@@ -1,0 +1,1563 @@
+{
+  "profile": "sim-w06bv-v20",
+  "mid": "60",
+  "source_sha256": "c449e08599008f5250e96d5c77c24a0d10ac9e1a495c45c62526bfa9e8ecaadb",
+  "evidence": {
+    "source": "session-qca-fan_research.json and session-qca_research.json: independent exact-source scan/bind/enum, alternate6079 requested dat, cmd->stagedcache->res->freshdat, independent neighboring-child cache and ordered duplicates.",
+    "independence": "Protocol responses copied from saved independent source slices; invalid-batch behavior and configuration are literal explicit simulator policy, never emulator/client-generated expectations.",
+    "safe_policy": "Whole-batch strict int32 type/shape validation; direct fields truncate as source bytes/LE16. Full alternate39 descriptor cache, no calibrated temperature/thermal model. Known but unrouted numeric names return0; metadata read-only. Other stored-MID aliases remain unregistered.",
+    "model_policy": "Synthetic persistent raw byte/LE16 board cache, no thermal model or physical calibration. Default ordinary SetTem24, other raw readouts0. Whole-batch strict int32/converter validation and reply preflight are safe model policy. Full namespace/width source evidence in session-qca-gateway-quirks_research.json."
+  },
+  "device": {
+    "id": "gateway",
+    "mac": "020000000001",
+    "name": "Lab W06B",
+    "key": "0123456789abcdef"
+  },
+  "children": [
+    {
+      "profile": "sim-w06bv-v20-fan",
+      "mid": "6079",
+      "device": {
+        "id": "fan-one",
+        "mac": "02000000000201"
+      },
+      "initial_state": {
+        "FanMod": 1,
+        "WdSpd": 2
+      }
+    },
+    {
+      "profile": "sim-w06bv-v20-fan",
+      "mid": "6079",
+      "device": {
+        "id": "fan-two",
+        "mac": "02000000000301"
+      },
+      "initial_state": {
+        "FanMod": 1,
+        "WdSpd": 2
+      }
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "ac",
+        "mac": "02000000000401"
+      },
+      "initial_state": {}
+    }
+  ],
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow",
+          "FanMod",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          2,
+          3
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000301",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "WdSpd",
+          "Pow",
+          "WdSpd",
+          "TemSen",
+          "TemBody",
+          "nonexistent"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": []
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow",
+          "FanMod",
+          "WdSpd"
+        ],
+        "p": [
+          1,
+          255,
+          255
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow",
+          "FanMod"
+        ],
+        "p": [
+          1,
+          2147483648
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "FanMod"
+        ],
+        "p": [
+          -2147483649
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "WdSpd"
+        ],
+        "p": [
+          2147483648
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          2,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          true
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "FanMod"
+        ],
+        "p": [
+          1.0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "rssi"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow",
+          "rssi"
+        ],
+        "p": [
+          1,
+          22
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "BuzzerCtrl"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow"
+        ],
+        "p": []
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "sub": "02000000009901",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "02000000000201",
+        "sub": "02000000000201",
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "fedcba9876543210"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000099"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000201",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000301",
+        "cols": [
+          "Pow",
+          "FanMod",
+          "WdSpd",
+          "GetEr"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "02000000000401",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "TemBody",
+          "FanMod"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "60",
+          "model": "gree",
+          "name": "Lab W06B",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V1.1.0.0",
+          "lock": 0,
+          "hid": "362001067524+U-W06BV20.bin",
+          "subCnt": 3
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindOk",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 3,
+          "i": 0,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000201",
+              "mid": "6079"
+            },
+            {
+              "mac": "02000000000301",
+              "mid": "6079"
+            },
+            {
+              "mac": "02000000000401",
+              "mid": "604a"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "mac": "02000000000201",
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            2,
+            3
+          ],
+          "val": [
+            1,
+            2,
+            3
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            1,
+            2,
+            3,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000301",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "WdSpd",
+            "Pow",
+            "WdSpd",
+            "TemSen",
+            "TemBody",
+            "nonexistent"
+          ],
+          "dat": [
+            3,
+            1,
+            3,
+            "",
+            0,
+            ""
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "FanMod",
+            "WdSpd"
+          ],
+          "p": [
+            1,
+            255,
+            255
+          ],
+          "val": [
+            1,
+            255,
+            255
+          ],
+          "mac": "02000000000201"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            1,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "p": [
+            1,
+            0
+          ],
+          "val": [
+            1,
+            0
+          ],
+          "mac": "02000000000201"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000201",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            255,
+            255,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000301",
+          "cols": [
+            "Pow",
+            "FanMod",
+            "WdSpd",
+            "GetEr"
+          ],
+          "dat": [
+            0,
+            1,
+            2,
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "dat",
+          "r": 200,
+          "mac": "02000000000401",
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "TemBody",
+            "FanMod"
+          ],
+          "dat": [
+            0,
+            0,
+            24,
+            0,
+            0
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {},
+  "expected_children": {
+    "02000000000201": {},
+    "02000000000301": {},
+    "02000000000401": {}
+  }
+}

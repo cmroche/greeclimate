@@ -240,8 +240,10 @@
   ],
   "expected_replies": [
     [],
-    [],
-    [],
+    [{"outer": {"t": "pack", "i": 0, "uid": 7, "cid": "020000000001", "tcid": "app"},
+      "inner": {"t": "res", "r": 200, "mac": "02000000000101", "opt": ["Mod", "StTem"], "p": [1, 16]}}],
+    [{"outer": {"t": "pack", "i": 0, "uid": 7, "cid": "020000000001", "tcid": "app"},
+      "inner": {"t": "res", "r": 200, "mac": "02000000000101", "opt": ["Pow"], "p": [2]}}],
     [],
     [],
     [],
@@ -251,7 +253,7 @@
   ],
   "expected_state": {
     "MasterPow": 0,
-    "Mod": 0,
+    "Mod": 1,
     "WdSpd": 0,
     "StTem": 8,
     "StFahFlg": 0,
@@ -260,23 +262,15 @@
   },
   "expected_children": {
     "02000000000100": {
-      "Pow": 0,
-      "StTem": 8,
-      "StFahFlg": 0,
-      "RmType": 0,
-      "RmNum": 0,
-      "Mod": 0,
-      "WdSpd": 0
+      "Pow": 0
     },
     "02000000000101": {
-      "Pow": 0,
-      "StTem": 8,
+      "Pow": 2,
+      "StTem": 16,
       "StFahFlg": 0,
       "RmType": 0,
       "RmNum": 0,
-      "EnValve": 0,
-      "Mod": 0,
-      "WdSpd": 0
+      "EnValve": 0
     }
   }
 }

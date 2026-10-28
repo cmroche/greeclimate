@@ -1,0 +1,2937 @@
+{
+  "schema_version": 1,
+  "profile": "sim-w04n-v17",
+  "v17_initial_columns": [
+    "ACStupPos",
+    "Add0.5",
+    "Air",
+    "AirQ",
+    "Antifreeze",
+    "AssHt",
+    "AutoClean",
+    "Blo",
+    "CoolNoise",
+    "Defrost",
+    "Dfltr",
+    "Dmod",
+    "DnPLLRSwing",
+    "DnPRLRSwing",
+    "DnPUDSwing",
+    "DsplySt",
+    "DwatFul",
+    "Dwet",
+    "Emod",
+    "EnvArea1St",
+    "EnvArea2St",
+    "EnvArea3St",
+    "EnvArea4St",
+    "EnvArea5St",
+    "EnvArea6St",
+    "EnvArea7St",
+    "EnvArea8St",
+    "EnvArea9St",
+    "FavorMode",
+    "FbidBloPer",
+    "HandCtl",
+    "Health",
+    "HeatCoolType",
+    "HeatNoise",
+    "HumSen",
+    "ImageRecovery",
+    "ImgUpdateCol",
+    "ImgUpdateSta",
+    "ImgUpdateRes",
+    "ImgVerSta",
+    "Lig",
+    "MicroSen",
+    "Mod",
+    "NobodySave",
+    "NoiseSet",
+    "PM2P5",
+    "PMVComfort",
+    "Pow",
+    "Purify",
+    "Quiet",
+    "ReplaceHEPA",
+    "RoomHigh",
+    "RoomLen",
+    "RoomWid",
+    "SaveGuid",
+    "Security",
+    "SecurityMode",
+    "SetTem",
+    "Slp1H1",
+    "Slp1H2",
+    "Slp1H3",
+    "Slp1H4",
+    "Slp1H5",
+    "Slp1H6",
+    "Slp1H7",
+    "Slp1H8",
+    "Slp1L1",
+    "Slp1L2",
+    "Slp1L3",
+    "Slp1L4",
+    "Slp1L5",
+    "Slp1L6",
+    "Slp1L7",
+    "Slp1L8",
+    "SlpMod",
+    "SmartWind",
+    "StHt",
+    "SvSt",
+    "SwhSlp",
+    "SwhSw",
+    "SwhWifi",
+    "SwhWifiRes",
+    "SwingLfRig",
+    "SwUpDn",
+    "TemRec",
+    "TemSen",
+    "TemUn",
+    "Tur",
+    "UDFanPort",
+    "UnmanedOffTime",
+    "UnmanedShutDown",
+    "VocCtl",
+    "VocIdiom",
+    "VocRole",
+    "VocUpdateCol",
+    "VocUpdateSta",
+    "VocUpdateRes",
+    "VocVerSta",
+    "WdSpd",
+    "Wet",
+    "AllErr",
+    "ElcAllKwhClr",
+    "ElcEn",
+    "CZLJC",
+    "NewTimer",
+    "NewTimerSet",
+    "Buzzer_ON_OFF",
+    "AntiDirectBlow",
+    "SmartSlpMod",
+    "SmartSlpModEx",
+    "StSlp1C",
+    "StSlp1CInc",
+    "StSlp1CSp",
+    "StSlp1H",
+    "StSlp1HInc",
+    "StSlp1HSp",
+    "StSlp2C",
+    "StSlp2CInc",
+    "StSlp2CSp",
+    "StSlp2H",
+    "StSlp2HInc",
+    "StSlp2HSp",
+    "StSlp3C",
+    "StSlp3CInc",
+    "StSlp3CSp",
+    "StSlp3H",
+    "StSlp3HInc",
+    "StSlp3HSp",
+    "StSlp4C",
+    "StSlp4CInc",
+    "StSlp4CSp",
+    "StSlp4H",
+    "StSlp4HInc",
+    "StSlp4HSp",
+    "LigSen"
+  ],
+  "v17_initial_values": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    160,
+    160,
+    160,
+    160,
+    160,
+    160,
+    160,
+    160,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    26,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "source_policy": "136 original table callbacks include Null and AllErr, both rejected by the actual named scalar selector;134 names admitted. Full backend forwarding and local metadata are separately traced, never inferred from callback table membership.",
+  "synthetic_policy": {
+    "cache": "512 zero bytes plus SetTem24/Lig1; room_c supplies bounded Celsius TemSen and may overwrite a requested TemSen on the next physical-model status tick",
+    "context": "Explicit platform class0 auxiliary-heat context, timer byte modeled per-root; not claimed mainboard startup",
+    "safety": "Native leading-decimal numeric-token normalization with signed-32 saturation; lock independently retains its raw trailing-byte rule. Booleans and malformed values reject the whole batch, with reply-size preflight; no native unsafe parser success claim"
+  },
+  "builds": [
+    {
+      "source_sha256": "0b01a0d0fd25651b81bf435e46428987a3b43b905b2ee6bdc0714c6030452d92",
+      "embedded_hids": [
+        "362001064973+U-W04NV19.bin"
+      ],
+      "table": "0x806d090",
+      "entry_count": 136,
+      "contained_views": "one nested flash application at0x08013020 plus its initialized SRAM at0x10010000; no dropped second OTA view or executable LMA alias",
+      "callback_rows": [
+        {
+          "name": "Null",
+          "setter": "0x802c76c",
+          "getter": "0x802c768",
+          "named_selector_admitted": false
+        },
+        {
+          "name": "ACStupPos",
+          "setter": "0x802cfac",
+          "getter": "0x802cfb0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Add0.5",
+          "setter": "0x802c8bc",
+          "getter": "0x802c8c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Air",
+          "setter": "0x802c92c",
+          "getter": "0x802c934",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AirQ",
+          "setter": "0x802ca1c",
+          "getter": "0x802ca24",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Antifreeze",
+          "setter": "0x802d054",
+          "getter": "0x802d05c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AssHt",
+          "setter": "0x802c94c",
+          "getter": "0x802c954",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AutoClean",
+          "setter": "0x802d0ec",
+          "getter": "0x802d0f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Blo",
+          "setter": "0x802c7f8",
+          "getter": "0x802c800",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "CoolNoise",
+          "setter": "0x802cf7c",
+          "getter": "0x802cf80",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Defrost",
+          "setter": "0x802d044",
+          "getter": "0x802d04c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dfltr",
+          "setter": "0x802cf24",
+          "getter": "0x802cf2c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dmod",
+          "setter": "0x802cf14",
+          "getter": "0x802cf1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPLLRSwing",
+          "setter": "0x802c9fc",
+          "getter": "0x802ca04",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPRLRSwing",
+          "setter": "0x802ca0c",
+          "getter": "0x802ca14",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPUDSwing",
+          "setter": "0x802c9ec",
+          "getter": "0x802c9f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DsplySt",
+          "setter": "0x802c98c",
+          "getter": "0x802c994",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DwatFul",
+          "setter": "0x802cf54",
+          "getter": "0x802cf5c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dwet",
+          "setter": "0x802cf34",
+          "getter": "0x802cf3c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Emod",
+          "setter": "0x802c97c",
+          "getter": "0x802c984",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea1St",
+          "setter": "0x802ce74",
+          "getter": "0x802ce7c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea2St",
+          "setter": "0x802ce84",
+          "getter": "0x802ce8c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea3St",
+          "setter": "0x802ce94",
+          "getter": "0x802ce9c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea4St",
+          "setter": "0x802cea4",
+          "getter": "0x802ceac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea5St",
+          "setter": "0x802ceb4",
+          "getter": "0x802cebc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea6St",
+          "setter": "0x802cec4",
+          "getter": "0x802cecc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea7St",
+          "setter": "0x802ced4",
+          "getter": "0x802cedc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea8St",
+          "setter": "0x802cee4",
+          "getter": "0x802ceec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea9St",
+          "setter": "0x802cef4",
+          "getter": "0x802cefc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "FavorMode",
+          "setter": "0x802d084",
+          "getter": "0x802d08c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "FbidBloPer",
+          "setter": "0x802ce64",
+          "getter": "0x802ce6c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HandCtl",
+          "setter": "0x802cfcc",
+          "getter": "0x802cfd4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Health",
+          "setter": "0x802c8cc",
+          "getter": "0x802c8d4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HeatCoolType",
+          "setter": "0x802c95c",
+          "getter": "0x802c964",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HeatNoise",
+          "setter": "0x802cf84",
+          "getter": "0x802cf88",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HumSen",
+          "setter": "0x802ca2c",
+          "getter": "0x802c780",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImageRecovery",
+          "setter": "0x802d0d4",
+          "getter": "0x802c7b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateCol",
+          "setter": "0x802d014",
+          "getter": "0x802c794",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateSta",
+          "setter": "0x802c7a4",
+          "getter": "0x802d0b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateRes",
+          "setter": "0x802c7a8",
+          "getter": "0x802d0bc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgVerSta",
+          "setter": "0x802c798",
+          "getter": "0x802d01c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Lig",
+          "setter": "0x802c89c",
+          "getter": "0x802c8a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "MicroSen",
+          "setter": "0x802d0a4",
+          "getter": "0x802d0ac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Mod",
+          "setter": "0x802c818",
+          "getter": "0x802c820",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NobodySave",
+          "setter": "0x802cfb4",
+          "getter": "0x802c788",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NoiseSet",
+          "setter": "0x802cf74",
+          "getter": "0x802cf78",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "PM2P5",
+          "setter": "0x802c9ac",
+          "getter": "0x802c9b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "PMVComfort",
+          "setter": "0x802d034",
+          "getter": "0x802d03c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Pow",
+          "setter": "0x802c7c8",
+          "getter": "0x802c7d0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Purify",
+          "setter": "0x802ce54",
+          "getter": "0x802ce5c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Quiet",
+          "setter": "0x802c93c",
+          "getter": "0x802c944",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ReplaceHEPA",
+          "setter": "0x802d0dc",
+          "getter": "0x802d0e4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomHigh",
+          "setter": "0x802cf9c",
+          "getter": "0x802cfa0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomLen",
+          "setter": "0x802cf8c",
+          "getter": "0x802cf90",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomWid",
+          "setter": "0x802cf94",
+          "getter": "0x802cf98",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SaveGuid",
+          "setter": "0x802cfa4",
+          "getter": "0x802cfa8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Security",
+          "setter": "0x802d004",
+          "getter": "0x802d00c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SecurityMode",
+          "setter": "0x802d094",
+          "getter": "0x802d09c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SetTem",
+          "setter": "0x802c7d8",
+          "getter": "0x802c7e0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H1",
+          "setter": "0x802ca5c",
+          "getter": "0x802ca7c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H2",
+          "setter": "0x802caac",
+          "getter": "0x802cacc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H3",
+          "setter": "0x802cafc",
+          "getter": "0x802cb1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H4",
+          "setter": "0x802cb4c",
+          "getter": "0x802cb6c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H5",
+          "setter": "0x802cb9c",
+          "getter": "0x802cbbc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H6",
+          "setter": "0x802cbec",
+          "getter": "0x802cc0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H7",
+          "setter": "0x802cc3c",
+          "getter": "0x802cc5c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H8",
+          "setter": "0x802cc8c",
+          "getter": "0x802ccac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L1",
+          "setter": "0x802ca34",
+          "getter": "0x802ca54",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L2",
+          "setter": "0x802ca84",
+          "getter": "0x802caa4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L3",
+          "setter": "0x802cad4",
+          "getter": "0x802caf4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L4",
+          "setter": "0x802cb24",
+          "getter": "0x802cb44",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L5",
+          "setter": "0x802cb74",
+          "getter": "0x802cb94",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L6",
+          "setter": "0x802cbc4",
+          "getter": "0x802cbe4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L7",
+          "setter": "0x802cc14",
+          "getter": "0x802cc34",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L8",
+          "setter": "0x802cc64",
+          "getter": "0x802cc84",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SlpMod",
+          "setter": "0x802c91c",
+          "getter": "0x802c924",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartWind",
+          "setter": "0x802cfbc",
+          "getter": "0x802cfc4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StHt",
+          "setter": "0x802c96c",
+          "getter": "0x802c974",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SvSt",
+          "setter": "0x802c808",
+          "getter": "0x802c810",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhSlp",
+          "setter": "0x802c90c",
+          "getter": "0x802c914",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhSw",
+          "setter": "0x802cf64",
+          "getter": "0x802cf6c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhWifi",
+          "setter": "0x802c8fc",
+          "getter": "0x802c904",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhWifiRes",
+          "setter": "0x802c8ec",
+          "getter": "0x802c8f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwingLfRig",
+          "setter": "0x802c858",
+          "getter": "0x802c860",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwUpDn",
+          "setter": "0x802c848",
+          "getter": "0x802c850",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemRec",
+          "setter": "0x802c838",
+          "getter": "0x802c840",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemSen",
+          "setter": "0x802c770",
+          "getter": "0x802c9bc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemUn",
+          "setter": "0x802c828",
+          "getter": "0x802c830",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Tur",
+          "setter": "0x802c8dc",
+          "getter": "0x802c8e4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UDFanPort",
+          "setter": "0x802c99c",
+          "getter": "0x802c9a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UnmanedOffTime",
+          "setter": "0x802d074",
+          "getter": "0x802d07c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UnmanedShutDown",
+          "setter": "0x802d064",
+          "getter": "0x802d06c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocCtl",
+          "setter": "0x802cfdc",
+          "getter": "0x802cfe4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocIdiom",
+          "setter": "0x802cfec",
+          "getter": "0x802c790",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocRole",
+          "setter": "0x802cff4",
+          "getter": "0x802cffc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateCol",
+          "setter": "0x802d024",
+          "getter": "0x802c79c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateSta",
+          "setter": "0x802c7ac",
+          "getter": "0x802d0c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateRes",
+          "setter": "0x802c7b0",
+          "getter": "0x802d0cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocVerSta",
+          "setter": "0x802c7a0",
+          "getter": "0x802d02c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "WdSpd",
+          "setter": "0x802c868",
+          "getter": "0x802c870",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Wet",
+          "setter": "0x802cf04",
+          "getter": "0x802cf0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AllErr",
+          "setter": "0x802c7b8",
+          "getter": "0x802d0fc",
+          "named_selector_admitted": false
+        },
+        {
+          "name": "ElcAllKwhClr",
+          "setter": "0x802c7e8",
+          "getter": "0x802c7f0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ElcEn",
+          "setter": "0x802c7c4",
+          "getter": "0x802d154",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "CZLJC",
+          "setter": "0x802d104",
+          "getter": "0x802d10c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NewTimer",
+          "setter": "0x802c7bc",
+          "getter": "0x802c7c0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NewTimerSet",
+          "setter": "0x802d114",
+          "getter": "0x802d130",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Buzzer_ON_OFF",
+          "setter": "0x802d134",
+          "getter": "0x802d13c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AntiDirectBlow",
+          "setter": "0x802d144",
+          "getter": "0x802d14c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartSlpMod",
+          "setter": "0x802ccb4",
+          "getter": "0x802ccbc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartSlpModEx",
+          "setter": "0x802ccc4",
+          "getter": "0x802cccc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1C",
+          "setter": "0x802ccd4",
+          "getter": "0x802ccdc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1CInc",
+          "setter": "0x802cce4",
+          "getter": "0x802ccec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1CSp",
+          "setter": "0x802ccf4",
+          "getter": "0x802ccfc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1H",
+          "setter": "0x802cd04",
+          "getter": "0x802cd0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1HInc",
+          "setter": "0x802cd14",
+          "getter": "0x802cd1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1HSp",
+          "setter": "0x802cd24",
+          "getter": "0x802cd2c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2C",
+          "setter": "0x802cd34",
+          "getter": "0x802cd3c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2CInc",
+          "setter": "0x802cd44",
+          "getter": "0x802cd4c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2CSp",
+          "setter": "0x802cd54",
+          "getter": "0x802cd5c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2H",
+          "setter": "0x802cd64",
+          "getter": "0x802cd6c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2HInc",
+          "setter": "0x802cd74",
+          "getter": "0x802cd7c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2HSp",
+          "setter": "0x802cd84",
+          "getter": "0x802cd8c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3C",
+          "setter": "0x802cd94",
+          "getter": "0x802cd9c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3CInc",
+          "setter": "0x802cda4",
+          "getter": "0x802cdac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3CSp",
+          "setter": "0x802cdb4",
+          "getter": "0x802cdbc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3H",
+          "setter": "0x802cdc4",
+          "getter": "0x802cdcc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3HInc",
+          "setter": "0x802cdd4",
+          "getter": "0x802cddc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3HSp",
+          "setter": "0x802cde4",
+          "getter": "0x802cdec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4C",
+          "setter": "0x802cdf4",
+          "getter": "0x802cdfc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4CInc",
+          "setter": "0x802ce04",
+          "getter": "0x802ce0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4CSp",
+          "setter": "0x802ce14",
+          "getter": "0x802ce1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4H",
+          "setter": "0x802ce24",
+          "getter": "0x802ce2c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4HInc",
+          "setter": "0x802ce34",
+          "getter": "0x802ce3c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4HSp",
+          "setter": "0x802ce44",
+          "getter": "0x802ce4c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "LigSen",
+          "setter": "0x802c8ac",
+          "getter": "0x802c8b4",
+          "named_selector_admitted": true
+        }
+      ],
+      "qualification": "V19 bounded raw implementation. Exact-source full native command/report-cache qualification passes all 24 vectors; original metadata lock ACK/fresh-status and all runtime MID CLI/default polls pass. No full-boot or physical mainboard claim.",
+      "implementation": "gree_emulator/profiles/w04n.py",
+      "native_evidence": "Private CatalogQuirks/RealtekEarly/callback-canonical-replay.json, selector-canonical-replay.json, W04N/sequences-native.json and W04N/NumericClosure/numeric-full-V19-native.json; exact original source hashes and canonical SRAM preserved",
+      "static_evidence": "Private W04N/callback-source-closure.json exact per-name source getter/setter bodies",
+      "literal_vectors": "w04n-raw_research.json and w04n-raw.json; native original outcomes remain distinct from synthetic room/safety policy",
+      "native_selector": {
+        "vector_count": 3536,
+        "failed_calls": 0,
+        "admitted_names": 134,
+        "rejected_callback_names": [
+          "Null",
+          "AllErr"
+        ],
+        "scope": "canonical original name dispatch plus callback; strcmp primitive only, explicit zero context"
+      },
+      "native_direct_callbacks": {
+        "vector_count": 2025,
+        "callbacks_with_vectors": 135,
+        "failed_calls": 0,
+        "limitation": "TemSen duplicate historical row with empty probes overwrote direct vectors; named selector and separate context sequence supply native sensor evidence"
+      }
+    },
+    {
+      "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+      "embedded_hids": [
+        "362001064973+U-W04NV17.bin"
+      ],
+      "table": "0x8074610",
+      "entry_count": 136,
+      "contained_views": "one nested flash application at0x08013020 plus its initialized SRAM at0x10010000; no dropped second OTA view or executable LMA alias",
+      "callback_rows": [
+        {
+          "name": "Null",
+          "setter": "0x802d290",
+          "getter": "0x802d28c",
+          "named_selector_admitted": false
+        },
+        {
+          "name": "ACStupPos",
+          "setter": "0x802dabc",
+          "getter": "0x802dac0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Add0.5",
+          "setter": "0x802d3fc",
+          "getter": "0x802d404",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Air",
+          "setter": "0x802d46c",
+          "getter": "0x802d474",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AirQ",
+          "setter": "0x802d52c",
+          "getter": "0x802d534",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Antifreeze",
+          "setter": "0x802db64",
+          "getter": "0x802db6c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AssHt",
+          "setter": "0x802d48c",
+          "getter": "0x802d494",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AutoClean",
+          "setter": "0x802dbfc",
+          "getter": "0x802dc04",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Blo",
+          "setter": "0x802d338",
+          "getter": "0x802d340",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "CoolNoise",
+          "setter": "0x802da8c",
+          "getter": "0x802da90",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Defrost",
+          "setter": "0x802db54",
+          "getter": "0x802db5c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dfltr",
+          "setter": "0x802da34",
+          "getter": "0x802da3c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dmod",
+          "setter": "0x802da24",
+          "getter": "0x802da2c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPLLRSwing",
+          "setter": "0x802d50c",
+          "getter": "0x802d514",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPRLRSwing",
+          "setter": "0x802d51c",
+          "getter": "0x802d524",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPUDSwing",
+          "setter": "0x802d4fc",
+          "getter": "0x802d504",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DsplySt",
+          "setter": "0x802d4cc",
+          "getter": "0x802d4d4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DwatFul",
+          "setter": "0x802da64",
+          "getter": "0x802da6c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dwet",
+          "setter": "0x802da44",
+          "getter": "0x802da4c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Emod",
+          "setter": "0x802d4bc",
+          "getter": "0x802d4c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea1St",
+          "setter": "0x802d984",
+          "getter": "0x802d98c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea2St",
+          "setter": "0x802d994",
+          "getter": "0x802d99c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea3St",
+          "setter": "0x802d9a4",
+          "getter": "0x802d9ac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea4St",
+          "setter": "0x802d9b4",
+          "getter": "0x802d9bc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea5St",
+          "setter": "0x802d9c4",
+          "getter": "0x802d9cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea6St",
+          "setter": "0x802d9d4",
+          "getter": "0x802d9dc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea7St",
+          "setter": "0x802d9e4",
+          "getter": "0x802d9ec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea8St",
+          "setter": "0x802d9f4",
+          "getter": "0x802d9fc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea9St",
+          "setter": "0x802da04",
+          "getter": "0x802da0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "FavorMode",
+          "setter": "0x802db94",
+          "getter": "0x802db9c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "FbidBloPer",
+          "setter": "0x802d974",
+          "getter": "0x802d97c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HandCtl",
+          "setter": "0x802dadc",
+          "getter": "0x802dae4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Health",
+          "setter": "0x802d40c",
+          "getter": "0x802d414",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HeatCoolType",
+          "setter": "0x802d49c",
+          "getter": "0x802d4a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HeatNoise",
+          "setter": "0x802da94",
+          "getter": "0x802da98",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HumSen",
+          "setter": "0x802d53c",
+          "getter": "0x802d2bc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImageRecovery",
+          "setter": "0x802dbe4",
+          "getter": "0x802d2f0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateCol",
+          "setter": "0x802db24",
+          "getter": "0x802d2d0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateSta",
+          "setter": "0x802d2e0",
+          "getter": "0x802dbc4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateRes",
+          "setter": "0x802d2e4",
+          "getter": "0x802dbcc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgVerSta",
+          "setter": "0x802d2d4",
+          "getter": "0x802db2c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Lig",
+          "setter": "0x802d3dc",
+          "getter": "0x802d3e4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "MicroSen",
+          "setter": "0x802dbb4",
+          "getter": "0x802dbbc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Mod",
+          "setter": "0x802d358",
+          "getter": "0x802d360",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NobodySave",
+          "setter": "0x802dac4",
+          "getter": "0x802d2c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NoiseSet",
+          "setter": "0x802da84",
+          "getter": "0x802da88",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "PM2P5",
+          "setter": "0x802d4ec",
+          "getter": "0x802d4f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "PMVComfort",
+          "setter": "0x802db44",
+          "getter": "0x802db4c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Pow",
+          "setter": "0x802d308",
+          "getter": "0x802d310",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Purify",
+          "setter": "0x802d964",
+          "getter": "0x802d96c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Quiet",
+          "setter": "0x802d47c",
+          "getter": "0x802d484",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ReplaceHEPA",
+          "setter": "0x802dbec",
+          "getter": "0x802dbf4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomHigh",
+          "setter": "0x802daac",
+          "getter": "0x802dab0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomLen",
+          "setter": "0x802da9c",
+          "getter": "0x802daa0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomWid",
+          "setter": "0x802daa4",
+          "getter": "0x802daa8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SaveGuid",
+          "setter": "0x802dab4",
+          "getter": "0x802dab8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Security",
+          "setter": "0x802db14",
+          "getter": "0x802db1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SecurityMode",
+          "setter": "0x802dba4",
+          "getter": "0x802dbac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SetTem",
+          "setter": "0x802d318",
+          "getter": "0x802d320",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H1",
+          "setter": "0x802d56c",
+          "getter": "0x802d58c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H2",
+          "setter": "0x802d5bc",
+          "getter": "0x802d5dc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H3",
+          "setter": "0x802d60c",
+          "getter": "0x802d62c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H4",
+          "setter": "0x802d65c",
+          "getter": "0x802d67c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H5",
+          "setter": "0x802d6ac",
+          "getter": "0x802d6cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H6",
+          "setter": "0x802d6fc",
+          "getter": "0x802d71c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H7",
+          "setter": "0x802d74c",
+          "getter": "0x802d76c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H8",
+          "setter": "0x802d79c",
+          "getter": "0x802d7bc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L1",
+          "setter": "0x802d544",
+          "getter": "0x802d564",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L2",
+          "setter": "0x802d594",
+          "getter": "0x802d5b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L3",
+          "setter": "0x802d5e4",
+          "getter": "0x802d604",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L4",
+          "setter": "0x802d634",
+          "getter": "0x802d654",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L5",
+          "setter": "0x802d684",
+          "getter": "0x802d6a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L6",
+          "setter": "0x802d6d4",
+          "getter": "0x802d6f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L7",
+          "setter": "0x802d724",
+          "getter": "0x802d744",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L8",
+          "setter": "0x802d774",
+          "getter": "0x802d794",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SlpMod",
+          "setter": "0x802d45c",
+          "getter": "0x802d464",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartWind",
+          "setter": "0x802dacc",
+          "getter": "0x802dad4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StHt",
+          "setter": "0x802d4ac",
+          "getter": "0x802d4b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SvSt",
+          "setter": "0x802d348",
+          "getter": "0x802d350",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhSlp",
+          "setter": "0x802d44c",
+          "getter": "0x802d454",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhSw",
+          "setter": "0x802da74",
+          "getter": "0x802da7c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhWifi",
+          "setter": "0x802d43c",
+          "getter": "0x802d444",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhWifiRes",
+          "setter": "0x802d42c",
+          "getter": "0x802d434",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwingLfRig",
+          "setter": "0x802d398",
+          "getter": "0x802d3a0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwUpDn",
+          "setter": "0x802d388",
+          "getter": "0x802d390",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemRec",
+          "setter": "0x802d378",
+          "getter": "0x802d380",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemSen",
+          "setter": "0x802d294",
+          "getter": "0x802d2a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemUn",
+          "setter": "0x802d368",
+          "getter": "0x802d370",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Tur",
+          "setter": "0x802d41c",
+          "getter": "0x802d424",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UDFanPort",
+          "setter": "0x802d4dc",
+          "getter": "0x802d4e4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UnmanedOffTime",
+          "setter": "0x802db84",
+          "getter": "0x802db8c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UnmanedShutDown",
+          "setter": "0x802db74",
+          "getter": "0x802db7c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocCtl",
+          "setter": "0x802daec",
+          "getter": "0x802daf4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocIdiom",
+          "setter": "0x802dafc",
+          "getter": "0x802d2cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocRole",
+          "setter": "0x802db04",
+          "getter": "0x802db0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateCol",
+          "setter": "0x802db34",
+          "getter": "0x802d2d8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateSta",
+          "setter": "0x802d2e8",
+          "getter": "0x802dbd4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateRes",
+          "setter": "0x802d2ec",
+          "getter": "0x802dbdc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocVerSta",
+          "setter": "0x802d2dc",
+          "getter": "0x802db3c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "WdSpd",
+          "setter": "0x802d3a8",
+          "getter": "0x802d3b0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Wet",
+          "setter": "0x802da14",
+          "getter": "0x802da1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AllErr",
+          "setter": "0x802d2f4",
+          "getter": "0x802dc0c",
+          "named_selector_admitted": false
+        },
+        {
+          "name": "ElcAllKwhClr",
+          "setter": "0x802d328",
+          "getter": "0x802d330",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ElcEn",
+          "setter": "0x802d300",
+          "getter": "0x802d304",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "CZLJC",
+          "setter": "0x802dc14",
+          "getter": "0x802dc1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NewTimer",
+          "setter": "0x802d2f8",
+          "getter": "0x802d2fc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NewTimerSet",
+          "setter": "0x802dc24",
+          "getter": "0x802dc40",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Buzzer_ON_OFF",
+          "setter": "0x802dc44",
+          "getter": "0x802dc4c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AntiDirectBlow",
+          "setter": "0x802dc54",
+          "getter": "0x802dc5c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartSlpMod",
+          "setter": "0x802d7c4",
+          "getter": "0x802d7cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartSlpModEx",
+          "setter": "0x802d7d4",
+          "getter": "0x802d7dc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1C",
+          "setter": "0x802d7e4",
+          "getter": "0x802d7ec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1CInc",
+          "setter": "0x802d7f4",
+          "getter": "0x802d7fc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1CSp",
+          "setter": "0x802d804",
+          "getter": "0x802d80c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1H",
+          "setter": "0x802d814",
+          "getter": "0x802d81c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1HInc",
+          "setter": "0x802d824",
+          "getter": "0x802d82c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1HSp",
+          "setter": "0x802d834",
+          "getter": "0x802d83c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2C",
+          "setter": "0x802d844",
+          "getter": "0x802d84c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2CInc",
+          "setter": "0x802d854",
+          "getter": "0x802d85c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2CSp",
+          "setter": "0x802d864",
+          "getter": "0x802d86c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2H",
+          "setter": "0x802d874",
+          "getter": "0x802d87c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2HInc",
+          "setter": "0x802d884",
+          "getter": "0x802d88c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2HSp",
+          "setter": "0x802d894",
+          "getter": "0x802d89c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3C",
+          "setter": "0x802d8a4",
+          "getter": "0x802d8ac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3CInc",
+          "setter": "0x802d8b4",
+          "getter": "0x802d8bc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3CSp",
+          "setter": "0x802d8c4",
+          "getter": "0x802d8cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3H",
+          "setter": "0x802d8d4",
+          "getter": "0x802d8dc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3HInc",
+          "setter": "0x802d8e4",
+          "getter": "0x802d8ec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3HSp",
+          "setter": "0x802d8f4",
+          "getter": "0x802d8fc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4C",
+          "setter": "0x802d904",
+          "getter": "0x802d90c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4CInc",
+          "setter": "0x802d914",
+          "getter": "0x802d91c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4CSp",
+          "setter": "0x802d924",
+          "getter": "0x802d92c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4H",
+          "setter": "0x802d934",
+          "getter": "0x802d93c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4HInc",
+          "setter": "0x802d944",
+          "getter": "0x802d94c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4HSp",
+          "setter": "0x802d954",
+          "getter": "0x802d95c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "LigSen",
+          "setter": "0x802d3ec",
+          "getter": "0x802d3f4",
+          "named_selector_admitted": true
+        }
+      ],
+      "qualification": "V17 bounded raw implementation. Exact-source full native command/report-cache qualification passes all 24 vectors; original metadata lock ACK/fresh-status and all runtime MID CLI/default polls pass. No full-boot or physical mainboard claim.",
+      "implementation": "gree_emulator/profiles/w04n.py",
+      "native_evidence": "Private CatalogQuirks/RealtekEarly/callback-canonical-replay.json, selector-canonical-replay.json, W04N/sequences-native.json and W04N/NumericClosure/numeric-full-V17-native.json; exact original source hashes and canonical SRAM preserved",
+      "static_evidence": "Private W04N/callback-source-closure.json exact per-name source getter/setter bodies",
+      "literal_vectors": "w04n-raw_research.json and w04n-raw.json; native original outcomes remain distinct from synthetic room/safety policy",
+      "native_selector": {
+        "vector_count": 3536,
+        "failed_calls": 0,
+        "admitted_names": 134,
+        "rejected_callback_names": [
+          "Null",
+          "AllErr"
+        ],
+        "scope": "canonical original name dispatch plus callback; strcmp primitive only, explicit zero context"
+      },
+      "native_direct_callbacks": {
+        "vector_count": 2025,
+        "callbacks_with_vectors": 135,
+        "failed_calls": 0,
+        "limitation": "TemSen duplicate historical row with empty probes overwrote direct vectors; named selector and separate context sequence supply native sensor evidence"
+      }
+    },
+    {
+      "source_sha256": "c83eb36cb6c285a30611cd44b6d2f9394bfdd2be6333e4a886ecf00ac2ebb256",
+      "embedded_hids": [
+        "362001064270+U-BL3332_JDNEWV12.bin"
+      ],
+      "table": "0x80961a0",
+      "entry_count": 136,
+      "contained_views": "one nested flash application at0x08013020 plus its initialized SRAM at0x10010000; no dropped second OTA view or executable LMA alias",
+      "callback_rows": [
+        {
+          "name": "Null",
+          "setter": "0x802e2b0",
+          "getter": "0x802e2ac",
+          "named_selector_admitted": false
+        },
+        {
+          "name": "ACStupPos",
+          "setter": "0x802eaf4",
+          "getter": "0x802eaf8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Add0.5",
+          "setter": "0x802e404",
+          "getter": "0x802e40c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Air",
+          "setter": "0x802e474",
+          "getter": "0x802e47c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AirQ",
+          "setter": "0x802e564",
+          "getter": "0x802e56c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Antifreeze",
+          "setter": "0x802eb9c",
+          "getter": "0x802eba4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AssHt",
+          "setter": "0x802e494",
+          "getter": "0x802e49c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AutoClean",
+          "setter": "0x802ec34",
+          "getter": "0x802ec3c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Blo",
+          "setter": "0x802e340",
+          "getter": "0x802e348",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "CoolNoise",
+          "setter": "0x802eac4",
+          "getter": "0x802eac8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Defrost",
+          "setter": "0x802eb8c",
+          "getter": "0x802eb94",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dfltr",
+          "setter": "0x802ea6c",
+          "getter": "0x802ea74",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dmod",
+          "setter": "0x802ea5c",
+          "getter": "0x802ea64",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPLLRSwing",
+          "setter": "0x802e544",
+          "getter": "0x802e54c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPRLRSwing",
+          "setter": "0x802e554",
+          "getter": "0x802e55c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DnPUDSwing",
+          "setter": "0x802e534",
+          "getter": "0x802e53c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DsplySt",
+          "setter": "0x802e4d4",
+          "getter": "0x802e4dc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "DwatFul",
+          "setter": "0x802ea9c",
+          "getter": "0x802eaa4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Dwet",
+          "setter": "0x802ea7c",
+          "getter": "0x802ea84",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Emod",
+          "setter": "0x802e4c4",
+          "getter": "0x802e4cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea1St",
+          "setter": "0x802e9bc",
+          "getter": "0x802e9c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea2St",
+          "setter": "0x802e9cc",
+          "getter": "0x802e9d4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea3St",
+          "setter": "0x802e9dc",
+          "getter": "0x802e9e4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea4St",
+          "setter": "0x802e9ec",
+          "getter": "0x802e9f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea5St",
+          "setter": "0x802e9fc",
+          "getter": "0x802ea04",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea6St",
+          "setter": "0x802ea0c",
+          "getter": "0x802ea14",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea7St",
+          "setter": "0x802ea1c",
+          "getter": "0x802ea24",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea8St",
+          "setter": "0x802ea2c",
+          "getter": "0x802ea34",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "EnvArea9St",
+          "setter": "0x802ea3c",
+          "getter": "0x802ea44",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "FavorMode",
+          "setter": "0x802ebcc",
+          "getter": "0x802ebd4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "FbidBloPer",
+          "setter": "0x802e9ac",
+          "getter": "0x802e9b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HandCtl",
+          "setter": "0x802eb14",
+          "getter": "0x802eb1c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Health",
+          "setter": "0x802e414",
+          "getter": "0x802e41c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HeatCoolType",
+          "setter": "0x802e4a4",
+          "getter": "0x802e4ac",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HeatNoise",
+          "setter": "0x802eacc",
+          "getter": "0x802ead0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "HumSen",
+          "setter": "0x802e574",
+          "getter": "0x802e2c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImageRecovery",
+          "setter": "0x802ec1c",
+          "getter": "0x802e2f8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateCol",
+          "setter": "0x802eb5c",
+          "getter": "0x802e2d8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateSta",
+          "setter": "0x802e2e8",
+          "getter": "0x802ebfc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgUpdateRes",
+          "setter": "0x802e2ec",
+          "getter": "0x802ec04",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ImgVerSta",
+          "setter": "0x802e2dc",
+          "getter": "0x802eb64",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Lig",
+          "setter": "0x802e3e4",
+          "getter": "0x802e3ec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "MicroSen",
+          "setter": "0x802ebec",
+          "getter": "0x802ebf4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Mod",
+          "setter": "0x802e360",
+          "getter": "0x802e368",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NobodySave",
+          "setter": "0x802eafc",
+          "getter": "0x802e2cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NoiseSet",
+          "setter": "0x802eabc",
+          "getter": "0x802eac0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "PM2P5",
+          "setter": "0x802e4f4",
+          "getter": "0x802e4fc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "PMVComfort",
+          "setter": "0x802eb7c",
+          "getter": "0x802eb84",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Pow",
+          "setter": "0x802e310",
+          "getter": "0x802e318",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Purify",
+          "setter": "0x802e99c",
+          "getter": "0x802e9a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Quiet",
+          "setter": "0x802e484",
+          "getter": "0x802e48c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ReplaceHEPA",
+          "setter": "0x802ec24",
+          "getter": "0x802ec2c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomHigh",
+          "setter": "0x802eae4",
+          "getter": "0x802eae8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomLen",
+          "setter": "0x802ead4",
+          "getter": "0x802ead8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "RoomWid",
+          "setter": "0x802eadc",
+          "getter": "0x802eae0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SaveGuid",
+          "setter": "0x802eaec",
+          "getter": "0x802eaf0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Security",
+          "setter": "0x802eb4c",
+          "getter": "0x802eb54",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SecurityMode",
+          "setter": "0x802ebdc",
+          "getter": "0x802ebe4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SetTem",
+          "setter": "0x802e320",
+          "getter": "0x802e328",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H1",
+          "setter": "0x802e5a4",
+          "getter": "0x802e5c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H2",
+          "setter": "0x802e5f4",
+          "getter": "0x802e614",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H3",
+          "setter": "0x802e644",
+          "getter": "0x802e664",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H4",
+          "setter": "0x802e694",
+          "getter": "0x802e6b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H5",
+          "setter": "0x802e6e4",
+          "getter": "0x802e704",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H6",
+          "setter": "0x802e734",
+          "getter": "0x802e754",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H7",
+          "setter": "0x802e784",
+          "getter": "0x802e7a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1H8",
+          "setter": "0x802e7d4",
+          "getter": "0x802e7f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L1",
+          "setter": "0x802e57c",
+          "getter": "0x802e59c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L2",
+          "setter": "0x802e5cc",
+          "getter": "0x802e5ec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L3",
+          "setter": "0x802e61c",
+          "getter": "0x802e63c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L4",
+          "setter": "0x802e66c",
+          "getter": "0x802e68c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L5",
+          "setter": "0x802e6bc",
+          "getter": "0x802e6dc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L6",
+          "setter": "0x802e70c",
+          "getter": "0x802e72c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L7",
+          "setter": "0x802e75c",
+          "getter": "0x802e77c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Slp1L8",
+          "setter": "0x802e7ac",
+          "getter": "0x802e7cc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SlpMod",
+          "setter": "0x802e464",
+          "getter": "0x802e46c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartWind",
+          "setter": "0x802eb04",
+          "getter": "0x802eb0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StHt",
+          "setter": "0x802e4b4",
+          "getter": "0x802e4bc",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SvSt",
+          "setter": "0x802e350",
+          "getter": "0x802e358",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhSlp",
+          "setter": "0x802e454",
+          "getter": "0x802e45c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhSw",
+          "setter": "0x802eaac",
+          "getter": "0x802eab4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhWifi",
+          "setter": "0x802e444",
+          "getter": "0x802e44c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwhWifiRes",
+          "setter": "0x802e434",
+          "getter": "0x802e43c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwingLfRig",
+          "setter": "0x802e3a0",
+          "getter": "0x802e3a8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SwUpDn",
+          "setter": "0x802e390",
+          "getter": "0x802e398",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemRec",
+          "setter": "0x802e380",
+          "getter": "0x802e388",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemSen",
+          "setter": "0x802e2b4",
+          "getter": "0x802e504",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "TemUn",
+          "setter": "0x802e370",
+          "getter": "0x802e378",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Tur",
+          "setter": "0x802e424",
+          "getter": "0x802e42c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UDFanPort",
+          "setter": "0x802e4e4",
+          "getter": "0x802e4ec",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UnmanedOffTime",
+          "setter": "0x802ebbc",
+          "getter": "0x802ebc4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "UnmanedShutDown",
+          "setter": "0x802ebac",
+          "getter": "0x802ebb4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocCtl",
+          "setter": "0x802eb24",
+          "getter": "0x802eb2c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocIdiom",
+          "setter": "0x802eb34",
+          "getter": "0x802e2d4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocRole",
+          "setter": "0x802eb3c",
+          "getter": "0x802eb44",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateCol",
+          "setter": "0x802eb6c",
+          "getter": "0x802e2e0",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateSta",
+          "setter": "0x802e2f0",
+          "getter": "0x802ec0c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocUpdateRes",
+          "setter": "0x802e2f4",
+          "getter": "0x802ec14",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "VocVerSta",
+          "setter": "0x802e2e4",
+          "getter": "0x802eb74",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "WdSpd",
+          "setter": "0x802e3b0",
+          "getter": "0x802e3b8",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Wet",
+          "setter": "0x802ea4c",
+          "getter": "0x802ea54",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AllErr",
+          "setter": "0x802e2fc",
+          "getter": "0x802ec44",
+          "named_selector_admitted": false
+        },
+        {
+          "name": "ElcAllKwhClr",
+          "setter": "0x802e330",
+          "getter": "0x802e338",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "ElcEn",
+          "setter": "0x802e308",
+          "getter": "0x802e30c",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "CZLJC",
+          "setter": "0x802ec4c",
+          "getter": "0x802ec54",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NewTimer",
+          "setter": "0x802e300",
+          "getter": "0x802e304",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "NewTimerSet",
+          "setter": "0x802ec5c",
+          "getter": "0x802ec78",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "Buzzer_ON_OFF",
+          "setter": "0x802ec7c",
+          "getter": "0x802ec84",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "AntiDirectBlow",
+          "setter": "0x802ec8c",
+          "getter": "0x802ec94",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartSlpMod",
+          "setter": "0x802e7fc",
+          "getter": "0x802e804",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "SmartSlpModEx",
+          "setter": "0x802e80c",
+          "getter": "0x802e814",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1C",
+          "setter": "0x802e81c",
+          "getter": "0x802e824",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1CInc",
+          "setter": "0x802e82c",
+          "getter": "0x802e834",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1CSp",
+          "setter": "0x802e83c",
+          "getter": "0x802e844",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1H",
+          "setter": "0x802e84c",
+          "getter": "0x802e854",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1HInc",
+          "setter": "0x802e85c",
+          "getter": "0x802e864",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp1HSp",
+          "setter": "0x802e86c",
+          "getter": "0x802e874",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2C",
+          "setter": "0x802e87c",
+          "getter": "0x802e884",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2CInc",
+          "setter": "0x802e88c",
+          "getter": "0x802e894",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2CSp",
+          "setter": "0x802e89c",
+          "getter": "0x802e8a4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2H",
+          "setter": "0x802e8ac",
+          "getter": "0x802e8b4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2HInc",
+          "setter": "0x802e8bc",
+          "getter": "0x802e8c4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp2HSp",
+          "setter": "0x802e8cc",
+          "getter": "0x802e8d4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3C",
+          "setter": "0x802e8dc",
+          "getter": "0x802e8e4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3CInc",
+          "setter": "0x802e8ec",
+          "getter": "0x802e8f4",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3CSp",
+          "setter": "0x802e8fc",
+          "getter": "0x802e904",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3H",
+          "setter": "0x802e90c",
+          "getter": "0x802e914",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3HInc",
+          "setter": "0x802e91c",
+          "getter": "0x802e924",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp3HSp",
+          "setter": "0x802e92c",
+          "getter": "0x802e934",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4C",
+          "setter": "0x802e93c",
+          "getter": "0x802e944",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4CInc",
+          "setter": "0x802e94c",
+          "getter": "0x802e954",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4CSp",
+          "setter": "0x802e95c",
+          "getter": "0x802e964",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4H",
+          "setter": "0x802e96c",
+          "getter": "0x802e974",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4HInc",
+          "setter": "0x802e97c",
+          "getter": "0x802e984",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "StSlp4HSp",
+          "setter": "0x802e98c",
+          "getter": "0x802e994",
+          "named_selector_admitted": true
+        },
+        {
+          "name": "LigSen",
+          "setter": "0x802e3f4",
+          "getter": "0x802e3fc",
+          "named_selector_admitted": true
+        }
+      ],
+      "qualification": "JD V12 bounded raw implementation. Exact-source full native command/report-cache qualification passes all 24 vectors; original metadata lock ACK/fresh-status and all runtime MID CLI/default polls pass. No full-boot or physical mainboard claim.",
+      "implementation": "gree_emulator/profiles/w04n.py",
+      "native_evidence": "Private CatalogQuirks/RealtekEarly/callback-canonical-replay.json, selector-canonical-replay.json, W04N/sequences-native.json and W04N/NumericClosure/numeric-full-JDV12-native.json; exact original source hashes and canonical SRAM preserved",
+      "static_evidence": "Private W04N/callback-source-closure.json exact per-name source getter/setter bodies",
+      "literal_vectors": "w04n-raw_research.json and w04n-raw.json; native original outcomes remain distinct from synthetic room/safety policy",
+      "native_selector": {
+        "vector_count": 3536,
+        "failed_calls": 0,
+        "admitted_names": 134,
+        "rejected_callback_names": [
+          "Null",
+          "AllErr"
+        ],
+        "scope": "canonical original name dispatch plus callback; strcmp primitive only, explicit zero context"
+      },
+      "native_direct_callbacks": {
+        "vector_count": 2025,
+        "callbacks_with_vectors": 135,
+        "failed_calls": 0,
+        "limitation": "TemSen duplicate historical row with empty probes overwrote direct vectors; named selector and separate context sequence supply native sensor evidence"
+      }
+    }
+  ],
+  "numeric_json_abi": {
+    "source": "Historical W04N/json-reader-native.json and json-abi-native.json; parent-executed CatalogQuirks/RealtekEarly/W04N/NumericClosure/numeric-reader-native.json and numeric-wire-contract-observation.json qualify original V17/V19/JD readers and wire/cache boundaries independently.",
+    "integer_storage": "Signed32 saturation before callback. Numeric UDP ACK p preserves request entries; val and execution use the first parsed value per name. Worker internal ACK val and independently polled cached status use effective getters, not the upstream wire val.",
+    "raw_number_policy": "Parse the original JSON number token's leading signed decimal integer prefix before any Python float conversion: 1.5 and 1e3 read as 1, -1e-3 as -1. Preserve strict JSON syntax and reject nonnumber command values atomically as the explicit safe model policy.",
+    "invalid_native_types": "bool/null/string/array/object next-integer API returns -5 and preserves the output sentinel; this reader result is not a whole-command or atomic-batch claim.",
+    "parent_reader_invocations": 72,
+    "distinct_tokens_per_build": 23,
+    "invocation_scope": "The separate numeric-reader-native.json capture has 24 reader invocations per build, including repeated token 1 from its mixed vector. Its 69 distinct build/token pairs prove lexical reading only. The additional full-phase captures below independently qualify queued ACK/report-cache behavior; their mixed vector repeats reader token 2 while registered numeric parsing consumes p[0]=1.5.",
+    "full_registered_qualification": {
+      "source": "CatalogQuirks/RealtekEarly/W04N/NumericClosure/",
+      "artifacts": ["numeric-full-V17-native.json", "numeric-full-V19-native.json", "numeric-full-JDV12-native.json"],
+      "phase": "full",
+      "passed_source_gates": 3,
+      "vectors_per_build": 24,
+      "numeric_and_mixed_vectors_per_build": 17,
+      "nonnumeric_outcomes_per_build": 7,
+      "acceptance_failures": [],
+      "probe_sha256": "eae5e9d692304bb380dc532b0bdea74639d62a6cf5cb2318f42d99daf9fc588e",
+      "report_routes": "Original poll task and selector cycles, worker MCU parser/comparison helper, native delta/builder/last-reported writer and source-selected mode-1 cache updater; separate event-9 DATA observes the worker cache.",
+      "repeat_frame": "Same mode-1 frame yields native delta return zero with Pow mask clear, handler 0x4e21/output length zero, no report builder/writer/updater and retained LAN cache.",
+      "boundary": "Declared virtual UART/RTOS/ROM/libc and available-SDK preconditions. Not physical timing, a full boot, external SDK event-3 producer/transport or whole-command atomicity proof."
+    },
+    "mixed_numeric_projection": {
+      "rule": "Metadata independently reads p[0]; after metadata names are filtered, N numeric names consume the first N p entries, not their former opt indices.",
+      "opt": ["AutoUpdate", "Pow"],
+      "raw_p": [1.5, 2],
+      "ACK_p": [1, 1],
+      "ACK_val": [1, 1],
+      "fresh_DAT": [1, 1],
+      "verification": "All three original full native gates and three fresh actual CLI encrypted-UDP command/separate-status probes."
+    },
+    "duplicate_name_contract": {
+      "source": "CatalogQuirks/RealtekEarly/W04N/NumericClosure/duplicate-name-wire-native.json",
+      "builds": ["V17", "V19", "JD V12"],
+      "first_on": {"p": [1, 0], "val": [1, 1], "fresh_Pow": 1},
+      "first_off": {"p": [0, 1], "val": [0, 0], "fresh_Pow": 0},
+      "rule": "First name occurrence is executed once; later duplicate values remain in p but do not replace the applied value."
+    },
+    "literal_cases": [
+      {"token": "0", "reader_return": 0, "value": 0},
+      {"token": "1", "reader_return": 0, "value": 1},
+      {"token": "2", "reader_return": 0, "value": 2},
+      {"token": "-1", "reader_return": 0, "value": -1},
+      {"token": "2147483647", "reader_return": 0, "value": 2147483647},
+      {"token": "2147483648", "reader_return": 0, "value": 2147483647},
+      {"token": "4294967295", "reader_return": 0, "value": 2147483647},
+      {"token": "4294967296", "reader_return": 0, "value": 2147483647},
+      {"token": "-2147483648", "reader_return": 0, "value": -2147483648},
+      {"token": "-2147483649", "reader_return": 0, "value": -2147483648},
+      {"token": "1.5", "reader_return": 0, "value": 1},
+      {"token": "1e3", "reader_return": 0, "value": 1},
+      {"token": "1e-3", "reader_return": 0, "value": 1},
+      {"token": "-1.5", "reader_return": 0, "value": -1},
+      {"token": "-1e3", "reader_return": 0, "value": -1},
+      {"token": "-1e-3", "reader_return": 0, "value": -1},
+      {"token": "true", "reader_return": -5, "value": null},
+      {"token": "false", "reader_return": -5, "value": null},
+      {"token": "null", "reader_return": -5, "value": null},
+      {"token": "\"1\"", "reader_return": -5, "value": null},
+      {"token": "\"-1\"", "reader_return": -5, "value": null},
+      {"token": "[]", "reader_return": -5, "value": null},
+      {"token": "{}", "reader_return": -5, "value": null}
+    ]
+  },
+  "local_metadata": {
+    "source": "W04N/metadata-source-closure.json",
+    "native": "W04N/metadata-native.json and metadata-bc-native.json",
+    "known_names": [
+      "name",
+      "lock",
+      "AutoUpdate",
+      "time",
+      "host",
+      "hid",
+      "mid",
+      "MOta",
+      "bc",
+      "DevID",
+      "MafIdf",
+      "AppTimer",
+      "MidType",
+      "rssi",
+      "ver",
+      "vender",
+      "ReportClientID"
+    ],
+    "synthetic_defaults": {
+      "time": "2000-01-01 00:00:00",
+      "rssi": -50,
+      "AppTimer": 0
+    },
+    "no_output": "MOta returns0 withoutserializedvalue; ReportClientIDgetterreturns-1 and omittedACKopt; settercopiesstring via actuallocaldispatcher",
+    "lock_number_tail": {
+      "source": "Parent original-LAN replay in CatalogQuirks/RealtekEarly/W04N/MetadataClosure/lock-number-tail-native.json; V17/V19/JD all qualified independently.",
+      "rule": "lock uses the raw final numeric token byte, not the normalized/saturated integer. Trailing ASCII 0 clears the flag; otherwise it sets it. Command p/val and fresh status agree.",
+      "literal_cases": [
+        {"token": "1", "parsed_integer": 1, "ack_p": 1, "ack_val": 1, "fresh_lock": 1},
+        {"token": "1.0", "parsed_integer": 1, "ack_p": 0, "ack_val": 0, "fresh_lock": 0},
+        {"token": "2147483650", "parsed_integer": 2147483647, "ack_p": 0, "ack_val": 0, "fresh_lock": 0}
+      ],
+      "scope": "Source metadata/cache semantics only; no physical lock or full firmware boot claim."
+    },
+    "actions": [
+      "dwTsk",
+      "dwRpt"
+    ]
+  }
+}

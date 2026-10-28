@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "source_sha256": "3d3d6e7921638d63b326ab9a67a3b947176561841d064a597d7600ed471ba52b",
+  "hid": "362001066240+U-WB05CRJV1.16.bin",
+  "classification": "cloud_joylink_module_with_softap_provisioning",
+  "ordinary_lan_profile": false,
+  "qualification": "Canonical source instructions and native original default-frame/generic-key prefix with five direct getter literal matches; full native JSON/socket transaction and firmware boot are not claimed.",
+  "transport": {
+    "application_ingress": ["MQTT"],
+    "other_source_senders": ["TCP stream"],
+    "udp_port": 7000,
+    "udp_role": "SoftAP provisioning, not application scan/status/cmd dispatch",
+    "application_dispatcher_records": 11,
+    "crypto": "AES-128 ECB with LF inside padded plaintext and base64 wrapping",
+    "generic_key": "a3K8Bx%2r8Y7#xDh",
+    "generic_key_initialization": "Original initializer copies eight two-byte chunks through source-initialized RAM pointers; it is not one searchable firmware string."
+  },
+  "local_status": {
+    "ordered_names": ["host", "ver", "name", "hid", "rssi", "mid", "bc", "time"],
+    "unknown_property": "omitted, not an invented appliance no-support value",
+    "duplicates": "recognized names retain requested order and duplicates",
+    "source_default_frame": {
+      "host": "",
+      "ver": "V3.5.M",
+      "name": "",
+      "hid": "362001066240+U-WB05CRJV1.16.bin",
+      "rssi": 0,
+      "mid": "",
+      "bc": ""
+    },
+    "default_boundaries": "Original frame construction precedes NVM restoration, random/device key setup and mainboard refresh. An empty default MID is not a fixed emitted appliance MID.",
+    "time": "Known formatted RTC getter; sensor calibration is not a reason to omit this wire operation."
+  },
+  "application_operations": [
+    {"name": "wlan", "key_index": 2},
+    {"name": "bind", "key_index": 1},
+    {"name": "status", "key_index": 0},
+    {"name": "cmd", "key_index": 0},
+    {"name": "binCmd", "key_index": 0},
+    {"name": "reset", "key_index": 0},
+    {"name": "upgrade", "key_index": 0},
+    {"name": "ReportCtrl", "key_index": 0, "selector_exception": true},
+    {"name": "ReportLimit", "key_index": 1},
+    {"name": "tm", "key_index": 2},
+    {"name": "queryT", "key_index": 0}
+  ],
+  "command_boundary": {
+    "cmd": "Local time mutation and generic echo/atoi response do not establish appliance cache mutation.",
+    "binCmd_fields": ["hex91", "hex92", "hex93", "hex6A", "hex6B", "hex6C", "fragment"],
+    "physical_companion": "Exact attached-mainboard field schema/action remains separate from established raw frame staging and local acknowledgements.",
+    "upgrade": "Actual downloaded image and physical flash activation are external to the local packet evidence."
+  },
+  "evidence": "CatalogQuirks/RealtekEarly/Remaining/DescriptorRoots/crj-assessment.json and crj-transport-static.json in the private research repository",
+  "native_initializer_probe": "Executed DescriptorRoots/probe_crj_initialization.py: original default-frame instructions and generic-key initializer completed; five direct getters plus fixed generic key matched independent literals, with memcpy/memset adapters only. Private owner-execution.json preserves command/script SHA and limits."
+}

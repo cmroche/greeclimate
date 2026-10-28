@@ -58,11 +58,89 @@ class MidProfile:
         }
 
 
-# Unknown device type (fallback for missing or unmatched MID).
+# Unknown device type.
 FALLBACK_MID_PROFILE = MidProfile(None, ("hid",))
 
 
-# docs/MIDS.md records feature evidence and limits; omitted fields stay unknown.
+# Fan.
+_FAN_COLUMNS = (
+    "Pow", "WdSpd", "Mod", "Rotate", "Cycle", "SwUpDn", "SwingLfRig", "Wet", "Anion",
+    "HotWind", "TmrHour", "TmrMin", "TmrOn", "TmrAction", "SmartMod", "WetLevel", "Light",
+    "UpDnAngle", "LRAngle", "Temperature", "PM25", "estate", "estate1", "estate2", "estate3",
+    "JFerr", "MidType", "hid", "time", "rssi", "ver",
+)
+# W04R shares these MIDs: exactly 30 names empties its source scan, >30 is unsafe,
+# and ver has no datum. Preserve all fan fields; rssi/ver remain explicit reads.
+_SMALL_FAN_COLUMNS = tuple(name for name in _FAN_COLUMNS if name not in ("rssi", "ver"))
+
+# Heater.
+_HEATER_COLUMNS = (
+    "Pow", "Humidification", "Swing", "ChildLock", "HeatLevel", "SetTemp", "EnvTemp",
+    "WorkTimeHour", "WorkTimeSec", "RealHeatLevel", "FanLevel", "HeatMode", "TmrOn",
+    "TmrAction", "TmrHour", "TmrMin", "estate", "estate2", "estate3", "JFerr", "MidType", "hid",
+    "time", "rssi", "ver",
+)
+# Water purifier.
+_PURIFIER_COLUMNS = (
+    "WorkStatus", "TotalPureWater", "FilterNum", "LifeTimeFilter1", "LifeTimeFilter2",
+    "LifeTimeFilter3", "LifeTimeFilter4", "LifeTimeFilter5", "FilterWarning1",
+    "FilterWarning2", "FilterWarning3", "FilterWarning4", "FilterWarning5",
+    "LifeFilterDays1", "LifeFilterDays2", "LifeFilterDays3", "LifeFilterDays4",
+    "LifeFilterDays5", "FilterKind1", "FilterKind2", "FilterKind3", "FilterKind4",
+    "FilterKind5", "ErrorCode1", "ErrorCode2", "JFerr", "MidType", "hid",
+    "time", "rssi", "ver",
+)
+
+# Fresh-air fan.
+_FRESH_AIR_COLUMNS = (
+    "MIdType", "WdSpd", "Tur", "ModS", "FanMod", "RunMod", "Inloop", "IDUAirQu", "ODUViti",
+    "PctCle", "PctRe", "IFDtiGr", "InVitiGr", "InVitiGrCg", "VitiGr", "ErrType", "GasQ",
+    "TemSor", "HumSor", "AirQu", "PM2P5", "VOC", "CO2", "SorErr", "CommErr", "GasAvail",
+    "GasLED", "GasMod", "GasMas", "PM2P5Sta", "GetEr", "Pow", "Mod", "SetTem", "ExWdSpd",
+    "TemRec", "TemUn",
+)
+# Photovoltaic energy controller (WB05BR).
+_ENERGY_COLUMNS = (
+    "MIdType", "PvTotEngy", "NewGridTotEngy", "OldGridTotEngy", "PVGenedPwr", "PSSGoCPwr",
+    "TotalEle", "ElcEn", "CalMeth",
+)
+# W06K selects status mode from the final column; keep HID before the sensors.
+_SENSOR_HOST_COLUMNS = (
+    "hid", "Pow", "LigPow", "ScrTime", "AutoCtr", "TemSor", "HumSor", "HCHO", "PM2P5", "CO2",
+    "VOC", "InAirQuality", "SensorErr", "BatteryWarn",
+)
+
+_WASHER_COLUMNS = (
+    "Pow", "PauseStart", "Wash", "Mod", "Disinfect", "Lock", "Lighting", "Purifier", "Dry",
+    "LayerWash", "PurifierTime", "WashDone", "RmTmrHour", "RmTmrMin", "WorkStatus", "TmrOn",
+    "TmrStatus", "TmrHour", "TmrMin", "SetWaterHard", "WaterHardPram", "SetDetergent",
+    "DeterLevel", "estate1", "estate2", "estate3", "JFerr", "MidType",
+)
+_COOKER_COLUMNS = (
+    "Pow", "mode", "StTmr", "TmrOn", "TmrEn", "SchTmr", "SchOnOff", "SchEn", "Textre", "Rice",
+    "sealve", "Prsure", "KpTpTmr", "KpTpOnOff", "KpTpEn", "Lig", "ModeTmr", "StpRic", "Runlight",
+    "Volt", "ElcP", "TmpUp", "TmpDn", "estate", "estate2", "estate3", "estate4", "JFerr", "MidType",
+)
+_HOT_WATER_COLUMNS = (
+    "Pow", "Wmod", "WsetTmp", "WsetTmpC", "PrvHeat", "Wout", "SvSt", "WschOn", "HydPrs",
+    "SenTmpC", "SenTmp", "UseTime", "UseTimeAll", "TapNum", "TapNumAll", "PersonNum", "Machine",
+    "AboveSeaLev", "SvLineType", "SvLine", "TmrOnHour", "TmrOnMin", "TmrOn", "TmrOffHour",
+    "TmrOffMin", "TmrOff", "Werr", "estate", "estate1", "estate2", "estate3", "estate4", "estate5",
+)
+_AIR_CLEANER_COLUMNS = (
+    "Pow", "wspd", "mode", "PM2P5", "light", "AirChildLock", "FiltUT", "FiltBT", "wipm25",
+    "wopm25", "ErrorCode", "FiltUPercent", "FiltUPercent1", "FiltUPercent2", "MeshWarning1",
+    "sterilize", "FomadeValue", "TmrOff", "TmrOn", "StTmr", "RemLifePerErr1", "RemLifePerErr2",
+    "estate", "estate1", "estate2", "JFerr", "MidType",
+)
+_EXTENDED_AIR_CLEANER_COLUMNS = (
+    "Pow", "wspd", "mode", "PM2P5", "light", "AirChildLock", "FiltUT", "FiltBT", "wipm25",
+    "wopm25", "ErrorCode", "FiltUPercent", "FiltUPercent1", "FiltUPercent2", "MeshWarning1",
+    "sterilize", "FomadeValue", "TmrOff", "TmrOn", "StTmr", "RemLifePerErr1", "RemLifePerErr2",
+    "estate", "estate1", "estate2", "JFerr", "MidType", "LifeTimeMesh1", "LifeTimeMesh2",
+    "meshid", "LifeTimeError", "MsgPM", "fltrst", "hid",
+)
+
 KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Air conditioner.
     MidProfile("0001", (
@@ -238,6 +316,10 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("13800", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr",
     ), family="dehumidifier"),
+    # Mainboard device.
+    MidProfile("13801", (
+        "Pow", "Dmod", "Dwet", "host", "name",
+    )),
     # Dehumidifier.
     MidProfile("13802", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr", "TemSen",
@@ -276,6 +358,11 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "Mod", "SetTem", "Add0.1", "TemSetMax", "TemSetMin", "WdSpd", "AllErr", "TemUn",
         "TemRec", "SvSt",
     )),
+    # Hydronic controller.
+    MidProfile("809030", (
+        "hid", "Pow", "Mod", "Quiet", "SvSt", "TemUn", "Temp", "WtTemp", "HtSetTem",
+        "ColSetTem", "HtWtSetTem", "ColWtSetTem", "Er",
+    )),
     # Air conditioner.
     MidProfile("809032", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
@@ -284,24 +371,23 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Air cleaner.
     MidProfile("828100", (
         "Pow", "PM2P5", "mode", "wspd", "light", "wipm25", "wopm25", "estate",
+        "AirChildLock", "FiltUT", "FiltBT", "ErrorCode", "FiltUPercent", "LifeTimeMesh1",
+        "LifeTimeMesh2", "MeshWarning1", "FomadeValue", "TmrOff", "TmrOn", "StTmr",
+        "RemLifePerErr1", "RemLifePerErr2", "estate1", "estate2", "JFerr", "MidType",
+        "meshid", "LifeTimeError", "MsgPM", "fltrst", "hid",
+        "time", "rssi", "ver",
     )),
     # Air cleaner.
-    MidProfile("828103", (
-        "Pow", "PM2P5", "mode", "wspd", "light", "wipm25", "wopm25", "TmrOn", "TmrStatus",
-        "TmrHour", "TmrMin", "FiltUT", "FiltBT", "AirChildLock", "LifeTimeMesh_1", "LifeTimeMesh_2",
-        "estate1", "estate2", "MeshWarning_1", "MidType", "StTmr", "TmrOff", "FiltUPercent",
-        "estate", "JFerr", "MeshWarning1",
-    )),
+    MidProfile("828101", _AIR_CLEANER_COLUMNS),
+    MidProfile("828102", _AIR_CLEANER_COLUMNS),
+    # Air cleaner.
+    MidProfile("828103", _EXTENDED_AIR_CLEANER_COLUMNS),
     # Air cleaner.
     MidProfile("828104", (
         "Pow", "PM2P5", "mode", "wspd", "light", "wipm25", "wopm25", "estate",
     )),
     # Air cleaner.
-    MidProfile("828105", (
-        "Pow", "mode", "wipm25", "light", "FiltUPercent", "FiltUPercent1", "FiltUPercent2", "JFerr",
-        "estate", "estate2", "sterilize", "MidType", "wspd", "TmrOn", "TmrOff", "FomadeValue",
-        "wifiPermit",
-    )),
+    MidProfile("828105", _EXTENDED_AIR_CLEANER_COLUMNS),
     # Air cleaner.
     MidProfile("828140", (
         "Pow", "Wspd", "Mode", "EnvHumidity", "SetHumidity", "PM25", "AirChildLock", "FiltUPercent",
@@ -317,6 +403,43 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "FogLevel", "mode", "UVLight", "WaterTankLight", "TmrHour", "TmrMin", "TmrOn",
         "TmrAction", "estate1",
     )),
+    # Humidifier.
+    MidProfile("828503", ("UV", "Mode", "Sleep", "HumiditySet", "hid", "time", "rssi")),
+    # Cooking appliance.
+    MidProfile("828600", (
+        "Pow", "wspd", "mode", "light", "gesture", "RightCooker", "LeftCooker", "CookerBattery",
+        "estate", "estate2", "JFerr", "MidType",
+    )),
+    MidProfile("828900", ("hid",)),
+    # Washer.
+    MidProfile("828901", ("Wash", "Dry", "hid", "time")),
+    # Washer.
+    MidProfile("828902", _WASHER_COLUMNS),
+    # Washer.
+    MidProfile("828903", _WASHER_COLUMNS),
+    # Washer.
+    MidProfile("828b00", _WASHER_COLUMNS),
+    # Hot-water equipment.
+    MidProfile("828c00", _HOT_WATER_COLUMNS),
+    # Hot-water equipment.
+    MidProfile("828c01", (
+        "Pow", "Mode", "WaterSetTemp", "BurnState", "SelfTestOkState", "Fan", "BurnOffValve2",
+        "BurnOffValve1", "WaterRateValve", "GasRateValve", "GasSafeValve", "Firearm", "WaterPump",
+        "WaterFlow", "InputWaterInt", "InputWaterFloat", "OutputWaterInt", "EnvTempInt", "EnvTempFloat",
+        "WindSensor", "TempLimiter", "Windswitch", "FireNeedle", "estate", "estate2", "estate3",
+        "estate4", "estate5", "JFerr", "MidType",
+    )),
+    # Hot-water equipment.
+    MidProfile("828c02", _HOT_WATER_COLUMNS),
+    # Cooking appliance.
+    MidProfile("828d04", (
+        "Pow", "ChildLock", "RunStat", "Pause", "Mod", "List1", "List2", "List3", "List4", "List5",
+        "SetHour", "SetMin", "SetTmp", "TmrHour", "TmrMin", "DisTmp", "DisSetHour", "DisSetMin",
+        "DisTmrHour", "DisTmrMin", "TmpCtrl", "MachStat", "estate1", "estate2", "estate3", "estate4",
+        "estate5", "JFerr", "MidType", "CloudMenu",
+    )),
+    # Hot-water equipment.
+    MidProfile("8600", _HOT_WATER_COLUMNS),
     # Hot-water equipment.
     MidProfile("910001", (
         "Pow", "AllErr", "Wmod", "SetTemInt", "SetTemDec", "TemUn", "host", "name", "WstpSv",
@@ -400,6 +523,132 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("609d", ("Pow", "Mod", "SetTem", "WdSpd", "InTem")),
     # Zone Controller.
     MidProfile("50", ("MasterPow", "Mod", "WdSpd")),
+    # Fresh-air fan.
+    MidProfile("6079", ("Pow", "FanMod", "WdSpd", "GetEr")),
+    # Gateway controller.
+    MidProfile("70501", ()),
+    # Cloud gateway controller.
+    MidProfile("70503", ()),
+    # Infrared controller.
+    MidProfile("80221", (
+        "Pow", "Mod", "SwhSlp", "SwhSw", "WdSpd", "SetTem", "Blo", "Health", "Lig", "Air",
+        "SwUpDn", "SwingLfRig", "SvSt", "SlpMod", "Tur", "Quiet", "StHt", "IntradayElect",
+        "IntradayElectPow", "IntradayElectLim", "AutoPowDown", "ProTimeReminder",
+        "RealTimePower", "AppTimer", "ProTimeLen", "ProTimePow", "Studied", "AddButton",
+        "ConBtnNum", "ConBtnName", "DelButton", "SendButton", "Electnumzero", "hid", "time",
+    )),
+    # Air-quality sensor host.
+    MidProfile("80241", _SENSOR_HOST_COLUMNS),
+    MidProfile("80242", _SENSOR_HOST_COLUMNS),
+    # Voice/infrared controller.
+    MidProfile("80222", (
+        "Pow", "Mod", "SwhSlp", "SwhSw", "WdSpd", "SetTem", "Blo", "Health", "Lig", "TemUn",
+        "TemRec", "Air", "SwUpDn", "SwingLfRig", "SvSt", "StHt", "Intellblo1", "AirOpen",
+        "SlpMod", "Tur", "Quiet", "VoltErr", "CurrErr", "PowerErr", "RelayErr", "ACCntlrShape",
+        "AppTimer", "RealTimePower", "Savpow", "ProTimePow", "ProTimeLen", "ProTimeReminder",
+        "SendButton", "AddButton", "DelButton", "Studied", "ConBtnNum", "ConBtnName",
+        "Electnumzero", "hid", "time", "MidType", "VoiceVolume", "VoiceGate",
+    )),
+    # Alarm cache.
+    MidProfile("80260", (
+        "Pow", "WorkState", "AlarmCancel", "AlarmTmrEnable", "AlarmTime", "host", "name",
+        "rssi", "hid", "InHid", "OEEPHid", "AllErr",
+    )),
+    # People-counting radar.
+    MidProfile("80261", (
+        "WorkState", "count", "border", "JFerr", "doorenable", "doortotal", "host", "ver",
+        "name", "rssi", "hid", "InHid", "OEEPHid", "InHidDownPer", "devinhidownver",
+        "induptype",
+    )),
+    # Gateway.
+    MidProfile("80300", (
+        "Mesh", "Meshota", "SubOnline", "Random", "Unbind", "Subcount", "Meshid", "Onoff",
+        "Scene", "BleStatus", "AdminRadom", "host", "name", "time", "lat", "lon", "vender",
+        "hid", "mac", "ver", "BtHid",
+    )),
+    # BLE provisioning host.
+    MidProfile("80305", ()),
+    # Power controller.
+    MidProfile("80801", (
+        "Pow", "CountDownTime", "CountDownState", "CountDownFlag", "RealTimeVoltage",
+        "RealTimeEleCurrent", "RealTimePower", "EnergyOfTime", "EnergyOfTimeFlag",
+        "StartTime", "EndTime", "hid", "time", "MessagePushFlag", "rssi",
+    )),
+    # Central controller.
+    MidProfile("80901", (
+        "Mesh", "Meshota", "SubOnline", "Proaddr", "Random", "Unbind", "Subcount", "Pow",
+        "Meshid", "Onoff", "text", "hid", "mac", "InHid", "OEEPHid", "BtHid", "GcloudHid",
+        "time",
+    )),
+    MidProfile("828200", ("hid",)),
+    # Fan.
+    MidProfile("828202", _SMALL_FAN_COLUMNS),
+    MidProfile("828203", _SMALL_FAN_COLUMNS),
+    MidProfile("828204", _SMALL_FAN_COLUMNS),
+    MidProfile("828205", _FAN_COLUMNS),
+    MidProfile("828208", _FAN_COLUMNS),
+    MidProfile("828209", _FAN_COLUMNS),
+    MidProfile("828210", _FAN_COLUMNS),
+    MidProfile("828211", _FAN_COLUMNS),
+    # Fan.
+    MidProfile("828212", (
+        "Pow", "WdSpd", "Mod", "Rotate", "Cycle", "SwUpDn", "SwingLfRig", "Wet", "Anion",
+        "HotwindOnOff", "HotWind", "TmrHour", "TmrMin", "TmrOn", "TmrAction", "SmartMod", "WetLevel",
+        "Light", "UpDnAngle", "LRAngle", "Temperature", "PM25", "estate", "estate1", "estate2",
+        "estate3", "JFerr", "MidType",
+    )),
+    MidProfile("828213", _FAN_COLUMNS),
+    # Heater.
+    MidProfile("828a00", _HEATER_COLUMNS),
+    MidProfile("828a01", _HEATER_COLUMNS),
+    MidProfile("828a02", _HEATER_COLUMNS),
+    MidProfile("828a03", _HEATER_COLUMNS),
+    MidProfile("828a04", _HEATER_COLUMNS),
+    MidProfile("828a05", _HEATER_COLUMNS),
+    # Water purifier.
+    MidProfile("828301", _PURIFIER_COLUMNS),
+    MidProfile("828306", _PURIFIER_COLUMNS),
+    MidProfile("828307", _PURIFIER_COLUMNS),
+    MidProfile("828308", _PURIFIER_COLUMNS),
+    MidProfile("828309", _PURIFIER_COLUMNS),
+    MidProfile("828310", _PURIFIER_COLUMNS),
+    MidProfile("828401", (
+        "mode", "Pow", "Lig", "StTmr", "TmrOn", "TmrEn", "ModeTmr", "SchTmr", "SchOnOff",
+        "SchEn", "Rice", "Textre", "Prsure", "sealve", "KpTpTmr", "KpTpOnOFF", "KpTpEn",
+        "StpRic", "Volt", "ElcP", "TmpUp", "TmpDn", "estate", "estate2", "estate3", "estate4",
+    )),
+    # Cooking appliance.
+    MidProfile("828402", _COOKER_COLUMNS),
+    # Cooking appliance.
+    MidProfile("828403", _COOKER_COLUMNS),
+    # Cooking appliance.
+    MidProfile("828404", _COOKER_COLUMNS),
+    # Cooking appliance.
+    MidProfile("828405", _COOKER_COLUMNS),
+    # Water softener.
+    MidProfile("829000", (
+        "Pow", "Status", "SaltStatus", "RecycleStatus", "MotorStatus", "RecycleRemainT",
+        "RecycleTotalT", "InsFlowRate", "CycleFlowRate", "SaltTotalT", "RecycleHour",
+        "RecycleMin", "BJHour", "BJMin", "BJSec", "TmrOn", "TmrAction", "TmrHour",
+        "TmrMin", "eState", "JFerr", "MidType", "hid",
+        "time", "rssi", "ver",
+    )),
+    # Water-treatment equipment.
+    MidProfile("829100", (
+        "SetTemp", "Cruise", "Mode", "Pow", "PreBoost", "BurnState", "CruiseState", "InWaterTemp",
+        "ErrorCode1", "ErrorCode2", "ErrorCode3", "JFerr", "MidType",
+    )),
+    # Fresh-air fan.
+    MidProfile("6084", _FRESH_AIR_COLUMNS),
+    MidProfile("608d", _FRESH_AIR_COLUMNS),
+    MidProfile("6091", _FRESH_AIR_COLUMNS),
+    MidProfile("6099", _FRESH_AIR_COLUMNS),
+    MidProfile("60a0", _FRESH_AIR_COLUMNS),
+    MidProfile("60a4", _FRESH_AIR_COLUMNS),
+    MidProfile("60a9", _FRESH_AIR_COLUMNS),
+    # Photovoltaic energy controller.
+    MidProfile("6083", _ENERGY_COLUMNS),
+    MidProfile("6094", _ENERGY_COLUMNS),
 )
 
 

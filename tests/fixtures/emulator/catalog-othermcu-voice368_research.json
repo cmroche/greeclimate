@@ -1,0 +1,544 @@
+{
+  "schema_version": 1,
+  "source_sha256": "633ddc7cf1f64c7d02faba8e7dd614dc20b0d1c4549bb7d0b4c86eabff8130b7",
+  "hid": "362001062573+IS-T3BBW03V3.68.img",
+  "mid_roles": [
+    {
+      "mid": "80222",
+      "role": "source-emitted root discovery identity, not typed AC",
+      "literal_evidence": "voice368-export/references.tsv:00026580\u2192DAT00026740\u21920x723d1 string80222"
+    }
+  ],
+  "namespace": {
+    "root": "parseIndoorPTJson0x27864\u2192cols_item_handle0x26a7c/opt_item_exec0x26e1a",
+    "table": "0x9373c45exactnames, u16cache0x937f0",
+    "getters": "All45 source selectors, RefBtnList contributes twoarrays; ordinary values uint16, RealTimePower unsigned integer conversion from explicit synthetic float source; HID/time strings.",
+    "setters": "All exact numeric names first stage low16;0..24 controls ackbeforecrossfieldnormalization; guard/IR/audio/HID/time specialbranches preserve their own orderedACK. Unknown names omitted.",
+    "ordering": "Original status loops all45matchesperrequest; command loops requestedorder andduplicates; original partialmutation/unsafeJSON/stringcopies remain separate from chosen strictatomicmodel."
+  },
+  "source_evidence": [
+    "OtherMCU-1/633ddc7cf1f6/decompiled.c",
+    "CatalogQuirks/OtherMCU/voice368-export/decompiled.c",
+    "CatalogQuirks/OtherMCU/voice368-export/references.tsv",
+    "CatalogQuirks/OtherMCU/voice368-export/instructions.tsv",
+    "CatalogQuirks/OtherMCU/voice368-complete/decompiled.c",
+    "CatalogQuirks/OtherMCU/voice368-complete/instructions.tsv",
+    "CatalogQuirks/OtherMCU/voice368-closure/decompiled.c",
+    "CatalogQuirks/OtherMCU/voice368-closure/instructions.tsv",
+    "CatalogQuirks/OtherMCU/voice368-closure/references.tsv"
+  ],
+  "literal_independence": {
+    "advertisement": "Source literal refs qualify80222,vender2,verV1.2.1,Gree metadata. MAC/key/name are explicit synthetic inputs.",
+    "ir_ack": "Original00026fa8 and00029570 bytesb3ee0a0b are VMOV.F64d0,0x403a000000000000=26; oldCzeroisnot authoritative.",
+    "raw_width": "OriginalSTRH opt numeric valueint, sourceGETu16; signed32-1\u219265535 and65536\u21920.",
+    "fresh_control": "Originalinfraredcontrol/cache normalization after ACK preserves requestedp then adjustsQuiet/Tur/SwhSw fromWdSpd/swing.",
+    "energy": "Original0x26b4e bceec00a VCVT.U32.F32 then0x26b52 B8EE400B VCVT.F64.U32: float32 truncation and unsigned saturation, not decompiler int cast.",
+    "guard": "Original0x251a2 VCMPE float32 against5; BLE0x251fc then BEQ holds previous activity, below5clears; increment0x251c0 then unsigned equality0x251d2 to hours*3600. Reminder1 below5 clears only reminder."
+  },
+  "model_policy": {
+    "roomless": true,
+    "initial_state": "Explicitly chosen same synthetic state as qualifiedV3.62; not authenticmainboard/OSbootdefaults.",
+    "time": "SyntheticUTCepoch clock, monotonicadvance; nohostclockwrite",
+    "ir": "No syntheticIRreceiver/database/hostFIFO/systemactions; no learnedcodes fabricated; requests retain source-known cache/ACK behavior.",
+    "guard_power": "Syntheticfloat32 power readout; nativephysicalmetercalibration unknown.",
+    "safety": "StrictuniqueJSONmembers, boundedarrays/strings/UDP, root/keyidentity admission and atomicvalidation deliberately replace unsafeoriginalparsing/partialmutation."
+  },
+  "checks": {
+    "worker_executed": false,
+    "static_review": "Exact source complete exports reviewed for getter, setter, energy, guard, IR, audio, clock and envelopes; missing wifi_to_red body export requested separately.",
+    "parent_command": "venv/bin/python3.14 -m pytest tests/test_emulator_voice.py tests/test_emulator_catalog_othermcu.py",
+    "execution_status": "Not run by worker; source probes and runtime tests belong to integration owner."
+  },
+  "properties": [
+    {
+      "name": "Pow",
+      "index": 0,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Mod",
+      "index": 1,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "SwhSlp",
+      "index": 2,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. Original request exactly1 and SvSt1 sets both sleep slots1 and SvSt0.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "SwhSw",
+      "index": 3,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR-normalizing batches subsequently derive boolean from SwUpDn or SwingLfRig.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "WdSpd",
+      "index": 4,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "SetTem",
+      "index": 5,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Blo",
+      "index": 6,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Health",
+      "index": 7,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Lig",
+      "index": 8,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "TemUn",
+      "index": 9,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "TemRec",
+      "index": 10,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Air",
+      "index": 11,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "SwUpDn",
+      "index": 12,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "SwingLfRig",
+      "index": 13,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "SvSt",
+      "index": 14,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. Original request exactly1 and both sleep slots1 clears both sleeps.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "StHt",
+      "index": 15,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Intellblo1",
+      "index": 16,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "AirOpen",
+      "index": 17,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "SlpMod",
+      "index": 18,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. Original request exactly1 and SvSt1 sets both sleep slots1 and SvSt0.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Tur",
+      "index": 19,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR-normalizing batches derive Tur from WdSpd6 and Quiet from WdSpd7.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "Quiet",
+      "index": 20,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR-normalizing batches derive Tur from WdSpd6 and Quiet from WdSpd7.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "VoltErr",
+      "index": 21,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "CurrErr",
+      "index": 22,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "PowerErr",
+      "index": 23,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "RelayErr",
+      "index": 24,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Immediate uint16 ACK before cross-field effects and post-ACK IR normalization; independently fresh status reads effective cache.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "ACCntlrShape",
+      "index": 25,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Name-only ACK; getter preserves uint16 numeric slot.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "AppTimer",
+      "index": 26,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Name-only ACK; getter preserves uint16 numeric slot.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "RealTimePower",
+      "index": 27,
+      "readable": true,
+      "writable": false,
+      "wire_type": "number",
+      "transform_range": "Energy text P parsed atof\u2192float32; original0x26b4e bceec00a VCVT.U32.F32 truncates positive fractions, negative\u21920, positive overflow\u21924294967295; physical meter calibration unknown.",
+      "ack_vs_stored": "Numeric command touches unused selector slot only; name-only ACK and getter remains external energy float32, modeled explicitly by synthetic _power.",
+      "evidence": "voice368-complete/instructions.tsv:0x26b32..0x26b56; engy_parsing0x242e0"
+    },
+    {
+      "name": "Savpow",
+      "index": 28,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Name-only ACK; getter preserves uint16 numeric slot.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "ProTimePow",
+      "index": 29,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. Clears reminder only; activity/ticks retained. Timer enabled only storedPow1.",
+      "ack_vs_stored": "Signed original request ACK differs from uint16 getter. Guard callback suppresses subsequent IR normalization unless later nonspecial selector clears flag.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; gree_guard0x2510c,callback_timer_guard0x25148 original compare0x251a2 and tick0x251c0..0x251dc"
+    },
+    {
+      "name": "ProTimeLen",
+      "index": 30,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. Hours multiply3600; uint32 tick equality, no zero-hours special case.",
+      "ack_vs_stored": "Signed original request ACK differs from uint16 getter. Guard callback suppresses subsequent IR normalization unless later nonspecial selector clears flag.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; gree_guard0x2510c,callback_timer_guard0x25148 original compare0x251a2 and tick0x251c0..0x251dc"
+    },
+    {
+      "name": "ProTimeReminder",
+      "index": 31,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. Timer0 processes threshold;1 clears only when power<5 and Pow1; other values hold.",
+      "ack_vs_stored": "Signed original request ACK differs from uint16 getter. Guard callback suppresses subsequent IR normalization unless later nonspecial selector clears flag.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; gree_guard0x2510c,callback_timer_guard0x25148 original compare0x251a2 and tick0x251c0..0x251dc"
+    },
+    {
+      "name": "SendButton",
+      "index": 32,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR callback only when total opt count<45; callback refreshes AddButton from DB count (chosen empty synthetic DB0).",
+      "ack_vs_stored": "Signed request ACK even when SQL lookup has no row; no fabricated IR transmission.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; red_study_cmd_handle0x294e0,prepare_index_name_array0x29100; VMOV.F64 literal26 at0x29570"
+    },
+    {
+      "name": "AddButton",
+      "index": 33,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR callback only when total opt count<45; callback refreshes AddButton from DB count (chosen empty synthetic DB0).",
+      "ack_vs_stored": "Only input28 ACK26/state5; otherwise name-only. Fresh AddButton is refreshed count0, not requested value.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; red_study_cmd_handle0x294e0,prepare_index_name_array0x29100; VMOV.F64 literal26 at0x29570"
+    },
+    {
+      "name": "DelButton",
+      "index": 34,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number read; number or array<number> write",
+      "transform_range": "Numeric signed32 stores low16; arrays leave scalar unchanged. Array elements delete DB rows and refresh count; scalar/empty array does not refresh AddButton count.",
+      "ack_vs_stored": "Both numeric and array paths ACK literal26; fresh scalar getter is uint16 slot, not ACK.",
+      "evidence": "voice368-complete/instructions.tsv:0x26f88..0x26fb8,VMOV.F64 b3ee0a0b at0x26fa8; del_red_and_insert_del0x29284,del_red_num0x2933c"
+    },
+    {
+      "name": "Studied",
+      "index": 35,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR callback only when total opt count<45; callback refreshes AddButton from DB count (chosen empty synthetic DB0).",
+      "ack_vs_stored": "Signed request ACK; input2 sets state6 and clears Studied0; no host shell execution.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; red_study_cmd_handle0x294e0,prepare_index_name_array0x29100; VMOV.F64 literal26 at0x29570"
+    },
+    {
+      "name": "ConBtnNum",
+      "index": 36,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR callback only when total opt count<45; callback refreshes AddButton from DB count (chosen empty synthetic DB0).",
+      "ack_vs_stored": "Signed request ACK only IRstate1\u2192state2; otherwise name-only/cache-only.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; red_study_cmd_handle0x294e0,prepare_index_name_array0x29100; VMOV.F64 literal26 at0x29570"
+    },
+    {
+      "name": "ConBtnName",
+      "index": 37,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number read; number or string write",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR callback only when total opt count<45; callback refreshes AddButton from DB count (chosen empty synthetic DB0).",
+      "ack_vs_stored": "String ACK only IRstate2\u2192state0, using shared command string; otherwise name-only. Getter remains uint16.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; red_study_cmd_handle0x294e0,prepare_index_name_array0x29100; VMOV.F64 literal26 at0x29570"
+    },
+    {
+      "name": "RefBtnList",
+      "index": 38,
+      "readable": true,
+      "writable": false,
+      "wire_type": "two arrays read; numeric action accepted",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. IR callback only when total opt count<45; callback refreshes AddButton from DB count (chosen empty synthetic DB0).",
+      "ack_vs_stored": "Name-only command; status emits two arrays (indices,names), not one value. Empty synthetic DB emits [],[].",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; red_study_cmd_handle0x294e0,prepare_index_name_array0x29100; VMOV.F64 literal26 at0x29570"
+    },
+    {
+      "name": "Electnumzero",
+      "index": 39,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Name-only ACK; getter preserves uint16 numeric slot.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "hid",
+      "index": 40,
+      "readable": true,
+      "writable": false,
+      "wire_type": "string",
+      "transform_range": "Read embedded HID362001062573+IS-T3BBW03V3.68.img; command does not change identity.",
+      "ack_vs_stored": "Command ACK embedded HID, never caller-supplied numeric/string value.",
+      "evidence": "voice368-complete/decompiled.c:addto_item_values0x26934; references.tsv"
+    },
+    {
+      "name": "time",
+      "index": 41,
+      "readable": true,
+      "writable": true,
+      "wire_type": "string",
+      "transform_range": "Read year without fixed width, other date/time components padded2. Setter parses calendar\u2192mktime, root offset0. Model strict valid calendar and independent UTC epoch/monotonic clock; never host clock write.",
+      "ack_vs_stored": "Setter ACK original string; next read reflects synthetic elapsed time.",
+      "evidence": "voice368-complete/decompiled.c:addto_item_values0x26934"
+    },
+    {
+      "name": "MidType",
+      "index": 42,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping.",
+      "ack_vs_stored": "Name-only ACK; getter preserves uint16 numeric slot.",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0"
+    },
+    {
+      "name": "VoiceVolume",
+      "index": 43,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. One total opt: snapshots gate, sets VoiceGate0, saves fields, no p item. Exactly2 total opt: persistent audio counter, second callback resets counter/saves. >2 has no p item.",
+      "ack_vs_stored": "Exactly2 total options ACK signed original; single/>2 name-only; fresh cache uint16 (single forces gate0).",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; gree_volume0x2a760,save_voice0x2a6f4,voice_fifo_handle0x24908"
+    },
+    {
+      "name": "VoiceGate",
+      "index": 44,
+      "readable": true,
+      "writable": true,
+      "wire_type": "number",
+      "transform_range": "Numeric valueint signed32 stored modulo65536; getter uint16; no semantic range clipping. One total opt: snapshots gate, sets VoiceGate0, saves fields, no p item. Exactly2 total opt: persistent audio counter, second callback resets counter/saves. >2 has no p item.",
+      "ack_vs_stored": "Exactly2 total options ACK signed original; single/>2 name-only; fresh cache uint16 (single forces gate0).",
+      "evidence": "voice368-complete/decompiled.c:cols_item_handle0x26a7c,opt_item_exec0x26e1a; table0x9373c/cache0x937f0; gree_volume0x2a760,save_voice0x2a6f4,voice_fifo_handle0x24908"
+    }
+  ],
+  "coverage_matrix": [
+    {
+      "surface": "Every exact selector getter and setter/action",
+      "implementation": "gree_emulator/profiles/voice.py:_read/_command",
+      "fixture": "catalog-othermcu-voice368-vectors_research.json:initial_getters/commands",
+      "test": "test_voice368_every_selector_has_source_specific_command_and_fresh_getter",
+      "qualification": "Independent literal static source expectations; worker did not execute tests"
+    },
+    {
+      "surface": "Unsigned float32 energy",
+      "implementation": "voice.py:_read(RealTimePower)",
+      "test": "test_voice368_original_unsigned_float32_energy_getter",
+      "evidence": "original0x26b4a..0x26b56"
+    },
+    {
+      "surface": "Guard threshold/counter/reminder",
+      "implementation": "voice.py:_advance",
+      "test": "test_voice368_guard_original_threshold_and_reminder_branches",
+      "evidence": "callback_timer_guard0x25148"
+    },
+    {
+      "surface": "IR catalog/action, audio batch counter, virtual clock, final normalization flag order and isolation",
+      "implementation": "voice.py:_command/_advance",
+      "test": "test_voice368_ir_audio_guard_order_and_clock_are_per_device",
+      "evidence": "red_study_cmd_handle0x294e0,gree_volume0x2a760,addto_item_values0x26934,opt_item_exec0x26e1a"
+    },
+    {
+      "surface": "Discovery/bind/encryption/LF and route admission",
+      "implementation": "voice.py:VoiceController/_reply",
+      "fixture": "catalog-othermcu-voice368-vectors_research.json:advertisement",
+      "test": "test_older_voice_discovery_bind_and_every_source_getter",
+      "evidence": "local_reqJSON_udp0x26444/local_handle_recvdata0x2798c"
+    },
+    {
+      "surface": "Malformed atomic rejection and next successful command/status",
+      "implementation": "voice.py:handle/_validate_value",
+      "test": "test_older_voice_safe_atomic_rejection_then_recovery",
+      "qualification": "Explicit safer model policy, not native atomicity"
+    }
+  ]
+}

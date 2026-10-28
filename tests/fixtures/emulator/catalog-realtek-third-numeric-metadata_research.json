@@ -1,0 +1,7 @@
+{
+  "columns": ["apssid", "appsw", "host", "name", "time", "lat", "lon", "vender", "bc", "mid", "model", "series", "brand", "catalog", "country", "hid", "mac", "ver", "HidSvrVer", "InHid", "InHidSvrVer", "OEEPHid", "OEEPHidSvrVer"],
+  "qualification": "Original metadata branch/index records plus explicitly chosen empty identity-independent caches and synthetic1970 clock. Numeric missing-datum branches intentionally leave unequal cols/dat lengths. Physical initialization is not inferred.",
+  "w05p": ["", "", "1970-01-01 00:00:00", "", "", "", "", "", "362001061395+U-W05PV1.1.bin", "020000000011", "V1.2.1", "", ""],
+  "afjme": ["", "", "1970-01-01 00:00:00", "", "", "", "", "11f00", "362001065517+U-W05AFJMEV1.25.bin", "020000000011", "V3.2.M", "", ""],
+  "w05ac": ["", "", "", "", "1970-01-01 00:00:00", "", "", "", "", "", "", "", "", "", "", "362001062353+U-W05ACV1.00.bin+362001063014+N-W05ACV0.00.bin", "", "", "", "", "", "", ""]
+}

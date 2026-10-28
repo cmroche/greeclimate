@@ -1,0 +1,594 @@
+{
+  "schema_version": 1,
+  "source_sha256": "f53d5f238b092a1bda4b95ee84d8f1dd5eadfb8ad15f65de1186005f255d0275",
+  "hid": "362001066012+U-WB05C(RT)V2.03.bin",
+  "profile_id": "sim-wb05crt-v2.03-10001",
+  "configured_mid": "10001",
+  "mid_role": "Explicit synthetic configured MID for source-scoped raw UDP work only; not a firmware default, fixed emitted MID, observed board identity, or physical appliance claim.",
+  "qualification": "Exact original build f53d5f238b09 source contracts. Static routing and source-derived parser behavior are modeled locally; raw controller frames/readings below are explicitly synthetic, and accepted module-side receipts do not prove MCU execution or calibrated physical behavior.",
+  "evidence": [
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/assessment.json",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/transport.c",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/udp.c",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/lifecycle.c",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/lifecycle-literal-contract.json",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/critical-machine-code.json",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/literals.json",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/raw-status.c",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/board.c",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/operations.c",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/primitives.c",
+    "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekLate/WB05CRT203/semantics-results.json"
+  ],
+  "identity_source": {
+    "uart_reply_offset": 4,
+    "uart_value_type": "nonzero uint32",
+    "stored_product_offset": "0x478",
+    "formatted_mid_offset": "0x44f",
+    "format": "lowercase unpadded hexadecimal",
+    "synthetic_mid_raw_uint32": 65537,
+    "synthetic_mid_raw_hex": "00010001",
+    "synthetic_mid_string": "10001",
+    "source": "board.c:0x9b031e08 -> closure.c:0x9b025574 -> primitives.c:0x9b0255a0"
+  },
+  "transport": {
+    "classification": "Proprietary Gnet host-controller UDP; not standard Gree LAN appliance scan/bind/status/cmd.",
+    "bind_port": 5001,
+    "accepted_source_port": 5001,
+    "reply_destination_port": 5000,
+    "receive_buffer_bytes": 1536,
+    "accept_any_target": true,
+    "tcid_is_not_locally_compared": true,
+    "udp_table_address": "0x9b812b1c",
+    "udp_dispatcher": "0x9b02d3dc",
+    "udp_table": [
+      {"name": "scan", "slot": 1, "callback": "0x9b02bd38"},
+      {"name": "UBindok", "slot": 0, "callback": "0x9b02c1e4"},
+      {"name": "ret", "slot": 0, "callback": "0x9b02adc0"},
+      {"name": "binCmd", "slot": 0, "callback": "0x9b02c7a4"},
+      {"name": "reset", "slot": 0, "callback": "0x9b02bca4"},
+      {"name": "hbok", "slot": 1, "callback": "0x9b02ac54"},
+      {"name": "Utm", "slot": 0, "callback": "0x9b02b164"},
+      {"name": "loginInfoRes", "slot": 0, "callback": "0x9b02ba80"},
+      {"name": "statusCheck", "slot": 0, "callback": "0x9b02ad10"}
+    ],
+    "general_cloud_table_address": "0x9b8129e8",
+    "general_cloud_only": [
+      {"name": "wlan", "slot": 2},
+      {"name": "bind", "slot": 1},
+      {"name": "status", "slot": 0},
+      {"name": "cmd", "slot": 0},
+      {"name": "metadata", "slot": 0},
+      {"name": "upgrade", "slot": 0},
+      {"name": "ReportCtrl", "slot": 0},
+      {"name": "ReportLimit", "slot": 1},
+      {"name": "tm", "slot": 2},
+      {"name": "queryT", "slot": 0},
+      {"name": "networkInfo", "slot": 1}
+    ],
+    "shared_name_but_distinct_table_entries": ["binCmd", "reset"],
+    "scan": {
+      "managed_without_inner_i_1": "no UBind packet",
+      "managed_with_inner_i_1": "UBind packet",
+      "scene_numeric_values": [0, 1],
+      "scene_semantics": "source numeric field; physical scene meaning is unknown",
+      "message_id_counter_effect": "The eligible UBind callback increments the shared counter once after building its response body; the outer packet uses the preincrement counter",
+      "message_id_counter_step": 1,
+      "synthetic_scan_then_ubindok_counter_vector": {
+        "initial_msg_id": 0,
+        "scan_reply_msg_id": 0,
+        "counter_after_scan": 1,
+        "ubindok_utm_msg_id": 1,
+        "ubindok_login_msg_id": 2,
+        "counter_after_ubindok": 3,
+        "qualification": "Synthetic local server sequence applying the eligible scan writer's increment and UBindok callback order; not captured native packets"
+      },
+      "source": "udp.c:0x9b02bd38 lines 481-486"
+    },
+    "no_general_udp_union": true,
+    "source": "raw-status.c:0x9b030c2c -> transport.c:0x9b030754 -> udp.c:0x9b02fc60"
+  },
+  "key_slots": {
+    "device_key_slot": 0,
+    "generic_key_slot": "any nonzero uint8 except 2",
+    "generic_key_hex": "656e20286f74436c6365616b76652072",
+    "generic_key_text": "en (otClceakve r",
+    "generic_key_source": "lifecycle.c:0x9b0251c0; source pointer-halfword table 0x100009ec..0x10000a08",
+    "object_bypass_slot": 2,
+    "object_bypass_has_udp_table_entry": false,
+    "generic_key_is_not_device_key": true,
+    "synthetic_test_device_key_hex": "30313233343536373839616263646566"
+  },
+  "framing": {
+    "codec": "AES-128-ECB-PKCS7",
+    "inner_plaintext_ends_with_lf_before_padding": true,
+    "outer_udp_json_ends_with_lf": false,
+    "reply_cid_role": "module MAC",
+    "reply_tcid_role": "stored host MAC",
+    "uid_width_bits": 32,
+    "uid_is_echoed": true,
+    "message_id_paths": "Outer builders normalize current values above 65535 before send; getLoginInfo preincrements the shared uint32 without a local uint16 wrap, then UBindok invokes hbok/AC54 to increment it again",
+    "source": "transport.c:0x9b027cd0, 0x9b027e74, 0x9b02d3dc; raw-status.c:0x9b02fd4c"
+  },
+  "lifecycle": {
+    "ubindok": {
+      "request_fields": ["host", "hostManaged", "roomId"],
+      "host_mac_is_separate_from_module_mac": true,
+      "room_id_storage": "low uint8",
+      "room_id_update": {
+        "product_offset": "0x4ee",
+        "setter": "0x9b0265b4 stores the changed low uint8 and persists it; the UBindok unmanaged room path does not call the network-restart setters.",
+        "synthetic_unmanaged_no_restart_vector": {
+          "hostManaged": 0,
+          "room_id_input": 257,
+          "expected_room_id": 1,
+          "controller_id_available": 1,
+          "ubind_gate_4e5": 1,
+          "ubind_gate_4ed": 0,
+          "gnet_key_hex": "474e45542d4b4559",
+          "expected_network_restart_pending": false,
+          "response": false,
+          "qualification": "Synthetic values open the loginInfoRes restart gates and supply a nonempty local Gnet key; this UBindok path still only changes the room ID."
+        },
+        "source": "udp.c:0x9b02c1e4 lines 519-538; primitives.c:0x9b0265b4 lines 2019-2110"
+      },
+      "hostManaged_zero": "clear managed state and permit fallback reporting; do not send proactive requests",
+      "hostManaged_absent": 1,
+      "hostManaged_absent_semantics": "missing key parse failure enters the managed branch; only explicit zero selects the unmanaged branch",
+      "inbound_lock_field_read": false,
+      "hostManaged_nonzero": "establish managed peer and bound flags, force lock=1, schedule the first 60-second heartbeat period, send Utm then getLoginInfo, invoke 0x9b02ac54 to increment msgId and arm the heartbeat watchdog, then invoke the raw-report path",
+      "no_direct_bindok_ack": true,
+      "proactive_packets": {
+        "order": ["Utm", "getLoginInfo"],
+        "destination_port": 5000,
+        "outer_selector": 0,
+        "outer_uid": "omitted",
+        "outer_cid": "module MAC",
+        "outer_tcid": "stored host MAC",
+        "Utm": {
+          "inner": {"t": "Utm"},
+          "key": "device key",
+          "msgId": "current shared uint32 counter; normalize to zero before send only when above 65535",
+          "increments_counter": false
+        },
+        "getLoginInfo": {
+          "inner": {"t": "getLoginInfo", "loginInfo": ["GnetID"], "curGnetID": "unsigned byte at product offset 0x4e7"},
+          "synthetic_test_curGnetID_u8": 165,
+          "key": "device key",
+          "msgId": "preincrement shared uint32 counter with no local uint16 wrap before send",
+          "increments_counter": true
+        },
+        "packet_send_helper_mutates_uid_or_msgId": false,
+        "counter_boundary_vectors": [
+          {"initial_msg_id": 65534, "utm_msg_id": 65534, "login_msg_id": 65535, "post_ubindok_msg_id": 65536},
+          {"initial_msg_id": 65535, "utm_msg_id": 65535, "login_msg_id": 65536, "post_ubindok_msg_id": 65537, "next_utm_msg_id": 0, "next_login_msg_id": 1, "next_post_ubindok_msg_id": 2},
+          {"initial_msg_id": 65536, "utm_msg_id": 0, "login_msg_id": 1, "post_ubindok_msg_id": 2}
+        ],
+        "source": "udp.c:0x9b02c1e4 lines 540-545; lifecycle.c:0x9b0303f4/0x9b03057c; lifecycle-literal-contract.json:288-316",
+        "shared_msg_id_counter_address": "0x1000c0f8"
+      },
+      "managed_branch_packet_callback_order": ["Utm packet", "getLoginInfo packet", "0x9b02ac54 hbok counter/watchdog callback", "0x9b02f3b8 raw-report queue"],
+      "msg_id_after_managed_ubindok_from_zero": 2,
+      "callback_timer_function": "0x9b0302dc",
+      "callback_timer_argument": 60,
+      "callback_timer_units": "seconds; 100-ms countdown source resolves this as 60 seconds",
+      "managed_branch_followup_calls": ["set state byte +7 to 0x4f", "0x9b0302dc(0x3c)", "send Utm", "send getLoginInfo", "0x9b02ac54", "0x9b02f3b8"],
+      "source": "udp.c:0x9b02c1e4"
+    },
+    "udp_worker": {
+      "no_event_order": ["UBind retry worker", "managed raw-report worker", "conditional getLoginInfo"],
+      "getLoginInfo_gate": "state byte +7 high bit; send once then write 0x4f",
+      "getLoginInfo_gate_state_pointer_base": "0x10016db6; both worker state pointers resolve to this base",
+      "idle_delay_argument": 10,
+      "idle_delay_units": "unknown",
+      "source_timer_initializer": "0x9b0333d4 creates an autoreload 100-ms timer with callback 0x9b033314",
+      "source_timer_state": "callback 0x9b033314 updates bytes 0x10016db6..0x10016dbd every 100 ms",
+      "byte_timer_countdown_abi": "On each 100-ms callback, subtract one from active byte values; when subtraction reaches exact active marker 0x40 from 0x41, replace it with expired high-bit 0x80. An initial 0x40 subtracts to 0x3f",
+      "byte_timer_countdown_values": {"300ms": "0x43", "1000ms": "0x4a", "1500ms": "0x4f"},
+      "byte_timer_expiries_ms": {"0x43": 300, "0x4a": 1000, "0x4f": 1500},
+      "halfword_timer_table": "0x9b815058 -> 0x10016d8e+2i; updates every ten 100-ms callback calls",
+      "halfword_countdown_abi": "On each one-second table update, subtract one from active halfword values; when subtraction reaches exact active marker 0x4000 from 0x4001, replace it with expired high-bit 0x8000. An initial 0x4000 subtracts to 0x3fff",
+      "countdown_marker_vectors": [
+        {"field": "byte", "initial": "0x40", "after_one_callback": "0x3f"},
+        {"field": "byte", "initial": "0x43", "after_one_callback": "0x42", "after_three_callbacks": "0x80"},
+        {"field": "halfword", "initial": "0x4000", "after_one_table_update": "0x3fff"},
+        {"field": "halfword", "initial": "0x4001", "after_one_table_update": "0x8000"}
+      ],
+      "halfword_0x401e_nominal_expiry_ms": 30000,
+      "halfword_expiry_phase": "30 one-second table updates; the first update is on the shared 100-ms callback phase and can occur less than one second after this timer is set",
+      "synthetic_large_elapsed_gap_vector": {
+        "initial_monotonic_s": 999.9,
+        "first_countdown_deadline_s": 1000.0,
+        "target_monotonic_s": 1000000000.0,
+        "initial_countdown_calls": 8,
+        "callbacks_due": 9999990001,
+        "slow_table_updates_due": 999999000,
+        "countdown_calls_after": 9,
+        "next_countdown_deadline_s": 1000000000.1,
+        "byte_input": "0x43",
+        "byte_output": "0x80",
+        "halfword_input": "0x4002",
+        "halfword_output": "0x8000",
+        "extra_byte_input": "0x40",
+        "extra_byte_output": "0x3f",
+        "maximum_local_model_count_down_helper_calls_per_tick": 29,
+        "expected_count_down_helper_calls": 29,
+        "qualification": "Synthetic monotonic-gap arithmetic vector, not an observed firmware outage; one local tick calls the real countdown helper for eight byte slots, one slow byte slot, and twenty halfword slots (29 calls), not a native timer limit."
+      },
+      "synthetic_float_boundary_vector": {
+        "initial_monotonic_s": 999.9,
+        "first_countdown_deadline_s": 1000.0,
+        "target_monotonic_s": 1000.3,
+        "expected_callbacks_due": 4,
+        "next_countdown_deadline_s": 1000.4,
+        "byte_input": "0x44",
+        "byte_output": "0x80",
+        "qualification": "Synthetic decimal-time boundary vector for inclusive 100-ms callbacks; not a native timestamp",
+        "one_ulp_below": {
+          "expected_callbacks_due": 3,
+          "next_countdown_deadline_s": 1000.3,
+          "byte_output": "0x41"
+        }
+      },
+      "os_systick_interval_ms": 1,
+      "source": "raw-status.c:0x9b030c2c; lifecycle.c:0x9b02f9b0/0x9b02f8bc/0x9b03057c; lifecycle-literal-contract.json:custom_countdown_timer/native_tick_timebase/watchdog_jitter_primitive"
+    },
+    "ubind_retry": {
+      "send_gate": "unmanaged state and (0x9b026608()!=0 or 0x9b025310()==1)",
+      "send_when": "state byte +5 high bit or retry counter is zero",
+      "sends_per_phase": 3,
+      "post_third_send": "set retry counter to -1, clear state byte, set halfword 0x401e",
+      "retry_reset": "after 30 one-second halfword updates, high-bit expiry byte +0x17 clears the timer and resets the retry counter; the first update shares the global 100-ms callback phase",
+      "retry_send_spacing_ms": 300,
+      "retry_phase_wait_nominal_ms": 30000,
+      "model_state_names": {
+        "retry_counter": "ubind_retry_count",
+        "retry_counter_address": "0x1000c0e4",
+        "state_byte_plus_5": "ubind_flag",
+        "state_byte_plus_5_address": "0x10016db6+5 (0x10016dbb)",
+        "timer_halfword_plus_0x16": "ubind_timer",
+        "timer_halfword_address": "0x10016d8e+0x16 (0x10016da4)",
+        "timer_expiry_byte_address": "0x10016d8e+0x17 (0x10016da5)",
+        "gate_values": ["ubind_gate_4ed", "ubind_gate_4e5"]
+      },
+      "synthetic_test_alternate_gate": {"ubind_gate_4ed": 0, "ubind_gate_4e5": 1},
+      "synthetic_test_initial_state": {
+        "host_managed": 0,
+        "ubind_gate_4ed": 1,
+        "ubind_gate_4e5": 0,
+        "ubind_retry_count": 0,
+        "ubind_flag": 0,
+        "ubind_timer": 0,
+        "msg_id": 0
+      },
+      "synthetic_test_outbound": {
+        "inner": {"t": "UBind", "scene": 1, "mid": "10001", "ver": "V3.5.M", "lock": 0, "devkey": "0123456789abcdef", "hid": "362001066012+U-WB05C(RT)V2.03.bin"},
+        "selector": 1,
+        "key": "generic",
+        "uid": "omitted",
+        "tcid": "",
+        "msgId": 0,
+        "msg_id_counter_address": "0x1000c0f8; reset only above 65535; not incremented locally",
+        "destination_host": "255.255.255.255",
+        "destination_port": 5000,
+        "qualification": "Synthetic local vector with the explicit configured MID and device key; not a captured appliance packet"
+      },
+      "source": "lifecycle.c:0x9b02f9b0"
+    },
+    "managed_raw_report_retry": {
+      "type_6_send_when": "marker byte +6 high bit or retry counter is zero",
+      "type_6_sends_per_phase": 4,
+      "type_6_marker_countdown_value": "0x4a",
+      "type_6_marker_expiry_ms": 1000,
+      "type_6_retry_wait_basis": "separate one-second worker deadline on report context +6; not the 100-ms product countdown byte +6",
+      "type_6_post_fourth_send": "set retry counter to -1 and clear marker",
+      "type_7_send_when": "managed raw-report worker runs; type-6 retry gate is not applied",
+      "type_7_completion_interval": "unknown",
+      "source": "lifecycle.c:0x9b02f8bc; board.c:0x9b02e5b0"
+    },
+    "scan": {
+      "request_field": "i",
+      "bound_behavior": "suppressed unless request i is 1",
+      "response_type": "UBind",
+      "response_fields": ["scene", "mid", "ver", "lock", "devkey", "hid"],
+      "source_native_vector": {"t": "UBind", "scene": 1, "mid": "00123", "ver": "V3.5.M", "lock": 0, "devkey": "0123456789abcdef", "hid": "362001066012+U-WB05C(RT)V2.03.bin"},
+      "source": "udp.c:0x9b02bd38"
+    },
+    "heartbeat": {
+      "producer": "0x9b03014c",
+      "inner": {"t": "hb", "cid": "module MAC", "RSSI": "raw uint32 at product offset 0x530"},
+      "synthetic_test_rssi_u32": 305419896,
+      "outer": {"t": "pack", "i": 1, "uid": 0, "cid": "module MAC", "tcid": "stored host MAC", "msgId": "current shared counter; reset only above 65535; no increment"},
+      "key": "generic",
+      "destination": "stored host IP:5000",
+      "initial_period_ms": 60000,
+      "watchdog_activation": "UBindok calls 0x9b02ac54 after Utm and getLoginInfo; that hbok call arms the independent 61-second watchdog, and later inbound hbok calls rearm it",
+      "period_callback": "0x9b030364 sends the heartbeat then restores the 60-second period",
+      "period_timer_handle": "0x1000c100",
+      "period_timer_value": "0x1000c104",
+      "watchdog_callback_pointer": "0x9b02acdc",
+      "watchdog_callback_entry": "0x9b02ace4",
+      "watchdog_expiry": "seed rand from native OS uint32 tick using LCG 0x5851f42d4c957f2d+1; ((state>>32)&0x7fffffff)%10 selects a 300-ms step from 0 through 2700 ms before scheduling the separate 1-second heartbeat callback",
+      "watchdog_followup_period_ms": 1000,
+      "miss_counter_address": "0x1000c108",
+      "miss_counter_increment": "only when period==1000, after the watchdog-triggered 1-second callback; hbok clears the miss byte",
+      "disconnect_after_unanswered_hb_count": 3,
+      "disconnect_effect": "clear host_managed and lock, then invoke HBOK: increment shared msgId, clear misses, and stop the watchdog. Preserve host IP/MAC and the independent product+0x4ed gate, so eligible UBind retry may resume",
+      "source": "lifecycle-literal-contract.json:outgoing_bodies/heartbeat_timers.source_instructions; literals.json:0x9b0302b8; lifecycle.c:0x9b0302dc"
+    },
+    "ret": {"callback": "0x9b02adc0", "r_is_truncated_to_u8": true, "r_200": "clear report-context byte +6 retry marker only; leave report timer unchanged", "response": false},
+    "hbok": {
+      "slot": 1,
+      "advances_source_counters": true,
+      "increments_msg_id_every_call": true,
+      "input_r0_is_unused": true,
+      "rearms_timer_ms": 61000,
+      "timer_callback_target": "0x9b02acdc",
+      "rearms_watchdog_when_managed": true,
+      "message_counter_address": "0x1000c0f8",
+      "managed_false_watchdog": "stops",
+      "resets_heartbeat_miss_count": true,
+      "watchdog_expiry": "after watchdog, random 0..2700-ms delay then schedule the separate one-second heartbeat callback; managed=false gate stops the watchdog",
+      "starts_independent_watchdog_on_managed_hbok": true,
+      "response": false,
+      "source": "udp.c:0x9b02ac54; lifecycle-literal-contract.json:heartbeat_timers/watchdog_jitter_primitive"
+    },
+    "loginInfoRes": {
+      "request_field": "r",
+      "missing_r": {
+        "clears_product_byte_offset_0x7": true,
+        "expected_source_state_byte": 0,
+        "response": false
+      },
+      "r_200_or_406": "A successfully parsed nested platform value is stored as uint8 and clears product+0x7; failed nested parsing does not gain an invented state effect.",
+      "result_platform_storage": "nested numeric platform is parsed into an unsigned-byte destination, preserving the low eight bits",
+      "synthetic_platform_u8_vector": {"input": 257, "stored": 1},
+      "successful_nested_platform_parse_clears_product_byte_offset_0x7": true,
+      "successful_restart_gate": {
+        "constant_pointer_gate": "0x9b0265ac returns literal 0x1000a6b0 from 0x9b0265b0, so its nonzero check is always true and adds no variable gate.",
+        "variable_conditions": "controller_id_available/product+0x4e7 from 0x9b026440 != 0 AND product+0x4e5 from 0x9b025310 == 1 AND product+0x4ed from 0x9b026608 == 0",
+        "qualified_effects": ["0x9b0265fc(1) sets product+0x4ed=1", "0x9b0265e8() invokes the network restart path"],
+        "synthetic_result_vectors": [
+          {"r": 200, "platform_input": 3, "stored_platform": 3},
+          {"r": 406, "platform_input": 257, "stored_platform": 1}
+        ],
+        "synthetic_gate_vectors": [
+          {"controller_id_available": 0, "ubind_gate_4e5": 1, "ubind_gate_4ed": 0, "expected_ubind_gate_4ed": 0, "expected_network_restart_pending": false},
+          {"controller_id_available": 1, "ubind_gate_4e5": 0, "ubind_gate_4ed": 0, "expected_ubind_gate_4ed": 0, "expected_network_restart_pending": false},
+          {"controller_id_available": 1, "ubind_gate_4e5": 1, "ubind_gate_4ed": 1, "expected_ubind_gate_4ed": 1, "expected_network_restart_pending": false},
+          {"controller_id_available": 1, "ubind_gate_4e5": 1, "ubind_gate_4ed": 0, "expected_ubind_gate_4ed": 1, "expected_network_restart_pending": true}
+        ],
+        "source": "udp.c:0x9b02ba80 lines 329-375; primitives.c:0x9b026440 lines 1862-1869, 0x9b0265ac lines 2008-2015, 0x9b025310 lines 1256-1260, 0x9b026608 lines 2230-2234, 0x9b0265fc lines 2214-2223; literals.json:0x9b0265b0=0x1000a6b0"
+      },
+      "r_500": {
+        "always_clears_product_byte_offset_0x7": true,
+        "qualification": "product+0x4e5 == 1 from getter 0x9b025310 AND product+0x4ed == 0 from getter 0x9b026608",
+        "qualified_effects": ["0x9b0265fc(1) sets product+0x4ed=1", "0x9b0265e8() invokes the network restart path"],
+        "synthetic_gate_vectors": [
+          {"ubind_gate_4e5": 0, "ubind_gate_4ed": 0, "host_managed": 1, "expected_ubind_gate_4ed": 0, "expected_network_restart_pending": false},
+          {"ubind_gate_4e5": 1, "ubind_gate_4ed": 1, "host_managed": 1, "expected_ubind_gate_4ed": 1, "expected_network_restart_pending": false},
+          {"ubind_gate_4e5": 1, "ubind_gate_4ed": 0, "host_managed": 0, "expected_ubind_gate_4ed": 1, "expected_network_restart_pending": true}
+        ],
+        "source": "udp.c:0x9b02ba80 lines 417-427; primitives.c:0x9b025310 lines 1256-1260, 0x9b026608 lines 2230-2234, 0x9b0265fc lines 2214-2223"
+      },
+      "r_404_or_other": "status/log behavior; do not invent appliance state",
+      "response": false,
+      "source": "udp.c:0x9b02ba80 lines 321-344, 417-427"
+    },
+    "statusCheck": {
+      "callback_effect": "set product+0x4b2=1 and return0",
+      "raw_report_type": 7,
+      "direct_response": false,
+      "worker_response": "asynchronous statusCheckRes through the separate raw-report path",
+      "source": "udp.c:0x9b02ad10; lifecycle-literal-contract.json:raw_report_queue"
+    },
+    "raw_report_queue": {
+      "queue_context_address": "0x10001914",
+      "selector_table_address": "0x10001920",
+      "producer": "0x9b02f1f8",
+      "worker": "0x9b02f8bc",
+      "ready_flag_product_offset": "0x525",
+      "producer_ready_condition": "network-ready getter 0x9b026608()==1",
+      "statusCheck": {"callback_sets_product_byte_offset_0x4b2": 1, "raw_report_type": 7, "clears_one_shot_flag_before_worker_reply": true, "direct_ack": false},
+      "UBindok": {"queues_type": 6, "queue_order": "after Utm then getLoginInfo", "ready_flag_condition": "producer marks context ready only when network-ready getter 0x9b026608()==1"},
+      "selector_rows": [
+        {"mask": "0x002", "source_address": "0x10016974", "field": "unknown raw-status buffer"},
+        {"mask": "0x004", "source_address": "0x10016ab9", "field": "unknown raw-status buffer"},
+        {"mask": "0x008", "source_address": "0x10016d03", "field": "unknown raw-status buffer"},
+        {"mask": "0x040", "source_address": "0x100169b5", "field": "raw_hex92"},
+        {"mask": "0x080", "source_address": "0x10016bff", "field": "raw_hex93"},
+        {"mask": "0x100", "source_address": "0x100169f6", "field": "unknown raw-status buffer"},
+        {"mask": "0x200", "source_address": "0x10016bbe", "field": "unknown raw-status buffer"},
+        {"mask": "0x800", "source_address": "0x10016a78", "field": "raw_hex6A"}
+      ],
+      "default_selector_mask": "0x03ce",
+      "extended_selector_mask": "0x0bce",
+      "extended_mode_condition": "raw_status_source_flag == 1 and cached raw_hex6A buffer byte3 == 0x6a",
+      "aggregation_rule": "walk selected rows in table order; require prefix 7e7e, nonzero byte2, and append (byte2+3)&0xff bytes",
+      "type6": {"outer_selector": 0, "outer_uid": "omitted", "outer_cid": "module MAC", "outer_tcid": "stored host MAC", "key": "device key", "destination": "stored host IP:5000", "msgId": "current shared counter; no increment", "inner_fields": ["t", "mac", "binStatus", "header"], "retry_marker_context_offset": 6, "retry_marker_storage": "queue context +6; not a byte in the 100-ms countdown table", "marker": "0x4a", "attempts_per_queue": 4, "retry_spacing_ms": 1000, "ret_r_200": "clears retry marker; next worker pass releases queued context"},
+      "type7": {"outer_selector": 0, "outer_uid": "omitted", "outer_cid": "module MAC", "outer_tcid": "stored host MAC", "key": "device key", "destination": "stored host IP:5000", "msgId": "current shared counter; no increment", "inner_fields": ["t", "timestamp", "binStatus"], "timestamp": "signed int32 timegm(virtual calendar)-28800", "send_count": 1},
+      "source_unknowns": "Unknown raw-row meanings remain opaque; this queue does not prove physical frame identity or appliance-field semantics.",
+      "safe_model_aggregate_capacity_bytes": 512,
+      "safe_model_capacity_qualification": "Bounded local-model limit; do not infer physical raw-buffer capacity.",
+      "synthetic_test_vectors": {
+        "source_frames_by_address_hex": {
+          "0x10016974": "7e7e05a0a1a2a3a4",
+          "0x10016ab9": "7e7e04b0b1b2b3",
+          "0x10016d03": "7e7e03c0c1c2",
+          "0x100169f6": "7e7e04d0d1d2d3",
+          "0x10016bbe": "7e7e03e0e1e2"
+        },
+        "raw_cache_frames_hex": {"raw_hex92": "7e7e059211223344", "raw_hex93": "7e7e059355667788", "raw_hex6A": "7e7e056a55667788"},
+        "default_aggregate_hex": "7e7e05a0a1a2a3a47e7e04b0b1b2b37e7e03c0c1c27e7e0592112233447e7e0593556677887e7e04d0d1d2d37e7e03e0e1e2",
+        "extended_aggregate_hex": "7e7e05a0a1a2a3a47e7e04b0b1b2b37e7e03c0c1c27e7e0592112233447e7e0593556677887e7e04d0d1d2d37e7e03e0e1e27e7e056a55667788",
+        "virtual_clock_start": "2026-01-01 08:00:00",
+        "initial_virtual_raw_clock_hex": "000008040101",
+        "type6_retry_raw_clock_hex": ["000008040101", "010008040101", "020008040101", "030008040101"],
+        "baseline_status_timestamp_signed32": 1767225600,
+        "virtual_clock_qualification": "deterministic synthetic UTC+8 epoch for tests; not a captured appliance clock",
+        "qualification": "All row/cache bytes are explicit synthetic opaque test inputs, not captured appliance frames."
+      },
+      "source": "lifecycle-literal-contract.json:raw_report_queue; assessment.json:raw report lifecycle"
+    },
+    "reset": {
+      "selector_slots": [0],
+      "identity_match": "operations.c passes strlen(request_mac) as the third argument to 0x9b003650. probe_native.py:106-111 interprets that trampoline as strncmp (distinct from 0x9b003644 strcmp), so the adapter-qualified expected behavior is requested-length comparison: any matching prefix, including empty, matches; the ROM slot API semantics were not independently matched to an SDK map",
+      "missing_mac": "parse failure; no response and no reset-flag mutation",
+      "mismatch_response": false,
+      "source": "operations.c:0x9b02bca4 lines 775-780 passes strlen(request_mac); primitives.c:0x9b003650 dispatches ROM table slot 0x800+0x0c; literals.json:0x9b003658=0x800; probe_native.py:106-111 maps the trampoline to strncmp (0x9b003644 is strcmp); no independent SDK ROM map/contents"
+    },
+    "command_report_client_id": {
+      "operation": "cmd",
+      "selector": "general/cloud only, not UDP",
+      "name": "ReportClientID",
+      "behavior_if_general_command_dispatch_is_used": "string echo only; does not set a device identity or prove MCU execution",
+      "source": "operations.c:0x9b02b740"
+    }
+  },
+  "raw_binary": {
+    "ack_qualification": "Local module receipt only; not attached-MCU execution, physical actuator response, or typed property semantics.",
+    "buffer_capacities": {"hex91": 65, "hex92": 65, "hex93": 65, "hex6A": 65, "temporary_hex6B": 55, "temporary_hex6C": 55, "temporary_hex6D": 55, "temporary_hex6E": 55},
+    "capacity_qualification": "hex91 native clear is source-proven at 65 bytes; fixed local cache bounds are 65 bytes for hex92/93/6A, while only temporary hex6B-E frames have a source-proven 55-byte cap. Buffer limits are safe bounded-model policy, not a physical-board claim.",
+    "source_fields": {
+      "hex91": "base64 raw bytes -> cache 0x10016b7d; native clear 65 bytes. byte3==0x91 and metadata gate can retain the prior frame. Dirty bit0x20, timer0x4005, send gate0x42.",
+      "hex92": "base64 raw bytes -> cache 0x100169b5. Dirty bit0x40, timer0x4005, gate0x42, pending bit1.",
+      "hex93": "base64 raw bytes -> cache 0x10016bff. Dirty bit0x80, timer0x4005, gate0x42, pending bit4.",
+      "hex6A": "base64 raw bytes -> cache 0x10016a78; log length is byte2+3; no typed appliance field projection.",
+      "hex6B": "temporary frame; bytes from offset4 become source clock text and invoke the original clock setter/save event; log length byte2+3.",
+      "hex6C": "temporary frame <=55 bytes; nonzero byte4 reads prior product+0x4ac via 0x9b025888; only prior mode 0x3c sets timer+0x06=0x4000+byte4 and queues a raw report. It then stores min(byte4,0x3c) into product+0x4ac via 0x9b025808 and sets timer+0x08=0x405a. Packet byte4 alone is not the timer+0x06 gate; log length byte2+2.",
+      "hex6D": "temporary frame <=55 bytes; logger length is byte2+2. Source zeroes a 55-byte destination, copies byte2-2 bytes from the payload at offset4 into it, calls 0x9b02644c, and clears timer+0x18; declared byte2 0x09 copies seven bytes (GNET-KE from GNET-KEY), while 0x0a copies all eight.",
+      "hex6E": "temporary frame <=55 bytes; requires prefix7e7e and byte3=0x6e; bytes4=1,5=1,6!=0 set timer+0x1c to0x4000+byte6."
+    },
+    "hex6C_source_mode_transition_vectors": [
+      {"previous_source_mode_0x4ac_u8": 0, "frame_byte4_u8": 60, "next_source_mode_0x4ac_u8": 60, "expected_timer_0x06_u16": 0, "expected_timer_0x08_u16": 16474, "qualification": "Synthetic local source-mode transition, not a physical board-type claim."},
+      {"previous_source_mode_0x4ac_u8": 60, "frame_byte4_u8": 60, "next_source_mode_0x4ac_u8": 60, "expected_timer_0x06_u16": 16444, "expected_timer_0x08_u16": 16474, "qualification": "Synthetic local source-mode transition, not a physical board-type claim."}
+    ],
+    "hex6C_source_mode_transition_source": "operations.c:0x9b02c7a4 lines 1167-1174; primitives.c:0x9b025888 lines 1502-1505, 0x9b025808 lines 1395-1413",
+    "synthetic_raw_frame_vectors": {
+      "qualification": "Chosen local test payload bytes, not observed appliance frames.",
+      "hex91": "7e7e0591a1b2c3d4",
+      "hex92": "7e7e059211223344",
+      "hex93": "7e7e059355667788",
+      "hex6A": "7e7e056a55667788",
+      "hex6B_clock_2026_01_02T030405": "7e7e146b323032362d30312d30322030333a30343a3035",
+      "hex6C_type_3c": "7e7e056c3c0102",
+      "hex6D_gnet_key_GNET_KEY": "7e7e096d474e45542d4b4559",
+      "hex6D_gnet_key_GNET_KEY_byte2_0a": "7e7e0a6d474e45542d4b4559",
+      "hex6E_timer_value_10": "7e7e056e01010a"
+    },
+    "hex6D_copy_vectors": [
+      {"input_frame_vector": "hex6D_gnet_key_GNET_KEY", "declared_byte2_hex": "0x09", "copy_count_formula": "byte2 - 2", "copied_length_bytes": 7, "copied_ascii_hex": "474e45542d4b45", "copied_ascii": "GNET-KE"},
+      {"input_frame_vector": "hex6D_gnet_key_GNET_KEY_byte2_0a", "declared_byte2_hex": "0x0a", "copy_count_formula": "byte2 - 2", "copied_length_bytes": 8, "copied_ascii_hex": "474e45542d4b4559", "copied_ascii": "GNET-KEY"}
+    ],
+    "hex6D_copy_vector_source": "operations.c:0x9b02c7a4 lines 1179-1191; primitives.c:0x9b02644c lines 1888-1890; synthetic source-derived local payloads, not observed appliance frames.",
+    "fragment": {
+      "source_version": "V3.5.M",
+      "record_form_for_source_version": "positional arrays [cmd_type, byte, mask, value, optional initval]",
+      "V3.4.M_record_form": "object records with cmd_type, byte, mask, value, optional initval",
+      "buffer_offset_bias": 3,
+      "bit_offset": "ctz16(mask); zero mask returns shift16",
+      "mutation": "new=(old&~mask)+(mask&(value<<ctz16(mask)))",
+      "cmd_type_buffers": {"145": "hex91", "146": "hex92", "147": "hex93"},
+      "native_vectors": [
+        {"cmd_type": 145, "byte": 1, "mask": 28, "value": 3, "before": 165, "after": 173},
+        {"cmd_type": 145, "byte": 1, "mask": 0, "value": 99, "before": 165, "after": 165},
+        {"cmd_type": 145, "byte": 1, "mask": 255, "value": -1, "before": 165, "after": 255},
+        {"cmd_type": 146, "byte": 1, "mask": 28, "value": 3, "before": 165, "after": 173},
+        {"cmd_type": 146, "byte": 1, "mask": 0, "value": 99, "before": 165, "after": 165},
+        {"cmd_type": 146, "byte": 1, "mask": 255, "value": -1, "before": 165, "after": 255},
+        {"cmd_type": 147, "byte": 1, "mask": 28, "value": 3, "before": 165, "after": 173},
+        {"cmd_type": 147, "byte": 1, "mask": 0, "value": 99, "before": 165, "after": 165},
+        {"cmd_type": 147, "byte": 1, "mask": 255, "value": -1, "before": 165, "after": 255}
+      ],
+      "metadata_special_selector_hex": "600382",
+      "metadata_special_record": [130, 3, 96, 175],
+      "metadata_special_effect": "set metadata byte to low8(value), not a fragment-buffer offset fallback",
+      "out_of_range_source_behavior": "original access can fault; safe bounded model rejects atomically"
+    },
+    "scenes": {
+      "field_names": ["sceneId", "operType", "sence_enable", "fragment", "hex91", "hex92", "hex93"],
+      "operType": {"0": "update", "1": "create", "2": "delete"},
+      "slot_count": 20,
+      "record_bytes": 172,
+      "frame_offsets": {"hex91": 0, "hex93": 55, "hex92": 110},
+      "frame_order": ["hex91", "hex93", "hex92"],
+      "scene_id_offset": 168,
+      "scene_id_storage": "uint32 little-endian",
+      "synthetic_scene_id": 7,
+      "synthetic_frames_by_name": {"hex91": "7e7e0591a1b2c3d4", "hex92": "7e7e059211223344", "hex93": "7e7e059355667788"},
+      "no_controller_id_vector": {"request": {"t": "binCmd", "sceneId": 2}, "reply": {"t": "res", "r": 200, "code": 501, "mac": "020000000001"}},
+      "full_table_safe_model_vector": {
+        "occupied_scene_ids": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "request": {"t": "binCmd", "sceneId": 101, "operType": 1, "sence_enable": 1},
+        "reply": {"t": "res", "r": 200, "code": 501, "mac": "020000000001"},
+        "qualification": "Bounded local safe result for a full table; not a native full-capacity response claim."
+      },
+      "scene_controller_id_gate": {"product_offset": "0x4e7", "runtime_key": "controller_id_available", "synthetic_default_gate": 0, "synthetic_scene_table_gate": 1, "physical_value": "unknown; no typed/physical identity claim"},
+      "synthetic_update_hex91": "7e7e05919aaabbcc",
+      "source": "operations.c:0x9b02c7a4, transport.c:0x9b02c48c"
+    },
+    "room_id": {
+      "request_field": "roomId",
+      "product_offset": "0x4ee",
+      "setter": "0x9b0265b4 stores the changed low uint8 and persists it; the binCmd caller separately applies the loginInfoRes source restart gates.",
+      "stored_width_bits": 8,
+      "synthetic_input": 258,
+      "expected_low8": 2,
+      "restart_gate_reference": "lifecycle.loginInfoRes.successful_restart_gate.synthetic_gate_vectors",
+      "synthetic_blocked_restart_vector": {
+        "controller_id_available": 0,
+        "ubind_gate_4e5": 0,
+        "ubind_gate_4ed": 0,
+        "gnet_key_hex": "474e45542d4b4559",
+        "expected_network_restart_pending": false
+      },
+      "source": "operations.c:0x9b02c7a4 lines 903-938; primitives.c:0x9b0265b4 lines 2019-2110"
+    },
+    "bin_status": {
+      "opaque_payload_hex": "01020304",
+      "opaque_payload_base64": "AQIDBA==",
+      "metadata_length_bytes": 39,
+      "metadata_prefix_hex": "66670008",
+      "mid_uint32_be_offset": 22,
+      "mid_uint32_be_hex": "00010001",
+      "fixed_trailing_byte_hex": "02",
+      "initial_synthetic_raw_clock_hex": "000008040101",
+      "wrapper_raw_clock_hex": "000000000000",
+      "wrapper": {"t": "binStatus", "mac": "020000000001", "binStatus": "AQIDBA==", "header": "ZmcACAIAAAAAAQAAAAAAAAIAAAAAAQABAAEAAAAABgAAAAAAAAAC"},
+      "metadata_test_vector": {
+        "module_mac_hex": "000000000000",
+        "payload_base64_length": 4,
+        "mid_uint32": 305419896,
+        "formatted_mid_hex": "12345678",
+        "raw_clock_hex": "ea0b180c2238",
+        "metadata_hex": "6667000400000000000000000000000000000000000012345678000000000600ea0b180c223802",
+        "metadata_base64": "ZmcABAAAAAAAAAAAAAAAAAAAAAAAABI0VngAAAAABgDqCxgMIjgC"
+      },
+      "metadata_mac_material_bytes": 18,
+      "metadata_flags_hex": "000000000600",
+      "metadata_clock_offset": 32,
+      "metadata_clock_length": 6,
+      "metadata_base64_uses_payload_base64_length": true,
+      "qualification": "Metadata wrapper is source byte layout; payload remains opaque synthetic mainboard bytes, not typed sensor data.",
+      "source": "closure.c:0x9b02eac8; raw-status.c:0x9b02ed54, 0x9b02fd4c"
+    },
+    "bin_event": {
+      "wrapper": {"t": "binEvent", "mac": "020000000001", "binEvent": "AQIDBA=="},
+      "qualification": "Base64 mainboard event bytes only; no typed event mapping is asserted.",
+      "source": "raw-status.c:0x9b02ebb0"
+    }
+  },
+  "capacity_and_safe_errors": {
+    "source_recvfrom_max_bytes": 1536,
+    "temporary_frame_max_bytes": 55,
+    "scene_slots": 20,
+    "safe_model_policy": "Reject malformed base64, underspecified/oversized raw frames, invalid fragment offsets, malformed timestamps, and capacity overruns atomically; source-undefined memory overrun behavior is not reproduced.",
+    "source_native_unknown_faults_are_not_public_behavior": true
+  },
+  "source_scope_limits": {
+    "typed_controller_semantics": "unknown, not unsupported",
+    "physical_uart_mid": "not observed; configured 10001 is synthetic only",
+    "general_cloud_callbacks": "source table exists but is not UDP admission or a public UDP operation",
+    "native_rtOS_socket_execution": "not claimed"
+  }
+}

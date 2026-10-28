@@ -1,6 +1,7 @@
 """W05SA V1.28 LAN dialect; appliance temperatures are explicitly synthetic."""
 
 import time
+from datetime import datetime
 
 from ..wire import InvalidPacket, Reply, decode_pack
 from . import Profile
@@ -14,14 +15,60 @@ ZONE_ID = ROOT_ID + "-zone"
 CODEC = "aes-ecb-pkcs7"
 GENERIC_KEY = b"a3K8Bx%2r8Y7#xDh"
 PACKET_LIMIT = 1024  # Native0x805e6fc clears and serializes into0x400-byte buffers.
-ROOT_STATE = {"MasterPow": 0, "Mod": 0, "WdSpd": 0, "StTem": 8,
-              "StFahFlg": 0, "RmType": 0, "RmNum": 0}
-ZONE_STATE = {"Pow": 0, "StTem": 8, "StFahFlg": 0, "RmType": 0,
-              "RmNum": 0, "EnValve": 0}
+# Numeric cache is unsigned halfwords, not the narrower mainboard frame bitfields.
+_SHARED = (
+    "Pow Mod StTem WdSpd EnSvSt StFahFlg HeatSvStTemMax CoolSvStTemMin TemUnit "
+    "Dry OMod Quier LowDeHumi HSvStTemMaxFlg CSvStTemMinFlg ColdMod ErWdVlv "
+    "ErVavle RmType RmNum WdVlvAllOnNum IndoorType AllErr Dred VavleAllOn "
+    "Demand InProtocol NoD MasterPow IntProVer MainConProVer SubConProVer "
+    "Tcloud AppTimer ElcErg ElcGear Elc1Kwh AutoUpdate AutoComnCloud lock"
+).split()
 _ALIASES = {"Pow": "EnWdVlv", "StTem": "StTem", "StFahFlg": "StFahFlg",
             "RmType": "RmType", "RmNum": "RmNum", "EnValve": "EnValve"}
-_LIMITS = {"Pow": 1, "MasterPow": 1, "Mod": 7, "WdSpd": 7, "StTem": 15,
-           "StFahFlg": 1, "RmType": 15, "RmNum": 15, "EnValve": 1}
+ROOT_STATE = dict.fromkeys(_SHARED, 0)
+ROOT_STATE.update({prefix + str(slot): 0 for prefix in _ALIASES.values()
+                   for slot in range(1, 9)})
+ROOT_STATE["StTem"] = 8
+ROOT_STATE.update({"StTem" + str(slot): 8 for slot in range(1, 9)})
+ZONE_STATE = dict.fromkeys(_ALIASES, 0)
+ZONE_STATE["StTem"] = 8
+_FOOTER = frozenset((
+    "apssid appsw host name time lat lon vender bc mid model series brand catalog "
+    "country hid mac ver HidSvrVer InHid InHidSvrVer OEEPHid OEEPHidSvrVer"
+).split())
+_STRING_LIMITS = {"apssid": (1, 32), "appsw": (0, 32), "host": (1, 20),
+                  "name": (0, 31), "lat": (1, 10), "lon": (1, 10)}
+
+
+def _metadata(root):
+    # Explicit synthetic platform/cache defaults, not original calibration/startup.
+    return root.state.setdefault("_zone_metadata", {
+        "name": root.name, "host": "", "lat": "", "lon": "", "vender": "",
+        "bc": "gree", "mid": "50", "hid": HID, "mac": root.mac, "ver": "",
+        "time": "2000-01-01 00:00:00", "apssid": "", "appsw": "",
+    })
+
+
+def _value(root, obj, field, metadata):
+    if field in _FOOTER:
+        return metadata.get(field) if field not in ("apssid", "appsw") else None
+    return obj.state.get(field)
+
+
+def _string_write(field, value):
+    if not isinstance(value, str) or "\0" in value or not value.isascii():
+        raise InvalidPacket("invalid zone metadata string")
+    if field == "time":
+        try:
+            datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+            if len(value) != 19:
+                raise ValueError("zone time requires fixed-width fields")
+        except ValueError as error:
+            raise InvalidPacket("invalid zone time") from error
+    elif field in _STRING_LIMITS:
+        low, high = _STRING_LIMITS[field]
+        if not low <= len(value) <= high:
+            raise InvalidPacket("invalid zone metadata length")
 
 
 def _reply(outer, inner, key):
@@ -38,11 +85,33 @@ def _root(device):
 def _sync(root):
     for child in root.children:
         if child.mid == "5000":
-            child.state.update({name: root.state[name] for name in ROOT_STATE
-                                if name != "MasterPow"})
             child.state["Pow"] = root.state["MasterPow"]
         else:
-            child.state.update({name: root.state[name] for name in ("Mod", "WdSpd")})
+            for alias, prefix in _ALIASES.items():
+                root.state[prefix + child.mac[-1]] = child.state[alias]
+
+
+def _energy_limits(root):
+    state = root.state
+    if not state["EnSvSt"] or state["Mod"] not in (1, 2):
+        return
+    limit = state["CoolSvStTemMin"] if state["Mod"] == 1 else state["HeatSvStTemMax"]
+    for slot in range(1, 9):
+        obj, field = _location(root, root, "StTem" + str(slot))
+        obj.state[field] = (max if state["Mod"] == 1 else min)(obj.state[field], limit)
+
+
+def _cloud_control(root):
+    if root.state["Tcloud"] != 1:
+        return
+    flags = 0
+    for slot in range(1, 9):
+        obj, field = _location(root, root, "EnWdVlv" + str(slot))
+        bit = 1 << (slot - 1)
+        flags = ((flags & ~bit) | (obj.state[field] << (slot - 1))) & 255
+    # Synthetic mainboard-selected slot0: native shift255 removes no zone bit.
+    root.state["Tcloud"] = 0
+    root.state["MasterPow"] = int(flags != 0)
 
 
 def _location(root, device, name):
@@ -56,7 +125,7 @@ def _location(root, device, name):
         if name.startswith(prefix) and name[len(prefix):] in tuple("12345678"):
             slot = int(name[-1])
             for child in root.children:
-                if int(child.mac[-1]) == slot:
+                if child.mid == "5001" and int(child.mac[-1]) == slot:
                     return child, alias
     return root, name
 
@@ -69,7 +138,7 @@ class Zones:
     def validate_state(self, state):
         allowed = ROOT_STATE if self.role == "root" else ZONE_STATE if self.role == "zone" else {}
         for name, value in state.items():
-            if name not in allowed or type(value) is not int or not 0 <= value <= _LIMITS[name]:
+            if name not in allowed or type(value) is not int or not 0 <= value <= 65535:
                 raise ValueError(f"invalid simulated zone state field {name!r}")
 
     def validate_topology(self, device):
@@ -100,6 +169,14 @@ class Zones:
         device.children.sort(key=lambda child: child.mac[-1])
         for child in device.children:
             child.state["_zone_root"] = device
+            if child.mid == "5001":
+                for alias, prefix in _ALIASES.items():
+                    field = prefix + child.mac[-1]
+                    parent_value, child_value = device.state[field], child.state[alias]
+                    if parent_value != ROOT_STATE[field]:
+                        if child_value != ZONE_STATE[alias] and child_value != parent_value:
+                            raise ValueError(f"conflicting zone cache aliases {field!r}/{alias!r}")
+                        child.state[alias] = parent_value
         _sync(device)
 
     def thermal_target(self, device):
@@ -107,9 +184,9 @@ class Zones:
             return None
         root = _root(device)
         state = root.state if root is not device else ROOT_STATE
-        target = 16 + device.state.get("StTem", state.get("StTem", 8))
+        target = 16 + (device.state.get("StTem", state.get("StTem", 8)) & 15)
         # Synthetic appliance policy: master power gates every zone; Mod1 cool/2 heat.
-        powered = state.get("MasterPow", 0) and device.state.get("Pow", 0)
+        powered = state.get("MasterPow", 0) == 1 and (device.state.get("Pow", 0) & 1)
         action = {1: "cool", 2: "heat"}.get(state.get("Mod", 0), "idle") if powered else "idle"
         return action, target
 
@@ -131,6 +208,7 @@ class Zones:
         if (outer.get("t") != "pack" or outer.get("tcid") != root.mac
                 or type(outer.get("i")) is not int or outer["i"] not in (0, 1)
                 or type(outer.get("uid", 0)) is not int
+                or not -(1 << 31) <= outer.get("uid", 0) < (1 << 31)
                 or not isinstance(outer.get("cid", ""), str)):
             raise InvalidPacket("invalid zone envelope or parent target")
         inner = decode_pack(outer, GENERIC_KEY if outer["i"] else root.key, CODEC)
@@ -164,36 +242,65 @@ class Zones:
         names = _columns(inner.get("cols" if operation == "status" else "opt"))
         if len(names) > 30 or any(len(name) >= 16 for name in names):
             raise InvalidPacket("zone property array exceeds native status limits")
+        if operation == "status" and "" in names:
+            names = names[:names.index("")]
         locations = [_location(root, target, name) for name in names]
         if operation == "status":
-            accepted = [(name, obj.state[field]) for name, (obj, field) in zip(names, locations)
-                        if field in obj.state and not field.startswith("_")]
+            metadata = _metadata(root)
+            accepted = [(name, _value(root, obj, field, metadata))
+                        for name, (obj, field) in zip(names, locations)
+                        if (field in obj.state and not field.startswith("_")) or field in _FOOTER]
+            if len(names) == 30:
+                accepted = []  # Original exact-capacity counter wraps to zero.
             reply = ({"t": "dat", "mac": target.mac, "r": 200} if target is root
                      else {"t": "dat", "r": 200, "mac": target.mac})
-            reply.update(cols=[name for name, _ in accepted], dat=[value for _, value in accepted])
+            reply.update(cols=[name for name, _ in accepted],
+                         dat=[value for _, value in accepted if value is not None])
             return [_reply(envelope, reply, root.key)]
         values = inner.get("p")
-        if ("cols" in inner or not names or not isinstance(values, list) or len(values) != len(names)
-                or any(field not in obj.state or field.startswith("_") or field not in _LIMITS
-                       or type(value) is not int or not 0 <= value <= _LIMITS[field]
-                       for (obj, field), value in zip(locations, values))):
+        if ("cols" in inner or not names or not isinstance(values, list) or len(values) != len(names)):
             raise InvalidPacket("invalid simulated zone command batch")
+        metadata = _metadata(root)
+        proposed = metadata.copy()
+        acknowledged = []
+        numeric = {}
+        for (obj, field), value in zip(locations, values):
+            if (field not in obj.state or field.startswith("_")) and field not in _FOOTER:
+                raise InvalidPacket("unknown zone command property")
+            if isinstance(value, str):
+                _string_write(field, value)
+                if field in _STRING_LIMITS or field == "time":
+                    proposed[field] = value
+            elif type(value) is not int or not -(1 << 31) <= value < (1 << 31):
+                raise InvalidPacket("invalid zone numeric value")
+            if field in _FOOTER:
+                if field in proposed and field not in ("apssid", "appsw"):
+                    acknowledged.append(proposed[field])
+            else:
+                location = (id(obj), field)
+                numeric[location] = value & 65535 if type(value) is int else numeric.get(location, obj.state[field])
+                acknowledged.append(numeric[location])
         reply = ({"t": "res", "mac": target.mac, "r": 200} if target is root
                  else {"t": "res", "r": 200, "mac": target.mac})
-        reply.update(opt=names, p=values)
+        reply.update(opt=names, p=acknowledged)
         response = _reply(envelope, reply, root.key)
         now = time.monotonic()
         for child in root.children:
             child.advance(now)
         for (obj, field), value in zip(locations, values):
-            obj.state[field] = value
+            if field not in _FOOTER and type(value) is int:
+                obj.state[field] = value & 65535
+        metadata.update(proposed)
+        root.name = metadata["name"]
+        _energy_limits(root)
+        _cloud_control(root)
         _sync(root)
         return [response]
 
 
 PROFILES = (
     Profile(ROOT_ID, ("50",), HID, SOURCE_SHA256, ROOT_STATE, Zones("root"),
-            max_children=9, max_request_bytes=PACKET_LIMIT - 1),
+            max_children=9, max_request_bytes=PACKET_LIMIT),
     Profile(MASTER_ID, ("5000",), HID, SOURCE_SHA256, {}, Zones("master"),
             identity_bytes=7, parent_profiles=(ROOT_ID,)),
     Profile(ZONE_ID, ("5001",), HID, SOURCE_SHA256, ZONE_STATE, Zones("zone"),

@@ -72,11 +72,10 @@ def test_example_per_mid_profiles_load_with_configured_controls(example_config):
 @pytest.mark.parametrize("overrides,field", [
     ({"state": {"RmoHomTemHi": 126}}, "RmoHomTemHi"),
     ({"state": {"_private": 0}}, "_private"),
-    ({"state": {"AllErr": 0}}, "AllErr"),
     ({"state": {"unknown": 0}}, "unknown"),
     ({"state": {"Pow": True}}, "Pow"),
     *[({"state": {"HeHomTemSet": value}}, "HeHomTemSet")
-      for value in [float("nan"), float("inf"), -float("inf"), 15, 31]],
+      for value in [float("nan"), float("inf"), -float("inf"), -1, 256]],
     ({"name": "x" * 2048}, "name"),
 ])
 def test_invalid_startup_overrides_fail_before_listening(
@@ -112,6 +111,7 @@ def test_source_ciphertexts_and_exact_reply_casing():
     }
     scan = device.profile.handler.advertise(device, {"t": "scan"})[0]
     assert "ModelType" in scan.inner and "modeltype" not in scan.inner
+    assert scan.inner["ModelType"] == ""
     assert "vender" in scan.inner and "vendor" not in scan.inner
 
 
@@ -139,17 +139,11 @@ def test_controls_require_exact_selector_zero(selector, inner):
 
 @pytest.mark.parametrize("batch", [
     {"opt": ["Pow", "unknown"], "p": [1, 0]},
-    {"opt": ["Pow", "AllErr"], "p": [1, 0]},
     {"opt": ["Pow", "RmoHomTemHi"], "p": [1, 126]},
     {"opt": ["Pow"], "val": [1]},
     {"opt": ["Pow", "Mod"], "p": [1]},
     {"opt": [], "p": []},
-    *[{"opt": ["Pow"], "p": [value]} for value in [True, 1.0, "1", -1, 256]],
-    {"opt": ["Mod"], "p": [0]},
-    {"opt": ["HeWatOutTemSet"], "p": [61]},
-    {"opt": ["CoWatOutTemSet"], "p": [6]},
-    {"opt": ["WatBoxTemSet"], "p": [39]},
-    {"opt": ["HeHomTemSet"], "p": [31]},
+    *[{"opt": ["Pow"], "p": [value]} for value in [True, 1.0, "1", -1, 2147483648]],
     {"opt": ["Pow"] * 50, "p": [1] * 50},
 ])
 def test_safe_atomic_rejection_never_reads_clock_or_mutates(batch, monkeypatch):
@@ -169,7 +163,7 @@ def test_order_unknowns_duplicates_and_final_status():
     reply = handle(device, {"t": "cmd", "opt": ["Pow", "HeWatOutTemSet", "Pow"], "p": [1, 40, 0]})[0]
     assert reply.inner == {"t": "res", "r": 200, "opt": ["Pow", "HeWatOutTemSet", "Pow"], "p": [1, 40, 0], "val": [1, 40, 0]}
     assert status(device, ["unknown", "Pow", "HeWatOutTemSet", "Pow", "EnvironmentTem", "TemSen", "FlagPool"]) == {
-        "t": "dat", "r": 200, "mac": MAC, "cols": ["Pow", "HeWatOutTemSet", "Pow"], "dat": [0, 40, 0],
+        "t": "dat", "r": 200, "mac": MAC, "cols": ["Pow", "HeWatOutTemSet", "Pow", "EnvironmentTem"], "dat": [0, 40, 0, 0],
     }
 
 
@@ -377,3 +371,169 @@ async def test_public_atw_fresh_bind_acquires_default_state_and_guarded_writes()
         await asyncio.gather(*unit.tasks, return_exceptions=True)
         server.close()
         await server.wait_closed()
+
+
+QCA_RESEARCH = json.loads(
+    (VECTOR_DIRECTORY / "session-qca-atw-quirks_research.json").read_text()
+)
+
+
+def qca_device_for(mid="9300"):
+    return vector_device(json.loads(
+        (VECTOR_DIRECTORY / f"session-qca-atw-{mid}.json").read_text()
+    ))
+
+
+@pytest.mark.parametrize("mid", ["9300", "9301", "9302"])
+@pytest.mark.parametrize("vector", QCA_RESEARCH["report_vectors"], ids=lambda row: row["case"])
+def test_qca_reports_expose_every_component_and_raw_sensor_without_decimal_clipping(mid, vector):
+    device = qca_device_for(mid)
+    device.profile.handler.receive_report(device, bytes.fromhex(vector["frame_hex"]))
+    assert status(device, vector["cols"]) == {
+        "t": "dat", "r": 200, "mac": MAC, "cols": vector["cols"], "dat": vector["dat"],
+    }
+    # Polling does not replace the report with a synthetic decimal temperature.
+    assert status(device, vector["cols"])["dat"] == vector["dat"]
+
+
+@pytest.mark.parametrize("value", [0, 255, 256, 65535])
+def test_qca_getter_keeps_unsigned16_report_cache_width(value):
+    device = qca_device_for()
+    report = list(device.state["_atw_report"])
+    report[1] = value
+    device.state["_atw_report"] = tuple(report)
+    assert status(device, ["AllInWatTemLo"])["dat"] == [value]
+
+
+@pytest.mark.parametrize("name", QCA_RESEARCH["heater_controls_slot_order"])
+@pytest.mark.parametrize("requested,stored", [
+    (0, 0), (255, 255), (256, 0), (257, 1), (2147483647, 255),
+])
+def test_qca_all_twenty_controls_echo_requested_and_stage_low_byte(name, requested, stored):
+    device = qca_device_for()
+    reply = handle(device, {"t": "cmd", "opt": [name], "p": [requested]})[0].inner
+    assert reply == {
+        "t": "res", "r": 200, "opt": [name], "p": [requested], "val": [requested],
+    }
+    assert status(device, [name])["dat"] == [0 if name == "Emegcy" else stored]
+    if name == "Emegcy":
+        assert device.state["Emegcy"] == stored
+
+
+@pytest.mark.parametrize("mid", ["9300", "9301", "9302"])
+def test_qca_emergency_command_does_not_manufacture_mainboard_report(mid):
+    device = qca_device_for(mid)
+    frame = bytearray(26)
+    frame[23] = 255
+    device.profile.handler.receive_report(device, bytes(frame))
+    assert status(device, ["Emegcy"])["dat"] == [255]
+    handle(device, {"t": "cmd", "opt": ["Emegcy", "Emegcy"], "p": [1, 256]})
+    assert device.state["Emegcy"] == 0
+    assert status(device, ["Emegcy", "Emegcy"])["dat"] == [255, 255]
+    frame[23] = 128
+    device.profile.handler.receive_report(device, bytes(frame))
+    assert status(device, ["Emegcy"])["dat"] == [128]
+    assert device.state["Emegcy"] == 0
+
+
+@pytest.mark.parametrize("invalid", [True, False, 1.0, "1", None, -1, 2147483648])
+def test_qca_safe_atomic_signed32_validation_precedes_clock_and_cache(invalid, monkeypatch):
+    device = qca_device_for()
+    before = (copy.deepcopy(device.state), device.room_c, device.last_step)
+
+    def forbidden_clock():
+        pytest.fail("invalid QCA batch read the clock")
+
+    monkeypatch.setattr("gree_emulator.profiles.atw.time.monotonic", forbidden_clock)
+    with pytest.raises(InvalidPacket):
+        handle(device, {"t": "cmd", "opt": ["Quiet", "Pow"], "p": [256, invalid]})
+    assert (device.state, device.room_c, device.last_step) == before
+
+
+def test_qca_read_only_report_and_invalid_frame_leave_every_cache_unchanged(monkeypatch):
+    device = qca_device_for()
+    before = copy.deepcopy(device.state)
+
+    def forbidden_clock():
+        pytest.fail("read-only QCA batch read the clock")
+
+    monkeypatch.setattr("gree_emulator.profiles.atw.time.monotonic", forbidden_clock)
+    for name in QCA_RESEARCH["heater_sensor_slot_order"]:
+        if name == "Emegcy":
+            continue
+        with pytest.raises(InvalidPacket):
+            handle(device, {"t": "cmd", "opt": ["Quiet", name], "p": [1, 255]})
+    for frame in [None, b"", bytes(25), [0] * 26]:
+        with pytest.raises(ValueError, match="report"):
+            device.profile.handler.receive_report(device, frame)
+    assert device.state == before
+
+
+@pytest.mark.parametrize("mid", ["9300", "9301", "9302"])
+def test_qca_metadata_keeps_initialized_hid_separate_from_board_model_type(mid):
+    device = qca_device_for(mid)
+    discovery = device.profile.handler.advertise(device, {"t": "scan"})[0].inner
+    assert "hid" not in discovery
+    assert discovery["ModelType"] == ""
+    assert status(device, ["hid", "ModelType"])["dat"] == [
+        "362001066763+W06A(P3)V5.08.bin", "",
+    ]
+    names = QCA_RESEARCH["metadata"]["value_getters"]
+    assert status(device, names)["cols"] == names
+    unavailable = QCA_RESEARCH["metadata"]["column_without_value"]
+    assert status(device, unavailable) == {
+        "t": "dat", "r": 200, "mac": MAC, "cols": unavailable, "dat": [],
+    }
+    assert status(device, ["lat", "Pow", "SwhWifi", "Pow"])["dat"] == [0, 0]
+    # Recognition remains visible without inventing alternate calibrated channels.
+    alternate = QCA_RESEARCH["alternate_sensor_slot_order"]
+    fallback = [name for name in alternate if name not in ("TemUn", "AllErr")]
+    assert status(device, fallback)["cols"] == fallback
+    assert status(device, fallback)["dat"] == [0] * len(fallback)
+
+
+def test_qca_raw_report_and_staging_isolation_and_restart():
+    first, second = qca_device_for(), qca_device_for()
+    pristine = copy.deepcopy(second.state)
+    frame = bytearray(26)
+    frame[9] = 255
+    frame[23] = 128
+    first.profile.handler.receive_report(first, bytes(frame))
+    handle(first, {"t": "cmd", "opt": ["Quiet", "Emegcy", "Reset"], "p": [257, 1, 255]})
+    assert status(first, ["Quiet", "Emegcy", "HepOutWatTemLo", "Reset"])["dat"] == [
+        1, 128, 255, 255,
+    ]
+    assert second.state == pristine
+    assert qca_device_for().state == pristine
+
+
+@pytest.mark.parametrize("mid", ["9300", "9301", "9302"])
+@pytest.mark.parametrize("mode", [0, 6, 255])
+def test_qca_unknown_raw_modes_have_only_chosen_idle_thermal_behavior(mid, mode):
+    device = qca_device_for(mid)
+    handle(device, {"t": "cmd", "opt": ["Pow", "Mod"], "p": [1, mode]})
+    assert status(device, ["Mod"])["dat"] == [mode]
+    assert device.profile.handler.thermal_target(device)[0] == "idle"
+
+
+def test_qca_startup_uses_staged_byte_width_not_physical_control_ranges():
+    config = {"seed": "qca-atw-state", "devices": [{
+        "id": "atw", "profile": "sim-w06a-p3-v5.08-9300", "mid": "9300",
+        "state": {"Pow": 255, "Mod": 0, "AllErr": 128, "Emegcy": 17},
+    }]}
+    device, = load_config(config)[2]
+    reply, = device.profile.handler.handle(device, request(
+        {"t": "status", "mac": device.mac, "cols": ["Pow", "Mod", "AllErr", "Emegcy"]},
+        key=device.key, tcid=device.mac,
+    ))
+    assert reply.inner["dat"] == [255, 0, 128, 0]
+    assert device.state["Emegcy"] == 17
+    for private in ("_atw_report", "_atw_staged"):
+        config["devices"][0]["state"][private] = 0
+        with pytest.raises(ValueError, match="private"):
+            load_config(config)
+        del config["devices"][0]["state"][private]
+    for invalid in (True, -1, 256, 2147483647):
+        config["devices"][0]["state"]["Pow"] = invalid
+        with pytest.raises(ValueError, match="Pow"):
+            load_config(config)

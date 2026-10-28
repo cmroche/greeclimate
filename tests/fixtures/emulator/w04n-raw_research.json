@@ -1,0 +1,494 @@
+{
+  "schema_version": 1,
+  "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+  "evidence": {
+    "static": "Exact V17 source callback table0x08074610 plus original helpers, canonical decompiled source in private CatalogQuirks/RealtekEarly/w04n-exports-v2/b0b7f5d42885; expected literals independently derived from original C/instruction masks, not imported from emulator/client.",
+    "native": "Parent-executed canonical callback/selector replay and W04N/sequences-native.json, plus locally exercised original JSON writer/reader ABI, metadata callbacks and runtime-MID fan callbacks. See w04n-coverage_research.json; direct callback, lexical parser and synthetic appliance expectations remain distinct.",
+    "policy": "Fresh synthetic room TemSen overwritten from room_c; zero synthetic controller cache except SetTem24/Lig1; explicit zero auxiliary context class. Strict atomic type/unknown validation is safe model policy."
+  },
+  "cases": [
+    {
+      "id": "masked-byte-and-requested-effective",
+      "commands": [
+        [
+          "ACStupPos",
+          255
+        ],
+        [
+          "Air",
+          255
+        ],
+        [
+          "RoomLen",
+          256
+        ],
+        [
+          "RoomWid",
+          -1
+        ],
+        [
+          "SetTem",
+          31
+        ]
+      ],
+      "cols": [
+        "ACStupPos",
+        "Air",
+        "RoomLen",
+        "RoomWid",
+        "SetTem"
+      ],
+      "expected": [
+        15,
+        3,
+        0,
+        255,
+        31
+      ]
+    },
+    {
+      "id": "enum-invalid-is-recognized-noop",
+      "commands": [
+        [
+          "Mod",
+          4
+        ],
+        [
+          "Mod",
+          255
+        ],
+        [
+          "Quiet",
+          2
+        ],
+        [
+          "Quiet",
+          3
+        ],
+        [
+          "Dwet",
+          14
+        ],
+        [
+          "Dwet",
+          15
+        ]
+      ],
+      "cols": [
+        "Mod",
+        "Quiet",
+        "Dwet"
+      ],
+      "expected": [
+        4,
+        2,
+        14
+      ]
+    },
+    {
+      "id": "same-bit-saving-and-mode",
+      "commands": [
+        [
+          "SvSt",
+          1
+        ],
+        [
+          "Mod",
+          1
+        ],
+        [
+          "StHt",
+          3
+        ]
+      ],
+      "cols": [
+        "StHt",
+        "SvSt",
+        "Mod"
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "mode-clears-saving-bit",
+      "commands": [
+        [
+          "SvSt",
+          1
+        ],
+        [
+          "Mod",
+          4
+        ]
+      ],
+      "cols": [
+        "StHt",
+        "SvSt",
+        "Mod"
+      ],
+      "expected": [
+        0,
+        0,
+        4
+      ]
+    },
+    {
+      "id": "auxiliary-blo-context",
+      "commands": [
+        [
+          "AssHt",
+          0
+        ]
+      ],
+      "cols": [
+        "AssHt",
+        "Blo"
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "auxiliary-mode-readback",
+      "commands": [
+        [
+          "AssHt",
+          2
+        ],
+        [
+          "Mod",
+          1
+        ]
+      ],
+      "cols": [
+        "AssHt",
+        "Blo"
+      ],
+      "expected": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "getter-is-not-written-byte",
+      "commands": [
+        [
+          "Antifreeze",
+          1
+        ],
+        [
+          "Defrost",
+          1
+        ],
+        [
+          "Dfltr",
+          1
+        ],
+        [
+          "MicroSen",
+          1
+        ],
+        [
+          "NobodySave",
+          1
+        ],
+        [
+          "PMVComfort",
+          1
+        ]
+      ],
+      "cols": [
+        "Antifreeze",
+        "Defrost",
+        "Dfltr",
+        "MicroSen",
+        "NobodySave",
+        "PMVComfort",
+        "AllErr",
+        "ImgUpdateSta"
+      ],
+      "expected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "source-bit-clear-quirk",
+      "commands": [
+        [
+          "EnvArea1St",
+          1
+        ],
+        [
+          "EnvArea4St",
+          1
+        ]
+      ],
+      "cols": [
+        "EnvArea1St",
+        "EnvArea4St"
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "unmasked-write-neighbor-coupling",
+      "commands": [
+        [
+          "HandCtl",
+          255
+        ],
+        [
+          "VocIdiom",
+          255
+        ]
+      ],
+      "cols": [
+        "HandCtl",
+        "ImgUpdateCol",
+        "VocUpdateCol",
+        "Antifreeze",
+        "Defrost",
+        "PMVComfort",
+        "VocIdiom"
+      ],
+      "expected": [
+        31,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "raw-fan-overwrites-neighbor-bits",
+      "commands": [
+        [
+          "WdSpd",
+          255
+        ]
+      ],
+      "cols": [
+        "WdSpd",
+        "LigSen",
+        "SmartSlpMod"
+      ],
+      "expected": [
+        7,
+        1,
+        7
+      ]
+    },
+    {
+      "id": "swing-alias-and-order",
+      "commands": [
+        [
+          "SwUpDn",
+          10
+        ],
+        [
+          "SwhSw",
+          1
+        ],
+        [
+          "SwingLfRig",
+          8
+        ]
+      ],
+      "cols": [
+        "SwUpDn",
+        "SwhSw",
+        "SwingLfRig"
+      ],
+      "expected": [
+        1,
+        1,
+        8
+      ]
+    },
+    {
+      "id": "sleep-shared-switch",
+      "commands": [
+        [
+          "SlpMod",
+          3
+        ],
+        [
+          "SwhSlp",
+          0
+        ]
+      ],
+      "cols": [
+        "SlpMod",
+        "SwhSlp"
+      ],
+      "expected": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "packed-twelve-bit-sleep",
+      "commands": [
+        [
+          "StSlp1C",
+          65535
+        ],
+        [
+          "StSlp1H",
+          291
+        ],
+        [
+          "StSlp4C",
+          258
+        ],
+        [
+          "StSlp4HInc",
+          256
+        ]
+      ],
+      "cols": [
+        "StSlp1C",
+        "StSlp1H",
+        "StSlp4C",
+        "StSlp4HInc"
+      ],
+      "expected": [
+        4095,
+        291,
+        258,
+        0
+      ]
+    },
+    {
+      "id": "legacy-sleep-low-is-input-buffer-not-effective",
+      "commands": [
+        [
+          "Slp1L1",
+          23
+        ]
+      ],
+      "cols": [
+        "Slp1L1",
+        "Slp1H1"
+      ],
+      "expected": [
+        160,
+        0
+      ]
+    },
+    {
+      "id": "read-only-and-constant-callbacks",
+      "commands": [
+        [
+          "HumSen",
+          99
+        ],
+        [
+          "HeatCoolType",
+          1
+        ],
+        [
+          "AirQ",
+          42
+        ],
+        [
+          "ElcEn",
+          1
+        ],
+        [
+          "NewTimer",
+          1
+        ]
+      ],
+      "cols": [
+        "HumSen",
+        "HeatCoolType",
+        "AirQ",
+        "ElcEn",
+        "NewTimer"
+      ],
+      "expected": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "requested-typewidth-and-shared-direct-blow",
+      "commands": [
+        [
+          "CZLJC",
+          1
+        ],
+        [
+          "Buzzer_ON_OFF",
+          -1
+        ],
+        [
+          "NewTimerSet",
+          255
+        ]
+      ],
+      "cols": [
+        "CZLJC",
+        "AntiDirectBlow",
+        "Buzzer_ON_OFF",
+        "NewTimerSet"
+      ],
+      "expected": [
+        0,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "duplicate-effective-final-state",
+      "commands": [
+        [
+          "SetTem",
+          16
+        ],
+        [
+          "SetTem",
+          255
+        ],
+        [
+          "Pow",
+          1
+        ],
+        [
+          "Pow",
+          2
+        ]
+      ],
+      "cols": [
+        "SetTem",
+        "SetTem",
+        "Pow"
+      ],
+      "expected": [
+        31,
+        31,
+        1
+      ]
+    }
+  ]
+}

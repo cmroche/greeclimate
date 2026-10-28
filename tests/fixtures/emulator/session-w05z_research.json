@@ -1,0 +1,46 @@
+{
+  "profile_id": "sim-w05z-v2.28",
+  "firmware_code": "362001063300",
+  "hid": "362001063300+U-W05ZV2.28.bin",
+  "source_sha256": "8c4c8ee3bf03c9ba9f7760d02a90dec13341b6a6a2704bfed119222f2f0e7bd2",
+  "mids": ["80801"],
+  "sources": [
+    "https://github.com/cmroche/gree-research/tree/main/firmware-capabilities/research/SessionQuirks/RealtekControllers",
+    "https://github.com/cmroche/gree-research/tree/main/firmware-capabilities/research/SessionScan-Realtek/362001063300"
+  ],
+  "evidence": ["probe-results.json", "remaining-results.json", "power-flag-results.json", "power-gpio-results.json", "power-meter-results.json", "power-metadata-results.json", "countdown-results.json", "route-results.json"],
+  "qualification": "Corrected original Thumb probes restrict NULL read hooks to0..255 to avoid Unicorn ITSTATE corruption. Native real faults/IO stops remain qualifiers. No full firmware boot or calibrated appliance claim.",
+  "shared_family_comparison": {
+    "other_profile": "sim-w05ba-v1.11",
+    "other_hid": "362001064475+W05BAV1.11.bin",
+    "other_sha256": "cbc64ae1288306b8deabcc16a9d00d8b23a38c7581ff8a948a1acb258659cfca",
+    "same": "Exact ordered16 selector names; raw low16 writes; getter and command shapes; meter gating; overlap12bytes; flag doublezero ACK; countdown finite block; generic/session key and response selection; emitted80801 and discoveryV1.2.1.",
+    "different": "HID/hash, code/table/array addresses, context UID offset Z0x3c vs BA0x38; no observed bounded wire semantic difference. Shared handler reads profile-specific HID. No inference about opaque full firmware or physical calibration."
+  },
+  "coverage": [
+    {"names": ["Pow"], "contract": "Raw low16 before relay; high/already-active supplied GPIO keeps7; Pow clears flag only when1 after callback. Synthetic command IO retains requested raw cache."},
+    {"names": ["CountDownTime", "CountDownState", "CountDownFlag"], "contract": "uint16 scratch; flag0 ACK[0,0], otherflags one ACK; flag1 rearms positive minutes, immediate minutes0 uses state!=0, expiry uses state==1; elapsed uint32; divisible60 minute subtraction wraps16bits even after expiry; flag0/otherflags skip tick."},
+    {"names": ["RealTimeVoltage", "RealTimeEleCurrent", "RealTimePower"], "contract": "Numeric write ACK low16 independent of getter; getter emits raw cache only for Pow==1, otherwise0."},
+    {"names": ["EnergyOfTime", "EnergyOfTimeFlag", "MessagePushFlag"], "contract": "Raw uint16 scalar cache; no inferred unit conversion."},
+    {"names": ["StartTime", "EndTime"], "contract": "Numeric low16 ACK scratch separate from shared int32[8] backing. Getter windows0:5 and3:8. Native metadata probe literals in session-w05z-quirks_research.json; countdown does not populate calendar."},
+    {"names": ["Electnumzero"], "contract": "Status appends column without dat. Numeric1 resets accumulation and its scratch slot0; other numeric low16 ACK. Does not invent conversion to EnergyOfTime."},
+    {"names": ["hid", "time", "rssi"], "contract": "Numeric scratch writes recognized; hid/time ACK getter string, rssi ACK scratch uint16. Status HID exact source, RTC formatted calendar, rssi signed negated driverint32; independent getter backing."}
+  ],
+  "transport": {
+    "cipher": "AES128 ECB PKCS7; generic a3K8Bx%2r8Y7#xDh",
+    "key_index": "signed32 request0=session, anynonzero=generic; bind replies1/generic; status/cmd reply0/session regardless requestkey",
+    "uid": "Last numeric signed32 retained per device; nonnumeric keeps previous; native saves before validation but model commits only accepted requests after reply preflight.",
+    "routing": "Native status/bind require root inner.mac; cmd outertcid guard, ignores inner.mac. Model requires status/bind inner.mac and rejects conflicting inner identities for every operation; universally requires matching outertcid (explicit stricter chosen safety).",
+    "limits": "Original receive1024; AES/base64 scratch1024 including base64NUL; LF on outerJSON only. Strict JSON/padding, matching signed32 batch validation and atomic reply sizing are chosen safety rather than native unsafe tolerance."
+  },
+  "simulation_policy": {
+    "initial_cache": "all16 numeric scratch slots0; not native physical startup",
+    "gpio": "Command request considered already active, retains uint16 Pow; timer action sets synthetic Pow0/1 and retains raw meter cache and state. No physical relay simulation.",
+    "clock": "Per-device first accepted status/cmd origin; monotonic whole seconds modulo32 for sourceclock; sample one tick per accepted request, no retroactive replay of missed seconds; RTC2026-01-01+elapsed seconds.",
+    "readouts": "Allzero shared int32[8] calendar backing and driver signal0, separately supplied internal readout inputs in tests. No ambient field or thermal model.",
+    "reset": "Electnumzero1 sets synthetic accumulation0, no flashIO. Countdown does not modify calendar windows.",
+    "atomicity": "No timer/cache/UID mutation until full batch/schema/reply scratch preflight succeeds. Native sequential partial mutations and faults not emulated."
+  },
+  "tests": "tests/test_emulator_w05z.py; session-w05z-quirks_research.json literal source/model vectors and session-w05ba.json runnable UDP transactions",
+  "limits": ["No physical power, energy calibration, hardware RTC/flash/GPIO, fullboot or hardwareAES claim.", "Nonnumeric/missing/mismatched command values are deliberately rejected atomically although native callback may run with retained scratch."]
+}

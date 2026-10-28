@@ -1,0 +1,43 @@
+{
+  "profile": "sim-w06k-v4.4-host",
+  "mid": "80241",
+  "mac": "020000000041",
+  "session_key": "0123456789abcdef",
+  "vectors": [
+    {
+      "classification": "source ACK shape with explicitly synthetic board completion",
+      "request": {"t": "bind", "mac": "020000000041"},
+      "response": {"t": "bindok", "mac": "020000000041", "key": "0123456789abcdef", "r": 200},
+      "reply_selector": 1
+    },
+    {
+      "classification": "source catalog, width masks and requested p/val acknowledgement; chosen immediate in-memory board",
+      "request": {"t": "cmd", "mac": "020000000041", "opt": ["Pow", "TemSor", "LigPow", "Pow"], "p": [256, 65537, 511, -1]},
+      "response": {"t": "res", "r": 200, "opt": ["Pow", "TemSor", "LigPow", "Pow"], "p": [256, 65537, 511, -1], "val": [256, 65537, 511, -1], "mac": "020000000041"},
+      "reply_selector": 0
+    },
+    {
+      "classification": "source last-selector local-only path zeroes sensor result scratch while retaining metadata",
+      "request": {"t": "status", "mac": "020000000041", "cols": ["Pow", "TemSor", "LigPow", "Pow", "OEEPHid", "hid"]},
+      "response": {"t": "dat", "r": 200, "cols": ["Pow", "TemSor", "LigPow", "Pow", "OEEPHid", "hid"], "dat": [0, 0, 0, 0, "000000000000+OutEepV0.bin", "362001061649+U-W06KV4.4.bin"], "mac": "020000000041"},
+      "reply_selector": 0
+    },
+    {
+      "classification": "independent sensor-only fresh status after the metadata-only request confirms stored narrowing, not command echo",
+      "request": {"t": "status", "cols": ["Pow", "TemSor", "LigPow", "Pow"]},
+      "response": {"t": "dat", "r": 200, "cols": ["Pow", "TemSor", "LigPow", "Pow"], "dat": [255, 1, 255, 255], "mac": "020000000041"},
+      "reply_selector": 0
+    },
+    {
+      "classification": "all sixteen original metadata serializers with explicitly synthetic zero progress, unavailable NIC and initialized host identity",
+      "request": {"t": "status", "cols": ["host", "hid", "lock", "bc", "name", "InHid", "OEEPHid", "HidDownPer", "OEEPHidDownPer", "InHidDownPer", "induptype", "outduptype", "devinhidownver", "deveephidownver", "time", "rssi"]},
+      "response": {"t": "dat", "r": 200, "cols": ["host", "hid", "lock", "bc", "name", "InHid", "OEEPHid", "HidDownPer", "OEEPHidDownPer", "InHidDownPer", "induptype", "outduptype", "devinhidownver", "deveephidownver", "time", "rssi"], "dat": ["dis.gree.com", "362001061649+U-W06KV4.4.bin", 0, "", "020000000041", "", "000000000000+OutEepV0.bin", 0, 0, 0, 0, 0, "", 0, "2017-6-15 00:00:00", -1], "mac": "020000000041"},
+      "reply_selector": 0
+    },
+    {
+      "classification": "native reply kind7 NULL, not empty synthetic subList",
+      "request": {"t": "subDev", "mac": "020000000041", "i": 0},
+      "response": null
+    }
+  ]
+}

@@ -1,0 +1,2197 @@
+{
+  "schema_version": 1,
+  "profile": "sim-w05g-v4.3",
+  "source_sha256": "ddd432e41527e8380a1596bdad85fc0555e9e8ddb253cd5d272e7cfd7fc29d8f",
+  "provenance": "Sanitized literal extraction of parent-corrected probe-results.json; expected values do not import emulator/client code. Partial ACKs/cache are NOT completed native commands. Full sweep and eight phases passed under declared primitive adapters; RTC/flash/native NULL boundaries remain qualifiers.",
+  "synthetic_identity_readout": {
+    "mac": ["020000000001"],
+    "scope": "Configured synthetic device identity, independent of numeric scratch. Isolated native full-sweep RAM did not initialize the status MAC backing and returned empty string; preserve that source observation below rather than treating missing initialization as a supported empty-identity policy. Ordinary routed fixtures use this configured root MAC."
+  },
+  "action_readout_aliases": {
+    "evidence": "Static original bytes ddd432e4 source image: 0x806721c and0x8066348 both38210110 ->0x10012138; 0x8066374 ea200110 ->0x100120ea ==0x8067214 e8200110 ->0x100120e8 +2; 0x806633c ec200110 ->0x100120ec ==actionbase+4.",
+    "BleLink": "Action0 copies all6 currently parsed address words' lowbytes to the SAME statusBleLink backing and sets raw BleStatus253, not boolean1. Getter BleKey subsequently emits ['',253] because key is emitted only for statusbyte1.",
+    "Mesh": "Action1 writes independent getter byte2; numeric scratch/ACK still requested low16/signed32.",
+    "Unbind": "Clear matched secondary descriptor+0x08 only, not independent online byte+0x18. Original helper0x8065d4e sets r6=descriptorbase+28*index (0x8065d56 bytes4618); match branch0x8065c9c bytes3072 storeszero at[r6,#8]. Loop indices1..49, primary3 descriptors untouched. Model retains online readout/count/list and clears a separate opaque synthetic descriptor flag, without physical unbinding claim.",
+    "batch_order": "First original opt selects action AFTER whole loop, using the most recent parsed address, even if a later different selector parsed it.",
+    "literal_example": {
+      "opt": ["BleLink", "Mesh"],
+      "p": ["AABBCCDDEEFF", "010203040506"],
+      "ack": ["aabbccddeeff", "010203040506"],
+      "fresh_cols": ["BleLink", "Mesh", "BleStatus", "BleKey"],
+      "fresh_dat": ["010203040506", 0, 253, "", 253]
+    }
+  },
+  "namespace": [
+    "BleLink",
+    "Mesh",
+    "Meshota",
+    "Reota",
+    "SubOnline",
+    "Proaddr",
+    "Random",
+    "Unbind",
+    "Subcount",
+    "Pow",
+    "Lpn",
+    "Meshid",
+    "Onoff",
+    "Sceneid",
+    "Scene",
+    "Scenecontrol",
+    "BleKey",
+    "BleStatus",
+    "AdminRadom",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "apssid",
+    "appsw",
+    "host",
+    "name",
+    "time",
+    "lat",
+    "lon",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "NoD",
+    "vender",
+    "bc",
+    "mid",
+    "model",
+    "series",
+    "brand",
+    "catalog",
+    "country",
+    "hid",
+    "mac",
+    "ver",
+    "HidSvrVer",
+    "InHid",
+    "InHidSvrVer",
+    "OEEPHid",
+    "OEEPHidSvrVer",
+    "BtHid",
+    "NoD",
+    "NoD",
+    "NoD"
+  ],
+  "matrix": [
+    {
+      "name": "BleLink",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Mesh",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Meshota",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Reota",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "SubOnline",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Proaddr",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Random",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Unbind",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Subcount",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Pow",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Lpn",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Meshid",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Onoff",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Sceneid",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Scene",
+      "getter": "OK when signed scene_result !=0, including -1; FAIL only0. Not physical/queue success.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "Scenecontrol",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "BleKey",
+      "getter": "One cols entry, two dat items: hex key string then BleStatus integer; empty platform [\"\",0]",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "BleStatus",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "AdminRadom",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "NoD",
+      "getter": "All17 duplicate selector entries append cols; no data; numeric setter stops after first index19",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "apssid",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "appsw",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "host",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "name",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "time",
+      "getter": "RTC formatting %d-%02d-%02d %02d:%02d:%02d; prior native stops at BKUP_Read0x226c",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "lat",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "lon",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "vender",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "bc",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "mid",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "model",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "series",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "brand",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "catalog",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "country",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "hid",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "mac",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "ver",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "HidSvrVer",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "InHid",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "InHidSvrVer",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "OEEPHid",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "OEEPHidSvrVer",
+      "getter": "Recognized cols entry but no dat value. Do not invent scalar0 or call unknown.",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    },
+    {
+      "name": "BtHid",
+      "getter": "Exact empty-platform outputs documented here; defaults are supplied platform input, not physical startup truth",
+      "setter": "numeric accepted for every selector, including metadata and NoD(first matching table index only); first requested matching selector below25 triggers source queue action",
+      "ack_vs_stored": "numeric ACK echoes original signed cJSON.valueint while scratch cache retains low16; status mostly reads other state, not this scratch cache"
+    }
+  ],
+  "native_status": [
+    {
+      "name": "BleLink",
+      "cols": [
+        "BleLink"
+      ],
+      "dat": [
+        "000000000000"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Mesh",
+      "cols": [
+        "Mesh"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Meshota",
+      "cols": [
+        "Meshota"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Reota",
+      "cols": [
+        "Reota"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SubOnline",
+      "cols": [
+        "SubOnline"
+      ],
+      "dat": [
+        "[]"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Proaddr",
+      "cols": [
+        "Proaddr"
+      ],
+      "dat": [
+        "0000"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Random",
+      "cols": [
+        "Random"
+      ],
+      "dat": [
+        "00000000"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Unbind",
+      "cols": [
+        "Unbind"
+      ],
+      "dat": [
+        "000000000000"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Subcount",
+      "cols": [
+        "Subcount"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Pow",
+      "cols": [
+        "Pow"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Lpn",
+      "cols": [
+        "Lpn"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Meshid",
+      "cols": [
+        "Meshid"
+      ],
+      "dat": [
+        "0000"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Onoff",
+      "cols": [
+        "Onoff"
+      ],
+      "dat": [
+        "OK"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Sceneid",
+      "cols": [
+        "Sceneid"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Scene",
+      "cols": [
+        "Scene"
+      ],
+      "dat": [
+        "FAIL"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Scenecontrol",
+      "cols": [
+        "Scenecontrol"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BleKey",
+      "cols": [
+        "BleKey"
+      ],
+      "dat": [
+        "",
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BleStatus",
+      "cols": [
+        "BleStatus"
+      ],
+      "dat": [
+        0.0
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "AdminRadom",
+      "cols": [
+        "AdminRadom"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "NoD",
+      "cols": [
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD",
+        "NoD"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "apssid",
+      "cols": [
+        "apssid"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "appsw",
+      "cols": [
+        "appsw"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "host",
+      "cols": [
+        "host"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "name",
+      "cols": [
+        "name"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "time",
+      "cols": [
+        "time"
+      ],
+      "dat": [],
+      "native_stop": null,
+      "native_pc": "0x226c"
+    },
+    {
+      "name": "lat",
+      "cols": [
+        "lat"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "lon",
+      "cols": [
+        "lon"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "vender",
+      "cols": [
+        "vender"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "bc",
+      "cols": [
+        "bc"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "mid",
+      "cols": [
+        "mid"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "model",
+      "cols": [
+        "model"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "series",
+      "cols": [
+        "series"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "brand",
+      "cols": [
+        "brand"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "catalog",
+      "cols": [
+        "catalog"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "country",
+      "cols": [
+        "country"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "hid",
+      "cols": [
+        "hid"
+      ],
+      "dat": [
+        "362001061996+U-W05G(RELT)V4.3.bin"
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "mac",
+      "cols": [
+        "mac"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ver",
+      "cols": [
+        "ver"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "HidSvrVer",
+      "cols": [
+        "HidSvrVer"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "InHid",
+      "cols": [
+        "InHid"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "InHidSvrVer",
+      "cols": [
+        "InHidSvrVer"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "OEEPHid",
+      "cols": [
+        "OEEPHid"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "OEEPHidSvrVer",
+      "cols": [
+        "OEEPHidSvrVer"
+      ],
+      "dat": [],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BtHid",
+      "cols": [
+        "BtHid"
+      ],
+      "dat": [
+        ""
+      ],
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    }
+  ],
+  "numeric": [
+    {
+      "name": "BleLink",
+      "value": -1,
+      "opt": [
+        "BleLink"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": null,
+      "native_pc": "0x226c"
+    },
+    {
+      "name": "BleLink",
+      "value": 65537,
+      "opt": [
+        "BleLink"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": null,
+      "native_pc": "0x226c"
+    },
+    {
+      "name": "Mesh",
+      "value": -1,
+      "opt": [
+        "Mesh"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Mesh",
+      "value": 65537,
+      "opt": [
+        "Mesh"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Meshota",
+      "value": -1,
+      "opt": [
+        "Meshota"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Meshota",
+      "value": 65537,
+      "opt": [
+        "Meshota"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Reota",
+      "value": -1,
+      "opt": [
+        "Reota"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Reota",
+      "value": 65537,
+      "opt": [
+        "Reota"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SubOnline",
+      "value": -1,
+      "opt": [
+        "SubOnline"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "SubOnline",
+      "value": 65537,
+      "opt": [
+        "SubOnline"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Proaddr",
+      "value": -1,
+      "opt": [
+        "Proaddr"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Proaddr",
+      "value": 65537,
+      "opt": [
+        "Proaddr"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Random",
+      "value": -1,
+      "opt": [
+        "Random"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Random",
+      "value": 65537,
+      "opt": [
+        "Random"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Unbind",
+      "value": -1,
+      "opt": [
+        "Unbind"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Unbind",
+      "value": 65537,
+      "opt": [
+        "Unbind"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Subcount",
+      "value": -1,
+      "opt": [
+        "Subcount"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Subcount",
+      "value": 65537,
+      "opt": [
+        "Subcount"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Pow",
+      "value": -1,
+      "opt": [
+        "Pow"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Pow",
+      "value": 65537,
+      "opt": [
+        "Pow"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Lpn",
+      "value": -1,
+      "opt": [
+        "Lpn"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Lpn",
+      "value": 65537,
+      "opt": [
+        "Lpn"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Meshid",
+      "value": -1,
+      "opt": [
+        "Meshid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Meshid",
+      "value": 65537,
+      "opt": [
+        "Meshid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Onoff",
+      "value": -1,
+      "opt": [
+        "Onoff"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Onoff",
+      "value": 65537,
+      "opt": [
+        "Onoff"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Sceneid",
+      "value": -1,
+      "opt": [
+        "Sceneid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Sceneid",
+      "value": 65537,
+      "opt": [
+        "Sceneid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Scene",
+      "value": -1,
+      "opt": [
+        "Scene"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Scene",
+      "value": 65537,
+      "opt": [
+        "Scene"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Scenecontrol",
+      "value": -1,
+      "opt": [
+        "Scenecontrol"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "Scenecontrol",
+      "value": 65537,
+      "opt": [
+        "Scenecontrol"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BleKey",
+      "value": -1,
+      "opt": [
+        "BleKey"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BleKey",
+      "value": 65537,
+      "opt": [
+        "BleKey"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BleStatus",
+      "value": -1,
+      "opt": [
+        "BleStatus"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BleStatus",
+      "value": 65537,
+      "opt": [
+        "BleStatus"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "AdminRadom",
+      "value": -1,
+      "opt": [
+        "AdminRadom"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "AdminRadom",
+      "value": 65537,
+      "opt": [
+        "AdminRadom"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "NoD",
+      "value": -1,
+      "opt": [
+        "NoD"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "NoD",
+      "value": 65537,
+      "opt": [
+        "NoD"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "apssid",
+      "value": -1,
+      "opt": [
+        "apssid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "apssid",
+      "value": 65537,
+      "opt": [
+        "apssid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "appsw",
+      "value": -1,
+      "opt": [
+        "appsw"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "appsw",
+      "value": 65537,
+      "opt": [
+        "appsw"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "host",
+      "value": -1,
+      "opt": [
+        "host"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "host",
+      "value": 65537,
+      "opt": [
+        "host"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "name",
+      "value": -1,
+      "opt": [
+        "name"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "name",
+      "value": 65537,
+      "opt": [
+        "name"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "time",
+      "value": -1,
+      "opt": [
+        "time"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "time",
+      "value": 65537,
+      "opt": [
+        "time"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "lat",
+      "value": -1,
+      "opt": [
+        "lat"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "lat",
+      "value": 65537,
+      "opt": [
+        "lat"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "lon",
+      "value": -1,
+      "opt": [
+        "lon"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "lon",
+      "value": 65537,
+      "opt": [
+        "lon"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "vender",
+      "value": -1,
+      "opt": [
+        "vender"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "vender",
+      "value": 65537,
+      "opt": [
+        "vender"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "bc",
+      "value": -1,
+      "opt": [
+        "bc"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "bc",
+      "value": 65537,
+      "opt": [
+        "bc"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "mid",
+      "value": -1,
+      "opt": [
+        "mid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "mid",
+      "value": 65537,
+      "opt": [
+        "mid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "model",
+      "value": -1,
+      "opt": [
+        "model"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "model",
+      "value": 65537,
+      "opt": [
+        "model"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "series",
+      "value": -1,
+      "opt": [
+        "series"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "series",
+      "value": 65537,
+      "opt": [
+        "series"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "brand",
+      "value": -1,
+      "opt": [
+        "brand"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "brand",
+      "value": 65537,
+      "opt": [
+        "brand"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "catalog",
+      "value": -1,
+      "opt": [
+        "catalog"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "catalog",
+      "value": 65537,
+      "opt": [
+        "catalog"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "country",
+      "value": -1,
+      "opt": [
+        "country"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "country",
+      "value": 65537,
+      "opt": [
+        "country"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "hid",
+      "value": -1,
+      "opt": [
+        "hid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "hid",
+      "value": 65537,
+      "opt": [
+        "hid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "mac",
+      "value": -1,
+      "opt": [
+        "mac"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "mac",
+      "value": 65537,
+      "opt": [
+        "mac"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ver",
+      "value": -1,
+      "opt": [
+        "ver"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "ver",
+      "value": 65537,
+      "opt": [
+        "ver"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "HidSvrVer",
+      "value": -1,
+      "opt": [
+        "HidSvrVer"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "HidSvrVer",
+      "value": 65537,
+      "opt": [
+        "HidSvrVer"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "InHid",
+      "value": -1,
+      "opt": [
+        "InHid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "InHid",
+      "value": 65537,
+      "opt": [
+        "InHid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "InHidSvrVer",
+      "value": -1,
+      "opt": [
+        "InHidSvrVer"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "InHidSvrVer",
+      "value": 65537,
+      "opt": [
+        "InHidSvrVer"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "OEEPHid",
+      "value": -1,
+      "opt": [
+        "OEEPHid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "OEEPHid",
+      "value": 65537,
+      "opt": [
+        "OEEPHid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "OEEPHidSvrVer",
+      "value": -1,
+      "opt": [
+        "OEEPHidSvrVer"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "OEEPHidSvrVer",
+      "value": 65537,
+      "opt": [
+        "OEEPHidSvrVer"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BtHid",
+      "value": -1,
+      "opt": [
+        "BtHid"
+      ],
+      "p": [
+        -1.0
+      ],
+      "cache": 65535,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    },
+    {
+      "name": "BtHid",
+      "value": 65537,
+      "opt": [
+        "BtHid"
+      ],
+      "p": [
+        65537.0
+      ],
+      "cache": 1,
+      "native_stop": "return",
+      "native_pc": "0x2007f000"
+    }
+  ],
+  "synthetic_policy": {
+    "profile_id": "sim-w05g-v4.3",
+    "readable_selectors": [
+      "BleLink",
+      "Mesh",
+      "Meshota",
+      "Reota",
+      "SubOnline",
+      "Proaddr",
+      "Random",
+      "Unbind",
+      "Subcount",
+      "Pow",
+      "Lpn",
+      "Meshid",
+      "Onoff",
+      "Sceneid",
+      "Scene",
+      "Scenecontrol",
+      "BleKey",
+      "BleStatus",
+      "AdminRadom",
+      "NoD",
+      "apssid",
+      "appsw",
+      "host",
+      "name",
+      "time",
+      "lat",
+      "lon",
+      "vender",
+      "bc",
+      "mid",
+      "model",
+      "series",
+      "brand",
+      "catalog",
+      "country",
+      "hid",
+      "mac",
+      "ver",
+      "HidSvrVer",
+      "InHid",
+      "InHidSvrVer",
+      "OEEPHid",
+      "OEEPHidSvrVer",
+      "BtHid"
+    ],
+    "numeric_scratch_setters": [
+      "BleLink",
+      "Mesh",
+      "Meshota",
+      "Reota",
+      "SubOnline",
+      "Proaddr",
+      "Random",
+      "Unbind",
+      "Subcount",
+      "Pow",
+      "Lpn",
+      "Meshid",
+      "Onoff",
+      "Sceneid",
+      "Scene",
+      "Scenecontrol",
+      "BleKey",
+      "BleStatus",
+      "AdminRadom",
+      "NoD",
+      "apssid",
+      "appsw",
+      "host",
+      "name",
+      "time",
+      "lat",
+      "lon",
+      "vender",
+      "bc",
+      "mid",
+      "model",
+      "series",
+      "brand",
+      "catalog",
+      "country",
+      "hid",
+      "mac",
+      "ver",
+      "HidSvrVer",
+      "InHid",
+      "InHidSvrVer",
+      "OEEPHid",
+      "OEEPHidSvrVer",
+      "BtHid"
+    ],
+    "defaults": "Use source-empty outputs recorded per property: NoD17cols/0dat, Pow0dat, BleKey2dat, SubOnline string[], distinct scan metadata and empty ver/vender; synthetic clock adds known time shape.",
+    "string_state": {
+      "host": "Mutable1..20 UTF8 bytes with existing state retained on invalid source length; mark host-reconnect staged only, not a live network change",
+      "lat_lon": "Mutable strings1..10 bytes; invalid lengths retain state; native getter points same RAM",
+      "Meshid": "Two parsed hex bytes -> four lowercase hex status; preserve independent uint16 scratch slot",
+      "BleLink_Mesh_Unbind": "Six parsed byte words with source byte conversion and queue0/1/7; emitted mesh-state is separate from requested address, not automatically successful pairing",
+      "Onoff_Scene": "Use full scene_wire_contract: coupledScenecontrol/Onoff reversed ACK;30x20 dedup ring;5x200 scene staging bound37; source uppercase nibble wrap; pending/source-result ACK does not prove queued/physical effect.",
+      "Sceneid_Scenecontrol": "Use full scene_wire_contract:30-entry registry; requested low16 ID changes before capacity/match failure; result=-1 is truthy so Scene getter stillOK; no silent boolean reinterpretation.",
+      "time": "Parse validated datetime to explicit synthetic UTC clock; original RTC accuracy/timezone not claimed"
+    },
+    "nonmutating_strings": "All remaining string options run their source getter callback without a specific string state mutation; do not invent writable credential/buzzer semantics.",
+    "queue_policy": "Distinct30x20 Onoff dedup/overwrite ring,5x200 scene ring,5x250 control queue drop-full,10x4 Pow queue drop-full. Numeric first-opt action and coupled Onoff differ as detailed in scene_wire_contract.",
+    "pending_counter_policy": "Preserve exact source pending words0x4003/0x4005 and action bytes0x4a/0x45, signed-positive duplicate suppression, independent queue counters/read/write positions and full policies. Synthetic receipt-only IO does not drain queues or invent timer expiry/BLE acknowledgements; these remain until a source-qualified modeled setter changes them or process restart.",
+    "opaque_transport": "t=bin/dump is separate opaque forwarding. Remain noattachablechildren until companion framing/schema qualified; not a reason to omit already-known root getters."
+  },
+  "clock_policy": {
+    "epoch": "2026-01-01 00:00:00",
+    "origin": "First accepted transaction uses device monotonic last_step; subsequent elapsed integer seconds. UTC synthetic, not wall clock/native RTC.",
+    "native_boundary": "BKUP_Read0x226c"
+  },
+  "source_boundaries": [
+    {
+      "kind": "physical_calibration",
+      "scope": "See quirks.physical_calibration; no inferred sensor/meter/clock/actuation calibration. Does not block established bounded wire getters."
+    },
+    {
+      "kind": "original_primitive_IO",
+      "scope": "Supplied clock/cache/GPIO/OS inputs are explicit; unprovided original primitives or board accesses remain recorded stops, not fake successful getters/actions."
+    },
+    {
+      "kind": "missing_scene_companion",
+      "scope": "Standalone/final stringOnoff retains original NULL read; valid coupled Scenecontrol+Onoff ACK ordering is qualified separately."
+    },
+    {
+      "kind": "RTC_action_metadata",
+      "boundary": "BKUP_Read0x226c",
+      "scope": "BleLink string/numeric ACK observed then native clock dependency for action metadata. Supplied synthetic clock does not imply physical BLE delivery."
+    },
+    {
+      "kind": "new_scene_persistence",
+      "boundary": "0x806803c",
+      "scope": "Source new-registry persistence path requires original flash platform. Qualified existing/full30-entry RAM registry and finite synthetic persistence policy do not claim real flash completion."
+    }
+  ],
+  "scene_contract": {
+    "evidence": {
+      "original_c": "362001061996/bank1/full-decompiled.c",
+      "functions": [
+        "0x8065e24",
+        "0x8063f12",
+        "0x806400c",
+        "0x806414a",
+        "0x80641bc",
+        "0x8066a1a",
+        "0x8066a92",
+        "0x80678aa",
+        "0x80678ce",
+        "0x806803c"
+      ],
+      "source_lines": [
+        [
+          126194,
+          126453
+        ],
+        [
+          128175,
+          128266
+        ],
+        [
+          129227,
+          129421
+        ],
+        [
+          131059,
+          131148
+        ]
+      ],
+      "new_probe": "RealtekControllers/g_scene_probe.py; parent-corrected all-eight-phase execution passed; worker did not execute"
+    },
+    "Onoff_coupled_options": {
+      "type": "p entry is STRING containing JSON array of seven-character hex strings; not raw JSON array",
+      "native_guard_bug": "0x8065e24 tests index<size rather than index+1<size; final/lone stringOnoff reads missing next opt and faults at NULL. Do not claim standalone native Onoff command success.",
+      "companion": "Unconditionally processes NEXT p as Scenecontrol string after comparing NEXT opt to Scenecontrol; strcmp result is ignored. Then consumes next index. Safe model requires literal Scenecontrol companion and validates both before mutation.",
+      "ack_order": {
+        "request": {
+          "opt": [
+            "Onoff",
+            "Scenecontrol"
+          ],
+          "p": [
+            "[\"01021af\"]",
+            "1"
+          ]
+        },
+        "expected_with_preseeded_scene1": {
+          "opt": [
+            "Scenecontrol",
+            "Onoff"
+          ],
+          "p": [
+            1,
+            "OK"
+          ]
+        }
+      },
+      "packet": "20 bytes: AA AA, zero-filled prefix; byte9=8,10=0x20,11=selectedscene slot iff pending16 is positive else0;12..13=firsttwo %2X bytes;14..16=three converted nibble bytes;17..19=0. Callback copies literal20-byte template0x8063fe4.",
+      "nibbles": "Each trailing char: char<ASCII A subtract0x30 else subtract0x57, stored uint8. lowercasea/f->10/15; uppercaseA/F->234/239! Prefix %2X parsing accepts uppercase independently. Safe parser can require lowercase exact sevenhex bytes, or preserve source uppercase wrapping explicitly.",
+      "queue": "Separate30-entry ring of20-byte records at0x100128d0. Compare full20-byte records against active entries; identical record omitted. Otherwise append and advance write, overwrite oldest on full. Not the five-entry200-byte scene ring.",
+      "wire_status": "Onoff getter is fixed OK, not queue delivery/physical state proof."
+    },
+    "Sceneid": {
+      "type": "String decimal conversion through identified ROM prvAtoi0xd9d0; new probe substitutes only nonnegative all-digit inputs<=signed32, not malformed/negative ROM tolerance.",
+      "requested_effective": "If conversion result>=0, store low16 current_scene_id FIRST. Match registry entries by that uint16; set selectedslot(index+1) and result1. If absent and count<30, append6-byte entry(id at+2), increment count, set slot and result1 after persistence wrapper. If full, current_scene_id still changed but result=-1 and registry unchanged.",
+      "getters": "Sceneid and Scenecontrol emit current_scene_id from rootcontext+0x24, NOT numeric scratch13/15. Scene emits OK iff rootcontext+0x28 nonzero, FAIL otherwise. Negative result -1 is NONZERO, so source Scene getter emits OK even after full-table failure!",
+      "capacity_failure_example": "30 IDs1..30; stringSceneid31 -> currentID31,result=-1,selected prior slot retained, no new registry entry. Follow-up Scene getter checks nonzero (-1), so string is OK, not inferred failure."
+    },
+    "Scene": {
+      "type": "String containing JSON array of seven-character records, same prefix2hexbytes and raw nibble transform as Onoff",
+      "record": "Absolute queuebase+200*write_slot: byte12=5*N+3,13=0x21,14=selectedslot, entries15.. each5bytes. Snapshot includes queuebase itself; header[0:3] does not add3 to these source offsets. Literal sample bytes0821010102010a0f span snapshot[12:20]. Max37 bounded records remains safe.",
+      "lifecycle": "If root scene_result!=0, enqueue scene write and possible control frame according to pending+0x12; if result0, buffer may be assembled but ring write index/count not advanced. Set pending+0x12=0x4003 and selectedslot0 regardless after valid JSON path. Getter ACK uses source result-based OK/FAIL, NOT proof that queue advanced.",
+      "empty_array": "Still a valid three-byte scene payload when selected/result allow staging. Do not fabricate a physical scene effect.",
+      "malformed": "Native parse failure can still return preexisting OK through outer getter, after companion state side effects. Bounded model rejects malformed payload atomically before changes."
+    },
+    "Scenecontrol": {
+      "type": "String decimal ROM conversion, low16 currentID write before registry search",
+      "match": "If existing ID matches, selectslot. If already selected same slot AND signed pending+0x16>0, suppress duplicate queueing. Else enqueue dedicated control operation (if queue not full), set pending+0x16=0x4005.",
+      "no_match": "CurrentID can change and ACK currentID even with no match/no queued control. Not a generic boolean success.",
+      "frame": "Dedicated5x250 control queue: AA AA FF FF, byte8=3,9=6,10=inputlow8,11=4,12=0x34; helper0x80678ce sets byte13=2 and14=inputlow8; enqueue helper0x80678aa uses byte13=3. Ring-full helpers drop, callers can still set pending timers. No physical delivery claim."
+    },
+    "other_numeric_actions": {
+      "BleLink0": "Native five-entry200-byte queue type3, six parsed byte words plus clock-derived metadata",
+      "Mesh1": "Five-entry200-byte type4, six parsed byte words and deferred action5",
+      "Meshota2": "Five-entry200-byte type0x0b",
+      "Reota3": "Five-entry200-byte type0x0c",
+      "Pow9": "Separate10-entry4-byte queue at0x806669a2; stores requested action bytes then event0x45; drop whenfull; ACK still original signed integer",
+      "selection": "Only matched ORIGINAL opt[0] chooses queued action. Onoff companion consumes index before this test and therefore differs; unknown first option prevents later matched options choosing action. Other action selectors below25 return without action."
+    },
+    "bounded_model": "Synthetic pending/registry/queue bookkeeping follows firmware.scene_wire_contract exactly; source action receipts only, not BLE children/RF/OTA effects. Preserve coupled Onoff+Scenecontrol reversed ACK; uppercase trailing nibble bytes234/239; Sceneid full registry still changes currentID and result=-1, Scene getter remainsOK because nonzero. Native new-scene flash persistence remains real dependency; synthetic in-memory persistence is explicit.",
+    "queue_probe": "g_scene_probe.py --case queues; parent all-eight-phase execution passed, source queue assertions remain independent of emulator"
+  }
+}

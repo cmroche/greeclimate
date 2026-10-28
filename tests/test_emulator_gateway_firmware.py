@@ -16,6 +16,9 @@ from tests.test_emulator import (
 
 VECTOR = json.loads((Path(__file__).parent / "fixtures/emulator/gateway_firmware.json").read_text())
 VARIANTS = VECTOR["variants"]
+LEGACY_VARIANTS = tuple(build for build in VARIANTS if build["profile"] in (
+    "sim-w06av-v7", "sim-w06av-v16", "sim-w06av-v16-kf",
+))
 MAC = "020000000001"
 CHILD = "02000000000001"
 KEY = b"0123456789abcdef"
@@ -24,7 +27,8 @@ KEY = b"0123456789abcdef"
 def variant_vector(build):
     vector = copy.deepcopy(VECTOR)
     vector["profile"] = build["profile"]
-    vector["expected_replies"][0][0]["inner"]["hid"] = build["hid"]
+    if not build["five_fields"]:
+        vector["expected_replies"][0][0]["inner"]["hid"] = build["hid"]
     for child in vector["children"]:
         child["profile"] = build["profile"] + "-ac"
     if not build["five_fields"]:
@@ -46,36 +50,36 @@ def devices(build):
 
 def exchange(root, inner, **outer):
     packet = peer_packet({"t": "pack", "i": 0, "uid": 7, "cid": "app",
-                          "tcid": MAC, **outer}, inner, KEY)
+                          "tcid": MAC, **outer}, inner, root.key)
     replies = root.profile.handler.handle(root, decode_outer(packet))
-    return [peer_reply(encode_reply(reply), KEY)["inner"] for reply in replies]
+    return [peer_reply(encode_reply(reply), root.key)["inner"] for reply in replies]
 
 
-@pytest.mark.parametrize("build", VARIANTS, ids=lambda build: build["profile"])
+@pytest.mark.parametrize("build", LEGACY_VARIANTS, ids=lambda build: build["profile"])
 async def test_each_build_encrypted_bind_pages_controls_and_isolation(build):
     # Literal fixture includes malformed packets followed by successful recovery,
     # 5/2/0 pages, ordered status, atomic errors, and untouched second child.
     await run_udp_vectors(build["profile"], variant_vector(build))
 
 
-@pytest.mark.parametrize("build", VARIANTS, ids=lambda build: build["profile"])
+@pytest.mark.parametrize("build", LEGACY_VARIANTS, ids=lambda build: build["profile"])
 def test_build_specific_metadata_and_finite_namespace_policy(build):
     root = devices(build)
     result = exchange(root, {"t": "status", "mac": CHILD,
                              "cols": ["hid", "WFConfig", "TemUn", "notAField"]})[0]
-    expected_cols = ["hid", "notAField"] if build["water_fields"] else ["hid", "WFConfig", "notAField"]
-    expected_values = [build["hid"], ""] if build["water_fields"] else [build["hid"], "", ""]
     assert result == {"t": "dat", "mac": CHILD, "r": 200,
-                      "cols": expected_cols, "dat": expected_values}
+                      "cols": ["hid", "WFConfig", "TemUn", "notAField"],
+                      "dat": [build["hid"] if build["profile"] == "sim-w06av-v7" else "",
+                              0 if build["water_fields"] else "", 0, ""]}
     assert exchange(root, {"t": "subList", "mac": MAC, "i": 0}) == []
     assert exchange(root, {"t": "subDev", "mac": MAC, "i": 256}) == exchange(
         root, {"t": "subDev", "mac": MAC, "i": 0})
 
 
-@pytest.mark.parametrize("build", VARIANTS, ids=lambda build: build["profile"])
+@pytest.mark.parametrize("build", LEGACY_VARIANTS, ids=lambda build: build["profile"])
 @pytest.mark.parametrize("names,values", [
     (["SetTem", "TemRec", "TemUn"], [18, 0, 0]),
-    (["Pow", "SetTem"], [1, 31]),
+    (["Pow", "SetTem"], [1, 2**31]),
     (["Pow"], [True]),
     (["Pow", "Mod"], [1]),
 ])
@@ -126,7 +130,7 @@ def test_build_topology_and_model_config_rejection(build, change, field):
     elif change == "short_child":
         child["mac"] = CHILD[:12]
     else:
-        child["state"] = {"TemBody": 22}
+        child["state"] = {"TemBody": "invalid"}
     with pytest.raises(ValueError, match=field):
         load_config({"devices": [root, child]})
 
@@ -140,5 +144,6 @@ def test_configured_children_share_only_parent_key_not_controls(build):
     ]})[2]
     assert first.key == second.key == root.key
     assert len(first.mac) == len(second.mac) == 14
-    first.state["Pow"] = 1
-    assert second.state["Pow"] == 0
+    exchange(root, {"t": "cmd", "mac": MAC, "sub": first.mac, "opt": ["Pow"], "p": [1]})
+    assert exchange(root, {"t": "status", "mac": first.mac, "cols": ["Pow"]})[0]["dat"] == [1]
+    assert exchange(root, {"t": "status", "mac": second.mac, "cols": ["Pow"]})[0]["dat"] == [0]

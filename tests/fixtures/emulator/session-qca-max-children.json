@@ -1,0 +1,1463 @@
+{
+  "profile": "sim-w06bv-v20",
+  "mid": "60",
+  "source_sha256": "c449e08599008f5250e96d5c77c24a0d10ac9e1a495c45c62526bfa9e8ecaadb",
+  "evidence": {
+    "source": "session-qca_research.json; source five-item enum pages; source100-child maximum; literal synthetic topology at admitted maximum. No native full100-child boot claimed.",
+    "model_policy": "Synthetic persistent raw byte/LE16 board cache, no thermal model or physical calibration. Default ordinary SetTem24, other raw readouts0. Whole-batch strict int32/converter validation and reply preflight are safe model policy. Full namespace/width source evidence in session-qca-gateway-quirks_research.json."
+  },
+  "device": {
+    "id": "gateway",
+    "mac": "020000000001",
+    "name": "Lab W06B",
+    "key": "0123456789abcdef"
+  },
+  "children": [
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-0",
+        "mac": "02000000000001"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-1",
+        "mac": "02000000000101"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-2",
+        "mac": "02000000000201"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-3",
+        "mac": "02000000000301"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-4",
+        "mac": "02000000000401"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-5",
+        "mac": "02000000000501"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-6",
+        "mac": "02000000000601"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-7",
+        "mac": "02000000000701"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-8",
+        "mac": "02000000000801"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-9",
+        "mac": "02000000000901"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-10",
+        "mac": "02000000000a01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-11",
+        "mac": "02000000000b01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-12",
+        "mac": "02000000000c01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-13",
+        "mac": "02000000000d01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-14",
+        "mac": "02000000000e01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-15",
+        "mac": "02000000000f01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-16",
+        "mac": "02000000001001"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-17",
+        "mac": "02000000001101"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-18",
+        "mac": "02000000001201"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-19",
+        "mac": "02000000001301"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-20",
+        "mac": "02000000001401"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-21",
+        "mac": "02000000001501"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-22",
+        "mac": "02000000001601"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-23",
+        "mac": "02000000001701"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-24",
+        "mac": "02000000001801"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-25",
+        "mac": "02000000001901"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-26",
+        "mac": "02000000001a01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-27",
+        "mac": "02000000001b01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-28",
+        "mac": "02000000001c01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-29",
+        "mac": "02000000001d01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-30",
+        "mac": "02000000001e01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-31",
+        "mac": "02000000001f01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-32",
+        "mac": "02000000002001"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-33",
+        "mac": "02000000002101"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-34",
+        "mac": "02000000002201"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-35",
+        "mac": "02000000002301"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-36",
+        "mac": "02000000002401"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-37",
+        "mac": "02000000002501"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-38",
+        "mac": "02000000002601"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-39",
+        "mac": "02000000002701"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-40",
+        "mac": "02000000002801"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-41",
+        "mac": "02000000002901"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-42",
+        "mac": "02000000002a01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-43",
+        "mac": "02000000002b01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-44",
+        "mac": "02000000002c01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-45",
+        "mac": "02000000002d01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-46",
+        "mac": "02000000002e01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-47",
+        "mac": "02000000002f01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-48",
+        "mac": "02000000003001"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-49",
+        "mac": "02000000003101"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-50",
+        "mac": "02000000003201"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-51",
+        "mac": "02000000003301"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-52",
+        "mac": "02000000003401"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-53",
+        "mac": "02000000003501"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-54",
+        "mac": "02000000003601"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-55",
+        "mac": "02000000003701"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-56",
+        "mac": "02000000003801"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-57",
+        "mac": "02000000003901"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-58",
+        "mac": "02000000003a01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-59",
+        "mac": "02000000003b01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-60",
+        "mac": "02000000003c01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-61",
+        "mac": "02000000003d01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-62",
+        "mac": "02000000003e01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-63",
+        "mac": "02000000003f01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-64",
+        "mac": "02000000004001"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-65",
+        "mac": "02000000004101"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-66",
+        "mac": "02000000004201"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-67",
+        "mac": "02000000004301"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-68",
+        "mac": "02000000004401"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-69",
+        "mac": "02000000004501"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-70",
+        "mac": "02000000004601"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-71",
+        "mac": "02000000004701"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-72",
+        "mac": "02000000004801"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-73",
+        "mac": "02000000004901"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-74",
+        "mac": "02000000004a01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-75",
+        "mac": "02000000004b01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-76",
+        "mac": "02000000004c01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-77",
+        "mac": "02000000004d01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-78",
+        "mac": "02000000004e01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-79",
+        "mac": "02000000004f01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-80",
+        "mac": "02000000005001"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-81",
+        "mac": "02000000005101"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-82",
+        "mac": "02000000005201"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-83",
+        "mac": "02000000005301"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-84",
+        "mac": "02000000005401"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-85",
+        "mac": "02000000005501"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-86",
+        "mac": "02000000005601"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-87",
+        "mac": "02000000005701"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-88",
+        "mac": "02000000005801"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-89",
+        "mac": "02000000005901"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-90",
+        "mac": "02000000005a01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-91",
+        "mac": "02000000005b01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-92",
+        "mac": "02000000005c01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-93",
+        "mac": "02000000005d01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-94",
+        "mac": "02000000005e01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-95",
+        "mac": "02000000005f01"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-96",
+        "mac": "02000000006001"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-97",
+        "mac": "02000000006101"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-98",
+        "mac": "02000000006201"
+      },
+      "initial_state": {}
+    },
+    {
+      "profile": "sim-w06bv-v20-ac",
+      "mid": "604a",
+      "device": {
+        "id": "child-99",
+        "mac": "02000000006301"
+      },
+      "initial_state": {}
+    }
+  ],
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 0
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 1
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 5
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 95
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 99
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 100
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 255
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "subDev",
+        "mac": "020000000001",
+        "i": 256
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "020000000001",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "60",
+          "model": "gree",
+          "name": "Lab W06B",
+          "series": "gree",
+          "vender": "1",
+          "ver": "V1.1.0.0",
+          "lock": 0,
+          "hid": "362001067524+U-W06BV20.bin",
+          "subCnt": 100
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "bindOk",
+          "mac": "020000000001",
+          "key": "0123456789abcdef",
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 0,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000001",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000101",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000201",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000301",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000401",
+              "mid": "604a"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 1,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000101",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000201",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000301",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000401",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000501",
+              "mid": "604a"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 5,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000501",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000601",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000701",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000801",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000901",
+              "mid": "604a"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 95,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000005f01",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000006001",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000006101",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000006201",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000006301",
+              "mid": "604a"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 99,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000006301",
+              "mid": "604a"
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 100,
+          "r": 200,
+          "list": []
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 255,
+          "r": 200,
+          "list": []
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 7,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "subList",
+          "c": 100,
+          "i": 0,
+          "r": 200,
+          "list": [
+            {
+              "mac": "02000000000001",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000101",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000201",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000301",
+              "mid": "604a"
+            },
+            {
+              "mac": "02000000000401",
+              "mid": "604a"
+            }
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {},
+  "expected_children": {
+    "02000000000001": {},
+    "02000000000101": {},
+    "02000000000201": {},
+    "02000000000301": {},
+    "02000000000401": {},
+    "02000000000501": {},
+    "02000000000601": {},
+    "02000000000701": {},
+    "02000000000801": {},
+    "02000000000901": {},
+    "02000000000a01": {},
+    "02000000000b01": {},
+    "02000000000c01": {},
+    "02000000000d01": {},
+    "02000000000e01": {},
+    "02000000000f01": {},
+    "02000000001001": {},
+    "02000000001101": {},
+    "02000000001201": {},
+    "02000000001301": {},
+    "02000000001401": {},
+    "02000000001501": {},
+    "02000000001601": {},
+    "02000000001701": {},
+    "02000000001801": {},
+    "02000000001901": {},
+    "02000000001a01": {},
+    "02000000001b01": {},
+    "02000000001c01": {},
+    "02000000001d01": {},
+    "02000000001e01": {},
+    "02000000001f01": {},
+    "02000000002001": {},
+    "02000000002101": {},
+    "02000000002201": {},
+    "02000000002301": {},
+    "02000000002401": {},
+    "02000000002501": {},
+    "02000000002601": {},
+    "02000000002701": {},
+    "02000000002801": {},
+    "02000000002901": {},
+    "02000000002a01": {},
+    "02000000002b01": {},
+    "02000000002c01": {},
+    "02000000002d01": {},
+    "02000000002e01": {},
+    "02000000002f01": {},
+    "02000000003001": {},
+    "02000000003101": {},
+    "02000000003201": {},
+    "02000000003301": {},
+    "02000000003401": {},
+    "02000000003501": {},
+    "02000000003601": {},
+    "02000000003701": {},
+    "02000000003801": {},
+    "02000000003901": {},
+    "02000000003a01": {},
+    "02000000003b01": {},
+    "02000000003c01": {},
+    "02000000003d01": {},
+    "02000000003e01": {},
+    "02000000003f01": {},
+    "02000000004001": {},
+    "02000000004101": {},
+    "02000000004201": {},
+    "02000000004301": {},
+    "02000000004401": {},
+    "02000000004501": {},
+    "02000000004601": {},
+    "02000000004701": {},
+    "02000000004801": {},
+    "02000000004901": {},
+    "02000000004a01": {},
+    "02000000004b01": {},
+    "02000000004c01": {},
+    "02000000004d01": {},
+    "02000000004e01": {},
+    "02000000004f01": {},
+    "02000000005001": {},
+    "02000000005101": {},
+    "02000000005201": {},
+    "02000000005301": {},
+    "02000000005401": {},
+    "02000000005501": {},
+    "02000000005601": {},
+    "02000000005701": {},
+    "02000000005801": {},
+    "02000000005901": {},
+    "02000000005a01": {},
+    "02000000005b01": {},
+    "02000000005c01": {},
+    "02000000005d01": {},
+    "02000000005e01": {},
+    "02000000005f01": {},
+    "02000000006001": {},
+    "02000000006101": {},
+    "02000000006201": {},
+    "02000000006301": {}
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "profile": "sim-w05r-v2.35",
+  "mid": "80221",
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789abcdef"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwBKDMuXDsa6P/74spQSFNNQ=="
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "__unknown__",
+          "Pow"
+        ],
+        "p": [
+          7,
+          99,
+          65537
+        ]
+      },
+      "provenance": "Exact request/ACK of supplement/362001061917-bounded.json vectors[0], encrypted here with the session key; not the original native conflicting-identity ciphertext or a completed native command."
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000002",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWIn9OkTA4QVad+NJ/tle4m5jBN5JO6zJg6xVwDI3nMAYQ=="
+      },
+      "provenance": "Unchanged native wrong-outer-target ciphertext; rejection is intentional."
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LzkV5AUdYbSFi2nWykv3iruapXJWv3Dc768F/NhLpMyD714H19LXKQRZh/J78LzNarYfM0yfjAgzN+x3lPNAHQ=="
+      },
+      "provenance": "Unchanged native wrong-key ciphertext; rejection is intentional."
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 42,
+        "cid": "app",
+        "tcid": "020000000001"
+      },
+      "key": "0123456789abcdef",
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "SetTem",
+          "Mod",
+          "Pow",
+          "hid"
+        ]
+      },
+      "provenance": "Exact next_status body/columns from supplement/362001061917-bounded.json vectors[0], requested with matching root identity and session key."
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "80221",
+          "lock": 0,
+          "model": "gree",
+          "name": "",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V1.2.1",
+          "brand": "gree",
+          "mac": "020000000001"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "bindok",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "hid",
+            "Pow"
+          ],
+          "dat": [
+            0,
+            "362001061917+W05RV2.35.bin",
+            0
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Pow"
+          ],
+          "p": [
+            7,
+            1
+          ]
+        }
+      }
+    ],
+    [],
+    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "SetTem",
+            "Mod",
+            "Pow",
+            "hid"
+          ],
+          "dat": [
+            1,
+            0,
+            0,
+            1,
+            "362001061917+W05RV2.35.bin"
+          ]
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "Mod": 0,
+    "SwhSlp": 0,
+    "SwhSw": 0,
+    "WdSpd": 0,
+    "SetTem": 0,
+    "Blo": 0,
+    "Health": 0,
+    "Lig": 0,
+    "Air": 0,
+    "SwUpDn": 0,
+    "SwingLfRig": 0,
+    "SvSt": 0,
+    "SlpMod": 0,
+    "Tur": 0,
+    "Quiet": 0,
+    "StHt": 0,
+    "IntradayElect": 0,
+    "IntradayElectPow": 0,
+    "IntradayElectLim": 0,
+    "AutoPowDown": 0,
+    "ProTimeReminder": 0,
+    "RealTimePower": 0,
+    "AppTimer": 0,
+    "ProTimeLen": 0,
+    "ProTimePow": 0,
+    "Studied": 0,
+    "AddButton": 0,
+    "ConBtnNum": 0,
+    "ConBtnName": 0,
+    "DelButton": 0,
+    "SendButton": 0,
+    "Electnumzero": 0
+  },
+  "provenance": "Scan/bind/initial status and negative requests retain native ciphertext. Positive command/fresh status use the independently instruction-matched bounded supplement with matching root identity; request adaptation is not native-exact ciphertext. Original conflicting command and native NULL-tail evidence remain unchanged in session-realtek-w05r_research.json."
+}

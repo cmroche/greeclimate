@@ -1,0 +1,17 @@
+{
+  "source_sha256": "bc7c2add630e86d938995cc3dd0d1a8094025b15a9b4f5627c302d9fbed4c756",
+  "segment1_sha256": "1e0dcac5b8c5482e69701ec0aee902732346f4545fae2e9e4e01bf164da89e3",
+  "generic_key": "a3K8Bx%2r8Y7#xDh",
+  "codec": "aes-ecb-pkcs7",
+  "buffer_bytes": 1460,
+  "mids": ["10001"],
+  "mid_qualification": "configured UART 0x44 input 0x10001 only; no local initializer/default or physical fixed-MID claim",
+  "metadata_mid_pointer": "0x10009fa8",
+  "discovery_mid_buffer": "0x1001568e",
+  "scan_fields": ["cid", "bc", "brand", "catalog", "mac", "mid", "model", "name", "lock", "series", "vender", "ver"],
+  "metadata_hid": "362001065279+U-WB05RT13V1.04.bin",
+  "numeric_fields_export": "wb-rt13-v104-fields_research.json",
+  "scan_has_hid": false,
+  "operations": ["bind", "status", "cmd", "upgrade", "setT", "queryT", "deleteT", "updateT", "dump"],
+  "numeric_semantics": "Exact-source numeric getters FUN_9b0264dc/FUN_9b026438 use FUN_9b026860's integer-digits/optional-decimal parser and convert binary64 to signed integer by truncation toward zero. There is no exponent branch: singleton 1e3 yields the decimal-prefix value 1; a leftover suffix can make a following requested array item or required closing delimiter fail. JSON booleans are not numeric tokens; the bounded runtime admits signed-int32 results only."
+}

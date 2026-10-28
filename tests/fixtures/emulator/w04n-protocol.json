@@ -3,8 +3,8 @@
   "mid": "10001",
   "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
   "evidence": {
-    "protocol": "Actual ARM Thumb LAN0x802fd0c,bind0x802ea38,status0x8031350,command0x803156c,outer0x802fbc0,crypto0x803cf10; ROM AES init/encrypt/decrypt0x2e8d/2ec5/2ef5 hooked to AES primitive, actual PKCS7 wrapper executed; JSON/string/RTOS/hardware platform-version API boundaries hooked. Platform version44017 independently executed getter0x8025450; selected cached values injected explicitly. Not full boot or hardware.",
-    "appliance": "USER-APPROVED SYNTHETIC MODEL. Command accepted state and sensor26 are chosen model values, not hardware calibration/feedback claims. Native status API supplied those modeled cached values before each status. Unknown/unmodeled read omission and stricter invalid command rejection are model restrictions.",
+    "protocol": "Historical ARM Thumb LAN0x802fd0c,bind0x802ea38,status0x8031350,command0x803156c,outer0x802fbc0,crypto0x803cf10 qualification used named AES/libc/RTOS and cached-API adapters, not full task/mainboard execution. Current registered-task wire ACK and duplicate behavior are independently captured in CatalogQuirks/RealtekEarly/W04N/NumericClosure/generic-field-wire-native.json and duplicate-name-wire-native.json; p keeps request order, val and execution use the first value per name.",
+    "appliance": "Historical narrow LAN oracle: original native status API received explicitly supplied cached scalars, with sensor26 and no mainboard calibration claim. Current in-place raw callbacks, recognized no-ops, masks and coupling are independently covered by w04n-raw.json and w04n-coverage_research.json; the old omission of known raw getters is no longer model policy.",
     "expanded_sha256": "9d2ce9192017933bcdf6b61995b225cae896a7e39c5959ea0c8bd91d6003693b",
     "ram_segment_sha256": "c02d8a0c5b246439178201d90feff4c4cbb1c7a5f7ff433795cb28ca1a7decda"
   },
@@ -328,8 +328,8 @@
           "t": "res",
           "mac": "020000000001",
           "val": [
-            24,
-            24
+            23,
+            23
           ],
           "p": [
             23,
@@ -358,7 +358,7 @@
           "mac": "020000000001",
           "cid": "020000000001",
           "dat": [
-            24,
+            23,
             0,
             26
           ],
@@ -421,7 +421,7 @@
   "expected_state": {
     "Pow": 1,
     "Mod": 1,
-    "SetTem": 24,
+    "SetTem": 23,
     "WdSpd": 5,
     "TemUn": 0,
     "TemRec": 0,

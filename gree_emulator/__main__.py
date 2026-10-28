@@ -92,7 +92,7 @@ def load_config(config: dict, *, seed: str | None = None) -> tuple[str, int, lis
 
     devices = {}
     parents = {}
-    identities = set()
+    explicit_identities = set()
     for index, record in enumerate(records):
         location = f"devices[{index}]"
         if not isinstance(record, dict):
@@ -123,13 +123,15 @@ def load_config(config: dict, *, seed: str | None = None) -> tuple[str, int, lis
                     f"{location}.mac: expected exactly {profile.identity_bytes * 2} hexadecimal characters"
                 )
             mac = mac.lower()
+            explicit_identities.add(logical_id)
         else:
             identity = bytearray(_digest("mac", seed, logical_id)[:profile.identity_bytes])
+            if profile.identity_suffix:
+                identity[-len(profile.identity_suffix):] = profile.identity_suffix
             identity[0] = (identity[0] & 0xfc) | 0x02
             mac = identity.hex()
-        if mac in identities:
-            raise ValueError(f"{location}.mac: duplicate canonical wire identity {mac!r}")
-        identities.add(mac)
+        if profile.identity_suffix and not mac.endswith(profile.identity_suffix.hex()):
+            raise ValueError(f"{location}.mac: expected suffix {profile.identity_suffix.hex()}")
         overrides = record.get("state", {})
         if not isinstance(overrides, dict):
             raise ValueError(f"{location}.state: expected an object")
@@ -192,9 +194,20 @@ def load_config(config: dict, *, seed: str | None = None) -> tuple[str, int, lis
             current = parents[current]
         root = roots.get(current, current)
         roots[current] = root
-        for child in chain:
+        for child in reversed(chain):
             roots[child] = root
+            child_device = devices[child]
+            if child_device.profile.identity_from_parent and child not in explicit_identities:
+                identity = devices[parents[child]].mac + child_device.profile.identity_suffix.hex()
+                if len(identity) != child_device.profile.identity_bytes * 2:
+                    raise ValueError(f"device {child!r}.mac: incompatible parent identity width")
+                child_device.mac = identity
         device.key = devices[root].key
+    identities = set()
+    for device in devices.values():
+        if device.mac in identities:
+            raise ValueError(f"device {device.id!r}.mac: duplicate canonical wire identity {device.mac!r}")
+        identities.add(device.mac)
     for logical_id, device in devices.items():
         parent = parents[logical_id]
         if parent is not None:
@@ -208,10 +221,14 @@ def load_config(config: dict, *, seed: str | None = None) -> tuple[str, int, lis
             validate_topology = getattr(device.profile.handler, "validate_topology", None)
             if validate_topology is not None:
                 validate_topology(device)
+            state = device.state
+            device.state = copy.deepcopy(state)
             try:
                 device.profile.handler.advertise(device, {"t": "scan"})
             except InvalidPacket as exc:
                 raise ValueError(f"device {device.id!r}.name: cannot advertise configured metadata: {exc}") from exc
+            finally:
+                device.state = state
     return listen, port, list(devices.values())
 
 

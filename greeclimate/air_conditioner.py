@@ -45,7 +45,7 @@ class AirConditionerDevice(Device):
                 Props.TEMP_UNIT.value, self._properties.get(Props.TEMP_UNIT.value)
             )
         profile = self._device_profile
-        buzzer_properties = (profile.buzzer_properties or ()) if profile is not None else ()
+        buzzer_properties = profile.buzzer_properties if profile is not None else ()
         if not self._buzzer and "Buzzer_ON_OFF" in buzzer_properties:
             self._logger.debug("Disabling buzzer for command")
             props["Buzzer_ON_OFF"] = 1

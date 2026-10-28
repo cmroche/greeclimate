@@ -1,0 +1,284 @@
+{
+  "profile": "sim-mc-etsbh01-v1.38",
+  "provenance": "Original AArch64 replay ContainerControllers/probe-results.json timer_transactions; literal expected outputs, actual in-memory SQLite at source I/O boundary.",
+  "model_policy": "Per-device volatile multiple TIMERIDs. REPLACE removes an existing ID then appends its new row, matching SQLite rowid iteration without ORDER BY. Each query row uses independent week/CMD arrays: explicit chosen safe ownership instead of original reused-array aliasing/native ownership corruption, not a native multirow-success claim. No timer execution. Strict field, calendar and CMD parse validation are chosen safety.",
+  "vectors": [
+    {
+      "label": "timer_set",
+      "request": {
+        "t": "setT",
+        "id": 7,
+        "name": "wake",
+        "enable": 1,
+        "tz": 0,
+        "hr": 6,
+        "min": 30,
+        "week": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "Pow"
+            ],
+            "p": [
+              1
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "label": "timer_query_one",
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 1
+      },
+      "expected": {
+        "t": "listT",
+        "index": 0,
+        "total": 1,
+        "list": [
+          {
+            "id": 7,
+            "name": "wake",
+            "enable": 1,
+            "tz": 8,
+            "sec": 0,
+            "hr": 6,
+            "min": 30,
+            "week": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cmd": [
+              {
+                "mac": [
+                  "020000000001"
+                ],
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  1
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "timer_update_same_id",
+      "request": {
+        "t": "updateT",
+        "id": 7,
+        "name": "later",
+        "enable": 1,
+        "tz": 0,
+        "hr": 7,
+        "min": 30,
+        "week": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "Pow"
+            ],
+            "p": [
+              1
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "label": "timer_fresh_replaced",
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 1
+      },
+      "expected": {
+        "t": "listT",
+        "index": 0,
+        "total": 1,
+        "list": [
+          {
+            "id": 7,
+            "name": "later",
+            "enable": 1,
+            "tz": 8,
+            "sec": 0,
+            "hr": 7,
+            "min": 30,
+            "week": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cmd": [
+              {
+                "mac": [
+                  "020000000001"
+                ],
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  1
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "timer_delete_stored",
+      "request": {
+        "t": "deleteT",
+        "id": 7
+      },
+      "expected": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "label": "timer_fresh_empty",
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 1
+      },
+      "expected": {
+        "t": "listT",
+        "index": 0,
+        "total": 0,
+        "list": []
+      }
+    },
+    {
+      "label": "timer_literal_underscore_set",
+      "request": {
+        "t": "setT",
+        "id": 7,
+        "name": "wake",
+        "enable": 1,
+        "tz": 0,
+        "hr": 6,
+        "min": 30,
+        "week": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cmd": [
+          {
+            "mac": [
+              "020000000001"
+            ],
+            "opt": [
+              "A_B"
+            ],
+            "p": [
+              1
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "t": "resT",
+        "r": 200
+      }
+    },
+    {
+      "label": "timer_literal_underscore_loss",
+      "request": {
+        "t": "queryT",
+        "index": 0,
+        "count": 1
+      },
+      "expected": {
+        "t": "listT",
+        "index": 0,
+        "total": 1,
+        "list": [
+          {
+            "id": 7,
+            "name": "wake",
+            "enable": 1,
+            "tz": 8,
+            "sec": 0,
+            "hr": 6,
+            "min": 30,
+            "week": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "cmd": [
+              {
+                "mac": [
+                  "020000000001"
+                ],
+                "opt": [
+                  "A,B"
+                ],
+                "p": [
+                  1
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

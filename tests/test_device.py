@@ -1422,10 +1422,11 @@ def test_device_key_set_get():
     ("362001065634+incomplete", ("Buzzer_ON_OFF",)),
     ("362001060499+U-OTHER(MTK)V999.bin", ("Buzzer_ON_OFF",)),
     ("362001061649+U-OTHER(MTK)V999.bin", ()),
-    ("999999999999+U-SYNTHETICV1.bin", None),
-    ("", None),
-    ("malformed", None),
-    (None, None),
+    ("362001061395+U-W05PV1.1.bin", ()),
+    ("999999999999+U-SYNTHETICV1.bin", ()),
+    ("", ()),
+    ("malformed", ()),
+    (None, ()),
 ])
 @pytest.mark.parametrize("enabled", [False, True])
 async def test_buzzer_fields_follow_firmware_code_on_every_command(hid, properties, enabled, cipher, send):

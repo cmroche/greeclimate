@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_sha256": "17b1c7812a3f98fa1e800e786b37606d842ebbf0b38a25c0ec5c173fcaaa9f2e",
+      "expected_hid": "362001061060+U-W04HV3.55.bin",
+      "evidence": [
+        "tests/fixtures/emulator/w04h-simulation.json#/source_sha256; #/expected_replies/5/0/inner/dat/dat/2 (cols[3] is hid)",
+        "firmware-capabilities/research/CatalogQuirks/RealtekMiddle/w04h-bank0-native-results.json (original callback vectors cited by the fixture)"
+      ],
+      "qualification": "Native isolated source status-metadata literal; fixture's other cache values are explicit synthetic policy. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "5a4705122e69dfb99462fdeef1d19e8b7ce7315d6cdad895849c87ef0cfdfea8",
+      "expected_hid": "362001063384+U-W04HBV1.20.bin",
+      "evidence": [
+        "tests/fixtures/emulator/hb-native_research.json#/source_sha256; #/hid",
+        "tests/fixtures/emulator/hb-simulation.json#/evidence/native_capture"
+      ],
+      "qualification": "Native isolated Thumb identity/callback capture, not a full boot or hardware identity observation."
+    },
+    {
+      "source_sha256": "00f96017514514c9cab4599229fb2a6db133e60c36a962e70f3d3bbd2865b933",
+      "expected_hid": "362001061437+U-W06BV9.bin",
+      "evidence": [
+        "tests/fixtures/emulator/catalog-xtensa_research.json#/sources[?source_sha256=00f96017514514c9cab4599229fb2a6db133e60c36a962e70f3d3bbd2865b933]/embedded_identity/embedded_labels/0: file_offset 47420, mapped_address 0x44acbc",
+        "firmware-capabilities/research/CatalogQuirks/Xtensa/assessment.json (source-static embedded identity; not runtime-observed HID)"
+      ],
+      "qualification": "Static source-image label only; the source fixture explicitly says final reported HID was not exercised. This is not a native-runtime or boot claim."
+    },
+    {
+      "source_sha256": "8644e2e7d6f2b68dec8f79ac88bc4ea1e92f7bd2f41c5caf4f07627bf8230ebf",
+      "expected_hid": "362001067524+U-W06BV16.bin",
+      "evidence": [
+        "tests/fixtures/emulator/catalog-xtensa_research.json#/sources[?source_sha256=8644e2e7d6f2b68dec8f79ac88bc4ea1e92f7bd2f41c5caf4f07627bf8230ebf]/embedded_identity/embedded/0: identity at offset 0xc260",
+        "firmware-capabilities/research/CatalogQuirks/Xtensa/assessment.json (source-static embedded identity; not runtime-observed HID)"
+      ],
+      "qualification": "Static source-image label only; the source fixture explicitly says final reported HID was not exercised. This is not a native-runtime or boot claim."
+    },
+    {
+      "source_sha256": "5592577b21f2769fafe54c0a01d5c264a1b9402f8e4c8286931ba7311efec1cc",
+      "expected_hid": "362001067524+U-W06BV30.bin",
+      "evidence": [
+        "tests/fixtures/emulator/catalog-xtensa_research.json#/sources[?source_sha256=5592577b21f2769fafe54c0a01d5c264a1b9402f8e4c8286931ba7311efec1cc]/embedded_identity/embedded/0: identity at offset 0xf878",
+        "firmware-capabilities/research/CatalogQuirks/Xtensa/assessment.json (source-static embedded identity; not runtime-observed HID)"
+      ],
+      "qualification": "Static source-image label only; the source fixture explicitly says final reported HID was not exercised. This is not a native-runtime or boot claim."
+    },
+    {
+      "source_sha256": "e1d186072abfd51e71874fe6904cca132f22e6ebaaef9a0cac39f59de7194105",
+      "expected_hid": "362001065279+U-WB05RT13V1.57.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekEarly/assessment.json#/firmwares[?source_sha256=e1d186072abfd51e71874fe6904cca132f22e6ebaaef9a0cac39f59de7194105]/embedded_hids/0 and source_path"
+      ],
+      "qualification": "Source-assessment embedded identity for the exact V1.57 image; static/source-qualified, not a full-boot or physical-board result."
+    },
+    {
+      "source_sha256": "58f46141990b02939b909f01117a8a855a315e4be0047f6b983104b7882e9c4a",
+      "expected_hid": "362001069264+U-WB05ADRV1.16.bin",
+      "evidence": [
+        "firmware-capabilities/research/SessionQuirks/RealtekGateways/assessment.json#/firmwares[?source_sha256=58f46141990b02939b909f01117a8a855a315e4be0047f6b983104b7882e9c4a]/embedded_hids/0",
+        "firmware-capabilities/research/SessionQuirks/RealtekGateways/assessment.json#/firmwares[?source_sha256=58f46141990b02939b909f01117a8a855a315e4be0047f6b983104b7882e9c4a]/properties[name=hid]/evidence: source-evidence.json at 0xe058138 and 0xe058458"
+      ],
+      "qualification": "Static embedded identity plus source status getter that copies configured HID metadata; no physical/default-mainboard identity is inferred."
+    },
+    {
+      "source_sha256": "aaa27bd9d043dd7395933e91b4fe488504ac809291963ab2a2205ecb7e685de7",
+      "expected_hid": "362001000835+U-CS532AX(MTK)V3.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=aaa27bd9d043dd7395933e91b4fe488504ac809291963ab2a2205ecb7e685de7]/embedded_hids/0",
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=aaa27bd9d043dd7395933e91b4fe488504ac809291963ab2a2205ecb7e685de7]/properties[name=hid]/evidence: metadata chain 0x0804afb8; literal cells 0x0804b24c..0x0804b5c4"
+      ],
+      "qualification": "Source-static embedded HID, independently tied to the native metadata getter/literal chain; not a full boot or hardware report."
+    },
+    {
+      "source_sha256": "8541fe62f6b23dc93014f5d4c6aad614c6fb0a8704781f1698e645a2eb4249ef",
+      "expected_hid": "362001060200+U-CS849AV10.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=8541fe62f6b23dc93014f5d4c6aad614c6fb0a8704781f1698e645a2eb4249ef]/embedded_hids/0",
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=8541fe62f6b23dc93014f5d4c6aad614c6fb0a8704781f1698e645a2eb4249ef]/properties[name=hid]/evidence: per-build metadata getter/literal chain"
+      ],
+      "qualification": "Source-static embedded HID, independently tied to the native metadata getter/literal chain; not a full boot or hardware report."
+    },
+    {
+      "source_sha256": "41d9fea87b8bcbd278f7ebca20fec3b87ded84244399439f836674b230f5c23e",
+      "expected_hid": "362001060297+U-CS532AF(MTK)V4.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=41d9fea87b8bcbd278f7ebca20fec3b87ded84244399439f836674b230f5c23e]/embedded_hids/0",
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=41d9fea87b8bcbd278f7ebca20fec3b87ded84244399439f836674b230f5c23e]/properties[name=hid]/evidence: per-build metadata getter/literal chain"
+      ],
+      "qualification": "Source-static embedded HID, independently tied to the native metadata getter/literal chain; not a full boot or hardware report."
+    },
+    {
+      "source_sha256": "edb56a3e41eeaba2ca3ea1bca7823d9bfec3037df2b36ca80cce6d924b4182f1",
+      "expected_hid": "362001060498+U-CS845B(MTK2)V6.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=edb56a3e41eeaba2ca3ea1bca7823d9bfec3037df2b36ca80cce6d924b4182f1]/embedded_hids/0",
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=edb56a3e41eeaba2ca3ea1bca7823d9bfec3037df2b36ca80cce6d924b4182f1]/properties[name=hid]/evidence: per-build metadata getter/literal chain"
+      ],
+      "qualification": "Source-static embedded HID, independently tied to the native metadata getter/literal chain; not a full boot or hardware report."
+    },
+    {
+      "source_sha256": "69d9c36f87e16629ed1af671a19f58c6f0da6a2b91785eb97b2962d66231d561",
+      "expected_hid": "362001060499+U-CS532BH(MTK2)V5.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=69d9c36f87e16629ed1af671a19f58c6f0da6a2b91785eb97b2962d66231d561]/embedded_hids/0",
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares[?source_sha256=69d9c36f87e16629ed1af671a19f58c6f0da6a2b91785eb97b2962d66231d561]/properties[name=hid]/evidence: per-build metadata getter/literal chain"
+      ],
+      "qualification": "Source-static embedded HID, independently tied to the native metadata getter/literal chain; not a full boot or hardware report."
+    },
+    {
+      "source_sha256": "011996a47ccfcb08370faf09df4c286f18488fd3b5ff87192abfec6df3b1b1ee",
+      "expected_hid": "362001061383+U-BL3332_JDV18.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekEarly/assessment.json#/firmwares[?source_sha256=011996a47ccfcb08370faf09df4c286f18488fd3b5ff87192abfec6df3b1b1ee]/embedded_hids/0",
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares/17/properties[name=hid]/evidence: original metadata literals 0x08031004..0x08031570 and JSON parser 0x0804015c"
+      ],
+      "qualification": "Source-static embedded identity with source-native metadata producer evidence; not a full boot or hardware report."
+    },
+    {
+      "source_sha256": "c38c120c2f125dfc5e90917265860d0efb0bfa8089b8586fa2466b22fe17063b",
+      "expected_hid": "362001061381+U-BL3332_SNV13.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/0/embedded_identity_lead",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/0/source_aliases_verified/0 and /canonical_views/0/segments (source SHA-256 and source bytes)"
+      ],
+      "qualification": "Static source-image identity, not the API/OTA alias and not a runtime-boot claim."
+    },
+    {
+      "source_sha256": "5b050eaef8e0b1e28e47c57cff60f642e9f73eb34ca46f69b3096ac3f6cb4d36",
+      "expected_hid": "362001061381+U-BL3332_SNV11.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/1/embedded_identity_lead",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/1/source_aliases_verified/0 and /canonical_views/0/segments (the source file is named with OTA code 362001061646; embedded getter identity is 362001061381)"
+      ],
+      "qualification": "Static embedded identity; OTA alias 362001061646 is intentionally not substituted for the getter HID. Not a runtime-boot claim."
+    },
+    {
+      "source_sha256": "ea6228d5a32564ccf597bd8cb771fb0fd92e73521fec71c7aa897eb9fa534bf3",
+      "expected_hid": "362001061737+U-BL3332_JDRSV3.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/5/embedded_identity_lead",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/5/source_aliases_verified/0 and /canonical_views/0/segments"
+      ],
+      "qualification": "Static source-image identity, not the API/OTA alias and not a runtime-boot claim."
+    },
+    {
+      "source_sha256": "5102a8e6c0efc5fe850a3767709c60fd20433b4a0e25bc165e3cb5917f5d095f",
+      "expected_hid": "362001062978+U-MSTWB801AV1.01.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/MediaTekESP/assessment.json#/firmwares/11/embedded_hids/0; /firmwares/11/properties[name=hid]/evidence",
+        "tests/fixtures/emulator/catalog-esp-alarm-vectors_research.json#/source_sha256; #/metadata/dat/3 (cols[3] is hid)"
+      ],
+      "qualification": "Source-qualified static identity and literal metadata vector; surrounding alarm/parser behavior is simulated, not a native full boot or physical alarm result."
+    },
+    {
+      "source_sha256": "f5ed4e1286d955e0f91a79e85019a91fb0a986143c4dde882be3366afa8a508d",
+      "expected_hid": "362001062353+U-W05ACV1.00.bin+362001063014+N-W05ACV0.00.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/NumericBridges/assessment.json#/firmwares[?source_sha256=f5ed4e1286d955e0f91a79e85019a91fb0a986143c4dde882be3366afa8a508d]/embedded_hids/0; /properties[name=hid]/evidence.metadata",
+        "tests/fixtures/emulator/catalog-realtek-third-numeric-metadata_research.json#/w05ac/15 (hid column; source literal compound version formatter)"
+      ],
+      "qualification": "Source-native numeric metadata literal with the original compound HID formatter; the .00 suffix is source metadata, not inferred from OTA filename. Other fixture cache/clock values are synthetic."
+    },
+    {
+      "source_sha256": "94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+      "expected_hid": "362001061704+U-W04WV16.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[94c2051f932b]: entry 0x805030c; configured_mid 828140 selects source prefix 362001061704+U-W04W",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/2/embedded_identity_lead"
+      ],
+      "qualification": "Native isolated identity-getter branch for configured MID 828140; source version formatting yields V16.bin. Static/source-derived, not full-boot or hardware evidence."
+    },
+    {
+      "source_sha256": "94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+      "expected_hid": "362001061820+U-W05EV16.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[94c2051f932b]: configured_mid 828401/828402 selects source prefix 362001061820+U-W05E"
+      ],
+      "qualification": "Native isolated identity-getter branches for configured MIDs 828401 and 828402; source version formatting yields V16.bin. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+      "expected_hid": "362001063062+U-W04AV16.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c]/embedded_hids/0; /properties[name=hid]/evidence.function=0x0805a554",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[94c2051f932b]: configured_mid 828a04 selects source prefix 362001063062+U-W04A"
+      ],
+      "qualification": "Native isolated identity-getter branch for configured MID 828a04; source version formatting yields V16.bin. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c",
+      "expected_hid": "V16.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=94c2051f932b1eb62b869af7b150e12c8b41a058dfdaf438046e80d00d48a52c]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[94c2051f932b]: configured_mids 828200/828202/828203/828900 select an empty prefix; retain the source getter's V16.bin suffix"
+      ],
+      "qualification": "Native isolated identity getter for configured empty-prefix cache MIDs 828200, 828202, 828203, and 828900; actual getter is V16.bin, not the OTA alias. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b",
+      "expected_hid": "362001061704+U-W04WV8.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[ddc6056bf097]: entry 0x80502c8; configured_mid 828140 selects source prefix 362001061704+U-W04W",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/3/embedded_identity_lead (source alias is 362001063081+V1.0-test.bin)"
+      ],
+      "qualification": "Native isolated identity-getter branch for configured MID 828140; source version formatting yields V8.bin. The 362001063081 OTA alias is not substituted for the getter HID. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b",
+      "expected_hid": "362001061820+U-W05EV8.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[ddc6056bf097]: configured_mid 828401/828402 selects source prefix 362001061820+U-W05E"
+      ],
+      "qualification": "Native isolated identity-getter branches for configured MIDs 828401 and 828402; source version formatting yields V8.bin. The OTA alias is not substituted for the getter HID. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b",
+      "expected_hid": "362001063062+U-W04AV8.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[ddc6056bf097]: configured_mid 828a04 selects source prefix 362001063062+U-W04A"
+      ],
+      "qualification": "Native isolated identity-getter branch for configured MID 828a04; source version formatting yields V8.bin. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b",
+      "expected_hid": "V8.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=ddc6056bf0972ecaf1e64f6d7014193160d94961e662a45e4ff878183cb8994b]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[ddc6056bf097]: configured_mids 828200/828202/828203/828900 select an empty prefix; retain the source getter's V8.bin suffix",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/3/source_aliases_verified/0 (OTA alias is not the getter HID)"
+      ],
+      "qualification": "Native isolated identity getter for configured empty-prefix cache MIDs 828200, 828202, 828203, and 828900; actual getter is V8.bin, not the OTA alias. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9",
+      "expected_hid": "362001061704+U-W04WV12.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[3473b2bcdf3e]: entry 0x804e770; configured_mid 828140 selects source prefix 362001061704+U-W04W",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/ownership.json#/payloads/12/embedded_identity_lead"
+      ],
+      "qualification": "Native isolated identity-getter branch for configured MID 828140; source version formatting yields V12.bin. Source image is shared by the two verified OTA aliases. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9",
+      "expected_hid": "362001061820+U-W05EV12.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[3473b2bcdf3e]: configured_mid 828401/828402 selects source prefix 362001061820+U-W05E"
+      ],
+      "qualification": "Native isolated identity-getter branches for configured MIDs 828401 and 828402; source version formatting yields V12.bin. Source image is shared by the two verified OTA aliases. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9",
+      "expected_hid": "362001063082+U-W04BV12.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9]/embedded_hids/0; /properties[name=hid]/evidence.function=0x0805a554",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[3473b2bcdf3e]: configured_mid 828a04 selects source prefix 362001063082+U-W04B"
+      ],
+      "qualification": "Native isolated identity-getter branch for configured MID 828a04; source version formatting yields V12.bin. No full-boot or hardware claim."
+    },
+    {
+      "source_sha256": "3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9",
+      "expected_hid": "V12.bin",
+      "evidence": [
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/W04Snapshots/assessment.json#/firmwares[?source_sha256=3473b2bcdf3eeb00634a66e8a9e0cf81664cde83dd60dffe5f2c9eaada64b4a9]/properties[name=hid]/evidence.function=0x0805a554; transform_range=prefix + V(mainboard_version%1000).bin",
+        "firmware-capabilities/research/CatalogQuirks/RealtekThird/probe_identity.py#SPECS[3473b2bcdf3e]: configured_mids 828200/828202/828203/828900 select an empty prefix; retain the source getter's V12.bin suffix"
+      ],
+      "qualification": "Native isolated identity getter for configured empty-prefix cache MIDs 828200, 828202, 828203, and 828900; actual getter is V12.bin, not the OTA alias. No full-boot or hardware claim."
+    }
+  ]
+}

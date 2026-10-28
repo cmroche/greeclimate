@@ -4,8 +4,8 @@
   "source_sha256": "954010b17a5bd2c27008164a638aad633a0798137863bea07767a950d2143924",
   "evidence": {
     "native_protocol": "Exact-image W06 PR148 w06-reconciliation/findings.md (six-image subDev five-entry loops, routing, res echo); w06-decompilation/954010.../selected.c a0da04 five-field enumeration; Xtensa-2 per-image gateway-network-tables.json. Public source: https://github.com/cmroche/gree-research/blob/main/docs/GATEWAY_PR148.md",
-    "model_contract": "Safe synthetic atomic integer-Celsius controls and floor(room_c) TemBody. Known omission/unknown empty rendering is model policy, not replayed native dat serialization. Names represent populated configured child cache; count-enabled discovery branch. ACK/readback is not mainboard confirmation.",
-    "independence": "Literal existing V30 vectors preserved; V7 identity and name/model/lock records amended from exact-source builder, not emulator outputs. Private source execution is not required."
+    "model_contract": "Raw byte/LE16 descriptor caches with chosen zero sensor defaults and atomic validation. TemBody is raw and independent of room_c; command ACK echoes requested p/val without physical confirmation. V7's original dev builder has no hid member.",
+    "independence": "Literal wire vectors use PR148 exact-source selector/converter/getter and enumeration evidence. Raw TemBody default zero is explicitly synthetic, not physical Celsius."
   },
   "device": {
     "id": "gateway",
@@ -302,7 +302,7 @@
         ],
         "p": [
           0,
-          31
+          2147483648
         ]
       },
       "key": "0123456789abcdef"
@@ -369,7 +369,6 @@
           "vender": "1",
           "ver": "V1.1.0.0",
           "lock": 0.0,
-          "hid": "362001061433+U-W06AV7.bin",
           "subCnt": 7
         }
       }
@@ -554,7 +553,7 @@
             1,
             1,
             22,
-            22,
+            0,
             "",
             1
           ]
@@ -582,7 +581,7 @@
           "dat": [
             0,
             24,
-            22
+            0
           ]
         }
       }
@@ -615,111 +614,13 @@
   ],
   "expected_state": {},
   "expected_children": {
-    "02000000000001": {
-      "Pow": 1,
-      "Mod": 1,
-      "SetTem": 22,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000002": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000003": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000004": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000005": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000006": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    },
-    "02000000000007": {
-      "Pow": 0,
-      "Mod": 0,
-      "SetTem": 24,
-      "WdSpd": 0,
-      "Air": 0,
-      "Blo": 0,
-      "SwhSlp": 0,
-      "SwingLfRig": 0,
-      "SwUpDn": 0,
-      "Quiet": 0,
-      "Tur": 0,
-      "SvSt": 0,
-      "TemBody": 22
-    }
+    "02000000000001": {},
+    "02000000000002": {},
+    "02000000000003": {},
+    "02000000000004": {},
+    "02000000000005": {},
+    "02000000000006": {},
+    "02000000000007": {}
   },
   "variants": [
     {

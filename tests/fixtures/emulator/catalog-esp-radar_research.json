@@ -1,0 +1,887 @@
+{
+  "schema_version": 1,
+  "scope": "Two exact source-qualified finite radar caches; static complete namespace plus separately labeled instruction translations and synthetic board policy; no full boot/native hardware crypto/calibration claim",
+  "sources": [
+    {
+      "ota_code": "362001061890",
+      "source_sha256": "cfb8b5e7d3c2646307384c41661ffb46eafe23ec35c7773cc657311120e0abf7",
+      "assessment_status": "complete_source_assessment",
+      "embedded_hids": [
+        "362001061890+U-ESP32_GRV1.1.bin"
+      ],
+      "reported_hid": {
+        "operation": "status hid",
+        "value": "362001061890+U-ESP32_GRV1.1.bin",
+        "discovery_hid": false,
+        "mainboard_InHid": "362001062639+U-MSTWB8000AV1.0.bin",
+        "protocol_ver": "V3.0.0",
+        "ota_alias_not_identity": true
+      },
+      "mid_roles": [
+        {
+          "mid": "80261",
+          "role": "app_main configured root identity, emitted by scan metadata getter",
+          "typed_family": null
+        }
+      ],
+      "property_coverage": {
+        "getters": 17,
+        "commands": [
+          "ReportClientID",
+          "track",
+          "time_range",
+          "time",
+          "host",
+          "WorkState",
+          "bordertype",
+          "doorindex",
+          "installtype",
+          "doortotal",
+          "reset"
+        ],
+        "closure": "finite strcmp branch chain in 0x40102b24/0x401030a0; default status keeps every requested column plus numeric0; default command echoes converted p without mutation; no opaque ordinary property forwarding",
+        "registration_records": [
+          {
+            "address": "0x3ffc01d4",
+            "callback": "0x401028dc",
+            "flags": 1,
+            "name": "wlan",
+            "record_hex": "edda403f01000000dc281040"
+          },
+          {
+            "address": "0x3ffc01e0",
+            "callback": "0x40102f50",
+            "flags": 2,
+            "name": "scan",
+            "record_hex": "f2da403f02000000502f1040"
+          },
+          {
+            "address": "0x3ffc01ec",
+            "callback": "0x40102ef8",
+            "flags": 1,
+            "name": "bind",
+            "record_hex": "f7da403f01000000f82e1040"
+          },
+          {
+            "address": "0x3ffc01f8",
+            "callback": "0x40102b24",
+            "flags": 0,
+            "name": "status",
+            "record_hex": "3a95423f00000000242b1040"
+          },
+          {
+            "address": "0x3ffc0204",
+            "callback": "0x401030a0",
+            "flags": 0,
+            "name": "cmd",
+            "record_hex": "fcda403f00000000a0301040"
+          },
+          {
+            "address": "0x3ffc0210",
+            "callback": "0x40102984",
+            "flags": 0,
+            "name": "upgrade",
+            "record_hex": "5322413f0000000084291040"
+          },
+          {
+            "address": "0x3ffc021c",
+            "callback": "0x40102830",
+            "flags": 2,
+            "name": "hbok",
+            "record_hex": "00db403f0200000030281040"
+          },
+          {
+            "address": "0x3ffc0228",
+            "callback": "0x401027c0",
+            "flags": 1,
+            "name": "loginRes",
+            "record_hex": "05db403f01000000c0271040"
+          },
+          {
+            "address": "0x3ffc0234",
+            "callback": "0x40102760",
+            "flags": 2,
+            "name": "tm",
+            "record_hex": "bbc5403f0200000060271040"
+          }
+        ],
+        "unresolved_routes": [],
+        "known_getters_omitted": [],
+        "finite_scope": "Complete named ordinary property namespace; source cloud publishers/OTA routes assessed separately, not fabricated as LAN operations or physical capabilities.",
+        "board_reference_closure": {
+          "instruction_data_references": 48,
+          "containing_functions": 23,
+          "unresolved_containing_functions": [],
+          "evidence": "Radar/esp2-board-defined.txt.refs",
+          "setup": "Originally unassigned instruction data references now belong to functions defined transiently from existing decoded ENTRY instructions; body membership is asserted. Original read-only project view only; no instruction modification."
+        }
+      },
+      "quirks": {
+        "temperature_offset": {
+          "value": null,
+          "reason": "finite radar getter has no temperature wire sensor; no calibration inferred"
+        },
+        "relearn_temperature_offset": {
+          "value": false,
+          "reason": "no temperature decoder or learning transition"
+        },
+        "buzzer_properties": {
+          "value": [],
+          "reason": "complete finite cmd chain contains no buzzer command; scoped named ordinary LAN namespace only, not physical acoustic claim"
+        },
+        "cooling_mode_value": {
+          "value": null,
+          "reason": "raw radar family, no AC mode"
+        },
+        "capabilities": {
+          "value": [],
+          "reason": "no typed climate capability declaration; raw-only MID"
+        },
+        "gateway_dialect": {
+          "value": null,
+          "reason": "standalone root, no child enumeration/routing"
+        },
+        "unknowns": "retained column/zero and echoed unknown cmd are not support declarations",
+        "ordering": "status duplicates preserved; command sequential requested p echoes, fresh status effective values",
+        "parser_deviation": "native gree_json/cJSON coercions, unchecked copying/indexing, sequential mutation; safe strict JSON member uniqueness, finite types/ranges, atomic batch validation and bounded reply before commit",
+        "empty_command": {
+          "source": "calloc-backed opt/p builders untouched on zero iterations; string formatting serializes empty strings",
+          "model": "opt and p are empty strings",
+          "qualification": "static original-source callback/builder flow, not native transaction result"
+        },
+        "empty_status": {
+          "source": "zero-item cols/dat builders remain NULL and serializer reaches first-byte load",
+          "source_early_pc": "0x4010db5c l8ui a5,a4,0",
+          "model": "safe normalized cols/dat empty arrays",
+          "qualification": "static inferred dereference, not an observed native fault; historical native entry rsil failure retained separately"
+        },
+        "integer_string_ack": "Numeric array entries are converted through sprintf%d to decimal strings before selected string-command ACK; model preserves integer conversion, rejects boolean/null/object/array/float as explicit safe parser policy.",
+        "source_board_limits": "Native uint8 doortotal accepts up to255 despite5 records. Cumulative ACK index and producer latest mode+doorindex can differ and overflow ten records. Model validates both plus configuration-induced mode changes atomically."
+      },
+      "transport": {
+        "receiver": "0x40103dbc",
+        "common": "0x40101030",
+        "dispatcher": "0x40103a10",
+        "udp_context": 2,
+        "tcp_context": 1,
+        "input_work_buffer_bytes": 1024,
+        "udp_trailing_lf": 0,
+        "tcp_trailing_lf": 1,
+        "generic_key": "public source AES128 generic key, not secret",
+        "codec": "AES-ECB PKCS7; source decrypt trusts final pad byte, safe model validates full padding",
+        "i_contexts": {
+          "wlan": 1,
+          "scan": 2,
+          "bind": 1,
+          "status": 0,
+          "cmd": 0,
+          "upgrade": 0,
+          "hbok": 2,
+          "loginRes": 1,
+          "tm": 2
+        },
+        "reply_i": {
+          "scan": 1,
+          "bind": 1,
+          "status": 0,
+          "cmd": 0
+        },
+        "uid": "uint32 storage interpreted int32, cached per completed packet and echoed; plaintext scan reuses cached uid and peer-cid rather than reading scan uid/cid. Safe model commits metadata only after valid bounded transaction, unlike native early parser mutation.",
+        "target": "native does not establish strict target comparison in commonloop; model requires matching provided outer/inner targets as safe policy",
+        "identity_width_bytes": 6,
+        "children": 0,
+        "lifecycle": "synthetic keys remain stable across bind/rebind; each cache isolated; reconstructing device resets synthetic state",
+        "crypto_qualification": "hardware AES driver is not natively exercised; generic PyCryptodome output in model is separately chosen wire implementation",
+        "wlan": "i1 generic request parses ssid/psw/host and returns unencrypted {t:ret,r:200,mac}; no actual network configuration/credential retention. Valid outer UID/peer metadata is cached. Safe model validates native buffer lengths before cache commit.",
+        "identity_source_bytes": {
+          "literal_address": "0x400d066c",
+          "literal_word": "0x3f40bfba",
+          "literal_bytes": "babf403f",
+          "full_hid_string": "362001061890+U-ESP32_GRV1.1.bin",
+          "evidence": "MediaTekESP/transport-literals.json index7"
+        },
+        "plaintext_pack": "Selector2 consumes a JSON-string pack without AES. Registered scan replies generic index1; hbok/tm are silent. Unwrapped scan/hbok/tm use selector2 and retain cached UID/cid, ignoring unwrapped uid/cid. No unwrapped wlan, loginRes, status or command route. Missing wrapped i defaults2; object pack/duplicate JSON keys rejected by safe parser.",
+        "dump": {
+          "available": false,
+          "selector": null,
+          "reply": null,
+          "effect": "Late only: numeric period converted into unused float32 scratch; cnt copied to unused uint8 scratch; plaintext ret200, no property/logging mutation. Safe model accepts bool cnt as native valueint primitive, rejects unsafe shapes.",
+          "root": null,
+          "qualification": "Fresh source callback400da284 and shared parser400ddd48 reviewed in Radar/esp3-management.txt; not present in early registration table."
+        },
+        "management": {
+          "roots": {
+            "loginRes": "0x401027c0",
+            "hbok": "0x40102830",
+            "tm": "0x40102760"
+          },
+          "selectors": {
+            "loginRes": 1,
+            "hbok": 2,
+            "tm": 2
+          },
+          "wire_reply": "none",
+          "loginRes": "r200 restarts heartbeat timer, never updates private key. Generic index1, not private index0.",
+          "hbok": "creates/restarts response timer and clears retry flag; no ordinary LAN property/key mutation.",
+          "tm": "parses time string %Y-%m-%d %H:%M:%S; early invokes strptime/mktime/clock helper; late sets TZ=CST-8 and adds8 to tm_hour before mktime, refreshes record-time state. No local clock getter. Model retains validated input as explicit synthetic module-time cache without claiming physical clock/RTC/RTOS execution.",
+          "decoder_setup": "Tiny registered callbacks originally lacked Ghidra functions; exact registration roots disassembled/defined transiently in read-only fresh pair, not classified unsupported/native-fault.",
+          "evidence": "Radar/esp2-management-defined.txt"
+        },
+        "ota": {
+          "root": "0x40102984",
+          "selector": 0,
+          "url_limit_bytes": 159,
+          "fields": [
+            "url",
+            "mac",
+            "ver",
+            "induptype"
+          ],
+          "source": "URL missing/over159 rejects. Native prefix target comparison uses caller-supplied MAC length; matching module starts module updater, target1 selects downstream paths. Early induptype2 sets request flag; late induptype1 with greater4-byte version starts downstream update and sets induptype4/NVS TI_ota_info, alternate downstream branch sets request flag. Successful source preparation builds private encrypted ret200. Native unchecked small field copies/version arrays remain unsafe.",
+          "model_policy": "Explicit atomic InvalidPacket rejection, no download/flash or fake success, no OTA metadata mutation. Required no-flashing boundary, not missing source information.",
+          "evidence": "Radar/esp2-board-defined.txt"
+        },
+        "tracking_transport": {
+          "roots": [
+            "0x40100ccc",
+            "0x40102140"
+          ],
+          "source": "Raw track/coordinate/boundary events are built by source common-handle producers and delivered through MQTTS_SAMPLE cloud publisher/queue, NOT the UDP request-response socket. Early unchanged zero occupancy suppresses normal position events; source boundary refresh can publish metadata. Late emits count/WorkState/alarmState/recStatus/list and conditional border/record fields.",
+          "model_policy": "Ordinary ReportClientID/track intent is cached; no fabricated UDP notifications or cloud broker. Declared zero occupancy provides no physical detections. Source cloud telemetry is assessed, not claimed emulated.",
+          "evidence": "Radar/esp2-board-defined.txt"
+        }
+      },
+      "source_board": {
+        "board_address": "0x3ffc7dd0",
+        "flags_address": "0x3ffc7e74",
+        "queue_address": "0x3ffc9558",
+        "borderlist_address": "0x3ffc8815",
+        "measurement_producer": "0x40145fe4",
+        "full_refresh": "0x40145db0",
+        "formatter": "0x4010382c",
+        "geometry": "Ten records, stride16: first5 boundary points and last5 doors. float32 x/y promoted through declared ROM float32-to-double primitive; doorposition is uint8 at record+12.",
+        "uart_raw_scaling": "x highbit => positive low7/10, otherwise negative fullbyte/10; measurement y byte/10. Raw source scaling only, no physical unit inference.",
+        "full_refresh_y": "raw byte/1.0, unlike measurement",
+        "queue_modes": "Modes0..5 supply measurement records/semaphore. Mode5 sets early doorenable and last-door border/NVS save; early mode6 deletes border but never gives queue, mode7 also never gives queue.",
+        "formatter_shape": "Early invalid-border byte+0xa0 gives [\" \"] (one space); otherwise structured object. Early reset immediately clears cache to empty string.",
+        "formatter_fields": "Install1 left=slot0.x,right=slot1.x,farthest=slot2.y; install2 right=slot4.x,farthest=slot3.y; other install values only list. list has one x/y/doorposition object per door fromslots5..9; zero-door sentinel [\"\"]. Source %lf has6 fraction digits.",
+        "cache_limit": "Early unbounded strcpy into300bytes; native unsafe if rendered text exceeds capacity. Model fixed chosen raw zero points and max5 doors remain bounded.",
+        "source_unsafe_indices": "Native uint8 doortotal accepts up to255 despite5 records. Cumulative ACK index and producer latest mode+doorindex can differ and overflow ten records. Model validates both plus configuration-induced mode changes atomically.",
+        "synthetic_policy": "Valid synthetic UART frame flags, zero raw points/doorposition/borderout/count; no physical measurement. Cache refresh is synchronous chosen policy. Natural no-producer modes and injected queue failure retain404 and no appended coordinates."
+      }
+    },
+    {
+      "ota_code": "362001061898",
+      "source_sha256": "e28d1233512b289e626c8ff9ade6a47e8a2b074fcd7e198938aae6632ba94ac9",
+      "assessment_status": "complete_source_assessment",
+      "embedded_hids": [
+        "362001061898+U-ESP32_GRV2.5.bin"
+      ],
+      "reported_hid": {
+        "operation": "status hid",
+        "value": "362001061898+U-ESP32_GRV2.5.bin",
+        "discovery_hid": false,
+        "mainboard_InHid": "362001062639+U-MSTWB8000AV1.0.bin",
+        "protocol_ver": "V3.0.0",
+        "ota_alias_not_identity": true
+      },
+      "mid_roles": [
+        {
+          "mid": "80261",
+          "role": "app_main configured root identity, emitted by scan metadata getter",
+          "typed_family": null
+        }
+      ],
+      "property_coverage": {
+        "getters": 27,
+        "commands": [
+          "ReportClientID",
+          "track",
+          "time_range",
+          "time",
+          "host",
+          "WorkState",
+          "bordertype",
+          "doorindex",
+          "installtype",
+          "doortotal",
+          "reset",
+          "Week",
+          "timeStatus",
+          "alarmMethod",
+          "recStatus",
+          "alarmInterval",
+          "setinstalltype",
+          "border",
+          "GoBack"
+        ],
+        "closure": "finite strcmp branch chain in 0x400dab08/0x400db1b0; default status keeps every requested column plus numeric0; default command echoes converted p without mutation; no opaque ordinary property forwarding",
+        "registration_records": [
+          {
+            "address": "0x3ffbe8fc",
+            "callback": "0x400da2e8",
+            "flags": 1,
+            "name": "wlan",
+            "record_hex": "3350403f01000000e8a20d40"
+          },
+          {
+            "address": "0x3ffbe908",
+            "callback": "0x400da7d0",
+            "flags": 2,
+            "name": "scan",
+            "record_hex": "6e62403f02000000d0a70d40"
+          },
+          {
+            "address": "0x3ffbe914",
+            "callback": "0x400da778",
+            "flags": 1,
+            "name": "bind",
+            "record_hex": "4150403f0100000078a70d40"
+          },
+          {
+            "address": "0x3ffbe920",
+            "callback": "0x400dab08",
+            "flags": 0,
+            "name": "status",
+            "record_hex": "a983423f0000000008ab0d40"
+          },
+          {
+            "address": "0x3ffbe92c",
+            "callback": "0x400db1b0",
+            "flags": 0,
+            "name": "cmd",
+            "record_hex": "7362403f00000000b0b10d40"
+          },
+          {
+            "address": "0x3ffbe938",
+            "callback": "0x400da54c",
+            "flags": 0,
+            "name": "upgrade",
+            "record_hex": "bf9c403f000000004ca50d40"
+          },
+          {
+            "address": "0x3ffbe944",
+            "callback": "0x400da4ac",
+            "flags": 2,
+            "name": "hbok",
+            "record_hex": "7762403f02000000aca40d40"
+          },
+          {
+            "address": "0x3ffbe950",
+            "callback": "0x400da444",
+            "flags": 1,
+            "name": "loginRes",
+            "record_hex": "7c62403f0100000044a40d40"
+          },
+          {
+            "address": "0x3ffbe95c",
+            "callback": "0x400da38c",
+            "flags": 2,
+            "name": "tm",
+            "record_hex": "2e4a403f020000008ca30d40"
+          },
+          {
+            "address": "0x3ffbe968",
+            "callback": "0x400da284",
+            "flags": 0,
+            "name": "dump",
+            "record_hex": "8562403f0000000084a20d40"
+          }
+        ],
+        "unresolved_routes": [],
+        "known_getters_omitted": [],
+        "finite_scope": "Complete named ordinary property namespace; source cloud publishers/OTA routes assessed separately, not fabricated as LAN operations or physical capabilities.",
+        "board_reference_closure": {
+          "instruction_data_references": 92,
+          "containing_functions": 28,
+          "unresolved_containing_functions": [],
+          "evidence": "Radar/esp3-board-defined.txt.refs",
+          "setup": "Originally unassigned instruction data references now belong to functions defined transiently from existing decoded ENTRY instructions; body membership is asserted. Original read-only project view only; no instruction modification."
+        }
+      },
+      "quirks": {
+        "temperature_offset": {
+          "value": null,
+          "reason": "finite radar getter has no temperature wire sensor; no calibration inferred"
+        },
+        "relearn_temperature_offset": {
+          "value": false,
+          "reason": "no temperature decoder or learning transition"
+        },
+        "buzzer_properties": {
+          "value": [],
+          "reason": "complete finite cmd chain contains no buzzer command; scoped named ordinary LAN namespace only, not physical acoustic claim"
+        },
+        "cooling_mode_value": {
+          "value": null,
+          "reason": "raw radar family, no AC mode"
+        },
+        "capabilities": {
+          "value": [],
+          "reason": "no typed climate capability declaration; raw-only MID"
+        },
+        "gateway_dialect": {
+          "value": null,
+          "reason": "standalone root, no child enumeration/routing"
+        },
+        "unknowns": "retained column/zero and echoed unknown cmd are not support declarations",
+        "ordering": "status duplicates preserved; command sequential requested p echoes, fresh status effective values",
+        "parser_deviation": "native gree_json/cJSON coercions, unchecked copying/indexing, sequential mutation; safe strict JSON member uniqueness, finite types/ranges, atomic batch validation and bounded reply before commit",
+        "empty_command": {
+          "source": "calloc-backed opt/p builders untouched on zero iterations; string formatting serializes empty strings",
+          "model": "opt and p are empty strings",
+          "qualification": "static original-source callback/builder flow, not native transaction result"
+        },
+        "empty_status": {
+          "source": "zero-item cols/dat builders remain NULL and serializer reaches first-byte load",
+          "source_early_pc": "0x4010db5c l8ui a5,a4,0",
+          "model": "safe normalized cols/dat empty arrays",
+          "qualification": "static inferred dereference, not an observed native fault; historical native entry rsil failure retained separately"
+        },
+        "integer_string_ack": "Numeric array entries are converted through sprintf%d to decimal strings before selected string-command ACK; model preserves integer conversion, rejects boolean/null/object/array/float as explicit safe parser policy.",
+        "source_board_limits": "Native uint8 doortotal accepts up to255 despite5 records. Cumulative ACK index and producer latest mode+doorindex can differ and overflow ten records. Model validates both plus configuration-induced mode changes atomically."
+      },
+      "transport": {
+        "receiver": "0x400dc14c",
+        "common": "0x400d77bc",
+        "dispatcher": "0x400dbd8c",
+        "udp_context": 2,
+        "tcp_context": 1,
+        "input_work_buffer_bytes": 1024,
+        "udp_trailing_lf": 0,
+        "tcp_trailing_lf": 1,
+        "generic_key": "public source AES128 generic key, not secret",
+        "codec": "AES-ECB PKCS7; source decrypt trusts final pad byte, safe model validates full padding",
+        "i_contexts": {
+          "wlan": 1,
+          "scan": 2,
+          "bind": 1,
+          "status": 0,
+          "cmd": 0,
+          "upgrade": 0,
+          "hbok": 2,
+          "loginRes": 1,
+          "tm": 2,
+          "dump": 0
+        },
+        "reply_i": {
+          "scan": 1,
+          "bind": 1,
+          "status": 0,
+          "cmd": 0
+        },
+        "uid": "uint32 storage interpreted int32, cached per completed packet and echoed; plaintext scan reuses cached uid and peer-cid rather than reading scan uid/cid. Safe model commits metadata only after valid bounded transaction, unlike native early parser mutation.",
+        "target": "native does not establish strict target comparison in commonloop; model requires matching provided outer/inner targets as safe policy",
+        "identity_width_bytes": 6,
+        "children": 0,
+        "lifecycle": "synthetic keys remain stable across bind/rebind; each cache isolated; reconstructing device resets synthetic state",
+        "crypto_qualification": "hardware AES driver is not natively exercised; generic PyCryptodome output in model is separately chosen wire implementation",
+        "wlan": "i1 generic request parses ssid/psw/host and returns unencrypted {t:ret,r:200,mac}; no actual network configuration/credential retention. Valid outer UID/peer metadata is cached. Safe model validates native buffer lengths before cache commit.",
+        "identity_source_bytes": {
+          "literal_address": "0x400d0658",
+          "literal_word": "0x3f4045c4",
+          "literal_bytes": "c445403f",
+          "full_hid_string": "362001061898+U-ESP32_GRV2.5.bin",
+          "evidence": "MediaTekESP/transport-literals.json index8"
+        },
+        "plaintext_pack": "Selector2 consumes a JSON-string pack without AES. Registered scan replies generic index1; hbok/tm are silent. Unwrapped scan/hbok/tm use selector2 and retain cached UID/cid, ignoring unwrapped uid/cid. No unwrapped wlan, loginRes, status or command route. Missing wrapped i defaults2; object pack/duplicate JSON keys rejected by safe parser.",
+        "dump": {
+          "available": true,
+          "selector": 0,
+          "reply": "plaintext {t:ret,r:200,mac}",
+          "effect": "Late only: numeric period converted into unused float32 scratch; cnt copied to unused uint8 scratch; plaintext ret200, no property/logging mutation. Safe model accepts bool cnt as native valueint primitive, rejects unsafe shapes.",
+          "root": "0x400da284",
+          "qualification": "Fresh source callback400da284 and shared parser400ddd48 reviewed in Radar/esp3-management.txt; not present in early registration table."
+        },
+        "management": {
+          "roots": {
+            "loginRes": "0x400da444",
+            "hbok": "0x400da4ac",
+            "tm": "0x400da38c"
+          },
+          "selectors": {
+            "loginRes": 1,
+            "hbok": 2,
+            "tm": 2
+          },
+          "wire_reply": "none",
+          "loginRes": "r200 restarts heartbeat timer, never updates private key. Generic index1, not private index0.",
+          "hbok": "creates/restarts response timer and clears retry flag; no ordinary LAN property/key mutation.",
+          "tm": "parses time string %Y-%m-%d %H:%M:%S; early invokes strptime/mktime/clock helper; late sets TZ=CST-8 and adds8 to tm_hour before mktime, refreshes record-time state. No local clock getter. Model retains validated input as explicit synthetic module-time cache without claiming physical clock/RTC/RTOS execution.",
+          "decoder_setup": "Tiny registered callbacks originally lacked Ghidra functions; exact registration roots disassembled/defined transiently in read-only fresh pair, not classified unsupported/native-fault.",
+          "evidence": "Radar/esp3-management-defined.txt"
+        },
+        "ota": {
+          "root": "0x400da54c",
+          "selector": 0,
+          "url_limit_bytes": 159,
+          "fields": [
+            "url",
+            "mac",
+            "ver",
+            "induptype"
+          ],
+          "source": "URL missing/over159 rejects. Native prefix target comparison uses caller-supplied MAC length; matching module starts module updater, target1 selects downstream paths. Early induptype2 sets request flag; late induptype1 with greater4-byte version starts downstream update and sets induptype4/NVS TI_ota_info, alternate downstream branch sets request flag. Successful source preparation builds private encrypted ret200. Native unchecked small field copies/version arrays remain unsafe.",
+          "model_policy": "Explicit atomic InvalidPacket rejection, no download/flash or fake success, no OTA metadata mutation. Required no-flashing boundary, not missing source information.",
+          "evidence": "Radar/esp3-board-defined.txt"
+        },
+        "tracking_transport": {
+          "roots": [
+            "0x400d7eac",
+            "0x400dc9b0"
+          ],
+          "source": "Raw track/coordinate/boundary events are built by source common-handle producers and delivered through MQTTS_SAMPLE cloud publisher/queue, NOT the UDP request-response socket. Early unchanged zero occupancy suppresses normal position events; source boundary refresh can publish metadata. Late emits count/WorkState/alarmState/recStatus/list and conditional border/record fields.",
+          "model_policy": "Ordinary ReportClientID/track intent is cached; no fabricated UDP notifications or cloud broker. Declared zero occupancy provides no physical detections. Source cloud telemetry is assessed, not claimed emulated.",
+          "evidence": "Radar/esp3-board-defined.txt"
+        }
+      },
+      "source_board": {
+        "board_address": "0x3ffc3088",
+        "flags_address": "0x3ffc312c",
+        "queue_address": "0x3ffc307c",
+        "borderlist_address": "0x3ffc3ae0",
+        "measurement_producer": "0x400d9ad4",
+        "full_refresh": "0x400d9734",
+        "formatter": "0x400dbbcc",
+        "geometry": "Ten records, stride16: first5 boundary points and last5 doors. float32 x/y promoted through declared ROM float32-to-double primitive; doorposition is uint8 at record+12.",
+        "uart_raw_scaling": "x highbit => positive low7/10, otherwise negative fullbyte/10; measurement y byte/10. Raw source scaling only, no physical unit inference.",
+        "full_refresh_y": "raw byte/10.0",
+        "queue_modes": "Modes0..5 supply records/semaphore and frame-valid flag controls doorenable bit17. Mode6 clears border/NVS with no queue. Mode7 saves border and gives queue on success, no appended coordinates. Post-completion install1 sequence0->2->1, install2 0->3->4->1; mode5 fixed, inputmode1 clears doorenable. setinstalltype/mode7 skip post-step unless GoBack1 bypasses wait.",
+        "formatter_shape": "Always structured object, including invalid border. Reset stages mode6 but preserves install/doortotal.",
+        "formatter_fields": "Install1 left=slot0.x,right=slot1.x,farthest=slot2.y; install2 right=slot4.x,farthest=slot3.y; other install values only list. list has one x/y/doorposition object per door fromslots5..9; zero-door sentinel [\"\"]. Source %lf has6 fraction digits.",
+        "cache_limit": "Native late cache refuses serializedlength>=300 and retains old cache. Five zero doors with install1 render288bytes. Model fixed rawzero values/max5 remain bounded.",
+        "source_unsafe_indices": "Native uint8 doortotal accepts up to255 despite5 records. Cumulative ACK index and producer latest mode+doorindex can differ and overflow ten records. Model validates both plus configuration-induced mode changes atomically.",
+        "synthetic_policy": "Valid synthetic UART frame flags, zero raw points/doorposition/borderout/count; no physical measurement. Cache refresh is synchronous chosen policy. Natural no-producer modes and injected queue failure retain404 and no appended coordinates."
+      }
+    }
+  ],
+  "vectors": "catalog-esp-radar-vectors_research.json",
+  "probe": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Radar/probe.py",
+  "full_assessment": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Radar/full-source-assessment.json",
+  "synthetic_policy": {
+    "max_properties": 32,
+    "max_name_utf8_bytes": 63,
+    "max_command_string_utf8_bytes": 31,
+    "max_reply_bytes_exclusive": 1024,
+    "atomic_validation": true,
+    "duplicate_json_members": "reject",
+    "string_escaping": "native gree_json uses unescaped sprintf string interpolation; the model always escapes JSON strings and rejects embedded NUL as explicit safe serialization policy",
+    "duplicate_properties": "preserve order; sequential writes; echoed requested p, fresh effective readback",
+    "empty_command": "native calloc-backed empty builders serialize opt and p as empty strings, not arrays",
+    "empty_status": "safe model returns empty cols/dat arrays; native zero-item builder pointers remain NULL and reach string first-byte dereference (static source inference, not observed native fault)",
+    "number_to_string": "native gree_json numeric array elements use sprintf%d before dispatch; selected string commands echo decimal strings",
+    "discovery_metadata": "UID and peer cid are cached from completed encrypted transactions; plaintext scans reuse them, ignoring scan uid/cid; malformed transactions leave model metadata unchanged",
+    "late_schedule": "normal source record scheduling normalizes WorkState>1 to3 with explicitly zero synthetic occupancy; requested p remains unchanged",
+    "native_board_queue_timeout": "r404; no appended borderout/x/y/doorposition",
+    "synthetic_board_queue_success": "r200; source ACK appends borderout,x,y and doorposition when cumulative selector slot>4. Chosen raw points0.0,0.0, position0, borderout0; valid synthetic UART flag gives late doorenable1 except source post-mode1 clearing. Late setinstalltype/mode7 suppress appended coordinates. No physical measurement claim.",
+    "unknown_status": "retain column and numeric zero; not physical sensor support",
+    "unknown_command": "echo numeric p without mutation; not supported setter",
+    "physics": "none; no fabricated people, coordinate or thermal measurement",
+    "max_doors": 5,
+    "max_board_records": 10,
+    "native_unsafe_door_count": "Native accepts uint8 through255 but owns only five door records; the model rejects effective counts>5 and out-of-range cumulative ACK/final UART indices atomically, including configuration-induced mode changes.",
+    "boundary_cache": "Early invalid-border sentinel is [\" \"] (one space); early reset clears cache to empty string. Late always emits an object; both zero-door lists use [\"\"]. Install1 emits left/right/farthest; install2 right/farthest; other install values only list. Config refresh is synchronous synthetic policy.",
+    "native_mode_timeouts": "Early modes6 and7 and late mode6 have no queue producer, retain r404. Late mode7 saves/queues successfully without appended coordinates.",
+    "module_management": "loginRes requires generic-key selector1; hbok/tm require plaintext selector2, either JSON-string pack or unwrapped. All are silent; loginRes r200 resets heartbeat timer without key replacement. Unwrapped packets retain cached UID/cid. Model validates tm calendar syntax and retains a synthetic module-time input cache; no physical clock/RTOS/cloud-reconnect execution.",
+    "ota": "Source selector0 upgrade routes are assessed; model explicitly rejects atomically, never downloads/flashes or reports a fake success.",
+    "dump_types": "Late dump parses period through numeric-to-float32 scratch and cnt through a uint8 scratch, then discards both. Safe model accepts finite JSON numeric period, bool/int32-or-decimal cnt; neither changes a property or logging configuration."
+  },
+  "execution": "Parent original selected-leaf translations41/59 plus geometry literals observed matching. Worker subsequently executed eight read-only source exports and new original-byte-asserted producer/formatter translation: all six full formatter literal strings and six UART vectors match. No native complete transaction, physical readout or hardware crypto claim. Public model/tests/CLI/client not executed by worker; parent final verification required.",
+  "scalar_polling_preset": {
+    "mid": "80261",
+    "status_columns": [
+      "WorkState",
+      "count",
+      "border",
+      "JFerr",
+      "doorenable",
+      "doortotal",
+      "host",
+      "ver",
+      "name",
+      "rssi",
+      "hid",
+      "InHid",
+      "OEEPHid",
+      "InHidDownPer",
+      "devinhidownver",
+      "induptype"
+    ],
+    "family": null,
+    "rationale": "Common16 balanced scalar getters across both exact builds, raw familyNone. borderlist retained full raw runtime getter but excluded from scalar preset because gree_json inserts array/object-prefixed strings as raw JSON; late-only getters remain explicitly requestable."
+  },
+  "canonical_udp_fixtures": [
+    "catalog-esp-radar-v1.1.json",
+    "catalog-esp-radar-v2.5.json"
+  ],
+  "producer_probe": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/CatalogQuirks/MediaTekESP/Radar/probe_boundary.py",
+  "producer_translation_qualification": {
+    "artifact": "Radar/boundary-results.json",
+    "qualification": "byte-asserted instruction-matched translations, NOT native execution",
+    "script_sha256": "ace571c6ac7d9e7ecdce4d9fa38d6f55da902217cb0310b894a8d56d6bf127a6",
+    "sources": [
+      {
+        "source_sha256": "cfb8b5e7d3c2646307384c41661ffb46eafe23ec35c7773cc657311120e0abf7",
+        "bodies": [
+          {
+            "root": "0x4010382c",
+            "asserted_instructions": 178,
+            "instruction_bytes_sha256": "ffce63908f083dc238bfd500e5c133ca718b963d24a78b32fefbe9f47dd4fd5b"
+          },
+          {
+            "root": "0x40145fe4",
+            "asserted_instructions": 218,
+            "instruction_bytes_sha256": "f239b995ba866c543183c4cc8c26987057b69490263181595175c971ea005cb0"
+          },
+          {
+            "root": "0x40145db0",
+            "asserted_instructions": 56,
+            "instruction_bytes_sha256": "002f393ff2376f8dd961b441d1e15817a361ac1dde8961810c64b21dd070a144"
+          }
+        ],
+        "formatter_vectors": [
+          {
+            "inputs": {},
+            "expected": "[\" \"]",
+            "observed": "[\" \"]",
+            "wire_value": [
+              " "
+            ],
+            "native_text_bytes": 5
+          },
+          {
+            "inputs": {
+              "border": 1,
+              "install": 1,
+              "floats": {
+                "0": 1.25,
+                "16": 2.5,
+                "36": 3.75
+              }
+            },
+            "expected": "{\"left\":1.250000,\"right\":2.500000,\"farthest\":3.750000,\"list\":[\"\"]}",
+            "observed": "{\"left\":1.250000,\"right\":2.500000,\"farthest\":3.750000,\"list\":[\"\"]}",
+            "wire_value": {
+              "left": 1.25,
+              "right": 2.5,
+              "farthest": 3.75,
+              "list": [
+                ""
+              ]
+            },
+            "native_text_bytes": 66
+          },
+          {
+            "inputs": {
+              "border": 1,
+              "install": 2,
+              "doors": 1,
+              "floats": {
+                "64": 4.5,
+                "52": 5.25,
+                "80": -1.5,
+                "84": 2.75
+              },
+              "positions": {
+                "92": 7
+              }
+            },
+            "expected": "{\"right\":4.500000,\"farthest\":5.250000,\"list\":[{\"x\":-1.500000,\"y\":2.750000,\"doorposition\":7}]}",
+            "observed": "{\"right\":4.500000,\"farthest\":5.250000,\"list\":[{\"x\":-1.500000,\"y\":2.750000,\"doorposition\":7}]}",
+            "wire_value": {
+              "right": 4.5,
+              "farthest": 5.25,
+              "list": [
+                {
+                  "x": -1.5,
+                  "y": 2.75,
+                  "doorposition": 7
+                }
+              ]
+            },
+            "native_text_bytes": 93
+          }
+        ],
+        "uart_vectors": [
+          {
+            "raw_x": 143,
+            "raw_y": 25,
+            "measurement_expected": [
+              1.5,
+              2.5
+            ],
+            "measurement_observed": [
+              1.5,
+              2.5
+            ],
+            "full_refresh_y": 25.0,
+            "qualification": "source raw scaling, physical coordinate units/calibration unknown"
+          },
+          {
+            "raw_x": 15,
+            "raw_y": 25,
+            "measurement_expected": [
+              -1.5,
+              2.5
+            ],
+            "measurement_observed": [
+              -1.5,
+              2.5
+            ],
+            "full_refresh_y": 25.0,
+            "qualification": "source raw scaling, physical coordinate units/calibration unknown"
+          },
+          {
+            "raw_x": 255,
+            "raw_y": 255,
+            "measurement_expected": [
+              12.699999809265137,
+              25.5
+            ],
+            "measurement_observed": [
+              12.699999809265137,
+              25.5
+            ],
+            "full_refresh_y": 255.0,
+            "qualification": "source raw scaling, physical coordinate units/calibration unknown"
+          }
+        ],
+        "limits": "Five door records. Native late cache rejects serialized length>=300; early copy has no such bound. No UART peripheral/RTOS/NVS/native ROM or full firmware boot executed."
+      },
+      {
+        "source_sha256": "e28d1233512b289e626c8ff9ade6a47e8a2b074fcd7e198938aae6632ba94ac9",
+        "bodies": [
+          {
+            "root": "0x400dbbcc",
+            "asserted_instructions": 166,
+            "instruction_bytes_sha256": "e9dbe2d4d43f003e0373a8024b0d06d3d8b93bc49c56627d257674d188646095"
+          },
+          {
+            "root": "0x400d9ad4",
+            "asserted_instructions": 217,
+            "instruction_bytes_sha256": "79acb459f6c395847e909be828cdb892ba089b10b1752b6fd9c51d7cdece508e"
+          },
+          {
+            "root": "0x400d9734",
+            "asserted_instructions": 103,
+            "instruction_bytes_sha256": "82b680200c886db4b8a4ed6cb7084412054db14420e0ebb1783e60ea4b530fa4"
+          }
+        ],
+        "formatter_vectors": [
+          {
+            "inputs": {},
+            "expected": "{\"list\":[\"\"]}",
+            "observed": "{\"list\":[\"\"]}",
+            "wire_value": {
+              "list": [
+                ""
+              ]
+            },
+            "native_text_bytes": 13
+          },
+          {
+            "inputs": {
+              "border": 1,
+              "install": 1,
+              "floats": {
+                "0": 1.25,
+                "16": 2.5,
+                "36": 3.75
+              }
+            },
+            "expected": "{\"left\":1.250000,\"right\":2.500000,\"farthest\":3.750000,\"list\":[\"\"]}",
+            "observed": "{\"left\":1.250000,\"right\":2.500000,\"farthest\":3.750000,\"list\":[\"\"]}",
+            "wire_value": {
+              "left": 1.25,
+              "right": 2.5,
+              "farthest": 3.75,
+              "list": [
+                ""
+              ]
+            },
+            "native_text_bytes": 66
+          },
+          {
+            "inputs": {
+              "border": 1,
+              "install": 2,
+              "doors": 1,
+              "floats": {
+                "64": 4.5,
+                "52": 5.25,
+                "80": -1.5,
+                "84": 2.75
+              },
+              "positions": {
+                "92": 7
+              }
+            },
+            "expected": "{\"right\":4.500000,\"farthest\":5.250000,\"list\":[{\"x\":-1.500000,\"y\":2.750000,\"doorposition\":7}]}",
+            "observed": "{\"right\":4.500000,\"farthest\":5.250000,\"list\":[{\"x\":-1.500000,\"y\":2.750000,\"doorposition\":7}]}",
+            "wire_value": {
+              "right": 4.5,
+              "farthest": 5.25,
+              "list": [
+                {
+                  "x": -1.5,
+                  "y": 2.75,
+                  "doorposition": 7
+                }
+              ]
+            },
+            "native_text_bytes": 93
+          }
+        ],
+        "uart_vectors": [
+          {
+            "raw_x": 143,
+            "raw_y": 25,
+            "measurement_expected": [
+              1.5,
+              2.5
+            ],
+            "measurement_observed": [
+              1.5,
+              2.5
+            ],
+            "full_refresh_y": 2.5,
+            "qualification": "source raw scaling, physical coordinate units/calibration unknown"
+          },
+          {
+            "raw_x": 15,
+            "raw_y": 25,
+            "measurement_expected": [
+              -1.5,
+              2.5
+            ],
+            "measurement_observed": [
+              -1.5,
+              2.5
+            ],
+            "full_refresh_y": 2.5,
+            "qualification": "source raw scaling, physical coordinate units/calibration unknown"
+          },
+          {
+            "raw_x": 255,
+            "raw_y": 255,
+            "measurement_expected": [
+              12.699999809265137,
+              25.5
+            ],
+            "measurement_observed": [
+              12.699999809265137,
+              25.5
+            ],
+            "full_refresh_y": 25.5,
+            "qualification": "source raw scaling, physical coordinate units/calibration unknown"
+          }
+        ],
+        "limits": "Five door records. Native late cache rejects serialized length>=300; early copy has no such bound. No UART peripheral/RTOS/NVS/native ROM or full firmware boot executed."
+      }
+    ]
+  },
+  "canonical_request_counts": {
+    "catalog-esp-radar-v1.1.json": 39,
+    "catalog-esp-radar-v2.5.json": 41
+  }
+}

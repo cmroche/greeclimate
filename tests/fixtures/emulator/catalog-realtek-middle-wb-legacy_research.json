@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "scope": "Independently pinned original-source contracts; no native or test execution claimed.",
+  "evidence": [
+    "custom-bincmd-integration.json",
+    "wb-new-remaining-operation-contracts.json",
+    "new-wb01-native-key-socket-instructions.json",
+    "new-wb01-wire-hid-instructions.json",
+    "new-ir-native-udp-instructions.json"
+  ],
+  "wire": {
+    "listener_port": 5001,
+    "required_source_port": 5001,
+    "reply_port": 5000,
+    "receive_capacity": 1536,
+    "codec": "aes-ecb-pkcs7-lf",
+    "inner_lf": true,
+    "outer_lf": false,
+    "request_i": "old cJSON valueint low8; initialized0",
+    "uid": "old cJSON valueint32 initialized0; signed%d output",
+    "target_gate": false,
+    "reply_cid": "module MAC",
+    "reply_tcid": "SDK host-MAC cache, not request CID",
+    "reply_msgId": "activity after callback; reset0 iff >=65536 and a callback reply exists",
+    "operation_values_case": "ASCII case-insensitive actual dispatcher C-table comparator",
+    "duplicate_keys": "first case-insensitive linked member wins"
+  },
+  "policy": {
+    "mid_input": "explicit synthetic UART0x44 word0x10001; not filename/route/physical MID",
+    "raw_banks": "four explicit zero65-byte MCU readouts",
+    "scenes": "twenty explicit all-FF native flash records",
+    "init_cache": "five zero16-byte synthetic cache records",
+    "stack": "explicit55-byte zero virtual stale-stack readout; not native initialization",
+    "reference": "explicit65-byte zero source24 legacy-reference readout",
+    "clock": "chosen2000-01-01; source35 malformed scanf ROM10110ffc remains missing; virtual clock uses declared scanf/calendar ABI",
+    "unsafe": "atomic rejection of source buffer overflows, NULL tuple/bank accesses and heap-pointer-array text; no physical effect"
+  },
+  "sources": [
+    {
+      "assessment_index": 24,
+      "source_sha256": "faa49ed7a0ca7612b9e1ce6024a11f6fada63679d7e16e7970e357545faee6e7",
+      "profile_id": "sim-middle-wb-legacy-faa49ed7-10001",
+      "hid": "362001065867+U-WB01AV2.93.bin",
+      "sdk_ver": "V3.5.M",
+      "factory_key_hex": "574232342d6b65792d70726573657431",
+      "udp_table": "0x9b812b1c",
+      "udp_sentinel": "0x9b812b88",
+      "operations": {
+        "scan": 1,
+        "UBindok": 0,
+        "ret": 0,
+        "binCmd": 0,
+        "reset": 0,
+        "hbok": 1,
+        "Utm": 0,
+        "loginInfoRes": 0,
+        "statusCheck": 0
+      },
+      "scene_stride": 172,
+      "scene_frame_bytes": 55,
+      "scene_id_offset": 168,
+      "scene_flash_offset": 2043904,
+      "scan_scene_output": true,
+      "scene_enable_field": "sence_enable",
+      "raw91_retain": "bank[3]==0x91 and u8refresh!=1",
+      "normal_fragment_mask": false,
+      "reserved82_width": 8,
+      "ubind_immediate_packets": [
+        "Utm",
+        "getLoginInfo"
+      ],
+      "ubind_activity_increments": 3
+    },
+    {
+      "assessment_index": 35,
+      "source_sha256": "449974949ee0720813a603c8276049c5ce420dcd854aa96c2e9a94b94b76d571",
+      "profile_id": "sim-middle-wb-legacy-44997494-10001",
+      "hid": "362001067088+U-WB05IRV1.15.bin",
+      "sdk_ver": "V3.5.M",
+      "factory_key_hex": "574233352d6b65792d70726573657431",
+      "udp_table": "0xe0a6b58",
+      "udp_sentinel": "0xe0a6bac",
+      "operations": {
+        "scan": 1,
+        "UBindok": 0,
+        "ret": 0,
+        "binCmd": 0,
+        "reset": 0,
+        "hbok": 1,
+        "Utm": 0
+      },
+      "scene_stride": 200,
+      "scene_frame_bytes": 65,
+      "scene_id_offset": 196,
+      "scene_flash_offset": 2101248,
+      "scan_scene_output": false,
+      "scene_enable_field": null,
+      "raw91_retain": "bank[3]==0x91 regardless refresh",
+      "normal_fragment_mask": true,
+      "reserved82_width": 32,
+      "ubind_immediate_packets": [
+        "Utm"
+      ],
+      "ubind_activity_increments": 2
+    }
+  ],
+  "raw_bank_frame_hex": "7e7e03910102",
+  "fragment_legacy": [
+    145,
+    1,
+    15,
+    5,
+    305419896
+  ],
+  "fragment_object": {
+    "cmd_type": 145,
+    "byte": 1,
+    "mask": 15,
+    "value": 5,
+    "initval": 305419896
+  },
+  "ordinary_ack": {
+    "t": "res",
+    "r": 200,
+    "mac": "020000000001"
+  },
+  "initial_mid": "10001",
+  "paired_key_hex": "30313233343536373839616263646566",
+  "complete_raw_fields": [
+    "hex91",
+    "hex92",
+    "hex93",
+    "hex6A",
+    "hex6B",
+    "hex6C",
+    "hex6D",
+    "hex6E"
+  ],
+  "binCmd_other_fields": [
+    "roomId",
+    "sceneId",
+    "operType",
+    "fragment"
+  ],
+  "immediate_scratch": "shared128; clear after successful91/92/93/6A/6B; NO clear after6C/6D/6E",
+  "init_cache": "slot0..4; slot[0]==0 OR compare slot first3 to input[16*i:16*i+3]; copy ORIGINAL input16",
+  "source_blocks": [
+    "actual persisted scene bytes",
+    "actual physical mainboard schemas/readouts",
+    "source35 exact malformed-clock scanf ROM10110ffc"
+  ]
+}

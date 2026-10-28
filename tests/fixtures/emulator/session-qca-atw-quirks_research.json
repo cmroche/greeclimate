@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "source_sha256": "07cfbe377aadee70b1bf4576bdd3a4013f7b2d4b014e9757ec036bc1dbcfe1fb",
+  "source": "SessionQuirks/QCA/assessment.json and parent-executed probe-results.json, probe-results-failed-retry.json, probe-results-last-failed-retry.json",
+  "qualification": "Byte-asserted bounded Xtensa instruction translations, with pinned cJSON/libc/compiler primitives and synthetic board/RAM/IO. Not a native CPU, firmware boot or physical calibration claim. Initial empty HID replay was superseded after initializer qualification.",
+  "identity": {
+    "emitted_heater_mids": ["9300", "9301", "9302"],
+    "discovery_hid": "omitted",
+    "discovery_ModelType": "",
+    "requested_status_hid": "362001066763+W06A(P3)V5.08.bin",
+    "requested_ModelType": "",
+    "alternate_mid": "806004",
+    "alternate_role": "Superseded comparison-only claim: original D-info producer is now instruction-qualified for all6 ATW source hashes; uint32LE0x806004 formats through ROM%x to emitted806004. Separate roomless raw presets retain10 staged bytes and15 unsigned16 report words; not calibrated AC typing.",
+    "metadata_correction": "Old replay supplied HID as ModelType and build-label ver in RAM. Those values prove getter serialization, not startup identity. atw-closure_research.json supersedes them using original initializer: independent ModelType empty, actual initialized ver V5.0.0.0 and host dis.gree.com."
+  },
+  "heater_controls_slot_order": [
+    "FastHtWter", "ColHtWter", "HetHtWter", "TemUn", "SvSt", "Quiet",
+    "Emegcy", "LefHom", "Mod", "SwDisFct", "CoWatOutTemSet", "HeWatOutTemSet",
+    "CoHomTemSet", "HeHomTemSet", "WatBoxTemSet", "Reset", "AllErr", "Pow", "TemRec", "TemRecB"
+  ],
+  "heater_control_semantics": "Nonnegative signed32 integer input; ACK p/val echoes requested number; staged value is low8 bits. Ordered duplicates apply sequentially, last staged write wins. No inferred physical range. Reset is raw staging, not process restart. Emegcy command writes slot6; getter reads independent reported sensor word22.",
+  "heater_sensor_slot_order": [
+    "AllInWatTemHi", "AllInWatTemLo", "AllOutWatTemHi", "AllOutWatTemLo",
+    "HepOutWatTemHi", "HepOutWatTemLo", "WatBoxTemHi", "WatBoxTemLo",
+    "RmoHomTemHi", "RmoHomTemLo", "WatBoxElcHeRunSta", "SyAnFroRunSta",
+    "ElcHe1RunSta", "ElcHe2RunSta", "AnFrzzRunSta", "VersatiSeries",
+    "WatBoxExt", "BordTest", "RomHomTemExt", "FocModSwh", "ColColetSwh",
+    "EndTemCotSwh", "Emegcy", "HanFroSwh", "WatSyExhSwh"
+  ],
+  "heater_report_semantics": "All25 report cache entries are unsigned16. Ten component-temperature bytes are copied unchanged to cache; low values are not restricted to decimal0..9. Slots10..14 decode single bits; remaining report slots decode unsigned bytes. No physical units or offsets established by this source.",
+  "report_vectors": [
+    {
+      "case": "sensor-report-to-status-9300/9301/9302-no-decimal-normalization",
+      "frame_hex": "0000000000ff7f80ff0064097a0700000000000000000000000000",
+      "cols": ["AllInWatTemHi", "AllInWatTemLo", "AllOutWatTemHi", "AllOutWatTemLo", "HepOutWatTemHi", "HepOutWatTemLo", "WatBoxTemHi", "WatBoxTemLo", "RmoHomTemHi", "RmoHomTemLo"],
+      "dat": [0, 255, 127, 128, 255, 0, 100, 9, 122, 7]
+    },
+    {
+      "case": "descriptor byte/bit boundaries and all25 getters",
+      "frame_hex": "0000000000ff7f80ff0064097a070305ff807f010203040506070809",
+      "cols": ["AllInWatTemHi", "AllInWatTemLo", "AllOutWatTemHi", "AllOutWatTemLo", "HepOutWatTemHi", "HepOutWatTemLo", "WatBoxTemHi", "WatBoxTemLo", "RmoHomTemHi", "RmoHomTemLo", "WatBoxElcHeRunSta", "SyAnFroRunSta", "ElcHe1RunSta", "ElcHe2RunSta", "AnFrzzRunSta", "VersatiSeries", "WatBoxExt", "BordTest", "RomHomTemExt", "FocModSwh", "ColColetSwh", "EndTemCotSwh", "Emegcy", "HanFroSwh", "WatSyExhSwh"],
+      "dat": [0, 255, 127, 128, 255, 0, 100, 9, 122, 7, 1, 1, 1, 0, 1, 255, 128, 127, 1, 2, 3, 4, 5, 6, 7],
+      "independence": "Literal descriptor operations from source decoder0xa05dfc, not emulator-produced values; extra frame tail deliberately ignored."
+    }
+  ],
+  "alternate_controls_slot_order": ["SvSt", "Quiet", "LefHom", "Mod", "Pow", "HeWatOutTemSet", "HeWatOutTemSetFloor", "CoWatOutTemSet", "Reset", "FactoryTest"],
+  "alternate_sensor_slot_order": ["EnvironmentTem", "AirInTem", "AirOutTem", "DefrostTem", "AllInWatTem", "AllOutWatTem", "AntifreezeTem", "CodeCoalGasTem", "CodeCoalLiquidTem", "HighPressureTem", "FloorHeat", "TemUn", "AllErr", "LowPressureTem", "DryContact"],
+  "alternate_sensor_semantics": "Slots0..9 and13 read unsigned big-endian16 at offsets4,6,8,10,12,14,16,18,20,22,24. Slots10/11/12/14 select bits0/1/2/3 of byte31. No sign extension, byte truncation, physical offsets, cooling identity or real appliance emission implied.",
+  "alternate_qualified_vectors": [
+    {"case": "alternate-u16be-256-not-emitted-MID-proof", "board_bytes_hex": "0100", "cols": ["EnvironmentTem"], "dat": [256]},
+    {"case": "alternate-u16be-65535-not-emitted-MID-proof", "board_bytes_hex": "ffff", "cols": ["EnvironmentTem"], "dat": [65535]}
+  ],
+  "metadata": {
+    "value_getters": ["lock", "vender", "bc", "mid", "model", "series", "apssid", "appsw", "brand", "catalog", "hid", "host", "mac", "name", "time", "ver", "ModelType", "rssi"],
+    "column_without_value": ["SwhWifi", "SwhWifiRes", "SwhWifiConf", "AutoUpdate", "AutoConnCloud", "datDump", "datRep", "datFailRep", "datPeroid", "subCnt", "useTCP", "country", "city", "cnty", "cityid", "lat", "lon"],
+    "io_vectors": [{"station": 0, "link_state": 4, "rssi_byte": 219, "dat": [219]}, {"station": 1, "dat": [-1]}],
+    "time_epoch_dat": ["1970-01-01 00:00:00"]
+  },
+  "model_policy": "All20 primary staged bytes/all25 sensor words reset to synthetic zero except explicit control defaults and the selected thermal pair. Staging uses byte-width startup values and nonnegative signed32 command inputs, low8 effective values, requested-number raw ACK. Every recognized source network name retains cols and numeric serialization; unsafe prefix reads/unselected sensor fallbacks use stationary synthetic0, never omission or physical capability inference. Metadata without constructor remains ragged cols/dat. name/lock/time are mutable; this507/508 source also mutates apssid/appsw, unlike6.x/Q11. Original initialized ver V5.0.0.0 and independent empty ModelType are retained. Explicit806004 raw models have separate10-control/15-report cache and no room. Timers preserve source local10-slot schemas; OTAret only accepts queued URL. Safe atomic parsing, bounded memory and synthetic cache/clock IO never claim native partial-mutation, calibrated physics, transfer/flash completion or fullboot."
+}

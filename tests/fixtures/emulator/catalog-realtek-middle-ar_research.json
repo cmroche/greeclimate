@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "scope": "Exact WB AR assessment indices 0, 1, and 7; source-proved ordinary local UDP ingress and the selected bounded local callback models only.",
+  "configured_mcu_input": {
+    "uint32": "0x00010001",
+    "setter_result": "0x10001 is rendered by the original SetMID path as lowercase ASCII 10001; this is an explicit virtual mainboard input, not a compiled firmware default."
+  },
+  "outer_header_abi": {
+    "valueint": "The original helpers read cJSON valueint without enforcing a JSON numeric node type; floating values truncate toward zero, signed results clamp to int32, and a nonnumeric present node supplies valueint zero. JSON number lexemes are parsed as JSON first; there is no raw numeric-prefix policy.",
+    "0": {
+      "source_helper": "0x9b0278a8",
+      "i": "selector 100 reads valueint into a 32-bit temporary later consumed as a byte; uid uses selector 100 into a 32-bit temporary.",
+      "missing_i_policy": "The bounded model drops a source-0 datagram without i rather than inventing a callback channel."
+    },
+    "1": {
+      "source_helper": "0x9b0289d4",
+      "i": "selector 1 writes the channel byte; its destination is initialized to zero before the read. uid uses selector 100 into a zero-initialized 32-bit local.",
+      "missing_i_uid": "The source's ignored read failures preserve zero-initialized locals."
+    },
+    "7": {
+      "source_helper": "0x9b0287f8",
+      "parser": "Original cJSON JSON parser, not the WB raw numeric-prefix parser.",
+      "i": "selector 1 writes the channel byte; its destination is initialized to zero before the read. uid uses selector 100 into a zero-initialized 32-bit local.",
+      "missing_i_uid": "The source's ignored read failures preserve zero-initialized locals."
+    }
+  },
+  "c1r_scene_table": {
+    "source_table": "Separate source-1 and source-7 UDP callback tables; 20 local rows, stride 0xac, sceneId at row +0xa8.",
+    "operType_0": "Update only a matching scene row; each present hex91/hex92/hex93 copies exactly 0x37 bytes. A missing row is not created.",
+    "sceneId_1_operType_1": "No sence_enable gate. A matching row returns r=200 without mutation; otherwise two available empty rows are assigned IDs 1 and 2 and both receive the present frame segments. Fewer than two empty rows means no table mutation.",
+    "other_operType_1": "Mutation requires sence_enable=1; update the matching row or create one in the first empty slot. A full table returns code 501.",
+    "operType_2": "Clear every matching row.",
+    "scene_fragments": "Positional children 0..3 select cmd_type, byte, mask, value; sceneId 2 alone consumes fifth child initval. The model bounds count and offset, rejects unsupported frame selectors, and commits only after full request validation.",
+    "product_fragment_records": "Source-1/7 product_set_Fragment searches exactly five keys (cmd_type, byte, mask), replacing the full 16-byte record on a match. On a full-table miss it only emits a diagnostic when 0x10001878 > 1, releases the lock, and returns -1; scene-row and V3 callers ignore that return, continue their frame/scene updates, and preserve any already-constructed r=200 response. The bounded model keeps the five records and drops only the unmatched record.",
+    "product_fragment_slot_evidence": {
+      "helper_artifact": "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-callback-instructions.json",
+      "helper_artifact_sha256": "e9dfee8183083110c09e440eeb8cd3c9a5bc85510f32108a006fbe04c1cd3fbe",
+      "source1_helper": "0x9b025e48 compares five records, then if 0x10001878 > 1 logs and returns -1; no index-5 record store.",
+      "source7_helper": "0x9b025df0 compares five records, then if 0x10001878 > 1 logs and returns -1; no index-5 record store.",
+      "initialized_readout_artifact": "../gree-research/firmware-capabilities/research/CatalogQuirks/RealtekMiddle/old-wb-ar-initialized-readouts.json",
+      "initialized_readout_artifact_sha256": "c35226b4a56f9b40e59a069501c9b50589889e0e7284f19e0be47dc89f76d298",
+      "address": "0x10001878",
+      "initialized_u8": {"0": 0, "1": 2, "7": 2},
+      "qualification": "Original packaged initialized data, not a postboot memory observation; u8=2 affects diagnostic logging only, not storage capacity."
+    },
+    "global_fragment_version_gate": "The later named-field parser compares product ver at 0x1000a5cd with the exact V3.4.M literal; the metadata default is V3.5.M."
+  },
+  "profiles": [
+    {
+      "index": 0,
+      "id": "sim-realtek-middle-ar0",
+      "source_sha256": "a36e365040799152a2d54dba9d670cf0f8f714511e265395a5a9b28f9bc5c8ea",
+      "hid": "362001066428+U-WB06ARV1.03.bin",
+      "emitted_mid": "10001",
+      "bind_port": 7000,
+      "peer_source_port": null,
+      "reply_port": "recvfrom source port",
+      "channels": {
+        "0": {"key": "dynamic source key buffer; caller-supplied device key", "operations": ["status", "cmd", "binCmd", "upgrade", "queryT"]},
+        "1": {"key": "a3K8Bx%2r8Y7#xDh", "operations": ["bind"]},
+        "2": {"key": null, "operations": ["scan", "wlan", "tm"]}
+      },
+      "scan_type": "dev",
+      "scan_omits_hid": true,
+      "status_hid": "362001066428+U-WB06ARV1.03.bin",
+      "status_mid": "The t=dat status mid uses the same configured actual SetMID output as the t=dev scan."
+    },
+    {
+      "index": 1,
+      "id": "sim-realtek-middle-ar1",
+      "source_sha256": "8057d9189659f99bd711ba71de5786a2b30c4f164b050cc9190a39ec66e37d2b",
+      "hid": "362001066428+U-WB06ARV1.73.bin",
+      "emitted_mid": "10001",
+      "bind_port": 5001,
+      "peer_source_port": 5001,
+      "reply_port": 5000,
+      "channel1_key_readout": {"bytes_ascii": "AR1-udp-key-0001", "role": "explicit chosen virtual cache input; not a firmware default or GnetKey"},
+      "channel_flags": {"scan": 1, "hbok": 1, "UBindok": 0, "ret": 0, "binCmd": 0, "reset": 0, "Utm": 0, "loginInfoRes": 0, "statusCheck": 0},
+      "scan_type": "UBind",
+      "ubind_fields": ["t", "scene", "mid", "ver", "lock", "devkey", "hid"],
+      "ubind_mid": "Same source-specific configured SetMID output; no GnetID or memberMAC field.",
+      "saved_gnet_config_version": {"0": "V3.5.M", "1": "V3.5.MF4"}
+    },
+    {
+      "index": 7,
+      "id": "sim-realtek-middle-ar7",
+      "source_sha256": "e8ce6d7aea077c0b183e06526f3b1601e41306a8f3ce5aff4a16807b0e79fd20",
+      "hid": "362001066481+U-WB05C1RV1.72.bin",
+      "emitted_mid": "10001",
+      "bind_port": 5001,
+      "peer_source_port": 5001,
+      "reply_port": 5000,
+      "channel1_key_readout": {"bytes_ascii": "AR7-udp-key-0007", "role": "explicit chosen virtual cache input; not a firmware default or GnetKey"},
+      "channel_flags": {"scan": 1, "hbok": 1, "UBindok": 0, "ret": 0, "binCmd": 0, "reset": 0, "Utm": 0, "loginInfoRes": 0, "statusCheck": 0},
+      "scan_type": "UBind",
+      "ubind_fields": ["t", "mid", "ver", "lock", "devkey", "hid"],
+      "ubind_mid": "Same source-specific configured SetMID output; no scene, GnetID, or memberMAC field.",
+      "input_scene_write": "The scene writer appends its value to parser context input (ctx[0]), while the other UBind fields are written to ctx[8]; output omits scene. The parser allocates datagram length + 1 and decrypts shorter inner JSON into that buffer, leaving room for the short append on the bounded valid UDP request path. No overflow, crash, or missing UBind response is claimed."
+    }
+  ],
+  "framing": {
+    "encrypted_channels": "AES-128-ECB, PKCS#7 padding, base64 pack; response inner JSON receives LF before padding.",
+    "channel2": "Source 0 only: plaintext inner object pack at i=2.",
+    "source0_reply_routing": "cached peer IP and request source port; receiver does not require a particular peer source port.",
+    "source1_source7_reply_routing": "cached peer IP with fixed destination port 5000; ingress requires sender source port 5001."
+  },
+  "safe_model_limits": [
+    "Profiles are disjoint by exact source hash and callback table; the t=dev and t=UBind schemas are not unioned.",
+    "Source-0 parsed generic cmd values are acknowledgements only because its generic target pointer is null; no physical climate fields are inferred.",
+    "Source-1/7 cloud or BLE callbacks are not exposed as LAN operations.",
+    "Raw frame, scene, report, timing, and local persistence state is synthetic and bounded; no OTA flash, reboot, WLAN association, physical peripheral action, or calibration is claimed."
+  ]
+}

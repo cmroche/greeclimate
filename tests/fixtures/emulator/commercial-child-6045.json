@@ -5,7 +5,10 @@
   "evidence": {
     "source_sha256": "44c79dc1a2dba15123f4ae9cc9a90a14234459ba6aa04df8eee2e98ef406e660",
     "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/commercial-additional-routes_research.json: actual router, complete scan, enumeration and status/command parser/builders for this exact MID.",
-    "model": "Literal synthetic controls; room/ambient24C and target24C keep the selected InTem field stationary. Expected packets are native shapes plus explicit model values, not runtime-generated."
+    "model": "Literal synthetic controls; room/ambient24C and target24C keep the selected InTem field stationary. Expected packets are native shapes plus explicit model values, not runtime-generated.",
+    "complete_raw_namespace": "Original source350-record table:343 named fields plus7 null records. All declared numeric fields use unsigned16 cache storage, not AC preset validation. See catalog-wb-commercial_research.json for all three independently qualified source builds.",
+    "simulation_contract": "Configured names/MIDs/HID and explicit synthetic RTC/platform buffers, RSSI=-50, and InTem=floor(room Celsius) are model backing, not hardware defaults. Other raw fields start0 unless configured. Name/ModelType/AppTimer/ver setters do not mutate. Physical calibration and UART/update/reset execution are not claimed.",
+    "intentional_safety_differences": "Unsafe JSON/length/NULL-tail behavior is rejected atomically. Native cols takes precedence over opt and does not mutate; opt+p writes low16 then reads. Metadata callbacks can retain a column without appending dat; unknown fields are omitted. Command numeric p retains requested integers."
   },
   "children": [
     {

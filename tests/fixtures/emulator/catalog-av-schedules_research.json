@@ -1,0 +1,180 @@
+{
+  "evidence_class": "Original-byte asserted Xtensa translation; literal source-derived timer/IFTTT formats, not a firmware boot",
+  "evidence": "CatalogQuirks/AV/probe_schedule.py, probe_metadata.py, probe_dispatch.py and their *-probe-results.json artifacts in private gree-research",
+  "policy": "Timers use a synthetic mainboard cache; modeled writes stage that cache without physical UART or flash. IFTTT safely owns copied records instead of reproducing observed source repeated cJSON_Delete calls; this is not original-allocator success. Atomic validation bounds timer names to the 19-byte terminated board-report field and condition/selector counts to their fixed storage. Clock metadata requires a complete calendar timestamp rather than the source sscanf partial-input/uninitialized-stack behavior. No autonomous timer/condition execution or firmware upgrade completion is claimed.",
+  "timer_profiles": [
+    "sim-w06av-v7",
+    "sim-w06av-v16",
+    "sim-w06av-v16-eu",
+    "sim-w06av-v16-kf",
+    "sim-w06av-v20",
+    "sim-w06bv-v9",
+    "sim-w06bv-v16",
+    "sim-w06bv-v20"
+  ],
+  "rule_profiles": [
+    "sim-w06av-v7",
+    "sim-w06av-v16",
+    "sim-w06av-v16-eu",
+    "sim-w06av-v16-kf",
+    "sim-w06bv-v9",
+    "sim-w06bv-v16"
+  ],
+  "no_schedule_profiles": [
+    "sim-w06av-v30",
+    "sim-w06bv-v30"
+  ],
+  "stale_clock_profiles": [
+    "sim-w06av-v20",
+    "sim-w06av-v30",
+    "sim-w06bv-v30"
+  ],
+  "metadata_ack_policy": "Metadata p uses the current network getter, not a request echo. Old name val is the last staged child-name string; modern name val is the synthetic empty staging string. host/apssid/appsw/time report effective cache values in both arrays. AV20/AV30/BV30 clock setters use a different buffer from the time getter, so time readback and acknowledgement remain unchanged. Lock/name duplicates report final shared metadata state.",
+  "nested_rule_command": "Base64 of a strict JSON object with integer i and encrypted string pack; unlike a network envelope it does not require t. Nested duplicate keys, nonfinite values, invalid Unicode and non-string pack are rejected atomically. The LAN envelope validator remains unchanged.",
+  "control_only_descriptor_policy": "All ten original AV/BV builds transmit ExWdSpd as UART offset91/length1 and their internal numeric getter reads its low byte, but the independent LAN name serializer returns empty strings. V7/BV9 acknowledgements omit unknown-name slots; V16+ keep empty-string p/val slots. Modern source dat requires activation0..3 to be at least2; modeled child topology chooses active synthetic board state. Original command/res/status/dat and both banks are qualified separately in AV/alternate-probe-results.json (212 vectors). Exact requested256 wrap is independently checked: UART low byte0 and numeric getter0, but LAN name readout remains empty string.",
+  "timer": {
+    "id": 2,
+    "name": "morning",
+    "enable": 1,
+    "hr": 6,
+    "min": 7,
+    "sec": 8,
+    "tz": 90,
+    "week": [
+      5,
+      127,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "cmd": [
+      {
+        "mac": [
+          "02000000000201"
+        ],
+        "opt": [
+          "SetTem"
+        ],
+        "p": [
+          25
+        ]
+      }
+    ]
+  },
+  "timer_report": {
+    "id": 2,
+    "name": "morning",
+    "enable": 1,
+    "hr": 6,
+    "min": 7,
+    "sec": 8,
+    "week": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "cmd": [
+      {
+        "mac": [
+          "02000000000201"
+        ],
+        "opt": [
+          "Pow"
+        ],
+        "p": [
+          0
+        ]
+      }
+    ]
+  },
+  "rule": {
+    "id": 7,
+    "name": "night",
+    "enable": 1,
+    "type": 2,
+    "devtype": 3,
+    "mac": "020000000001",
+    "tMac": "02000000000201",
+    "sMac": "020000000001",
+    "week": [
+      1,
+      0,
+      1
+    ],
+    "start": [
+      1,
+      2,
+      3
+    ],
+    "end": [
+      4,
+      5,
+      6
+    ],
+    "condit": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ]
+    ],
+    "cmd": "eyJpIjoxLCJwYWNrIjoiZS8rOFJBSmVKRHRnY2J1QXo4eTNZdU9PK052R0lORXJLT1ZKOVFqbUJzNjFuenBqTGVXMGIvRCtEb1RwbC9hQlRta3ZKbGdZTmNTcGdvMlZRN2syOURxQ0JOZGdwKytNelI1cHk5d3dZZ2M9In0="
+  },
+  "rule_staged_selectors": [
+    [
+      1,
+      170
+    ],
+    [
+      9,
+      3
+    ],
+    [
+      10,
+      25
+    ]
+  ],
+  "resT": {
+    "t": "resT",
+    "r": 200
+  },
+  "source_quirks": [
+    "Timer week transmission uses only the first input integer as a bit mask; the reporter returns seven separate bits. An empty week array retains the previous gateway staging mask, not a per-id mask.",
+    "Timer reporter always emits Pow, even when the transmitted selector was another ordinary field.",
+    "IFTTT query repeats the same requested index for count iterations and serializes one record, not a count-sized page.",
+    "First rule preserves the submitted id; subsequent setIFTTT picks the smallest unused id. Deletion reindexes query positions.",
+    "IFTTT conversion does not scale SetTem or remap Mod; the ordinary cmd path does.",
+    "The source cJSON_Parse accepts trailing decrypted bytes; the public emulator deliberately retains strict JSON/padding trust boundaries.",
+    "Requested root name and host values do not imply effective mutation. Root name reads the root MAC; later Wi-Fi command fields are acknowledged no-ops. Old child rename is a distinct cache operation and takes precedence over ordinary controls; clock updates take precedence over both."
+  ],
+  "empty_status_hid_profiles": [
+    "sim-w06av-v16",
+    "sim-w06av-v16-ac",
+    "sim-w06av-v16-fan",
+    "sim-w06av-v16-water",
+    "sim-w06av-v16-eu",
+    "sim-w06av-v16-eu-ac",
+    "sim-w06av-v16-eu-fan",
+    "sim-w06av-v16-eu-water",
+    "sim-w06av-v16-kf",
+    "sim-w06av-v16-kf-ac",
+    "sim-w06av-v16-kf-fan",
+    "sim-w06av-v16-kf-water",
+    "sim-w06bv-v16",
+    "sim-w06bv-v16-ac",
+    "sim-w06bv-v16-fan",
+    "sim-w06bv-v16-water"
+  ],
+  "metadata_hid_policy": "These sixteen V16 profiles share their source root network getter: requested hid is empty despite the embedded full source identity; root discovery omits hid. Direct raw clients must observe empty hid; unmodified GatewayDevice child qualification must not be given an invented full/trusted hid. The source getter/discovery replay is AV/metadata-probe-results.json, all10 exact images/286 vectors, not model-derived."
+}

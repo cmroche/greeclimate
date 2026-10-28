@@ -1,0 +1,411 @@
+{
+  "profile": "sim-w04n-v17",
+  "mid": "10001",
+  "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+  "evidence": {
+    "source": "Original local metadata0x08030814, classifier/parser0x08031018, command0x0803156c and ACKopt helper0x0802eec4 in private W04N/closure-exports-v1/b0b7f5d42885. Literal associations independently extracted in W04N/source-literals.json.",
+    "native": "Metadata scalar/sequence ABI qualification is recorded separately in W04N/assessment.json; no native full-boot claim.",
+    "policy": "Synthetic RTC2000-01-0100:00:00, RSSI-50dBm and empty timer list; strict safe string buffers and atomic validation, no external host or reporting-client connection."
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "time",
+          "AppTimer",
+          "rssi",
+          "ReportClientID",
+          "MOta",
+          "mid"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "name",
+          "host"
+        ],
+        "p": [
+          "Source Room"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "AutoUpdate"
+        ],
+        "p": [
+          257
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "lock",
+          "AutoUpdate"
+        ],
+        "p": [
+          1,
+          20
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "ReportClientID"
+        ],
+        "p": [
+          "example-client"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "name",
+          "host",
+          "AutoUpdate",
+          "lock",
+          "Pow",
+          "ReportClientID"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "dwRpt",
+          "dwTsk",
+          "dwRpt"
+        ],
+        "p": [
+          0,
+          5,
+          3,
+          7
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": -1,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "time"
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 23,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "2000-01-01 00:00:00",
+            0,
+            -50,
+            "10001"
+          ],
+          "cols": [
+            "time",
+            "AppTimer",
+            "rssi",
+            "MOta",
+            "mid"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            "SourceRoom",
+            "SourceRoom"
+          ],
+          "p": [
+            "SourceRoom",
+            "SourceRoom"
+          ],
+          "opt": [
+            "name",
+            "host"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            1
+          ],
+          "p": [
+            1
+          ],
+          "opt": [
+            "AutoUpdate"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            0,
+            1,
+            1
+          ],
+          "p": [
+            0,
+            1,
+            1
+          ],
+          "opt": [
+            "lock",
+            "AutoUpdate",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [],
+          "p": [],
+          "opt": [],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 23,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "SourceRoom",
+            "SourceRoom",
+            1,
+            0,
+            1
+          ],
+          "cols": [
+            "name",
+            "host",
+            "AutoUpdate",
+            "lock",
+            "Pow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "opt": [
+            "dwTsk",
+            "dwRpt"
+          ],
+          "p": [
+            3,
+            7
+          ],
+          "val": [
+            3,
+            7
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 4294967295,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 4294967295,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            1,
+            "2000-01-01 00:00:00"
+          ],
+          "cols": [
+            "Pow",
+            "time"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "Pow": 1,
+    "SetTem": 24
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "profiles": ["sim-w05z-v2.28", "sim-w05ba-v1.11"],
+  "provenance": "Corrected RealtekControllers/probe-results.json full sweeps and power-{flag,gpio,meter,metadata}-results.json; countdown-results.json source block. Literal expectations below are independent of runtime.",
+  "selectors": ["Pow", "CountDownTime", "CountDownState", "CountDownFlag", "RealTimeVoltage", "RealTimeEleCurrent", "RealTimePower", "EnergyOfTime", "EnergyOfTimeFlag", "StartTime", "EndTime", "Electnumzero", "hid", "time", "MessagePushFlag", "rssi"],
+  "native_vectors": [
+    {"opt": ["CountDownFlag"], "p": [0], "ack": [0, 0], "cols": ["CountDownFlag"], "dat": [0]},
+    {"opt": ["CountDownFlag"], "p": [2], "ack": [2], "cols": ["CountDownFlag"], "dat": [2]},
+    {"opt": ["CountDownTime", "unknown", "CountDownTime"], "p": [7, 99, 65537], "ack": [7, 1], "cols": ["CountDownTime", "CountDownTime"], "dat": [1, 1]},
+    {"opt": ["EnergyOfTime", "EnergyOfTimeFlag", "MessagePushFlag"], "p": [-1, 65537, -1], "ack": [65535, 1, 65535], "cols": ["EnergyOfTime", "EnergyOfTimeFlag", "MessagePushFlag"], "dat": [65535, 1, 65535]},
+    {"opt": ["StartTime", "EndTime"], "p": [-1, 65537], "ack": [65535, 1], "cols": ["StartTime", "EndTime"], "dat": [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]}
+  ],
+  "calendar_backing": [-2147483648, -1, 0, 1, 2147483647, 17, 31, 99],
+  "calendar_windows": [[-2147483648, -1, 0, 1, 2147483647], [1, 2147483647, 17, 31, 99]],
+  "timer_literals": {
+    "duration120_elapsed60": {"minutes": 1, "flag": 1},
+    "duration120_elapsed180_state1": {"minutes": 65535, "flag": 0, "synthetic_pow": 1},
+    "immediate_state2": {"synthetic_pow": 1},
+    "expiry_state2": {"synthetic_pow": 0},
+    "uint32_start4294967280_now44": {"elapsed": 60}
+  },
+  "qualifiers": [
+    "Native tick probes stop at relay callback entry; synthetic relay effects are chosen, not successful native whole callback evidence.",
+    "Original onezero flag0 output was harness ITSTATE corruption; corrected original branches emit two zeros for one opt.",
+    "RTC/rssi primitives and reset flash peripheral are substituted/modelled, not hardware calibration."
+  ]
+}

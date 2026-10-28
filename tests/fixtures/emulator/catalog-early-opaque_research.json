@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "qualification": "STATIC original-source packet expectations, not UDP runtime fixtures. Native probes cover Ga constructor arguments, DR1 UART identity stores and DR2 comparison chains; they are not full transport/boot successes.",
+  "mac": "020000000093",
+  "name": "DR local",
+  "session_key": "0123456789abcdef",
+  "peer": "app",
+  "uid": 42,
+  "sources": [
+    {
+      "runtime_profile": null,
+      "classification": "Registered gcloud provider is outgoing TCP/TLS; compiled scan/status callbacks do not establish an ordinary UDP listener.",
+      "evidence_kind": "STATIC_original_instructions_and_C",
+      "source_sha256": "b808c5a0a0f147f399b42a5b007f93c001a5a7c93986e3997c15aa404bac3a49",
+      "source_associations": ["362001068811+U-WB06DRV1.22-eu.bin", "362001068811+U-WB06DRV1.22-hk.bin"],
+      "hid": "362001068811+U-WB06DRV1.22.bin",
+      "status_entry": "0x0e04ae48",
+      "status_response_entry": "0x0e04bfc0",
+      "status": {"t": "dat", "cols": ["hid"], "dat": ["362001068811+U-WB06DRV1.22.bin"], "r": 200},
+      "metadata_registration": {"root": "0x1001e2cc", "table": "0x0e0b19b8", "count": 6, "mid": "9300", "productName": "Gcloud", "HidDownPer": 0, "GcldHidDownPer": 0, "gcldUpStat": 0},
+      "command_boundary": {"request": "0x0e04ac4c", "response": "0x0e04bb88", "base64_decoder": "0x0e0558fc", "known_fields": ["hex02", "hex6B", "hex6E", "hex6A", "time", "SendFreq", "fragment", "hex01"], "qualification": "Mapped local decoder, parameter/cache routes and res/r200 serializer are known. Actual appliance meanings of forwarded raw frames require matched MCU evidence; no parser bytes are missing."}
+    },
+    {
+      "runtime_profile": null,
+      "classification": "Source-specific registered gcloud provider is outgoing TCP/TLS, not a UDP scan/bind appliance.",
+      "evidence_kind": "STATIC_original_instructions_and_C",
+      "source_sha256": "d4508fefa2cfc8029643dc40d270b8fbeefcf83f2fc59275eb8f415ae13ee5c1",
+      "source_associations": ["362001068811+U-WB06DRV1.30-sa.bin"],
+      "hid": "362001068811+U-WB06DRV1.30.bin",
+      "status_entry": "0x0e04b390",
+      "status_response_entry": "0x0e04c798",
+      "status": {"t": "dat", "cols": ["hid"], "dat": ["362001068811+U-WB06DRV1.30.bin"], "r": 200},
+      "metadata_registration": {"root": "0x1001e2cc", "table": "0x0e0b2730", "count": 6, "mid": "9300", "productName": "Gcloud", "HidDownPer": 0, "GcldHidDownPer": 0, "gcldUpStat": 0},
+      "command_boundary": {"request": "0x0e04b234", "response": "0x0e04c230", "base64_decoder": "0x0e056210", "known_fields": ["hex02", "hex15", "hex6B", "hex6E", "hex6A", "time", "SendFreq", "opt", "p", "fragment", "hex01"], "qualification": "Source-specific decoder, time opt/p path, parameter/cache routes and res/r200 serializer are known; no DR1.22/W06ATW control union."}
+    }
+  ],
+  "transport": {
+    "carrier": "gcloud TCP/TLS",
+    "udp_profile_admitted": false,
+    "provider_init": "0x0e046804 -> 0x0e04d420",
+    "socket_call": "0x0e04d57e passes selector0 to0x0e00eadc, which calls socket(AF_INET,SOCK_STREAM,IPPROTO_TCP) at0x0e00eb04 then connect at0x0e00eb38",
+    "remote_endpoint": "dishost:1813 or achost:tcpPort",
+    "codec": "aes-ecb-pkcs7",
+    "generic_key": "a3K8Bx%2r8Y7#xDh",
+    "selectors": [0, 1],
+    "inner_lf": false,
+    "outer_lf": false,
+    "bind_response": {"t": "bindok", "r": 200, "mac": "020000000093", "key": "0123456789abcdef"},
+    "scan_fields": ["t", "bc", "catalog", "series", "model", "lock", "vender", "mid", "name", "ver", "mac"],
+    "mid_policy": "9300 is an initialized source configured metadata default. Scan reads a separate runtime MCU string cache, so this fixture does not claim that an unconnected source emits9300 or assign AC/ATW semantics.",
+    "scan_hid_policy": "Source dev response omits hid; status returns it even when cols is absent, empty, unknown, or duplicated.",
+    "model_policy": "No public UDP handler or no-op success is created for a TCP/cloud source. Raw callback schemas are known; physical appliance semantics and calibration are separate."
+  },
+  "status_requests": [
+    {"t": "status", "mac": "020000000093"},
+    {"t": "status", "mac": "020000000093", "cols": []},
+    {"t": "status", "mac": "020000000093", "cols": ["Pow", "Mod", "SetTem", "TemSen", "hid", "hid", "__unknown__"]}
+  ],
+  "dr1_json_status": {
+    "source_callbacks": {"b808c5a0a0f1": "0x0e04a8c2", "d4508fefa2cf": "0x0e04aeaa"},
+    "metadata_fields": ["vender", "mac", "mid", "name", "host", "hid", "InHid"],
+    "dat_wire_type": "Object of cached fields, unlike the DR2 parallel dat array; cols lists the object keys.",
+    "electricity_names": ["EleJan", "EleFeb", "EleMar", "EleApr", "EleMay", "EleJun", "EleJul", "EleAug", "EleSep", "EleOct", "EleNov", "EleDec", "EleLastYear"],
+    "element_counts": [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 12],
+    "electricity_wire_type": "Arrays of signed 32-bit numeric values, not DR2 byte arrays; physical units are not established.",
+    "electricity_selector": "Source accepts cache selector2..14 and subtracts2, producing bounded index0..12."
+  },
+  "unregistered_sources": [
+    {
+      "source_sha256": "431d28f24075accf3f44cb875680ef52cf323f72be8def330195ab173bb1ba0c",
+      "source_associations": ["362001067919+U-W05GV2.4-test.bin"],
+      "hid": "362001067919+U-W05GaV2.4.bin",
+      "classification": "TCP/cloud plus provisioning/BLE controller, not ordinary UDP scan/bind; no fake UDP carrier profile.",
+      "status_entry": "0x9b028b7c",
+      "status_fields": ["SubOnline", "Random", "Subcount", "host", "hid", "ver", "time", "mac", "rssi"],
+      "status_unknown": "",
+      "getter_types": ["JSON-encoded array string", "string", "number", "string", "string", "string", "string", "string", "signed number"],
+      "ver": "V1.1.13",
+      "mid_roles": {"80305": "gateway provisioning identity", "80601": "scene endpoint in midList"},
+      "transport": {"receive": "0x9b027f60", "send": "0x9b0283d8", "ram_initializer": "0x9b021e60", "inner_lf": true, "outer_lf": false, "cmd": "0x9b027d70 is BX LR: no acknowledgement or mutation"},
+      "raw_callbacks": {"bin": {"fields": ["stm", "sub", "bin", "type"], "payload": "Base64-decoded bytes, maximum246; matched three-slot subdevice MAC; local BLE queue operation4. type node is required but its value is unused by this wrapper.", "correlation_capacity": 50, "correlation_record_bytes": 40}, "meshstatus": {"fields": ["meshmac", "len"], "response": ["t=substatus", "mac", "meshmac", "status"], "status": "Hex strings from matched three-slot20-byte raw caches"}, "gatt_cache": {"initializer": "0x9b026a20", "max_records": 4, "record_bytes": 14, "fields": ["state", "service_start", "service_end", "FD03_handle", "FD04_handle", "CCCD_2902_handle", "FD05_handle"]}},
+      "topology_vector": {"qualification": "STATIC inner JSON expectation using one synthetic advertised descriptor; not a native or UDP transaction", "descriptor_hex": "010200000000010806010000000a", "descriptor_address": "0x1000a584", "advertisement_consumer": "0x9b026d48", "expiry_callback": "0x9b026d24", "callback": "0x9b028940", "expected": {"t": "subList", "r": 200, "c": 1, "i": 0, "list": [{"mac": "020000000001", "type": 1, "mid": "80601", "midType": "0000", "subtype": 0, "lock": 0}]}},
+      "mesh_status_vector": {"qualification": "STATIC inner JSON expectation with synthetic online slot and raw cache", "requested_length": 3, "raw_cache_prefix": "010203", "expected": {"t": "substatus", "mac": "020000000093", "meshmac": ["020000000001"], "status": ["010203"]}}
+    },
+    {
+      "source_sha256": "efbd09c92362e8da6adccf6c7c2e291e94ceb90bcf7b7467549d8ac1b2eaa4dc",
+      "source_associations": ["362001068811+U-WB06DRV2.02-test.bin"],
+      "hid": "362001068811+U-WB06DRV2.02.bin",
+      "classification": "Distinct SDK active gree_mqtt task uses outgoing TCP/TLS/MQTT, not ordinary UDP discovery/bind. Seven ordinary requested-status getters are distinct from jsonStatus nine base fields plus two conditional fields.",
+      "transport": {"task": "0x0e01d3a0", "connect_wrapper": "0x0e00f6ec", "socket_type_branch": "0x0e0290d0", "socket_arguments": [2, 1, 6], "socket_call": "0x0e0290f8", "connect_call": "0x0e02912c"},
+      "status_entry": "0x0e019238",
+      "status_fields": ["host", "ver", "hid", "mid", "bc", "WifiSecondSsid", "WifiSecondPsw"],
+      "json_status": {"entry": "0x0e018b90", "base_fields": ["AppTimer", "ver", "host", "name", "bc", "mac", "mid", "WifiSecondEn", "hid"], "fixed_values": {"AppTimer": 0, "name": "", "WifiSecondEn": 1, "hid": "362001068811+U-WB06DRV2.02.bin"}, "conditional_fields": ["BuzzerCtrl", "ElcEn"], "condition": "RAM configuration100234ec+0x14 equals1", "wire": {"t": "dat", "r": 200, "mac": "source MAC", "cols": "ordered field names", "dat": "parallel values"}},
+      "raw_electricity": {"entry": "0x0e01ac84", "names": ["EleJan", "EleFeb", "EleMar", "EleApr", "EleMay", "EleJun", "EleJul", "EleAug", "EleSep", "EleOct", "EleNov", "EleDec", "EleLastYear"], "byte_counts": [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 12], "wire_type": "numeric arrays of unsigned bytes; physical energy calibration unknown", "selector14": "STATIC out-of-table hazard, not a native success"},
+      "status_unknown": "omitted",
+      "status_default_ver": "V3.5.M",
+      "status_connected_ver": "V3.5.MF4",
+      "mid_role": "Accessor0x0e0158f4: config+0x335 selects fallback10001; otherwise config+0xc3, not proof of a typed AC.",
+      "dispatch": {"entry": "0x0e019a30", "table": "0x0e0b7d14", "count": 34},
+      "raw_callbacks": {"binStatus": "Base64 of source context bytes -> t=binStatus/mac/binStatus string", "binEvent": "Base64 of source context bytes -> t=binEvent/mac/binEvent string", "binCmd": {"fields": ["hex", "hex6", "hex6A", "hex6B", "hex6C", "hex6D", "hex6E", "roomId", "sceneId", "operType", "sence_enable", "fragment"], "frame_length": "decoded byte2+3", "fragment": "[opcode, byte offset, mask, value] patches", "response": {"t": "res", "r": 200, "mac": "source MAC"}, "qualification": "Response follows the actual local parser/queue path, not proof of an MCU acknowledgement; malformed/allocation paths do not manufacture success."}},
+      "companion_boundary": "Only real appliance meanings of forwarded opcode/bit payloads and physical calibration require matched MCU evidence; local base64, frame/cache/patch routes and response JSON are mapped."
+    }
+  ]
+}

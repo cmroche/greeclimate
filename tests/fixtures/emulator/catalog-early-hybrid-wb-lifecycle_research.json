@@ -1,0 +1,622 @@
+{
+  "schema_version": 1,
+  "qualification": "Literal unchanged WB source timer/calendar transactions. Original SDK heap constructor/calloc/free/list writes and original JSON/parser/snprintf execute; only asserted standard libc/write APIs and independently pinned API-level timer context are supplied. No property/cipher/result hooks.",
+  "sources": [
+    {
+      "historical_index": 20,
+      "source_sha256": "ae9d42c6272c71a7c2ee4fd500ad4427c99b64a01aafc61daa109025eb37e9ec",
+      "calendar": {
+        "input": {
+          "t": "cmd",
+          "mac": "020000000001",
+          "opt": [
+            "time"
+          ],
+          "p": [
+            "2026-02-03 04:05:06"
+          ]
+        },
+        "output": {
+          "t": "res",
+          "mac": "",
+          "p": [
+            "2026-02-03 04:05:06"
+          ],
+          "opt": [
+            "time"
+          ],
+          "r": 200
+        },
+        "fresh": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "2026-02-03 04:05:06"
+          ],
+          "cols": [
+            "time"
+          ],
+          "r": 200
+        },
+        "context_scope": "Explicit API-level timer context; no physical timer/interrupt/MMIO execution"
+      },
+      "created_timer_transactions": [
+        {
+          "input": {
+            "t": "setT",
+            "id": 259,
+            "name": "CtorFresh",
+            "enable": 2,
+            "tz": 0,
+            "week": [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "hr": 258,
+            "min": 257,
+            "sec": 47,
+            "cmd": [
+              {
+                "opt": [
+                  "Pow",
+                  "Pow"
+                ],
+                "p": [
+                  1,
+                  -1
+                ]
+              }
+            ]
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 1,
+            "index": 0,
+            "list": [
+              {
+                "id": 3,
+                "name": "CtorFresh",
+                "enable": 0,
+                "week": [
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "hr": 2,
+                "min": 1,
+                "sec": 0,
+                "cmd": [
+                  {
+                    "mac": [
+                      "020000000001"
+                    ],
+                    "opt": [
+                      "Pow"
+                    ],
+                    "p": [
+                      255
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "input": {
+            "t": "updateT",
+            "id": 259,
+            "name": "Replaced",
+            "enable": 1,
+            "tz": 0,
+            "week": [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0,
+              1
+            ],
+            "hr": 280,
+            "min": 265,
+            "sec": 47,
+            "cmd": [
+              {
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  -1
+                ]
+              }
+            ]
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 1,
+            "index": 0,
+            "list": [
+              {
+                "id": 3,
+                "name": "Replaced",
+                "enable": 1,
+                "week": [
+                  1,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "hr": 24,
+                "min": 9,
+                "sec": 0,
+                "cmd": [
+                  {
+                    "mac": [
+                      "020000000001"
+                    ],
+                    "opt": [
+                      "Pow"
+                    ],
+                    "p": [
+                      255
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "input": {
+            "t": "deleteT",
+            "id": 259
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 0,
+            "index": 0,
+            "list": []
+          }
+        }
+      ],
+      "optional_seconds_transactions": [
+        {
+          "input": {
+            "t": "setT",
+            "id": 4,
+            "name": "MissingSec",
+            "enable": 1,
+            "tz": 0,
+            "week": [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0,
+              1
+            ],
+            "hr": 280,
+            "min": 265,
+            "cmd": [
+              {
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  -1
+                ]
+              }
+            ]
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 1,
+            "index": 0,
+            "list": [
+              {
+                "id": 4,
+                "name": "MissingSec",
+                "enable": 1,
+                "week": [
+                  1,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "hr": 24,
+                "min": 9,
+                "sec": 9,
+                "cmd": [
+                  {
+                    "mac": [
+                      "000000000000"
+                    ],
+                    "opt": [
+                      "Pow"
+                    ],
+                    "p": [
+                      255
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "optional_seconds_NIC_context": "000000000000",
+      "created_timer_NIC_context": "020000000001"
+    },
+    {
+      "historical_index": 21,
+      "source_sha256": "078ff7ab76a0c86335c535f802d463a281ca1a26f4bdde91e24faaa1efd9076c",
+      "calendar": {
+        "input": {
+          "t": "cmd",
+          "mac": "020000000001",
+          "opt": [
+            "time"
+          ],
+          "p": [
+            "2026-02-03 04:05:06"
+          ]
+        },
+        "output": {
+          "t": "res",
+          "mac": "",
+          "p": [
+            "2026-02-03 04:05:06"
+          ],
+          "opt": [
+            "time"
+          ],
+          "r": 200
+        },
+        "fresh": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "2026-02-03 04:05:06"
+          ],
+          "cols": [
+            "time"
+          ],
+          "r": 200
+        },
+        "context_scope": "Explicit API-level timer context; no physical timer/interrupt/MMIO execution"
+      },
+      "created_timer_transactions": [
+        {
+          "input": {
+            "t": "setT",
+            "id": 259,
+            "name": "CtorFresh",
+            "enable": 2,
+            "tz": 0,
+            "week": [
+              2,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "hr": 258,
+            "min": 257,
+            "sec": 47,
+            "cmd": [
+              {
+                "opt": [
+                  "Pow",
+                  "Pow"
+                ],
+                "p": [
+                  1,
+                  -1
+                ]
+              }
+            ]
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 1,
+            "index": 0,
+            "list": [
+              {
+                "id": 3,
+                "name": "CtorFresh",
+                "enable": 0,
+                "week": [
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "hr": 2,
+                "min": 1,
+                "sec": 0,
+                "cmd": [
+                  {
+                    "mac": [
+                      "020000000001"
+                    ],
+                    "opt": [
+                      "Pow"
+                    ],
+                    "p": [
+                      255
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "input": {
+            "t": "updateT",
+            "id": 259,
+            "name": "Replaced",
+            "enable": 1,
+            "tz": 0,
+            "week": [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0,
+              1
+            ],
+            "hr": 280,
+            "min": 265,
+            "sec": 47,
+            "cmd": [
+              {
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  -1
+                ]
+              }
+            ]
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 1,
+            "index": 0,
+            "list": [
+              {
+                "id": 3,
+                "name": "Replaced",
+                "enable": 1,
+                "week": [
+                  1,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "hr": 24,
+                "min": 9,
+                "sec": 0,
+                "cmd": [
+                  {
+                    "mac": [
+                      "020000000001"
+                    ],
+                    "opt": [
+                      "Pow"
+                    ],
+                    "p": [
+                      255
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "input": {
+            "t": "deleteT",
+            "id": 259
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 0,
+            "index": 0,
+            "list": []
+          }
+        }
+      ],
+      "optional_seconds_transactions": [
+        {
+          "input": {
+            "t": "setT",
+            "id": 4,
+            "name": "MissingSec",
+            "enable": 1,
+            "tz": 0,
+            "week": [
+              1,
+              0,
+              1,
+              0,
+              1,
+              0,
+              1
+            ],
+            "hr": 280,
+            "min": 265,
+            "cmd": [
+              {
+                "opt": [
+                  "Pow"
+                ],
+                "p": [
+                  -1
+                ]
+              }
+            ]
+          },
+          "output": {
+            "t": "resT",
+            "r": 200
+          }
+        },
+        {
+          "input": {
+            "t": "queryT",
+            "index": 0,
+            "count": 10
+          },
+          "output": {
+            "t": "listT",
+            "total": 1,
+            "index": 0,
+            "list": [
+              {
+                "id": 4,
+                "name": "MissingSec",
+                "enable": 1,
+                "week": [
+                  1,
+                  0,
+                  1,
+                  0,
+                  1,
+                  0,
+                  1
+                ],
+                "hr": 24,
+                "min": 9,
+                "sec": 9,
+                "cmd": [
+                  {
+                    "mac": [
+                      "000000000000"
+                    ],
+                    "opt": [
+                      "Pow"
+                    ],
+                    "p": [
+                      255
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "optional_seconds_NIC_context": "000000000000",
+      "created_timer_NIC_context": "020000000001"
+    }
+  ]
+}

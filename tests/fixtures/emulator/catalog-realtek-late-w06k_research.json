@@ -1,0 +1,680 @@
+{
+  "ota_code": "362001061649",
+  "embedded_codes": [
+    "362001061649"
+  ],
+  "source_path": "362001061649+V4.4-test.bin",
+  "source_sha256": "6ac3db6c6b5d72d327171d2bc16223c626301a194511a44931ad86de4135abd8",
+  "source_size": 786432,
+  "embedded_hids": [
+    "362001061649+U-W06KV4.4.bin",
+    "000000000000+OutEepV0.bin"
+  ],
+  "identity_qualification": "Primary HID copied by startup0xa12d4c from0x44cae8. The OutEep literal is distinct metadata, not another appliance. Root80241/80242 are actual mainboard MID branches; downstream registration allowlist13800/13801 is separate.",
+  "mid_roles": [
+    {
+      "mid": "80241",
+      "role": "root host identity; 13 sensor readouts plus 16 local metadata fields"
+    },
+    {
+      "mid": "80242",
+      "role": "root host identity; 13 sensor readouts plus 16 local metadata fields"
+    },
+    {
+      "mid": "13800",
+      "role": "accepted downstream registration type only; no child appliance alias"
+    },
+    {
+      "mid": "13801",
+      "role": "accepted downstream registration type only; no child appliance alias"
+    }
+  ],
+  "assessment_status": "partial",
+  "property_coverage": {
+    "root_status_complete": true,
+    "root_control_complete": true,
+    "raw_getter_complete": true,
+    "downstream_appliance_complete": false,
+    "callbacks": {
+      "bind": "modeled",
+      "status": "modeled",
+      "cmd": "modeled",
+      "scan": "modeled",
+      "hbok": "modeled no reply",
+      "wlan": "bounded in-memory acceptance before network join; plaintext ret",
+      "tm": "bounded local clock update, no reply",
+      "subDev": "source kind7 NULL: no reply",
+      "setT/queryT/deleteT": "bounded raw synthetic mainboard timer records",
+      "updateT": "request parser and AC selector known; fail closed pending mainboard query-response contract",
+      "upgrade": "source callback known; no firmware download/apply success invented"
+    }
+  },
+  "properties": [
+    {
+      "name": "Pow",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448140",
+          "name": "Pow",
+          "source_offset": 0,
+          "mask": 255
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "LigPow",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x44815c",
+          "name": "LigPow",
+          "source_offset": 1,
+          "mask": 255
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "ScrTime",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448178",
+          "name": "ScrTime",
+          "source_offset": 2,
+          "mask": 255
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "AutoCtr",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448194",
+          "name": "AutoCtr",
+          "source_offset": 3,
+          "mask": 255
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "TemSor",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x4481b0",
+          "name": "TemSor",
+          "source_offset": 4,
+          "mask": 65535
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "HumSor",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x4481cc",
+          "name": "Humsor",
+          "source_offset": 6,
+          "mask": 65535
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "HCHO",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x4481e8",
+          "name": "HCHO",
+          "source_offset": 8,
+          "mask": 65535
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "PM2P5",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448204",
+          "name": "PM2P5",
+          "source_offset": 10,
+          "mask": 65535
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "CO2",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448220",
+          "name": "CO2",
+          "source_offset": 12,
+          "mask": 65535
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "VOC",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x44823c",
+          "name": "VOC",
+          "source_offset": 14,
+          "mask": 65535
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "InAirQuality",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448258",
+          "name": "InAirQuality",
+          "source_offset": 16,
+          "mask": 255
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "SensorErr",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448274",
+          "name": "SensorErr",
+          "source_offset": 17,
+          "mask": 255
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "BatteryWarn",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": {
+        "descriptor": {
+          "address": "0x448290",
+          "name": "BatteryWarn",
+          "source_offset": 18,
+          "mask": 255
+        },
+        "rule": "Raw little-endian board cache, no physical-unit conversion. Numeric command ACK p/val preserve requested signed32; fresh status narrows to descriptor mask."
+      },
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa12c00 raw getter"
+      ]
+    },
+    {
+      "name": "host",
+      "readable": true,
+      "writable": true,
+      "wire_type": "string",
+      "semantics": "string; synthetic writable host initially dis.gree.com",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "hid",
+      "readable": true,
+      "writable": false,
+      "wire_type": "string",
+      "semantics": "exact primary firmware label",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "lock",
+      "readable": true,
+      "writable": true,
+      "wire_type": "integer",
+      "semantics": "signed32 mutable local metadata",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "bc",
+      "readable": true,
+      "writable": false,
+      "wire_type": "string",
+      "semantics": "empty initialized local string, not discovery bc gree",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "name",
+      "readable": true,
+      "writable": true,
+      "wire_type": "string",
+      "semantics": "native read helper returns root MAC, while discovery and command val use mutable name",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "InHid",
+      "readable": true,
+      "writable": false,
+      "wire_type": "string",
+      "semantics": "empty until mainboard identity supplies a value",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "OEEPHid",
+      "readable": true,
+      "writable": false,
+      "wire_type": "string",
+      "semantics": "exact literal 000000000000+OutEepV0.bin",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "HidDownPer",
+      "readable": true,
+      "writable": false,
+      "wire_type": "integer",
+      "semantics": "signed32 progress word; zero in synthetic board",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "OEEPHidDownPer",
+      "readable": true,
+      "writable": false,
+      "wire_type": "integer",
+      "semantics": "signed32 progress word; zero in synthetic board",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "InHidDownPer",
+      "readable": true,
+      "writable": false,
+      "wire_type": "integer",
+      "semantics": "signed32 progress word; zero in synthetic board",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "induptype",
+      "readable": true,
+      "writable": false,
+      "wire_type": "integer",
+      "semantics": "uint8; zero in synthetic board",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "outduptype",
+      "readable": true,
+      "writable": false,
+      "wire_type": "integer",
+      "semantics": "constant numeric zero",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "devinhidownver",
+      "readable": true,
+      "writable": false,
+      "wire_type": "string",
+      "semantics": "local version string; empty in synthetic board",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "deveephidownver",
+      "readable": true,
+      "writable": false,
+      "wire_type": "integer",
+      "semantics": "constant numeric zero",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "time",
+      "readable": true,
+      "writable": true,
+      "wire_type": "string",
+      "semantics": "local date/time string; synthetic initial 2017-6-15 00:00:00",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    },
+    {
+      "name": "rssi",
+      "readable": true,
+      "writable": false,
+      "wire_type": "integer",
+      "semantics": "signed unavailable-interface result -1; not an RF measurement",
+      "evidence": [
+        "0xa12a08 selector",
+        "0xa126e0 root dispatch",
+        "0xa10b48 dat builder",
+        "0xa10ce4 res builder",
+        "0xa10824/0xa10730 metadata helper"
+      ]
+    }
+  ],
+  "quirks": {
+    "temperature_offset": {
+      "value": null,
+      "decision": "Do not reinterpret TemSor as client TemSen or Celsius; retain unknown."
+    },
+    "relearn_temperature_offset": {
+      "value": false,
+      "decision": "No TemSen typed decoder to relearn."
+    },
+    "buzzer_properties": {
+      "value": [],
+      "decision": "Finite root selectors reject buzzer names; no acoustic inference."
+    },
+    "cooling_mode_value": {
+      "value": null,
+      "decision": "Root has no Mod selector; forwarded AC selector is not root mode support."
+    },
+    "capabilities": {
+      "value": [],
+      "decision": "Recommend raw sensor host MID presets without climate family; preserve existing061649 typed denials and do not promote forwarded fields."
+    },
+    "gateway_dialect": {
+      "value": null,
+      "decision": "Do not claim generic subDev child discovery; native selector kind7 returns NULL."
+    }
+  },
+  "transport": {
+    "codec": "aes-ecb-pkcs7",
+    "generic_key": "a3K8Bx%2r8Y7#xDh",
+    "request_selector": "low8: zero session, nonzero generic",
+    "reply_selector": "bind/discovery1; root status/cmd/timers0; plaintext wlan ret uses sentinel2 bypass encryption",
+    "request_bytes_max": 1024,
+    "reply_scratch_bytes": 1500,
+    "source_chain": "0xa09750\u21920xa1045c\u21920xa109f8\u21920xa10974\u21920xa126e0",
+    "framing": "cid root; tcid incoming cid; uid incoming uid; no extra LF",
+    "client_boundary": "Discovery0xa11210 emits no hid field. Appending hid after sensor columns requests the native metadata-last scratch-zero path. Client presets put hid before the sensors so the first poll preserves board values; explicit metadata-last requests still reproduce source behavior without inventing discovery HID or altering source replies.",
+    "parser_deviation": "Strict safe JSON/types/PKCS7/targets and atomic bounded batches replace native unsafe partial mutation/copies. Original status0xa11444 chooses local-only0x800 from the final selector: metadata-last leaves numeric scratch zero without clearing board cache. Original translated builder also successfully emits [hid,Pow] with a final sensor; model preserves that qualified output without reproducing unused out-of-table metadata descriptor reads. Such reads are not claimed as a native fault or lack of mixed-query support."
+  },
+  "canonical_segments": [
+    {
+      "source_offset": "0x449c",
+      "address": "0xa00100",
+      "size": 10732
+    },
+    {
+      "source_offset": "0x6eb0",
+      "address": "0x446000",
+      "size": 30952
+    },
+    {
+      "source_offset": "0xe7c0",
+      "address": "0x44d8f0",
+      "size": 3140
+    },
+    {
+      "source_offset": "0xf42c",
+      "address": "0xa04800",
+      "size": 182079
+    }
+  ],
+  "emulator_gap": {
+    "profile": "sim-w06k-v4.4-host",
+    "module": "gree_emulator/profiles/catalog_realtek_late.py",
+    "not_modeled": [
+      "Actual downstream appliance identity/typed schema and complete paired session exchange",
+      "updateT mainboard encoding to later listT board-response bytes",
+      "OTA image acquisition/apply and electrical WiFi/MCU behavior"
+    ],
+    "model_policy": "Zeroed 19-byte readout cache, immediate raw in-memory MCU completion for established numeric/set/query/delete behavior, not a physical board capture.",
+    "timer_serialization": "Original0xa11004 emits BrdNum per record but reads shared BrdContent at cache0x4b..0x4d; two/three bytes only for counts2/3, otherwise one byte. Synthetic MCU query cache is regenerated from the first selected stored raw command and zero-padded; updateT never manufactures this cache."
+  },
+  "unknowns": [
+    "No companion executable/capture tying exact appliance HID/MID/schema to this host registration and paired key/dat/res exchange.",
+    "The source host does establish downstream scan matching, bindok/bindOk key length16, and dat/res cache parsers; these are not missing or generic forwarding only."
+  ],
+  "blockers": [
+    {
+      "scope": "child appliance only",
+      "needed": "Exact companion executable or one paired registration\u2192scan\u2192bind/key\u2192status/dat\u2192cmd/res capture including concrete appliance HID and MID. Host callbacks remain available.",
+      "available": "0xa10270 accepts13800/13801;0xa0d2fc scan;0xa0d430 installs 16-byte key;0xa0ce5c/0xa0cf34 builders;0xa0d4fc/0xa0d688 response contracts."
+    },
+    {
+      "scope": "updateT roundtrip only",
+      "needed": "Mainboard timer response mapping from updateT selector/value packet offsets0x58/0x35 to query-cache BrdNum/BrdContent offsets0x48/0x4b. Raw set/query/delete remain available."
+    }
+  ],
+  "evidence": [
+    "Xtensa-1/6ac3db6c6b5d/decompiled.c",
+    "Xtensa-1/6ac3db6c6b5d/disassembly.txt",
+    "PR148/verification/other-gateways/verification.json",
+    "CatalogQuirks/RealtekLate/w06kv-source-results.json",
+    "CatalogQuirks/RealtekLate/w06kv-callback-results.json",
+    "CatalogQuirks/Execution/w06kv-public-client.json",
+    "CatalogQuirks/Execution/w06kv-plaintext-cli.json"
+  ],
+  "reconciliation": {
+    "original_sha256_parent_verified": true,
+    "old_namespace_correction": "Do not union0xa12830 forwarded AC names into0xa12a08 root namespace. Descriptor Humsor is not wire alias for HumSor. Native res/dat hardware LOOPs omitted by heuristic C are restored from original assembly and parent-run translated builders."
+  },
+  "profile": "sim-w06k-v4.4-host",
+  "schema_version": 1,
+  "literal_vectors": "catalog-realtek-late-w06k-vectors_research.json",
+  "checks": [
+    {
+      "evidence": "CatalogQuirks/RealtekLate/w06kv-callback-results.json",
+      "status": "Source qualification executed:65 original width vectors,150 metadata-index probes and10 serialized builders; no per-operation failure. Not a nativeXtensa boot or physicalMCU/AES check."
+    },
+    {
+      "evidence": ["CatalogQuirks/Execution/w06kv-public-client.json", "CatalogQuirks/Execution/w06kv-plaintext-cli.json"],
+      "status": "Parent exercised actualCLI: unmodified Device bootstrap→sensorpoll→command/freshstatus, plaintext wlan/tm/hbok and encrypted metadata readback. Initial auto-HID bootstrap retains the native zero-scratch quirk; no client workaround."
+    },
+    {
+      "command": "venv/bin/python -m pytest tests/test_emulator_catalog_realtek_late.py",
+      "status": "Not run by worker; integration parent owns verification."
+    }
+  ]
+}

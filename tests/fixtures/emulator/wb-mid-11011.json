@@ -4,7 +4,8 @@
   "source_sha256": "0d5ee6fda1678084e1fa29e6267941afae304090b5b97f7b4264f9cee7fd461b",
   "evidence": {
     "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/wb-additional-mids_research.json: independently executed exact runtime identity, actual AC acquisition branch, full encrypted scan/bind/status, all19 controls and duplicate command for this MID. Shares the proven WB04A framing, not a guessed adjacent-MID range.",
-    "model": "Controls, ranges, floors, sensor bias40 and temperature are explicitly synthetic. Unknown/unmodelled status fields are omitted; unsupported commands are rejected atomically. Native packets with terminal NUL succeed; accepting normal JSON without NUL is intentional safe-parser behavior, not native bug-free compatibility."
+    "model": "Complete source raw uint16 cache, metadata precedence and literal boundary vectors are in catalog-wb-standalone_research.json. Appliance defaults, sensor bias40 and temperature remain explicitly synthetic, not native ranges/calibration. Unknown status fields are safely omitted and invalid command batches reject atomically. Native packets with terminal NUL succeed; accepting JSON without NUL is intentional safe-parser policy.",
+    "add_half_degree_source_qualification": "Original unmodified WB04 495-name search replay in WB/standalone-replay.json: Add0.5 seeded511 reaches integer serializer9b02834a; original search/store(-1) reaches9b021e28 with freshU16=65535. Previous narrow model wrongly omitted this declared field. Unseeded0 is labelled model backing, not physical half-degree calibration."
   },
   "device": {
     "room_c": 25.25,
@@ -470,7 +471,8 @@
             1,
             1,
             1,
-            65
+            65,
+            0
           ],
           "cols": [
             "Pow",
@@ -492,7 +494,8 @@
             "StHt",
             "SvSt",
             "Buzzer_ON_OFF",
-            "TemSen"
+            "TemSen",
+            "Add0.5"
           ],
           "r": 200
         }
@@ -500,9 +503,51 @@
     ],
     [],
     [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            70
+          ],
+          "opt": [
+            "TemSen"
+          ],
+          "r": 200
+        }
+      }
+    ],
     [],
-    [],
-    [],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "020000000001",
+          "tcid": "app"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            31
+          ],
+          "opt": [
+            "SetTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
     [],
     [
       {
@@ -532,7 +577,7 @@
   "expected_state": {
     "Pow": 0,
     "Mod": 4,
-    "SetTem": 24,
+    "SetTem": 31,
     "WdSpd": 3,
     "TemUn": 1,
     "TemRec": 1,

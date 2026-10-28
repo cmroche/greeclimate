@@ -1,0 +1,841 @@
+{
+  "contract": {
+    "firmware_code": "362001061996",
+    "mid": "80300",
+    "mids": [
+      "80300"
+    ],
+    "profile_id": "sim-w05g-v4.3",
+    "source_sha256": "ddd432e41527e8380a1596bdad85fc0555e9e8ddb253cd5d272e7cfd7fc29d8f",
+    "hid": "362001061996+U-W05G(RELT)V4.3.bin",
+    "new_entry_qualified": true,
+    "qualification": "Source-evidenced safe simulated sensorless root; NOT full firmware boot, calibrated mainboard, IR transmitter, BLE mesh network or hardware clone.",
+    "typed_family": null,
+    "reuse_existing_family": false,
+    "wire": {
+      "algorithm": "AES-128-ECB",
+      "key_bytes": 16,
+      "generic_key": "a3K8Bx%2r8Y7#xDh",
+      "outer_key_selection": "outer.i==0 selects startup session key; any nonzero i selects generic key. No inferred GCM, IV or trailing-brace stripping.",
+      "authorization": "i selects only the decrypt key. No separate i-based bind/status/command permission check occurs in the traced inner dispatcher. Reply i is operation-derived independently of request key.",
+      "outer_datagram_suffix": "LF byte0x0a after serialized outer JSON, NUL terminated in RAM; send includes LF, not NUL. W05G0x80657da..0x80657e8 stores LF then caller stores NUL and sends old strlen+1. No encrypted-inner LF is evidenced.",
+      "padding": "PKCS7 including aligned full block. Native encrypt wrapper rejects nonempty inputs shorter than16. Native decrypt leaves padding untouched; cJSON parse consumes a prefix. Safe emulator validates/removes PKCS7 rather than reproducing unsafe parser acceptance.",
+      "base64": "Pinned RTL8710B ROM base64_decode0x3523c/base64_encode0x35110 explicitly substituted by standard-library base64 in outer-route probes.",
+      "session_lifecycle": "Supplied synthetic session key in probes. Bind returns existing startup session key; no rebind rotation observed in handler. Simulated key must be deterministic per seeded device, not a shared global key.",
+      "receive_limit": 1024,
+      "scratch_limits": {
+        "receive_bytes": 1024,
+        "crypto_stack_and_RAM_work_bytes": 1024,
+        "base64_output_capacity_bytes": 1024,
+        "bounded_encoder_policy": "Require PKCS7 padded ciphertext <=1024 and base64 encoded ciphertext plus terminating NUL <=1024 before any command mutation. The latter bound is tighter. A1024-byte UDP receive limit is not a proven1024-byte maximum heap-serialized outer reply.",
+        "source": "Exact native receive loops and reply/crypto callsites in source-contract-map.json; base64 ABI capacity is the dlen input at each SDK call."
+      },
+      "identity_width": 12,
+      "outer_reply": {
+        "t": "pack",
+        "i": "1 for scan/bind,0 for status/cmd",
+        "uid": "last numeric outer uid;0 at synthetic startup",
+        "cid": "root MAC",
+        "tcid": "",
+        "pack": "base64(ciphertext)"
+      },
+      "reply_constructor_boundary": "Native inner constructors executed to cJSON serialization boundary; exact serialized whitespace/ciphertext of firmware replies is NOT claimed.",
+      "normal_response_fields": {
+        "bind": [
+          "t",
+          "mac",
+          "r",
+          "key"
+        ],
+        "status": [
+          "t",
+          "mac",
+          "r",
+          "cols",
+          "dat"
+        ],
+        "command": [
+          "t",
+          "mac",
+          "r",
+          "opt",
+          "p"
+        ]
+      },
+      "command_val_field": false,
+      "r": 200
+    },
+    "native_reply_bodies": [
+      {
+        "t": "dev",
+        "cid": "",
+        "bc": "gree",
+        "catalog": "gree",
+        "mid": "80300",
+        "model": "gree",
+        "name": "",
+        "series": "gree",
+        "vender": "1",
+        "ver": "V1.1.13",
+        "brand": "gree",
+        "mac": "020000000001",
+        "lock": 0
+      },
+      {
+        "t": "bindok",
+        "mac": "020000000001",
+        "r": 200,
+        "key": "0123456789abcdef"
+      },
+      {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "Pow",
+          "Pow"
+        ],
+        "dat": [
+          7,
+          1
+        ]
+      },
+      {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          7,
+          1
+        ]
+      }
+    ],
+    "field_catalog": [
+      "BleLink",
+      "Mesh",
+      "Meshota",
+      "Reota",
+      "SubOnline",
+      "Proaddr",
+      "Random",
+      "Unbind",
+      "Subcount",
+      "Pow",
+      "Lpn",
+      "Meshid",
+      "Onoff",
+      "Sceneid",
+      "Scene",
+      "Scenecontrol",
+      "BleKey",
+      "BleStatus",
+      "AdminRadom",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "apssid",
+      "appsw",
+      "host",
+      "name",
+      "time",
+      "lat",
+      "lon",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "NoD",
+      "vender",
+      "bc",
+      "mid",
+      "model",
+      "series",
+      "brand",
+      "catalog",
+      "country",
+      "hid",
+      "mac",
+      "ver",
+      "HidSvrVer",
+      "InHid",
+      "InHidSvrVer",
+      "OEEPHid",
+      "OEEPHidSvrVer",
+      "BtHid",
+      "NoD",
+      "NoD",
+      "NoD"
+    ],
+    "isolated_status_from_zero_synthetic_platform": {
+      "BleLink": {
+        "cols": [
+          "BleLink"
+        ],
+        "dat": [
+          "000000000000"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Mesh": {
+        "cols": [
+          "Mesh"
+        ],
+        "dat": [
+          0
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Meshota": {
+        "cols": [
+          "Meshota"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Reota": {
+        "cols": [
+          "Reota"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "SubOnline": {
+        "cols": [
+          "SubOnline"
+        ],
+        "dat": [
+          "[]"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Proaddr": {
+        "cols": [
+          "Proaddr"
+        ],
+        "dat": [
+          "0000"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Random": {
+        "cols": [
+          "Random"
+        ],
+        "dat": [
+          "00000000"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Unbind": {
+        "cols": [
+          "Unbind"
+        ],
+        "dat": [
+          "000000000000"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Subcount": {
+        "cols": [
+          "Subcount"
+        ],
+        "dat": [
+          0
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Pow": {
+        "cols": [
+          "Pow"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "Lpn": {
+        "cols": [
+          "Lpn"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "Meshid": {
+        "cols": [
+          "Meshid"
+        ],
+        "dat": [
+          "0000"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Onoff": {
+        "cols": [
+          "Onoff"
+        ],
+        "dat": [
+          "OK"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Sceneid": {
+        "cols": [
+          "Sceneid"
+        ],
+        "dat": [
+          0
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Scene": {
+        "cols": [
+          "Scene"
+        ],
+        "dat": [
+          "FAIL"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "Scenecontrol": {
+        "cols": [
+          "Scenecontrol"
+        ],
+        "dat": [
+          0
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "BleKey": {
+        "cols": [
+          "BleKey"
+        ],
+        "dat": [
+          "",
+          0
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "BleStatus": {
+        "cols": [
+          "BleStatus"
+        ],
+        "dat": [
+          0
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "AdminRadom": {
+        "cols": [
+          "AdminRadom"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "NoD": {
+        "cols": [
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD",
+          "NoD"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "apssid": {
+        "cols": [
+          "apssid"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "appsw": {
+        "cols": [
+          "appsw"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "host": {
+        "cols": [
+          "host"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "name": {
+        "cols": [
+          "name"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "time": {
+        "cols": [
+          "time"
+        ],
+        "dat": [],
+        "stopped": null,
+        "error": "unmodeled executable boundary 0x226c"
+      },
+      "lat": {
+        "cols": [
+          "lat"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "lon": {
+        "cols": [
+          "lon"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "vender": {
+        "cols": [
+          "vender"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "bc": {
+        "cols": [
+          "bc"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "mid": {
+        "cols": [
+          "mid"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "model": {
+        "cols": [
+          "model"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "series": {
+        "cols": [
+          "series"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "brand": {
+        "cols": [
+          "brand"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "catalog": {
+        "cols": [
+          "catalog"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "country": {
+        "cols": [
+          "country"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "hid": {
+        "cols": [
+          "hid"
+        ],
+        "dat": [
+          "362001061996+U-W05G(RELT)V4.3.bin"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "mac": {
+        "cols": [
+          "mac"
+        ],
+        "dat": [
+          "020000000001"
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "ver": {
+        "cols": [
+          "ver"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      },
+      "HidSvrVer": {
+        "cols": [
+          "HidSvrVer"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "InHid": {
+        "cols": [
+          "InHid"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "InHidSvrVer": {
+        "cols": [
+          "InHidSvrVer"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "OEEPHid": {
+        "cols": [
+          "OEEPHid"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "OEEPHidSvrVer": {
+        "cols": [
+          "OEEPHidSvrVer"
+        ],
+        "dat": [],
+        "stopped": "return",
+        "error": null
+      },
+      "BtHid": {
+        "cols": [
+          "BtHid"
+        ],
+        "dat": [
+          ""
+        ],
+        "stopped": "return",
+        "error": null
+      }
+    },
+    "evidence": [
+      "362001061996-native.json",
+      "362001061996-dispatch.json",
+      "362001061996-outer.json",
+      "362001061996-crypto.json",
+      "source-contract-map.json"
+    ],
+    "safe_parser_policy": {
+      "declared_deviation": true,
+      "requests": "Strict outer/inner objects and expected string/integer/array types; reject bool as integer. Equal opt/p lengths, finite integer values, bound original bytes before decryption, validate entire batch before cache or clock mutation, reject unsafe identity/private/unknown state overrides.",
+      "unsupported_operations": "All44 distinct source selectors/60 records are modeled with independent raw scratch/readout and synthetic queues. Queue ACKs do not claim BLE delivery, OTA execution, network reconnection, physical children or persistence hardware success.",
+      "reply_size": "Bound full encrypted/outer reply before mutation;1024-byte receive does not prove a larger reply buffer."
+    },
+    "simulation_policy": {
+      "sensorless": true,
+      "thermal_target": null,
+      "ambient_field": null,
+      "children": [],
+      "max_children": 0,
+      "initial_cache": "Fresh per-device modeled numeric cache zeros; this is a literal simulation policy, not native startup/mainboard data.",
+      "key": "Independent seeded per-device16-byte session key; restart/rebind stable by explicit model policy.",
+      "physical_calibration": "None claimed. Do not synthesize TemSen, calibration, or inherited AC temperature behavior.",
+      "modeled_writable_fields": [
+        "BleLink", "Mesh", "Meshota", "Reota", "SubOnline", "Proaddr", "Random",
+        "Unbind", "Subcount", "Pow", "Lpn", "Meshid", "Onoff", "Sceneid", "Scene",
+        "Scenecontrol", "BleKey", "BleStatus", "AdminRadom", "NoD", "apssid", "appsw",
+        "host", "name", "time", "lat", "lon", "vender", "bc", "mid", "model", "series",
+        "brand", "catalog", "country", "hid", "mac", "ver", "HidSvrVer", "InHid",
+        "InHidSvrVer", "OEEPHid", "OEEPHidSvrVer", "BtHid"
+      ],
+      "modeled_readable_fields": "Use isolated_status_from_zero_synthetic_platform as the exact source output catalog, including known columns without values. hid/mac dynamic by profile; placeholders and unsupported callback outputs must not be promoted into typed features.",
+      "root_command_policy": "Pow is a transport command/cache, not gateway physical power or an ambient appliance. Numeric p echoes original integer. No invented Pow status value. Source cache/queue is distinct from synthetic mesh/BLE physical state.",
+      "topology": "This contract is an empty, sensorless root gateway only. No invented attachable child profiles, MAC widths, pagination or mainboard schema.",
+      "action_commands": "Source-qualified receipt/cache/queue semantics use explicit synthetic in-memory backing. No delivered BLE/OTA/network effect follows from ACK or queue admission; see session-realtek-w05g-quirks_research.json.",
+      "native_status_limit": "time remains separately modeled RTC; source-empty ver/vender/host/name/location are not their scan strings."
+    },
+    "unexecuted_dependencies": [
+      {
+        "boundary": "BKUP_Read0x226c",
+        "source": "Pinned RTL8710B SDK ROM map",
+        "affected": "RTC-backed time status only",
+        "policy": "Synthetic ISO-like time string permitted only when explicitly documented as modeled clock; no native RTC time result claimed."
+      }
+    ],
+    "blockers": [],
+    "source_entrypoints": {
+      "receive_loop": "0x80661a6",
+      "outer_dispatch": "0x8064d30",
+      "inner_dispatch": "0x80642ec",
+      "status": "0x8065d6c",
+      "command": "0x8065e64",
+      "reply": "0x8063d34"
+    },
+    "routing": {
+      "bind": "inner.mac must equal root",
+      "status": "outer.tcid must equal root; inner.mac ignored",
+      "command": "outer.tcid must equal root; inner.mac ignored"
+    },
+    "native_semantics": {
+      "status": "Finite60 selector table, including repeated NoD placeholders. A known selector is appended to cols before its callback. Some known selectors (including Pow) append NO dat; unknown names append neither. This is not a one-value-per-column readable namespace.",
+      "command": "Numeric cache store low16 but ACK p keeps original cJSON integer, so duplicatePow[7,65537] -> p[7,65537]; native queue side effect completes in source RAM. Fresh Pow status remains cols[Pow],dat[]. String command routes have separate parsing and BLE/host/credentials side effects and are not generic numeric appliance controls.",
+      "empty_topology": "Subcount0. SubOnline is a JSON-encoded string \"[]\", not a nested array; first3 parent descriptors plus49 secondary descriptors are distinct source loops. No child model is qualified here.",
+      "special_shape": "BleKey can append TWO data values for one column. Do not import client equal-length assumptions."
+    },
+    "qualified_methods": [
+      "Actual outer scan/bind/status/cmd through property/queue mutation to native constructors",
+      "Actual wrong-key/wrong-outer-target rejection",
+      "Actual finite60-name isolated status callbacks with supplied empty platform state",
+      "13 actual crypto wrapper runs with pinned ROM boundaries"
+    ]
+  },
+  "source_vectors": {
+    "profile_id": "sim-w05g-v4.3",
+    "firmware_code": "362001061996",
+    "vectors": [
+      {
+        "request_outer": {
+          "t": "scan"
+        },
+        "expected_inner": [
+          {
+            "t": "dev",
+            "cid": "",
+            "bc": "gree",
+            "catalog": "gree",
+            "mid": "80300",
+            "model": "gree",
+            "name": "",
+            "series": "gree",
+            "vender": "1",
+            "ver": "V1.1.13",
+            "brand": "gree",
+            "mac": "020000000001",
+            "lock": 0
+          }
+        ],
+        "source_stop": "serialization",
+        "source_error": null,
+        "evidence_class": "Actual native envelope/dispatch/constructor instructions with declared JSON/base64/AES-ROM boundaries",
+        "note": null
+      },
+      {
+        "request_outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 42,
+          "cid": "app",
+          "tcid": "020000000001",
+          "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD"
+        },
+        "expected_inner": [
+          {
+            "t": "bindok",
+            "mac": "020000000001",
+            "r": 200,
+            "key": "0123456789abcdef"
+          }
+        ],
+        "source_stop": "serialization",
+        "source_error": null,
+        "evidence_class": "Actual native envelope/dispatch/constructor instructions with declared JSON/base64/AES-ROM boundaries",
+        "note": null
+      },
+      {
+        "request_outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "app",
+          "tcid": "020000000001",
+          "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSwBKDMuXDsa6P/74spQSFNNQ=="
+        },
+        "expected_inner": [
+          {
+            "t": "dat",
+            "mac": "020000000001",
+            "r": 200,
+            "cols": [
+              "Pow",
+              "hid",
+              "Pow"
+            ],
+            "dat": [
+              "362001061996+U-W05G(RELT)V4.3.bin"
+            ]
+          }
+        ],
+        "source_stop": "serialization",
+        "source_error": null,
+        "evidence_class": "Actual native envelope/dispatch/constructor instructions with declared JSON/base64/AES-ROM boundaries",
+        "note": null
+      },
+      {
+        "request_outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "app",
+          "tcid": "020000000001",
+          "pack": "aovXPORtrykTR2O97Bw3IDc/uYauQhwv5djzugjm7z0XAzA527oFgJx9FfLL/1Jm9t6Q7wSYtGikfZGCX2x0p9noBtuaAy+F4DKA6oEn2Sk="
+        },
+        "expected_inner": [
+          {
+            "t": "res",
+            "mac": "020000000001",
+            "r": 200,
+            "opt": [
+              "Pow",
+              "Pow"
+            ],
+            "p": [
+              7,
+              65537
+            ]
+          }
+        ],
+        "source_stop": "serialization",
+        "source_error": null,
+        "evidence_class": "Actual native envelope/dispatch/constructor instructions with declared JSON/base64/AES-ROM boundaries",
+        "note": null
+      },
+      {
+        "request_outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "app",
+          "tcid": "020000000002",
+          "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWIn9OkTA4QVad+NJ/tle4m5jBN5JO6zJg6xVwDI3nMAYQ=="
+        },
+        "expected_inner": [],
+        "source_stop": "return",
+        "source_error": null,
+        "evidence_class": "Actual native envelope/dispatch/constructor instructions with declared JSON/base64/AES-ROM boundaries",
+        "note": null
+      },
+      {
+        "request_outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 42,
+          "cid": "app",
+          "tcid": "020000000001",
+          "pack": "LzkV5AUdYbSFi2nWykv3iruapXJWv3Dc768F/NhLpMyD714H19LXKQRZh/J78LzNarYfM0yfjAgzN+x3lPNAHQ=="
+        },
+        "expected_inner": [],
+        "source_stop": "return",
+        "source_error": null,
+        "evidence_class": "Actual native envelope/dispatch/constructor instructions with declared JSON/base64/AES-ROM boundaries",
+        "note": null
+      }
+    ],
+    "safe_policy_vectors": [
+      {
+        "request_source_vector_index": 3,
+        "expected": "InvalidPacket for conflicting inner identity with unchanged cache, uid and last_step",
+        "evidence_class": "Explicit safe identity policy, not native behavior",
+        "note": "The unchanged original ciphertext decrypts to inner.mac 020000000002 while outer.tcid and modeled root are 020000000001. Positive runnable command adapts only inner.mac and retains the independent native ACK/cache result; adapted ciphertext is not native-exact. Native empty Pow getter output remains unchanged after the command."
+      },
+      {
+        "request_inner": {
+          "t": "cmd",
+          "opt": [
+            "Pow"
+          ],
+          "p": []
+        },
+        "expected": "InvalidPacket with unchanged cache",
+        "evidence_class": "Literal atomic safe parser policy"
+      },
+      {
+        "request_inner": {
+          "t": "status",
+          "cols": "Pow"
+        },
+        "expected": "InvalidPacket",
+        "evidence_class": "Literal safe array-type policy"
+      }
+    ]
+  },
+  "provenance": "Original independent native request/output evidence is unchanged; no emulator/client imports or generated expected outputs. safe_policy_vectors separately document deliberate strict parser deviations, not native acceptance."
+}

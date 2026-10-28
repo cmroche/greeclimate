@@ -1,0 +1,843 @@
+{
+  "schema_version": 1,
+  "profile": "sim-is-t3bbw03-v3.62",
+  "source_sha256": "d433918332f3962df46d53f8ecdc9a7f638206a77c48815ec0d40ea865436514",
+  "evidence": [
+    "SessionQuirks/ContainerControllers/probe-results.json",
+    "SessionQuirks/ContainerControllers/probe-results-voice-retry.json",
+    "SessionQuirks/ContainerControllers/probe-results-voice-guard-delete.json",
+    "SessionQuirks/ContainerControllers/source-disassembly.json"
+  ],
+  "qualification": "Original ARM/Thumb getter and callback execution with cJSON/libc/IO boundaries. cJSON_AddItemToArray retains residual r0 array pointer; previous last-VoiceGate silence was a harness error, not firmware behavior.",
+  "selectors": [
+    "Pow",
+    "Mod",
+    "SwhSlp",
+    "SwhSw",
+    "WdSpd",
+    "SetTem",
+    "Blo",
+    "Health",
+    "Lig",
+    "TemUn",
+    "TemRec",
+    "Air",
+    "SwUpDn",
+    "SwingLfRig",
+    "SvSt",
+    "StHt",
+    "Intellblo1",
+    "AirOpen",
+    "SlpMod",
+    "Tur",
+    "Quiet",
+    "VoltErr",
+    "CurrErr",
+    "PowerErr",
+    "RelayErr",
+    "ACCntlrShape",
+    "AppTimer",
+    "RealTimePower",
+    "Savpow",
+    "ProTimePow",
+    "ProTimeLen",
+    "ProTimeReminder",
+    "SendButton",
+    "AddButton",
+    "DelButton",
+    "Studied",
+    "ConBtnNum",
+    "ConBtnName",
+    "RefBtnList",
+    "Electnumzero",
+    "hid",
+    "time",
+    "MidType",
+    "VoiceVolume",
+    "VoiceGate"
+  ],
+  "initial_state": {
+    "Tur": 300,
+    "Quiet": 18,
+    "VoltErr": 5000
+  },
+  "getter_vectors": [
+    {
+      "name": "Pow",
+      "cols": [
+        "Pow",
+        "Pow"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mod",
+      "cols": [
+        "Mod",
+        "Mod"
+      ],
+      "dat": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "SwhSlp",
+      "cols": [
+        "SwhSlp",
+        "SwhSlp"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SwhSw",
+      "cols": [
+        "SwhSw",
+        "SwhSw"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "WdSpd",
+      "cols": [
+        "WdSpd",
+        "WdSpd"
+      ],
+      "dat": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "SetTem",
+      "cols": [
+        "SetTem",
+        "SetTem"
+      ],
+      "dat": [
+        26,
+        26
+      ]
+    },
+    {
+      "name": "Blo",
+      "cols": [
+        "Blo",
+        "Blo"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Health",
+      "cols": [
+        "Health",
+        "Health"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Lig",
+      "cols": [
+        "Lig",
+        "Lig"
+      ],
+      "dat": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "TemUn",
+      "cols": [
+        "TemUn",
+        "TemUn"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "TemRec",
+      "cols": [
+        "TemRec",
+        "TemRec"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Air",
+      "cols": [
+        "Air",
+        "Air"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SwUpDn",
+      "cols": [
+        "SwUpDn",
+        "SwUpDn"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SwingLfRig",
+      "cols": [
+        "SwingLfRig",
+        "SwingLfRig"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SvSt",
+      "cols": [
+        "SvSt",
+        "SvSt"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "StHt",
+      "cols": [
+        "StHt",
+        "StHt"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Intellblo1",
+      "cols": [
+        "Intellblo1",
+        "Intellblo1"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "AirOpen",
+      "cols": [
+        "AirOpen",
+        "AirOpen"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SlpMod",
+      "cols": [
+        "SlpMod",
+        "SlpMod"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Tur",
+      "cols": [
+        "Tur",
+        "Tur"
+      ],
+      "dat": [
+        300,
+        300
+      ]
+    },
+    {
+      "name": "Quiet",
+      "cols": [
+        "Quiet",
+        "Quiet"
+      ],
+      "dat": [
+        18,
+        18
+      ]
+    },
+    {
+      "name": "VoltErr",
+      "cols": [
+        "VoltErr",
+        "VoltErr"
+      ],
+      "dat": [
+        5000,
+        5000
+      ]
+    },
+    {
+      "name": "CurrErr",
+      "cols": [
+        "CurrErr",
+        "CurrErr"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "PowerErr",
+      "cols": [
+        "PowerErr",
+        "PowerErr"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "RelayErr",
+      "cols": [
+        "RelayErr",
+        "RelayErr"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ACCntlrShape",
+      "cols": [
+        "ACCntlrShape",
+        "ACCntlrShape"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "AppTimer",
+      "cols": [
+        "AppTimer",
+        "AppTimer"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "RealTimePower",
+      "cols": [
+        "RealTimePower",
+        "RealTimePower"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Savpow",
+      "cols": [
+        "Savpow",
+        "Savpow"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ProTimePow",
+      "cols": [
+        "ProTimePow",
+        "ProTimePow"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ProTimeLen",
+      "cols": [
+        "ProTimeLen",
+        "ProTimeLen"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ProTimeReminder",
+      "cols": [
+        "ProTimeReminder",
+        "ProTimeReminder"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SendButton",
+      "cols": [
+        "SendButton",
+        "SendButton"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "AddButton",
+      "cols": [
+        "AddButton",
+        "AddButton"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "DelButton",
+      "cols": [
+        "DelButton",
+        "DelButton"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Studied",
+      "cols": [
+        "Studied",
+        "Studied"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ConBtnNum",
+      "cols": [
+        "ConBtnNum",
+        "ConBtnNum"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ConBtnName",
+      "cols": [
+        "ConBtnName",
+        "ConBtnName"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "RefBtnList",
+      "cols": [
+        "RefBtnList",
+        "RefBtnList"
+      ],
+      "dat": [
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "name": "Electnumzero",
+      "cols": [
+        "Electnumzero",
+        "Electnumzero"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hid",
+      "cols": [
+        "hid",
+        "hid"
+      ],
+      "dat": [
+        "362001062573+IS-T3BBW03V3.62.img",
+        "362001062573+IS-T3BBW03V3.62.img"
+      ]
+    },
+    {
+      "name": "time",
+      "cols": [
+        "time",
+        "time"
+      ],
+      "dat": [
+        "1970-01-01 00:00:00",
+        "1970-01-01 00:00:00"
+      ]
+    },
+    {
+      "name": "MidType",
+      "cols": [
+        "MidType",
+        "MidType"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "VoiceVolume",
+      "cols": [
+        "VoiceVolume",
+        "VoiceVolume"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "VoiceGate",
+      "cols": [
+        "VoiceGate",
+        "VoiceGate"
+      ],
+      "dat": [
+        0,
+        0
+      ]
+    }
+  ],
+  "special_vectors": [
+    {
+      "label": "ir_empty_pair",
+      "request": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "RefBtnList",
+          "RefBtnList"
+        ]
+      },
+      "expected": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "RefBtnList",
+          "RefBtnList"
+        ],
+        "dat": [
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      "expected_fresh": null
+    },
+    {
+      "label": "guard_signed_ack",
+      "request": {
+        "t": "cmd",
+        "opt": [
+          "ProTimePow",
+          "ProTimeLen"
+        ],
+        "p": [
+          -1,
+          65536
+        ]
+      },
+      "expected": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "ProTimePow",
+          "ProTimeLen"
+        ],
+        "p": [
+          -1,
+          65536
+        ]
+      },
+      "expected_fresh": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "ProTimePow",
+          "ProTimeLen",
+          "ProTimeReminder"
+        ],
+        "dat": [
+          65535,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "guard_reminder_reset",
+      "request": {
+        "t": "cmd",
+        "opt": [
+          "ProTimeReminder",
+          "ProTimePow"
+        ],
+        "p": [
+          1,
+          1
+        ]
+      },
+      "expected": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "ProTimeReminder",
+          "ProTimePow"
+        ],
+        "p": [
+          1,
+          1
+        ]
+      },
+      "expected_fresh": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "ProTimeReminder",
+          "ProTimePow",
+          "ProTimeReminder"
+        ],
+        "dat": [
+          0,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "label": "cache_special_nameonly",
+      "request": {
+        "t": "cmd",
+        "opt": [
+          "ACCntlrShape",
+          "AppTimer",
+          "Savpow",
+          "MidType"
+        ],
+        "p": [
+          -1,
+          65536,
+          2,
+          1
+        ]
+      },
+      "expected": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "ACCntlrShape",
+          "AppTimer",
+          "Savpow",
+          "MidType"
+        ],
+        "p": []
+      },
+      "expected_fresh": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "ACCntlrShape",
+          "AppTimer",
+          "Savpow",
+          "MidType"
+        ],
+        "dat": [
+          65535,
+          0,
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "label": "clock_epoch",
+      "request": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "time"
+        ]
+      },
+      "expected": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "time"
+        ],
+        "dat": [
+          "1970-01-01 00:00:00"
+        ]
+      },
+      "expected_fresh": null
+    },
+    {
+      "label": "audio_single_nameonly",
+      "request": {
+        "t": "cmd",
+        "opt": [
+          "VoiceGate"
+        ],
+        "p": [
+          1
+        ]
+      },
+      "expected": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "VoiceGate"
+        ],
+        "p": []
+      },
+      "expected_fresh": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "VoiceGate"
+        ],
+        "dat": [
+          0
+        ]
+      }
+    },
+    {
+      "label": "audio_pair_signed",
+      "request": {
+        "t": "cmd",
+        "opt": [
+          "VoiceVolume",
+          "VoiceGate"
+        ],
+        "p": [
+          65537,
+          -1
+        ]
+      },
+      "expected": {
+        "t": "res",
+        "mac": "020000000001",
+        "r": 200,
+        "opt": [
+          "VoiceVolume",
+          "VoiceGate"
+        ],
+        "p": [
+          65537,
+          -1
+        ]
+      },
+      "expected_fresh": {
+        "t": "dat",
+        "mac": "020000000001",
+        "r": 200,
+        "cols": [
+          "VoiceVolume",
+          "VoiceGate"
+        ],
+        "dat": [
+          1,
+          65535
+        ]
+      }
+    }
+  ],
+  "guard_boundary_qualification": "Original callback_timer_guard0x22724 with floatP0x931f0, powflag0x93618, tick_guard0x9361c. Parent-executed probe-results-voice-guard-delete.json confirms all14 new-only guard/deletion cases; cJSON_GetArraySize primitive is ABI-correct for scalar/array/object input. IO remains substituted.",
+  "guard_boundary_vectors": [
+    {"power": 4, "active": 1, "ticks": 10, "reminder": 0, "expected_active": 0, "expected_ticks": 0, "expected_reminder": 0},
+    {"power": 5, "active": 1, "ticks": 10, "reminder": 0, "expected_active": 1, "expected_ticks": 11, "expected_reminder": 0},
+    {"power": 6, "active": 1, "ticks": 10, "reminder": 0, "expected_active": 1, "expected_ticks": 11, "expected_reminder": 0},
+    {"power": 5, "active": 0, "ticks": 10, "reminder": 0, "expected_active": 0, "expected_ticks": 0, "expected_reminder": 0},
+    {"power": 4, "active": 1, "ticks": 10, "reminder": 1, "expected_active": 1, "expected_ticks": 10, "expected_reminder": 0},
+    {"power": 5, "active": 1, "ticks": 10, "reminder": 1, "expected_active": 1, "expected_ticks": 10, "expected_reminder": 1},
+    {"power": 6, "active": 1, "ticks": 10, "reminder": 1, "expected_active": 1, "expected_ticks": 10, "expected_reminder": 1}
+  ],
+  "native_delete_vectors": [
+    {"input": 1, "ack": 26, "fresh": 1},
+    {"input": -1, "ack": 26, "fresh": 65535},
+    {"input": 65536, "ack": 26, "fresh": 0},
+    {"input": [], "ack": 26, "fresh": 0},
+    {"input": [1, 2], "ack": 26, "fresh": 0}
+  ],
+  "chosen_policy": {
+    "clock": "Per-device UTC virtual epoch1970, advances monotonic elapsed seconds; strict valid calendar string setter never touches host clock.",
+    "power": "Per-device configurable _power finite float32 backing; default0, truncate/saturate unsigned32; not calibrated electrical measurement.",
+    "ir": "Empty virtual catalog, no physical receiver, shell, SQL, FIFO, IR transmission or learned-code fabrication. Learning state remains waiting until restart; ConBtnNum/ConBtnName names remain recognized with name-only ACK outside source learning state.",
+    "delete_count_refresh": "Original del_red_and_insert_del0x26938..0x2693e refreshes AddButton from SQL row count for each deleted array item. Nonempty synthetic deletion arrays therefore set AddButton0; scalar and empty-array deletion retain its prior cache. ACK26 is independent of this distinction.",
+    "cache": "41public uint16 fields, synthetic0 except Mod1/WdSpd1/SetTem26/Lig1. Commands strict signed32 with native low16 storage; only time/hid/ConBtnName string and DelButton signed32 array schemas permitted.",
+    "atomicity": "Whole batch validation and complete encoded reply preflight precede per-device mutation, including virtual clock/counters/UID.",
+    "source_corrections": "DelButton original vmov.f64 immediate26 (array probe [1,2] ACK26); numeric replay boundary len(int) is not a native fault. Timer compare is P vs5; P<5 clears activity/reminder, P==5 preserves. ProTimePow clears reminder only, not timer ticks."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "qualification": "Literal descriptor/callback expectations, statically traced from six exact canonical source exports; not a native execution result. Callback inputs are synthetic, not appliance measurements.",
+  "columns": ["mac", "mid", "name", "key", "ver", "vender", "bc", "brand", "catalog", "series", "model", "lock", "conf", "configType", "time", "appStdTime", "productName", "BLEMTU", "needMqtt", "wlan", "dishost", "psw", "ssid", "svr", "achost", "tcpPort", "datHostPort", "datHost", "mqttInfo", "loginRes", "dat", "host", "hid", "InHid", "rssi", "OEEPHid", "GcloudHid", "HidDownPer", "OEEPHidDownPer", "InHidDownPer", "GcldHidDownPer", "outUpStat", "inUpStat", "gcldUpStat", "deveephidownver", "devinhidownver", "gcldhidownver", "res", "upgrade", "subList"],
+  "values": ["020000000001", "60", "WB Gateway", ["0123456789abcdef", "a3K8Bx%2r8Y7#xDh"], "V3.2.M", "1", "", "gree", "gree", "gree", "gree", 0, null, null, "1970-01-01 00:00:00", null, "Gcloud", 500, 1, null, "dis.gree.com", null, null, null, null, null, null, null, null, null, null, "dis.gree.com", null, "", -50, "", "", 0, 0, 0, 0, 0, 0, 0, "", "", "", null, null, "02446688000100|608f#02446688000200|608f#02446688000300|608f#02446688000400|605c#"],
+  "sources": [
+    {"version": "1.13", "hid": "362001066380+U-WB05BRV1.13.bin", "sha256": "897f4ebe52618702c5dc1310fa06a9349ccbf98dd988aa0b74a42303e6206d6e", "common_count": 52, "extra_columns": ["connect_flag", "num"], "extra_values": [null, null]},
+    {"version": "1.16", "hid": "362001066326+U-WB05BRV1.16.bin", "sha256": "8d09158d365e633e093a17ee0b4477b381fee78c8189f20bbbdd77a8ad79a23b", "common_count": 50, "extra_columns": [], "extra_values": []},
+    {"version": "1.18", "hid": "362001066326+U-WB05BRV1.18.bin", "sha256": "92213de63cf4d486dcc6d5ddddd81218b9e83debfc3b20845d8e5cc9c99c0786", "common_count": 50, "extra_columns": [], "extra_values": []},
+    {"version": "1.22", "hid": "362001066380+U-WB05BRV1.22.bin", "sha256": "7684d712ddb4b6b330b2ac1697c04ed7a381643b86ab8afa86c81d5306fe74c4", "common_count": 53, "extra_columns": ["connect_flag", "num", "gcloud_flag"], "extra_values": [null, null, null]},
+    {"version": "1.31", "hid": "362001066380+U-WB05BRV1.31.bin", "sha256": "35c6a04be944e945b4660c2ff6f77a4bc5251420654fdb4b0ab1917dd473e56e", "common_count": 55, "extra_columns": ["connect_flag", "num", "gcloud_flag", "homeid", "reportflag"], "extra_values": [null, null, null, 0, null]},
+    {"version": "1.38", "hid": "362001066380+U-WB05BRV1.38.bin", "sha256": "47b25da11516d27cfc0af1fe4f027a860edc00a0b2c6b0ed14566ffab34d2b1d", "common_count": 55, "extra_columns": ["connect_flag", "num", "gcloud_flag", "homeid", "reportflag"], "extra_values": [null, null, null, 0, null]}
+  ],
+  "raw_command": {
+    "opt": ["lock", "lock", "BLEMTU", "configType", "productName", "dishost", "host", "unknown", "rssi"],
+    "p": [true, {"raw": [null, "x", 3.5]}, -1, [1, false], "Chosen root", "example.invalid", 9, [1, 2], 127],
+    "val": [true, {"raw": [null, "x", 3.5]}, -1, [1, false], "Chosen root", "example.invalid", "example.invalid", [1, 2], -50],
+    "fresh_columns": ["lock", "BLEMTU", "configType", "productName", "host", "unknown", "rssi"],
+    "fresh_values": [{"raw": [null, "x", 3.5]}, -1, [1, false], "Chosen root", "example.invalid", "", -50]
+  },
+  "model_policy": {
+    "root_name": "Configured synthetic device name seeds the otherwise hardware-generated GR-Gcloud_60_0a_<NIC suffix>_E5 cache.",
+    "rssi": "Chosen -50 dBm peripheral readout; no physical radio quality claim.",
+    "GcloudHid": "Empty UART tuple readout; no companion HID invented.",
+    "clock": "Per-root Unix epoch at first root request, monotonic elapsed seconds, UTC unless an evidenced appStdTime offset/TZ is set. No SNTP or host timezone mutation.",
+    "identity": "mac/mid/hid writes mutate reported root metadata only; configured UDP routing and child ownership stay immutable. key writes replace the two actual AES slots after whole-batch validation.",
+    "events": "Qualified local cloud/configuration posts retain their event identifier; no delivery, firmware download, reboot, Wi-Fi connection, or physical side effect is claimed.",
+    "atomicity": "Whole packet is staged, including getter cache updates and local events; oversized replies and invalid keys do not mutate state.",
+    "nested_callbacks": "dat/res parameter setters route a six-NIC-byte plus literal00 identity to registered child category selectors/updaters; root dat/res caches remain null. Unknown target failures echo the requested nested value; no companion delivery is claimed.",
+    "unknown_fields": "Unknown properties echo requested command val but remain absent from fresh status."
+  }
+}

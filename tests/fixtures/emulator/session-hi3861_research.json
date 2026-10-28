@@ -1,0 +1,2359 @@
+{
+  "schema_version": 1,
+  "ota_code": "362001063856",
+  "hid": "362001063856+U-Hi3861-OldV1.13.bin",
+  "source_sha256": "a81b9911635f3dcb00c0949d0881843c354cc070f3cf56de2f70ca6da1f79171",
+  "qualification": {
+    "native_scalar_cases": 37,
+    "native_scalar_failures": 0,
+    "translated_wire_cases": 20,
+    "translated_wire_failures": 0,
+    "mode": "byte-asserted manual original-instruction translations; NOT native wire execution",
+    "source": "DecoderFollowthrough/assessment.json; wire-contract.json; transport-assessment.json; evidence.json; wire_probe.py"
+  },
+  "source_boundaries": [
+    "No actual physical-unit MID/config observation",
+    "No hardware AES or ROM-helper execution",
+    "No native JSON malformed-memory-fault fidelity",
+    "No physical sensor calibration",
+    "No OTA upgrade/flash operation",
+    "No proven raw datagram receive limit"
+  ],
+  "model_policy": {
+    "defaults": "Each selected descriptor starts at source-table literal0; synthetic control/report frames start at chosen raw0. Metadata literal defaults from0x41a8d6 are retained, including verV3.0.0 and bc gree. Raw room/filter/water/air/error readouts default0 and remain stable absent explicit synthetic report updates.",
+    "physical": "No calibrated climate/thermal-room behavior is inferred. Model all known getters as raw cache/readouts instead of omitting them because a physical sensor/mainboard is absent.",
+    "key": "Use existing seeded device identity machinery to choose16 alphanumeric characters; preserve key across bind/rebind and stable-seed restart. Actual source loads/generates/persists16chars; research probe fixed0123456789AbCdEf is only a fixture, not a universal production profile key.",
+    "clock": "Explicit synthetic clock source. Original eight-byte time record is [yearLE16,sec,min,hour,weekday,day,month]; real getter formats it. Model clock-setting updates the raw clock input; do not mistake the probe fixed epoch for vendor startup time.",
+    "rssi": "Explicit raw signed8 provider, probe raw206->-50. Synthetic constant/default is policy, not measured RF.",
+    "metadata_unknowns": "Metadata mid getter uses separate0xde3a0, not discovery0xe1ca0; metadata vender separate0xdd138 is not root vendor literal1. Probe fixtures are empty strings. Do not fabricate aliases. User-defined synthetic name is permitted but source name-write branch is accepted/no-effect.",
+    "report_lifecycle": "For bounded model command completion, choose one explicit mainboard policy: reflect masked encoded controls into matching report payload positions, then run source report projection. Read-only/environmental bytes stay stable. Keep requested ACK intact even when effective cache differs. Real external mainboard delay/calibration is not claimed.",
+    "metadata_writes": "lat/lon nonempty strings<=10 copy RAM and read back. host<=20 writes config buffer; scheduler host getter stays old until an explicit modeled scheduler/config refresh. time setter uses raw-clock IO boundary. ReportClientID builds pending30-byte buffer7e7e126a+ASCII and is omitted from command p/opt reply; no invented ReportClientID getter or physical delivery success.",
+    "reset": "Per-device fresh cache/control/report state; key stable by seed/persisted identity. No shared mutable cache between family instances. Metadata/runtime state persistence beyond source-backed key is an explicit chosen model policy."
+  },
+  "safe_deviations": [
+    "Strict bounded JSON strings/numbers and no NaN/Infinity",
+    "Reject oversized property names and unsafe/mismatched batches before any mutation",
+    "Reject malformed base64 and invalid/out-of-range padding instead of native underflow/memory writes",
+    "Require complete valid time input rather than source partial sscanf acceptance",
+    "No actual flash/upgrades or physical serial side effects",
+    "Chosen safe model limits: encrypted pack string1460 bytes, response1460 bytes,64fields, property19UTF8bytes, scalar strings/numeric lexemes64UTF8bytes, JSON numeric magnitude<=uint64, signed32uid, cid63bytes/tcid31bytes. No native receive-limit claim.",
+    "Synthetic raw clock fixed at2026-01-01 until complete valid set-time; no wall-clock drift. RSSI byte206 is a chosen raw provider.",
+    "After each command immediate synthetic board echo runs source projections. Cache-only sensor writes can be ACKed then replaced by unchanged raw reports. No physical serial delivery."
+  ],
+  "numeric_lexemes": {
+    "evidence": "Original canonical C 11791..11815 at0x420dfc and atoi0x49641c; static source classification, not additional executed-native wire cases.",
+    "classification": "Unquoted tokens starting minus are type1 unless a literal decimal point changes the type to4. Exponent markers alone do not change the type. Quoted numeric-looking strings remain type0.",
+    "conversion": "Preserve the original numeric token until decimal-prefix atoi with RV32 wrap. 1e3 and1e-3 ACK1; 4294967295e0 ACK-1; -1.0e3 ACK-1. These are not float-value conversions.",
+    "safe_negative_boundary": "Reject the complete ordinary batch for type1 tokens such as -1e3 or -0 instead of reproducing source skipped-value/cardinality hazards. A quoted -1e3 remains a string and ACKs-1.",
+    "strict_json": "The shared parser still rejects NaN, Infinity, nonfinite exponent overflow, duplicate members and malformed JSON before mutation. Only the Hi3861 inner decoder opts into lexical numeric tokens; outer envelopes and other families retain normal Python numeric values."
+  },
+  "metadata": [
+    {
+      "name": "name",
+      "wire_type": "string",
+      "readable": true,
+      "writable": false,
+      "semantics": "Getter returns root-context name at0xde440. Setter recognizes name and returns success without storing; this native no-op must be labeled, not implemented as a fictional rename.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "time",
+      "wire_type": "string",
+      "readable": true,
+      "writable": true,
+      "semantics": "Getter reads an8-byte time record and formats %04d-%02d-%02d %02d:%02d:%02d. Setter parses %4d-%2d-%2d %2d:%2d:%2d, tests sscanf result>0 (not six), then invokes real time setter0x41b0ce. Safe model should require all six valid fields rather than reproduce uninitialized partial parse.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "host",
+      "wire_type": "string",
+      "readable": true,
+      "writable": true,
+      "semantics": "Setter requires nonempty length<=20 and copies into0xe0f90. Getter reads scheduler host0xde4b8, not the same address; immediate equality is not established without the intervening scheduler update.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "lat",
+      "wire_type": "string",
+      "readable": true,
+      "writable": true,
+      "semantics": "Nonempty length<=10; string copied to0xe1c80 and getter returns the same bytes. No geographic numeric validation in this branch.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "lon",
+      "wire_type": "string",
+      "readable": true,
+      "writable": true,
+      "semantics": "Nonempty length<=10; string copied to0xe1c8c and getter returns the same bytes. No geographic numeric validation in this branch.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "ReportClientID",
+      "wire_type": "string-valued nested opt/p command",
+      "readable": false,
+      "writable": true,
+      "semantics": "Write path parses nested opt and p arrays and requires equal lengths. Only string type0 matching ReportClientID is accepted; calls0x41c5f0 to build a7e7e126a binary message and marks0xe0ff2=1. There is no corresponding metadata getter branch; a status query falls through to unknown-name zero.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "lock",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Getter lbu root context0xde2d0+0x1c8; emitted signed decimal from the zero-extended byte. No setter in the complete metadata write dispatch.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "AutoUpdate",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Getter lbu root context0xde2d0+0x1c9; emitted signed decimal from zero-extended byte. No setter in metadata write dispatch.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "hid",
+      "wire_type": "string",
+      "readable": true,
+      "writable": false,
+      "semantics": "Constructs exactly362001063856+U-Hi3861-OldV1.13.bin at0x41ca62..0x41ca96 using%s+%s%s.bin.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "BtHid",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Literal0.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "mid",
+      "wire_type": "string",
+      "readable": true,
+      "writable": false,
+      "semantics": "Metadata getter returns root context string0xde3a0. Discovery dev.mid separately uses configured%x at0xe1ca0; copying/aliasing these two buffers has not been proved.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "MOta",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Literal0.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "bc",
+      "wire_type": "string",
+      "readable": true,
+      "writable": false,
+      "semantics": "Reads root-context0xde340 and calls original0x41f51e: clears64-byte output, then formats each input byte with literal%02x at0x4a0700, advancing2 output bytes per source byte. Thus status bc is lower-case hex of root bc bytes, not base64 and not identical to discovery bc. For example source bytes gree ->67726565. Oversize formatting must be bounded safely rather than reproducing native overrun/log-only behavior.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "DevID",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Literal0.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "MafIdf",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Literal0.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "Proaddr",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Literal0.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "Subcount",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Literal0; no subdevice enumeration implementation follows from the sub request key.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "vender",
+      "wire_type": "string",
+      "readable": true,
+      "writable": false,
+      "semantics": "Returns0xdd138; exact spelling differs from discovery vender literal1 only in source location, not inferred alias.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "mac",
+      "wire_type": "string",
+      "readable": true,
+      "writable": false,
+      "semantics": "Returns0xe1ab8; discovery and packet helpers separately format supplied6-byte hardware MAC as12lowercase hex digits.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "ver",
+      "wire_type": "string",
+      "readable": true,
+      "writable": false,
+      "semantics": "Returns0xe1cc8, explicitly initialized at0x41a90a..0x41a916 from literal0x4a0370: V3.0.0. Discovery ver uses the same buffer. This is intentionally distinct from build/HID firmware version V1.13.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    },
+    {
+      "name": "rssi",
+      "wire_type": "integer",
+      "readable": true,
+      "writable": false,
+      "semantics": "Calls original provider wrapper0x4206ee, which calls0x47d908 and stores low8bits in the supplied output record. Metadata getter signed-loads that first byte; range -128..127, no unsigned reinterpretation.",
+      "evidence": "original canonical flash0x41c64c..0x41cc10"
+    }
+  ],
+  "classifier_only": {
+    "name": "AppTimer",
+    "status": 0,
+    "command": "opt retained but no matching p entry; classifier-only, no invented ordinary integer ACK"
+  },
+  "profiles": [
+    {
+      "id": "sim-hi3861-v113-fan",
+      "schema_index": 0,
+      "mids": [
+        "828202",
+        "828203",
+        "828204",
+        "828205",
+        "828208",
+        "828209",
+        "828210",
+        "828211",
+        "828213"
+      ],
+      "status_columns": [
+        "Pow",
+        "WdSpd",
+        "Mod",
+        "Rotate",
+        "Cycle",
+        "SwUpDn",
+        "SwingLfRig",
+        "Wet",
+        "Anion",
+        "HotWind",
+        "TmrHour",
+        "TmrMin",
+        "TmrOn",
+        "TmrAction",
+        "SmartMod",
+        "WetLevel",
+        "Light",
+        "UpDnAngle",
+        "LRAngle",
+        "Temperature",
+        "PM25",
+        "estate",
+        "estate1",
+        "estate2",
+        "estate3",
+        "JFerr",
+        "MidType"
+      ],
+      "raw_initial_cache": {
+        "Pow": 0,
+        "WdSpd": 0,
+        "Mod": 0,
+        "Rotate": 0,
+        "Cycle": 0,
+        "SwUpDn": 0,
+        "SwingLfRig": 0,
+        "Wet": 0,
+        "Anion": 0,
+        "HotWind": 0,
+        "TmrHour": 0,
+        "TmrMin": 0,
+        "TmrOn": 0,
+        "TmrAction": 0,
+        "SmartMod": 0,
+        "WetLevel": 0,
+        "Light": 0,
+        "UpDnAngle": 0,
+        "LRAngle": 0,
+        "Temperature": 0,
+        "PM25": 0,
+        "estate": 0,
+        "estate1": 0,
+        "estate2": 0,
+        "estate3": 0,
+        "JFerr": 0,
+        "MidType": 0
+      }
+    },
+    {
+      "id": "sim-hi3861-v113-heater",
+      "schema_index": 3,
+      "mids": [
+        "828a00",
+        "828a01",
+        "828a02",
+        "828a03",
+        "828a04",
+        "828a05"
+      ],
+      "status_columns": [
+        "Pow",
+        "Humidification",
+        "Swing",
+        "ChildLock",
+        "HeatLevel",
+        "SetTemp",
+        "EnvTemp",
+        "WorkTimeHour",
+        "WorkTimeSec",
+        "RealHeatLevel",
+        "FanLevel",
+        "HeatMode",
+        "TmrOn",
+        "TmrAction",
+        "TmrHour",
+        "TmrMin",
+        "estate",
+        "estate2",
+        "estate3",
+        "JFerr",
+        "MidType"
+      ],
+      "raw_initial_cache": {
+        "Pow": 0,
+        "Humidification": 0,
+        "Swing": 0,
+        "ChildLock": 0,
+        "HeatLevel": 0,
+        "SetTemp": 0,
+        "EnvTemp": 0,
+        "WorkTimeHour": 0,
+        "WorkTimeSec": 0,
+        "RealHeatLevel": 0,
+        "FanLevel": 0,
+        "HeatMode": 0,
+        "TmrOn": 0,
+        "TmrAction": 0,
+        "TmrHour": 0,
+        "TmrMin": 0,
+        "estate": 0,
+        "estate2": 0,
+        "estate3": 0,
+        "JFerr": 0,
+        "MidType": 0
+      }
+    },
+    {
+      "id": "sim-hi3861-v113-purifier",
+      "schema_index": 7,
+      "mids": [
+        "828301",
+        "828306",
+        "828307",
+        "828308",
+        "828309",
+        "828310"
+      ],
+      "status_columns": [
+        "WorkStatus",
+        "TotalPureWater",
+        "FilterNum",
+        "LifeTimeFilter1",
+        "LifeTimeFilter2",
+        "LifeTimeFilter3",
+        "LifeTimeFilter4",
+        "LifeTimeFilter5",
+        "FilterWarning1",
+        "FilterWarning2",
+        "FilterWarning3",
+        "FilterWarning4",
+        "FilterWarning5",
+        "LifeFilterDays1",
+        "LifeFilterDays2",
+        "LifeFilterDays3",
+        "LifeFilterDays4",
+        "LifeFilterDays5",
+        "FilterKind1",
+        "FilterKind2",
+        "FilterKind3",
+        "FilterKind4",
+        "FilterKind5",
+        "ErrorCode1",
+        "ErrorCode2",
+        "JFerr",
+        "MidType"
+      ],
+      "raw_initial_cache": {
+        "WorkStatus": 0,
+        "TotalPureWater": 0,
+        "FilterNum": 0,
+        "LifeTimeFilter1": 0,
+        "LifeTimeFilter2": 0,
+        "LifeTimeFilter3": 0,
+        "LifeTimeFilter4": 0,
+        "LifeTimeFilter5": 0,
+        "FilterWarning1": 0,
+        "FilterWarning2": 0,
+        "FilterWarning3": 0,
+        "FilterWarning4": 0,
+        "FilterWarning5": 0,
+        "LifeFilterDays1": 0,
+        "LifeFilterDays2": 0,
+        "LifeFilterDays3": 0,
+        "LifeFilterDays4": 0,
+        "LifeFilterDays5": 0,
+        "FilterKind1": 0,
+        "FilterKind2": 0,
+        "FilterKind3": 0,
+        "FilterKind4": 0,
+        "FilterKind5": 0,
+        "ErrorCode1": 0,
+        "ErrorCode2": 0,
+        "JFerr": 0,
+        "MidType": 0
+      }
+    },
+    {
+      "id": "sim-hi3861-v113-softener",
+      "schema_index": 8,
+      "mids": [
+        "829000"
+      ],
+      "status_columns": [
+        "Pow",
+        "Status",
+        "SaltStatus",
+        "RecycleStatus",
+        "MotorStatus",
+        "RecycleRemainT",
+        "RecycleTotalT",
+        "InsFlowRate",
+        "CycleFlowRate",
+        "SaltTotalT",
+        "RecycleHour",
+        "RecycleMin",
+        "BJHour",
+        "BJMin",
+        "BJSec",
+        "TmrOn",
+        "TmrAction",
+        "TmrHour",
+        "TmrMin",
+        "eState",
+        "JFerr",
+        "MidType"
+      ],
+      "raw_initial_cache": {
+        "Pow": 0,
+        "Status": 0,
+        "SaltStatus": 0,
+        "RecycleStatus": 0,
+        "MotorStatus": 0,
+        "RecycleRemainT": 0,
+        "RecycleTotalT": 0,
+        "InsFlowRate": 0,
+        "CycleFlowRate": 0,
+        "SaltTotalT": 0,
+        "RecycleHour": 0,
+        "RecycleMin": 0,
+        "BJHour": 0,
+        "BJMin": 0,
+        "BJSec": 0,
+        "TmrOn": 0,
+        "TmrAction": 0,
+        "TmrHour": 0,
+        "TmrMin": 0,
+        "eState": 0,
+        "JFerr": 0,
+        "MidType": 0
+      }
+    },
+    {
+      "id": "sim-hi3861-v113-air",
+      "schema_index": 9,
+      "mids": [
+        "828100",
+        "828103",
+        "828105"
+      ],
+      "status_columns": [
+        "Pow",
+        "wspd",
+        "mode",
+        "PM2P5",
+        "light",
+        "AirChildLock",
+        "FiltUT",
+        "FiltBT",
+        "wipm25",
+        "wopm25",
+        "ErrorCode",
+        "FiltUPercent",
+        "LifeTimeMesh1",
+        "LifeTimeMesh2",
+        "MeshWarning1",
+        "FomadeValue",
+        "TmrOff",
+        "TmrOn",
+        "StTmr",
+        "RemLifePerErr1",
+        "RemLifePerErr2",
+        "estate",
+        "estate1",
+        "estate2",
+        "JFerr",
+        "MidType",
+        "meshid",
+        "LifeTimeError",
+        "MsgPM",
+        "fltrst"
+      ],
+      "raw_initial_cache": {
+        "Pow": 0,
+        "wspd": 0,
+        "mode": 0,
+        "PM2P5": 0,
+        "light": 0,
+        "AirChildLock": 0,
+        "FiltUT": 0,
+        "FiltBT": 0,
+        "wipm25": 0,
+        "wopm25": 0,
+        "ErrorCode": 0,
+        "FiltUPercent": 0,
+        "LifeTimeMesh1": 0,
+        "LifeTimeMesh2": 0,
+        "MeshWarning1": 0,
+        "FomadeValue": 0,
+        "TmrOff": 0,
+        "TmrOn": 0,
+        "StTmr": 0,
+        "RemLifePerErr1": 0,
+        "RemLifePerErr2": 0,
+        "estate": 0,
+        "estate1": 0,
+        "estate2": 0,
+        "JFerr": 0,
+        "MidType": 0,
+        "meshid": 0,
+        "LifeTimeError": 0,
+        "MsgPM": 0,
+        "fltrst": 0
+      }
+    }
+  ],
+  "descriptor_matrix": [
+    {
+      "schema_index": 9,
+      "base": "0x49f0c4",
+      "records": [
+        {
+          "address": "0x49f0c4",
+          "name": "Pow",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 128,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 128,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f0dc",
+          "name": "wspd",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 2,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f0f4",
+          "name": "mode",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 7,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 7,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f10c",
+          "name": "PM2P5",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 64,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 64,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f124",
+          "name": "light",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 3,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f13c",
+          "name": "AirChildLock",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 4,
+          "write_mask": 1,
+          "write_callback": null,
+          "read_index": 4,
+          "read_mask": 1,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f154",
+          "name": "FiltUT",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 12,
+          "read_mask": 255,
+          "read_callback": "0x419b9e"
+        },
+        {
+          "address": "0x49f16c",
+          "name": "FiltBT",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 15,
+          "read_mask": 255,
+          "read_callback": "0x419b9e"
+        },
+        {
+          "address": "0x49f184",
+          "name": "wipm25",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 7,
+          "read_mask": 0,
+          "read_callback": "0x419bbe"
+        },
+        {
+          "address": "0x49f19c",
+          "name": "wopm25",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 9,
+          "read_mask": 0,
+          "read_callback": "0x419bbe"
+        },
+        {
+          "address": "0x49f1b4",
+          "name": "ErrorCode",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 11,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f1cc",
+          "name": "FiltUPercent",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 17,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f1e4",
+          "name": "LifeTimeMesh1",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 18,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f1fc",
+          "name": "LifeTimeMesh2",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 22,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f214",
+          "name": "MeshWarning1",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 19,
+          "read_mask": 3,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f22c",
+          "name": "FomadeValue",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 20,
+          "read_mask": 0,
+          "read_callback": "0x419bca"
+        },
+        {
+          "address": "0x49f244",
+          "name": "TmrOff",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 0,
+          "write_callback": "0x419bfe",
+          "read_index": 1,
+          "read_mask": 0,
+          "read_callback": "0x419bd6"
+        },
+        {
+          "address": "0x49f25c",
+          "name": "TmrOn",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 0,
+          "write_callback": "0x419c58",
+          "read_index": 1,
+          "read_mask": 0,
+          "read_callback": "0x419c2e"
+        },
+        {
+          "address": "0x49f274",
+          "name": "StTmr",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 0,
+          "write_callback": "0x419cb8",
+          "read_index": 1,
+          "read_mask": 0,
+          "read_callback": "0x419c8c"
+        },
+        {
+          "address": "0x49f28c",
+          "name": "RemLifePerErr1",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 1,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f2a4",
+          "name": "RemLifePerErr2",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 2,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f2bc",
+          "name": "estate",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f2d4",
+          "name": "estate1",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 31,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f2ec",
+          "name": "estate2",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 63,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f304",
+          "name": "JFerr",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": "0x419a9a"
+        },
+        {
+          "address": "0x49f31c",
+          "name": "MidType",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": "0x419a8c"
+        },
+        {
+          "address": "0x49f334",
+          "name": "meshid",
+          "initial_cache": 0,
+          "type": "0x0",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f34c",
+          "name": "LifeTimeError",
+          "initial_cache": 0,
+          "type": "0x0",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f364",
+          "name": "MsgPM",
+          "initial_cache": 0,
+          "type": "0x0",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f37c",
+          "name": "fltrst",
+          "initial_cache": 0,
+          "type": "0x0",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": null
+        }
+      ]
+    },
+    {
+      "schema_index": 3,
+      "base": "0x49f3ac",
+      "records": [
+        {
+          "address": "0x49f3ac",
+          "name": "Pow",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 128,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 128,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f3c4",
+          "name": "Humidification",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 64,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 64,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f3dc",
+          "name": "Swing",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 32,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 32,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f3f4",
+          "name": "ChildLock",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 16,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 16,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f40c",
+          "name": "HeatLevel",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 7,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 7,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f424",
+          "name": "SetTemp",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 2,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f43c",
+          "name": "EnvTemp",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f454",
+          "name": "WorkTimeHour",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 4,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f46c",
+          "name": "WorkTimeSec",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 5,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f484",
+          "name": "RealHeatLevel",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 6,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f49c",
+          "name": "FanLevel",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 3,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 7,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f4b4",
+          "name": "HeatMode",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 4,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 8,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f4cc",
+          "name": "TmrOn",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 128,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 128,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f4e4",
+          "name": "TmrAction",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 96,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 96,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f4fc",
+          "name": "TmrHour",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 31,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 31,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f514",
+          "name": "TmrMin",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 2,
+          "write_mask": 63,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 63,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f52c",
+          "name": "estate",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f544",
+          "name": "estate2",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f55c",
+          "name": "estate3",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f574",
+          "name": "JFerr",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": "0x419a9a"
+        },
+        {
+          "address": "0x49f58c",
+          "name": "MidType",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": "0x419a8c"
+        }
+      ]
+    },
+    {
+      "schema_index": 0,
+      "base": "0x49f5bc",
+      "records": [
+        {
+          "address": "0x49f5bc",
+          "name": "Pow",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 128,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 128,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f5d4",
+          "name": "WdSpd",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 2,
+          "write_mask": 255,
+          "write_callback": "0x419ae4",
+          "read_index": 2,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f5ec",
+          "name": "Mod",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 7,
+          "write_callback": "0x419b04",
+          "read_index": 1,
+          "read_mask": 7,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f604",
+          "name": "Rotate",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 8,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 8,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f61c",
+          "name": "Cycle",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 5,
+          "write_mask": 224,
+          "write_callback": null,
+          "read_index": 5,
+          "read_mask": 224,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f634",
+          "name": "SwUpDn",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 5,
+          "write_mask": 2,
+          "write_callback": null,
+          "read_index": 5,
+          "read_mask": 2,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f64c",
+          "name": "SwingLfRig",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 8,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 8,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f664",
+          "name": "Wet",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 64,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 64,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f67c",
+          "name": "Anion",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 5,
+          "write_mask": 4,
+          "write_callback": null,
+          "read_index": 5,
+          "read_mask": 4,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f694",
+          "name": "HotWind",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 6,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 6,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f6ac",
+          "name": "TmrHour",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 31,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 31,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f6c4",
+          "name": "TmrMin",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 2,
+          "write_mask": 63,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 63,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f6dc",
+          "name": "TmrOn",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 128,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 128,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f6f4",
+          "name": "TmrAction",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 96,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 96,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f70c",
+          "name": "SmartMod",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 16,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 16,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f724",
+          "name": "WetLevel",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 4,
+          "write_mask": 3,
+          "write_callback": null,
+          "read_index": 4,
+          "read_mask": 3,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f73c",
+          "name": "Light",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 5,
+          "write_mask": 1,
+          "write_callback": null,
+          "read_index": 5,
+          "read_mask": 1,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f754",
+          "name": "UpDnAngle",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 7,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 7,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f76c",
+          "name": "LRAngle",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 8,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 8,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f784",
+          "name": "Temperature",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 3,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f79c",
+          "name": "PM25",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": "0x419b40"
+        },
+        {
+          "address": "0x49f7b4",
+          "name": "estate",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f7cc",
+          "name": "estate1",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f7e4",
+          "name": "estate2",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f7fc",
+          "name": "estate3",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f814",
+          "name": "JFerr",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": "0x419a9a"
+        },
+        {
+          "address": "0x49f82c",
+          "name": "MidType",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": "0x419a8c"
+        }
+      ]
+    },
+    {
+      "schema_index": 7,
+      "base": "0x49f85c",
+      "records": [
+        {
+          "address": "0x49f85c",
+          "name": "WorkStatus",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 120,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 120,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f874",
+          "name": "TotalPureWater",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 27,
+          "read_mask": 255,
+          "read_callback": "0x419d24"
+        },
+        {
+          "address": "0x49f88c",
+          "name": "FilterNum",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f8a4",
+          "name": "LifeTimeFilter1",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 4,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f8bc",
+          "name": "LifeTimeFilter2",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 5,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f8d4",
+          "name": "LifeTimeFilter3",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 6,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f8ec",
+          "name": "LifeTimeFilter4",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 7,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f904",
+          "name": "LifeTimeFilter5",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 8,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f91c",
+          "name": "FilterWarning1",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 3,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f934",
+          "name": "FilterWarning2",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 12,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f94c",
+          "name": "FilterWarning3",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 3,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f964",
+          "name": "FilterWarning4",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 12,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f97c",
+          "name": "FilterWarning5",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 3,
+          "read_callback": null
+        },
+        {
+          "address": "0x49f994",
+          "name": "LifeFilterDays1",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 9,
+          "read_mask": 255,
+          "read_callback": "0x419d18"
+        },
+        {
+          "address": "0x49f9ac",
+          "name": "LifeFilterDays2",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 11,
+          "read_mask": 255,
+          "read_callback": "0x419d18"
+        },
+        {
+          "address": "0x49f9c4",
+          "name": "LifeFilterDays3",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 13,
+          "read_mask": 255,
+          "read_callback": "0x419d18"
+        },
+        {
+          "address": "0x49f9dc",
+          "name": "LifeFilterDays4",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 15,
+          "read_mask": 255,
+          "read_callback": "0x419d18"
+        },
+        {
+          "address": "0x49f9f4",
+          "name": "LifeFilterDays5",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 17,
+          "read_mask": 255,
+          "read_callback": "0x419d18"
+        },
+        {
+          "address": "0x49fa0c",
+          "name": "FilterKind1",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 15,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fa24",
+          "name": "FilterKind2",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 240,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fa3c",
+          "name": "FilterKind3",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 15,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fa54",
+          "name": "FilterKind4",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 240,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fa6c",
+          "name": "FilterKind5",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 4,
+          "read_mask": 15,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fa84",
+          "name": "ErrorCode1",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": "0x419d30"
+        },
+        {
+          "address": "0x49fa9c",
+          "name": "ErrorCode2",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fab4",
+          "name": "JFerr",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": "0x419a9a"
+        },
+        {
+          "address": "0x49facc",
+          "name": "MidType",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": "0x419a8c"
+        }
+      ]
+    },
+    {
+      "schema_index": 8,
+      "base": "0x49fafc",
+      "records": [
+        {
+          "address": "0x49fafc",
+          "name": "Pow",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 128,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 128,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fb14",
+          "name": "Status",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 3,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 3,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fb2c",
+          "name": "SaltStatus",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 2,
+          "write_mask": 6,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 6,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fb44",
+          "name": "RecycleStatus",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 1,
+          "write_mask": 4,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 4,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fb5c",
+          "name": "MotorStatus",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 1,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fb74",
+          "name": "RecycleRemainT",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fb8c",
+          "name": "RecycleTotalT",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 4,
+          "read_mask": 255,
+          "read_callback": "0x419b54"
+        },
+        {
+          "address": "0x49fba4",
+          "name": "InsFlowRate",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 8,
+          "read_mask": 255,
+          "read_callback": "0x419b7a"
+        },
+        {
+          "address": "0x49fbbc",
+          "name": "CycleFlowRate",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 10,
+          "read_mask": 255,
+          "read_callback": "0x419b86"
+        },
+        {
+          "address": "0x49fbd4",
+          "name": "SaltTotalT",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 12,
+          "read_mask": 255,
+          "read_callback": "0x419b92"
+        },
+        {
+          "address": "0x49fbec",
+          "name": "RecycleHour",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 1,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fc04",
+          "name": "RecycleMin",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 2,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fc1c",
+          "name": "BJHour",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 3,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fc34",
+          "name": "BJMin",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 4,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fc4c",
+          "name": "BJSec",
+          "initial_cache": 0,
+          "type": "0x92",
+          "write_index": 5,
+          "write_mask": 255,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fc64",
+          "name": "TmrOn",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 128,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 128,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fc7c",
+          "name": "TmrAction",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 96,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 96,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fc94",
+          "name": "TmrHour",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 1,
+          "write_mask": 31,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 31,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fcac",
+          "name": "TmrMin",
+          "initial_cache": 0,
+          "type": "0x93",
+          "write_index": 2,
+          "write_mask": 63,
+          "write_callback": null,
+          "read_index": 2,
+          "read_mask": 63,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fcc4",
+          "name": "eState",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 1,
+          "read_mask": 255,
+          "read_callback": null
+        },
+        {
+          "address": "0x49fcdc",
+          "name": "JFerr",
+          "initial_cache": 0,
+          "type": "0x95",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 3,
+          "read_mask": 255,
+          "read_callback": "0x419a9a"
+        },
+        {
+          "address": "0x49fcf4",
+          "name": "MidType",
+          "initial_cache": 0,
+          "type": "0x94",
+          "write_index": 0,
+          "write_mask": 0,
+          "write_callback": null,
+          "read_index": 0,
+          "read_mask": 0,
+          "read_callback": "0x419a8c"
+        }
+      ]
+    }
+  ],
+  "native_scalar_cases": [
+    {
+      "name": "Pow-request--1",
+      "passed": true
+    },
+    {
+      "name": "Pow-request-0",
+      "passed": true
+    },
+    {
+      "name": "Pow-request-1",
+      "passed": true
+    },
+    {
+      "name": "Pow-request-2",
+      "passed": true
+    },
+    {
+      "name": "Pow-request-255",
+      "passed": true
+    },
+    {
+      "name": "Pow-request-256",
+      "passed": true
+    },
+    {
+      "name": "Pow-request-2147483648",
+      "passed": true
+    },
+    {
+      "name": "ordered-duplicate-Pow-then-fresh-report",
+      "passed": true
+    },
+    {
+      "name": "Mod-mask--1",
+      "passed": true
+    },
+    {
+      "name": "Mod-mask-8",
+      "passed": true
+    },
+    {
+      "name": "Mod-mask-257",
+      "passed": true
+    },
+    {
+      "name": "Mod-guard-forces-cache-zero",
+      "passed": true
+    },
+    {
+      "name": "Mod-configured-828210-bypasses-guard",
+      "passed": true
+    },
+    {
+      "name": "WdSpd-guard-restores-request-cache",
+      "passed": true
+    },
+    {
+      "name": "WdSpd-low-byte-not-clipped",
+      "passed": true
+    },
+    {
+      "name": "PM25-little-endian-unsigned-report",
+      "passed": true
+    },
+    {
+      "name": "StTmr-signed-clamp--1",
+      "passed": true
+    },
+    {
+      "name": "StTmr-signed-clamp-0",
+      "passed": true
+    },
+    {
+      "name": "StTmr-signed-clamp-61",
+      "passed": true
+    },
+    {
+      "name": "StTmr-signed-clamp-1440",
+      "passed": true
+    },
+    {
+      "name": "StTmr-signed-clamp-1441",
+      "passed": true
+    },
+    {
+      "name": "TmrOff-exact-one",
+      "passed": true
+    },
+    {
+      "name": "TmrOn-exact-one",
+      "passed": true
+    },
+    {
+      "name": "StTmr-hour-minute-report",
+      "passed": true
+    },
+    {
+      "name": "FiltUT-big-endian",
+      "passed": true
+    },
+    {
+      "name": "RecycleTotalT-little-endian",
+      "passed": true
+    },
+    {
+      "name": "ErrorCode1-little-endian",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828202",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828210",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828a00",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828a05",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-829000",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828100",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828103",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828105",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828301",
+      "passed": true
+    },
+    {
+      "name": "configured-schema-828310",
+      "passed": true
+    }
+  ],
+  "translated_wire_cases": [
+    {
+      "name": "SDK-selected-independent-AES-128-ECB",
+      "passed": true
+    },
+    {
+      "name": "schema-0-scan-bind-all-metadata",
+      "mid": "828202",
+      "passed": true
+    },
+    {
+      "name": "schema-3-scan-bind-all-metadata",
+      "mid": "828a00",
+      "passed": true
+    },
+    {
+      "name": "schema-7-scan-bind-all-metadata",
+      "mid": "828301",
+      "passed": true
+    },
+    {
+      "name": "schema-8-scan-bind-all-metadata",
+      "mid": "829000",
+      "passed": true
+    },
+    {
+      "name": "schema-9-scan-bind-all-metadata",
+      "mid": "828103",
+      "passed": true
+    },
+    {
+      "name": "all-25-conditional-configured-identities",
+      "passed": true
+    },
+    {
+      "name": "metadata-mutation-grouped-ACK-and-serial-client-id",
+      "passed": true
+    },
+    {
+      "name": "ordered-duplicates-requested-ACK-masked-wire-fresh-report",
+      "passed": true
+    },
+    {
+      "name": "Fan-guards-ACK-versus-cache-and-828210-exception",
+      "passed": true
+    },
+    {
+      "name": "schema-3-real-property-masks",
+      "passed": true
+    },
+    {
+      "name": "schema-8-real-property-masks",
+      "passed": true
+    },
+    {
+      "name": "schema-9-real-property-masks",
+      "passed": true
+    },
+    {
+      "name": "schema-7-real-property-masks",
+      "passed": true
+    },
+    {
+      "name": "timer-clamp-requested-ACK-versus-next-report",
+      "passed": true
+    },
+    {
+      "name": "unknown-names-buzzer-no-mutation-and-safe-batch-rejection",
+      "passed": true
+    },
+    {
+      "name": "original-atoi-sign-width-string-and-decimal-prefix",
+      "passed": true
+    },
+    {
+      "name": "wire-uint32-wrap-ACK-versus-unsigned-report",
+      "passed": true
+    },
+    {
+      "name": "all-127-source-default-descriptor-getters",
+      "passed": true
+    },
+    {
+      "name": "source-endian-and-multibyte-getters-all-callback-shapes",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "records": 127,
+    "unique_names": 101,
+    "metadata_names": 21,
+    "configured_mids": 25,
+    "getters": "every descriptor tested in ordered startup and independent raw-frame projections",
+    "setters": "all127 records exercised; native scalar snapshots and per-family independently derived whole-wire vectors",
+    "lifecycle": "bind/rebind, key slots, identity fallback, state isolation, stable-seed restart, no physical dynamics"
+  },
+  "pending_verification": "Parent must execute pytest tests/test_emulator_hi3861.py plus real CLI/raw-peer and public-client gates. This fixture does not claim emulator checks passed."
+}

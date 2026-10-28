@@ -1,0 +1,22 @@
+{
+  "mac": "02000000c001",
+  "key": "0123456789abcdef",
+  "native_callback_vectors": [
+    {"opt": ["SetTem"], "p": [40], "cols": ["SetTem"], "dat": [24]},
+    {"opt": ["Air"], "p": [7], "cols": ["Air"], "dat": [3]},
+    {"opt": ["Pow"], "p": [1], "cols": ["Pow"], "dat": [1]},
+    {"opt": ["Pow"], "p": [2], "cols": ["Pow"], "dat": [1]},
+    {"opt": ["Dfltr"], "p": [1], "cols": ["Dfltr"], "dat": [0]},
+    {"opt": ["EnvArea1St"], "p": [1], "cols": ["EnvArea1St"], "dat": [1]},
+    {"opt": ["EnvArea4St"], "p": [1], "cols": ["EnvArea1St", "EnvArea4St"], "dat": [0, 1]},
+    {"opt": ["Mod", "Blo"], "p": [4, 1], "cols": ["Mod", "Blo", "AssHt"], "dat": [4, 0, 0]},
+    {"opt": ["Slp1L1", "Slp1H1"], "p": [0, 3], "cols": ["Slp1L1", "Slp1H1"], "dat": [24, 1]}
+  ],
+  "sensor_vectors": [[0, 0], [39, 0], [40, 0], [41, 1], [89, 49], [90, 50], [91, 50], [255, 50]],
+  "late_only": {
+    "opt": ["StSlp1C", "StSlp1H", "Buzzer_ON_OFF", "StHt"],
+    "p": [4660, 17767, 3, 1],
+    "cols": ["StSlp1C", "StSlp1H", "Buzzer_ON_OFF", "StHt", "SvSt"],
+    "dat": [564, 1383, 1, 1, 1]
+  }
+}

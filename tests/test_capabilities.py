@@ -63,7 +63,11 @@ async def test_fixed_schema_distinguishes_unknown_from_outside_family(info, kind
     snapshot = unit.capabilities
     assert len(snapshot) == 32
     assert set(snapshot) == CAPABILITY_NAMES
-    assert all(snapshot[name] is None for name in names)
+    if kind is AirConditionerDevice:
+        assert snapshot["lan_buzzer_control"] is False
+        assert all(snapshot[name] is None for name in names - {"lan_buzzer_control"})
+    else:
+        assert all(snapshot[name] is None for name in names)
     assert all(snapshot[name] is False for name in CAPABILITY_NAMES - names)
     assert "buzzer" not in snapshot
     assert "cooling_mode_value" not in snapshot
@@ -87,20 +91,20 @@ async def test_neutral_device_stays_unknown_after_known_hid_and_raw_state(info, 
 
 
 @pytest.mark.parametrize("hid,buzzer", [
-    (None, None),
-    ("malformed", None),
-    ("999999999999+U-W04NV17.bin", None),
+    (None, False),
+    ("malformed", False),
+    ("999999999999+U-W04NV17.bin", False),
     ("362001000762", False),
     ("362001063967", True),
     ("362001064973", True),
     ("362001064973+", True),
     ("362001064973+different-module-V999.bin", True),
     (ATW_HID, False),
-    (123, None),
-    ([], None),
-    ({}, None),
+    (123, False),
+    ([], False),
+    ({}, False),
 ])
-async def test_hid_only_supplies_independent_buzzer_evidence(info, hid, buzzer):
+async def test_hid_only_reports_buzzer_opt_in_policy(info, hid, buzzer):
     unit = AirConditionerDevice(info)
     unit.handle_state_update(hid=AC_HID)
     unit.handle_state_update(hid=hid)
@@ -115,6 +119,7 @@ async def test_hid_only_supplies_independent_buzzer_evidence(info, hid, buzzer):
 async def test_snapshots_are_fresh_immutable_and_keep_prior_hid_evidence(info):
     unit = AirConditionerDevice(info)
     before = unit.capabilities
+    assert before["lan_buzzer_control"] is False
     unit.handle_state_update(hid=AC_HID)
     supported = unit.capabilities
     assert unit.capabilities is not supported
@@ -127,12 +132,12 @@ async def test_snapshots_are_fresh_immutable_and_keep_prior_hid_evidence(info):
     with pytest.raises(AttributeError):
         unit.capabilities = {}
     unit.handle_state_update(hid="362001000762")
-    excluded = unit.capabilities
+    unsupported = unit.capabilities
     unit.handle_state_update(hid="malformed")
-    assert before["lan_buzzer_control"] is None
+    assert before["lan_buzzer_control"] is False
     assert supported["lan_buzzer_control"] is True
-    assert excluded["lan_buzzer_control"] is False
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert unsupported["lan_buzzer_control"] is False
+    assert unit.capabilities["lan_buzzer_control"] is False
     assert type(unit) is AirConditionerDevice
 
 
@@ -174,7 +179,7 @@ async def test_known_ac_mid_evidence_precedes_hid_and_survives_hid_loss(info):
                  "steady_heat", "power_save"):
         assert before[name] is True
     assert before["sleep"] is None
-    assert before["lan_buzzer_control"] is None
+    assert before["lan_buzzer_control"] is False
     assert before["dehumidifier_mode"] is False
     assert unit.power is None
     assert unit.current_temperature is None
@@ -210,8 +215,7 @@ async def test_known_dehumidifier_mid_does_not_invent_omitted_sensors(info):
     ("362001065634", ("current_temperature",)),
     ("362001062617", ("current_temperature",)),
     ("362001067012", ("current_temperature",)),
-    ("362001061649", ("target_temperature", "temperature_units", "current_temperature",
-                      "sleep", "light", "turbo", "vertical_swing")),
+    ("362001061649", tuple(sorted(AC_NAMES - {"power", "lan_buzzer_control"}))),
 ])
 @pytest.mark.parametrize("suffix", ["", "+different-module-V999.bin"])
 async def test_firmware_exclusions_override_mid_without_erasing_other_features(
@@ -226,6 +230,36 @@ async def test_firmware_exclusions_override_mid_without_erasing_other_features(
     unit.handle_state_update(hid="unknown-code" + suffix)
     assert unit.capabilities == baseline
     assert snapshot[excluded[0]] is False
+
+
+@pytest.mark.parametrize("kind,names", [
+    (AirConditionerDevice, AC_NAMES), (DehumidifierDevice, DEHUMIDIFIER_NAMES),
+])
+@pytest.mark.parametrize("mid", ["80241", "80242"])
+async def test_sensor_host_does_not_borrow_forwarded_climate_capabilities(info, kind, names, mid):
+    info.mid = mid
+    unit = kind(info)
+    unit.handle_state_update(hid="362001061649+U-W06KV4.4.bin",
+                             Pow=1, TemSor=65535, HumSor=255, CO2=65535)
+    assert unit.capabilities["power"] is None
+    assert all(unit.capabilities[name] is False for name in names - {"power"})
+    assert unit.current_temperature is None
+    assert unit.get_property("TemSor") == 65535
+    unit.handle_state_update(hid="unknown")
+    assert all(unit.capabilities[name] is None for name in names - {"lan_buzzer_control"})
+    assert unit.capabilities["lan_buzzer_control"] is False
+
+
+@pytest.mark.parametrize("code,steady_heat", [
+    ("362001000835", False), ("362001060200", False), ("362001060297", False),
+    ("362001060498", False), ("362001060499", True),
+])
+async def test_mtk_steady_heat_distinguishes_implemented_bit_from_fixed_zero(info, code, steady_heat):
+    info.mid = "10001"
+    unit = create_device(info)
+    unit.handle_state_update(hid=code, StHt=1)
+    assert unit.steady_heat is True
+    assert unit.capabilities["steady_heat"] is steady_heat
 
 
 async def test_humidity_exclusion_does_not_alias_another_sensor_or_gate_raw_access(info):
@@ -267,22 +301,22 @@ async def test_firmware_entries_require_matching_family_and_public_typed_key(
     assert all(value is None for value in neutral.capabilities.values())
 
 
-@pytest.mark.parametrize("namespaces,expected", [
-    (None, None),
-    ((), False),
-    (("Buzzer_ON_OFF",), True),
+@pytest.mark.parametrize("profile,expected", [
+    (DeviceProfile("362001064973"), False),
+    (DeviceProfile("362001064973", buzzer_properties=()), False),
+    (DeviceProfile("362001064973", buzzer_properties=("Buzzer_ON_OFF",)), True),
 ])
-async def test_buzzer_baseline_comes_from_firmware_namespaces_not_mid_fields(
-        info, monkeypatch, namespaces, expected):
+async def test_buzzer_opt_in_uses_profile_namespaces_not_mid_fields(
+        info, monkeypatch, profile, expected):
     info.mid = "buzzer-fields"
     monkeypatch.setattr(mid_profile, "KNOWN_MID_PROFILES", (
         MidProfile("buzzer-fields", ("Buzzer_ON_OFF", "BuzzerCtrl"), "air_conditioner"),
     ))
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
-        DeviceProfile("362001064973", buzzer_properties=namespaces),
+        profile,
     ))
     unit = AirConditionerDevice(info)
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert unit.capabilities["lan_buzzer_control"] is False
     unit.handle_state_update(hid=AC_HID)
     assert unit.capabilities["lan_buzzer_control"] is expected
 
@@ -315,14 +349,16 @@ async def test_instances_and_hid_profile_changes_do_not_merge_evidence(info, mon
 async def test_direct_family_mismatch_does_not_import_mid_evidence(info, kind, mid, names):
     info.mid = mid
     unit = kind(info)
-    assert all(unit.capabilities[name] is None for name in names)
+    assert all(unit.capabilities[name] is None for name in names - {"lan_buzzer_control"})
+    assert unit.capabilities["lan_buzzer_control"] is False
 
 
 @pytest.mark.parametrize("mid", [None, "unmapped", "3027", "6400", "60", 10001, "10001 "])
 async def test_unknown_or_unimplemented_mid_adds_no_family_evidence(info, mid):
     info.mid = mid
     unit = AirConditionerDevice(info)
-    assert all(unit.capabilities[name] is None for name in AC_NAMES)
+    assert all(unit.capabilities[name] is None for name in AC_NAMES - {"lan_buzzer_control"})
+    assert unit.capabilities["lan_buzzer_control"] is False
 
 
 async def test_retained_mid_is_fixed_and_registry_changes_only_affect_new_instances(info, monkeypatch):
@@ -650,6 +686,7 @@ async def test_atw_mid_targets_do_not_infer_auto_poll_sensor_support_or_bypass_s
 
 @pytest.mark.parametrize("hid", [
     "362001061433+U-W06AV7.bin",
+    "362001061437+U-W06BV9.bin",
     "362001067012+U-W06AV16.bin",
     "362001067012+U-W06AV20.bin",
     "362001067012+U-W06AV30.bin",
@@ -667,7 +704,7 @@ async def test_gateway_hid_excludes_typed_sensor_without_calibrating_raw_body(in
     assert excluded["target_temperature"] is True
     unit.handle_state_update(hid="unidentified+U-W06AV7.bin")
     assert unit.capabilities["current_temperature"] is True
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert unit.capabilities["lan_buzzer_control"] is False
     assert excluded["current_temperature"] is False
 
 
@@ -679,24 +716,26 @@ async def test_gateway_hid_excludes_typed_sensor_without_calibrating_raw_body(in
     "362001066380+U-WB05BRV1.31.bin",
     "362001066380+U-WB05BRV1.38.bin",
 ])
-async def test_wb_gateway_identity_does_not_generalize_later_build_namespace(info, hid):
+async def test_wb_gateway_identity_keeps_other_traits_unknown_without_buzzer_opt_in(info, hid):
     unit = AirConditionerDevice(info)
     unit.handle_state_update(hid="362001061433+U-W06AV7.bin")
     assert unit.capabilities["current_temperature"] is False
     assert unit.capabilities["lan_buzzer_control"] is False
     unit.handle_state_update(hid=hid, TemSor=85)
-    assert all(unit.capabilities[name] is None for name in AC_NAMES)
+    assert all(unit.capabilities[name] is None for name in AC_NAMES if name != "lan_buzzer_control")
+    assert unit.capabilities["lan_buzzer_control"] is False
     assert unit.current_temperature is None
     assert unit.get_property("TemSor") == 85
     unit.version = "999"
-    assert all(unit.capabilities[name] is None for name in AC_NAMES)
+    assert all(unit.capabilities[name] is None for name in AC_NAMES if name != "lan_buzzer_control")
+    assert unit.capabilities["lan_buzzer_control"] is False
 
 
 @pytest.mark.parametrize("hid,buzzer", [
     ("362001061433+U-W06AV7.bin", False),
     ("362001067012+U-W06AV16.bin", False),
-    ("362001066326+U-WB05BRV1.18.bin", None),
-    ("362001066380+U-WB05BRV1.38.bin", None),
+    ("362001066326+U-WB05BRV1.18.bin", False),
+    ("362001066380+U-WB05BRV1.38.bin", False),
     ("362001065279+U-WB05RT13V1.54.bin", True),
     ("362001065279+U-WB05RT13V1.64.bin", True),
 ])

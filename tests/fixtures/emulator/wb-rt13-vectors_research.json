@@ -1,19 +1,18 @@
 {
-  "profile": "sim-wb05rt13-v1.45",
-  "mid": "10001",
+  "mid": "test-mid",
   "device": {"id": "office", "mac": "020000000001", "name": "Emulator Office", "key": "0123456789abcdef", "room_c": 26, "ambient_c": 26},
   "initial_state": {},
   "evidence": {
-    "source": "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/PR148/wb-standalone-decompilation/manifest.json; Realtek-1/n01/decompiled.c:855-867 and source-facts.json entry1; complete new-image exports contain real authenticated LAN functions omitted by the older reviewed selection.",
-    "wire": "Discovery is ECB/PKCS7 with inner cid=mac; UDP pack ingress forces mode2 and uses GCM with a separate generic key, fixed nonce/AAD and 16-byte authentication tag. Bindok is lowercase. Status omits unknown names and preserves ordered duplicates. Response outer selector/uid and client route are echoed, not forced to device-key slot.",
-    "model": "Mainboard-supplied bc/ver/vender/ModelType use literal synthetic values. Atomic controls, model ranges, immediate readback, linear room step and TemSen=floor(Celsius)+40 are simulation choices; native firmware transports UART byte+0x2e unchanged and supplies no same-mainboard calibration. No physical hardware, full boot or captured key is represented."
+    "source": "Test-only synthetic wire vector; it is not evidence for an emitted MID or public model registration.",
+    "wire": "Exercises the shared handler's separate ECB discovery and authenticated GCM request/reply paths, ordered status responses and bind shape.",
+    "model": "Explicit test data only; no source-build identity, configured hardware MID or physical calibration is represented."
   },
   "requests": [
     {"outer": {"t": "scan"}},
     {"outer": {"t": "pack", "i": 1, "uid": 42, "cid": "app", "tcid": "020000000001"}, "inner": {"t": "bind", "mac": "020000000001"}}
   ],
   "expected_replies": [
-    [{"outer": {"t": "pack", "i": 1, "uid": 0, "cid": "", "tcid": ""}, "inner": {"t": "dev", "cid": "020000000001", "bc": "0000000000000", "brand": "gree", "catalog": "gree", "mac": "020000000001", "mid": "10001", "model": "gree", "name": "Emulator Office", "lock": 0, "series": "gree", "vender": "1", "ver": "V3.4.M", "ModelType": "0", "hid": "362001065279+U-WB05RT13V1.45.bin"}}],
+    [{"outer": {"t": "pack", "i": 1, "uid": 0, "cid": "", "tcid": ""}, "inner": {"t": "dev", "cid": "020000000001", "bc": "0000000000000", "brand": "gree", "catalog": "gree", "mac": "020000000001", "mid": "test-mid", "model": "gree", "name": "Emulator Office", "lock": 0, "series": "gree", "vender": "1", "ver": "V3.4.M", "ModelType": "0"}}],
     []
   ],
   "expected_state": {"Pow": 0, "Mod": 0, "SetTem": 24, "WdSpd": 0, "TemUn": 0, "TemRec": 0, "Air": 0, "Blo": 0, "Health": 0, "SwhSlp": 0, "SlpMod": 0, "Lig": 1, "SwingLfRig": 0, "SwUpDn": 0, "Quiet": 0, "Tur": 0, "StHt": 0, "SvSt": 0, "Buzzer_ON_OFF": 0, "TemSen": 66},

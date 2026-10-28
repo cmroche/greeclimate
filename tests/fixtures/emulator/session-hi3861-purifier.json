@@ -1,0 +1,384 @@
+{
+  "profile": "sim-hi3861-v113-purifier",
+  "mid": "828301",
+  "mids": [
+    "828301",
+    "828306",
+    "828307",
+    "828308",
+    "828309",
+    "828310"
+  ],
+  "device": {
+    "name": "",
+    "mac": "020000000001",
+    "key": "0123456789AbCdEf"
+  },
+  "initial_state": {},
+  "requests": [
+    {
+      "outer": {
+        "t": "scan"
+      }
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "bind",
+        "mac": "020000000001"
+      },
+      "key": "a3K8Bx%2r8Y7#xDh",
+      "provenance": "translated normal wire"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "hid",
+          "ver",
+          "bc",
+          "mid",
+          "vender",
+          "host",
+          "time",
+          "rssi",
+          "ReportClientID",
+          "AppTimer",
+          "BuzzerCtrl"
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "translated getter values with explicit synthetic time/RSSI input"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "opt": [
+          "WorkStatus",
+          "LifeTimeFilter1",
+          "NoSuch"
+        ],
+        "p": [
+          31,
+          257,
+          7
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "source requested ACK, not physical board completion"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 9,
+        "cid": "peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "cols": [
+          "WorkStatus",
+          "LifeTimeFilter1",
+          "NoSuch"
+        ]
+      },
+      "key": "0123456789AbCdEf",
+      "provenance": "chosen immediate synthetic boardecho; NOT source-original received-report timing"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 0,
+          "cid": "",
+          "tcid": ""
+        },
+        "inner": {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "brand": "gree",
+          "catalog": "gree",
+          "mac": "020000000001",
+          "mid": "828301",
+          "model": "gree",
+          "name": "",
+          "lock": 0,
+          "series": "gree",
+          "vender": "1",
+          "ver": "V3.0.0"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 1,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "r": 200,
+          "t": "bindok",
+          "mac": "020000000001",
+          "key": "0123456789AbCdEf"
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            "362001063856+U-Hi3861-OldV1.13.bin",
+            "V3.0.0",
+            "67726565",
+            "",
+            "",
+            "dis.gree.com",
+            "2026-01-01 00:00:00",
+            -50,
+            0,
+            0,
+            0
+          ],
+          "cols": [
+            "hid",
+            "ver",
+            "bc",
+            "mid",
+            "vender",
+            "host",
+            "time",
+            "rssi",
+            "ReportClientID",
+            "AppTimer",
+            "BuzzerCtrl"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "p": [
+            31,
+            257,
+            7
+          ],
+          "opt": [
+            "WorkStatus",
+            "LifeTimeFilter1",
+            "NoSuch"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 9,
+          "cid": "020000000001",
+          "tcid": "peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 0,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            15,
+            0,
+            0
+          ],
+          "cols": [
+            "WorkStatus",
+            "LifeTimeFilter1",
+            "NoSuch"
+          ],
+          "r": 200
+        }
+      }
+    ]
+  ],
+  "expected_state": {
+    "WorkStatus": 15,
+    "TotalPureWater": 0,
+    "FilterNum": 0,
+    "LifeTimeFilter1": 0,
+    "LifeTimeFilter2": 0,
+    "LifeTimeFilter3": 0,
+    "LifeTimeFilter4": 0,
+    "LifeTimeFilter5": 0,
+    "FilterWarning1": 0,
+    "FilterWarning2": 0,
+    "FilterWarning3": 0,
+    "FilterWarning4": 0,
+    "FilterWarning5": 0,
+    "LifeFilterDays1": 0,
+    "LifeFilterDays2": 0,
+    "LifeFilterDays3": 0,
+    "LifeFilterDays4": 0,
+    "LifeFilterDays5": 0,
+    "FilterKind1": 0,
+    "FilterKind2": 0,
+    "FilterKind3": 0,
+    "FilterKind4": 0,
+    "FilterKind5": 0,
+    "ErrorCode1": 0,
+    "ErrorCode2": 0,
+    "JFerr": 0,
+    "MidType": 0
+  },
+  "source_columns": [
+    "WorkStatus",
+    "TotalPureWater",
+    "FilterNum",
+    "LifeTimeFilter1",
+    "LifeTimeFilter2",
+    "LifeTimeFilter3",
+    "LifeTimeFilter4",
+    "LifeTimeFilter5",
+    "FilterWarning1",
+    "FilterWarning2",
+    "FilterWarning3",
+    "FilterWarning4",
+    "FilterWarning5",
+    "LifeFilterDays1",
+    "LifeFilterDays2",
+    "LifeFilterDays3",
+    "LifeFilterDays4",
+    "LifeFilterDays5",
+    "FilterKind1",
+    "FilterKind2",
+    "FilterKind3",
+    "FilterKind4",
+    "FilterKind5",
+    "ErrorCode1",
+    "ErrorCode2",
+    "JFerr",
+    "MidType"
+  ],
+  "startup_dat": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "raw_report_vector": {
+    "flags": [
+      146,
+      147,
+      148,
+      149
+    ],
+    "bytes_hex": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "midtype": 9,
+    "error_flags": [
+      64,
+      16
+    ],
+    "expected_dat": [
+      4,
+      42405,
+      165,
+      165,
+      165,
+      165,
+      165,
+      165,
+      1,
+      1,
+      1,
+      1,
+      1,
+      42405,
+      42405,
+      42405,
+      42405,
+      42405,
+      5,
+      10,
+      5,
+      10,
+      5,
+      42405,
+      165,
+      3,
+      9
+    ],
+    "provenance": "independent descriptor/endian/mask derivation from evidence.json over explicitly supplied raw report bytes; not calibrated hardware"
+  }
+}

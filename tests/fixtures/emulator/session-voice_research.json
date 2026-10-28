@@ -1,0 +1,1771 @@
+{
+  "mid": "80222",
+  "firmware_code": "362001062573",
+  "hid": "362001062573+IS-T3BBW03V3.62.img",
+  "source_sha256": "c5d79f0aa5767afcea98d1b6e333eefcb74f7adfa8a37e8870bb0f92fd7d913c",
+  "executable_sha256": "d433918332f3962df46d53f8ecdc9a7f638206a77c48815ec0d40ea865436514",
+  "qualification": "Actionable synthetic roomless root controller, not an air conditioner or physical IR/appliance emulator",
+  "execution": {
+    "engine": "Unicorn original ARM/Thumb instructions",
+    "actual_instructions": "UDP outer dispatcher, key-selector branches, inner dispatcher, native mbedTLS AES-128-ECB including round/key-schedule routines, native base64, native whitespace compactor, native property matching/cache writes, native JSON constructor call sites, native wifi_to_red cache normalization",
+    "instruction_matched_translation": "None",
+    "substituted_boundaries": "cJSON parser/node/serializer primitives with original 32-bit type/valueint layout; libc memory/string/allocator/mutex/logging APIs; sendto records bytes instead of opening network; FIFO open/write/close return declared synthetic success. Original wifi_infrared entry deliberately stops after LAN response and wifi_to_red, before physical IR export. No crypto primitive is substituted.",
+    "independent_peer": "PyCryptodome AES request generator and response decrypt/padding assertions, no client/emulator/profile objects",
+    "evidence": [
+      "transactions.json",
+      "probe.py",
+      "transactions.py"
+    ]
+  },
+  "keys": {
+    "default_key_ascii": "a3K8Bx%2r8Y7#xDh",
+    "default_key_hex": "61334b38427825327238593723784468",
+    "default_key_source": "gree_init 0x25620 loads literal 0x70273 via pointer 0x2579c into 0x94bd8",
+    "device_key_source": "0x94bae; startup copies persisted wifi-info key from 0x952c8, generates 16 alphanumeric bytes only if empty, then stores wifi-info. bind returns existing key, does not rotate it.",
+    "synthetic_vector_device_key_ascii": "0123456789abcdef",
+    "i1": "default key",
+    "i0": "device key",
+    "receive_nonzero_i": "native receive selects default key for any nonzero numeric i; strict synthetic codec may limit to 0/1",
+    "restart_policy": "Native key is persisted; deterministic seeded simulator identity/key may stand in for persisted storage, and must be documented as model policy"
+  },
+  "wire": {
+    "cipher": "AES-128-ECB with full-block PKCS#7 output padding, base64 pack, no IV/tag/GCM",
+    "native_receive_padding": "Native decrypt leaves padding bytes; cJSON parses first JSON value. Strict simulator must validate PKCS#7 rather than imitate permissive parser behavior.",
+    "outer_request": {
+      "t": "pack",
+      "i": 0,
+      "uid": 7,
+      "cid": "app",
+      "tcid": "020000000001",
+      "pack": "base64 ciphertext"
+    },
+    "outer_reply": {
+      "t": "pack",
+      "i": "scan/bind=1, dat/res=0",
+      "uid": "last numeric request uid (initial scan zero)",
+      "cid": "root MAC",
+      "tcid": "empty string",
+      "pack": "base64 ciphertext"
+    },
+    "terminator": "Exactly one LF after compact outer JSON",
+    "identity_width": 12,
+    "max_request_bytes": 1024,
+    "receive_limit_evidence": "gree_indoor 0x25204 calls recvfrom(...,0x400,...), source instruction call site in fresh ignored voice-recv-loop.c. This is the actual UDP input buffer, not inferred from an unrelated reply buffer; synthetic model rejects over-limit raw datagrams rather than native truncation.",
+    "scan": "Clear {t:scan} sets reply i=1; inner dev metadata in transactions.json",
+    "bind": "Default-key encrypted inner {t:bind,mac:ROOT}; exact lowercase bindok, r=200, mac, key; repeated bind returns same key",
+    "status": "Device-key encrypted inner {t:status,mac:ROOT,cols:[...]}; matching inner mac required; reply dat/mac/r200/cols/dat, matched names preserve order and duplicates; unknown names omitted",
+    "command": "Device-key encrypted inner {t:cmd,opt:[...],p:[...]}; native compares outer tcid to root MAC, not inner command mac. Reply res/mac/r200/opt/p; ordinary25 controls ACK uint16 cache before normalization, guard/audio/action callbacks may ACK requested signed32, remaining selectors can be name-only, HID literal and time string. Unknown names omitted. Strict synthetic model rejects invalid batches atomically instead of reproducing native partial mutation/null dereference.",
+    "no_fake_ambient": "TemSen is absent and omitted, not a derived synthetic temperature field"
+  },
+  "model": {
+    "roomless": true,
+    "thermal_target": null,
+    "children": "None in the root LAN contract; IR learned-button catalog is not a child appliance topology",
+    "writable_fields": [
+      "Pow",
+      "Mod",
+      "SwhSlp",
+      "SwhSw",
+      "WdSpd",
+      "SetTem",
+      "Blo",
+      "Health",
+      "Lig",
+      "TemUn",
+      "TemRec",
+      "Air",
+      "SwUpDn",
+      "SwingLfRig",
+      "SvSt",
+      "StHt",
+      "Intellblo1",
+      "AirOpen",
+      "SlpMod",
+      "Tur",
+      "Quiet",
+      "VoltErr",
+      "CurrErr",
+      "PowerErr",
+      "RelayErr",
+      "ACCntlrShape", "AppTimer", "Savpow", "ProTimePow", "ProTimeLen",
+      "ProTimeReminder", "SendButton", "AddButton", "DelButton", "Studied",
+      "ConBtnNum", "ConBtnName", "Electnumzero", "MidType", "VoiceVolume", "VoiceGate"
+    ],
+    "native_numeric_range": "No per-property semantic clipping. Numeric cJSON valueint stores low 16 bits. Negative and >65535 input wrap in native firmware.",
+    "safe_simulator_range": "Strict signed32 command integers excluding bool, stored modulo65536. Configured public cache values remain uint16. Explicit bounded string/time/deletion-array schemas replace unsafe generic source coercion.",
+    "native_command_cross_fields": [
+      "Process opt/p sequentially. For index2 SwhSlp or index18 SlpMod input1 when SvSt==1: set SwhSlp=1, SlpMod=1, SvSt=0. Acknowledgement was appended before this cross-field adjustment.",
+      "For index14 SvSt input1 when SwhSlp==1 and SlpMod==1: clear both, leave SvSt=1. Acknowledgement was appended before adjustment.",
+      "After acknowledgement, original wifi_to_red sets SwhSw=int(SwUpDn!=0 or SwingLfRig!=0), Tur=int(WdSpd==6), Quiet=int(WdSpd==7). Other modeled cache fields persist. Do not return final normalized values in p instead of the original immediate values."
+    ],
+    "startup": "Literal synthetic policy: Pow0, Mod1, WdSpd1, SetTem26, Lig1, other modeled fields0. This is not physical boot state: ELF static cache includes Tur300/Quiet18 before persisted read_cmd_vaule/IR normalization. Native replay fixtures intentionally preserve those source bytes to distinguish evidence from chosen startup policy.",
+    "unmodeled_namespace": [],
+    "complete_namespace": "All45selectors:41numeric cache fields, full literal HID, virtual clock, unsigned32 integer power and RefBtnList two sibling arrays per column. Complete source-qualified vectors and safe synthetic policies are in session-voice-quirks_research.json.",
+    "unmodeled_boundary": "Physical IR reception/transmission, audio output, calibrated energy sensing and persisted native filesystem state remain unclaimed. Recognized learning actions use an empty virtual catalog without inventing received IR codes."
+  },
+  "profile_id": "sim-is-t3bbw03-v3.62",
+  "mids": [
+    "80222"
+  ],
+  "sources": [
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/SessionScan-Containers/supplement/voice-contract.json",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/SessionScan-Containers/supplement/transactions.json",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/SessionScan-Containers/supplement/transactions.py",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/SessionScan-Containers/supplement/properties.json",
+    "https://github.com/cmroche/gree-research/blob/main/firmware-capabilities/research/SessionScan-Containers/supplement/probe.py"
+  ],
+  "simulation_policy": {
+    "initial_cache": {
+      "Pow": 0,
+      "Mod": 1,
+      "SwhSlp": 0,
+      "SwhSw": 0,
+      "WdSpd": 1,
+      "SetTem": 26,
+      "Blo": 0,
+      "Health": 0,
+      "Lig": 1,
+      "TemUn": 0,
+      "TemRec": 0,
+      "Air": 0,
+      "SwUpDn": 0,
+      "SwingLfRig": 0,
+      "SvSt": 0,
+      "StHt": 0,
+      "Intellblo1": 0,
+      "AirOpen": 0,
+      "SlpMod": 0,
+      "Tur": 0,
+      "Quiet": 0,
+      "VoltErr": 0,
+      "CurrErr": 0,
+      "PowerErr": 0,
+      "RelayErr": 0
+    },
+    "restart_and_binding": "Existing deterministic seeded device identity/key substitutes for native persisted wifi-info key. Rebinding never changes key or controls. Restart constructs fresh literal model cache, preserving identity/key for identical seed and logical id; no persistent IR/audio/energy database.",
+    "command_input": "Validate whole batch before mutation. Signed32 integers store low16; guard/audio/action ACKs retain requested signed values while ordinary controls ACK uint16. Strict calendar strings, bounded HID/name strings and signed32 deletion arrays are the only additional schemas.",
+    "unknown_fields": "Unknown names omitted with duplicates/order retained. All45selectors are recognized; name-only and exceptional two-array cardinality remain source-faithful.",
+    "identity": "Outer tcid selects controller. Bind/status require matching inner mac. Native command ignores inner mac/sub; explicit strict-parser deviation rejects any supplied mac/sub not equal to the root MAC for every operation, before controls, saved uid, or time can change. Matching/omitted command selectors remain accepted; there is no child routing.",
+    "arrays": "Synthetic finite bound128 names; native45-name lookup loop has no array-count/name-length guard. Empty arrays allowed; empty/NUL-bearing names rejected.",
+    "reply_limits": "Native plaintext/base64 scratch each1024 bytes including terminating NUL; additionally model bounds entire encoded reply to1024 bytes including exactly one LF. No fixed native outer1024 buffer is claimed.",
+    "atomicity": "Validate full batch and bounded encoded reply before changing any controls or saved uid; native unsafe partial writes are not reproduced.",
+    "parser": "Shared strict UTF8/JSON/unique-object-keys/base64/PKCS7. Require signed32 integer uid and i0/1. Source accepts any nonzero numeric i as generic and tolerates invalid JSON suffix/padding; not imitated.",
+    "uid": "Initial0, saved per controller after valid pack; later scan echoes last uid, never scan uid. Malformed packets do not update uid (safe atomic deviation).",
+    "ambient_field": null,
+    "thermal_target": null,
+    "metadata_name": "Configured synthetic device name; native probe supplied empty name.",
+    "synthetic_readouts": "41cache fields use existing literal startup plus zero defaults for newly exposed raw fields. RealTimePower uses finite float32 per-device _power default0 with unsigned32 truncation/saturation. Clock begins epoch1970 and advances monotonically only in a pending state until reply preflight passes. RefBtnList returns two empty arrays per occurrence; audio/cache/counter effects never invoke host IO.",
+    "callback_source_corrections": "Original cJSON_AddItemToArray preserves residual r0 array pointer: last VoiceGate status is reachable. DelButton array ACK is26 from original instruction, not old inferred0; numeric probe's len(int) boundary is not native failure. Timer compares P against5: below5 clears, equal5 preserves. ProTimePow clears reminder, not accumulated ticks.",
+    "complete_evidence": "session-voice-quirks_research.json, ContainerControllers assessment.json, probe-results.json, probe-results-voice-retry.json, source-disassembly.json and parent-executed probe-results-voice-guard-delete.json (14/14 new-only cases); native IO remains substituted, never full boot or hardware calibration."
+  },
+  "native_property_evidence": {
+    "source_sha256": "d433918332f3962df46d53f8ecdc9a7f638206a77c48815ec0d40ea865436514",
+    "method": "Original opt_item_exec and wifi_to_red ARM/Thumb instructions, synthetic source ELF cache; cJSON/libc/FIFO boundary substitutions, no physical IR output. This historical compact selection preserves25 maximum uint16 writes and7 valid cross-field runs; session-voice-quirks_research.json adds complete45getter and corrected special ingress evidence. Unsafe type and malformed-length acceptance remain intentionally rejected.",
+    "initial_cache": {
+      "Pow": 0,
+      "Mod": 1,
+      "SwhSlp": 0,
+      "SwhSw": 0,
+      "WdSpd": 1,
+      "SetTem": 26,
+      "Blo": 0,
+      "Health": 0,
+      "Lig": 1,
+      "TemUn": 0,
+      "TemRec": 0,
+      "Air": 0,
+      "SwUpDn": 0,
+      "SwingLfRig": 0,
+      "SvSt": 0,
+      "StHt": 0,
+      "Intellblo1": 0,
+      "AirOpen": 0,
+      "SlpMod": 0,
+      "Tur": 300,
+      "Quiet": 18,
+      "VoltErr": 5000,
+      "CurrErr": 0,
+      "PowerErr": 0,
+      "RelayErr": 0
+    },
+    "uint16_max_writes": [
+      {
+        "field": "Pow",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Pow"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Pow": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "72fd2d24761676dfdb32160872a338e64dc28c690358b06b89a100973412cff6"
+      },
+      {
+        "field": "Mod",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Mod"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Mod": [
+            1,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "a5f97c0ba896bdb29acc67ae59c61486c3a0c276ef6f33c263bf84d8fd78f6cb"
+      },
+      {
+        "field": "SwhSlp",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "SwhSlp"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "SwhSlp": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "bc5372fefaea0ce9b0319e0157c68c2998b294873da3c56aecdf3a917a41f0df"
+      },
+      {
+        "field": "SwhSw",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "SwhSw"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "SwhSw": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "SwhSw": [
+            65535,
+            0
+          ],
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "9be33cf584af4982ca2c88a1bff11a08a9207b1ec90f7293b8434e015eedce9a"
+      },
+      {
+        "field": "WdSpd",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "WdSpd"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "WdSpd": [
+            1,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "27f5c3851e917be6c56500a91e09544f5986cbb4340507cc28baa788a06cbb01"
+      },
+      {
+        "field": "SetTem",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "SetTem"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "SetTem": [
+            26,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "19f36cc69f3493c44e1b9711748b43c2c4b0d1f5cf1746827ff655faccf7a276"
+      },
+      {
+        "field": "Blo",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Blo"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Blo": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "0f3e01bea75785c13d4f3e56d9ad5e955e2467763f6f9f97d1d70ff1c9044e97"
+      },
+      {
+        "field": "Health",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Health"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Health": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "079d397fad71c148fa05fc678d7a7d0877301e62950a0fa821fc6bc86621f859"
+      },
+      {
+        "field": "Lig",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Lig"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Lig": [
+            1,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "8d67db02e02fd7938ddfd0053079c43ecb3ba0fa839403bffdcf538277aece61"
+      },
+      {
+        "field": "TemUn",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "TemUn"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "TemUn": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "99f7e39982a9d7e4552ad62e722d1429f5df85c60b6e2ed2cf6e8a99d19eaa5b"
+      },
+      {
+        "field": "TemRec",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "TemRec"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "TemRec": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "6c860e628b70739b355e31750085c28cc12e3283c58ae4599222300da3b12a8f"
+      },
+      {
+        "field": "Air",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Air"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Air": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "83cbd713d54bef359333451dacd58a5baa51798b7d8281e887d07801b6daabfe"
+      },
+      {
+        "field": "SwUpDn",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "SwUpDn"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "SwUpDn": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "SwhSw": [
+            0,
+            1
+          ],
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "9a0bc5baac453269c96ec6dc0936a29602c4f250ecb921422d12107cd6032c53"
+      },
+      {
+        "field": "SwingLfRig",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "SwingLfRig"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "SwingLfRig": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "SwhSw": [
+            0,
+            1
+          ],
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "b308eec165004ef753d71f40fa9161643c364a25f519a75012ba19a6cd2a9275"
+      },
+      {
+        "field": "SvSt",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "SvSt"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "SvSt": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "7298645d3c462e4103b50f9d172d72ace7729ec9cc57dd055e5db3ab38f2bc83"
+      },
+      {
+        "field": "StHt",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "StHt"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "StHt": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "1262fa5b3ce03049971876e85540cd8040bd83152659b7a27e9933aa14e7b52d"
+      },
+      {
+        "field": "Intellblo1",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Intellblo1"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Intellblo1": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "08c0adfe1d2dabff5da87e8809f383819e7d2455e7381fb9bea54c17abfdb018"
+      },
+      {
+        "field": "AirOpen",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "AirOpen"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "AirOpen": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "657ab92b1e109256a9e5cf3fbdc7485a820c36b40adc964e9f072dba2a95b2f5"
+      },
+      {
+        "field": "SlpMod",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "SlpMod"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "SlpMod": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "68320cdd5f927ee4714d2fe578ee3463d0f9d13f9d5e0a14ce63bc98b446a891"
+      },
+      {
+        "field": "Tur",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Tur"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Tur": [
+            300,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            65535,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "14f1873466916802f5d4aca8f0cb3063ae1de7fdcce54b40404575d3b42a68c9"
+      },
+      {
+        "field": "Quiet",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "Quiet"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "Quiet": [
+            18,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            65535,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "318555f772d8890bfc58118bbedb2b9432603fca42af4cf43c2516c6a5b419fd"
+      },
+      {
+        "field": "VoltErr",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "VoltErr"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "VoltErr": [
+            5000,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "939dc8953de2c754114eb0f5596f6110eba8892105d309de69b954330270d7bf"
+      },
+      {
+        "field": "CurrErr",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "CurrErr"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "CurrErr": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "af01f7e6d18c2aac2ae34adde26471b1eef933548e8abf37092fc07bf54842ae"
+      },
+      {
+        "field": "PowerErr",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "PowerErr"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "PowerErr": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "934b8909455cbd0394774c9a7081d3819685ee0bd20577f4f900035b389d8ff3"
+      },
+      {
+        "field": "RelayErr",
+        "value": 65535,
+        "response_arrays": [
+          [
+            "RelayErr"
+          ],
+          [
+            65535
+          ]
+        ],
+        "cache_deltas_after_dispatch": {
+          "RelayErr": [
+            0,
+            65535
+          ]
+        },
+        "cache_deltas_after_normalization": {
+          "Tur": [
+            300,
+            0
+          ],
+          "Quiet": [
+            18,
+            0
+          ]
+        },
+        "instruction_trace_sha256": "44920b8f796e0b98da382cb318aaccca43fd017a95112386919c1f49cafb5f53"
+      }
+    ],
+    "cross_field_vectors": [
+      {
+        "label": "sleep_from_saving",
+        "opt": [
+          "SvSt",
+          "SwhSlp"
+        ],
+        "p": [
+          1,
+          1
+        ],
+        "response_arrays": [
+          [
+            "SvSt",
+            "SwhSlp"
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "cache_after_dispatch": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 1,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 1,
+          "Tur": 300,
+          "Quiet": 18,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "cache_after_normalization": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 1,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 1,
+          "Tur": 0,
+          "Quiet": 0,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "instruction_trace_sha256": "6dc01f09a2499bc8b560d8a0df5986e5e2bfa94ba1c0dc72acc07fb238fc41bc",
+        "normalization_trace_sha256": "1ae3f25078015847479b794dc9118c9cefabffcb2555e93a8d0ba8538c5d49c9"
+      },
+      {
+        "label": "slpmod_from_saving",
+        "opt": [
+          "SvSt",
+          "SlpMod"
+        ],
+        "p": [
+          1,
+          1
+        ],
+        "response_arrays": [
+          [
+            "SvSt",
+            "SlpMod"
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "cache_after_dispatch": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 1,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 1,
+          "Tur": 300,
+          "Quiet": 18,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "cache_after_normalization": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 1,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 1,
+          "Tur": 0,
+          "Quiet": 0,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "instruction_trace_sha256": "a039f7a4d153e1dd725aa6728a9b96220bdb548d486244a080b1fcd3411d63b3",
+        "normalization_trace_sha256": "1ae3f25078015847479b794dc9118c9cefabffcb2555e93a8d0ba8538c5d49c9"
+      },
+      {
+        "label": "saving_from_sleep",
+        "opt": [
+          "SwhSlp",
+          "SlpMod",
+          "SvSt"
+        ],
+        "p": [
+          1,
+          1,
+          1
+        ],
+        "response_arrays": [
+          [
+            "SwhSlp",
+            "SlpMod",
+            "SvSt"
+          ],
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "cache_after_dispatch": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 1,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 300,
+          "Quiet": 18,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "cache_after_normalization": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 1,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 0,
+          "Quiet": 0,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "instruction_trace_sha256": "0b2fe3169565388699768001fa0cc7cd3bb66e6af4fc64b5b5b6ebcbca195194",
+        "normalization_trace_sha256": "1ae3f25078015847479b794dc9118c9cefabffcb2555e93a8d0ba8538c5d49c9"
+      },
+      {
+        "label": "duplicate_requested_value",
+        "opt": [
+          "Pow",
+          "Pow"
+        ],
+        "p": [
+          1,
+          0
+        ],
+        "response_arrays": [
+          [
+            "Pow",
+            "Pow"
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "cache_after_dispatch": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 300,
+          "Quiet": 18,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "cache_after_normalization": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 0,
+          "Quiet": 0,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "instruction_trace_sha256": "1e26fc554d94baa1774bfff2bfb6f224eb09cfe43621458fc1f39c0db9357ad2",
+        "normalization_trace_sha256": "1ae3f25078015847479b794dc9118c9cefabffcb2555e93a8d0ba8538c5d49c9"
+      },
+      {
+        "label": "fan_turbo",
+        "opt": [
+          "WdSpd"
+        ],
+        "p": [
+          6
+        ],
+        "response_arrays": [
+          [
+            "WdSpd"
+          ],
+          [
+            6
+          ]
+        ],
+        "cache_after_dispatch": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 6,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 300,
+          "Quiet": 18,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "cache_after_normalization": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 6,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 1,
+          "Quiet": 0,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "instruction_trace_sha256": "27f5c3851e917be6c56500a91e09544f5986cbb4340507cc28baa788a06cbb01",
+        "normalization_trace_sha256": "90d36fe1cf3c5da4a9c06201e686eaa7f9476a3189c72a9d0f81e00134f46123"
+      },
+      {
+        "label": "fan_quiet",
+        "opt": [
+          "WdSpd"
+        ],
+        "p": [
+          7
+        ],
+        "response_arrays": [
+          [
+            "WdSpd"
+          ],
+          [
+            7
+          ]
+        ],
+        "cache_after_dispatch": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 7,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 300,
+          "Quiet": 18,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "cache_after_normalization": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 7,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 0,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 0,
+          "Quiet": 1,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "instruction_trace_sha256": "27f5c3851e917be6c56500a91e09544f5986cbb4340507cc28baa788a06cbb01",
+        "normalization_trace_sha256": "875fbadad1d6272e58f5319ef91f7d923c23366e8a6006c97fd88a30e00ac4ea"
+      },
+      {
+        "label": "swing_normalization",
+        "opt": [
+          "SwUpDn"
+        ],
+        "p": [
+          1
+        ],
+        "response_arrays": [
+          [
+            "SwUpDn"
+          ],
+          [
+            1
+          ]
+        ],
+        "cache_after_dispatch": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 0,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 1,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 300,
+          "Quiet": 18,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "cache_after_normalization": {
+          "Pow": 0,
+          "Mod": 1,
+          "SwhSlp": 0,
+          "SwhSw": 1,
+          "WdSpd": 1,
+          "SetTem": 26,
+          "Blo": 0,
+          "Health": 0,
+          "Lig": 1,
+          "TemUn": 0,
+          "TemRec": 0,
+          "Air": 0,
+          "SwUpDn": 1,
+          "SwingLfRig": 0,
+          "SvSt": 0,
+          "StHt": 0,
+          "Intellblo1": 0,
+          "AirOpen": 0,
+          "SlpMod": 0,
+          "Tur": 0,
+          "Quiet": 0,
+          "VoltErr": 5000,
+          "CurrErr": 0,
+          "PowerErr": 0,
+          "RelayErr": 0
+        },
+        "instruction_trace_sha256": "9a0bc5baac453269c96ec6dc0936a29602c4f250ecb921422d12107cd6032c53",
+        "normalization_trace_sha256": "a9ac7cba9af5a0371b1df2ee099298732f663fcb58d03e8643289ca3fdf7006e"
+      }
+    ]
+  },
+  "native_vectors": [
+    {
+      "label": "scan",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 66027,
+      "instruction_trace_sha256": "b3a9dc7c90de0d5e411ce7941e6f936b8627668f711c8f649597f397f527f6b3",
+      "input_outer": {
+        "t": "scan"
+      },
+      "independent_decrypted": [
+        {
+          "t": "dev",
+          "cid": "",
+          "bc": "gree",
+          "catalog": "gree",
+          "mid": "80222",
+          "lock": 0,
+          "model": "gree",
+          "name": "",
+          "series": "gree",
+          "vender": "2",
+          "ver": "V1.2.1",
+          "brand": "gree",
+          "mac": "020000000001"
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":0,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"LP24Ek0OaYogxs3iQLjL4N9zkK6Z9KWVTRCvhRWqV8Q6Hcv+Un2MiFEJz3NDMsHEyjVLZHqJvA84aKlURD54hUjWYG6qAmiTmdJ5odmZR9FB8dSTl4UezWhnYavtf18JDUBdH0ixUNYGyl4IJt06ykXx02sOElgjvvoafXne9fuM1E2f0pbnScMXknx944FUGZBZ9VYlhAazd6lSWJwfInH1QHi1dxaAWHGeoa54NO7pyhNX6ZNWv5dfVP60FBpD\"}\n"
+      ]
+    },
+    {
+      "label": "bind_default",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 34423,
+      "instruction_trace_sha256": "5e75bbb17bb82c6eeff4cc9b416b8069c435e0a4e6b644469a1360ac4c76c118",
+      "input_outer": {
+        "t": "pack",
+        "i": 1,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "LbyXlIr/T0/qWhgSNSKzEnH1QHi1dxaAWHGeoa54NO5zn6hsrJYIDW3ct6bLyaFZ"
+      },
+      "independent_decrypted": [
+        {
+          "t": "bindok",
+          "mac": "020000000001",
+          "r": 200,
+          "key": "0123456789abcdef"
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":1,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"T2tGu9JTsZPLMhoPO/mBcq4jEpLZOJ8cS+5hJTOQly5P4HhGrVe8a9SPswvX3Oqzm8S/DWje0WCQJTNsDYY54lnLAw18BO73yX3US5fygoQ=\"}\n"
+      ],
+      "input_inner": {
+        "t": "bind",
+        "mac": "020000000001",
+        "uid": 7
+      }
+    },
+    {
+      "label": "status_before",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 63013,
+      "instruction_trace_sha256": "a3c4157b3360455044f187f88ddf9fc82cf9059d2c63abf6616a571ae15c39ab",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMX6umyzSBWBT2dow043RdSw86EYB+QB29LfX1vYPuI3ywekRYAhMuhPTOPR3Oq9043ZNJ9Q3nuV5AK+TgKBlbyG"
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "Quiet"
+          ],
+          "dat": [
+            0,
+            1,
+            26,
+            18
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/935za29FSSJkDVKDPzGhJu6fX3p5bbha7hH+AY64O6cx9qzuAZO6WSW+7/YpPZ3IN3Ii4GGpJMWRzZwn6hY+1A==\"}\n"
+      ],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "Quiet",
+          "TemSen",
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": "cmd_cache",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 57608,
+      "instruction_trace_sha256": "7de33e441b3e897d79c3d36a9a7b7f661335aba3b59bf63930fad6514f235713",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWLR1UX19Yepzga6ySEPB0/2flBxMu/+7y1QOI0de3JEyyuclLv756Q5YshSWNnOp4GxkqwPsj9LSZyqmpyia/AT"
+      },
+      "independent_decrypted": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [
+            "Pow",
+            "Mod",
+            "SetTem",
+            "Quiet"
+          ],
+          "p": [
+            1,
+            1,
+            22,
+            2
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWI1/jlbdCSy+yG0F6cIIlLIjjShNCjrI+i/WX1GNWXOKwn//JLHsO8Vf6f0o5ztwOPS0CHfNaItybTZvb0mE8mB\"}\n"
+      ],
+      "boundary": "Boundary('Physical IR export boundary after original wifi_to_red normalization; LAN ack already emitted')",
+      "input_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "Mod",
+          "SetTem",
+          "Quiet"
+        ],
+        "p": [
+          1,
+          1,
+          22,
+          2
+        ]
+      }
+    },
+    {
+      "label": "status_after",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 56178,
+      "instruction_trace_sha256": "808115c65ecdb5fb5170e1384c275da6cd5492877dbbd81a38237848a04e9cfd",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "FpOYBS8AEeklmEYStgCWuh19OqVMNHLLuAVj2z3ZqMXeVtiM0X227uRR87ty94GeBVr9QAMnt6hZrSomLC92NU25CfgYtvxgGUvAk2gb4mA="
+      },
+      "independent_decrypted": [
+        {
+          "t": "dat",
+          "mac": "020000000001",
+          "r": 200,
+          "cols": [
+            "Quiet",
+            "Pow",
+            "SetTem",
+            "Mod",
+            "Pow"
+          ],
+          "dat": [
+            0,
+            1,
+            22,
+            1,
+            1
+          ]
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"wqzx+EIyavACvRu1ybbHSquwJCS8GwpMaSvdUaTrjWKfOBz5ONDhUhn1tz5/4tQ/t4g1i3WL+QRn9BDkED0kCouruERCb/90Hof354DAgjXUDQvXt9Jq+z535wC4yZdMd6e2lLIcDyxt3OI2o8ipbA==\"}\n"
+      ],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Quiet",
+          "Pow",
+          "SetTem",
+          "Mod",
+          "Pow"
+        ]
+      }
+    },
+    {
+      "label": "wrong_target",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 26242,
+      "instruction_trace_sha256": "a50b7a329599ed5c8d4ff9b724f7ec3355fc90edf40abd27a6501f56d74b731d",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000099",
+        "pack": "FpOYBS8AEeklmEYStgCWug7xbFYKG+3f3q5F6GHw7gTRYPeqD4VQksFavcWFzaAj2egG25oDL4XgMoDqgSfZKQ=="
+      },
+      "independent_decrypted": [],
+      "datagrams": [],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000099",
+        "cols": [
+          "Pow"
+        ]
+      }
+    },
+    {
+      "label": "wrong_key",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 26206,
+      "instruction_trace_sha256": "2a8f5c58027334317c8966e3b66ce58834b006ff43befbbe84926f35634960d7",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "iLix+fmS9TokVlKc8vwULtQdONQ12BACZdMzW5IG2/kCIPbK+G0aynHzXQFdNftEGYQwfpaCEagzj9S9n8T5VQ=="
+      },
+      "independent_decrypted": [],
+      "datagrams": [],
+      "input_inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "Pow"
+        ]
+      }
+    },
+    {
+      "label": "unknown_command",
+      "operation": "local_handle_recvdata",
+      "entry": "0x24f65",
+      "instructions": 39131,
+      "instruction_trace_sha256": "949fa4e118fdac98633898d04839ce6da54401446a9b8d9b00611322eb65802d",
+      "input_outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 7,
+        "cid": "app",
+        "tcid": "020000000001",
+        "pack": "aovXPORtrykTR2O97Bw3IKuwJCS8GwpMaSvdUaTrjWKCXoIONxrIChOdmO1Oo0S0Jm6EOVtSLcthNMRol95VxA=="
+      },
+      "independent_decrypted": [
+        {
+          "t": "res",
+          "mac": "020000000001",
+          "r": 200,
+          "opt": [],
+          "p": []
+        }
+      ],
+      "datagrams": [
+        "{\"t\":\"pack\",\"i\":0,\"uid\":7,\"cid\":\"020000000001\",\"tcid\":\"\",\"pack\":\"NeLPWjekDuHDyrXn/g+RmKuwJCS8GwpMaSvdUaTrjWJYf6mScsylzLszuDkBSO8F6/GWAZnq0Cbh/RrMNq00kg==\"}\n"
+      ],
+      "boundary": "Boundary('Physical IR export boundary after original wifi_to_red normalization; LAN ack already emitted')",
+      "input_inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Unknown"
+        ],
+        "p": [
+          99
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Not a full firmware boot, physical IR appliance, actual IR transmission, learned-button database, calibrated electrical/audio/thermal model or physical measurement.",
+    "No children and no TemSen; build HID is provenance only and not status/discovery metadata.",
+    "Native cJSON/libc/allocator/socket/FIFO boundaries are substituted as described in execution; native software AES/base64 instructions are not replaced."
+  ]
+}

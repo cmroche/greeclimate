@@ -5,7 +5,7 @@
   "evidence": {
     "native": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/atw-lan_research.json scan, bind-generic2, status-order-duplicates-unknown, command duplicate echo and bound bind; https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/atw-properties_research.json independently verifies all three emitted MIDs and shared heater selectors.",
     "model": "Literal contract defaults, role-specific chosen 100-bias decimal sensors and no-fault AllErr; not physical calibration. Equal ambient/room and final power off prevent elapsed-time noise.",
-    "safe_deviations": "Unsupported/read-only writes reject whole batch before advancing time; inactive and unmodeled sensors omitted instead of native unsafe memory reads."
+    "safe_deviations": "Read-only writes reject atomically before time/mutation. Every recognized source network name retains its column and scalar serialization; unsafe prefix reads and unselected sensor fallbacks have explicitly stationary synthetic zero readouts. This is not a physical capability claim."
   },
   "device": {
     "room_c": 26,
@@ -111,7 +111,7 @@
         "t": "cmd",
         "opt": [
           "Pow",
-          "AllErr"
+          "RmoHomTemHi"
         ],
         "p": [
           1,
@@ -154,12 +154,12 @@
           "mac": "020000000001",
           "mid": "9300",
           "hid": "362001066763+U-W06A(P3)V6.04.bin",
-          "ModelType": "simulated-atw",
+          "ModelType": "",
           "model": "gree",
           "name": "Emulator Office",
           "series": "gree",
           "vender": "1",
-          "ver": "V6.04",
+          "ver": "V5.0.0.0",
           "lock": 0
         }
       }
@@ -200,13 +200,15 @@
             "Pow",
             "RmoHomTemHi",
             "RmoHomTemLo",
-            "AllErr"
+            "AllErr",
+            "EnvironmentTem"
           ],
           "dat": [
             0,
             35,
             0,
             126,
+            0,
             0,
             0
           ]

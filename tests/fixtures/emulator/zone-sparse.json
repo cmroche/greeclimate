@@ -140,13 +140,7 @@
   },
   "expected_children": {
     "02000000000100": {
-      "Pow": 0,
-      "StTem": 8,
-      "StFahFlg": 0,
-      "RmType": 0,
-      "RmNum": 0,
-      "Mod": 0,
-      "WdSpd": 0
+      "Pow": 0
     },
     "02000000000102": {
       "Pow": 0,
@@ -154,9 +148,7 @@
       "StFahFlg": 0,
       "RmType": 0,
       "RmNum": 0,
-      "EnValve": 0,
-      "Mod": 0,
-      "WdSpd": 0
+      "EnValve": 0
     },
     "02000000000104": {
       "Pow": 0,
@@ -164,9 +156,7 @@
       "StFahFlg": 0,
       "RmType": 0,
       "RmNum": 0,
-      "EnValve": 0,
-      "Mod": 0,
-      "WdSpd": 0
+      "EnValve": 0
     },
     "02000000000106": {
       "Pow": 0,
@@ -174,9 +164,7 @@
       "StFahFlg": 0,
       "RmType": 0,
       "RmNum": 0,
-      "EnValve": 0,
-      "Mod": 0,
-      "WdSpd": 0
+      "EnValve": 0
     }
   }
 }

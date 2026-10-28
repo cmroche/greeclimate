@@ -3,7 +3,7 @@
   "source_sha256": "eabd04d49c518699f2800805bd4f6085ff3b2092b8a2394fb1e22c04fb7f7c9f",
   "evidence": {
     "native_protocol": "https://github.com/cmroche/gree-research/blob/main/tests/fixtures/emulator/controller_research.json: byte-matched DV discovery0xa0f54c,bind0xa0f6ac,status parser0xa0f7a0/builder0xa0efd8,command parser0xa0f8c0/setter0xa10b70/builder0xa0f0d8; AES block and PKCS7 padding replay0xa0cb50/0xa0ca78 with documented ROM boundary.",
-    "model_contract": "Synthetic integer Celsius SetTem and persisted controls. No advertised ambient sensor: TemSen/TemBody unknown; TemSor lacks scalar selector and is not modeled. Thermal state remains internal. Known nonmodeled fields and unknown columns omitted. Quiet restricted to actual setter boolean.",
+    "model_contract": "Synthetic raw byte cache, including complete finite source namespace. Names without scalar selectors read a frozen synthetic prefix byte0 in place of source cache[-1]; TemSor is not a calibrated thermometer. TemSen/TemBody remain unrecognized. Internal thermal policy remains separate. Raw nonnegative int32 commands truncate stored bytes, preserve requested ACKs and source no-store selectors; strict types and atomic rejection are deliberate safe policy.",
     "independence": "Recorded before runtime implementation; protocol shapes and base values from firmware replay, changed control state explicitly from approved synthetic model contract, never emulator/client-generated."
   },
   "device": {"id":"controller","mac":"aabbccddeeff","name":"Lab Controller","key":"0123456789abcdef","room_c":24,"ambient_c":24},
@@ -22,12 +22,12 @@
   "expected_replies": [
     [{"outer":{"t":"pack","i":1,"uid":0,"cid":"aabbccddeeff","tcid":""},"inner":{"t":"dev","cid":"aabbccddeeff","bc":"gree","brand":"gree","catalog":"gree","mac":"aabbccddeeff","mid":"3018","hid":"362001067592+U-W06DV4.01.bin","model":"gree","name":"Lab Controller","series":"gree","vender":"1","ver":"V1.0.0.0","lock":0}}],
     [{"outer":{"t":"pack","i":1,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"bindok","mac":"aabbccddeeff","key":"0123456789abcdef","r":200}}],
-    [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"dat","r":200,"mac":"aabbccddeeff","cols":["Pow","SetTem"],"dat":[0,24]}}],
+    [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"dat","r":200,"mac":"aabbccddeeff","cols":["Pow","SetTem","TemSor"],"dat":[0,24,0]}}],
     [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"res","r":200,"opt":["Pow","Mod","SetTem","SetTem","TemUn","TemRec"],"p":[1,4,22,25,1,1],"val":[1,4,22,25,1,1]}}],
     [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"dat","r":200,"mac":"aabbccddeeff","cols":["SetTem","Pow","Mod","TemUn","TemRec","SetTem","mid","hid","name"],"dat":[25,1,4,1,1,25,"3018","362001067592+U-W06DV4.01.bin","Lab Controller"]}}],
     [], [],
     [{"outer":{"t":"pack","i":0,"uid":7,"cid":"aabbccddeeff","tcid":"app"},"inner":{"t":"dat","r":200,"mac":"aabbccddeeff","cols":[],"dat":[]}}],
     []
   ],
-  "expected_state":{"Pow":1,"Blo":0,"SwhSlp":0,"Air":0,"SvSt":0,"Quiet":0,"Tur":0,"Mod":4,"SetTem":25,"WdSpd":0,"SwUpDn":0,"SwingLfRig":0,"TemUn":1,"TemRec":1,"SlpMod":0}
+  "expected_state":{"Pow":1,"Blo":0,"SwhSlp":0,"Air":0,"SvSt":0,"Quiet":0,"Tur":0,"HeatCoolType":0,"Mod":4,"SetTem":25,"HeatSvStTemMax":0,"CoolSvStTemMin":0,"WdSpd":0,"SwUpDn":0,"SwingLfRig":0,"AllErr":0,"TemUn":1,"TemRec":1,"SlpMod":0,"TemRecH":0,"TemRecC":0}
 }

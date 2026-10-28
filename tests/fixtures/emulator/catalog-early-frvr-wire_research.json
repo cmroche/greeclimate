@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "qualification": "Independent source-instruction/C-derived literals plus declared synthetic identity/cache/calendar; not a native full boot or calibrated mainboard capture",
+  "fr": {
+    "source_sha256": "e44d45713ebcb469f0c6c5e0e8f2a5ab983eea9e3fc295472bb1125ca677a6df",
+    "configured_mid": "4005",
+    "mid_role": "Recognized UART mainboard branch formatted lowercase unpadded %lx; not a fixed firmware default or physical observation",
+    "discovery": {"t":"dev","cid":"","bc":"","brand":"gree","catalog":"gree","mac":"020000000001","mid":"4005","model":"gree","name":"FrVr","lock":0,"series":"gree","vender":"","ver":"V3.2.M","mqttVer":""},
+    "subdev_request": {"t":"subDev","i":0},
+    "subdev_response": {"t":"subList","r":200,"c":1,"i":0,"list":[{"mac":"02000000000100","name":"ACUnit","mid":"4005","model":"gree","lock":0}]},
+    "binary_request": {"t":"binCmd","hex01":"fn4GAQIDBAU=","hex6B":"fn4GAQIDBAU="},
+    "binary_response": {"t":"res","r":200},
+    "binary_primary_after_hex": "7e7e0601020304af",
+    "dump_request": {"t":"dump","period":2,"cnt":0},
+    "dump_response": {"t":"ret","r":200},
+    "dump_cache": {"period":5,"cnt":1},
+    "reset_request": {"t":"reset","mac":"020000000001"},
+    "reset_response": {"t":"res","r":200},
+    "bindok_request": {"t":"UBindok"},
+    "bindok_response": {"t":"binStatus","binStatus":"AAEAEwEAAAAAAAAAAAAAAAAAAAAAAAA=","header":"ZmcAAAAAAAAAAAAAAAAAAAIAAAAAAQAAQAUAAAAAAAAwAAAAAAAC","mac":"020000000001"},
+    "auxiliary_binary_request": {"t":"binCmd","hex01":"fn4HAQIDBAUG","hex6B":"fn4A","hex6A":"fn4CAQI="},
+    "bindok_auxiliary_payload": "AAEAGAEAAAAAAAAAAAAAAAAAAAAAAAB+fgIBAg=="
+  },
+  "vr": {
+    "source_sha256": "d5b25b99317c224d82674e45965914fb652aa25581a586a765d1e9536286e5e7",
+    "configured_mid": "11f00",
+    "mid_role": "Original UART producer0xe041bec recognizes11f00/11f01/11f02 and emits nonzero LEuint32 via%x; only11f00 chosen as configured synthetic mainboard, no alias or physical default",
+    "discovery": {"t":"dev","cid":"","bc":"","brand":"gree","catalog":"gree","mac":"020000000001","mid":"11f00","model":"gree","name":"FrVr","lock":0,"series":"gree","vender":"","ver":"V2.0.0","hid":"362001067427+U-WB65VRV1.02.bin"},
+    "timer_set": {"t":"setT","id":2,"name":"night","enable":1,"tz":0,"hr":257,"min":258,"sec":59,"week":[2,1,0,0,0,0,0],"cmd":[{"mac":"020000000001","opt":["Pow","Mod","Pow"],"p":[1,4,257]}]},
+    "timer_ack": {"t":"resT","r":200},
+    "timer_query": {"t":"queryT","index":0,"count":10},
+    "timer_response": {"t":"listT","total":1,"index":0,"list":[{"id":2,"name":"night","enable":1,"week":[0,1,0,0,0,0,0],"hr":1,"min":2,"sec":0,"cmd":[{"mac":"020000000001","opt":["Pow"],"p":[1]}]}]},
+    "timer_delete": {"t":"deleteT","id":258},
+    "timer_empty": {"t":"listT","total":0,"index":0,"list":[]},
+    "time_request": {"t":"cmd","opt":["time"],"p":["2026-02-28 23:59:59"]},
+    "time_response": {"t":"res","mac":"020000000001","p":["2026-02-28 23:59:59"],"opt":["time"],"r":200},
+    "literal_gcm_status_request": {"t":"pack","i":0,"uid":42,"cid":"app","tcid":"020000000001","pack":"i3fKw/EEZf5wEbrPdpe/4YL/TYtS1wgS4hjISt8=","tag":"tgE9ZREJV9g9NROSK/UBtg=="}
+  },
+  "evidence": {
+    "fr_discovery": "FrVrRoots identity root0x9b02ecc4; FR4005 takes ordinary emitted MID branch, four other comparisons normalize to60 and are not merged here",
+    "fr_initializers": "0x9b02cd1c default context constructor,0x100011fc initialized HID literal pointer,0x9b02b94c UART identity formatter",
+    "fr_subdev": "0x9b02d11c serial descriptor flag0 emits suffix00 and ACUnit; alternate Filter suffix01 is outside chosen initialized mainboard branch",
+    "fr_binary": "0x9b02d9ac GnetID==0 path requires hex01 and hex6B, source byte7 becomes0xaf; atomic bounds reject unsafe native copies; hex6A includes byte2+3 bytes for subsequent binStatus",
+    "fr_bindok": "0x9b02d5a4 and packet prefix0x9b0284ec; six explicitly synthetic zero-initialized UART readout frames, configured MID4005 and rootMAC, other header identities zero; emits known raw schema, sets lock1, optional hex6A consumed once; physical payload calibration is not claimed",
+    "vr_time": "0x0e028a84 format%4d-%2d-%2d %2d:%2d:%2d then mktime; safe model rejects malformed calendar instead of native unchecked sscanf fields",
+    "vr_timers": "0x0e043f1c parser: low8id/hr/min/Pow, OR-packed week, successful optional sec parse selects0;0x0e05b84a insert,0x0e05b876 update,0x0e05b898 delete,0x0e044230 query IDs0..9",
+    "vr_mid_initializer": "0xe041bec UART1002ba50 bytes4..7 LEuint32 nonzero ->global1001a4c4; sprintf%x at041c54 to1001a4d8 used discovery044f24. Comparisons11f00/11f01/11f02 do not rewriteMID",
+    "vr_metadata_initializer": "0xe089a24 contextbase1002215c(root10021f44+218), bc/brand/catalog/model/seriesgree,verV2.0.0,hostdis.gree.com, ECBkey10024244, descriptorpointer1001dacc+31c=1002a788; local bc getter hex-encodes initialized ASCII to67726565",
+    "status_mid_policy": "Context MID getter remains an independent empty initialized string; global emitted MID is not silently copied into it",
+    "vr_transport": "Canonical initialized byte1001a614 is0; original receive0xe044822 stores2 at0xe0448fc before UDP recvfrom0xe029264, stores1 at0xe044956 afterpositive TLSread0xe03f8c8. UDP thereforeGCM2 independent of tag, cloud streamECB1; discovery separatelyECB. GCMkey05cd68={yxAHAY_Lm6pbC/<,nonce05cdbe=5440784449675a516c5e6313,AAD05cdf0=qualcomm-test,tag16; indices0/1 only",
+    "limits": "Stored timer schema and cache operations do not assert execution of downstream UART schedules, OTA delivery, full boot or physical appliance calibration"
+  }
+}

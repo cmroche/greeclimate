@@ -1,0 +1,414 @@
+{
+  "profile": "sim-w04n-v17",
+  "mid": "10001",
+  "source_sha256": "b0b7f5d428858ca5e5ad29a8afcfaa0da4063fe36e98fae7c447047163112727",
+  "evidence": {
+    "static": "Original V17 callback table0x08074610, original callbacks/helpers and selector0x0802dce4/0x0802ddcc. Literal expected masks, coupling and order are source-derived independently of emulator/client.",
+    "wrapper": "Original registered LAN/task wire qualification in CatalogQuirks/RealtekEarly/W04N/NumericClosure/generic-field-wire-native.json and duplicate-name-wire-native.json: val looks up the first parsed request value by name, not the final getter. Status/getter vectors and declared synthetic controller defaults remain separate oracles.",
+    "model": "Synthetic cache defaults, room26 Celsius; strict atomic unknown/type rejection is chosen safety policy."
+  },
+  "initial_state": {},
+  "device": {
+    "room_c": 26,
+    "ambient_c": 26
+  },
+  "requests": [
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "RoomLen",
+          "Air",
+          "Buzzer_ON_OFF",
+          "Antifreeze",
+          "MicroSen",
+          "WdSpd",
+          "StSlp1C",
+          "SetTem",
+          "SetTem"
+        ],
+        "p": [
+          256,
+          255,
+          3,
+          1,
+          1,
+          255,
+          65535,
+          16,
+          255
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "RoomLen",
+          "Air",
+          "Buzzer_ON_OFF",
+          "Antifreeze",
+          "AllErr",
+          "MicroSen",
+          "ImgUpdateSta",
+          "WdSpd",
+          "LigSen",
+          "SmartSlpMod",
+          "StSlp1C",
+          "SetTem",
+          "TemSen"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "EnvArea1St",
+          "EnvArea4St",
+          "SwUpDn",
+          "SwhSw",
+          "CZLJC",
+          "AntiDirectBlow"
+        ],
+        "p": [
+          1,
+          1,
+          10,
+          1,
+          1,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "HumSen",
+          "AirQ",
+          "ImgUpdateSta"
+        ],
+        "p": [
+          99,
+          42,
+          0
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "status",
+        "mac": "020000000001",
+        "cols": [
+          "HumSen",
+          "unknown",
+          "AirQ",
+          "ImgUpdateSta",
+          "EnvArea1St",
+          "EnvArea4St",
+          "SwUpDn",
+          "SwhSw",
+          "CZLJC",
+          "AntiDirectBlow",
+          "AirQ"
+        ]
+      },
+      "key": "0123456789abcdef"
+    },
+    {
+      "outer": {
+        "t": "pack",
+        "i": 0,
+        "uid": 23,
+        "cid": "independent-peer",
+        "tcid": "020000000001"
+      },
+      "inner": {
+        "t": "cmd",
+        "mac": "020000000001",
+        "opt": [
+          "Pow",
+          "BuzzerCtrl"
+        ],
+        "p": [
+          1,
+          1
+        ]
+      },
+      "key": "0123456789abcdef"
+    }
+  ],
+  "expected_replies": [
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            256,
+            255,
+            3,
+            1,
+            1,
+            255,
+            65535,
+            16,
+            16
+          ],
+          "p": [
+            256,
+            255,
+            3,
+            1,
+            1,
+            255,
+            65535,
+            16,
+            255
+          ],
+          "opt": [
+            "RoomLen",
+            "Air",
+            "Buzzer_ON_OFF",
+            "Antifreeze",
+            "MicroSen",
+            "WdSpd",
+            "StSlp1C",
+            "SetTem",
+            "SetTem"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 23,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            0,
+            3,
+            1,
+            0,
+            1,
+            0,
+            1,
+            7,
+            1,
+            7,
+            4095,
+            16,
+            26
+          ],
+          "cols": [
+            "RoomLen",
+            "Air",
+            "Buzzer_ON_OFF",
+            "Antifreeze",
+            "AllErr",
+            "MicroSen",
+            "ImgUpdateSta",
+            "WdSpd",
+            "LigSen",
+            "SmartSlpMod",
+            "StSlp1C",
+            "SetTem",
+            "TemSen"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            1,
+            1,
+            10,
+            1,
+            1,
+            0
+          ],
+          "p": [
+            1,
+            1,
+            10,
+            1,
+            1,
+            0
+          ],
+          "opt": [
+            "EnvArea1St",
+            "EnvArea4St",
+            "SwUpDn",
+            "SwhSw",
+            "CZLJC",
+            "AntiDirectBlow"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "res",
+          "mac": "020000000001",
+          "val": [
+            99,
+            42,
+            0
+          ],
+          "p": [
+            99,
+            42,
+            0
+          ],
+          "opt": [
+            "HumSen",
+            "AirQ",
+            "ImgUpdateSta"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    [
+      {
+        "outer": {
+          "t": "pack",
+          "i": 0,
+          "uid": 23,
+          "cid": "020000000001",
+          "tcid": "independent-peer"
+        },
+        "inner": {
+          "t": "dat",
+          "uid": 23,
+          "mac": "020000000001",
+          "cid": "020000000001",
+          "dat": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "cols": [
+            "HumSen",
+            "AirQ",
+            "ImgUpdateSta",
+            "EnvArea1St",
+            "EnvArea4St",
+            "SwUpDn",
+            "SwhSw",
+            "CZLJC",
+            "AntiDirectBlow",
+            "AirQ"
+          ],
+          "r": 200
+        }
+      }
+    ],
+    []
+  ],
+  "expected_state": {
+    "Pow": 0,
+    "RoomLen": 0,
+    "Air": 3,
+    "Buzzer_ON_OFF": 1,
+    "AllErr": 1,
+    "ImgUpdateSta": 1,
+    "WdSpd": 7,
+    "StSlp1C": 4095,
+    "SetTem": 16,
+    "TemSen": 26,
+    "EnvArea1St": 0,
+    "EnvArea4St": 1,
+    "SwUpDn": 1,
+    "SwhSw": 1
+  }
+}
