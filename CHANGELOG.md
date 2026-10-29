@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/cmroche/greeclimate/compare/v4.1.0...v4.2.0) (2026-10-29)
+
+
+### Features
+
+* expand firmware recognition and emulator device coverage ([#237](https://github.com/cmroche/greeclimate/issues/237)) ([651f747](https://github.com/cmroche/greeclimate/commit/651f747c445a9e05eec9403062682e511993068e))
+
 # [4.1.0](https://github.com/cmroche/greeclimate/compare/v4.0.0...v4.1.0) (2026-10-24)
 
 
