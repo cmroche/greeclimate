@@ -9,6 +9,10 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 import pytest
 
+from gree_emulator.device import EmulatedDevice
+from gree_emulator.profiles import PROFILES, wb_rt13
+from gree_emulator.wire import encode_reply
+
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import Device
 from greeclimate.deviceinfo import DeviceInfo
@@ -90,6 +94,42 @@ class SourcePeer(Peer):
         else:
             assert advertised["hid"] == "362001065279+U-WB05RT13V1.45.bin"
         return advertised
+
+
+@pytest.mark.parametrize("version", [version for version, _ in CASES])
+def test_rt13_sensor_raw_storage_and_thermal_refresh(version, monkeypatch):
+    monkeypatch.setattr(wb_rt13, "monotonic", lambda: 1000)
+    profile = PROFILES["sim-wb05rt13-v" + version]
+    key = b"0123456789abcdef"
+    device = EmulatedDevice(
+        "office", MAC, "Emulator Office", "10001", key,
+        profile, dict(profile.initial_state), last_step=1000,
+    )
+    gcm = version == "1.45"
+
+    def exchange(inner):
+        outer = {
+            "t": "pack", "i": 0, "uid": 42,
+            "cid": "app", "tcid": MAC,
+        }
+        reply, = profile.handler.handle(
+            device, json.loads(packet(outer, inner, key, gcm=gcm))
+        )
+        return unpack(encode_reply(reply), key, gcm=gcm)[1]
+
+    for requested, stored in ((511, 511), (-1, 65535)):
+        acknowledgement = exchange({
+            "t": "cmd", "opt": ["TemSen"], "p": [requested],
+        })
+        assert acknowledgement["p"] == [requested]
+        assert exchange({
+            "t": "status", "cols": ["TemSen"],
+        })["dat"] == [stored]
+
+    device.advance(1001)
+    assert exchange({
+        "t": "status", "cols": ["TemSen"],
+    })["dat"] == [66]
 
 
 @pytest.mark.parametrize("version,source_sha256", CASES, ids=[row[0] for row in CASES])
@@ -198,7 +238,11 @@ async def test_new_rt13_actual_cli_fields_operations_numeric_tokens_and_restart(
             peer.quiet(peer.wire({"t": "Ackup"}))
         assert peer.status(["Pow", "SetTem"]) == [8, 1]
         for offset in range(0, len(raw_names), 8):
-            selected = raw_names[offset:offset + 8]
+            # The live thermal ticker owns TemSen; test its raw cache separately.
+            selected = [
+                name for name in raw_names[offset:offset + 8]
+                if name != "TemSen"
+            ]
             for requested, stored in ((511, 511), (-1, 65535)):
                 values = [requested] * len(selected)
                 assert peer.exchange({"t": "cmd", "opt": selected, "p": values}) == {
