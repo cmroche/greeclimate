@@ -189,6 +189,20 @@ async def test_known_ac_mid_evidence_precedes_hid_and_survives_hid_loss(info):
     assert unit.capabilities == before
 
 
+@pytest.mark.parametrize("mid", ["11002", "11012"])
+async def test_wifi_module_ac_mids_poll_full_climate_state(info, mid):
+    # Verified on WB05MARJ (11002) and WB04A (11012) modules, which answer every column.
+    info.mid = mid
+    unit = create_device(info)
+    assert isinstance(unit, AirConditionerDevice)
+    capabilities = unit.capabilities
+    for name in ("current_temperature", "fresh_air", "xfan", "anion", "sleep", "light",
+                 "horizontal_swing", "vertical_swing", "steady_heat", "power_save"):
+        assert capabilities[name] is True
+    unit.handle_state_update(TemSen=59, TemUn=0, TemRec=0)
+    assert unit.current_temperature == 19
+
+
 async def test_known_dehumidifier_mid_does_not_invent_omitted_sensors(info):
     info.mid = "13805"
     unit = create_device(info)
