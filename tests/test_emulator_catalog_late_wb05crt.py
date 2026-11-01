@@ -668,7 +668,9 @@ def test_source_countdown_decimal_boundary_uses_inclusive_callback_count(
 
 
 
-def test_ubindok_queues_type6_source_report_and_retries_four_times():
+def test_ubindok_queues_type6_source_report_and_retries_four_times(monkeypatch):
+    # Integral retry deadlines keep elapsed seconds independent of host uptime.
+    monkeypatch.setattr(family, "monotonic", lambda: 999.9)
     queue = FIXTURE["lifecycle"]["raw_report_queue"]
     vectors = queue["synthetic_test_vectors"]
     address = "0x10016974"
