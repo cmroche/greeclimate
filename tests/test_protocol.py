@@ -9,6 +9,23 @@ from greeclimate._protocol import (
 )
 
 
+@pytest.mark.parametrize("pack", [None, [], "not-an-object"])
+def test_property_parser_rejects_non_object_packets(pack):
+    with pytest.raises(InvalidPacket):
+        parse_properties(pack, "dat")
+
+
+def test_property_parser_rejects_non_property_response():
+    with pytest.raises(InvalidPacket):
+        parse_properties({"t": "bindok", "key": "not-property-data"}, "bindok")
+
+
+@pytest.mark.parametrize("pack", [None, [], "not-an-object"])
+def test_discovery_parser_rejects_non_object_packets(pack):
+    with pytest.raises(InvalidPacket):
+        parse_discovery(pack, ("192.0.2.1", 7000))
+
+
 @pytest.mark.parametrize(
     "val, expected",
     [
