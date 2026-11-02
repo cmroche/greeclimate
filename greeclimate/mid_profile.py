@@ -279,6 +279,8 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Air conditioner.
     MidProfile("11002", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
+        "TemSen", "Air", "Blo", "Health", "SwhSlp", "SlpMod", "Lig", "SwingLfRig", "SwUpDn",
+        "StHt", "SvSt", "HeatCoolType",
     ), family="air_conditioner"),
     # Unknown device type.
     MidProfile("11005", (
@@ -501,8 +503,12 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("10011", ("SetTem", "Pow", "TemSen", "Mod")),
     # Unknown device type.
     MidProfile("11011", ("SetTem", "Pow", "TemSen", "Mod")),
-    # Unknown device type.
-    MidProfile("11012", ("SetTem", "Pow", "TemSen", "Mod")),
+    # Air conditioner.
+    MidProfile("11012", (
+        "Pow", "Mod", "TemUn", "SetTem", "TemRec", "TemSen", "WdSpd", "Air", "Blo", "Health",
+        "SwhSlp", "SlpMod", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt",
+        "HeatCoolType",
+    ), family="air_conditioner"),
     # Gateway.
     MidProfile("6049", ("Pow", "Mod", "SetTem", "TemBody")),
     # Gateway.
