@@ -34,7 +34,7 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001060368"></a><code>362001060368</code> | Unknown | Unknown | Yes |
 | <a id="362001060383"></a><code>362001060383</code> | Unknown | Unknown | Yes |
 | <a id="362001060384"></a><code>362001060384</code> | Unknown | Unknown | Yes |
-| <a id="362001060429"></a><code>362001060429</code> | Unknown | Unknown | Yes |
+| <a id="362001060429"></a><code>362001060429</code> | Unknown | Multiple | Yes |
 | <a id="362001060498"></a><code>362001060498</code> | Unknown | Unknown | Yes |
 | <a id="362001060499"></a><code>362001060499</code> | Unknown | Unknown | Yes |
 | <a id="362001060629"></a><code>362001060629</code> | Unknown | 809030 | Yes |
@@ -65,7 +65,7 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001061264"></a><code>362001061264</code> (filename only) | Unknown | Unknown | Yes |
 | <a id="362001061272"></a><code>362001061272</code> | Unknown | Unknown | Yes |
 | <a id="362001061321"></a><code>362001061321</code> | Unknown | Unknown | Yes |
-| <a id="362001061329"></a><code>362001061329</code> | Unknown | Unknown | Yes |
+| <a id="362001061329"></a><code>362001061329</code> | Unknown | Multiple | Yes |
 | <a id="362001061331"></a><code>362001061331</code> | Unknown | Unknown | Yes |
 | <a id="362001061359"></a><code>362001061359</code> | Unknown | Unknown | Yes |
 | <a id="362001061380"></a><code>362001061380</code> | Unknown | Unknown | Yes |
@@ -84,8 +84,8 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001061615"></a><code>362001061615</code> | Unknown | Unknown | Yes |
 | <a id="362001061646"></a><code>362001061646</code> (filename only) | Unknown | Unknown | Yes |
 | <a id="362001061649"></a><code>362001061649</code> | Unknown | 80241, 80242 (conditional) | Yes |
-| <a id="362001061665"></a><code>362001061665</code> | Gree GWH09AGA-K6DNA1A/I air conditioner; Toyotomi Reiko dehumidifier | 10001 (Gree); Unknown (Toyotomi) | Yes |
-| <a id="362001061704"></a><code>362001061704</code> | Unknown | Unknown | Yes |
+| <a id="362001061665"></a><code>362001061665</code> | Gree GWH09AGA-K6DNA1A/I air conditioner; Toyotomi Reiko dehumidifier | Multiple | Yes |
+| <a id="362001061704"></a><code>362001061704</code> | Unknown | Multiple | Yes |
 | <a id="362001061734"></a><code>362001061734</code> (filename only) | Unknown | Unknown | Yes |
 | <a id="362001061737"></a><code>362001061737</code> | Unknown | Unknown | Yes |
 | <a id="362001061820"></a><code>362001061820</code> | Unknown | Unknown | Yes |
@@ -109,8 +109,8 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001062126"></a><code>362001062126</code> | Unknown | Unknown | Yes |
 | <a id="362001062214"></a><code>362001062214</code> | Unknown | Unknown | Yes |
 | <a id="362001062233"></a><code>362001062233</code> | Unknown | 9100 | Yes |
-| <a id="362001062293"></a><code>362001062293</code> | Unknown | Unknown | Yes |
-| <a id="362001062295"></a><code>362001062295</code> | Unknown | Unknown | Yes |
+| <a id="362001062293"></a><code>362001062293</code> | Unknown | Multiple | Yes |
+| <a id="362001062295"></a><code>362001062295</code> | Unknown | Multiple | Yes |
 | <a id="362001062353"></a><code>362001062353</code> | Unknown | Unknown | Yes |
 | <a id="362001062557"></a><code>362001062557</code> | Unknown | Unknown | Yes |
 | <a id="362001062573"></a><code>362001062573</code> | Unknown | 80222 | Yes |
@@ -125,11 +125,11 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001062992"></a><code>362001062992</code> | Unknown | Unknown | Yes |
 | <a id="362001063012"></a><code>362001063012</code> | Unknown | 828503, 828901 (conditional) | Yes |
 | <a id="362001063014"></a><code>362001063014</code> | Unknown | Unknown | Yes |
-| <a id="362001063062"></a><code>362001063062</code> | Unknown | Unknown | Yes |
+| <a id="362001063062"></a><code>362001063062</code> | Unknown | Multiple | Yes |
 | <a id="362001063066"></a><code>362001063066</code> | Unknown | 80901 | Yes |
-| <a id="362001063081"></a><code>362001063081</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001063082"></a><code>362001063082</code> | Unknown | Unknown | Yes |
-| <a id="362001063084"></a><code>362001063084</code> (filename only) | Unknown | Unknown | Yes |
+| <a id="362001063081"></a><code>362001063081</code> (filename only) | Unknown | Multiple | Yes |
+| <a id="362001063082"></a><code>362001063082</code> | Unknown | Multiple | Yes |
+| <a id="362001063084"></a><code>362001063084</code> (filename only) | Unknown | Multiple | Yes |
 | <a id="362001063147"></a><code>362001063147</code> | Unknown | Unknown | Yes |
 | <a id="362001063149"></a><code>362001063149</code> | Gree U-Match GUD71PHS1/A-S (DC-inverter air conditioner) | Unknown | Yes |
 | <a id="362001063153"></a><code>362001063153</code> | Unknown | 828f00 (cloud-only) | No |
@@ -142,8 +142,8 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001063534"></a><code>362001063534</code> | Unknown | Unknown | Yes |
 | <a id="362001063794"></a><code>362001063794</code> | Gree U-Crown (air conditioner) | 10002 | Yes |
 | <a id="362001063795"></a><code>362001063795</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001063856"></a><code>362001063856</code> | Unknown | Unknown | Yes |
-| <a id="362001063903"></a><code>362001063903</code> | Unknown | Unknown | Yes |
+| <a id="362001063856"></a><code>362001063856</code> | Unknown | Multiple | Yes |
+| <a id="362001063903"></a><code>362001063903</code> | Unknown | Multiple | Yes |
 | <a id="362001063967"></a><code>362001063967</code> | Unknown | Unknown | Yes |
 | <a id="362001064182"></a><code>362001064182</code> | Unknown | Unknown | Yes |
 | <a id="362001064231"></a><code>362001064231</code> | Unknown | Unknown | Yes |
@@ -158,7 +158,7 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001064973"></a><code>362001064973</code> | Unknown | Unknown | Yes |
 | <a id="362001065016"></a><code>362001065016</code> | Unknown | Unknown | Yes |
 | <a id="362001065029"></a><code>362001065029</code> | Unknown | Unknown | Yes |
-| <a id="362001065130"></a><code>362001065130</code> | Unknown | Unknown | Yes |
+| <a id="362001065130"></a><code>362001065130</code> | Unknown | Multiple | Yes |
 | <a id="362001065223"></a><code>362001065223</code> | Unknown | Unknown | Yes |
 | <a id="362001065232"></a><code>362001065232</code> | Unknown | Unknown | Yes |
 | <a id="362001065278"></a><code>362001065278</code> (filename only) | Unknown | Unknown | Yes |
@@ -177,71 +177,71 @@ Example: `362001066763+U-W06A(P3)V6.04.bin`, reported for Sinclair air-to-water 
 | <a id="362001065568"></a><code>362001065568</code> (filename only) | Unknown | Unknown | Yes |
 | <a id="362001065586"></a><code>362001065586</code> | Unknown | Unknown | Yes |
 | <a id="362001065602"></a><code>362001065602</code> | Unknown | Unknown | Yes |
-| <a id="362001065634"></a><code>362001065634</code> | Unknown | 60 (V1.50), 6400 (V1.38) | Yes |
+| <a id="362001065634"></a><code>362001065634</code> | Unknown | Multiple | Yes |
 | <a id="362001065635"></a><code>362001065635</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001065701"></a><code>362001065701</code> | Unknown | Unknown | Yes |
+| <a id="362001065701"></a><code>362001065701</code> | Unknown | Multiple | Yes |
 | <a id="362001065734"></a><code>362001065734</code> | Unknown | Unknown | Yes |
 | <a id="362001065735"></a><code>362001065735</code> | Unknown | Unknown | Yes |
 | <a id="362001065736"></a><code>362001065736</code> | Gree Amber Nordic / Prestige GWH09YD-S6DBA1A (air-source heat pump) | Unknown | Yes |
-| <a id="362001065811"></a><code>362001065811</code> | Unknown | Unknown | Yes |
+| <a id="362001065811"></a><code>362001065811</code> | Unknown | Multiple | Yes |
 | <a id="362001065820"></a><code>362001065820</code> | Unknown | Unknown | Yes |
-| <a id="362001065867"></a><code>362001065867</code> | Unknown | Unknown | Yes |
+| <a id="362001065867"></a><code>362001065867</code> | Unknown | Multiple | Yes |
 | <a id="362001065909"></a><code>362001065909</code> | Unknown | Unknown | Yes |
 | <a id="362001065910"></a><code>362001065910</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001066012"></a><code>362001066012</code> | Unknown | Unknown | Yes |
+| <a id="362001066012"></a><code>362001066012</code> | Unknown | Multiple | Yes |
 | <a id="362001066061"></a><code>362001066061</code> | Unknown | Unknown | Yes |
-| <a id="362001066140"></a><code>362001066140</code> | Unknown | Unknown | Yes |
+| <a id="362001066140"></a><code>362001066140</code> | Unknown | Multiple | Yes |
 | <a id="362001066141"></a><code>362001066141</code> | Unknown | Unknown | Yes |
-| <a id="362001066188"></a><code>362001066188</code> (filename only) | Unknown | Unknown | Yes |
+| <a id="362001066188"></a><code>362001066188</code> (filename only) | Unknown | Multiple | Yes |
 | <a id="362001066221"></a><code>362001066221</code> | Unknown | Unknown | Yes |
 | <a id="362001066224"></a><code>362001066224</code> | Unknown | Unknown | Yes |
 | <a id="362001066240"></a><code>362001066240</code> | Unknown | Unknown | Yes |
 | <a id="362001066251"></a><code>362001066251</code> | Unknown | Unknown | Yes |
-| <a id="362001066300"></a><code>362001066300</code> | Unknown | Unknown | <= 3.05 |
-| <a id="362001066308"></a><code>362001066308</code> | Unknown | Unknown | Yes |
+| <a id="362001066300"></a><code>362001066300</code> | Unknown | Multiple | <= 3.05 |
+| <a id="362001066308"></a><code>362001066308</code> | Unknown | Multiple | Yes |
 | <a id="362001066312"></a><code>362001066312</code> | Unknown | Unknown | Yes |
 | <a id="362001066326"></a><code>362001066326</code> | Unknown | 60 | Yes |
-| <a id="362001066352"></a><code>362001066352</code> | Unknown | Unknown | Yes |
+| <a id="362001066352"></a><code>362001066352</code> | Unknown | Multiple | Yes |
 | <a id="362001066368"></a><code>362001066368</code> | Unknown | Unknown | Yes |
 | <a id="362001066369"></a><code>362001066369</code> | Unknown | Unknown | Yes |
 | <a id="362001066380"></a><code>362001066380</code> | Unknown | 60 | Yes |
-| <a id="362001066427"></a><code>362001066427</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001066428"></a><code>362001066428</code> | Unknown | Unknown | Yes |
+| <a id="362001066427"></a><code>362001066427</code> (filename only) | Unknown | Multiple | Yes |
+| <a id="362001066428"></a><code>362001066428</code> | Unknown | Multiple | Yes |
 | <a id="362001066437"></a><code>362001066437</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001066481"></a><code>362001066481</code> | Unknown | Unknown | Yes |
+| <a id="362001066481"></a><code>362001066481</code> | Unknown | Multiple | Yes |
 | <a id="362001066511"></a><code>362001066511</code> | Unknown | Unknown | Yes |
-| <a id="362001066515"></a><code>362001066515</code> | Unknown | Unknown | Yes |
+| <a id="362001066515"></a><code>362001066515</code> | Unknown | Multiple | Yes |
 | <a id="362001066542"></a><code>362001066542</code> | Unknown | 80300 | Yes |
 | <a id="362001066543"></a><code>362001066543</code> | Unknown | Unknown | Yes |
 | <a id="362001066657"></a><code>362001066657</code> (filename only) | Unknown | Unknown | Yes |
 | <a id="362001066763"></a><code>362001066763</code> | Sinclair SMH-100IRB; Sinclair SMH-60IRB; Gree Versati III monobloc (air-to-water heat pumps) | 9300, 9301, 9302 (conditional) | Yes |
-| <a id="362001066962"></a><code>362001066962</code> | Unknown | Unknown | Yes |
+| <a id="362001066962"></a><code>362001066962</code> | Unknown | Multiple | Yes |
 | <a id="362001066976"></a><code>362001066976</code> (filename only) | Unknown | Unknown | Yes |
 | <a id="362001067012"></a><code>362001067012</code> | Gree VRF GMV-224WL/C-X; Gree GCloud Gen 2 central-AC controller | 60 | Yes |
 | <a id="362001067047"></a><code>362001067047</code> | Unknown | Unknown | Yes |
 | <a id="362001067081"></a><code>362001067081</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001067088"></a><code>362001067088</code> | Unknown | Unknown | Yes |
-| <a id="362001067139"></a><code>362001067139</code> | Unknown | Unknown | Yes |
+| <a id="362001067088"></a><code>362001067088</code> | Unknown | Multiple | Yes |
+| <a id="362001067139"></a><code>362001067139</code> | Unknown | Multiple | Yes |
 | <a id="362001067274"></a><code>362001067274</code> | Unknown | Unknown | Yes |
 | <a id="362001067276"></a><code>362001067276</code> | Unknown | Unknown | Yes |
 | <a id="362001067277"></a><code>362001067277</code> (filename only) | Unknown | Unknown | Yes |
 | <a id="362001067405"></a><code>362001067405</code> | Unknown | Unknown | Yes |
-| <a id="362001067419"></a><code>362001067419</code> | Unknown | Unknown | Yes |
-| <a id="362001067422"></a><code>362001067422</code> | Unknown | Unknown | Yes |
+| <a id="362001067419"></a><code>362001067419</code> | Unknown | Multiple | Yes |
+| <a id="362001067422"></a><code>362001067422</code> | Unknown | Multiple | Yes |
 | <a id="362001067425"></a><code>362001067425</code> | Unknown | Unknown | Yes |
-| <a id="362001067427"></a><code>362001067427</code> | Unknown | Unknown | Yes |
+| <a id="362001067427"></a><code>362001067427</code> | Unknown | Multiple | Yes |
 | <a id="362001067496"></a><code>362001067496</code> | Unknown | Unknown | Yes |
 | <a id="362001067522"></a><code>362001067522</code> | Unknown | Unknown | Yes |
 | <a id="362001067524"></a><code>362001067524</code> | Unknown | 60 | Yes |
 | <a id="362001067538"></a><code>362001067538</code> (filename only) | Unknown | Unknown | Yes |
-| <a id="362001067540"></a><code>362001067540</code> | Unknown | Unknown | <= 2.06, except 2.04 |
-| <a id="362001067541"></a><code>362001067541</code> | Gree GWH12ATCXB-D6DNA4B/I; QuebecVair (air conditioners) | 10001 | <= 2.04 |
+| <a id="362001067540"></a><code>362001067540</code> | Unknown | Multiple | <= 2.06, except 2.04 |
+| <a id="362001067541"></a><code>362001067541</code> | Gree GWH12ATCXB-D6DNA4B/I; QuebecVair (air conditioners) | Multiple | <= 2.04 |
 | <a id="362001067592"></a><code>362001067592</code> | Gree ceiling-mounted air conditioner | 3018 | Yes |
 | <a id="362001067668"></a><code>362001067668</code> | Unknown | Unknown | Yes |
 | <a id="362001067802"></a><code>362001067802</code> | Unknown | Unknown | Yes |
 | <a id="362001067919"></a><code>362001067919</code> | Unknown | Unknown | Yes |
 | <a id="362001067928"></a><code>362001067928</code> | Unknown | Unknown | Yes |
-| <a id="362001068254"></a><code>362001068254</code> | Gree Airy (GWH09AVCXB-K6DNA1B/I; GWH12AVCXD-K6DNA1A); Gree Clivia; Toyotomi (air conditioners) | 10001 | <= 2.11 |
+| <a id="362001068254"></a><code>362001068254</code> | Gree Airy (GWH09AVCXB-K6DNA1B/I; GWH12AVCXD-K6DNA1A); Gree Clivia; Toyotomi (air conditioners) | Multiple | <= 2.11 |
 | <a id="362001068295"></a><code>362001068295</code> | Unknown | Unknown | <= 2.02 |
 | <a id="362001068380"></a><code>362001068380</code> | Unknown | Unknown | Yes |
 | <a id="362001068411"></a><code>362001068411</code> | Gree Airy; Gree G-Time (air conditioners) | 10001 | No |
