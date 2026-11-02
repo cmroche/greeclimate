@@ -21,11 +21,12 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001000748", 40),  # Gree Amber Standard
     DeviceProfile("362001000762", 40),  # Gree Vireo+ (VIR12HP115V1B model number tentative)
     DeviceProfile("362001000835", 0),
+    DeviceProfile("362001000968", 0),
     DeviceProfile("362001003795", 40),
     DeviceProfile("362001060200", 0),
     DeviceProfile("362001060297", 0),
     DeviceProfile("362001060498", 0),
-    DeviceProfile("362001060499", 0),
+    DeviceProfile("362001060499", 0, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001060990", 40),
     DeviceProfile("362001060991", 40),
     DeviceProfile("362001061023", 40),
@@ -35,41 +36,43 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001061359", 40),
     DeviceProfile("362001061380", 0),
     DeviceProfile("362001061381", 40, relearn_temperature_offset=True),
-    DeviceProfile("362001061383", 40, relearn_temperature_offset=True),
+    DeviceProfile("362001061383", 40, relearn_temperature_offset=True, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001061462", 40),
-    DeviceProfile("362001061665", 40),  # Gree GWH09AGA-K6DNA1A/I
+    DeviceProfile("362001061665", 40, buzzer_properties=("Buzzer_ON_OFF",)),  # Gree GWH09AGA-K6DNA1A/I
     DeviceProfile("362001062025", 40),
     DeviceProfile("362001062107", 40),
     DeviceProfile("362001062214", 40),
     DeviceProfile("362001062293", 40),
-    DeviceProfile("362001062295", 40),
-    DeviceProfile("362001062557", 40, relearn_temperature_offset=True),
+    DeviceProfile("362001062295", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001062557", 40, relearn_temperature_offset=True, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001062637", 40),
-    DeviceProfile("362001062842", 40),
+    DeviceProfile("362001062842", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001063525", 40),
     DeviceProfile("362001063794", 40),
-    DeviceProfile("362001063903", 40),
-    DeviceProfile("362001063967", 40),
-    DeviceProfile("362001064270", 40, relearn_temperature_offset=True),
+    DeviceProfile("362001063903", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001063967", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001064270", 40, relearn_temperature_offset=True, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001064304", 40),
-    DeviceProfile("362001064973", 40, relearn_temperature_offset=True),
-    DeviceProfile("362001065016", 40),
-    DeviceProfile("362001065029", 40),
-    DeviceProfile("362001065130", 40),
-    DeviceProfile("362001065279", 40),  # Gree Bora A5 GWH09AAB-K6DNA5A/I; Lomo Nordic (archive report); Heiwa Essential ZEN+; Cooper & Hunter
+    DeviceProfile("362001064973", 40, relearn_temperature_offset=True, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001065016", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001065029", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001065130", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001065279", 40, buzzer_properties=("Buzzer_ON_OFF",)),  # Gree Bora A5 GWH09AAB-K6DNA5A/I; Lomo Nordic (archive report); Heiwa Essential ZEN+; Cooper & Hunter
     DeviceProfile("362001065280", 40),
     DeviceProfile("362001065517", 40),
     DeviceProfile("362001065602", 0),
+    DeviceProfile("362001065634", None, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065701", 40),
     DeviceProfile("362001065734", 40),
     DeviceProfile("362001065735", 40),
     DeviceProfile("362001065736", 40),  # Gree Amber Nordic / Prestige (GWH09YD-S6DBA2A outdoor; S6DBA1A indoor)
     DeviceProfile("362001066140", 40),
     DeviceProfile("362001066300", 40),
-    DeviceProfile("362001066308", 40),
+    DeviceProfile("362001066308", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001066511", 40),
     DeviceProfile("362001066962", 40),
-    DeviceProfile("362001067419", 40),
-    DeviceProfile("362001067422", 40),
+    DeviceProfile("362001067419", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile("362001067422", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001067427", 40),
     DeviceProfile("362001067540", 40),
     DeviceProfile("362001067541", 40),  # Gree GWH12ATCXB-D6DNA4B/I (GWHD(24)ND6MO outdoor)
@@ -77,31 +80,8 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001068254", 40),  # Gree Airy (GWH09AVCXB-K6DNA1B/I, GWH12AVCXD-K6DNA1A); Gree Clivia
     DeviceProfile("362001068295", 40),
     DeviceProfile("362001068411", 40),
-    DeviceProfile("362001068458", 40),
+    DeviceProfile("362001068458", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001071519", 40),
-    # Buzzer namespaces are known only for these exact inspected HIDs.
-    DeviceProfile(
-        "362001064973", 40, relearn_temperature_offset=True,
-        buzzer_properties=("Buzzer_ON_OFF",),
-        exact_hid="362001064973+U-W04NV17.bin",
-    ),
-    DeviceProfile(
-        "362001064973", 40, relearn_temperature_offset=True,
-        buzzer_properties=("Buzzer_ON_OFF",),
-        exact_hid="362001064973+U-W04NV19.bin",
-    ),
-    DeviceProfile(
-        "362001065016", 40, buzzer_properties=("Buzzer_ON_OFF",),
-        exact_hid="362001065016+U-W04HMV1.05.bin",
-    ),
-    DeviceProfile(
-        "362001065634", None, buzzer_properties=("Buzzer_ON_OFF",),
-        exact_hid="362001065634+U-WB04BRT13V1.50.bin",
-    ),
-    DeviceProfile(
-        "362001066763", None, buzzer_properties=(),
-        exact_hid="362001066763+U-W06A(P3)V6.04.bin",
-    ),
 )
 
 

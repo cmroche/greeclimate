@@ -763,6 +763,8 @@ async def test_update_current_temp_bad(cipher, send):
         ("362001061383+U-BL3332_JDV18.bin", 25, 25, "18"),
         ("362001060498+U-CS845B(MTK2)V6.bin", 45, 45, "6"),
         ("362001061060+U-W04HV3.55.bin", 25, -15, "3.55"),
+        ("362001000968+U-CS532BJ(MTK)V0.0.bin", 45, 45, "0.0"),
+        ("362001063525+U-G06V1.2.bin", 25, -15, "1.2"),
     ],
 )
 async def test_temperature_code_defaults_and_literal_identity(hid, sensor, expected, version):
@@ -1332,30 +1334,37 @@ def test_device_key_set_get():
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("hid,properties", [
-    ("362001064973+U-W04NV17.bin", ("Buzzer_ON_OFF",)),
-    ("362001064973+U-W04NV19.bin", ("Buzzer_ON_OFF",)),
-    ("362001065016+U-W04HMV1.05.bin", ("Buzzer_ON_OFF",)),
-    ("362001065634+U-WB04BRT13V1.50.bin", ("Buzzer_ON_OFF",)),
-    ("362001066763+U-W06A(P3)V6.04.bin", ()),
-    ("362001000762+U-CS532AE(LT)V3.33.bin", None),
-    ("362001064973+U-W04NV20.bin", None),
-    ("362001066763+U-W06A(P3)V6.05.bin", None),
-    ("362001066763+U-WB06A(P3)V6.04.bin", None),
-    ("999999999999+U-SYNTHETICV1.bin", None),
-    ("", None),
-    ("malformed", None),
-    (None, None),
+@pytest.mark.parametrize("firmware_code", [
+    "362001060499",
+    "362001061383",
+    "362001061665",
+    "362001062295",
+    "362001062557",
+    "362001062842",
+    "362001063903",
+    "362001063967",
+    "362001064270",
+    "362001064973",
+    "362001065016",
+    "362001065029",
+    "362001065130",
+    "362001065279",
+    "362001065634",
+    "362001066308",
+    "362001067419",
+    "362001067422",
+    "362001068458",
 ])
 @pytest.mark.parametrize("enabled", [False, True])
-async def test_buzzer_fields_follow_exact_firmware_on_every_command(hid, properties, enabled, cipher, send):
+async def test_codewide_buzzer_properties_are_sent_on_every_command(
+    firmware_code, enabled, cipher, send
+):
     device = await generate_device_mock_async()
+    hid = f"{firmware_code}+U-OTHER(MOD)V999.bin"
     device.handle_state_update(hid=hid)
     device.buzzer = enabled
     assert send.call_count == 0
-    expected = {}
-    if not enabled and properties and "Buzzer_ON_OFF" in properties:
-        expected["Buzzer_ON_OFF"] = 1
+    expected = {} if enabled else {"Buzzer_ON_OFF": 1}
 
     for index, power in enumerate([True, False], start=1):
         device.power = power
@@ -1365,6 +1374,29 @@ async def test_buzzer_fields_follow_exact_firmware_on_every_command(hid, propert
         assert dict(zip(pack["opt"], pack["p"])) == {"Pow": int(power), **expected}
         assert send.call_count == index
         assert device.buzzer is enabled
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("hid", [
+    "362001000762+U-CS532AE(LT)V3.33.bin",
+    "362001066763+U-W06A(P3)V6.04.bin",
+    "999999999999+U-SYNTHETICV1.bin",
+    "",
+    "malformed",
+    None,
+])
+@pytest.mark.parametrize("enabled", [False, True])
+async def test_unknown_and_default_profiles_do_not_send_buzzer_commands(
+    hid, enabled, cipher, send
+):
+    device = await generate_device_mock_async()
+    device.handle_state_update(hid=hid)
+    device.buzzer = enabled
+    device.power = True
+    await device.push_state_update()
+    pack = send.call_args.args[0]["pack"]
+    assert pack["opt"] == ["Pow"]
+    assert pack["p"] == [1]
 
 
 @pytest.mark.asyncio

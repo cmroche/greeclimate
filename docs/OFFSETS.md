@@ -35,11 +35,13 @@ Results apply to the inspected sensor path, not every device sharing its code or
 
 ## Trait selection
 
-[`device_profile.py`](../greeclimate/device_profile.py) defines **61 firmware-code fallbacks**: seven offset-0, 49 offset-40, and five offset-40 bootstrap defaults with continuous re-learning. It retains all 14 original defaults. Every production entry has `min_version=None`, so it applies across revisions/module tokens, including uninspected builds. This extrapolates confirmed and standard-UART findings; it is not further calibration.
+[`device_profile.py`](../greeclimate/device_profile.py) defines **64 firmware-code fallbacks**: eight offset-0, 50 fixed offset-40, five offset-40 bootstrap defaults with continuous re-learning, and one buzzer-only profile without a numeric offset. It retains all 14 original offset defaults. Every production entry has `min_version=None` and `exact_hid=None`, so it applies across revisions/module tokens, including uninspected builds. This extrapolates confirmed and standard-UART findings; it is not further calibration.
+
+Nineteen firmware-code profiles opt in to the observed `Buzzer_ON_OFF` command name; all other known, default and unmatched profiles add no buzzer commands. This property-name support does not establish physical or acoustic behavior.
 
 The frozen, direct-submodule API is:
 
-- `DeviceProfile(firmware_code, temperature_offset, min_version=None, relearn_temperature_offset=False)`
+- `DeviceProfile(firmware_code, temperature_offset, min_version=None, relearn_temperature_offset=False, buzzer_properties=None, exact_hid=None)`
 - `match_device_profile(hid)`
 
 The old MID, module, literal-version and settings fields and two-argument matcher are removed, with no aliases or package-root exports.
@@ -52,7 +54,7 @@ Version comparison uses only the HID's numeric dotted version: `1.10 > 1.9`, `1.
 
 Registry identity limits:
 
-- Excluded: route-only gateway `362001068423`, fallback/default HID `362001000968`, unconfirmed primary dispatch `362001061615`, cellular/initialization identity `362001063525`, and mislabelled download codes `362001061217`, `362001061646`, `362001064307`.
+- Newly included traits: offset 0 for `362001000968` and offset 40 for `362001063525`. Excluded: route-only gateway `362001068423`, unconfirmed primary dispatch `362001061615`, and mislabelled download codes `362001061217`, `362001061646`, `362001064307`.
 - RT13 V1.54 uses recovered primary code `362001065279`; RT11 V1.44 retains `362001065280`. W05K V1.05/V1.07 agree under `362001061234`; both WB05UR V2.04 images agree under `362001068295`.
 - A mislabelled QCOM download does not justify a `362001064307` profile. Debug/burn identifiers need not be generated HIDs. API/discovery versions do not replace the reported HID, and there is no universal MID-to-offset mapping.
 

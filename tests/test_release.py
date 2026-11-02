@@ -32,6 +32,40 @@ def validate(repo, tag):
     )
 
 
+def maintenance_release(repo, version, *, merged):
+    git(repo, "update-ref", "refs/remotes/origin/3.x", "HEAD")
+    git(repo, "checkout", "-b", "3.x")
+    (repo / "setup.cfg").write_text(f"[metadata]\nversion = {version}\n")
+    git(repo, "add", "setup.cfg")
+    git(repo, "commit", "-m", "Maintenance release fixture")
+    if merged:
+        git(repo, "update-ref", "refs/remotes/origin/3.x", "HEAD")
+    tag = f"v{version}"
+    git(repo, "tag", tag)
+    return tag
+
+
+def test_release_tag_on_maintenance_only_commit(release_repo):
+    tag = maintenance_release(release_repo, "3.6.1", merged=True)
+    result = validate(release_repo, tag)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip() == git(release_repo, "rev-parse", f"{tag}^{{commit}}")
+
+
+def test_release_tag_from_wrong_major_is_rejected_on_maintenance(release_repo):
+    tag = maintenance_release(release_repo, "4.0.0", merged=True)
+    result = validate(release_repo, tag)
+    assert result.returncode != 0
+    assert result.stdout == ""
+
+
+def test_unmerged_maintenance_release_commit_is_rejected(release_repo):
+    tag = maintenance_release(release_repo, "3.6.1", merged=False)
+    result = validate(release_repo, tag)
+    assert result.returncode != 0
+    assert result.stdout == ""
+
+
 @pytest.mark.parametrize("tag_options", [[], ["-a", "-m", "Release"]])
 def test_release_tag_resolves_to_merged_commit(release_repo, tag_options):
     git(release_repo, "tag", *tag_options, "v1.2.3")
