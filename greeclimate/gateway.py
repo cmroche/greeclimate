@@ -8,6 +8,14 @@ import asyncio
 import re
 from typing import Any, Union
 
+from greeclimate._protocol import (
+    InvalidPacket,
+    build_child_command_request,
+    build_child_status_request,
+    build_inventory_request,
+    parse_inventory_page,
+    validate_inventory_page_bounds,
+)
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import Device, _property_name
 from greeclimate.device_profile import match_device_profile
@@ -225,8 +233,13 @@ class GatewayDevice(Device):
                 self._page_offset = offset
                 self._inventory_serial += 1
                 self._page_uid = self._inventory_serial
-                payload = self._generate_payload(Commands.SUBDEV, self.device_info, {"i": offset})
-                payload["uid"] = self._page_uid
+                payload = build_inventory_request(
+                    self._generate_payload,
+                    Commands.SUBDEV,
+                    self.device_info,
+                    offset,
+                    self._page_uid,
+                )
                 try:
                     page = await asyncio.wait_for(self._send_page(payload, waiter), self._bind_timeout)
                 except asyncio.TimeoutError as exc:
@@ -270,16 +283,15 @@ class GatewayDevice(Device):
             or envelope["uid"] != self._page_uid
         ):
             return
-        if (
-            type(pack.get("r")) is not int or type(pack.get("c")) is not int
-            or type(pack.get("i")) is not int or not isinstance(pack.get("list"), list)
-            or pack["r"] != 200 or pack["i"] != self._page_offset
-        ):
+        page = parse_inventory_page(pack)
+        if page is None or page["i"] != self._page_offset:
             return
-        if not 0 <= pack["c"] <= 255 or len(pack["list"]) > 5:
-            _fail_waiter(waiter, ValueError("Invalid gateway inventory count or page size"))
+        try:
+            validate_inventory_page_bounds(page)
+        except InvalidPacket as exc:
+            _fail_waiter(waiter, exc)
             return
-        waiter.set_result(pack)
+        waiter.set_result(page)
 
     def _accept_child(self, record) -> None:
         if not isinstance(record, dict):
@@ -419,19 +431,23 @@ class GatewayChildDevice(Device):
             raise DeviceNotBoundError
 
     def create_status_message(self, device_info: DeviceInfo, *args):
-        return self.gateway._generate_payload(
-            Commands.STATUS, self.gateway.device_info,
-            {"mac": _canonical_mac(self.device_info.mac), "cols": list(args)},
+        return build_child_status_request(
+            self.gateway._generate_payload,
+            Commands.STATUS,
+            self.gateway.device_info,
+            self.device_info.mac,
+            args,
         )
 
     def create_command_message(self, device_info: DeviceInfo, **kwargs):
-        payload = self.gateway._generate_payload(
-            Commands.CMD, self.gateway.device_info,
-            {"sub": _canonical_mac(self.device_info.mac), "opt": list(kwargs), "p": list(kwargs.values())},
+        return build_child_command_request(
+            self.gateway._generate_payload,
+            Commands.CMD,
+            self.gateway.device_info,
+            self.device_info.mac,
+            kwargs,
+            self.gateway._dialect,
         )
-        if self.gateway._dialect == "commercial":
-            payload["pack"].pop("mac")
-        return payload
 
     async def send(self, obj, addr=None, cipher=None) -> None:
         if self._closed or self.gateway._closed:

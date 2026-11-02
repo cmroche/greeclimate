@@ -6,8 +6,15 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, Tuple, Union
 
+from greeclimate._protocol import (
+    build_bind_request,
+    build_command_request,
+    build_envelope,
+    build_status_request,
+    parse_properties,
+)
 from greeclimate.cipher import CipherBase
-from greeclimate.deviceinfo import DeviceInfo, _canonical_mac
+from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.exceptions import DeviceNotBoundError
 
 NETWORK_TIMEOUT = 10
@@ -261,26 +268,7 @@ class DeviceProtocol2(DeviceProtocolBase2):
             resp = resp.casefold()
             handler = handlers.get(resp, self.handle_unknown_packet)
             if resp in (Response.DATA.value, Response.RESULT.value):
-                if resp == Response.DATA.value:
-                    columns, values = pack.get("cols"), pack.get("dat")
-                else:
-                    columns = pack.get("opt")
-                    values = pack.get("val")
-                    if values is not None and not isinstance(values, list):
-                        raise ValueError("RESULT val is not a list")
-                    values = values or pack.get("p", [])
-                if (
-                    not isinstance(columns, list)
-                    or not isinstance(values, list)
-                    or len(columns) != len(values)
-                    # Property names become keyword arguments to a bound handler.
-                    or any(
-                        not isinstance(name, str) or not name or name == "self"
-                        for name in columns
-                    )
-                ):
-                    raise ValueError("Invalid response property arrays")
-                param = [dict(zip(columns, values))]
+                param = [parse_properties(pack, resp)]
             else:
                 param = params.get(resp, lambda o, a: (o, a))(obj, addr)
         except ValueError as e:
@@ -323,29 +311,17 @@ class DeviceProtocol2(DeviceProtocolBase2):
         """ Implement this function to handle device state updates. """
         pass
 
-    def _generate_payload(self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]) -> Dict[str, Any]:
-        mac = _canonical_mac(device_info.mac)
-        payload = {
-            "cid": "app",
-            "i": 1 if command in [Commands.BIND, Commands.SCAN] else 0,
-            "t": Commands.PACK.value if data is not None else command.value,
-            "uid": 0,
-            "tcid": mac
-        }
-        if data is not None:
-            payload["pack"] = {
-                "t": command.value,
-                "mac": mac
-            }
-            payload["pack"].update(data)
-        return payload
+    def _generate_payload(
+        self, command: Commands, device_info: DeviceInfo, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        bind_or_scan = command in (Commands.BIND, Commands.SCAN)
+        return build_envelope(command, device_info, data, bind_or_scan)
 
     def create_bind_message(self, device_info: DeviceInfo) -> Dict[str, Any]:
-        return self._generate_payload(Commands.BIND, device_info, {"uid": 0})
+        return build_bind_request(self._generate_payload, Commands.BIND, device_info)
 
     def create_status_message(self, device_info: DeviceInfo, *args) -> Dict[str, Any]:
-        return self._generate_payload(Commands.STATUS, device_info, {"cols": list(args)})
+        return build_status_request(self._generate_payload, Commands.STATUS, device_info, args)
 
     def create_command_message(self, device_info: DeviceInfo, **kwargs) -> Dict[str, Any]:
-        return self._generate_payload(Commands.CMD, device_info,
-                                      {"opt": list(kwargs.keys()), "p": list(kwargs.values())})
+        return build_command_request(self._generate_payload, Commands.CMD, device_info, kwargs)
