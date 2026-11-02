@@ -1,3 +1,10 @@
+## [3.6.1](https://github.com/cmroche/greeclimate/compare/v3.6.0...v3.6.1) (2026-11-02)
+
+
+### Bug Fixes
+
+* backport supported MID and device profiles to 3.x ([b9ef2bc](https://github.com/cmroche/greeclimate/commit/b9ef2bcf416679a5c3e4bfb88290b100c96d4bf9))
+
 # [3.6.0](https://github.com/cmroche/greeclimate/compare/v3.5.3...v3.6.0) (2026-10-23)
 
 
