@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/cmroche/greeclimate/compare/v4.2.0...v4.2.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* poll full climate state for MID 11002 and 11012 air conditioners ([#238](https://github.com/cmroche/greeclimate/issues/238)) ([e9b8cc8](https://github.com/cmroche/greeclimate/commit/e9b8cc829bbb2248e7d07bd9c81a9e23aa2feae8))
+
 # [4.2.0](https://github.com/cmroche/greeclimate/compare/v4.1.0...v4.2.0) (2026-10-29)
 
 
