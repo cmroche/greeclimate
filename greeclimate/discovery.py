@@ -6,6 +6,7 @@ from asyncio import Task
 from asyncio.events import AbstractEventLoop
 from ipaddress import IPv4Address, IPv4Interface
 
+from greeclimate._protocol import InvalidPacket, parse_discovery
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.deviceinfo import DeviceInfo, _canonical_mac
 from greeclimate.network import BroadcastListenerProtocol, IPAddr
@@ -159,28 +160,13 @@ class Discovery(BroadcastListenerProtocol, Listener, Taskable):
         if not isinstance(pack, dict):
             _LOGGER.debug("Ignoring discovery response without dictionary pack")
             return
-        identity = pack.get("mac")
-        if identity is None or identity == "":
-            identity = pack.get("cid")
-        mac = _canonical_mac(identity)
-        if mac is None:
+        # Keep the validated wire spelling as the public identity.
+        try:
+            device_info = parse_discovery(pack, addr)
+        except InvalidPacket:
             _LOGGER.debug("Ignoring discovery response without usable identity")
             return
-
-        # Public identity keeps the validated wire spelling; protocol and
-        # dedup code canonicalize independently.
-        device = (
-            addr[0],
-            addr[1],
-            identity,
-            pack.get("name"),
-            pack.get("brand"),
-            pack.get("model"),
-            pack.get("ver"),
-            pack.get("mid"),
-        )
-
-        self._create_task(self.device_found(DeviceInfo(*device)))
+        self._create_task(self.device_found(device_info))
 
     # Discovery
     async def scan(
