@@ -1,3 +1,10 @@
+## [3.6.2](https://github.com/cmroche/greeclimate/compare/v3.6.1...v3.6.2) (2026-11-04)
+
+
+### Bug Fixes
+
+* refresh MID 10001 light and xfan states ([#245](https://github.com/cmroche/greeclimate/issues/245)) ([53d94a7](https://github.com/cmroche/greeclimate/commit/53d94a7b333725db60ae413a25efbba50de1aae0))
+
 ## [3.6.1](https://github.com/cmroche/greeclimate/compare/v3.6.0...v3.6.1) (2026-11-02)
 
 
