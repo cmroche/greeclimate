@@ -21,6 +21,39 @@ from tests.test_emulator import peer_packet
 
 
 @pytest.mark.asyncio
+async def test_issue_243_mid_10001_switches_refresh_without_toggling():
+    from tests.test_device import recovery_negotiate
+
+    async with udp_peer() as (peer, queue):
+        host, port = peer.get_extra_info("sockname")
+        device = AirConditionerDevice(DeviceInfo(
+            host, port, "020000000001", "issue243", mid="10001",
+        ))
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        state = {
+            "hid": "362001065280+U-WB05RT11V1.44.bin",
+            "Lig": 1, "Blo": 0, "Quiet": 2,
+        }
+        try:
+            addr = await recovery_negotiate(device, peer, queue)
+            for expected in ((True, False, 2), (False, True, 0)):
+                request, _ = await recovery_receive(queue, device.device_cipher)
+                reply = {name: state[name] for name in request["cols"] if name in state}
+                peer.sendto(recovery_packet({
+                    "t": "dat", "cols": list(reply), "dat": list(reply.values()),
+                }, device.device_cipher), addr)
+                await asyncio.wait_for(events.get(), 2)
+                assert (device.light, device.xfan, device.quiet) == expected
+                if expected[0]:
+                    state.update(Lig=0, Blo=1, Quiet=0)
+                    await device.update_state()
+        finally:
+            device.close()
+            await asyncio.wait_for(device._transport_closed.wait(), 2)
+
+
+@pytest.mark.asyncio
 async def test_issue_69_encoded_40_is_zero_celsius():
     device = AirConditionerDevice(DeviceInfo("127.0.0.1", 7000, "000000000001", "issue69"))
     device.handle_state_update(TemSen=40, TemUn=0, TemRec=0)
