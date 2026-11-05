@@ -119,20 +119,20 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("3018", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr",
-        "Blo",
+        "Blo", "Air",
     )),
     # U-Match air conditioner.
     MidProfile("3019", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr", "hid", "GoOut", "LowDeHumi",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     )),
     # U-Match air conditioner.
     MidProfile("3027", (
         "Mod", "SetDeciTem", "WdSpd", "MSysStatus", "TemUn", "FClRes", "CoolSvStTemMinD",
         "HeatSvStTemMaxD", "GetEr", "InHumi", "ScheEnable", "HoldSetTemp", "InTem", "ERVSw",
         "HumiditySet", "ModelType", "HumidiSw", "ControlMod", "InstallerName", "InstallerTel",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     )),
     # U-Match air conditioner.
     MidProfile("3062", (
@@ -142,7 +142,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Commercial air conditioner.
     MidProfile("4005", (
         "Pow", "Mod", "SetTem", "TemRec", "TemUn", "RemoteLock", "WdSpd", "Quiet",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     )),
     # Zone controller.
     MidProfile("5000", (
@@ -212,13 +212,13 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("10001", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur", "TemSen", "hid",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     )),
     # Air conditioner.
     MidProfile("10002", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name", "Add0.5",
         "ModelType", "TemSen", "WdSpd", "Quiet", "Tur",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     )),
     # Air conditioner.
     MidProfile("10007", (
@@ -233,7 +233,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Air conditioner.
     MidProfile("11001", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     )),
     # Air conditioner.
     MidProfile("11002", (
@@ -272,7 +272,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("13000", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     )),
     # Dehumidifier.
     MidProfile("13800", (
