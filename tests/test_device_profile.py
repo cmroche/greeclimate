@@ -1,6 +1,7 @@
 """Firmware-code policy regressions, backed by inspected-build observations."""
 
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -133,9 +134,56 @@ def test_code_traits_apply_independently_of_module_and_version(code, buzzer, off
     assert profile.gateway_dialect == dialect
 
 
-def test_firmware_codes_have_one_consolidated_record():
-    codes = [profile.firmware_code for profile in device_profile.KNOWN_PROFILES]
-    assert len(codes) == len(set(codes))
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("version,offset", [
+    ("1.9", 0), ("1.10", 40), ("1.22", 40), ("1.22.0", 40),
+    ("01.022", 40), ("1.22.1", None), ("1.23", None), ("2", None),
+])
+def test_version_bounds_are_numeric_inclusive_and_order_independent(monkeypatch, reverse, version, offset):
+    profiles = (
+        DeviceProfile(CODE),
+        DeviceProfile(CODE, 40, max_version="1.22"),
+        DeviceProfile(CODE, 0, max_version="1.9"),
+    )
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", profiles[::-1] if reverse else profiles)
+    profile = match_device_profile(CODE + f"+U-CS532AEV{version}.bin")
+    assert profile.temperature_offset == offset
+
+
+@pytest.mark.parametrize("suffix", [
+    "", "+", "+incomplete", "+U-WB05RT11V.bin", "+U-WB05RT11V1..22.bin",
+    "+U-WB05RT11V1.22beta.bin", "+U-WB05RT11V1.22.bin\n",
+])
+def test_unknown_bounded_version_preserves_other_traits_without_buzzer(monkeypatch, suffix):
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
+        DeviceProfile(CODE, 40, buzzer_properties=("Buzzer_ON_OFF",), max_version="1.22"),
+        DeviceProfile(
+            CODE, 40, relearn_temperature_offset=True, buzzer_properties=("BuzzerCtrl",),
+            cooling_mode_value=5, capabilities=(("air_conditioner", "quiet", False),),
+            gateway_dialect="wb",
+        ),
+    ))
+    profile = match_device_profile(CODE + suffix)
+    assert profile.buzzer_properties == ()
+    assert profile.temperature_offset == 40
+    assert profile.relearn_temperature_offset is True
+    assert profile.cooling_mode_value == 5
+    assert profile.capabilities == (("air_conditioner", "quiet", False),)
+    assert profile.gateway_dialect == "wb"
+
+
+@pytest.mark.skipif(not hasattr(sys, "set_int_max_str_digits"), reason="Python has no integer conversion limit")
+def test_oversized_numeric_hid_version_preserves_traits_without_buzzer():
+    previous_limit = sys.get_int_max_str_digits()
+    limit = sys.int_info.str_digits_check_threshold
+    try:
+        sys.set_int_max_str_digits(limit)
+        hid = "362001065280+U-WB05RT11V" + "9" * (limit + 1) + ".bin"
+        profile = match_device_profile(hid)
+        assert profile.buzzer_properties == ()
+        assert profile.temperature_offset == 40
+    finally:
+        sys.set_int_max_str_digits(previous_limit)
 
 
 @pytest.mark.parametrize("hid,code", [
