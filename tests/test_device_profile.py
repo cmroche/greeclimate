@@ -1,6 +1,7 @@
 """Firmware-code policy regressions, backed by inspected-build observations."""
 
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -169,6 +170,20 @@ def test_unknown_bounded_version_preserves_other_traits_without_buzzer(monkeypat
     assert profile.cooling_mode_value == 5
     assert profile.capabilities == (("air_conditioner", "quiet", False),)
     assert profile.gateway_dialect == "wb"
+
+
+@pytest.mark.skipif(not hasattr(sys, "set_int_max_str_digits"), reason="Python has no integer conversion limit")
+def test_oversized_numeric_hid_version_preserves_traits_without_buzzer():
+    previous_limit = sys.get_int_max_str_digits()
+    limit = sys.int_info.str_digits_check_threshold
+    try:
+        sys.set_int_max_str_digits(limit)
+        hid = "362001065280+U-WB05RT11V" + "9" * (limit + 1) + ".bin"
+        profile = match_device_profile(hid)
+        assert profile.buzzer_properties == ()
+        assert profile.temperature_offset == 40
+    finally:
+        sys.set_int_max_str_digits(previous_limit)
 
 
 @pytest.mark.parametrize("hid,code", [
