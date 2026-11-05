@@ -18,13 +18,14 @@ from tests.test_emulator import peer_packet
 
 
 @pytest.mark.asyncio
-async def test_issue_243_mid_10001_switches_refresh_without_toggling():
+@pytest.mark.parametrize("mid", ["10001", "10002", "11001", "13000", "3018", "3019", "4005", "3027"])
+async def test_issue_243_switches_refresh_without_toggling(mid):
     from tests.test_device import recovery_negotiate
 
     async with udp_peer() as (peer, queue):
         host, port = peer.get_extra_info("sockname")
         device = Device(DeviceInfo(
-            host, port, "020000000001", "issue243", mid="10001",
+            host, port, "020000000001", "issue243", mid=mid,
         ))
         events = asyncio.Queue()
         device.add_handler(Response.DATA, events.put_nowait)
@@ -34,15 +35,20 @@ async def test_issue_243_mid_10001_switches_refresh_without_toggling():
         }
         try:
             addr = await recovery_negotiate(device, peer, queue)
-            for expected in ((True, False, 2), (False, True, 0)):
+            for light, xfan, quiet in ((1, 0, 2), (0, 1, 0)):
                 request, _ = await recovery_receive(queue, device.device_cipher)
                 reply = {name: state[name] for name in request["cols"] if name in state}
                 peer.sendto(recovery_packet({
                     "t": "dat", "cols": list(reply), "dat": list(reply.values()),
                 }, device.device_cipher), addr)
                 await asyncio.wait_for(events.get(), 2)
-                assert (device.light, device.xfan, device.quiet) == expected
-                if expected[0]:
+                assert device.get_property(Props.XFAN) == xfan
+                assert device.get_property(Props.LIGHT) == (None if mid == "3018" else light)
+                assert device.xfan is bool(xfan)
+                assert device.light is (None if mid == "3018" else bool(light))
+                if mid == "10001":
+                    assert device.quiet == quiet
+                if light:
                     state.update(Lig=0, Blo=1, Quiet=0)
                     await device.update_state()
         finally:
