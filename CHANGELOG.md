@@ -1,3 +1,11 @@
+## [3.6.3](https://github.com/cmroche/greeclimate/compare/v3.6.2...v3.6.3) (2026-11-05)
+
+
+### Bug Fixes
+
+* poll firmware-qualified AC switch states ([#248](https://github.com/cmroche/greeclimate/issues/248)) ([98c13bd](https://github.com/cmroche/greeclimate/commit/98c13bdbdaa2f71308aea1806961f66d1a2ba781))
+* refresh firmware-qualified Air and Health states ([#250](https://github.com/cmroche/greeclimate/issues/250)) ([0f872d5](https://github.com/cmroche/greeclimate/commit/0f872d5f4f9bc82143d23c9135f68ed3234dbb7d))
+
 ## [3.6.2](https://github.com/cmroche/greeclimate/compare/v3.6.1...v3.6.2) (2026-11-04)
 
 
