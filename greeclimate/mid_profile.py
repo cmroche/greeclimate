@@ -256,7 +256,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("10001", (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur", "TemSen", "hid",
-        "Lig", "Blo",
+        "Lig", "Blo", "Air", "Health",
     ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("10002", (
