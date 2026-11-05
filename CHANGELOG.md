@@ -1,3 +1,12 @@
+## [4.2.2](https://github.com/cmroche/greeclimate/compare/v4.2.1...v4.2.2) (2026-11-05)
+
+
+### Bug Fixes
+
+* poll firmware-qualified AC switch states ([#247](https://github.com/cmroche/greeclimate/issues/247)) ([46a17e4](https://github.com/cmroche/greeclimate/commit/46a17e498911882d35f6843974a9ae8706aae1d4))
+* refresh firmware-qualified Air and Health states ([#249](https://github.com/cmroche/greeclimate/issues/249)) ([c7cd3ce](https://github.com/cmroche/greeclimate/commit/c7cd3cea870d0ff9e3da9340c11d75ec0c314582))
+* refresh MID 10001 light and xfan states ([#244](https://github.com/cmroche/greeclimate/issues/244)) ([806b93f](https://github.com/cmroche/greeclimate/commit/806b93f7e24298fe73bfd3b641c9b6744fade547))
+
 ## [4.2.1](https://github.com/cmroche/greeclimate/compare/v4.2.0...v4.2.1) (2026-11-03)
 
 
