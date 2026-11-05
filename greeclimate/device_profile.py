@@ -1,18 +1,21 @@
 """Match firmware-family quirks against a complete reported firmware HID."""
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Optional, Tuple
 
 
 @dataclass(frozen=True)
 class DeviceProfile:
+    """Firmware traits with optional inclusive dotted-numeric version bounds."""
+
     firmware_code: str
     temperature_offset: Optional[int]
     min_version: Optional[str] = None
     relearn_temperature_offset: bool = False
     buzzer_properties: Optional[Tuple[str, ...]] = None
     exact_hid: Optional[str] = None
+    max_version: Optional[str] = None
 
 
 # See OFFSETS.md for inspected-build provenance and identity limitations.
@@ -58,7 +61,11 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001065029", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065130", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065279", 40, buzzer_properties=("Buzzer_ON_OFF",)),  # Gree Bora A5 GWH09AAB-K6DNA5A/I; Lomo Nordic (archive report); Heiwa Essential ZEN+; Cooper & Hunter
-    DeviceProfile("362001065280", 40),
+    DeviceProfile(
+        "362001065280", 40, buzzer_properties=("Buzzer_ON_OFF",),
+        max_version="1.22",
+    ),
+    DeviceProfile("362001065280", 40, buzzer_properties=("BuzzerCtrl",)),
     DeviceProfile("362001065517", 40),
     DeviceProfile("362001065602", 0),
     DeviceProfile("362001065634", None, buzzer_properties=("Buzzer_ON_OFF",)),
@@ -93,34 +100,54 @@ def _version_key(version: str) -> Tuple[int, ...]:
 
 
 def match_device_profile(hid: Optional[str]) -> Optional[DeviceProfile]:
-    """Select an exact HID, then the greatest version floor or code fallback."""
+    """Prefer exact HID, greatest version floor, then tightest ceiling.
+
+    Bounds are inclusive. Missing or malformed versions suppress automatic
+    buzzer fields for codes with upper bounds while retaining fallback traits.
+    """
     firmware = re.fullmatch(
         r"([0-9]+)\+(?:U-)?([^+()\s]+?)(?:\([^()]+\))?"
         r"V([0-9]+(?:\.[0-9]+)*)\.bin",
         hid,
     ) if isinstance(hid, str) else None
-    if firmware is None:
-        return None
-    code, _, version = firmware.groups()
+    code = hid.partition("+")[0] if isinstance(hid, str) else None
+    version = firmware.group(3) if firmware is not None else None
     reported = None
     fallback = None
     selected = None
-    selected_floor = None
+    selected_floor = selected_ceiling = None
+    has_ceiling = False
     for candidate in KNOWN_PROFILES:
         if candidate.firmware_code != code:
             continue
         if candidate.exact_hid is not None:
-            if candidate.exact_hid == hid:
+            if firmware is not None and candidate.exact_hid == hid:
                 return candidate
             continue
-        if candidate.min_version is None:
+        if candidate.min_version is None and candidate.max_version is None:
             if fallback is None:
                 fallback = candidate
             continue
+        has_ceiling = has_ceiling or candidate.max_version is not None
+        if version is None:
+            continue
         if reported is None:
-            reported = _version_key(version)
-        floor = _version_key(candidate.min_version)
-        if floor <= reported and (selected_floor is None or floor > selected_floor):
+            try:
+                reported = _version_key(version)
+            except ValueError:
+                version = None
+                continue
+        floor = _version_key(candidate.min_version) if candidate.min_version is not None else ()
+        ceiling = _version_key(candidate.max_version) if candidate.max_version is not None else None
+        if floor > reported or (ceiling is not None and reported > ceiling):
+            continue
+        if (selected is None or floor > selected_floor or (
+                floor == selected_floor and ceiling is not None and (
+                    selected_ceiling is None or ceiling < selected_ceiling))):
             selected = candidate
-            selected_floor = floor
+            selected_floor, selected_ceiling = floor, ceiling
+    if version is None:
+        if has_ceiling and fallback is not None:
+            return replace(fallback, buzzer_properties=())
+        return None
     return selected if selected is not None else fallback

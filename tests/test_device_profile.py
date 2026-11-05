@@ -79,6 +79,49 @@ def test_zero_floor_overrides_fallback(monkeypatch):
     assert match_device_profile(KNOWN_HID.replace("3.33", "0.0")) is floor
 
 
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("version,offset", [
+    ("1.9", 0), ("1.10", 40), ("1.22", 40), ("1.22.0", 40),
+    ("01.022", 40), ("1.22.1", None), ("1.23", None), ("2", None),
+])
+def test_version_ceilings_are_numeric_inclusive_and_order_independent(monkeypatch, reverse, version, offset):
+    profiles = (
+        DeviceProfile(CODE, None),
+        DeviceProfile(CODE, 40, max_version="1.22"),
+        DeviceProfile(CODE, 0, max_version="1.9"),
+    )
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", profiles[::-1] if reverse else profiles)
+    profile = match_device_profile(CODE + f"+U-CS532AEV{version}.bin")
+    assert profile.temperature_offset == offset
+
+
+@pytest.mark.parametrize("order", list(permutations(range(3))))
+def test_version_interval_preserves_floor_and_exact_hid_precedence(monkeypatch, order):
+    profiles = (
+        DeviceProfile(CODE, 0),
+        DeviceProfile(CODE, 40, min_version="1.10", max_version="1.22"),
+        DeviceProfile(CODE, None, exact_hid=KNOWN_HID.replace("3.33", "1.17")),
+    )
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", tuple(profiles[i] for i in order))
+    for version, offset in [("1.9", 0), ("1.10", 40), ("1.17", None), ("1.22", 40), ("1.23", 0)]:
+        assert match_device_profile(KNOWN_HID.replace("3.33", version)).temperature_offset == offset
+
+
+@pytest.mark.parametrize("suffix", [
+    "", "+", "+incomplete", "+U-WB05RT11V.bin", "+U-WB05RT11V1..22.bin",
+    "+U-WB05RT11V1.22beta.bin", "+U-WB05RT11V1.22.bin\n",
+])
+def test_unknown_upper_bound_version_preserves_fallback_without_buzzer(monkeypatch, suffix):
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
+        DeviceProfile(CODE, 40, buzzer_properties=("Buzzer_ON_OFF",), max_version="1.22"),
+        DeviceProfile(CODE, 40, relearn_temperature_offset=True, buzzer_properties=("BuzzerCtrl",)),
+    ))
+    profile = match_device_profile(CODE + suffix)
+    assert profile.buzzer_properties == ()
+    assert profile.temperature_offset == 40
+    assert profile.relearn_temperature_offset is True
+
+
 @pytest.mark.asyncio
 async def test_only_reported_hid_selects_versioned_quirks(monkeypatch):
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
