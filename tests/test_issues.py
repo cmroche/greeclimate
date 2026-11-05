@@ -36,10 +36,11 @@ async def test_issue_243_switches_refresh_without_toggling(mid):
         state = {
             "hid": "362001065280+U-WB05RT11V1.44.bin",
             "Lig": 1, "Blo": 0, "Quiet": 2,
+            "Air": 0, "Health": 1,
         }
         try:
             addr = await recovery_negotiate(device, peer, queue)
-            for light, xfan, quiet in ((1, 0, 2), (0, 1, 0)):
+            for light, xfan, quiet, air, health in ((1, 0, 2, 0, 1), (0, 1, 0, 3, 0)):
                 request, _ = await recovery_receive(queue, device.device_cipher)
                 reply = {name: state[name] for name in request["cols"] if name in state}
                 peer.sendto(recovery_packet({
@@ -48,16 +49,24 @@ async def test_issue_243_switches_refresh_without_toggling(mid):
                 await asyncio.wait_for(events.get(), 2)
                 assert device.get_property("Blo") == xfan
                 assert device.get_property("Lig") == (None if mid == "3018" else light)
+                assert device.get_property("Air") == air
+                assert device.get_property("Health") == (None if mid == "3018" else health)
                 if mid == "3027":
                     assert device.capabilities["light"] is None
                     assert device.capabilities["xfan"] is None
+                    assert device.capabilities["fresh_air"] is None
+                    assert device.capabilities["anion"] is None
                 else:
                     assert device.xfan is bool(xfan)
                     assert device.light is (None if mid == "3018" else bool(light))
+                    assert device.fresh_air is bool(air)
+                    assert device.anion is (None if mid == "3018" else bool(health))
+                    assert device.capabilities["fresh_air"] is True
+                    assert device.capabilities["anion"] is (None if mid == "3018" else True)
                 if mid == "10001":
                     assert device.quiet == quiet
                 if light:
-                    state.update(Lig=0, Blo=1, Quiet=0)
+                    state.update(Lig=0, Blo=1, Quiet=0, Air=3, Health=0)
                     await device.update_state()
         finally:
             device.close()
