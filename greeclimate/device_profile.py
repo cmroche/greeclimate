@@ -83,7 +83,7 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001065029", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065130", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065279", 40, buzzer_properties=("Buzzer_ON_OFF",)),
-    DeviceProfile("362001065280", 40),
+    DeviceProfile("362001065280", 40, buzzer_properties=("BuzzerCtrl","Buzzer_ON_OFF")),
     DeviceProfile("362001065517", 40),
     DeviceProfile("362001065602", 0),
     DeviceProfile("362001065701", 40),
