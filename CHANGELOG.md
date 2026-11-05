@@ -1,3 +1,10 @@
+## [3.6.4](https://github.com/cmroche/greeclimate/compare/v3.6.3...v3.6.4) (2026-11-05)
+
+
+### Bug Fixes
+
+* select RT11 buzzer control by firmware version (3.x) ([#253](https://github.com/cmroche/greeclimate/issues/253)) ([7728fc8](https://github.com/cmroche/greeclimate/commit/7728fc86ad22919d395ef083599aee16efa992f1))
+
 ## [3.6.3](https://github.com/cmroche/greeclimate/compare/v3.6.2...v3.6.3) (2026-11-05)
 
 
