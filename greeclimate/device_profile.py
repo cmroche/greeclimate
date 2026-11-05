@@ -1,11 +1,14 @@
-"""Match firmware quirks by firmware code, independent of module and version."""
+"""Match firmware quirks by firmware code and optional HID-version bounds."""
 
-from dataclasses import dataclass
+import re
+from dataclasses import dataclass, replace
 from typing import Optional, Tuple
 
 
 @dataclass(frozen=True)
 class DeviceProfile:
+    """Firmware traits with an optional inclusive numeric module-version bound."""
+
     firmware_code: str
     temperature_offset: Optional[int] = None
     relearn_temperature_offset: bool = False
@@ -13,6 +16,7 @@ class DeviceProfile:
     cooling_mode_value: Optional[int] = None
     capabilities: Tuple[Tuple[str, str, bool], ...] = ()
     gateway_dialect: Optional[str] = None
+    max_version: Optional[str] = None
 
 
 KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
@@ -83,7 +87,11 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001065029", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065130", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065279", 40, buzzer_properties=("Buzzer_ON_OFF",)),
-    DeviceProfile("362001065280", 40),
+    DeviceProfile(
+        "362001065280", 40, buzzer_properties=("Buzzer_ON_OFF",),
+        max_version="1.22",
+    ),
+    DeviceProfile("362001065280", 40, buzzer_properties=("BuzzerCtrl",)),
     DeviceProfile("362001065517", 40),
     DeviceProfile("362001065602", 0),
     DeviceProfile("362001065701", 40),
@@ -309,12 +317,44 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
 )
 
 
+def _version_key(version: str) -> Tuple[int, ...]:
+    parts = [int(part) for part in version.split(".")]
+    while parts and parts[-1] == 0:
+        parts.pop()
+    return tuple(parts)
+
+
 def match_device_profile(hid: Optional[str]) -> Optional[DeviceProfile]:
-    """Match a bare firmware code or the code prefix of a reported HID."""
+    """Prefer the tightest inclusive bound, then the firmware-code default.
+
+    Missing or malformed HID versions suppress only automatic buzzer fields
+    for codes with bounded profiles; the default's other traits remain intact.
+    """
     if not isinstance(hid, str):
         return None
-    code = hid.partition("+")[0]
+    code, _, suffix = hid.partition("+")
+    default = selected = selected_limit = version = None
+    has_bounds = False
     for profile in KNOWN_PROFILES:
-        if profile.firmware_code == code:
-            return profile
-    return None
+        if profile.firmware_code != code:
+            continue
+        if profile.max_version is None:
+            default = profile
+            continue
+        if not has_bounds:
+            has_bounds = True
+            match = re.search(r"V([0-9]+(?:\.[0-9]+)*)\.bin\Z", suffix)
+            try:
+                version = _version_key(match.group(1)) if match else None
+            except ValueError:
+                version = None
+        if version is None:
+            continue
+        limit = _version_key(profile.max_version)
+        if version <= limit and (selected_limit is None or limit < selected_limit):
+            selected, selected_limit = profile, limit
+    if selected is not None:
+        return selected
+    if has_bounds and version is None and default is not None:
+        return replace(default, buzzer_properties=())
+    return default

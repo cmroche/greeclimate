@@ -74,6 +74,36 @@ async def test_issue_243_switches_refresh_without_toggling(mid):
 
 
 @pytest.mark.asyncio
+async def test_issue_251_buzzer_commands_follow_reported_firmware_version():
+    async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
+        await recovery_receive(queue, device.device_cipher)
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        transitions = [
+            ("+U-WB05RT11V1.22.bin", {"Buzzer_ON_OFF": 1}, {}),
+            ("+U-WB05RT11V1.44.bin", {"BuzzerCtrl": 0}, {"BuzzerCtrl": 1}),
+            ("+U-WB05RT11V1..22.bin", {}, {}),
+            ("+U-WB05RT11V1.17.bin", {"Buzzer_ON_OFF": 1}, {}),
+        ]
+        for suffix, muted, audible in transitions:
+            peer.sendto(recovery_packet({
+                "t": "dat", "cols": ["hid"],
+                "dat": ["362001065280" + suffix],
+            }, device.device_cipher), addr)
+            await asyncio.wait_for(events.get(), 2)
+            assert device.capabilities["lan_buzzer_control"] is bool(muted)
+            for enabled, expected in ((False, muted), (True, audible)):
+                device.buzzer = enabled
+                device.power = enabled
+                await device.push_state_update()
+                request, _ = await recovery_receive(queue, device.device_cipher)
+                assert request["t"] == "cmd"
+                assert dict(zip(request["opt"], request["p"])) == {
+                    "Pow": int(enabled), **expected,
+                }
+
+
+@pytest.mark.asyncio
 async def test_issue_69_encoded_40_is_zero_celsius():
     device = AirConditionerDevice(DeviceInfo("127.0.0.1", 7000, "000000000001", "issue69"))
     device.handle_state_update(TemSen=40, TemUn=0, TemRec=0)
