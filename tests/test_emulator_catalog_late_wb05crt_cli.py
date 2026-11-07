@@ -17,6 +17,7 @@ import pytest
 
 from gree_emulator.__main__ import load_config
 from gree_emulator.server import start_server
+from tests.common import udp_peer
 from tests.test_emulator_firmware_cli import cli_server, packet, unpack
 
 
@@ -364,118 +365,114 @@ def test_live_timer_capture_covers_type6_retry_type7_and_heartbeat_ack():
 
     async def scenario():
         address, server, capture = await open_capture_server(device)
-        peer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        peer.bind((PEER_IP, 5001))
-        peer.setblocking(False)
         try:
-            loop = asyncio.get_running_loop()
-            request = native_packet({
-                "t": "UBindok", "host": HOST_MAC, "hostManaged": 1,
-            }, 0, device.key)
-            await loop.sock_sendto(peer, request, address)
-            await wait_for_sends(capture, 2, 1.0)
-            proactive = [native_response(data, device.key) for _, data, _ in capture.sent[:2]]
-            assert [inner["t"] for _, inner in proactive] == ["Utm", "getLoginInfo"]
-            assert [outer["msgId"] for outer, _ in proactive] == [0, 1]
-            assert [target for _, _, target in capture.sent[:2]] == [(PEER_IP, 5000)] * 2
+            async with udp_peer(PEER_IP, 5001) as (peer, _):
+                request = native_packet({
+                    "t": "UBindok", "host": HOST_MAC, "hostManaged": 1,
+                }, 0, device.key)
+                peer.sendto(request, address)
+                await wait_for_sends(capture, 2, 1.0)
+                proactive = [native_response(data, device.key) for _, data, _ in capture.sent[:2]]
+                assert [inner["t"] for _, inner in proactive] == ["Utm", "getLoginInfo"]
+                assert [outer["msgId"] for outer, _ in proactive] == [0, 1]
+                assert [target for _, _, target in capture.sent[:2]] == [(PEER_IP, 5000)] * 2
 
-            # The real CLI node covers the 1.5-s source-state gate. Clear its private timer
-            # here to isolate the independent raw-report retry worker.
-            runtime = device.state["_runtime"]
-            runtime["source_state_7"] = 0
-            runtime["countdown_bytes"][7] = 0
+                # The real CLI node covers the 1.5-s source-state gate. Clear its private timer
+                # here to isolate the independent raw-report retry worker.
+                runtime = device.state["_runtime"]
+                runtime["source_state_7"] = 0
+                runtime["countdown_bytes"][7] = 0
 
-            await wait_for_sends(capture, 6, 4.5)
-            reports = []
-            for index, (sent_at, data, target) in enumerate(capture.sent[2:6]):
-                outer, inner = native_response(data, device.key)
-                assert target == (PEER_IP, 5000)
+                await wait_for_sends(capture, 6, 4.5)
+                reports = []
+                for index, (sent_at, data, target) in enumerate(capture.sent[2:6]):
+                    outer, inner = native_response(data, device.key)
+                    assert target == (PEER_IP, 5000)
+                    assert outer["i"] == 0 and outer["msgId"] == 2 and "uid" not in outer
+                    assert outer["cid"] == MAC and outer["tcid"] == HOST_MAC
+                    assert_raw_status_report(inner, frame, vectors["type6_retry_raw_clock_hex"][index])
+                    reports.append(sent_at)
+                assert [reports[index + 1] - reports[index] for index in range(3)] == [
+                    pytest.approx(1.0, abs=0.2),
+                ] * 3
+                await asyncio.sleep(0.2)
+                assert len(capture.sent) == 6
+                assert device.state["_runtime"]["report_retry_count"] == -1
+
+                # statusCheck has no direct ACK; its queued type-7 report is the observable result.
+                before = len(capture.sent)
+                peer.sendto(
+                    native_packet({"t": "statusCheck"}, 0, device.key), address,
+                )
+                await wait_for_sends(capture, before + 1, 1.0)
+                outer, status_report = native_response(capture.sent[before][1], device.key)
+                assert capture.sent[before][2] == (PEER_IP, 5000)
                 assert outer["i"] == 0 and outer["msgId"] == 2 and "uid" not in outer
                 assert outer["cid"] == MAC and outer["tcid"] == HOST_MAC
-                assert_raw_status_report(inner, frame, vectors["type6_retry_raw_clock_hex"][index])
-                reports.append(sent_at)
-            assert [reports[index + 1] - reports[index] for index in range(3)] == [
-                pytest.approx(1.0, abs=0.2),
-            ] * 3
-            await asyncio.sleep(0.2)
-            assert len(capture.sent) == 6
-            assert device.state["_runtime"]["report_retry_count"] == -1
+                assert set(status_report) == {"t", "timestamp", "binStatus"}
+                assert status_report["t"] == "statusCheckRes"
+                baseline = vectors["baseline_status_timestamp_signed32"]
+                assert type(status_report["timestamp"]) is int
+                assert baseline <= status_report["timestamp"] <= baseline + 10
+                assert base64.b64decode(status_report["binStatus"], validate=True) == frame
 
-            # statusCheck has no direct ACK; its queued type-7 report is the observable result.
-            before = len(capture.sent)
-            await loop.sock_sendto(
-                peer, native_packet({"t": "statusCheck"}, 0, device.key), address,
-            )
-            await wait_for_sends(capture, before + 1, 1.0)
-            outer, status_report = native_response(capture.sent[before][1], device.key)
-            assert capture.sent[before][2] == (PEER_IP, 5000)
-            assert outer["i"] == 0 and outer["msgId"] == 2 and "uid" not in outer
-            assert outer["cid"] == MAC and outer["tcid"] == HOST_MAC
-            assert set(status_report) == {"t", "timestamp", "binStatus"}
-            assert status_report["t"] == "statusCheckRes"
-            baseline = vectors["baseline_status_timestamp_signed32"]
-            assert type(status_report["timestamp"]) is int
-            assert baseline <= status_report["timestamp"] <= baseline + 10
-            assert base64.b64decode(status_report["binStatus"], validate=True) == frame
+                # The timer deadline is seeded in private synthetic backing to avoid a real 60-s wait;
+                # the server still emits through its live 100-ms ticker and captured send boundary.
+                runtime = device.state["_runtime"]
+                heartbeat = FIXTURE["lifecycle"]["heartbeat"]
+                runtime.update({
+                    "rssi": heartbeat["synthetic_test_rssi_u32"],
+                    "heartbeat_timer_active": True,
+                    "heartbeat_period_due": time.monotonic() + 0.25,
+                    "heartbeat_period_ms": 60000,
+                    "heartbeat_watchdog_due": time.monotonic() + 61,
+                })
+                heartbeat_index = len(capture.sent)
+                await wait_for_sends(capture, heartbeat_index + 1, 0.8)
+                outer, heartbeat_packet = native_response(capture.sent[heartbeat_index][1], GENERIC_KEY)
+                assert capture.sent[heartbeat_index][2] == (PEER_IP, 5000)
+                assert outer["i"] == 1 and outer["uid"] == 0 and outer["msgId"] == 2
+                assert outer["cid"] == MAC and outer["tcid"] == HOST_MAC
+                assert heartbeat_packet == {
+                    "t": "hb", "cid": MAC,
+                    "RSSI": heartbeat["synthetic_test_rssi_u32"],
+                }
 
-            # The timer deadline is seeded in private synthetic backing to avoid a real 60-s wait;
-            # the server still emits through its live 100-ms ticker and captured send boundary.
-            runtime = device.state["_runtime"]
-            heartbeat = FIXTURE["lifecycle"]["heartbeat"]
-            runtime.update({
-                "rssi": heartbeat["synthetic_test_rssi_u32"],
-                "heartbeat_timer_active": True,
-                "heartbeat_period_due": time.monotonic() + 0.25,
-                "heartbeat_period_ms": 60000,
-                "heartbeat_watchdog_due": time.monotonic() + 61,
-            })
-            heartbeat_index = len(capture.sent)
-            await wait_for_sends(capture, heartbeat_index + 1, 0.8)
-            outer, heartbeat_packet = native_response(capture.sent[heartbeat_index][1], GENERIC_KEY)
-            assert capture.sent[heartbeat_index][2] == (PEER_IP, 5000)
-            assert outer["i"] == 1 and outer["uid"] == 0 and outer["msgId"] == 2
-            assert outer["cid"] == MAC and outer["tcid"] == HOST_MAC
-            assert heartbeat_packet == {
-                "t": "hb", "cid": MAC,
-                "RSSI": heartbeat["synthetic_test_rssi_u32"],
-            }
+                before_ack = len(capture.sent)
+                peer.sendto(
+                    native_packet({"t": "hbok"}, 1, GENERIC_KEY), address,
+                )
+                await asyncio.sleep(0.05)
+                assert len(capture.sent) == before_ack
+                updated = device.state["_runtime"]
+                assert updated["heartbeat_miss_count"] == 0
+                assert updated["heartbeat_timer_ms"] == 61000
+                assert updated["heartbeat_watchdog_due"] is not None
 
-            before_ack = len(capture.sent)
-            await loop.sock_sendto(
-                peer, native_packet({"t": "hbok"}, 1, GENERIC_KEY), address,
-            )
-            await asyncio.sleep(0.05)
-            assert len(capture.sent) == before_ack
-            updated = device.state["_runtime"]
-            assert updated["heartbeat_miss_count"] == 0
-            assert updated["heartbeat_timer_ms"] == 61000
-            assert updated["heartbeat_watchdog_due"] is not None
-
-            # Exercise the watchdog-to-1-s recovery callback with a synthetic due time;
-            # the real server ticker still supplies each elapsed callback and send.
-            watchdog_due = time.monotonic() + 0.2
-            runtime = device.state["_runtime"]
-            runtime.update({
-                "heartbeat_watchdog_due": watchdog_due,
-                "heartbeat_period_due": None,
-                "heartbeat_period_ms": 61000,
-                "heartbeat_miss_count": 0,
-            })
-            watchdog_packet_index = len(capture.sent)
-            await wait_for_sends(capture, watchdog_packet_index + 1, 4.2)
-            sent_at, data, target = capture.sent[watchdog_packet_index]
-            assert 1.0 <= sent_at - watchdog_due <= 3.9
-            assert target == (PEER_IP, 5000)
-            outer, watchdog_packet = native_response(data, GENERIC_KEY)
-            assert outer["i"] == 1 and outer["uid"] == 0 and outer["msgId"] == 3
-            assert outer["cid"] == MAC and outer["tcid"] == HOST_MAC
-            assert watchdog_packet == {
-                "t": "hb", "cid": MAC,
-                "RSSI": heartbeat["synthetic_test_rssi_u32"],
-            }
-            assert device.state["_runtime"]["heartbeat_miss_count"] == 1
+                # Exercise the watchdog-to-1-s recovery callback with a synthetic due time;
+                # the real server ticker still supplies each elapsed callback and send.
+                watchdog_due = time.monotonic() + 0.2
+                runtime = device.state["_runtime"]
+                runtime.update({
+                    "heartbeat_watchdog_due": watchdog_due,
+                    "heartbeat_period_due": None,
+                    "heartbeat_period_ms": 61000,
+                    "heartbeat_miss_count": 0,
+                })
+                watchdog_packet_index = len(capture.sent)
+                await wait_for_sends(capture, watchdog_packet_index + 1, 4.2)
+                sent_at, data, target = capture.sent[watchdog_packet_index]
+                assert 1.0 <= sent_at - watchdog_due <= 3.9
+                assert target == (PEER_IP, 5000)
+                outer, watchdog_packet = native_response(data, GENERIC_KEY)
+                assert outer["i"] == 1 and outer["uid"] == 0 and outer["msgId"] == 3
+                assert outer["cid"] == MAC and outer["tcid"] == HOST_MAC
+                assert watchdog_packet == {
+                    "t": "hb", "cid": MAC,
+                    "RSSI": heartbeat["synthetic_test_rssi_u32"],
+                }
+                assert device.state["_runtime"]["heartbeat_miss_count"] == 1
         finally:
-            peer.close()
             server.close()
             await server.wait_closed()
 
