@@ -9,6 +9,7 @@ import json
 import logging
 import math
 import re
+import signal
 import secrets
 import sys
 
@@ -265,6 +266,14 @@ async def _serve(devices: list[EmulatedDevice], listen: str, port: int) -> int:
     except OSError as exc:
         print(f"gree_emulator: socket startup failed: {exc}", file=sys.stderr, flush=True)
         return 1
+    # Python 3.10 asyncio.run raises KeyboardInterrupt before its task cleanup.
+    loop = asyncio.get_running_loop()
+    restore_sigint = signal.getsignal(signal.SIGINT) is signal.default_int_handler
+    if restore_sigint:
+        try:
+            loop.add_signal_handler(signal.SIGINT, protocol.close)
+        except NotImplementedError:
+            restore_sigint = False
     try:
         endpoint = transport.get_extra_info("sockname")
         print(f"Listening on {endpoint[0]}:{endpoint[1]}", flush=True)
@@ -274,7 +283,11 @@ async def _serve(devices: list[EmulatedDevice], listen: str, port: int) -> int:
         await protocol.wait_closed()
     finally:
         protocol.close()
-        await protocol.wait_closed()
+        try:
+            await protocol.wait_closed()
+        finally:
+            if restore_sigint:
+                loop.remove_signal_handler(signal.SIGINT)
     return 0
 
 

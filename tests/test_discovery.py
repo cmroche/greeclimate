@@ -151,20 +151,15 @@ async def test_search_devices_sends_discovery_packet(ifaddr_adapters, args, kwar
     ifaddr_adapters.return_value = [] if args or any(kwargs.values()) else [
         ifaddr.Adapter("lo", "lo", [ifaddr.IP("127.0.0.1", 8, "lo")])
     ]
-    receiver = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     discovery = Discovery(allow_loopback=True)
-    try:
-        receiver.bind(("127.0.0.1", 7000))
-        receiver.setblocking(False)
-        await discovery.search_devices(*args, **kwargs)
-        data, _ = await asyncio.wait_for(
-            asyncio.get_running_loop().sock_recvfrom(receiver, 2048), DEFAULT_TIMEOUT
-        )
-        assert json.loads(data) == DISCOVERY_REQUEST
-    finally:
-        if discovery._transport is not None:
-            discovery.close()
-        receiver.close()
+    async with udp_peer(port=7000) as (_, received):
+        try:
+            await discovery.search_devices(*args, **kwargs)
+            data, _ = await asyncio.wait_for(received.get(), DEFAULT_TIMEOUT)
+            assert json.loads(data) == DISCOVERY_REQUEST
+        finally:
+            if discovery._transport is not None:
+                discovery.close()
 
 
 @pytest.mark.asyncio
