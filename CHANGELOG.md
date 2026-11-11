@@ -1,3 +1,11 @@
+## [4.2.4](https://github.com/cmroche/greeclimate/compare/v4.2.3...v4.2.4) (2026-11-11)
+
+
+### Bug Fixes
+
+* cover Python 3.10 and cleanly stop the emulator ([#255](https://github.com/cmroche/greeclimate/issues/255)) ([34eefba](https://github.com/cmroche/greeclimate/commit/34eefba4ce2993807a2f9919b19ef8446d58b32c))
+* restore swing state polling in MID profiles ([#256](https://github.com/cmroche/greeclimate/issues/256)) ([9fce55b](https://github.com/cmroche/greeclimate/commit/9fce55b9154899665d02b37076ed7233692125de))
+
 ## [4.2.3](https://github.com/cmroche/greeclimate/compare/v4.2.2...v4.2.3) (2026-11-06)
 
 
