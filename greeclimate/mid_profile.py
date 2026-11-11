@@ -1,4 +1,4 @@
-"""Exact MID polling presets and declared protocol feature support."""
+"""Exact MID polling presets, including readable swing state, and protocol support."""
 
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple
@@ -174,6 +174,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr", "hid", "GoOut", "LowDeHumi",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     ), family="air_conditioner"),
     # U-Match air conditioner.
     MidProfile("3027", (
@@ -261,12 +262,14 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur", "TemSen", "hid",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("10002", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name", "Add0.5",
         "ModelType", "TemSen", "WdSpd", "Quiet", "Tur",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("10007", (
@@ -277,11 +280,13 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("11000", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "AllErr", "JFErrorCode",
         "Add0.5", "WdSpd", "Quiet", "Tur",
+        "SwingLfRig", "SwUpDn",
     )),
     # Air conditioner.
     MidProfile("11001", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     ), family="air_conditioner"),
     # Air conditioner.
     MidProfile("11002", (
@@ -297,6 +302,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Unknown device type.
     MidProfile("11010", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
+        "SwingLfRig", "SwUpDn",
     )),
     # Window air conditioner.
     MidProfile("12000", (
@@ -321,6 +327,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     ), family="air_conditioner"),
     # Dehumidifier.
     MidProfile("13800", (
@@ -350,6 +357,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Dehumidifier.
     MidProfile("13806", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr", "TemSen", "DwatFul", "vender",
+        "SwingLfRig", "SwUpDn",
     ), family="dehumidifier"),
     # RV air conditioner.
     MidProfile("15000", (
@@ -473,6 +481,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("828214", (
         "Pow", "WdSpd", "Mod", "Rotate", "LRAngle", "TmrHour", "TmrMin", "TmrOn", "TmrAction",
         "JFerr", "LRHeadAngle", "Quiet", "OSD", "estate", "rssi", "StepWdSpd",
+        "SwingLfRig", "SwUpDn",
     )),
     # Unknown device type.
     MidProfile("80361", (
@@ -488,27 +497,27 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "hid",
     ), family="gateway"),
     # Unknown device type.
-    MidProfile("10014", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("10014", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("10015", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("10015", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("10016", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("10016", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("10017", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("10017", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("11f00", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("11f00", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("11f01", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("11f01", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("11f02", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("11f02", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("11f03", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen")),
+    MidProfile("11f03", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
-    MidProfile("10f05", ("SetTem", "Pow", "TemSen", "Mod")),
+    MidProfile("10f05", ("SetTem", "Pow", "TemSen", "Mod", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
     MidProfile("10010", ("SetTem", "Pow", "TemSen", "Mod")),
     # Unknown device type.
-    MidProfile("10011", ("SetTem", "Pow", "TemSen", "Mod")),
+    MidProfile("10011", ("SetTem", "Pow", "TemSen", "Mod", "SwingLfRig", "SwUpDn")),
     # Unknown device type.
     MidProfile("11011", ("SetTem", "Pow", "TemSen", "Mod")),
     # Air conditioner.
@@ -518,19 +527,19 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "HeatCoolType",
     ), family="air_conditioner"),
     # Gateway.
-    MidProfile("6049", ("Pow", "Mod", "SetTem", "TemBody")),
+    MidProfile("6049", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
-    MidProfile("604a", ("Pow", "Mod", "SetTem", "TemBody")),
+    MidProfile("604a", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
-    MidProfile("604b", ("Pow", "Mod", "SetTem", "TemBody")),
+    MidProfile("604b", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
-    MidProfile("604c", ("Pow", "Mod", "SetTem", "TemBody")),
+    MidProfile("604c", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
-    MidProfile("605c", ("Pow", "Mod", "SetTem", "TemBody")),
+    MidProfile("605c", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
-    MidProfile("608f", ("Pow", "Mod", "SetTem", "TemBody")),
+    MidProfile("608f", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
-    MidProfile("6092", ("Pow", "Mod", "SetTem", "TemBody")),
+    MidProfile("6092", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
     MidProfile("6045", ("Pow", "Mod", "SetTem", "WdSpd", "InTem")),
     # Gateway.
