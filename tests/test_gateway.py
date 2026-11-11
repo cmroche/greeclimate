@@ -85,10 +85,10 @@ class GatewayPeer:
 
 
 @asynccontextmanager
-async def gateway_peer(hid=HID, bind=True):
+async def gateway_peer(hid=HID, bind=True, bind_timeout=1):
     async with udp_peer() as (transport, queue):
         host, port = transport.get_extra_info("sockname")
-        gateway = GatewayDevice(DeviceInfo(host, port, ROOT, "Gateway", mid="60"), bind_timeout=0.08)
+        gateway = GatewayDevice(DeviceInfo(host, port, ROOT, "Gateway", mid="60"), bind_timeout=bind_timeout)
         peer = GatewayPeer(gateway, transport, queue, hid)
         try:
             if bind:
@@ -166,7 +166,7 @@ async def test_contradictory_first_page_does_not_accept_new_handles(count, size)
 
 
 async def test_missing_page_times_out_and_empty_inventory_preserves_cache():
-    async with gateway_peer() as (gateway, peer):
+    async with gateway_peer(bind_timeout=0.08) as (gateway, peer):
         task = asyncio.create_task(gateway.get_sub_devices())
         await peer.page(records(5), 7)
         await peer.receive()
@@ -285,7 +285,7 @@ async def test_unknown_or_non_gateway_firmware_code_rejects_inventory(hid):
 
 
 async def test_only_validated_root_data_qualifies_hid():
-    async with gateway_peer(bind=False) as (gateway, peer):
+    async with gateway_peer(bind=False, bind_timeout=0.08) as (gateway, peer):
         await peer.bind(report=False)
         gateway.hid = HID
         gateway.handle_state_update(hid=HID)
