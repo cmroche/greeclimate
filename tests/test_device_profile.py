@@ -18,7 +18,6 @@ from tests.test_device import get_mock_info
 KNOWN_HID = "362001000762+U-CS532AE(LT)V3.33.bin"
 CODE = "362001000762"
 
-
 RESEARCH_IDENTITIES = json.loads(
     (Path(__file__).parent / "fixtures" / "device_profiles_research.json").read_text()
 )["identities"]
@@ -160,8 +159,7 @@ def test_unknown_bounded_version_preserves_other_traits_without_buzzer(monkeypat
         DeviceProfile(CODE, 40, buzzer_properties=("Buzzer_ON_OFF",), max_version="1.22"),
         DeviceProfile(
             CODE, 40, relearn_temperature_offset=True, buzzer_properties=("BuzzerCtrl",),
-            cooling_mode_value=5,
-            capabilities=(("air_conditioner", "quiet", False),),
+            cooling_mode_value=5, capabilities=(("air_conditioner", "quiet", False),),
             gateway_dialect="wb",
         ),
     ))
@@ -375,7 +373,7 @@ def test_eleven_digit_identity_is_not_zero_padded():
 @pytest.mark.parametrize(
     "identity", RESEARCH_IDENTITIES, ids=lambda identity: identity["firmware_code"],
 )
-async def test_identity_only_profiles_leave_buzzer_unknown_and_out_of_commands(identity, cipher, send):
+async def test_identity_only_profiles_report_buzzer_unsupported_and_out_of_commands(identity, cipher, send):
     device = AirConditionerDevice(DeviceInfo(*get_mock_info()))
     await device.bind(key="0123456789abcdef", cipher=CipherV1())
     device.handle_state_update(hid=identity["hid"])
@@ -447,7 +445,7 @@ def test_named_buzzer_without_opt_in_keeps_other_traits_unknown(hid):
     "362001000748+U-CS532Z(LT)V3.73.bin",
     "362001000748+U-CS532Z(LT)V3.75.bin",
 ])
-async def test_conflicting_buzzer_aliases_stay_unknown_without_version_admission(hid, cipher, send):
+async def test_conflicting_buzzer_aliases_stay_unsupported_without_version_admission(hid, cipher, send):
     device = AirConditionerDevice(DeviceInfo(*get_mock_info()))
     await device.bind(key="0123456789abcdef", cipher=CipherV1())
     device.handle_state_update(hid=hid, TemSen=65, TemUn=0)

@@ -38,25 +38,17 @@ def test_unknown_or_malformed_mid_uses_fallback(mid):
 def test_composite_evidence_requires_every_exact_case_column(name, columns):
     for omitted in columns:
         incomplete = tuple(column for column in columns if column != omitted)
-        profile = MidProfile("composite", incomplete, "air_conditioner")
-        assert name not in profile.capabilities
+        assert name not in MidProfile("composite", incomplete, "air_conditioner").capabilities
     for renamed in columns:
-        wrong_case = tuple(
-            column.lower() if column == renamed else column for column in columns
-        )
-        wrong_profile = MidProfile("composite", wrong_case, "air_conditioner")
-        assert name not in wrong_profile.capabilities
-    complete = MidProfile("composite", columns, "air_conditioner")
-    assert complete.capabilities[name] is True
+        wrong_case = tuple(column.lower() if column == renamed else column for column in columns)
+        assert name not in MidProfile("composite", wrong_case, "air_conditioner").capabilities
+    assert MidProfile("composite", columns, "air_conditioner").capabilities[name] is True
 
 
 def test_omitted_and_similarly_named_fields_do_not_declare_negative_or_alias_evidence():
     profile = MidProfile("partial", ("Pow", "SetTem", "TemUn", "HumSen", "Lamp", "Quier"),
                          "air_conditioner")
-    assert profile.capabilities == {
-        "power": True,
-        "temperature_units": True,
-    }
+    assert profile.capabilities == {"power": True, "temperature_units": True}
     assert "target_temperature" not in profile.capabilities
     assert "lan_buzzer_control" not in profile.capabilities
 

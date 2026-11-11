@@ -451,33 +451,31 @@ class Device(DeviceProtocol2, Taskable):
 
     @property
     def capabilities(self) -> Mapping[str, Optional[bool]]:
-        """Return an immutable snapshot of typed feature support.
+        """Snapshot typed protocol evidence, not physical features or permission.
 
-        True means established support, False means explicitly unsupported
-        through this typed API, and None means unknown. Python properties
-        define how each feature is used. HID changes affect new snapshots only.
+        True means declared protocol feature support, not every writable value.
+        False means outside this family's typed API or explicitly excluded;
+        None means support has not been established.
         """
-        family = self._capability_family
         capabilities = {
-            name: None if family is None or name in self._capability_names else False
+            name: None if self._capability_family is None or name in self._capability_names else False
             for name in _CAPABILITY_NAMES
         }
-        if family is not None:
+        if self._capability_family is not None:
             mid_profile = self._mid_profile
-            if mid_profile.family == family:
+            if mid_profile.family == self._capability_family:
                 for name, supported in mid_profile.capabilities.items():
                     if name in self._capability_names:
                         capabilities[name] = supported
-
             profile = self._device_profile
-            if family == "air_conditioner" and profile is not None and any(
+            if self._capability_family == "air_conditioner" and profile is not None and any(
                 name in ("Buzzer_ON_OFF", "BuzzerCtrl")
                 for name in profile.buzzer_properties
             ):
                 capabilities["lan_buzzer_control"] = True
             if profile is not None:
-                for profile_family, name, supported in profile.capabilities:
-                    if profile_family == family and name in self._capability_names:
+                for family, name, supported in profile.capabilities:
+                    if family == self._capability_family and name in self._capability_names:
                         capabilities[name] = supported
         return MappingProxyType(capabilities)
 

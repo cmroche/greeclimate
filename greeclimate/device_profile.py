@@ -7,7 +7,7 @@ from typing import Optional, Tuple
 
 @dataclass(frozen=True)
 class DeviceProfile:
-    """Firmware traits with optional version bounds and feature-support overrides."""
+    """Firmware traits with an optional inclusive numeric module-version bound."""
 
     firmware_code: str
     temperature_offset: Optional[int] = None
