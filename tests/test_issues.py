@@ -9,6 +9,7 @@ from greeclimate.air_conditioner import AirConditionerDevice
 from greeclimate.dehumidifier import DehumidifierDevice
 from greeclimate.device import Props, Device
 from greeclimate.deviceinfo import DeviceInfo
+from greeclimate.device_factory import create_device
 from greeclimate.cipher import CipherV1
 from greeclimate.exceptions import DeviceTimeoutError
 from greeclimate.cipher import CipherV2
@@ -18,6 +19,53 @@ from tests.common import DISCOVERY_RESPONSE, encrypt_payload_v2, udp_peer
 from tests.test_device import recovery_packet, recovery_receive, recovery_session
 from tests.test_discovery import _RecoveryListener
 from tests.test_emulator import peer_packet
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("mid", [
+    "3019", "10001", "10002", "11000", "11001", "11010", "13000", "13806", "828214",
+    "10014", "10015", "10016", "10017", "11f00", "11f01", "11f02", "11f03",
+    "10f05", "10011", "6049", "604a", "604b", "604c", "605c", "608f", "6092",
+])
+async def test_mid_swing_state_refreshes_without_commands(mid):
+    from tests.test_device import recovery_negotiate
+
+    async with udp_peer() as (peer, queue):
+        host, port = peer.get_extra_info("sockname")
+        device = create_device(DeviceInfo(host, port, "020000000001", "swing", mid=mid))
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        try:
+            addr = await recovery_negotiate(device, peer, queue)
+            for horizontal, vertical in ((1, 4), (0, 6)):
+                request, _ = await recovery_receive(queue, device.device_cipher)
+                state = {
+                    "hid": "362001065280+U-WB05RT11V1.44.bin",
+                    "SwingLfRig": horizontal, "SwUpDn": vertical,
+                }
+                reply = {name: state[name] for name in request["cols"] if name in state}
+                peer.sendto(recovery_packet({
+                    "t": "dat", "cols": list(reply), "dat": list(reply.values()),
+                }, device.device_cipher), addr)
+                await asyncio.wait_for(events.get(), 2)
+                assert device.get_property("SwingLfRig") == horizontal
+                assert device.get_property("SwUpDn") == vertical
+                if isinstance(device, AirConditionerDevice):
+                    assert device.horizontal_swing == horizontal
+                    assert device.vertical_swing == vertical
+                    assert device.capabilities["horizontal_swing"] is True
+                    assert device.capabilities["vertical_swing"] is True
+                elif isinstance(device, DehumidifierDevice):
+                    assert device.vertical_swing == vertical
+                    assert device.capabilities["vertical_swing"] is True
+                else:
+                    assert type(device) is Device
+                    assert all(value is None for value in device.capabilities.values())
+                if horizontal:
+                    await device.update_state()
+        finally:
+            device.close()
+            await asyncio.wait_for(device._transport_closed.wait(), 2)
 
 
 @pytest.mark.asyncio

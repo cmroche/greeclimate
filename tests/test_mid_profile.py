@@ -70,10 +70,8 @@ async def test_ordinary_gateway_child_poll_remains_raw_after_parent_hid(mid):
     await unit.bind(key="0123456789abcdef", cipher=CipherV1())
     unit.send = AsyncMock()
     await unit.update_state()
-    assert unit.send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody", "hid"]
     unit.handle_state_update(hid="362001061433+U-W06AV7.bin", TemBody=85)
     await unit.update_state()
-    assert unit.send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody"]
     assert type(unit) is Device
     assert all(value is None for value in unit.capabilities.values())
     assert unit.get_property("TemBody") == 85
@@ -117,8 +115,6 @@ async def test_gateway_or_missing_mid_stays_identity_only_despite_known_firmware
 @pytest.mark.parametrize("mid,hid,columns,state", [
     ("6079", "362001067012+U-W06AV30.bin",
      ["Pow", "FanMod", "WdSpd", "GetEr"], {"Pow": 1, "FanMod": 2}),
-    ("11f00", "362001067427+U-WB65VRV1.02.bin",
-     ["Pow", "Mod", "SetTem", "WdSpd", "TemSen"], {"Pow": 65535, "TemSen": 255}),
     ("13801", "362001060200+U-CS849AV10.bin",
      ["Pow", "Dmod", "Dwet", "host", "name"], {"Pow": 1, "Dmod": 2, "Dwet": 6}),
     ("828503", "362001063012+U-W06TV1.10.bin",

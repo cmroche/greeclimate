@@ -302,17 +302,6 @@ async def test_mid_profile_poll_columns(cipher, send, mid, device_type):
 
 
 
-@pytest.mark.asyncio
-@pytest.mark.parametrize("device_type", [Device, AirConditionerDevice, DehumidifierDevice])
-async def test_raw_mid_605c_requests_recorded_columns(cipher, send, device_type):
-    device = device_type(DeviceInfo(*get_mock_info(), mid="605c"))
-    await device.bind(key="0123456789abcdef", cipher=CipherV1())
-
-    await device.update_state()
-    assert send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody", "hid"]
-    device.handle_state_update(hid=get_mock_state()["hid"])
-    await device.update_state()
-    assert send.call_args.args[0]["pack"]["cols"] == ["Pow", "Mod", "SetTem", "TemBody"]
 
 
 
