@@ -1,3 +1,10 @@
+## [3.6.5](https://github.com/cmroche/greeclimate/compare/v3.6.4...v3.6.5) (2026-11-11)
+
+
+### Bug Fixes
+
+* restore swing state polling in MID profiles ([#257](https://github.com/cmroche/greeclimate/issues/257)) ([4308b16](https://github.com/cmroche/greeclimate/commit/4308b16784fede99a4687ba95cb194e64e8c1ba2))
+
 ## [3.6.4](https://github.com/cmroche/greeclimate/compare/v3.6.3...v3.6.4) (2026-11-05)
 
 
