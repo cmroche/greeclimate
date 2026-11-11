@@ -109,7 +109,7 @@ class DehumidifierMode(IntEnum):
 _CAPABILITY_NAMES = (
     "power", "mode", "target_temperature", "temperature_units", "current_temperature",
     "fan_speed", "fresh_air", "xfan", "anion", "sleep", "light", "horizontal_swing",
-    "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "lan_buzzer_control",
+    "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "buzzer_control",
     "target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter", "water_full",
     "inlet_water_temperature_c", "outlet_water_temperature_c", "room_temperature_c",
     "tank_temperature_c", "heating_room_target_temperature_c", "cooling_room_target_temperature_c",
@@ -472,7 +472,7 @@ class Device(DeviceProtocol2, Taskable):
                 name in ("Buzzer_ON_OFF", "BuzzerCtrl")
                 for name in profile.buzzer_properties
             ):
-                capabilities["lan_buzzer_control"] = True
+                capabilities["buzzer_control"] = True
             if profile is not None:
                 for family, name, supported in profile.capabilities:
                     if family == self._capability_family and name in self._capability_names:

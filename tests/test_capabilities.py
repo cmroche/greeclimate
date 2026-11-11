@@ -24,7 +24,7 @@ ATW_HID = "362001066763+U-W06A(P3)V6.04.bin"
 AC_NAMES = frozenset({
     "power", "mode", "target_temperature", "temperature_units", "current_temperature",
     "fan_speed", "fresh_air", "xfan", "anion", "sleep", "light", "horizontal_swing",
-    "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "lan_buzzer_control",
+    "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "buzzer_control",
 })
 DEHUMIDIFIER_NAMES = frozenset({
     "power", "target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter",
@@ -134,9 +134,9 @@ async def test_known_ac_mid_evidence_precedes_hid_and_survives_hid_loss(info):
     unit = create_device(info)
     before = unit.capabilities
     assert type(unit) is AirConditionerDevice
-    assert all(before[name] is True for name in AC_NAMES - {"lan_buzzer_control", "sleep"})
+    assert all(before[name] is True for name in AC_NAMES - {"buzzer_control", "sleep"})
     assert before["sleep"] is None
-    assert before["lan_buzzer_control"] is None
+    assert before["buzzer_control"] is None
     assert all(before[name] is False for name in CAPABILITY_NAMES - AC_NAMES)
     unit.handle_state_update(Pow=1, TemSen=59)
     assert unit.capabilities == before
@@ -159,7 +159,7 @@ async def test_known_dehumidifier_mid_does_not_invent_omitted_sensors(info):
     assert unit.capabilities == before
     assert unit.target_humidity == 45
     assert unit.clean_filter is False
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert unit.capabilities["buzzer_control"] is False
 
 
 @pytest.mark.parametrize("code,excluded", [
@@ -169,7 +169,7 @@ async def test_known_dehumidifier_mid_does_not_invent_omitted_sensors(info):
     ("362001065634", ("current_temperature",)),
     ("362001062617", ("current_temperature",)),
     ("362001067012", ("current_temperature",)),
-    ("362001061649", tuple(sorted(AC_NAMES - {"power", "lan_buzzer_control"}))),
+    ("362001061649", tuple(sorted(AC_NAMES - {"power", "buzzer_control"}))),
 ])
 @pytest.mark.parametrize("suffix", ["", "+different-module-V999.bin"])
 async def test_firmware_exclusions_override_mid_without_erasing_other_features(
@@ -197,10 +197,10 @@ async def test_sensor_host_does_not_borrow_forwarded_climate_capabilities(info, 
                              Pow=1, TemSor=65535, HumSor=255, CO2=65535)
     assert unit.capabilities["power"] is None
     assert all(unit.capabilities[name] is False for name in names - {
-        "power", "lan_buzzer_control",
+        "power", "buzzer_control",
     })
     if kind is AirConditionerDevice:
-        assert unit.capabilities["lan_buzzer_control"] is None
+        assert unit.capabilities["buzzer_control"] is None
     assert unit.current_temperature is None
     assert unit.get_property("TemSor") == 65535
     unit.handle_state_update(hid="unknown")
@@ -253,7 +253,7 @@ async def test_firmware_entries_require_matching_family_and_public_typed_key(inf
 async def test_buzzer_opt_in_uses_profile_namespaces_not_mid_fields(
         info, monkeypatch, properties, override, expected):
     capabilities = (
-        (("air_conditioner", "lan_buzzer_control", override),)
+        (("air_conditioner", "buzzer_control", override),)
         if override is not None else ()
     )
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
@@ -261,11 +261,11 @@ async def test_buzzer_opt_in_uses_profile_namespaces_not_mid_fields(
                       capabilities=capabilities),
     ))
     unit = AirConditionerDevice(info)
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert unit.capabilities["buzzer_control"] is None
     unit.handle_state_update(hid="buzzer-test+build")
-    assert unit.capabilities["lan_buzzer_control"] is expected
+    assert unit.capabilities["buzzer_control"] is expected
     unit.handle_state_update(hid="malformed")
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert unit.capabilities["buzzer_control"] is None
 
 
 async def test_instances_and_hid_profile_changes_do_not_merge_evidence(info, monkeypatch):
@@ -446,7 +446,7 @@ async def test_atw_sensor_evidence_requires_matching_firmware_code(info, hid):
     unit.handle_state_update(hid=ATW_HID)
     unit.handle_state_update(hid=hid)
     assert all(unit.capabilities[name] is None for name in ATW_NAMES)
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert unit.capabilities["buzzer_control"] is False
 
 
 
@@ -632,13 +632,13 @@ async def test_gateway_hid_excludes_typed_sensor_without_calibrating_raw_body(in
     unit.handle_state_update(hid=hid, TemBody=85)
     excluded = unit.capabilities
     assert excluded["current_temperature"] is False
-    assert excluded["lan_buzzer_control"] is None
+    assert excluded["buzzer_control"] is None
     assert unit.current_temperature is None
     assert unit.get_property("TemBody") == 85
     assert excluded["target_temperature"] is True
     unit.handle_state_update(hid="unidentified+U-W06AV7.bin")
     assert unit.capabilities["current_temperature"] is True
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert unit.capabilities["buzzer_control"] is None
     assert excluded["current_temperature"] is False
 
 
@@ -654,11 +654,11 @@ async def test_wb_gateway_identity_keeps_other_traits_unknown_without_buzzer_opt
     unit = AirConditionerDevice(info)
     unit.handle_state_update(hid="362001061433+U-W06AV7.bin")
     assert unit.capabilities["current_temperature"] is False
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert unit.capabilities["buzzer_control"] is None
     unit.handle_state_update(hid=hid, TemSor=85)
     assert unit.capabilities["current_temperature"] is None
-    assert all(unit.capabilities[name] is None for name in AC_NAMES if name != "lan_buzzer_control")
-    assert unit.capabilities["lan_buzzer_control"] is None
+    assert all(unit.capabilities[name] is None for name in AC_NAMES if name != "buzzer_control")
+    assert unit.capabilities["buzzer_control"] is None
     assert unit.current_temperature is None
     assert unit.get_property("TemSor") == 85
     unit.version = "999"
@@ -687,7 +687,7 @@ async def test_firmware_namespace_only_adds_evidenced_buzzer_command(info, hid, 
         if buzzer is True:
             expected["Buzzer_ON_OFF"] = 1
         assert sent_properties(unit) == expected
-        assert unit.capabilities["lan_buzzer_control"] is (True if buzzer else None)
+        assert unit.capabilities["buzzer_control"] is (True if buzzer else None)
         assert unit.capabilities["power"] is True
     finally:
         unit.close()
