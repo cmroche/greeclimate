@@ -1,4 +1,4 @@
-"""Recorded status polling presets selected by the reported device MID."""
+"""Recorded MID polling presets, including readable swing state."""
 
 from dataclasses import dataclass
 from typing import Optional, Tuple
@@ -126,6 +126,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "SvSt", "HeatSvStTemMax", "CoolSvStTemMin",
         "TemRecH", "TemRecC", "host", "name", "AllErr", "hid", "GoOut", "LowDeHumi",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     )),
     # U-Match air conditioner.
     MidProfile("3027", (
@@ -213,12 +214,14 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType", "Dmod", "Add0.5", "WdSpd", "Quiet", "Tur", "TemSen", "hid",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     )),
     # Air conditioner.
     MidProfile("10002", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name", "Add0.5",
         "ModelType", "TemSen", "WdSpd", "Quiet", "Tur",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     )),
     # Air conditioner.
     MidProfile("10007", (
@@ -229,11 +232,13 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("11000", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "AllErr", "JFErrorCode",
         "Add0.5", "WdSpd", "Quiet", "Tur",
+        "SwingLfRig", "SwUpDn",
     )),
     # Air conditioner.
     MidProfile("11001", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     )),
     # Air conditioner.
     MidProfile("11002", (
@@ -249,6 +254,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Unknown device type.
     MidProfile("11010", (
         "Pow", "Mod", "TemUn", "SetTem", "TemRec", "host", "name", "WdSpd", "Quiet", "Tur",
+        "SwingLfRig", "SwUpDn",
     )),
     # Window air conditioner.
     MidProfile("12000", (
@@ -273,6 +279,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "Pow", "HeatCoolType", "Mod", "TemUn", "SetTem", "TemRec", "StHt", "SvSt", "host", "name",
         "AllErr", "ModelType",
         "Lig", "Blo", "Air", "Health",
+        "SwingLfRig", "SwUpDn",
     )),
     # Dehumidifier.
     MidProfile("13800", (
@@ -298,6 +305,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     # Dehumidifier.
     MidProfile("13806", (
         "Pow", "Dmod", "Dwet", "host", "name", "AllErr", "TemSen", "DwatFul", "vender",
+        "SwingLfRig", "SwUpDn",
     )),
     # RV air conditioner.
     MidProfile("15000", (
@@ -375,6 +383,7 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
     MidProfile("828214", (
         "Pow", "WdSpd", "Mod", "Rotate", "LRAngle", "TmrHour", "TmrMin", "TmrOn", "TmrAction",
         "JFerr", "LRHeadAngle", "Quiet", "OSD", "estate", "rssi", "StepWdSpd",
+        "SwingLfRig", "SwUpDn",
     )),
     # Unknown device type.
     MidProfile("80361", (
