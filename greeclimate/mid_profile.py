@@ -3,7 +3,6 @@
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple
 
-
 # Composite features require every field used by their typed encoding/decoder.
 _CAPABILITY_COLUMNS = {
     "power": ("Pow",),
@@ -48,12 +47,13 @@ class MidProfile:
 
     @property
     def capabilities(self) -> Dict[str, bool]:
-        """Declared fields establish features, not every writable value or hardware effect."""
+        """Return positive feature evidence from complete declared polling groups."""
         if self.mid is None or self.family is None:
             return {}
         columns = frozenset(self.status_columns)
         return {
-            name: True for name, required in _CAPABILITY_COLUMNS.items()
+            name: True
+            for name, required in _CAPABILITY_COLUMNS.items()
             if columns.issuperset(required)
         }
 

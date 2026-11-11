@@ -7,14 +7,14 @@ from typing import Optional, Tuple
 
 @dataclass(frozen=True)
 class DeviceProfile:
-    """Firmware traits with an optional inclusive numeric module-version bound."""
+    """Firmware traits with optional version bounds and feature-support overrides."""
 
     firmware_code: str
     temperature_offset: Optional[int] = None
     relearn_temperature_offset: bool = False
     buzzer_properties: Tuple[str, ...] = ()
     cooling_mode_value: Optional[int] = None
-    capabilities: Tuple[Tuple[str, str, bool], ...] = ()
+    capabilities: Tuple[Tuple[str, str, Optional[bool]], ...] = ()
     gateway_dialect: Optional[str] = None
     max_version: Optional[str] = None
 

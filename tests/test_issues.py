@@ -139,7 +139,9 @@ async def test_issue_251_buzzer_commands_follow_reported_firmware_version():
                 "dat": ["362001065280" + suffix],
             }, device.device_cipher), addr)
             await asyncio.wait_for(events.get(), 2)
-            assert device.capabilities["lan_buzzer_control"] is bool(muted)
+            assert device.capabilities["lan_buzzer_control"] is (
+                True if muted or audible else None
+            )
             for enabled, expected in ((False, muted), (True, audible)):
                 device.buzzer = enabled
                 device.power = enabled
