@@ -1,3 +1,10 @@
+## [4.2.5](https://github.com/cmroche/greeclimate/compare/v4.2.4...v4.2.5) (2026-11-12)
+
+
+### Bug Fixes
+
+* **device:** preserve unknown buzzer capability support ([#259](https://github.com/cmroche/greeclimate/issues/259)) ([1944afc](https://github.com/cmroche/greeclimate/commit/1944afcea02f3539e84ad086ad7835a3a4d7ea72))
+
 ## [4.2.4](https://github.com/cmroche/greeclimate/compare/v4.2.3...v4.2.4) (2026-11-11)
 
 
