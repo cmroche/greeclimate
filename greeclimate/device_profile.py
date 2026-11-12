@@ -14,7 +14,7 @@ class DeviceProfile:
     relearn_temperature_offset: bool = False
     buzzer_properties: Tuple[str, ...] = ()
     cooling_mode_value: Optional[int] = None
-    capabilities: Tuple[Tuple[str, str, bool], ...] = ()
+    capabilities: Tuple[Tuple[str, str, Optional[bool]], ...] = ()
     gateway_dialect: Optional[str] = None
     max_version: Optional[str] = None
 

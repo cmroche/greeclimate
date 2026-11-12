@@ -257,7 +257,7 @@ async def test_closed_named_namespaces_never_append_automatic_buzzer(hid, suffix
     if suffix is not None:
         hid = hid.partition("+")[0] + suffix
     device.handle_state_update(hid=hid)
-    assert device.capabilities["lan_buzzer_control"] is False
+    assert device.capabilities["buzzer_control"] is None
     for enabled, value in [(False, 1), (True, 0)]:
         device.buzzer = enabled
         device.set_property("Pow", value)
@@ -295,8 +295,7 @@ async def test_raw_identity_keeps_raw_consumer_commands(hid, mid, cipher, send):
     await device.push_state_update()
     assert send.call_args.args[0]["pack"]["opt"] == ["Pow"]
     assert send.call_args.args[0]["pack"]["p"] == [1]
-    assert device.capabilities["mode"] is None
-    assert device.capabilities["current_temperature"] is None
+    assert all(value is None for value in device.capabilities.values())
 
 
 @pytest.mark.asyncio
@@ -378,7 +377,7 @@ async def test_identity_only_profiles_report_buzzer_unsupported_and_out_of_comma
     device = AirConditionerDevice(DeviceInfo(*get_mock_info()))
     await device.bind(key="0123456789abcdef", cipher=CipherV1())
     device.handle_state_update(hid=identity["hid"])
-    assert device.capabilities["lan_buzzer_control"] is False
+    assert device.capabilities["buzzer_control"] is None
 
     device.buzzer = False
     device.set_property("Pow", 1)
@@ -451,7 +450,7 @@ async def test_conflicting_buzzer_aliases_stay_unsupported_without_version_admis
     await device.bind(key="0123456789abcdef", cipher=CipherV1())
     device.handle_state_update(hid=hid, TemSen=65, TemUn=0)
     assert device.current_temperature == 25
-    assert device.capabilities["lan_buzzer_control"] is False
+    assert device.capabilities["buzzer_control"] is None
     device.buzzer = False
     device.set_property("Pow", 1)
     await device.push_state_update()

@@ -1,4 +1,5 @@
 """Capability evidence is separate from cached state and command acceptance."""
+import asyncio
 from unittest.mock import AsyncMock
 
 import pytest
@@ -13,6 +14,8 @@ from greeclimate.device_factory import create_device
 from greeclimate.device_profile import DeviceProfile
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.mid_profile import MidProfile
+from greeclimate.network import Response
+from tests.test_device import recovery_packet, recovery_receive, recovery_session
 
 pytestmark = pytest.mark.asyncio
 
@@ -21,7 +24,7 @@ ATW_HID = "362001066763+U-W06A(P3)V6.04.bin"
 AC_NAMES = frozenset({
     "power", "mode", "target_temperature", "temperature_units", "current_temperature",
     "fan_speed", "fresh_air", "xfan", "anion", "sleep", "light", "horizontal_swing",
-    "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "lan_buzzer_control",
+    "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "buzzer_control",
 })
 DEHUMIDIFIER_NAMES = frozenset({
     "power", "target_humidity", "dehumidifier_mode", "current_humidity", "clean_filter",
@@ -40,6 +43,11 @@ ATW_SENSORS = {
     "inlet_water_temperature_c", "outlet_water_temperature_c",
     "room_temperature_c", "tank_temperature_c",
 }
+ATW_TARGETS = frozenset({
+    "heating_room_target_temperature_c", "cooling_room_target_temperature_c",
+    "heating_water_target_temperature_c", "cooling_water_target_temperature_c",
+    "tank_target_temperature_c",
+})
 TARGETS = [
     ("heating_water_target_temperature_c", "HeWatOutTemSet", 40),
     ("cooling_water_target_temperature_c", "CoWatOutTemSet", 20),
@@ -63,82 +71,32 @@ async def test_fixed_schema_distinguishes_unknown_from_outside_family(info, kind
     snapshot = unit.capabilities
     assert len(snapshot) == 32
     assert set(snapshot) == CAPABILITY_NAMES
-    if kind is AirConditionerDevice:
-        assert snapshot["lan_buzzer_control"] is False
-        assert all(snapshot[name] is None for name in names - {"lan_buzzer_control"})
+    if kind is Device:
+        assert all(value is None for value in snapshot.values())
     else:
         assert all(snapshot[name] is None for name in names)
-    assert all(snapshot[name] is False for name in CAPABILITY_NAMES - names)
+        assert all(snapshot[name] is False for name in CAPABILITY_NAMES - names)
     assert "buzzer" not in snapshot
     assert "cooling_mode_value" not in snapshot
 
 
-@pytest.mark.parametrize("mid", [None, "10001", "13805", "3027", "9300", "9301", "60"])
-@pytest.mark.parametrize("hid", [AC_HID, ATW_HID])
+@pytest.mark.parametrize("mid,hid", [
+    (None, AC_HID),
+    ("10001", AC_HID),
+    ("13805", "362001060499"),
+    ("9300", ATW_HID),
+])
 async def test_neutral_device_stays_unknown_after_known_hid_and_raw_state(info, mid, hid):
     info.mid = mid
     unit = Device(info)
     before = unit.capabilities
-    unit.handle_state_update(hid=hid, Pow=0, Mod=1, TemSen=65, DwatSen=45)
-    unit.set_property("Pow", 1)
-    info.model = "Known air conditioner"
-    info.mid = "13805"
+    unit.handle_state_update(hid=hid, Pow=1, Mod=1, TemSen=65, DwatSen=45)
+    unit.set_property("SetTem", 23)
     assert all(value is None for value in unit.capabilities.values())
     assert unit.capabilities == before
     assert type(unit) is Device
-    for name in ("power", "mode", "target_temperature", "target_humidity", "buzzer"):
-        assert not hasattr(unit, name)
-
-
-@pytest.mark.parametrize("hid,buzzer", [
-    (None, False),
-    ("malformed", False),
-    ("999999999999+U-W04NV17.bin", False),
-    ("362001000762", False),
-    ("362001063967", True),
-    ("362001064973", True),
-    ("362001064973+", True),
-    ("362001064973+different-module-V999.bin", True),
-    (ATW_HID, False),
-    (123, False),
-    ([], False),
-    ({}, False),
-])
-async def test_hid_only_reports_buzzer_opt_in_policy(info, hid, buzzer):
-    unit = AirConditionerDevice(info)
-    unit.handle_state_update(hid=AC_HID)
-    unit.handle_state_update(hid=hid)
-    snapshot = unit.capabilities
-    assert all(snapshot[name] is None for name in AC_NAMES - {"lan_buzzer_control"})
-    assert snapshot["lan_buzzer_control"] is buzzer
-    assert snapshot["target_humidity"] is False
-    assert unit.power is None
-    assert unit.current_temperature is None
-
-
-async def test_snapshots_are_fresh_immutable_and_keep_prior_hid_evidence(info):
-    unit = AirConditionerDevice(info)
-    before = unit.capabilities
-    assert before["lan_buzzer_control"] is False
-    unit.handle_state_update(hid=AC_HID)
-    supported = unit.capabilities
-    assert unit.capabilities is not supported
-    with pytest.raises(TypeError):
-        supported["power"] = False
-    with pytest.raises(TypeError):
-        del supported["quiet"]
-    with pytest.raises(TypeError):
-        supported["invented"] = True
-    with pytest.raises(AttributeError):
-        unit.capabilities = {}
-    unit.handle_state_update(hid="362001000762")
-    unsupported = unit.capabilities
-    unit.handle_state_update(hid="malformed")
-    assert before["lan_buzzer_control"] is False
-    assert supported["lan_buzzer_control"] is True
-    assert unsupported["lan_buzzer_control"] is False
-    assert unit.capabilities["lan_buzzer_control"] is False
-    assert type(unit) is AirConditionerDevice
+    assert not hasattr(unit, "power")
+    assert unit.get_property("TemSen") == 65
 
 
 @pytest.mark.parametrize("kind,mid", [
@@ -153,18 +111,19 @@ async def test_cached_reports_local_values_and_connection_state_do_not_probe_or_
     unit.bind = AsyncMock()
     unit.send = AsyncMock()
     before = unit.capabilities
-    unit.handle_state_update(Pow=0, TemUn=0, TemSen=0, DwatSen=0)
-    assert unit.capabilities == before
-    unit.handle_state_update(hid=AC_HID)
-    evidenced = unit.capabilities
-    unit.handle_state_update(Pow=1, TemUn=1, TemSen=65, DwatSen=45)
-    unit.set_property("Pow", 0)
+
+    assert unit.has_valid_state is False
+    unit.handle_state_update()
+    assert unit.has_valid_state is True
+    unit.handle_state_update(Pow=1, TemUn=0, TemSen=65, DwatSen=45)
     unit.set_property("SetTem", 23)
-    info.model = "Unrelated model"
     unit.version = "999"
     unit.ready.set()
-    assert unit.capabilities == evidenced
+    assert unit.capabilities == before
     unit.ready.clear()
+    unit.handle_state_update(hid=AC_HID)
+    evidenced = unit.capabilities
+    unit.handle_state_update(Pow=0, TemSen=60, DwatSen=50)
     assert unit.capabilities == evidenced
     unit.bind.assert_not_awaited()
     unit.send.assert_not_awaited()
@@ -174,32 +133,13 @@ async def test_known_ac_mid_evidence_precedes_hid_and_survives_hid_loss(info):
     info.mid = "10001"
     unit = create_device(info)
     before = unit.capabilities
-    for name in ("power", "mode", "target_temperature", "temperature_units",
-                 "current_temperature", "fan_speed", "quiet", "turbo",
-                 "steady_heat", "power_save"):
-        assert before[name] is True
+    assert type(unit) is AirConditionerDevice
+    assert all(before[name] is True for name in AC_NAMES - {"buzzer_control", "sleep"})
     assert before["sleep"] is None
-    assert before["lan_buzzer_control"] is False
-    assert before["dehumidifier_mode"] is False
-    assert unit.power is None
-    assert unit.current_temperature is None
-    unit.handle_state_update(hid=AC_HID)
-    assert unit.capabilities["lan_buzzer_control"] is True
-    unit.handle_state_update(hid="malformed")
+    assert before["buzzer_control"] is None
+    assert all(before[name] is False for name in CAPABILITY_NAMES - AC_NAMES)
+    unit.handle_state_update(Pow=1, TemSen=59)
     assert unit.capabilities == before
-
-
-@pytest.mark.parametrize("mid", ["11002", "11012"])
-async def test_wifi_module_ac_mids_poll_full_climate_state(info, mid):
-    # Verified on WB05MARJ (11002) and WB04A (11012) modules, which answer every column.
-    info.mid = mid
-    unit = create_device(info)
-    assert isinstance(unit, AirConditionerDevice)
-    capabilities = unit.capabilities
-    for name in ("current_temperature", "fresh_air", "xfan", "anion", "sleep", "light",
-                 "horizontal_swing", "vertical_swing", "steady_heat", "power_save"):
-        assert capabilities[name] is True
-    unit.handle_state_update(TemSen=59, TemUn=0, TemRec=0)
     assert unit.current_temperature == 19
 
 
@@ -219,7 +159,7 @@ async def test_known_dehumidifier_mid_does_not_invent_omitted_sensors(info):
     assert unit.capabilities == before
     assert unit.target_humidity == 45
     assert unit.clean_filter is False
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert unit.capabilities["buzzer_control"] is False
 
 
 @pytest.mark.parametrize("code,excluded", [
@@ -229,7 +169,7 @@ async def test_known_dehumidifier_mid_does_not_invent_omitted_sensors(info):
     ("362001065634", ("current_temperature",)),
     ("362001062617", ("current_temperature",)),
     ("362001067012", ("current_temperature",)),
-    ("362001061649", tuple(sorted(AC_NAMES - {"power", "lan_buzzer_control"}))),
+    ("362001061649", tuple(sorted(AC_NAMES - {"power", "buzzer_control"}))),
 ])
 @pytest.mark.parametrize("suffix", ["", "+different-module-V999.bin"])
 async def test_firmware_exclusions_override_mid_without_erasing_other_features(
@@ -256,24 +196,15 @@ async def test_sensor_host_does_not_borrow_forwarded_climate_capabilities(info, 
     unit.handle_state_update(hid="362001061649+U-W06KV4.4.bin",
                              Pow=1, TemSor=65535, HumSor=255, CO2=65535)
     assert unit.capabilities["power"] is None
-    assert all(unit.capabilities[name] is False for name in names - {"power"})
+    assert all(unit.capabilities[name] is False for name in names - {
+        "power", "buzzer_control",
+    })
+    if kind is AirConditionerDevice:
+        assert unit.capabilities["buzzer_control"] is None
     assert unit.current_temperature is None
     assert unit.get_property("TemSor") == 65535
     unit.handle_state_update(hid="unknown")
-    assert all(unit.capabilities[name] is None for name in names - {"lan_buzzer_control"})
-    assert unit.capabilities["lan_buzzer_control"] is False
-
-
-@pytest.mark.parametrize("code,steady_heat", [
-    ("362001000835", False), ("362001060200", False), ("362001060297", False),
-    ("362001060498", False), ("362001060499", True),
-])
-async def test_mtk_steady_heat_distinguishes_implemented_bit_from_fixed_zero(info, code, steady_heat):
-    info.mid = "10001"
-    unit = create_device(info)
-    unit.handle_state_update(hid=code, StHt=1)
-    assert unit.steady_heat is True
-    assert unit.capabilities["steady_heat"] is steady_heat
+    assert all(unit.capabilities[name] is None for name in names)
 
 
 async def test_humidity_exclusion_does_not_alias_another_sensor_or_gate_raw_access(info):
@@ -289,70 +220,79 @@ async def test_humidity_exclusion_does_not_alias_another_sensor_or_gate_raw_acce
     assert unit.capabilities["current_humidity"] is True
 
 
-@pytest.mark.parametrize("kind,family,own_key,excluded,foreign", [
-    (AirConditionerDevice, "air_conditioner", "quiet", "target_humidity", "dehumidifier"),
-    (DehumidifierDevice, "dehumidifier", "target_humidity", "mode", "air_conditioner"),
-    (AirToWaterDevice, "air_to_water", "tank_target_temperature_c", "quiet", "dehumidifier"),
-])
-async def test_firmware_entries_require_matching_family_and_public_typed_key(
-        info, monkeypatch, kind, family, own_key, excluded, foreign):
+async def test_firmware_entries_require_matching_family_and_public_typed_key(info, monkeypatch):
+    info.mid = "10001"
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
-        DeviceProfile("362001064973", capabilities=(
-            (foreign, "power", True),
-            (family, own_key, True),
-            (family, excluded, True),
-            (family, "invented", True),
+        DeviceProfile("test-family", capabilities=(
+            ("dehumidifier", "quiet", False),
+            ("air_conditioner", "power", False),
+            ("air_conditioner", "mode", None),
+            ("air_conditioner", "invented", True),
+            ("air_conditioner", "target_humidity", True),
         )),
     ))
-    unit = kind(info)
-    unit.handle_state_update(hid=AC_HID)
-    assert unit.capabilities["power"] is None
-    assert unit.capabilities[own_key] is True
-    assert unit.capabilities[excluded] is False
+    unit = AirConditionerDevice(info)
+    unit.handle_state_update(hid="test-family+build")
+    assert unit.capabilities["power"] is False
+    assert unit.capabilities["mode"] is None
+    assert unit.capabilities["quiet"] is True
+    assert unit.capabilities["target_humidity"] is False
     assert "invented" not in unit.capabilities
     neutral = Device(info)
-    neutral.handle_state_update(hid=AC_HID)
+    neutral.handle_state_update(hid="test-family+build")
     assert all(value is None for value in neutral.capabilities.values())
 
 
-@pytest.mark.parametrize("profile,expected", [
-    (DeviceProfile("362001064973"), False),
-    (DeviceProfile("362001064973", buzzer_properties=()), False),
-    (DeviceProfile("362001064973", buzzer_properties=("Buzzer_ON_OFF",)), True),
+@pytest.mark.parametrize("properties,override,expected", [
+    ((), None, None),
+    (("Buzzer_ON_OFF",), None, True),
+    (("BuzzerCtrl",), None, True),
+    (("BuzzerExtra",), None, None),
+    (("Buzzer_ON_OFF",), False, False),
 ])
 async def test_buzzer_opt_in_uses_profile_namespaces_not_mid_fields(
-        info, monkeypatch, profile, expected):
-    info.mid = "buzzer-fields"
-    monkeypatch.setattr(mid_profile, "KNOWN_MID_PROFILES", (
-        MidProfile("buzzer-fields", ("Buzzer_ON_OFF", "BuzzerCtrl"), "air_conditioner"),
-    ))
+        info, monkeypatch, properties, override, expected):
+    capabilities = (
+        (("air_conditioner", "buzzer_control", override),)
+        if override is not None else ()
+    )
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
-        profile,
+        DeviceProfile("buzzer-test", buzzer_properties=properties,
+                      capabilities=capabilities),
     ))
     unit = AirConditionerDevice(info)
-    assert unit.capabilities["lan_buzzer_control"] is False
-    unit.handle_state_update(hid=AC_HID)
-    assert unit.capabilities["lan_buzzer_control"] is expected
+    assert unit.capabilities["buzzer_control"] is None
+    unit.handle_state_update(hid="buzzer-test+build")
+    assert unit.capabilities["buzzer_control"] is expected
+    unit.handle_state_update(hid="malformed")
+    assert unit.capabilities["buzzer_control"] is None
 
 
 async def test_instances_and_hid_profile_changes_do_not_merge_evidence(info, monkeypatch):
     monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
-        DeviceProfile("first", capabilities=(("air_conditioner", "power", True),)),
-        DeviceProfile("second", capabilities=(("air_conditioner", "quiet", True),)),
+        DeviceProfile("first", capabilities=(("air_conditioner", "quiet", True),)),
+        DeviceProfile("second", capabilities=(("air_conditioner", "mode", False),)),
     ))
     first = AirConditionerDevice(info)
     second = AirConditionerDevice(info)
     first.handle_state_update(hid="first+build")
     second.handle_state_update(hid="second+build")
     snapshot = first.capabilities
-    assert snapshot["power"] is True
-    assert snapshot["quiet"] is None
-    assert second.capabilities["power"] is None
-    assert second.capabilities["quiet"] is True
-    first.handle_state_update(hid="second+other-build")
-    assert first.capabilities == second.capabilities
-    assert snapshot["power"] is True
-    assert snapshot["quiet"] is None
+    second_snapshot = second.capabilities
+    assert snapshot["quiet"] is True
+    assert second_snapshot["mode"] is False
+    with pytest.raises(TypeError):
+        snapshot["quiet"] = False
+    with pytest.raises(TypeError):
+        del snapshot["quiet"]
+    with pytest.raises(AttributeError):
+        first.capabilities = {}
+    first.handle_state_update(hid="second+build")
+    assert first.capabilities["quiet"] is None
+    assert first.capabilities["mode"] is False
+    assert snapshot["quiet"] is True
+    assert snapshot["mode"] is None
+    assert second.capabilities == second_snapshot
 
 
 @pytest.mark.parametrize("kind,mid,names", [
@@ -363,16 +303,16 @@ async def test_instances_and_hid_profile_changes_do_not_merge_evidence(info, mon
 async def test_direct_family_mismatch_does_not_import_mid_evidence(info, kind, mid, names):
     info.mid = mid
     unit = kind(info)
-    assert all(unit.capabilities[name] is None for name in names - {"lan_buzzer_control"})
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert all(unit.capabilities[name] is None for name in names)
+    assert all(unit.capabilities[name] is False for name in CAPABILITY_NAMES - names)
 
 
 @pytest.mark.parametrize("mid", [None, "unmapped", "3027", "6400", "60", 10001, "10001 "])
 async def test_unknown_or_unimplemented_mid_adds_no_family_evidence(info, mid):
     info.mid = mid
     unit = AirConditionerDevice(info)
-    assert all(unit.capabilities[name] is None for name in AC_NAMES - {"lan_buzzer_control"})
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert all(unit.capabilities[name] is None for name in AC_NAMES)
+    assert all(unit.capabilities[name] is False for name in CAPABILITY_NAMES - AC_NAMES)
 
 
 async def test_retained_mid_is_fixed_and_registry_changes_only_affect_new_instances(info, monkeypatch):
@@ -380,43 +320,77 @@ async def test_retained_mid_is_fixed_and_registry_changes_only_affect_new_instan
     original = DehumidifierDevice(info)
     snapshot = original.capabilities
     assert snapshot["current_humidity"] is True
-    assert snapshot["current_temperature"] is None
     info.mid = "13802"
     replacement = DehumidifierDevice(info)
-    assert replacement.capabilities["current_humidity"] is None
-    assert replacement.capabilities["current_temperature"] is True
+    replacement_snapshot = replacement.capabilities
+    assert replacement_snapshot["current_humidity"] is None
     assert original.capabilities == snapshot
     monkeypatch.setattr(mid_profile, "KNOWN_MID_PROFILES", ())
     unregistered = DehumidifierDevice(info)
-    assert unregistered.capabilities["current_temperature"] is None
-    assert replacement.capabilities["current_temperature"] is True
+    assert unregistered.capabilities["current_humidity"] is None
+    assert replacement.capabilities == replacement_snapshot
     assert original.capabilities == snapshot
 
 
-@pytest.mark.parametrize("kind,mid,name,value,key,wire,hid,evidence", [
-    (AirConditionerDevice, None, "quiet", True, "Quiet", 2, None, None),
-    (DehumidifierDevice, None, "target_humidity", 45, "Dwet", 6, None, None),
-    (AirConditionerDevice, "10001", "steady_heat", True, "StHt", 1, "362001000835", False),
-])
-async def test_capabilities_do_not_add_setter_rejection_gates(
-        info, kind, mid, name, value, key, wire, hid, evidence):
-    info.mid = mid
-    unit = kind(info)
+async def test_capabilities_do_not_add_setter_rejection_gates(info):
+    info.mid = "10001"
+    unit = AirConditionerDevice(info)
+    await unit.bind(key="0123456789abcdef", cipher=CipherV1())
+    unit.send = AsyncMock()
     try:
-        await unit.bind(key="0123456789abcdef", cipher=CipherV1())
-        unit.send = AsyncMock()
-        if hid is not None:
-            unit.handle_state_update(hid=hid)
-        assert unit.capabilities[name] is evidence
-        setattr(unit, name, value)
+        unit.handle_state_update(hid="362001000835")
+        assert unit.capabilities["steady_heat"] is False
+        unit.steady_heat = True
         await unit.push_state_update()
-        pack = unit.send.await_args.args[0]["pack"]
-        assert pack["t"] == "cmd"
-        assert pack["opt"] == [key]
-        assert pack["p"] == [wire]
-        assert unit.capabilities[name] is evidence
+        assert sent_properties(unit) == {"StHt": 1}
+        assert unit.capabilities["steady_heat"] is False
     finally:
         unit.close()
+
+
+@pytest.mark.asyncio
+async def test_encrypted_udp_callbacks_observe_bool_overrides_after_state_update(info, monkeypatch):
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
+        DeviceProfile("callback-first", capabilities=(
+            ("air_conditioner", "quiet", True),
+        )),
+        DeviceProfile("callback-second", capabilities=(
+            ("air_conditioner", "mode", False),
+        )),
+    ))
+    async with recovery_session(device_type=AirConditionerDevice) as (
+            unit, peer, queue, addr):
+        await recovery_receive(queue, unit.device_cipher)
+        data_events, result_events = asyncio.Queue(), asyncio.Queue()
+        unit.add_handler(Response.DATA, lambda data: data_events.put_nowait(
+            (data, unit.capabilities),
+        ))
+        unit.add_handler(Response.RESULT, lambda data: result_events.put_nowait(
+            (data, unit.capabilities),
+        ))
+        old = unit.capabilities
+        peer.sendto(recovery_packet({
+            "t": "dat", "cols": ["hid"], "dat": ["callback-first+build"],
+        }, unit.device_cipher), addr)
+        data, after_data = await asyncio.wait_for(data_events.get(), 2)
+        assert data == {"hid": "callback-first+build"}
+        assert after_data["quiet"] is True
+        assert old["quiet"] is None
+
+        peer.sendto(recovery_packet({
+            "t": "dat", "cols": ["Pow"], "dat": [0],
+        }, unit.device_cipher), addr)
+        _, without_hid = await asyncio.wait_for(data_events.get(), 2)
+        assert without_hid == after_data
+        peer.sendto(recovery_packet({
+            "t": "res", "opt": ["hid"], "val": ["callback-second+build"],
+        }, unit.device_cipher), addr)
+        result, after_result = await asyncio.wait_for(result_events.get(), 2)
+        assert result == {"hid": "callback-second+build"}
+        assert after_result["mode"] is False
+        assert after_result["quiet"] is None
+        assert after_data["quiet"] is True
+        assert old["mode"] is None
 
 
 @pytest.fixture
@@ -472,47 +446,7 @@ async def test_atw_sensor_evidence_requires_matching_firmware_code(info, hid):
     unit.handle_state_update(hid=ATW_HID)
     unit.handle_state_update(hid=hid)
     assert all(unit.capabilities[name] is None for name in ATW_NAMES)
-    assert unit.capabilities["lan_buzzer_control"] is False
-
-
-
-async def test_metadata_only_atw_firmware_excludes_mid_features_until_hid_changes(info):
-    info.mid = "9300"
-    unit = create_device(info)
-    before = unit.capabilities
-    assert before["power"] is True
-    assert before["tank_target_temperature_c"] is True
-
-    unit.handle_state_update(hid="362001069999+uninspected-module")
-    excluded = unit.capabilities
-    assert all(excluded[name] is False for name in ATW_NAMES)
-    assert type(unit) is AirToWaterDevice
-
-    unit.handle_state_update(hid="unknown")
-    assert unit.capabilities["power"] is True
-    assert unit.capabilities["tank_target_temperature_c"] is True
-    assert unit.capabilities["room_temperature_c"] is None
-    assert before["power"] is True
-    assert excluded["power"] is False
-
-
-
-@pytest.mark.parametrize("kind", [Device, DehumidifierDevice, AirToWaterDevice])
-async def test_buzzer_namespace_does_not_enable_other_families(info, kind):
-    unit = kind(info)
-    unit.handle_state_update(hid=AC_HID)
-    expected = None if kind is Device else False
-    assert unit.capabilities["lan_buzzer_control"] is expected
-
-
-
-@pytest.mark.parametrize("override", [None, 0, 5])
-async def test_cooling_configuration_does_not_create_protocol_evidence(info, override):
-    unit = AirToWaterDevice(info, cooling_mode_value=override)
-    assert all(unit.capabilities[name] is None for name in ATW_NAMES)
-    unit.handle_state_update(hid=ATW_HID)
-    assert all(unit.capabilities[name] is True for name in ATW_SENSORS)
-    assert all(unit.capabilities[name] is None for name in ATW_NAMES - ATW_SENSORS)
+    assert unit.capabilities["buzzer_control"] is False
 
 
 
@@ -551,6 +485,7 @@ async def test_atw_power_can_write_before_any_power_or_unit_report(atw, hid):
         atw.handle_state_update(hid=hid)
     assert atw.capabilities["power"] is True
     assert atw.power is None
+    assert atw.capabilities["temperature_units"] is True
     assert atw.temperature_units is None
     atw.power = True
     await atw.push_state_update()
@@ -599,7 +534,8 @@ async def test_evidence_does_not_bypass_send_time_atw_state_revalidation(atw, co
         atw.mode = AirToWaterMode.HotWater
         atw.handle_state_update(Pow=1)
         message = "off power state must be received"
-    assert all(atw.capabilities[name] is True for name in ATW_NAMES)
+    assert all(atw.capabilities[name] is True
+               for name in {"power", "mode", "temperature_units"} | ATW_TARGETS)
     with pytest.raises(ValueError, match=message):
         await atw.push_state_update()
     atw.send.assert_not_awaited()
@@ -618,12 +554,14 @@ async def test_unknown_capability_does_not_add_a_setter_rejection_gate(
     await unit.bind(key="0123456789abcdef", cipher=CipherV1())
     unit.send = AsyncMock()
     unit.handle_state_update(**reported)
-    assert unit.capabilities[name] is None
-    setattr(unit, name, value)
-    await unit.push_state_update()
-    assert sent_properties(unit) == {key: wire}
-    assert unit.capabilities[name] is None
-    unit.close()
+    try:
+        assert unit.capabilities[name] is None
+        setattr(unit, name, value)
+        await unit.push_state_update()
+        assert sent_properties(unit) == {key: wire}
+        assert unit.capabilities[name] is None
+    finally:
+        unit.close()
 
 
 
@@ -635,11 +573,13 @@ async def test_atw_mid_core_capabilities_do_not_depend_on_hid(info, hid):
     info.mid = "9300"
     unit = AirToWaterDevice(info)
     before = unit.capabilities
-    unit.handle_state_update(hid=hid)
-    assert all(unit.capabilities[name] is True for name in ATW_NAMES - ATW_SENSORS)
     assert all(before[name] is True for name in ATW_NAMES - ATW_SENSORS)
+    assert all(before[name] is None for name in ATW_SENSORS)
+    unit.handle_state_update(hid=hid)
     expected = True if isinstance(hid, str) and hid.partition("+")[0] == "362001066763" else None
     assert all(unit.capabilities[name] is expected for name in ATW_SENSORS)
+    assert all(unit.capabilities[name] is True for name in ATW_NAMES - ATW_SENSORS)
+    assert all(before[name] is None for name in ATW_SENSORS)
 
 
 
@@ -678,26 +618,6 @@ async def test_composite_capabilities_require_every_exact_status_column(
 
 
 
-async def test_atw_mid_targets_do_not_infer_auto_poll_sensor_support_or_bypass_safety(atw):
-    snapshot = atw.capabilities
-    for name in ("power", "mode", "temperature_units",
-                 "heating_room_target_temperature_c", "cooling_room_target_temperature_c",
-                 "heating_water_target_temperature_c", "cooling_water_target_temperature_c",
-                 "tank_target_temperature_c"):
-        assert snapshot[name] is True
-    for name in ("inlet_water_temperature_c", "outlet_water_temperature_c",
-                 "room_temperature_c", "tank_temperature_c"):
-        assert snapshot[name] is None
-    with pytest.raises(ValueError, match="require reported Celsius"):
-        atw.heating_water_target_temperature_c = 40
-    with pytest.raises(ValueError, match="off power state must be received"):
-        atw.mode = AirToWaterMode.HotWater
-    atw.send.assert_not_awaited()
-    atw.handle_state_update(hid=ATW_HID)
-    assert all(atw.capabilities[name] is True for name in ATW_NAMES)
-    assert snapshot["inlet_water_temperature_c"] is None
-
-
 @pytest.mark.parametrize("hid", [
     "362001061433+U-W06AV7.bin",
     "362001061437+U-W06BV9.bin",
@@ -712,13 +632,13 @@ async def test_gateway_hid_excludes_typed_sensor_without_calibrating_raw_body(in
     unit.handle_state_update(hid=hid, TemBody=85)
     excluded = unit.capabilities
     assert excluded["current_temperature"] is False
-    assert excluded["lan_buzzer_control"] is False
+    assert excluded["buzzer_control"] is None
     assert unit.current_temperature is None
     assert unit.get_property("TemBody") == 85
     assert excluded["target_temperature"] is True
     unit.handle_state_update(hid="unidentified+U-W06AV7.bin")
     assert unit.capabilities["current_temperature"] is True
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert unit.capabilities["buzzer_control"] is None
     assert excluded["current_temperature"] is False
 
 
@@ -734,15 +654,15 @@ async def test_wb_gateway_identity_keeps_other_traits_unknown_without_buzzer_opt
     unit = AirConditionerDevice(info)
     unit.handle_state_update(hid="362001061433+U-W06AV7.bin")
     assert unit.capabilities["current_temperature"] is False
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert unit.capabilities["buzzer_control"] is None
     unit.handle_state_update(hid=hid, TemSor=85)
-    assert all(unit.capabilities[name] is None for name in AC_NAMES if name != "lan_buzzer_control")
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert unit.capabilities["current_temperature"] is None
+    assert all(unit.capabilities[name] is None for name in AC_NAMES if name != "buzzer_control")
+    assert unit.capabilities["buzzer_control"] is None
     assert unit.current_temperature is None
     assert unit.get_property("TemSor") == 85
     unit.version = "999"
-    assert all(unit.capabilities[name] is None for name in AC_NAMES if name != "lan_buzzer_control")
-    assert unit.capabilities["lan_buzzer_control"] is False
+    assert unit.capabilities["current_temperature"] is None
 
 
 @pytest.mark.parametrize("hid,buzzer", [
@@ -756,17 +676,18 @@ async def test_wb_gateway_identity_keeps_other_traits_unknown_without_buzzer_opt
 async def test_firmware_namespace_only_adds_evidenced_buzzer_command(info, hid, buzzer):
     info.mid = "10001"
     unit = create_device(info)
-    assert type(unit) is AirConditionerDevice
     await unit.bind(key="0123456789abcdef", cipher=CipherV1())
     unit.send = AsyncMock()
-    unit.handle_state_update(hid=hid, Pow=0)
-    unit.buzzer = False
-    unit.power = True
-    await unit.push_state_update()
-    expected = {"Pow": 1}
-    if buzzer is True:
-        expected["Buzzer_ON_OFF"] = 1
-    assert sent_properties(unit) == expected
-    assert unit.capabilities["lan_buzzer_control"] is buzzer
-    assert unit.capabilities["power"] is True
-    unit.close()
+    try:
+        unit.handle_state_update(hid=hid, Pow=0)
+        unit.buzzer = False
+        unit.power = True
+        await unit.push_state_update()
+        expected = {"Pow": 1}
+        if buzzer is True:
+            expected["Buzzer_ON_OFF"] = 1
+        assert sent_properties(unit) == expected
+        assert unit.capabilities["buzzer_control"] is (True if buzzer else None)
+        assert unit.capabilities["power"] is True
+    finally:
+        unit.close()

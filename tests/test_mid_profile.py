@@ -50,7 +50,7 @@ def test_omitted_and_similarly_named_fields_do_not_declare_negative_or_alias_evi
                          "air_conditioner")
     assert profile.capabilities == {"power": True, "temperature_units": True}
     assert "target_temperature" not in profile.capabilities
-    assert "lan_buzzer_control" not in profile.capabilities
+    assert "buzzer_control" not in profile.capabilities
 
 
 @pytest.mark.parametrize("profile", [
