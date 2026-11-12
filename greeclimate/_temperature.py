@@ -24,6 +24,10 @@ TEMP_MIN_TABLE = -60
 TEMP_MAX_TABLE = 60
 TEMP_MIN_TABLE_F = -76
 TEMP_MAX_TABLE_F = 140
+# Plausible Celsius range of auxiliary (outdoor, coil, compressor) sensors. A raw value
+# decoding outside of it means the unit has no such sensor (e.g. a raw 0 behind a +40 offset).
+AUX_SENSOR_MIN = -30
+AUX_SENSOR_MAX = 90
 TEMP_TABLE = [generate_temperature_record(x) for x in range(TEMP_MIN_TABLE_F, TEMP_MAX_TABLE_F + 1)]
 
 
@@ -68,18 +72,29 @@ class _TemperatureSensor:
             elif self.learned_offset is None and self.guessed_offset is None:
                 self.guessed_offset = 0 if raw < TEMP_OFFSET else TEMP_OFFSET
 
+    def _offset(self, profile: Optional[DeviceProfile]) -> Optional[int]:
+        if self.learned_offset is not None:
+            return self.learned_offset
+        if profile is not None and profile.temperature_offset is not None:
+            if profile.relearn_temperature_offset and self.guessed_offset is not None:
+                return self.guessed_offset
+            return profile.temperature_offset
+        return self.guessed_offset
+
+    def read_celsius(self, raw: Any, profile: Optional[DeviceProfile]) -> Optional[int]:
+        """Decode an auxiliary sensor with this unit's offset; None when absent or implausible."""
+        offset = self._offset(profile)
+        if offset is None or type(raw) is not int:
+            return None
+        value = raw - offset
+        if value < AUX_SENSOR_MIN or value > AUX_SENSOR_MAX:
+            return None
+        return value
+
     def read(
         self, raw: Any, bit: Any, units: Optional[int], profile: Optional[DeviceProfile]
     ) -> Optional[int]:
-        if self.learned_offset is not None:
-            offset = self.learned_offset
-        elif profile is not None and profile.temperature_offset is not None:
-            if profile.relearn_temperature_offset and self.guessed_offset is not None:
-                offset = self.guessed_offset
-            else:
-                offset = profile.temperature_offset
-        else:
-            offset = self.guessed_offset
+        offset = self._offset(profile)
         minimum = 0 if profile is not None and profile.relearn_temperature_offset else TEMP_SENSOR_MIN
         if (
             offset is not None

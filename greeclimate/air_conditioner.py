@@ -14,6 +14,12 @@ from greeclimate.device import Device, Props, _TEMPERATURE_PROPERTIES
 from greeclimate.deviceinfo import DeviceInfo
 
 
+_OUTDOOR_TEMPERATURE = "OutEnvTem"
+_COMPRESSOR_TEMPERATURE = "CompressorTem"
+_EVAPORATOR_TEMPERATURE = "InEvaTem"
+_FAULT_DISPLAY = "FaultDisplay"
+
+
 class AirConditionerDevice(Device):
     """Air-conditioner controls; raw properties remain available for explicit use."""
 
@@ -24,10 +30,23 @@ class AirConditionerDevice(Device):
         "vertical_swing", "quiet", "turbo", "steady_heat", "power_save", "buzzer_control",
     })
 
+    # Optional diagnostics, requested separately from the regular poll because firmware that
+    # does not know a column may omit it or (on some units) discard the whole request.
+    EXTENDED_STATUS_COLUMNS = (
+        _OUTDOOR_TEMPERATURE, _COMPRESSOR_TEMPERATURE, _EVAPORATOR_TEMPERATURE, _FAULT_DISPLAY,
+    )
+
     def __init__(self, device_info: DeviceInfo, timeout: int = 120, bind_timeout: int = 10, loop: AbstractEventLoop = None):
         super().__init__(device_info, timeout, bind_timeout, loop)
         self._temperature_sensor = _TemperatureSensor()
         self._buzzer = True
+
+    async def update_extended_state(self) -> None:
+        """Request the optional diagnostic columns; observe DATA for the reply.
+
+        Columns the unit does not report stay unset, so the matching properties remain None.
+        """
+        await self.update_state(self.EXTENDED_STATUS_COLUMNS)
 
     def _status_columns(self) -> List[str]:
         profile = self._mid_profile
@@ -120,6 +139,40 @@ class AirConditionerDevice(Device):
             self.temperature_units,
             self._device_profile,
         )
+
+    @property
+    def outdoor_temperature(self) -> Optional[int]:
+        """Outdoor unit ambient temperature in Celsius, or None if not reported."""
+        return self._temperature_sensor.read_celsius(
+            self.get_property(_OUTDOOR_TEMPERATURE), self._device_profile
+        )
+
+    @property
+    def compressor_temperature(self) -> Optional[int]:
+        """Compressor temperature in Celsius, or None if not reported."""
+        return self._temperature_sensor.read_celsius(
+            self.get_property(_COMPRESSOR_TEMPERATURE), self._device_profile
+        )
+
+    @property
+    def evaporator_temperature(self) -> Optional[int]:
+        """Indoor heat exchanger temperature in Celsius, or None if not reported."""
+        return self._temperature_sensor.read_celsius(
+            self.get_property(_EVAPORATOR_TEMPERATURE), self._device_profile
+        )
+
+    @property
+    def fault_display(self) -> Optional[int]:
+        """Raw fault bit field, or None if not reported; 0 means no fault.
+
+        Firmware reports this column as a decimal string, so it is converted here.
+        """
+        value = self.get_property(_FAULT_DISPLAY)
+        if type(value) is int:
+            return value
+        if isinstance(value, str) and value.isascii() and value.isdigit():
+            return int(value)
+        return None
 
     @property
     def fan_speed(self) -> Optional[int]:
