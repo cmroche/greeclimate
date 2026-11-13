@@ -1,4 +1,7 @@
-"""Explicit Celsius API for Sinclair SMH-100IRB and SMH-60IRB heat pumps."""
+"""Explicit Celsius API for Sinclair SMH-100IRB and SMH-60IRB heat pumps.
+
+Named target-temperature limits are inclusive Celsius bounds.
+"""
 
 import enum
 from asyncio import AbstractEventLoop
@@ -8,6 +11,13 @@ from typing import Any, Dict, List, Optional
 from greeclimate.device import Device
 from greeclimate.deviceinfo import DeviceInfo
 from greeclimate.mid_profile import match_mid_profile
+
+HEATING_WATER_TEMP_MIN = 20
+HEATING_WATER_TEMP_MAX = 60
+COOLING_WATER_TEMP_MIN = 7
+COOLING_WATER_TEMP_MAX = 25
+TANK_TEMP_MIN = 40
+TANK_TEMP_MAX = 80
 
 
 class _AtwProps(enum.Enum):
@@ -52,9 +62,9 @@ _MODE_VALUES = {
     AirToWaterMode.HeatHotWater: 4,
 }
 _TARGET_RANGES = {
-    _AtwProps.HEATING_WATER_TARGET: (20, 60),
-    _AtwProps.COOLING_WATER_TARGET: (7, 25),
-    _AtwProps.TANK_TARGET: (40, 80),
+    _AtwProps.HEATING_WATER_TARGET: (HEATING_WATER_TEMP_MIN, HEATING_WATER_TEMP_MAX),
+    _AtwProps.COOLING_WATER_TARGET: (COOLING_WATER_TEMP_MIN, COOLING_WATER_TEMP_MAX),
+    _AtwProps.TANK_TARGET: (TANK_TEMP_MIN, TANK_TEMP_MAX),
 }
 _AUTO = object()
 
@@ -175,7 +185,9 @@ class AirToWaterDevice(Device):
 
     @heating_water_target_temperature_c.setter
     def heating_water_target_temperature_c(self, value: int):
-        self._set_target_temperature_c(_AtwProps.HEATING_WATER_TARGET, value, 20, 60)
+        self._set_target_temperature_c(
+            _AtwProps.HEATING_WATER_TARGET, value, HEATING_WATER_TEMP_MIN, HEATING_WATER_TEMP_MAX
+        )
 
     @property
     def cooling_water_target_temperature_c(self) -> Optional[int]:
@@ -183,7 +195,9 @@ class AirToWaterDevice(Device):
 
     @cooling_water_target_temperature_c.setter
     def cooling_water_target_temperature_c(self, value: int):
-        self._set_target_temperature_c(_AtwProps.COOLING_WATER_TARGET, value, 7, 25)
+        self._set_target_temperature_c(
+            _AtwProps.COOLING_WATER_TARGET, value, COOLING_WATER_TEMP_MIN, COOLING_WATER_TEMP_MAX
+        )
 
     @property
     def tank_target_temperature_c(self) -> Optional[int]:
@@ -191,7 +205,7 @@ class AirToWaterDevice(Device):
 
     @tank_target_temperature_c.setter
     def tank_target_temperature_c(self, value: int):
-        self._set_target_temperature_c(_AtwProps.TANK_TARGET, value, 40, 80)
+        self._set_target_temperature_c(_AtwProps.TANK_TARGET, value, TANK_TEMP_MIN, TANK_TEMP_MAX)
 
     @property
     def power(self) -> Optional[bool]:

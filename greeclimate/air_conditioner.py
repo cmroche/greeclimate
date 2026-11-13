@@ -1,17 +1,23 @@
-"""Conventional air-conditioner controls and temperature decoding."""
+"""Conventional air-conditioner controls and temperature decoding.
+
+Target limits are TEMP_MIN/MAX in Celsius and TEMP_MIN_F/MAX_F in Fahrenheit.
+"""
 
 from asyncio import AbstractEventLoop
 from typing import Any, Dict, List, Optional
 
 from greeclimate._temperature import (
-    TEMP_MAX,
-    TEMP_MIN,
     _TemperatureSensor,
     _convert_to_units,
     generate_temperature_record,
 )
 from greeclimate.device import Device, Props, _TEMPERATURE_PROPERTIES
 from greeclimate.deviceinfo import DeviceInfo
+
+TEMP_MIN = 8
+TEMP_MAX = 30
+TEMP_MIN_F = 46
+TEMP_MAX_F = 86
 
 
 class AirConditionerDevice(Device):

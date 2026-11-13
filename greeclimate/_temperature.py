@@ -13,13 +13,9 @@ def generate_temperature_record(temp_f):
     return {"f": temp_f, "temSet": temSet, "temRec": temRec}
 
 
-TEMP_MIN = 8
-TEMP_MAX = 30
 TEMP_OFFSET = 40
 TEMP_SENSOR_MIN = -20
 TEMP_SENSOR_MAX = 50
-TEMP_MIN_F = 46
-TEMP_MAX_F = 86
 TEMP_MIN_TABLE = -60
 TEMP_MAX_TABLE = 60
 TEMP_MIN_TABLE_F = -76
