@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/cmroche/greeclimate/compare/v4.2.5...v4.3.0) (2026-11-13)
+
+
+### Features
+
+* **device:** expose temperature limit constants ([302942b](https://github.com/cmroche/greeclimate/commit/302942bc5512547e4e4e69e672b041843fb066d0))
+
 ## [4.2.5](https://github.com/cmroche/greeclimate/compare/v4.2.4...v4.2.5) (2026-11-12)
 
 
