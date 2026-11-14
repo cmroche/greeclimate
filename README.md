@@ -11,9 +11,11 @@ Discover, connect and control Gree based mini-split systems.
 
 _If you have tested and know of others systems that work, please fork and submit a PR with the make and model_
 
-**Based on the following work**
+## Cloud-only Gree Devices (and how to make them local again)
 
-- [Gree Remote by tomikaa87](https://github.com/tomikaa87/gree-remote)
+Gree has started making some devices cloud only, fortunately most of those devices can be downgraded and even made to fully drop the Gree cloud and telemetry connection using patched firmware.
+
+See [Gree Firmware Downgrader (and Patcher)](https://github.com/cmroche/gree-firmware-downgrader)
 
 ## Getting the package
 
