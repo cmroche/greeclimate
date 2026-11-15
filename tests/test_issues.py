@@ -122,6 +122,75 @@ async def test_issue_243_switches_refresh_without_toggling(mid):
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("mid", [
+    "10014", "10015", "10016", "10017", "11f00", "11f01", "11f02", "11f03",
+    "10f05", "10010", "10011", "11011",
+])
+@pytest.mark.parametrize("cipher_type", [CipherV1, CipherV2])
+async def test_mid_poll_refreshes_temperature_encoding_and_controls(mid, cipher_type):
+    from tests.test_device import recovery_negotiate
+
+    async with udp_peer() as (peer, queue):
+        host, port = peer.get_extra_info("sockname")
+        device = AirConditionerDevice(DeviceInfo(host, port, "020000000001", "poll", mid=mid))
+        events = asyncio.Queue()
+        device.add_handler(Response.DATA, events.put_nowait)
+        try:
+            addr = await recovery_negotiate(device, peer, queue, cipher_type())
+            for step, (raw, bit, units, target, requested, expected) in enumerate((
+                (24, 0, 0, 24, 25, {"SetTem": 25, "TemRec": 0, "TemUn": 0}),
+                (22, 1, 1, 72, 74, {"SetTem": 23, "TemRec": 1, "TemUn": 1}),
+                (26, 0, 0, 26, 25, {"SetTem": 25, "TemRec": 0, "TemUn": 0}),
+            )):
+                enabled = step % 2
+                state = {
+                    "hid": "362001064973+U-W04NV19.bin",
+                    "Pow": 1, "Mod": 1, "SetTem": raw, "TemRec": bit, "TemUn": units,
+                    "TemSen": 65, "WdSpd": 1 + enabled,
+                    "Lig": 1 - enabled, "Blo": enabled, "Air": 3 * enabled,
+                    "Health": 1 - enabled, "Quiet": 2 * enabled,
+                    "SwhSlp": enabled, "SlpMod": enabled, "Tur": enabled,
+                    "StHt": enabled, "SvSt": enabled,
+                    "SwingLfRig": 1 + enabled, "SwUpDn": 4 + enabled,
+                }
+                poll, _ = await recovery_receive(queue, device.device_cipher)
+                assert poll["t"] == "status"
+                assert ("hid" in poll["cols"]) is (step == 0)
+                reply = {name: state[name] for name in poll["cols"] if name in state}
+                peer.sendto(recovery_packet({
+                    "t": "dat", "cols": list(reply), "dat": list(reply.values()),
+                }, device.device_cipher), addr)
+                await asyncio.wait_for(events.get(), 2)
+
+                assert device.target_temperature == target
+                assert device.temperature_units == units
+                assert device.current_temperature == (77 if units else 25)
+                assert device.fan_speed == 1 + enabled
+                assert device.light is bool(1 - enabled)
+                assert device.xfan is bool(enabled)
+                assert device.fresh_air is bool(enabled)
+                assert device.anion is bool(1 - enabled)
+                assert device.quiet == 2 * enabled
+                assert device.sleep is bool(enabled)
+                assert device.turbo is bool(enabled)
+                assert device.steady_heat is bool(enabled)
+                assert device.power_save is bool(enabled)
+                assert device.horizontal_swing == 1 + enabled
+                assert device.vertical_swing == 4 + enabled
+
+                device.target_temperature = requested
+                await device.push_state_update()
+                command, _ = await recovery_receive(queue, device.device_cipher)
+                assert command["t"] == "cmd"
+                assert dict(zip(command["opt"], command["p"])) == expected
+                if step < 2:
+                    await device.update_state()
+        finally:
+            device.close()
+            await asyncio.wait_for(device._transport_closed.wait(), 2)
+
+
+@pytest.mark.asyncio
 async def test_issue_251_buzzer_commands_follow_reported_firmware_version():
     async with recovery_session(device_type=AirConditionerDevice) as (device, peer, queue, addr):
         await recovery_receive(queue, device.device_cipher)
