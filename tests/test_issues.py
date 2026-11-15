@@ -248,7 +248,7 @@ async def test_delayed_w04nv7_hid_preserves_temperature(device_type, delayed_hid
     if delayed_hid:
         device.handle_state_update(hid=hid)
     assert device.current_temperature == 28
-    assert device.version == "7"
+    assert device.version == hid
     assert device.hid == hid
     assert device.raw_properties["TemSen"] == 28
 
