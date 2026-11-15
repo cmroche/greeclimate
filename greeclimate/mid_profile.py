@@ -62,6 +62,14 @@ class MidProfile:
 FALLBACK_MID_PROFILE = MidProfile(None, ("hid",))
 
 
+# Shared readable controls; polling these fields does not establish a typed family.
+_AIR_CONDITIONER_COLUMNS = (
+    "Pow", "Mod", "TemUn", "SetTem", "TemRec", "TemSen", "WdSpd", "Air", "Blo", "Health",
+    "SwhSlp", "SlpMod", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt",
+    "HeatCoolType",
+)
+
+
 # Fan.
 _FAN_COLUMNS = (
     "Pow", "WdSpd", "Mod", "Rotate", "Cycle", "SwUpDn", "SwingLfRig", "Wet", "Anion",
@@ -497,35 +505,31 @@ KNOWN_MID_PROFILES: Tuple[MidProfile, ...] = (
         "hid",
     ), family="gateway"),
     # Unknown device type.
-    MidProfile("10014", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("10014", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("10015", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("10015", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("10016", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("10016", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("10017", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("10017", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("11f00", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("11f00", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("11f01", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("11f01", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("11f02", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("11f02", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("11f03", ("Pow", "Mod", "SetTem", "WdSpd", "TemSen", "SwingLfRig", "SwUpDn")),
+    MidProfile("11f03", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("10f05", ("SetTem", "Pow", "TemSen", "Mod", "SwingLfRig", "SwUpDn")),
+    MidProfile("10f05", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("10010", ("SetTem", "Pow", "TemSen", "Mod")),
+    MidProfile("10010", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("10011", ("SetTem", "Pow", "TemSen", "Mod", "SwingLfRig", "SwUpDn")),
+    MidProfile("10011", _AIR_CONDITIONER_COLUMNS),
     # Unknown device type.
-    MidProfile("11011", ("SetTem", "Pow", "TemSen", "Mod")),
+    MidProfile("11011", _AIR_CONDITIONER_COLUMNS),
     # Air conditioner.
-    MidProfile("11012", (
-        "Pow", "Mod", "TemUn", "SetTem", "TemRec", "TemSen", "WdSpd", "Air", "Blo", "Health",
-        "SwhSlp", "SlpMod", "Lig", "SwingLfRig", "SwUpDn", "Quiet", "Tur", "StHt", "SvSt",
-        "HeatCoolType",
-    ), family="air_conditioner"),
+    MidProfile("11012", _AIR_CONDITIONER_COLUMNS, family="air_conditioner"),
     # Gateway.
     MidProfile("6049", ("Pow", "Mod", "SetTem", "TemBody", "SwingLfRig", "SwUpDn")),
     # Gateway.
