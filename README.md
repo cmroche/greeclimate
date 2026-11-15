@@ -232,11 +232,7 @@ python -m gree_emulator --profile sim-w04n-v17 --mid 10001 --seed demo --listen 
 
 ## Debugging
 
-Maybe the reason you're here is that you're working with Home Assistant and your device isn't being detected.
-
-There are a few tools to help investigate the various compatibility problems that Gree based devices present.
-
-Below is a series of tests, please run them and use their output in issue reports. Additionally using [Wireshark](https://www.wireshark.org) or tcpdump to capture the network traffic can greatly assist in investigations.
+Use the discovery utility below to scan your network, bind, and log network information for Gree devices. Do not redact the device identifiers (MID, HID or MAC address) as these are critical to reading logs and troubleshooting correctly.
 
 ### Setup
 
@@ -246,22 +242,10 @@ This presumes you have python installed
 pip install -r requirements.txt
 ```
 
-### Getting some basic information about your network
-#### Linux / OSX
-```bash
-sudo route -n
-sudo ifconfig
-```
-#### Windows command line
-```
-route print -4
-ipconfig
-```
-
 ### Running the discovery tests
 
 First test is to check the response of devices when trying to discovery them, writes the results to **discovery_results.txt**. Use [Wireshark](https://www.wireshark.org) here if you can.
 
 ```bash
-python gree.py --discovery > discovery_results.txt
+python gree.py --discovery --bind
 ```
