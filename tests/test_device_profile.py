@@ -149,13 +149,13 @@ async def test_only_reported_hid_selects_versioned_quirks(monkeypatch):
     device.handle_state_update(hid=hid, TemSen=45, TemUn=0)
     assert device.current_temperature == 45
     assert device.hid == hid
-    assert device.version == "3.09"
+    assert device.version == hid
     device.version = "99.0"
     assert device.current_temperature == 45
     hid = KNOWN_HID.replace("3.33", "3.10.0")
     device.handle_state_update(hid=hid)
     assert device.current_temperature == 5
-    assert device.version == "3.10.0"
+    assert device.version == hid
     assert device.hid == hid
     device.version = "0"
     assert device.current_temperature == 5

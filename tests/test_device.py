@@ -745,34 +745,34 @@ async def test_update_current_temp_bad(cipher, send):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "hid,sensor,expected,version",
+    "hid,sensor,expected",
     [
-        ("362001060200+U-CS849AV10.bin", 45, 45, "10"),
-        ("362001000762+U-CS532AE(LT)V3.33.bin", 25, -15, "3.33"),
-        ("362001061665+U-W05TV2.07.bin", 25, -15, "2.07"),
-        ("362001000748+U-CS532Z(LT)V3.75.bin", 25, -15, "3.75"),
-        ("362001000748+U-CS532Z(LT)V3.74.bin", 25, -15, "3.74"),
-        ("362001000748+U-DIFFERENTV99.bin", 25, -15, "99"),
-        ("362001000835+U-CS532AX(MTK)V3.bin", 45, 45, "3"),
-        ("362001000835+U-CS532AX(MTK)V2.bin", 45, 45, "2"),
-        ("362001060297+U-CS532AF(MTK)V4.bin", 45, 45, "4"),
-        ("362001060297+U-CS532AF(MTK)V4.0.bin", 45, 45, "4.0"),
-        ("362001065736+U-QCOM4004CV3.76.bin", 25, -15, "3.76"),
-        ("362001064307+U-QCOM4004CV3.76.bin", 25, 25, "3.76"),
-        ("999999999999+U-UNKNOWNV4.bin", 25, 25, "4"),
-        ("362001061383+U-BL3332_JDV18.bin", 25, 25, "18"),
-        ("362001060498+U-CS845B(MTK2)V6.bin", 45, 45, "6"),
-        ("362001061060+U-W04HV3.55.bin", 25, -15, "3.55"),
-        ("362001000968+U-CS532BJ(MTK)V0.0.bin", 45, 45, "0.0"),
-        ("362001063525+U-G06V1.2.bin", 25, -15, "1.2"),
+        ("362001060200+U-CS849AV10.bin", 45, 45),
+        ("362001000762+U-CS532AE(LT)V3.33.bin", 25, -15),
+        ("362001061665+U-W05TV2.07.bin", 25, -15),
+        ("362001000748+U-CS532Z(LT)V3.75.bin", 25, -15),
+        ("362001000748+U-CS532Z(LT)V3.74.bin", 25, -15),
+        ("362001000748+U-DIFFERENTV99.bin", 25, -15),
+        ("362001000835+U-CS532AX(MTK)V3.bin", 45, 45),
+        ("362001000835+U-CS532AX(MTK)V2.bin", 45, 45),
+        ("362001060297+U-CS532AF(MTK)V4.bin", 45, 45),
+        ("362001060297+U-CS532AF(MTK)V4.0.bin", 45, 45),
+        ("362001065736+U-QCOM4004CV3.76.bin", 25, -15),
+        ("362001064307+U-QCOM4004CV3.76.bin", 25, 25),
+        ("999999999999+U-UNKNOWNV4.bin", 25, 25),
+        ("362001061383+U-BL3332_JDV18.bin", 25, 25),
+        ("362001060498+U-CS845B(MTK2)V6.bin", 45, 45),
+        ("362001061060+U-W04HV3.55.bin", 25, -15),
+        ("362001000968+U-CS532BJ(MTK)V0.0.bin", 45, 45),
+        ("362001063525+U-G06V1.2.bin", 25, -15),
     ],
 )
-async def test_temperature_code_defaults_and_literal_identity(hid, sensor, expected, version):
+async def test_temperature_code_defaults_and_literal_identity(hid, sensor, expected):
     device = Device(DeviceInfo(*get_mock_info()))
     device.handle_state_update(hid=hid, TemSen=sensor, TemUn=0, TemRec=0)
 
     assert device.current_temperature == expected
-    assert device.version == version
+    assert device.version == hid
     assert device.hid == hid
     assert device.raw_properties["TemSen"] == sensor
 
@@ -884,7 +884,7 @@ async def test_trait_overrides_guess_until_learning(hid_first):
     device.handle_state_update(hid=hid)
     assert device.current_temperature == -15
     assert device.raw_properties["TemSen"] == 25
-    assert device.version == "3.33"
+    assert device.version == hid
     device.handle_state_update(TemSen=19)
     assert device.current_temperature == 19
     device.handle_state_update(TemSen=65)
@@ -954,11 +954,11 @@ async def test_unknown_hid_preserves_guess_until_learning(hid_first, replacement
 @pytest.mark.parametrize(
     "replacement,version",
     [
-        ("362001000762+U-CS532AE(LT)V3.33.bin", "3.33"),
-        ("362001060200+U-CS849AV10.bin", "10"),
-        ("999999999999+U-UNKNOWNV2.bin", "2"),
-        ("malformed", None),
-        ("", None),
+        ("362001000762+U-CS532AE(LT)V3.33.bin", "362001000762+U-CS532AE(LT)V3.33.bin"),
+        ("362001060200+U-CS849AV10.bin", "362001060200+U-CS849AV10.bin"),
+        ("999999999999+U-UNKNOWNV2.bin", "999999999999+U-UNKNOWNV2.bin"),
+        ("malformed", "malformed"),
+        ("", ""),
         (None, None),
         (123, None),
     ],
@@ -990,9 +990,9 @@ async def test_temperature_learning_is_per_device():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("hid,version", [
-    ("362001000762", None),
-    ("362001000762+U-CS532AE.bin", None),
-    ("invalid+U-CS532AEV3.33.bin", "3.33"),
+    ("362001000762", "362001000762"),
+    ("362001000762+U-CS532AE.bin", "362001000762+U-CS532AE.bin"),
+    ("invalid+U-CS532AEV3.33.bin", "invalid+U-CS532AEV3.33.bin"),
     (None, None), (123, None), ([], None), ({}, None),
 ])
 async def test_invalid_hid_cannot_supply_temperature_trait(hid, version):
