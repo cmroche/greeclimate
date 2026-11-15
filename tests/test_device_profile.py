@@ -39,14 +39,12 @@ async def test_reported_code_selects_traits_independently_of_display_version(mon
     info[-1] = "99.0"
     device = AirConditionerDevice(DeviceInfo(*info))
     assert device.current_temperature is None
-    for hid, version in [(CODE, None), (CODE + "+incomplete", None),
-                         (CODE + "+U-CS532AE.bin", None),
-                         (KNOWN_HID, "3.33"),
-                         (KNOWN_HID.replace("3.33", "99"), "99")]:
+    for hid in [CODE, CODE + "+incomplete", CODE + "+U-CS532AE.bin",
+                KNOWN_HID, KNOWN_HID.replace("3.33", "99")]:
         device.handle_state_update(hid=hid, TemSen=45, TemUn=0)
         assert device.current_temperature == 5
         assert device.hid == hid
-        assert device.version == version
+        assert device.version == hid
         device.version = "0"
         assert device.current_temperature == 5
 

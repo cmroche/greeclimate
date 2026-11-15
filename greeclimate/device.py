@@ -1,7 +1,6 @@
 import asyncio
 import enum
 import logging
-import re
 from asyncio import AbstractEventLoop
 from collections.abc import Mapping, Sequence
 from copy import copy
@@ -163,7 +162,7 @@ class Device(DeviceProtocol2, Taskable):
         """ Device properties """
         self.hid = None
         self._hid_logged = False
-        self.version = None
+        self.version = None  # Full reported HID string, or None until available.
         self._matched_hid = None
         self._matched_profile: Optional[DeviceProfile] = None
         self._properties = {}
@@ -396,10 +395,9 @@ class Device(DeviceProtocol2, Taskable):
         if "hid" in kwargs:
             hid = kwargs.pop("hid")
             self.hid = hid
-            match = re.search(r"(?<=V)([\d.]+)\.bin$", hid) if isinstance(hid, str) else None
-            self.version = match and match.group(1)
+            self.version = hid if isinstance(hid, str) else None
             if self.ready.is_set() and not self._hid_logged:
-                self._logger.info("Device MID %s has HID %s (version %s)", self.device_info.mid, hid, self.version)
+                self._logger.info("Device MID %s has HID %s", self.device_info.mid, hid)
                 self._hid_logged = True
 
         self._properties.update(kwargs)
