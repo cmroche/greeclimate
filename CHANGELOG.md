@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/cmroche/greeclimate/compare/v4.3.0...v4.3.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* **device:** restore complete control polling for affected MIDs ([#270](https://github.com/cmroche/greeclimate/issues/270)) ([f013280](https://github.com/cmroche/greeclimate/commit/f013280f81ce662e8b4275013348d9bd5aa6a392))
+
 # [4.3.0](https://github.com/cmroche/greeclimate/compare/v4.2.5...v4.3.0) (2026-11-13)
 
 
