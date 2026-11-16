@@ -1,3 +1,10 @@
+## [4.3.2](https://github.com/cmroche/greeclimate/compare/v4.3.1...v4.3.2) (2026-11-16)
+
+
+### Bug Fixes
+
+* return full HID from device version ([#272](https://github.com/cmroche/greeclimate/issues/272)) ([66261c6](https://github.com/cmroche/greeclimate/commit/66261c66ac7697bc29de79172a130b33a7c510ec))
+
 ## [4.3.1](https://github.com/cmroche/greeclimate/compare/v4.3.0...v4.3.1) (2026-11-15)
 
 
