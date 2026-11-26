@@ -9,7 +9,7 @@ import pytest
 from greeclimate import device_profile
 from greeclimate.device import Device, DeviceInfo
 from greeclimate.device_profile import DeviceProfile, match_device_profile
-from tests.test_device import get_mock_info
+from tests.test_device import get_mock_info, generate_device_mock_async
 
 KNOWN_HID = "362001000762+U-CS532AE(LT)V3.33.bin"
 CODE = "362001000762"
@@ -174,6 +174,58 @@ def test_inspected_buzzer_profiles_preserve_literal_traits(row):
         row["relearn_temperature_offset"],
         tuple(row["buzzer_properties"]),
     )
+
+
+@pytest.mark.parametrize("firmware_version,expected", [
+    ("1.17", ("Buzzer_ON_OFF",)),
+    ("1.28", ("Buzzer_ON_OFF",)),
+    ("1.44", ("Buzzer_ON_OFF",)),
+    ("1.45", ("BuzzerCtrl",)),
+    ("1.46", ("BuzzerCtrl",)),
+    ("2.00", ("BuzzerCtrl",)),
+])
+def test_362001065279_version_aware_buzzer_selection(firmware_version, expected):
+    """Firmware versions below V1.45 retain Buzzer_ON_OFF; V1.45+ use BuzzerCtrl."""
+    hid = f"362001065279+U-WB05RT13V{firmware_version}.bin"
+    profile = match_device_profile(hid)
+    assert profile is not None
+    assert profile.temperature_offset == 40
+    assert tuple(profile.buzzer_properties or ()) == expected
+
+
+def test_362001065279_unparseable_version_retains_fallback_without_buzzer():
+    """Missing/unparseable version yields no profile for this firmware family."""
+    hid = "362001065279+U-WB05RT13.bin"
+    profile = match_device_profile(hid)
+    assert profile is None
+
+
+@pytest.mark.asyncio
+async def test_362001065279_newer_profile_sends_buzzer_ctrl_not_on_off(
+    monkeypatch, cipher, send
+):
+    """V1.45+ sends BuzzerCtrl only, never Buzzer_ON_OFF; older versions keep Buzzer_ON_OFF."""
+    hid = "362001065279+U-WB05RT13V1.45.bin"
+    monkeypatch.setattr(device_profile, "KNOWN_PROFILES", (
+        DeviceProfile("362001065279", 40, buzzer_properties=("BuzzerCtrl",), min_version="1.45"),
+        DeviceProfile("362001065279", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    ))
+    device = await generate_device_mock_async()
+    device.handle_state_update(hid=hid)
+    device.buzzer = False
+    device.power = True
+    await device.push_state_update()
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"Pow": 1, "BuzzerCtrl": 0}
+    assert pack["opt"].count("BuzzerCtrl") == 1
+    assert "Buzzer_ON_OFF" not in pack["opt"]
+
+    device.hid = "362001065279+U-WB05RT13V1.44.bin"
+    device.buzzer = False
+    device.power = False
+    await device.push_state_update()
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"Pow": 0, "Buzzer_ON_OFF": 1}
 
 
 @pytest.mark.parametrize("order", list(permutations(range(3))))

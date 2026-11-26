@@ -9,7 +9,7 @@ import pytest
 from greeclimate import device_profile
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
-from greeclimate.device_profile import DeviceProfile
+from greeclimate.device_profile import DeviceProfile, match_device_profile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.mid_profile import match_mid_profile
 from greeclimate.network import Response
@@ -1364,7 +1364,15 @@ async def test_codewide_buzzer_properties_are_sent_on_every_command(
     device.handle_state_update(hid=hid)
     device.buzzer = enabled
     assert send.call_count == 0
-    expected = {} if enabled else {"Buzzer_ON_OFF": 1}
+
+    # Derive expected buzzer properties from the profile matching V999 firmware.
+    profile = match_device_profile(hid)
+    buzzer_props = tuple(profile.buzzer_properties or ())
+    expected = {}
+    if not enabled and "Buzzer_ON_OFF" in buzzer_props:
+        expected["Buzzer_ON_OFF"] = 1
+    if "BuzzerCtrl" in buzzer_props:
+        expected["BuzzerCtrl"] = 1 if enabled else 0
 
     for index, power in enumerate([True, False], start=1):
         device.power = power

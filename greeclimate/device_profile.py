@@ -60,6 +60,12 @@ KNOWN_PROFILES: Tuple[DeviceProfile, ...] = (
     DeviceProfile("362001065016", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065029", 40, buzzer_properties=("Buzzer_ON_OFF",)),
     DeviceProfile("362001065130", 40, buzzer_properties=("Buzzer_ON_OFF",)),
+    DeviceProfile(
+        "362001065279",
+        40,
+        buzzer_properties=("BuzzerCtrl",),
+        min_version="1.45",
+    ),
     DeviceProfile("362001065279", 40, buzzer_properties=("Buzzer_ON_OFF",)),  # Gree Bora A5 GWH09AAB-K6DNA5A/I; Lomo Nordic (archive report); Heiwa Essential ZEN+; Cooper & Hunter
     DeviceProfile(
         "362001065280", 40, buzzer_properties=("Buzzer_ON_OFF",),
