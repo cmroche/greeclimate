@@ -9,7 +9,7 @@ import pytest
 from greeclimate import device_profile
 from greeclimate.cipher import CipherV1, CipherV2
 from greeclimate.device import Device, DeviceInfo, Props, TemperatureUnits
-from greeclimate.device_profile import DeviceProfile, match_device_profile
+from greeclimate.device_profile import DeviceProfile
 from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.mid_profile import match_mid_profile
 from greeclimate.network import Response
@@ -1348,7 +1348,6 @@ def test_device_key_set_get():
     "362001065016",
     "362001065029",
     "362001065130",
-    "362001065279",
     "362001065634",
     "362001066308",
     "362001067419",
@@ -1364,15 +1363,7 @@ async def test_codewide_buzzer_properties_are_sent_on_every_command(
     device.handle_state_update(hid=hid)
     device.buzzer = enabled
     assert send.call_count == 0
-
-    # Derive expected buzzer properties from the profile matching V999 firmware.
-    profile = match_device_profile(hid)
-    buzzer_props = tuple(profile.buzzer_properties or ())
-    expected = {}
-    if not enabled and "Buzzer_ON_OFF" in buzzer_props:
-        expected["Buzzer_ON_OFF"] = 1
-    if "BuzzerCtrl" in buzzer_props:
-        expected["BuzzerCtrl"] = 1 if enabled else 0
+    expected = {} if enabled else {"Buzzer_ON_OFF": 1}
 
     for index, power in enumerate([True, False], start=1):
         device.power = power
@@ -1382,6 +1373,27 @@ async def test_codewide_buzzer_properties_are_sent_on_every_command(
         assert dict(zip(pack["opt"], pack["p"])) == {"Pow": int(power), **expected}
         assert send.call_count == index
         assert device.buzzer is enabled
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("version,expected", [
+    ("1.44", {"Buzzer_ON_OFF": 1}),
+    ("1.45", {"BuzzerCtrl": 0}),
+    ("1.46", {"BuzzerCtrl": 0}),
+    ("2.00", {"BuzzerCtrl": 0}),
+])
+async def test_362001065279_suppresses_buzzer_by_firmware_version(
+    version, expected, cipher, send
+):
+    device = await generate_device_mock_async()
+    device.handle_state_update(hid=f"362001065279+U-WB05RT13V{version}.bin")
+    device.buzzer = False
+    device.power = True
+
+    await device.push_state_update()
+
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"Pow": 1, **expected}
 
 
 @pytest.mark.asyncio
