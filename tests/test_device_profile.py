@@ -176,6 +176,23 @@ def test_inspected_buzzer_profiles_preserve_literal_traits(row):
     )
 
 
+@pytest.mark.parametrize("firmware_version,expected", [
+    ("1.17", ("Buzzer_ON_OFF",)),
+    ("1.28", ("Buzzer_ON_OFF",)),
+    ("1.44", ("Buzzer_ON_OFF",)),
+    ("1.45", ("BuzzerCtrl",)),
+    ("1.46", ("BuzzerCtrl",)),
+    ("2.00", ("BuzzerCtrl",)),
+])
+def test_362001065279_version_aware_buzzer_selection(firmware_version, expected):
+    """Firmware versions below V1.45 retain Buzzer_ON_OFF; V1.45+ use BuzzerCtrl."""
+    hid = f"362001065279+U-WB05RT13V{firmware_version}.bin"
+    profile = match_device_profile(hid)
+    assert profile is not None
+    assert profile.temperature_offset == 40
+    assert tuple(profile.buzzer_properties or ()) == expected
+
+
 @pytest.mark.parametrize("order", list(permutations(range(3))))
 def test_exact_build_outranks_code_and_version_floor(monkeypatch, order):
     profiles = (

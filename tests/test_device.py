@@ -1348,7 +1348,6 @@ def test_device_key_set_get():
     "362001065016",
     "362001065029",
     "362001065130",
-    "362001065279",
     "362001065634",
     "362001066308",
     "362001067419",
@@ -1374,6 +1373,27 @@ async def test_codewide_buzzer_properties_are_sent_on_every_command(
         assert dict(zip(pack["opt"], pack["p"])) == {"Pow": int(power), **expected}
         assert send.call_count == index
         assert device.buzzer is enabled
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("version,expected", [
+    ("1.44", {"Buzzer_ON_OFF": 1}),
+    ("1.45", {"BuzzerCtrl": 0}),
+    ("1.46", {"BuzzerCtrl": 0}),
+    ("2.00", {"BuzzerCtrl": 0}),
+])
+async def test_362001065279_suppresses_buzzer_by_firmware_version(
+    version, expected, cipher, send
+):
+    device = await generate_device_mock_async()
+    device.handle_state_update(hid=f"362001065279+U-WB05RT13V{version}.bin")
+    device.buzzer = False
+    device.power = True
+
+    await device.push_state_update()
+
+    pack = send.call_args.args[0]["pack"]
+    assert dict(zip(pack["opt"], pack["p"])) == {"Pow": 1, **expected}
 
 
 @pytest.mark.asyncio
